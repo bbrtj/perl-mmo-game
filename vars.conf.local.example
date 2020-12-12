@@ -1,0 +1,5 @@
+{
+	db => {
+		connection => 'postgres://root:root@localhost:5432/mojo',
+	},
+}

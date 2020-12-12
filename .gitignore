@@ -1,0 +1,6 @@
+/.ctags
+/.ignore
+/.gutctags
+/.tidyall.d
+/local
+/*.conf.local
