@@ -11,9 +11,4 @@ plugin 'Minion::Admin';
 
 Game::Worker->register(app->minion);
 
-get '/' => sub ($app) {
-	$app->minion->enqueue('test');
-	$app->render(text => "OK!");
-};
-
 app->start;
