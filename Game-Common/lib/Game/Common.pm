@@ -1,11 +1,10 @@
 package Game::Common;
 
 use Mojo::Base -signatures;
-use Mojolicious;
 
 our $VERSION = "0.001";
 
-sub get_config($class, $app, $file = undef)
+sub get_config($class, $app, $file)
 {
 	# Load configuration from config file
 	my $config = $app->plugin('Config', file => $file);

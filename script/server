@@ -1,11 +1,19 @@
 #!/usr/bin/env perl
 
-use Mojolicious::Lite;
+use Mojolicious::Lite -signatures;
 use Game::Common;
+use Game::Worker;
 
 my $config = Game::Common->get_config(app, '../vars.conf');
 
 plugin Minion => {Pg => $config->{db}{connection}};
 plugin 'Minion::Admin';
+
+Game::Worker->register(app->minion);
+
+get '/' => sub ($app) {
+	$app->minion->enqueue('test');
+	$app->render(text => "OK!");
+};
 
 app->start;
