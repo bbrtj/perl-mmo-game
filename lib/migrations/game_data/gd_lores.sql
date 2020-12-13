@@ -1,0 +1,51 @@
+INSERT INTO gd_lores (id) VALUES 
+('CLS_SAG')
+,('CLS_WAR')
+,('CLS_ROG')
+,('CLS_BAR')
+,('CLS_PRI')
+,('CLS_PAT')
+,('LOC_GMDUNG')
+,('SET_COEF_WEAP')
+,('SET_COEF_LVL')
+,('SET_COEF_AGI')
+;
+INSERT INTO gd_lores (id) VALUES 
+('SET_COEF_STR')
+,('SET_COEF_INT')
+,('SET_COEF_MAXHP')
+,('SET_COEF_CURHP')
+,('SET_DMG')
+,('SET_HEAL')
+,('SET_DURAT')
+,('SET_MOV_AMP')
+,('SET_STUN')
+,('SET_DISOR')
+;
+INSERT INTO gd_lores (id) VALUES 
+('SET_TAR_SELF')
+,('SET_TAR_ALLY')
+,('SET_TAR_FOE')
+,('SET_TAR_ALLIES')
+,('SET_TAR_FOES')
+,('SET_TAR_GROUND')
+,('SET_AOE')
+,('SET_TAR_ANY')
+,('SET_IMMU')
+,('SET_RESI')
+;
+INSERT INTO gd_lores (id) VALUES 
+('SET_DISP')
+,('SET_INVI')
+,('SEA_PHYS')
+,('SEA_DRUG')
+,('SEA_ACID')
+,('SEA_ELEC')
+,('SEA_FIRE')
+,('SEA_GAS')
+,('SEA_INSP')
+,('SEA_SOU')
+;
+INSERT INTO gd_lores (id) VALUES 
+('SEA_WEAP')
+;
