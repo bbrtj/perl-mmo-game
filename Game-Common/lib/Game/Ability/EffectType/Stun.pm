@@ -1,10 +1,10 @@
-package Game::Ability::EffectType::Damage;
+package Game::Ability::EffectType::Stun;
 
 use Mojo::Base -signatures;
 use Moo;
 
 with 'Game::Ability::EffectType';
 
-use constant lore_id => 'AET_DMG';
+use constant lore_id => 'AET_STUN';
 
 1;
