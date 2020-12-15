@@ -4,6 +4,7 @@ use Mojo::Base -signatures;
 use Game::Common::Container qw(set_container);
 use Mojo::Pg;
 use Mojo::File qw(path);
+use Game::Data::Repository;
 
 our $VERSION = "0.001";
 
@@ -27,6 +28,7 @@ sub bootstrap($class, $app, $config_file)
 		pg => $pg,
 		db => $pg->db,
 		minion => $app->minion,
+		game_data_repo => Game::Data::Repository->new,
 	);
 
 	return;
