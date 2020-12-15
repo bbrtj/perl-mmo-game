@@ -43,25 +43,25 @@ has 'range' => (
 
 has 'target_self' => (
 	is => 'ro',
-	isa => Bool,
+	isa => Maybe[Bool],
 	required => 1,
 );
 
 has 'target_ally' => (
 	is => 'ro',
-	isa => Bool,
+	isa => Maybe[Bool],
 	required => 1,
 );
 
 has 'target_foe' => (
 	is => 'ro',
-	isa => Bool,
+	isa => Maybe[Bool],
 	required => 1,
 );
 
 has 'target_ground' => (
 	is => 'ro',
-	isa => Bool,
+	isa => Maybe[Bool],
 	required => 1,
 );
 

@@ -97,10 +97,10 @@ CREATE TABLE gd_abilities (
 	cost INT NULL,
 	cooldown INT NULL,
 	range INT NULL,
-	target_self BOOLEAN NOT NULL,
-	target_ally BOOLEAN NOT NULL,
-	target_foe BOOLEAN NOT NULL,
-	target_ground BOOLEAN NOT NULL,
+	target_self BOOLEAN NULL,
+	target_ally BOOLEAN NULL,
+	target_foe BOOLEAN NULL,
+	target_ground BOOLEAN NULL,
 	CONSTRAINT fk_lore
 		FOREIGN KEY(id)
 		REFERENCES gd_lores(id),
