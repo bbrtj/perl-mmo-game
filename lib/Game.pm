@@ -2,11 +2,14 @@ package Game;
 
 use Mojo::Base 'Mojolicious', -signatures;
 use Mojo::Pg;
+use Game::Common::Container;
 use Game::Common;
 
 # This method will run once at server start
 sub startup($self)
 {
+	Game::Common->bootstrap($self, 'vars.conf');
+
 	my $config = load_config($self);
 	load_commands($self, $config);
 	load_routes($self, $config);
@@ -16,7 +19,7 @@ sub startup($self)
 
 sub load_config($self)
 {
-	my $config = Game::Common->get_config($self, 'vars.conf');
+	my $config = resolve('config');
 
 	# Configure the application
 	$self->mode($config->{mode} // "development");
@@ -40,13 +43,12 @@ sub load_routes($self, $config)
 
 sub load_plugins($self, $config)
 {
-	$self->plugin(Minion => {Pg => $config->{db}{connection}});
 }
 
 sub load_helpers($self, $config)
 {
 	$self->helper(db => sub {
-		state $pg = Mojo::Pg->new($config->{db}{connection});
+		state $pg = resolve('pg');
 	});
 }
 
