@@ -1,4 +1,4 @@
-INSERT INTO gd_classes (id) VALUES
+INSERT INTO gd_classes (id) VALUES 
 ('CLS_SAG')
 ,('CLS_WAR')
 ,('CLS_ROG')
