@@ -1,12 +1,14 @@
-package Game::Ability::Complied;
+package Game::Ability::Compiled;
 
 use Mojo::Base -signatures;
 use Moo;
-use Types::Standard qw(HashRef InstanceOf ConsumerOf Maybe PositiveInt Bool);
+use Types::Standard qw(ArrayRef HashRef InstanceOf ConsumerOf Maybe Bool);
+use Types::Common::Numeric qw(PositiveInt PositiveOrZeroInt);
+use Game::Ability::Compiled::Group;
 
 has 'groups' => (
 	is => 'ro',
-	isa => HashRef[InstanceOf['Game::Ability::Complied::Group']],
+	isa => HashRef[InstanceOf['Game::Ability::Compiled::Group']],
 	init_arg => undef,
 	default => sub { {} },
 );
@@ -25,19 +27,19 @@ has 'passive' => (
 
 has 'cost' => (
 	is => 'ro',
-	isa => Maybe[PositiveInt],
+	isa => Maybe[PositiveOrZeroInt],
 	required => 1,
 );
 
 has 'cooldown' => (
 	is => 'ro',
-	isa => Maybe[PositiveInt],
+	isa => Maybe[PositiveOrZeroInt],
 	required => 1,
 );
 
 has 'range' => (
 	is => 'ro',
-	isa => Maybe[PositiveInt],
+	isa => Maybe[PositiveOrZeroInt],
 	required => 1,
 );
 
@@ -97,7 +99,7 @@ sub group($self, $number)
 	$check->assert_valid($number);
 
 	if (!exists $self->groups->{$number}) {
-		$self->groups->{$number} = Game::Ability::Complied::Group->new(number => $number);
+		$self->groups->{$number} = Game::Ability::Compiled::Group->new(number => $number);
 	}
 
 	return $self->groups->{$number};

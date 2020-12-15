@@ -2,13 +2,14 @@ package Game::Ability::Compiled::Group;
 
 use Mojo::Base -signatures;
 use Moo;
-use Types::Standard qw(PositiveInt ArrayRef InstanceOf);
+use Types::Standard qw(ArrayRef InstanceOf);
+use Types::Common::Numeric qw(PositiveOrZeroInt);
 
 use constant EFFECT_CHECK => InstanceOf['Game::Ability::Compiled::Effect'];
 
 has 'number' => (
 	is => 'ro',
-	isa => PositiveInt,
+	isa => PositiveOrZeroInt,
 	required => 1,
 );
 

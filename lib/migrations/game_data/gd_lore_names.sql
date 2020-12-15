@@ -1,4 +1,4 @@
-INSERT INTO gd_lore_names (lore_id,language_id,name) VALUES 
+INSERT INTO gd_lore_names (lore_id,language_id,"name") VALUES 
 ('CLS_SAG','PL','Mędrzec')
 ,('CLS_WAR','PL','Wojownik')
 ,('CLS_BAR','PL','Bard')

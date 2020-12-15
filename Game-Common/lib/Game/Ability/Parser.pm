@@ -1,12 +1,13 @@
-package Game::Abitily::Parser;
+package Game::Ability::Parser;
 
 use Mojo::Base -signatures;
 use Game::Common::Container;
-use Mojo::File qw(curfile);
+use Game::Ability::Compiled;
+use Game::Ability::Compiled::Effect;
 
 use constant ABILITY_LIST_FETCH_QUERY => <<SQL;
 	SELECT
-		abi.id
+		abi.id,
 		abi.attribute_id as attribute,
 		abi.passive,
 		abi.cost,
@@ -37,7 +38,7 @@ sub find_effect_type($type)
 {
 	state $list = {
 		map {
-			$_->lore_id => $_
+			$_->lore_id => $_->new
 		} Game::Common->load_classes('Game::Ability::EffectType', 'EffectType/*.pm')
 	};
 
@@ -48,21 +49,21 @@ sub find_attribute($type)
 {
 	state $list = {
 		map {
-			$_->lore_id => $_
+			$_->lore_id => $_->new
 		} Game::Common->load_classes('Game::Ability::Attribute', 'Attribute/*.pm')
 	};
 
 	return $list->{$type};
 }
 
-sub parse
+sub parse($class)
 {
 	my $data = load;
 	my %loaded;
 
 	for my $row ($data->each) {
 		if (!exists $loaded{$row->{id}}) {
-			$loaded{$row->{id}} = Game::Abitily::Compiled->new(
+			$loaded{$row->{id}} = Game::Ability::Compiled->new(
 				attribute => find_attribute($row->{attribute}),
 				$row->%{qw(
 					id
@@ -77,7 +78,7 @@ sub parse
 		}
 
 		$loaded{$row->{id}}->group($row->{effect_group})->add_effect(
-			Game::Ability::Complied::Effect->new(
+			Game::Ability::Compiled::Effect->new(
 				effect_type => find_effect_type($row->{effect_type}),
 				attribute => find_attribute($row->{effect_attribute}),
 				$row->%{qw(
@@ -89,4 +90,5 @@ sub parse
 
 	return \%loaded;
 }
+
 1;

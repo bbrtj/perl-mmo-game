@@ -1,4 +1,4 @@
-package Game::Ability::Complied::Effect;
+package Game::Ability::Compiled::Effect;
 
 use Mojo::Base -signatures;
 use Moo;

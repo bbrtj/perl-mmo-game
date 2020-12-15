@@ -92,7 +92,7 @@ CREATE TABLE gd_ability_attributes (
 
 CREATE TABLE gd_abilities (
 	id VARCHAR(20) PRIMARY KEY,
-	attribute_id VARCHAR(20) NULL,
+	attribute_id VARCHAR(20) NOT NULL,
 	passive BOOLEAN,
 	cost INT NULL,
 	cooldown INT NULL,
@@ -113,7 +113,7 @@ CREATE TABLE gd_ability_effects (
 	id SERIAL PRIMARY KEY,
 	ability_id VARCHAR(20) NOT NULL,
 	type_id VARCHAR(20) NOT NULL,
-	attribute_id VARCHAR(20) NULL,
+	attribute_id VARCHAR(20) NOT NULL,
 	effect_group INT NOT NULL DEFAULT 1,
 	value FLOAT NULL,
 	deviation FLOAT NULL,
