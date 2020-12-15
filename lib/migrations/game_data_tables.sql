@@ -76,58 +76,62 @@ CREATE TABLE gd_location_paths (
 CREATE INDEX ind_location_paths_lookup_1 ON gd_location_paths (location_from_id, location_to_id);
 CREATE INDEX ind_location_paths_lookup_2 ON gd_location_paths (location_to_id);
 
-CREATE TABLE gd_skill_effect_types (
+CREATE TABLE gd_ability_effect_types (
 	id VARCHAR(20) PRIMARY KEY,
 	CONSTRAINT fk_lore
 		FOREIGN KEY(id)
 		REFERENCES gd_lores(id)
 );
 
-CREATE TABLE gd_skill_effect_attributes (
+CREATE TABLE gd_ability_attributes (
 	id VARCHAR(20) PRIMARY KEY,
 	CONSTRAINT fk_lore
 		FOREIGN KEY(id)
 		REFERENCES gd_lores(id)
 );
 
-CREATE TABLE gd_skills (
+CREATE TABLE gd_abilities (
 	id VARCHAR(20) PRIMARY KEY,
+	attribute_id VARCHAR(20) NULL,
 	passive BOOLEAN,
 	cost INT NULL,
 	cooldown INT NULL,
 	range INT NULL,
 	CONSTRAINT fk_lore
 		FOREIGN KEY(id)
-		REFERENCES gd_lores(id)
+		REFERENCES gd_lores(id),
+	CONSTRAINT fk_ability_attribute
+		FOREIGN KEY(attribute_id)
+		REFERENCES gd_ability_attributes(id)
 );
 
-CREATE TABLE gd_skill_effects (
+CREATE TABLE gd_ability_effects (
 	id SERIAL PRIMARY KEY,
-	skill_id VARCHAR(20) NOT NULL,
+	ability_id VARCHAR(20) NOT NULL,
 	type_id VARCHAR(20) NOT NULL,
 	attribute_id VARCHAR(20) NULL,
 	effect_group INT NOT NULL DEFAULT 1,
 	value FLOAT NULL,
 	deviation FLOAT NULL,
-	CONSTRAINT fk_skill
-		FOREIGN KEY(skill_id)
-		REFERENCES gd_skills(id),
-	CONSTRAINT fk_skill_effect_attribute
+	CONSTRAINT fk_ability
+		FOREIGN KEY(ability_id)
+		REFERENCES gd_abilities(id),
+	CONSTRAINT fk_ability_attribute
 		FOREIGN KEY(attribute_id)
-		REFERENCES gd_skill_effect_attributes(id),
-	CONSTRAINT fk_skill_effect_type
+		REFERENCES gd_ability_attributes(id),
+	CONSTRAINT fk_ability_effect_type
 		FOREIGN KEY(type_id)
-		REFERENCES gd_skill_effect_types(id)
+		REFERENCES gd_ability_effect_types(id)
 );
 
-CREATE INDEX ind_skill_effects_lookup ON gd_skill_effects (skill_id, effect_group);
+CREATE INDEX ind_ability_effects_lookup ON gd_ability_effects (ability_id, effect_group);
 
 -- 1 down
 
-DROP TABLE gd_skill_effects;
-DROP TABLE gd_skills;
-DROP TABLE gd_skill_effect_types;
-DROP TABLE gd_skill_effect_attributes;
+DROP TABLE gd_ability_effects;
+DROP TABLE gd_abilities;
+DROP TABLE gd_ability_effect_types;
+DROP TABLE gd_ability_attributes;
 DROP TABLE gd_location_paths;
 DROP TABLE gd_classes;
 DROP TABLE gd_locations;
