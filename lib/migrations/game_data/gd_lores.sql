@@ -23,14 +23,9 @@ INSERT INTO gd_lores (id) VALUES
 ,('AET_DISOR')
 ;
 INSERT INTO gd_lores (id) VALUES
-('AET_TAR_SELF')
-,('AET_TAR_ALLY')
+('AET_TAR_ALLY')
 ,('AET_TAR_FOE')
-,('AET_TAR_ALLIES')
-,('AET_TAR_FOES')
-,('AET_TAR_GROUND')
 ,('AET_AOE')
-,('AET_TAR_ANY')
 ,('AET_IMMU')
 ,('AET_RESI')
 ;
