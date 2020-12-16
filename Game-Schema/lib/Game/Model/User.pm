@@ -8,7 +8,7 @@ use Digest::SHA qw(sha256_hex);
 with 'Game::Model';
 
 has 'email' => (
-	is => 'rw',
+	is => 'ro',
 	isa => EmailAddress,
 	required => 1,
 );
@@ -30,7 +30,7 @@ has 'salt' => (
 );
 
 has 'status' => (
-	is => 'rw',
+	is => 'ro',
 	isa => PositiveInt,
 	default => sub { 1 },
 );
@@ -38,15 +38,16 @@ has 'status' => (
 has 'created_at' => (
 	is => 'ro',
 	isa => DateTime,
+	coerce => 1,
 	default => sub { time },
 );
 
 sub _make_password($self, $plaintext_password)
 {
-	return sha256_hex(sha256($plaintext_password) . $self->salt);
+	return sha256_hex(sha256_hex($plaintext_password) . $self->salt);
 }
 
-sub store_password($self, $plaintext_password)
+sub set_password($self, $plaintext_password)
 {
 	$self->_set_password($self->_make_password($plaintext_password));
 	return;

@@ -7,25 +7,25 @@ use Game::Types qw(Uuid LoreId NonEmptySimpleStr Bool DateTime Maybe);
 with 'Game::Model';
 
 has 'user_id' => (
-	is => 'rw',
+	is => 'ro',
 	isa => Uuid,
 	required => 1,
 );
 
 has 'class_id' => (
-	is => 'rw',
+	is => 'ro',
 	isa => LoreId,
 	required => 1,
 );
 
 has 'name' => (
-	is => 'rw',
+	is => 'ro',
 	isa => NonEmptySimpleStr->where(q{ length $_ <= 32 }),
 	required => 1,
 );
 
 has 'online' => (
-	is => 'rw',
+	is => 'ro',
 	isa => Bool,
 	default => sub { 0 },
 );
@@ -33,12 +33,14 @@ has 'online' => (
 has 'created_at' => (
 	is => 'ro',
 	isa => DateTime,
+	coerce => 1,
 	default => sub { time },
 );
 
 has 'last_online' => (
-	is => 'rw',
+	is => 'ro',
 	isa => Maybe[DateTime],
+	coerce => 1,
 	default => sub { undef },
 );
 
