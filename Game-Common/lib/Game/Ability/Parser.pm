@@ -1,6 +1,7 @@
 package Game::Ability::Parser;
 
 use Mojo::Base -signatures;
+use Game::Common;
 use Game::Common::Container;
 use Game::Ability::Compiled;
 use Game::Ability::Compiled::Effect;

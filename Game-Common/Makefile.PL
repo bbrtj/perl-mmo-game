@@ -9,6 +9,7 @@ WriteMakefile(
 		'Type::Tiny' => 0,
 		'Mojolicious' => 0,
 		'Mojo::Pg' => 0,
+		'Minion' => 0,
 	},
-	AUTHOR => 'brtech',
+	AUTHOR => 'brtastic',
 );

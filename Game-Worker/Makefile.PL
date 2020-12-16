@@ -6,7 +6,6 @@ WriteMakefile(
 	VERSION_FROM => 'lib/Game/Worker.pm',
 	PREREQ_PM => {
 		'Game::Common' => 0,
-		'Minion' => 0,
 	},
-	AUTHOR => 'brtech',
+	AUTHOR => 'brtastic',
 );
