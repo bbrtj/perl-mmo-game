@@ -2,8 +2,7 @@ package Game::Ability::Compiled::Group;
 
 use Mojo::Base -signatures;
 use Moo;
-use Types::Standard qw(ArrayRef InstanceOf);
-use Types::Common::Numeric qw(PositiveOrZeroInt);
+use Game::Types qw(ArrayRef InstanceOf PositiveOrZeroInt);
 
 use constant EFFECT_CHECK => InstanceOf['Game::Ability::Compiled::Effect'];
 

@@ -2,8 +2,7 @@ package Game::Ability::Compiled;
 
 use Mojo::Base -signatures;
 use Moo;
-use Types::Standard qw(ArrayRef HashRef InstanceOf ConsumerOf Maybe Bool);
-use Types::Common::Numeric qw(PositiveInt PositiveOrZeroInt);
+use Game::Types qw(ArrayRef HashRef InstanceOf ConsumerOf Maybe Bool PositiveInt PositiveOrZeroInt);
 use Game::Ability::Compiled::Group;
 
 has 'groups' => (

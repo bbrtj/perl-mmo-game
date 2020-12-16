@@ -2,7 +2,7 @@ package Game::Ability::Compiled::Effect;
 
 use Mojo::Base -signatures;
 use Moo;
-use Types::Standard qw(ConsumerOf Maybe Num);
+use Game::Types qw(ConsumerOf Maybe Num);
 
 has 'effect_type' => (
 	is => 'ro',
