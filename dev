@@ -8,11 +8,12 @@ export PERL5LIB="$dir/local/lib/perl5:$PERL5LIB"
 export PERL5LIB="$dir/Game-Common/lib:$PERL5LIB"
 export PERL5LIB="$dir/Game-Worker/lib:$PERL5LIB"
 export PERL5LIB="$dir/Game-Lore/lib:$PERL5LIB"
+export PERL5LIB="$dir/Game-Schema/lib:$PERL5LIB"
 
 if [ "$1" == "test" ]; then
-	prove -l t Game-Common/t Game-Worker/t Game-Lore/t
+	prove -l t Game-Common/t Game-Worker/t Game-Lore/t Game-Schema/t
 else
 	script/server minion worker &
 	script/server daemon -l http://*:3001 &
-	morbo script/web -w lib templates Game-Common/lib Game-Worker/lib Game-Lore/lib
+	morbo script/web -w lib templates Game-Common/lib Game-Worker/lib Game-Lore/lib Game-Schema/lib
 fi
