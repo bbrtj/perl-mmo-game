@@ -1,0 +1,34 @@
+=head1 Browser MMORPG Game (name tbd)
+
+=head2 Prerequisites
+
+=over
+
+=item * Perl 5.30 (preferably from perlbrew)
+
+=item * Carton (CPAN module)
+
+=item * Postgresql client library with headers
+
+=item * Postgresql server
+
+=item * GNU make
+
+=back
+
+=head2 Setup
+
+Copy I<vars.conf.local.example> to I<vars.conf.local> and adjust the variables.
+
+C<./setup> to compile and load every module, in addition to installing the rest of the dependencies.
+
+=head2 Running
+
+C<./dev> to run development server (auto restart on changes), C<./dev test> to run tests.
+
+C<./prod> to run production server (same server for mojo and minion).
+
+=head2 Code layout
+
+Perl modules are loaded by Carton into local directory and ran from there.
+
