@@ -6,6 +6,7 @@ my $current_uri = 'file://' . $current;
 my @modules = qw(
 	Game::Common
 	Game::Worker
+	Game::Lore
 );
 
 # cpanfile mostly requests modules, real dependencies are in makefiles
