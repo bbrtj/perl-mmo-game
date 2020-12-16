@@ -1,23 +1,23 @@
 -- 5 up
 
 CREATE TABLE users (
-	id serial primary key,
+	id uuid primary key,
 	email VARCHAR(128) NOT NULL,
 	password VARCHAR(64) NOT NULL,
 	salt VARCHAR(16) NOT NULL,
 	status INT NOT NULL DEFAULT 1,
-	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	created_at TIMESTAMP NOT NULL
 );
 
 CREATE INDEX ind_users_lookup ON users (email);
 
 CREATE TABLE players (
-	id bigserial primary key,
-	user_id INT,
+	id uuid primary key,
+	user_id uuid,
 	class_id VARCHAR(20) NOT NULL,
 	name VARCHAR(32) NOT NULL,
 	online BOOLEAN NOT NULL DEFAULT false,
-	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	created_at TIMESTAMP NOT NULL,
 	last_online TIMESTAMP NULL,
 	CONSTRAINT fk_user
 		FOREIGN KEY(user_id)
