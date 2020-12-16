@@ -1,0 +1,5 @@
+#!/bin/bash
+
+carton exec "script/server minion worker -j 8" &
+carton exec "hypnotoad script/web"
+
