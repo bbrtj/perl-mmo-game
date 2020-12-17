@@ -7,7 +7,7 @@ use Digest::SHA qw(sha256_hex);
 
 no header;
 
-with 'Game::Model';
+with 'Game::Model', 'Game::Model::Role::Stored';
 
 has 'email' => (
 	is => 'ro',

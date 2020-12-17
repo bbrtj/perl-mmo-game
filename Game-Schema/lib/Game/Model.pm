@@ -2,7 +2,6 @@ package Game::Model;
 
 use header;
 use Moo::Role;
-use Game::Types qw(Uuid);
 use Game::Model::Role::Dummy;
 use Carp;
 use Scalar::Util qw(blessed);
@@ -12,12 +11,20 @@ no header;
 my %orm_mapping;
 my %orm_mapping_reverse;
 
-has 'uuid' => (
-	is => 'ro',
-	isa => Uuid,
-	coerce => 1,
-	default => sub { undef },
-);
+sub _install_writers ($class)
+{
+	my @attributes = grep { $_->name !~ /^_/ } $class->meta->get_all_attributes;
+	foreach my $attribute (@attributes) {
+		my $name = $attribute->name;
+		my $writer_attr = $attribute->meta->find_attribute_by_name("writer");
+
+		if (!$writer_attr->get_value($attribute)) {
+			$writer_attr->set_value($attribute, "set_$name");
+		}
+	}
+
+	return $class->meta->make_immutable;
+}
 
 sub _register ($class)
 {
@@ -26,17 +33,7 @@ sub _register ($class)
 		$orm_mapping{$class} = $resultset;
 		$orm_mapping_reverse{$resultset} = $class;
 
-		my @attributes = grep { $_->name !~ /^_/ } $class->meta->get_all_attributes;
-		foreach my $attribute (@attributes) {
-			my $name = $attribute->name;
-			my $writer_attr = $attribute->meta->find_attribute_by_name("writer");
-
-			if (!$writer_attr->get_value($attribute)) {
-				$writer_attr->set_value($attribute, "set_$name");
-			}
-		}
-
-		return $class->meta->make_immutable;
+		return $class->_install_writers;
 	}
 
 	croak "cannot register $class";

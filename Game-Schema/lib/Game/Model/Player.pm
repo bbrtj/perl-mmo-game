@@ -6,7 +6,7 @@ use Game::Types qw(Uuid LoreId NonEmptySimpleStr Bool DateTime Maybe);
 
 no header;
 
-with 'Game::Model';
+with 'Game::Model', 'Game::Model::Role::Stored';
 
 has 'user_id' => (
 	is => 'ro',
