@@ -22,11 +22,23 @@ Copy I<vars.conf.local.example> to I<vars.conf.local> and adjust the variables.
 
 C<./setup> to compile and load every module, in addition to installing the rest of the dependencies.
 
+C<./dev tools> to install helpful development tools on your machine (requires cpanm).
+
+	perlbrew install-cpanm
+
 =head2 Running
 
 C<./dev> to run development server (auto restart on changes), C<./dev test> to run tests.
 
 C<./prod> to run production server (same server for mojo and minion).
+
+=head2 Development tools
+
+C<./dev test> to run tests
+
+C<./dev lint> to lint files
+
+C<./dev critic> to see possible problems with code
 
 =head2 Code layout
 
