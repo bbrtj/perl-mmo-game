@@ -1,6 +1,6 @@
 package Game::Ability::Attribute::Drug;
 
-use Mojo::Base -signatures;
+use header;
 use Moo;
 
 with 'Game::Ability::Attribute';

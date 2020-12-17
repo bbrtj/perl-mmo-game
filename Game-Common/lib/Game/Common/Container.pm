@@ -1,6 +1,6 @@
 package Game::Common::Container;
 
-use Mojo::Base -signatures;
+use header;
 use Exporter qw(import);
 use Carp;
 

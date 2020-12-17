@@ -1,5 +1,6 @@
 package Game::Types;
 
+use header;
 use Type::Libraries;
 use Type::Tiny;
 use Types::Common::String qw(NonEmptySimpleStr);

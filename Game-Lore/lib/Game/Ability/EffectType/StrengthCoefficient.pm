@@ -1,6 +1,6 @@
 package Game::Ability::EffectType::StrengthCoefficient;
 
-use Mojo::Base -signatures;
+use header;
 use Moo;
 
 with 'Game::Ability::EffectType';

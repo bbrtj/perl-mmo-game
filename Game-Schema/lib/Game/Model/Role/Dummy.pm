@@ -1,11 +1,13 @@
 package Game::Model::Role::Dummy;
 
-use Mojo::Base -signatures;
+use header;
 use Moose::Role;
 use Moose::Util qw(find_meta);
 use Moose::Meta::Class;
 use List::Util qw(first);
 use Carp;
+
+no header;
 
 before "dummy" => sub {
 	croak "Cannot dummy a dummy";

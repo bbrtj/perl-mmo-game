@@ -1,6 +1,6 @@
 package Game::LoreElement;
 
-use Mojo::Base -signatures;
+use header;
 use Moo::Role;
 
 requires qw(

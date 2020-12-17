@@ -1,6 +1,9 @@
 package Game::Controller::Main;
 
-use Mojo::Base 'Mojolicious::Controller', -signatures;
+use header;
+use Mojo::Base 'Mojolicious::Controller';
+
+no header;
 
 # This action will render a template
 sub index ($self)

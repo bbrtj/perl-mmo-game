@@ -1,6 +1,6 @@
 package Game::Common;
 
-use Mojo::Base -signatures;
+use header;
 use Game::Common::Container qw(set_container);
 use Mojo::Pg;
 use Mojo::File qw(path);

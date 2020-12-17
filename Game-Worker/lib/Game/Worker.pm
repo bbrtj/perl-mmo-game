@@ -1,6 +1,6 @@
 package Game::Worker;
 
-use Mojo::Base -signatures;
+use header;
 use Game::Common;
 
 our $VERSION = "0.001";

@@ -1,7 +1,9 @@
 package Game::Schema::Result;
 
-use Mojo::Base 'DBIx::Class::Core', -signatures;
+use header;
 use Game::Model;
+
+use base 'DBIx::Class::Core';
 
 sub to_model ($self)
 {

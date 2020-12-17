@@ -1,8 +1,11 @@
 package Game::Command::migrate;
 
-use Mojo::Base 'Mojolicious::Command', -signatures;
+use header;
+use Mojo::Base 'Mojolicious::Command';
 use Getopt::Long qw(GetOptionsFromArray);
 use Mojo::File qw(curfile path);
+
+no header;
 
 has description => 'migrate database schema';
 

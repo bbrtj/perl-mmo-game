@@ -1,9 +1,11 @@
 package Game::Ability::Compiled;
 
-use Mojo::Base -signatures;
+use header;
 use Moo;
 use Game::Types qw(ArrayRef HashRef InstanceOf ConsumerOf Maybe Bool PositiveInt PositiveOrZeroInt);
 use Game::Ability::Compiled::Group;
+
+no header;
 
 has 'groups' => (
 	is => 'ro',

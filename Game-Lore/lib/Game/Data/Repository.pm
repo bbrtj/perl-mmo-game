@@ -1,10 +1,12 @@
 package Game::Data::Repository;
 
-use Mojo::Base -signatures;
+use header;
 use Moo;
 use Game::Common::Container;
 
-use constant ABILITY_LIST_FETCH_QUERY => <<SQL;
+no header;
+
+use constant ABILITY_LIST_FETCH_QUERY => <<'SQL';
 	SELECT
 		abi.id,
 		abi.attribute_id as attribute,

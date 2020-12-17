@@ -15,6 +15,7 @@ WriteMakefile(
 		'Mojolicious' => 0,
 		'Mojo::Pg' => 0,
 		'Minion' => 0,
+		'namespace::clean' => 0,
 	},
 	AUTHOR => 'brtastic',
 );

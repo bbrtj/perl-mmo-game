@@ -1,9 +1,11 @@
 package Game::Model::User;
 
-use Mojo::Base -signatures;
+use header;
 use Moose;
 use Game::Types qw(EmailAddress NonEmptySimpleStr PositiveInt DateTime);
 use Digest::SHA qw(sha256_hex);
+
+no header;
 
 with 'Game::Model';
 

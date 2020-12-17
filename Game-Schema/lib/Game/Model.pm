@@ -1,11 +1,13 @@
 package Game::Model;
 
-use Mojo::Base -signatures;
+use header;
 use Moo::Role;
 use Game::Types qw(Uuid);
 use Game::Model::Role::Dummy;
 use Carp;
 use Scalar::Util qw(blessed);
+
+no header;
 
 my %orm_mapping;
 my %orm_mapping_reverse;

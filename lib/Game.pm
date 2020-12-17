@@ -1,9 +1,12 @@
 package Game;
 
-use Mojo::Base 'Mojolicious', -signatures;
+use header;
+use Mojo::Base 'Mojolicious';
 use Mojo::Pg;
 use Game::Common::Container;
 use Game::Common;
+
+no header;
 
 # This method will run once at server start
 sub startup ($self)

@@ -1,6 +1,6 @@
 package Game::Ability::EffectType;
 
-use Mojo::Base -signatures;
+use header;
 use Moo::Role;
 
 with 'Game::LoreElement';

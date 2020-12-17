@@ -1,6 +1,6 @@
 package Game::Lore;
 
-use Mojo::Base -signatures;
+use header;
 
 our $VERSION = "0.001";
 

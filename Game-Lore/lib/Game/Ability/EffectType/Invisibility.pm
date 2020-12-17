@@ -1,6 +1,6 @@
 package Game::Ability::EffectType::Invisibility;
 
-use Mojo::Base -signatures;
+use header;
 use Moo;
 
 with 'Game::Ability::EffectType';

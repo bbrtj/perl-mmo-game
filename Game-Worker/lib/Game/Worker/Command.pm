@@ -1,6 +1,6 @@
 package Game::Worker::Command;
 
-use Mojo::Base -signatures;
+use header;
 use Moo::Role;
 
 has "_name" => (

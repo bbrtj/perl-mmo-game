@@ -1,8 +1,10 @@
 package Game::Model::Player;
 
-use Mojo::Base -signatures;
+use header;
 use Moose;
 use Game::Types qw(Uuid LoreId NonEmptySimpleStr Bool DateTime Maybe);
+
+no header;
 
 with 'Game::Model';
 

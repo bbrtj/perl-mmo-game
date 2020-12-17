@@ -1,6 +1,6 @@
 package Game::Worker::Command::Test;
 
-use Mojo::Base -signatures;
+use header;
 use Moo;
 
 with 'Game::Worker::Command';

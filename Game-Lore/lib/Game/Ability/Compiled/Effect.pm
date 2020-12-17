@@ -1,8 +1,10 @@
 package Game::Ability::Compiled::Effect;
 
-use Mojo::Base -signatures;
+use header;
 use Moo;
 use Game::Types qw(ConsumerOf Maybe Num);
+
+no header;
 
 has 'effect_type' => (
 	is => 'ro',

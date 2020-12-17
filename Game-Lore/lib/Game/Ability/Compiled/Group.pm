@@ -1,8 +1,10 @@
 package Game::Ability::Compiled::Group;
 
-use Mojo::Base -signatures;
+use header;
 use Moo;
 use Game::Types qw(ArrayRef InstanceOf PositiveOrZeroInt);
+
+no header;
 
 use constant EFFECT_CHECK => InstanceOf ['Game::Ability::Compiled::Effect'];
 
