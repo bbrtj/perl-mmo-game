@@ -1,0 +1,4 @@
+#!/usr/bin/env perl
+
+use Code::TidyAll::Git::Precommit;
+Code::TidyAll::Git::Precommit->check();

@@ -1,3 +1,11 @@
 [PerlTidy]
 select = **/*.{pl,pm,t}
+ignore = local/**/*.{pl,pm,t}
 argv = -pro=./.perltidyrc --character-encoding=none
+only_modes = lint commit
+
+[PerlCritic tests]
+select = **/*.{t}
+ignore = local/**/*.{t}
+argv = --theme=tests
+only_modes = critic

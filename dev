@@ -11,7 +11,15 @@ export PERL5LIB="$dir/Game-Lore/lib:$PERL5LIB"
 export PERL5LIB="$dir/Game-Schema/lib:$PERL5LIB"
 
 if [ "$1" == "test" ]; then
-	prove -l t Game-Common/t Game-Worker/t Game-Lore/t Game-Schema/t
+	prove -l Game-Common/t Game-Worker/t Game-Lore/t Game-Schema/t t
+elif [ "$1" == "tools" ]; then
+	cpanm Perl::Tidy Code::TidyAll Perl::Critic
+	mkdir -p .git/hooks
+	cp script/git-hook-precommit .git/hooks/pre-commit
+elif [ "$1" == "lint" ]; then
+	tidyall -a --mode lint
+elif [ "$1" == "critic" ]; then
+	tidyall -a --mode critic
 else
 	script/server minion worker &
 	script/server daemon -l http://*:3001 &
