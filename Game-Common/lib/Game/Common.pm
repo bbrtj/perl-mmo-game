@@ -44,6 +44,7 @@ sub load_classes ($class, $namespace, $pattern)
 	my @classes = map { m{/(\w+)\.pm$}; "${namespace}::$1" } glob $pattern;
 	for my $class (@classes) {
 		eval "use $class";
+		die "error loading $class" if $@;
 	}
 
 	return @classes;

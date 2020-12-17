@@ -5,6 +5,7 @@ use Mojo::Base 'Mojolicious';
 use Mojo::Pg;
 use Game::Common::Container;
 use Game::Common;
+use Game::Schema;
 
 no header;
 
@@ -12,6 +13,7 @@ no header;
 sub startup ($self)
 {
 	Game::Common->bootstrap($self, 'vars.conf');
+	Game::Schema->bootstrap;
 
 	my $config = load_config($self);
 	load_commands($self, $config);
@@ -53,6 +55,13 @@ sub load_helpers ($self, $config)
 	$self->helper(
 		db => sub {
 			state $pg = resolve('pg');
+		}
+	);
+
+	$self->helper(
+		dbc => sub ($self, $resultset) {
+			state $schema = resolve('dbc');
+			return $schema->resultset($resultset);
 		}
 	);
 }
