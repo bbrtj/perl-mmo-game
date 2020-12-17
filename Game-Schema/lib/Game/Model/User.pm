@@ -27,7 +27,7 @@ has 'salt' => (
 	isa => NonEmptySimpleStr->where(q{ length $_ == 16 }),
 	lazy => 1,
 	default => sub ($self) {
-		substr sha256_hex($self->uuid . time), 0, 16;
+		substr sha256_hex($self->id . time), 0, 16;
 	},
 );
 

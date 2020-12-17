@@ -6,7 +6,7 @@ use Game::Types qw(Uuid);
 
 no header;
 
-has 'uuid' => (
+has 'id' => (
 	is => 'ro',
 	isa => Uuid,
 	coerce => 1,
