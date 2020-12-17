@@ -7,7 +7,7 @@ with 'Game::Worker::Command';
 
 use constant name => 'test';
 
-sub handler($job)
+sub handler ($job)
 {
 	$job->app->log->debug("test test");
 }

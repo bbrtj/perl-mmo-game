@@ -39,7 +39,7 @@ has 'created_at' => (
 
 has 'last_online' => (
 	is => 'ro',
-	isa => Maybe[DateTime],
+	isa => Maybe [DateTime],
 	coerce => 1,
 	default => sub { undef },
 );

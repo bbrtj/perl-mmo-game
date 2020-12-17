@@ -1,12 +1,12 @@
-use v5.30; use warnings;
+use v5.30;
+use warnings;
 
 use Test::More;
 use Mojo::Collection;
 use Game::Common::Container qw(add_to_container);
 use Game::Ability::Parser;
 
-package GameRepoMock
-{
+package GameRepoMock {
 	use Moo;
 
 	sub load_ability_data

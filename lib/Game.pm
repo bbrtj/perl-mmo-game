@@ -6,7 +6,7 @@ use Game::Common::Container;
 use Game::Common;
 
 # This method will run once at server start
-sub startup($self)
+sub startup ($self)
 {
 	Game::Common->bootstrap($self, 'vars.conf');
 
@@ -17,7 +17,7 @@ sub startup($self)
 	load_helpers($self, $config);
 }
 
-sub load_config($self)
+sub load_config ($self)
 {
 	my $config = resolve('config');
 
@@ -28,12 +28,12 @@ sub load_config($self)
 	return $config;
 }
 
-sub load_commands($self, $config)
+sub load_commands ($self, $config)
 {
 	push $self->commands->namespaces->@*, "Game::Command";
 }
 
-sub load_routes($self, $config)
+sub load_routes ($self, $config)
 {
 	my $r = $self->routes;
 
@@ -41,15 +41,17 @@ sub load_routes($self, $config)
 	$r->get('/')->to('main#index');
 }
 
-sub load_plugins($self, $config)
+sub load_plugins ($self, $config)
 {
 }
 
-sub load_helpers($self, $config)
+sub load_helpers ($self, $config)
 {
-	$self->helper(db => sub {
-		state $pg = resolve('pg');
-	});
+	$self->helper(
+		db => sub {
+			state $pg = resolve('pg');
+		}
+	);
 }
 
 1;

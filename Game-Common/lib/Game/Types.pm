@@ -13,7 +13,7 @@ Type::Libraries->setup_class(
 		Types::UUID
 		Types::DateTime
 		Type::EmailAddress
-	),
+		),
 );
 
 my $LoreId = Type::Tiny->new(

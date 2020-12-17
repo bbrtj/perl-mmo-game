@@ -42,18 +42,18 @@ has 'created_at' => (
 	default => sub { time },
 );
 
-sub _make_password($self, $plaintext_password)
+sub _make_password ($self, $plaintext_password)
 {
 	return sha256_hex(sha256_hex($plaintext_password) . $self->salt);
 }
 
-sub set_password($self, $plaintext_password)
+sub set_password ($self, $plaintext_password)
 {
 	$self->_set_password($self->_make_password($plaintext_password));
 	return;
 }
 
-sub verify_password($self, $plaintext_password)
+sub verify_password ($self, $plaintext_password)
 {
 	return $self->password eq $self->_make_password($plaintext_password);
 }

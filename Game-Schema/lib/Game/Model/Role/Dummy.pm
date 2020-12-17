@@ -11,7 +11,7 @@ before "dummy" => sub {
 	croak "Cannot dummy a dummy";
 };
 
-sub _make_dummy($role, $class)
+sub _make_dummy ($role, $class)
 {
 	my $dummy_class = "${class}::Dummy";
 	if (!find_meta($dummy_class)) {
@@ -31,7 +31,7 @@ sub _make_dummy($role, $class)
 	return $dummy_class;
 }
 
-sub promote($self)
+sub promote ($self)
 {
 	my $base = first { $_ =~ /^Game::Model::/ && $_ !~ /::Dummy$/ }
 		$self->meta->class_precedence_list;

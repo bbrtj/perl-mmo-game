@@ -5,7 +5,7 @@ use Game::Common;
 
 our $VERSION = "0.001";
 
-sub register($class, $minion)
+sub register ($class, $minion)
 {
 	foreach my $class (Game::Common->load_classes('Game::Worker::Command', 'Worker/Command/*.pm')) {
 		my $command = $class->new;

@@ -17,7 +17,7 @@ has 'uuid' => (
 	default => sub { undef },
 );
 
-sub _register($class)
+sub _register ($class)
 {
 	if ($class =~ /Game::Model::(.+)/) {
 		my $resultset = "Game::Schema::Result::$1";
@@ -40,18 +40,12 @@ sub _register($class)
 	croak "cannot register $class";
 }
 
-sub serialize($self)
+sub serialize ($self)
 {
-	return {
-		map {
-			$_->name => $_->get_value($self)
-		} grep {
-			$_->has_value($self)
-		} $self->meta->get_attribute_list
-	};
+	return {map { $_->name => $_->get_value($self) } grep { $_->has_value($self) } $self->meta->get_attribute_list};
 }
 
-sub from_result($class, $row)
+sub from_result ($class, $row)
 {
 	my $resultset = blessed $row;
 	croak "invalid argument to from_result"
@@ -69,7 +63,7 @@ sub from_result($class, $row)
 	);
 }
 
-sub dummy($class)
+sub dummy ($class)
 {
 	croak "dummy only works on class context" if ref $class;
 	return Game::Model::Role::Dummy->_make_dummy($class);

@@ -1,4 +1,5 @@
-use v5.30; use warnings;
+use v5.30;
+use warnings;
 
 use Test::More;
 use Test::Mojo;

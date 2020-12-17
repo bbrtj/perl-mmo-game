@@ -15,7 +15,7 @@ sub get_files()
 	return glob "$dir/*.{sql,sql.pl}";
 }
 
-sub run($self, @args)
+sub run ($self, @args)
 {
 	my $up = 0;
 	my $down = 0;
@@ -27,7 +27,6 @@ sub run($self, @args)
 		"down" => \$down,
 		"downall" => \$downall,
 	);
-
 
 	my $migrations = $self->app->db->migrations;
 	my $migration_string = '';
@@ -48,12 +47,12 @@ sub run($self, @args)
 	if ($down) {
 		$migrations->migrate($version - 1)
 			if $version;
-	}
 
+	}
 	elsif ($downall) {
 		$migrations->migrate(0);
-	}
 
+	}
 	elsif ($up) {
 		$migrations->migrate;
 	}

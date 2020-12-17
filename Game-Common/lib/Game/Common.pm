@@ -8,16 +8,17 @@ use Game::Data::Repository;
 
 our $VERSION = "0.001";
 
-sub _get_config($class, $app, $file)
+sub _get_config ($class, $app, $file)
 {
+
 	# Load configuration from config file
 	my $config = $app->plugin('Config', file => $file);
 	my $config_local = $app->plugin('Config', file => "$file.local");
 
-	return { %$config, %$config_local };
+	return {%$config, %$config_local};
 }
 
-sub bootstrap($class, $app, $config_file)
+sub bootstrap ($class, $app, $config_file)
 {
 	my $config = $class->_get_config($app, $config_file);
 	$app->plugin(Minion => {Pg => $config->{db}{connection}});
@@ -34,7 +35,7 @@ sub bootstrap($class, $app, $config_file)
 	return;
 }
 
-sub load_classes($class, $namespace, $pattern)
+sub load_classes ($class, $namespace, $pattern)
 {
 	if ($pattern !~ m{^/}) {
 		$pattern = path((caller)[1])->dirname->to_string . "/$pattern";

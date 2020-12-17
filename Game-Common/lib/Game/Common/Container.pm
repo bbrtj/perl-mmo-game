@@ -15,24 +15,23 @@ our @EXPORT_OK = qw (
 
 my %container = ();
 
-sub resolve($key)
+sub resolve ($key)
 {
 	croak "unknown dependency $key" unless exists $container{$key};
 	return $container{$key};
 }
 
-sub set_container(%new)
+sub set_container (%new)
 {
 	%container = %new;
 	return;
 }
 
-sub add_to_container($key, $value)
+sub add_to_container ($key, $value)
 {
 	$container{$key} = $value;
 	return;
 }
-
 
 1;
 
