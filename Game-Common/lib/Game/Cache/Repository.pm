@@ -8,24 +8,21 @@ no header;
 
 package Inlined::Repository::CharacterCalc {
 	use Moo;
+	no header;
 
 	sub load ($self, $id)
 	{
 		my $db = resolve('db');
-		my $data = $db->select('character_calculations', undef, {id => $id});
-
-		return $data;
+		return $db->select('character_calculations', undef, {id => $id});
 	}
 
 	sub save ($self, $data)
 	{
 		my $db = resolve('db');
-		my $data = $db->insert(
+		return $db->insert(
 			'character_calculations', $data,
 			{on_conflict => [id => {map { $_ => $data->{$_} } grep { $_ ne 'id' } $data}]}
 		);
-
-		return $data;
 	}
 }
 

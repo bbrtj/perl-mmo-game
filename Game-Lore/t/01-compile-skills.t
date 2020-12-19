@@ -28,6 +28,40 @@ package GameRepoMock {
 				effect_group => 1,
 				value => 50,
 				deviation => 3,
+			},
+			{
+				id => 'test',
+				attribute => 'ABA_FIRE',
+				passive => 0,
+				cost => 0,
+				cooldown => 5,
+				range => 50,
+				target_self => 0,
+				target_ally => 0,
+				target_foe => 0,
+				target_ground => 1,
+				effect_type => 'AET_COEF_INT',
+				effect_attribute => 'ABA_VVV',
+				effect_group => 1,
+				value => 0.2,
+				deviation => undef,
+			},
+			{
+				id => 'test',
+				attribute => 'ABA_FIRE',
+				passive => 0,
+				cost => 0,
+				cooldown => 5,
+				range => 50,
+				target_self => 0,
+				target_ally => 0,
+				target_foe => 0,
+				target_ground => 1,
+				effect_type => 'AET_DURAT',
+				effect_attribute => 'ABA_VVV',
+				effect_group => 1,
+				value => 3,
+				deviation => undef,
 			}
 		);
 	}
@@ -58,13 +92,27 @@ is scalar keys $subject->groups->%*, 1;
 $subject = $subject->group(1);
 isa_ok $subject, "Game::Ability::Compiled::Group";
 ok exists $subject->effects->[0];
-is scalar $subject->effects->@*, 1;
+is scalar $subject->effects->@*, 3;
 
-$subject = $subject->effects->[0];
-isa_ok $subject, "Game::Ability::Compiled::Effect";
-isa_ok $subject->effect_type, "Game::Ability::EffectType::Healing";
-isa_ok $subject->attribute, "Game::Ability::Attribute::Inherit";
-is $subject->value, 50;
-is $subject->deviation, 3;
+for my $index (0 .. 2) {
+	my $subject = $subject->effects->[$index];
+	isa_ok $subject, "Game::Ability::Compiled::Effect";
+	if ($subject->effect_type->isa("Game::Ability::EffectType::Healing")) {
+		isa_ok $subject->attribute, "Game::Ability::Attribute::Inherit";
+		is $subject->value, 50;
+		is $subject->deviation, 3;
+	}
+	elsif ($subject->effect_type->isa("Game::Ability::EffectType::IntellectCoefficient")) {
+		is $subject->value, "0.2";
+		ok !defined $subject->deviation;
+	}
+	elsif ($subject->effect_type->isa("Game::Ability::EffectType::Duration")) {
+		is $subject->value, 3;
+		ok !defined $subject->deviation;
+	}
+	else {
+		fail "Unknown effect type";
+	}
+}
 
 done_testing;
