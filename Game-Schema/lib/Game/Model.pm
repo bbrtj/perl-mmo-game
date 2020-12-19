@@ -62,6 +62,16 @@ sub from_result ($class, $row)
 	);
 }
 
+sub get_result_class ($self)
+{
+	my $class = blessed $self // $self;
+
+	croak 'invalid argument for get_result_class'
+		unless exists $orm_mapping{$class};
+
+	return $orm_mapping{$class};
+}
+
 sub dummy ($class)
 {
 	croak "dummy only works on class context" if ref $class;

@@ -4,8 +4,6 @@ use header;
 use Moo;
 use Game::Common::Container;
 
-no header;
-
 use constant ABILITY_LIST_FETCH_QUERY => <<'SQL';
 	SELECT
 		abi.id,
@@ -26,6 +24,8 @@ use constant ABILITY_LIST_FETCH_QUERY => <<'SQL';
 	FROM gd_abilities abi
 	JOIN gd_ability_effects aef ON (abi.id = aef.ability_id)
 SQL
+
+no header;
 
 sub load_ability_data()
 {
