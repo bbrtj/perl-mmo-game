@@ -27,7 +27,7 @@ SQL
 
 no header;
 
-sub load_ability_data()
+sub load_ability_data ($class)
 {
 	my $db = resolve('db');
 	my $data = $db->query(ABILITY_LIST_FETCH_QUERY)->hashes;
