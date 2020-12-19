@@ -4,12 +4,10 @@ use header;
 use Game::Common::Container qw(set_container);
 use Mojo::Pg;
 use Mojo::File qw(path);
-use Game::Data::Repository;
-use Game::Cache::Repository;
 
 our $VERSION = "0.001";
 
-sub _get_config ($class, $app, $file)
+sub get_config ($class, $app, $file)
 {
 
 	# Load configuration from config file
@@ -17,24 +15,6 @@ sub _get_config ($class, $app, $file)
 	my $config_local = $app->plugin('Config', file => "$file.local");
 
 	return {%$config, %$config_local};
-}
-
-sub bootstrap ($class, $app, $config_file)
-{
-	my $config = $class->_get_config($app, $config_file);
-	$app->plugin(Minion => {Pg => $config->{db}{connection}});
-	my $pg = Mojo::Pg->new($config->{db}{connection});
-
-	set_container(
-		config => $config,
-		pg => $pg,
-		db => $pg->db,
-		minion => $app->minion,
-		game_data_repo => Game::Data::Repository->new,
-		cache_repo => Game::Cache::Repository->new,
-	);
-
-	return;
 }
 
 sub load_classes ($class, $namespace, $pattern)

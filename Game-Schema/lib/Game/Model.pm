@@ -72,6 +72,11 @@ sub get_result_class ($self)
 	return $orm_mapping{$class};
 }
 
+sub bootstrap ($class)
+{
+	Game::Common->load_classes('Game::Model', 'Model/*.pm');
+}
+
 sub dummy ($class)
 {
 	croak "dummy only works on class context" if ref $class;

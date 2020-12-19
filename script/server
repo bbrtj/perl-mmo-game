@@ -1,10 +1,10 @@
 #!/usr/bin/env perl
 
 use Mojolicious::Lite -signatures;
-use Game::Common;
+use Game::Bootstrap;
 use Game::Worker;
 
-Game::Common->bootstrap(app, '../vars.conf');
+bootstrap(app);
 
 plugin 'Minion::Admin';
 

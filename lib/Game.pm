@@ -2,35 +2,28 @@ package Game;
 
 use header;
 use Mojo::Base 'Mojolicious';
-use Mojo::Pg;
 use Game::Common::Container;
-use Game::Common;
-use Game::Schema;
+use Game::Bootstrap;
 
 no header;
 
 # This method will run once at server start
 sub startup ($self)
 {
-	Game::Common->bootstrap($self, 'vars.conf');
-	Game::Schema->bootstrap;
+	my $config = bootstrap($self);
 
-	my $config = load_config($self);
+	load_config($self, $config);
 	load_commands($self, $config);
 	load_routes($self, $config);
 	load_plugins($self, $config);
 	load_helpers($self, $config);
 }
 
-sub load_config ($self)
+sub load_config ($self, $config)
 {
-	my $config = resolve('config');
-
 	# Configure the application
 	$self->mode($config->{mode} // "development");
 	$self->secrets($config->{secrets});
-
-	return $config;
 }
 
 sub load_commands ($self, $config)
