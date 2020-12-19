@@ -1,8 +1,10 @@
-package Game::Schema::Repository;
+package Game::Repository::Schema;
 
 use header;
 use Moo;
 use Game::Types qw(ConsumerOf);
+
+no header;
 
 sub _save ($self, $model, $update = 0)
 {
@@ -13,8 +15,6 @@ sub _save ($self, $model, $update = 0)
 	my $type = $update ? 'update' : 'save';
 	return resolve('dbc')->resultset($class->source_name)->$type($model->serialize);
 }
-
-no header;
 
 sub save ($self, $model)
 {

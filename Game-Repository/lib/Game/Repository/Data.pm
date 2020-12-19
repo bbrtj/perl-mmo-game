@@ -1,4 +1,4 @@
-package Game::Data::Repository;
+package Game::Repository::Data;
 
 use header;
 use Moo;

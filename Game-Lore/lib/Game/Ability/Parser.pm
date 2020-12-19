@@ -24,7 +24,7 @@ sub find_attribute ($type)
 
 sub parse ($class)
 {
-	my $data = resolve('game_data_repo')->load_ability_data;
+	my $data = resolve('repo')->data->load_ability_data;
 	my %loaded;
 
 	for my $row ($data->each) {

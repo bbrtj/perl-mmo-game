@@ -1,4 +1,4 @@
-package Game::Cache::Repository;
+package Game::Repository::Cache;
 
 use header;
 use Moo;
@@ -6,7 +6,7 @@ use Game::Common::Container;
 
 no header;
 
-package Inlined::Repository::CharacterCalc {
+package Game::Repository::Cache::CharCalc {
 	use Moo;
 	no header;
 
@@ -26,9 +26,9 @@ package Inlined::Repository::CharacterCalc {
 	}
 }
 
-sub character_calc ($class)
+sub char_calc ($class)
 {
-	return Inlined::Repository::CharacterCalc->new;
+	return Game::Repository::Cache::CharCalc->new;
 }
 
 1;

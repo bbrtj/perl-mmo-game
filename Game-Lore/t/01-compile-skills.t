@@ -5,8 +5,9 @@ use Test::More;
 use Mojo::Collection;
 use Game::Common::Container qw(add_to_container);
 use Game::Ability::Parser;
+use Game::RepositoryBase;
 
-package GameRepoMock {
+package DataRepoMock {
 	use Moo;
 
 	sub load_ability_data
@@ -67,7 +68,7 @@ package GameRepoMock {
 	}
 };
 
-add_to_container(game_data_repo => GameRepoMock->new);
+add_to_container(repo => Game::RepositoryBase->new(data => DataRepoMock->new));
 my $parsed = Game::Ability::Parser->parse;
 
 ok exists $parsed->{test};

@@ -9,9 +9,10 @@ export PERL5LIB="$dir/Game-Common/lib:$PERL5LIB"
 export PERL5LIB="$dir/Game-Worker/lib:$PERL5LIB"
 export PERL5LIB="$dir/Game-Lore/lib:$PERL5LIB"
 export PERL5LIB="$dir/Game-Schema/lib:$PERL5LIB"
+export PERL5LIB="$dir/Game-Repository/lib:$PERL5LIB"
 
 if [ "$1" == "test" ]; then
-	prove -l Game-Common/t Game-Worker/t Game-Lore/t Game-Schema/t t
+	prove -l Game-Common/t Game-Worker/t Game-Lore/t Game-Schema/t Game-Repository/t t
 elif [ "$1" == "tools" ]; then
 	cpanm Perl::Tidy Code::TidyAll Perl::Critic
 	mkdir -p .git/hooks
@@ -23,5 +24,5 @@ elif [ "$1" == "critic" ]; then
 else
 	script/server minion worker &
 	script/server daemon -l http://*:3001 &
-	morbo script/web -w lib templates Game-Common/lib Game-Worker/lib Game-Lore/lib Game-Schema/lib
+	morbo script/web -w lib templates Game-Common/lib Game-Worker/lib Game-Lore/lib Game-Schema/lib Game-Repository/lib
 fi

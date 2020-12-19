@@ -4,11 +4,11 @@ use header;
 use Exporter qw(import);
 use Game::Common;
 use Game::Schema;
+use Game::Model;
+use Game::Repository;
 use Game::Common::Container qw(set_container);
 use Mojo::Pg;
 use Mojo::File qw(curfile);
-use Game::Data::Repository;
-use Game::Cache::Repository;
 
 our @EXPORT = qw(
 	bootstrap
@@ -24,12 +24,11 @@ sub bootstrap ($app)
 		pg => $pg,
 		db => $pg->db,
 		minion => $app->minion,
-		game_data_repo => Game::Data::Repository->new,
-		cache_repo => Game::Cache::Repository->new,
 	);
 
 	Game::Schema->bootstrap;
 	Game::Model->bootstrap;
+	Game::Repository->bootstrap;
 
 	return $config;
 }
