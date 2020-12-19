@@ -16,6 +16,7 @@ WriteMakefile(
 		'Mojo::Pg' => 0,
 		'Minion' => 0,
 		'namespace::clean' => 0,
+		'Syntax::Keyword::Try' => 0,
 	},
 	AUTHOR => 'brtastic',
 );

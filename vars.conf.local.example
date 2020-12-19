@@ -1,5 +1,10 @@
 {
 	db => {
 		connection => 'postgres://root:root@localhost:5432/mojo',
+		host => 'localhost',
+		port => 5432,
+		username => 'root',
+		password => 'root',
+		database => 'mojo',
 	},
 }

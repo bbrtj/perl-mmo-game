@@ -12,7 +12,11 @@ export PERL5LIB="$dir/Game-Schema/lib:$PERL5LIB"
 export PERL5LIB="$dir/Game-Repository/lib:$PERL5LIB"
 
 if [ "$1" == "test" ]; then
-	prove -l Game-Common/t Game-Worker/t Game-Lore/t Game-Schema/t Game-Repository/t t
+	tests="Game-Common/t Game-Worker/t Game-Lore/t Game-Schema/t Game-Repository/t"
+	if [ "$2" != "unit" ]; then
+		tests="$tests t"
+	fi
+	prove -l $tests
 elif [ "$1" == "tools" ]; then
 	cpanm Perl::Tidy Code::TidyAll Perl::Critic
 	mkdir -p .git/hooks
