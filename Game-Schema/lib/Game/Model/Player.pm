@@ -2,7 +2,7 @@ package Game::Model::Player;
 
 use header;
 use Moose;
-use Game::Types qw(Uuid LoreId NonEmptySimpleStr Bool DateTime Maybe);
+use Game::Types qw(Uuid Bool DateTime Maybe);
 
 no header;
 
@@ -14,29 +14,10 @@ has 'user_id' => (
 	required => 1,
 );
 
-has 'class_id' => (
-	is => 'ro',
-	isa => LoreId,
-	required => 1,
-);
-
-has 'name' => (
-	is => 'ro',
-	isa => NonEmptySimpleStr->where(q{ length $_ <= 32 }),
-	required => 1,
-);
-
 has 'online' => (
 	is => 'ro',
 	isa => Bool,
 	default => sub { 0 },
-);
-
-has 'created_at' => (
-	is => 'ro',
-	isa => DateTime,
-	coerce => 1,
-	default => sub { time },
 );
 
 has 'last_online' => (
@@ -44,6 +25,13 @@ has 'last_online' => (
 	isa => Maybe [DateTime],
 	coerce => 1,
 	default => sub { undef },
+);
+
+has 'created_at' => (
+	is => 'ro',
+	isa => DateTime,
+	coerce => 1,
+	default => sub { time },
 );
 
 __PACKAGE__->_register;

@@ -46,30 +46,36 @@ CREATE TABLE gd_classes (
 		REFERENCES gd_lores(id)
 );
 
-CREATE TABLE gd_locations (
+CREATE TABLE gd_areas (
 	id VARCHAR(20) PRIMARY KEY,
-	pseudo BOOLEAN DEFAULT false,
 	CONSTRAINT fk_lore
 		FOREIGN KEY(id)
 		REFERENCES gd_lores(id)
 );
 
-CREATE INDEX ind_locations_lookup ON gd_locations (pseudo);
+CREATE TABLE gd_locations (
+	id VARCHAR(20) PRIMARY KEY,
+	area_id VARCHAR(20) NULL,
+	CONSTRAINT fk_area_id
+		FOREIGN KEY(area_id)
+		REFERENCES gd_areas(id),
+	CONSTRAINT fk_lore
+		FOREIGN KEY(id)
+		REFERENCES gd_lores(id)
+);
+
+CREATE INDEX ind_locations_lookup ON gd_locations (area_id);
 
 CREATE TABLE gd_location_paths (
 	id SERIAL PRIMARY KEY,
-	location_id VARCHAR(20) NOT NULL,
 	location_from_id VARCHAR(20) NOT NULL,
 	location_to_id VARCHAR(20) NOT NULL,
 	travel_distance FLOAT NOT NULL,
-	CONSTRAINT fk_location_id
-		FOREIGN KEY(location_id)
-		REFERENCES gd_locations(id),
 	CONSTRAINT fk_location_from_id
-		FOREIGN KEY(location_id)
+		FOREIGN KEY(location_from_id)
 		REFERENCES gd_locations(id),
 	CONSTRAINT fk_location_to_id
-		FOREIGN KEY(location_id)
+		FOREIGN KEY(location_to_id)
 		REFERENCES gd_locations(id)
 );
 
@@ -139,6 +145,7 @@ DROP TABLE gd_ability_attributes;
 DROP TABLE gd_location_paths;
 DROP TABLE gd_classes;
 DROP TABLE gd_locations;
+DROP TABLE gd_areas;
 DROP TABLE gd_lore_names;
 DROP TABLE gd_lore_descriptions;
 DROP TABLE gd_lores;

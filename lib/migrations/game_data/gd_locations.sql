@@ -1,3 +1,3 @@
-INSERT INTO gd_locations (id,pseudo) VALUES 
-('LOC_GMDUNG',false)
+INSERT INTO gd_locations (id) VALUES
+('LOC_GMDUNG')
 ;
