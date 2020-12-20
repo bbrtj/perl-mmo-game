@@ -41,7 +41,7 @@ sub _register ($class)
 
 sub serialize ($self)
 {
-	return {map { $_->name => $_->get_value($self) } grep { $_->has_value($self) } $self->meta->get_attribute_list};
+	return {map { $_->name => $_->get_value($self) } grep { $_->has_value($self) } $self->meta->get_all_attributes};
 }
 
 sub from_result ($class, $row)

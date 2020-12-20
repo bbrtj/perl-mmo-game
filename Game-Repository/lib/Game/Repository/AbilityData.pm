@@ -1,8 +1,12 @@
-package Game::Repository::Data;
+package Game::Repository::AbilityData;
 
 use header;
 use Moo;
 use Game::Common::Container;
+
+no header;
+
+with 'Game::Repository::Role::Resource';
 
 use constant ABILITY_LIST_FETCH_QUERY => <<'SQL';
 	SELECT
@@ -25,14 +29,14 @@ use constant ABILITY_LIST_FETCH_QUERY => <<'SQL';
 	JOIN gd_ability_effects aef ON (abi.id = aef.ability_id)
 SQL
 
-no header;
+sub save { ... }
 
-sub load_ability_data ($class)
+sub load ($self)
 {
 	my $db = resolve('db');
 	my $data = $db->query(ABILITY_LIST_FETCH_QUERY)->hashes;
 
-	return $data;
+	return $data->to_array;
 }
 
 1;

@@ -24,10 +24,10 @@ sub find_attribute ($type)
 
 sub parse ($class)
 {
-	my $data = resolve('repo')->data->load_ability_data;
+	my $data = resolve('repo')->ability_data->load;
 	my %loaded;
 
-	for my $row ($data->each) {
+	for my $row ($data->@*) {
 		if (!exists $loaded{$row->{id}}) {
 			$loaded{$row->{id}} = Game::Ability::Compiled->new(
 				attribute => find_attribute($row->{attribute}),

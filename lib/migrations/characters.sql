@@ -46,6 +46,7 @@ CREATE TABLE character_variables (
 CREATE INDEX ind_character_variables_lookup_location ON character_variables (location);
 
 -- this can be moved to redis later
+-- (no foreign key for this reason)
 CREATE TABLE character_calculations (
 	id uuid primary key,
 	level INT NOT NULL,
@@ -53,10 +54,7 @@ CREATE TABLE character_calculations (
 	health_regen FLOAT NOT NULL,
 	focus_max INT NOT NULL,
 	focus_regen FLOAT NOT NULL,
-	stats VARCHAR NOT NULL,
-	CONSTRAINT fk_character
-		FOREIGN KEY(id)
-		REFERENCES characters(id)
+	stats VARCHAR NOT NULL
 );
 
 -- 5 down

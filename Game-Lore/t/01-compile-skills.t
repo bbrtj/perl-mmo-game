@@ -10,9 +10,13 @@ use Game::RepositoryBase;
 package DataRepoMock {
 	use Moo;
 
-	sub load_ability_data
+	with 'Game::Repository::Role::Resource';
+
+	sub save { ... }
+
+	sub load
 	{
-		return Mojo::Collection->new(
+		return [
 			{
 				id => 'test',
 				attribute => 'ABA_FIRE',
@@ -64,11 +68,11 @@ package DataRepoMock {
 				value => 3,
 				deviation => undef,
 			}
-		);
+		];
 	}
 };
 
-add_to_container(repo => Game::RepositoryBase->new(data => DataRepoMock->new));
+add_to_container(repo => Game::RepositoryBase->new(ability_data => DataRepoMock->new));
 my $parsed = Game::Ability::Parser->parse;
 
 ok exists $parsed->{test};

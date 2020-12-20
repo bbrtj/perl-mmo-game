@@ -16,6 +16,9 @@ if [ "$1" == "test" ]; then
 	if [ "$2" != "unit" ]; then
 		tests="$tests t"
 	fi
+	if [ "$2" == "db" ]; then
+		tests=t
+	fi
 	prove -l $tests
 elif [ "$1" == "tools" ]; then
 	cpanm Perl::Tidy Code::TidyAll Perl::Critic

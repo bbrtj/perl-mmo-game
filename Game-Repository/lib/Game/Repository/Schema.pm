@@ -6,7 +6,9 @@ use Game::Types qw(ConsumerOf);
 
 no header;
 
-sub _save ($self, $model, $update = 0)
+with 'Game::Repository::Role::Resource';
+
+sub save ($self, $model, $update = 0)
 {
 	state $type_check = ConsumerOf ['Game::Model'];
 	$type_check->assert_valid($model);
@@ -16,15 +18,6 @@ sub _save ($self, $model, $update = 0)
 	return resolve('dbc')->resultset($class->source_name)->$type($model->serialize);
 }
 
-sub save ($self, $model)
-{
-	goto _save;
-}
-
-sub update ($self, $model)
-{
-	push @_, 1;
-	goto _save;
-}
+sub load { ... }
 
 1;
