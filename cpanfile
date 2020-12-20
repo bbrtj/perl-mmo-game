@@ -23,5 +23,3 @@ for my $module (@modules) {
 	requires $module, $version,
 		url => "${current_uri}/${filename}/${filename}-${version}.tar.gz";
 }
-
-requires 'Test::DB' => 0;

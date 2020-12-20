@@ -553,6 +553,62 @@ DISTRIBUTIONS
       strict 0
       warnings 0
       warnings::register 0
+  DateTime-Format-Builder-0.83
+    pathname: D/DR/DROLSKY/DateTime-Format-Builder-0.83.tar.gz
+    provides:
+      DateTime::Format::Builder 0.83
+      DateTime::Format::Builder::Parser 0.83
+      DateTime::Format::Builder::Parser::Dispatch 0.83
+      DateTime::Format::Builder::Parser::Quick 0.83
+      DateTime::Format::Builder::Parser::Regex 0.83
+      DateTime::Format::Builder::Parser::Strptime 0.83
+      DateTime::Format::Builder::Parser::generic 0.83
+    requirements:
+      Carp 0
+      DateTime 1.00
+      DateTime::Format::Strptime 1.04
+      ExtUtils::MakeMaker 0
+      Params::Validate 0.72
+      Scalar::Util 0
+      parent 0
+      strict 0
+      warnings 0
+  DateTime-Format-Pg-0.16013
+    pathname: D/DM/DMAKI/DateTime-Format-Pg-0.16013.tar.gz
+    provides:
+      DateTime::Format::Pg 0.16013
+    requirements:
+      DateTime 0.10
+      DateTime::Format::Builder 0.72
+      DateTime::TimeZone 0.05
+      ExtUtils::MakeMaker 6.36
+      Module::Build::Tiny 0.035
+      Test::More 0
+  DateTime-Format-Strptime-1.78
+    pathname: D/DR/DROLSKY/DateTime-Format-Strptime-1.78.tar.gz
+    provides:
+      DateTime::Format::Strptime 1.78
+      DateTime::Format::Strptime::Types 1.78
+    requirements:
+      Carp 0
+      DateTime 1.00
+      DateTime::Locale 1.30
+      DateTime::Locale::Base 0
+      DateTime::Locale::FromData 0
+      DateTime::TimeZone 2.09
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      Params::ValidationCompiler 0
+      Specio 0.33
+      Specio::Declare 0
+      Specio::Exporter 0
+      Specio::Library::Builtins 0
+      Specio::Library::String 0
+      Try::Tiny 0
+      constant 0
+      parent 0
+      strict 0
+      warnings 0
   DateTime-Locale-1.30
     pathname: D/DR/DROLSKY/DateTime-Locale-1.30.tar.gz
     provides:
@@ -1948,6 +2004,25 @@ DISTRIBUTIONS
       Scalar::Util 1.18
       XSLoader 0.22
       parent 0
+  Params-Validate-1.30
+    pathname: D/DR/DROLSKY/Params-Validate-1.30.tar.gz
+    provides:
+      Params::Validate 1.30
+      Params::Validate::Constants 1.30
+      Params::Validate::PP 1.30
+      Params::Validate::XS 1.30
+    requirements:
+      Carp 0
+      Exporter 0
+      ExtUtils::CBuilder 0
+      Module::Build 0.4227
+      Module::Implementation 0
+      Scalar::Util 1.10
+      XSLoader 0
+      perl 5.008001
+      strict 0
+      vars 0
+      warnings 0
   Params-ValidationCompiler-0.30
     pathname: D/DR/DROLSKY/Params-ValidationCompiler-0.30.tar.gz
     provides:

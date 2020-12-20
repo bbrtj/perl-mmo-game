@@ -4,6 +4,13 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
 	NAME => 'Game::Common',
 	VERSION_FROM => 'lib/Game/Common.pm',
+
+	TEST_REQUIRES => {
+		'Test::More' => 0,
+		'Test::DB' => 0,
+		'Test::Exception' => 0,
+	},
+
 	PREREQ_PM => {
 		'Moo' => 0,
 		'Moose' => 0,
@@ -17,6 +24,7 @@ WriteMakefile(
 		'Minion' => 0,
 		'namespace::clean' => 0,
 		'Syntax::Keyword::Try' => 0,
+		'DateTime::Format::Pg' => 0,
 	},
 	AUTHOR => 'brtastic',
 );

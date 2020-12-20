@@ -19,7 +19,7 @@ if [ "$1" == "test" ]; then
 	if [ "$2" == "db" ]; then
 		tests=t
 	fi
-	prove -l $tests
+	prove -l --verbose $tests
 elif [ "$1" == "tools" ]; then
 	cpanm Perl::Tidy Code::TidyAll Perl::Critic
 	mkdir -p .git/hooks

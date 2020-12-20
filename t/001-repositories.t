@@ -2,15 +2,17 @@ use v5.30;
 use warnings;
 
 use Test::More;
+use Test::Exception;
 use Game::Ability::Parser;
 use Game::Common::Container;
 use Game::Model::CharacterCache;
+use Game::Model::User;
 use lib 't/lib';
 use DatabaseTest;
 
 DatabaseTest->test(
 	sub {
-		# uses Game::Repository::AbilityData
+		### uses Game::Repository::AbilityData
 		my $parsed = Game::Ability::Parser->parse;
 		ok exists $parsed->{ABI_STRIKE},
 			'ability got compiled';
@@ -23,7 +25,7 @@ DatabaseTest->test(
 		is scalar $ability->effect_table->[0]->@*, 2,
 			'ability has two effects';
 
-		# test Game::Repository::CharCache
+		### test Game::Repository::CharCache
 		my $char_repo = resolve('repo')->char_cache;
 		ok $char_repo, 'character cache repo resolve ok';
 
@@ -45,6 +47,28 @@ DatabaseTest->test(
 
 		$data->{health_max} += 5;
 		ok $char_repo->save($data), 'update ok';
+
+		### test Game::Repository::Schema
+		my $user = Game::Model::User->dummy->new(
+			email => 'brtastic.dev@gmail.com',
+		);
+
+		$user->set_password('test');
+		my $schema_repo = resolve('repo')->schema;
+		ok $schema_repo, 'schema repo resolve ok';
+
+		dies_ok { $schema_repo->save($user) } 'dummies cannot be saved';
+
+		$user->promote;
+		lives_ok { $schema_repo->save($user) } 'non-dummies can be saved';
+
+		my $fetched = $schema_repo->load(User => $user->id);
+		is_deeply $fetched->serialize, $user->serialize, 'after save ok';
+
+		$user->set_password('test2');
+		lives_ok { $schema_repo->save($user, 1) } 'update ok';
+		$fetched = $schema_repo->load(User => $user->id);
+		is_deeply $fetched->serialize, $user->serialize, 'after update ok';
 	}
 );
 
