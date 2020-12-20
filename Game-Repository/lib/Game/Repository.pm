@@ -2,16 +2,16 @@ package Game::Repository;
 
 use header;
 use Moo;
+use Game::Common;
 use Game::Common::Container qw(add_to_container);
-use Game::Repository::CharCache;
-use Game::Repository::AbilityData;
-use Game::Repository::Schema;
 
 no header;
 
 extends 'Game::RepositoryBase';
 
 our $VERSION = "0.001";
+
+Game::Common->load_classes('Game::Repository', 'Repository/*.pm');
 
 has '+char_cache' => (
 	default => sub { Game::Repository::CharCache->new },
@@ -23,6 +23,14 @@ has '+ability_data' => (
 
 has '+schema' => (
 	default => sub { Game::Repository::Schema->new },
+);
+
+has '+actor_unit' => (
+	default => sub { Game::Repository::ActorUnit->new },
+);
+
+has '+battle_unit' => (
+	default => sub { Game::Repository::BattleUnit->new },
 );
 
 sub bootstrap ($class)

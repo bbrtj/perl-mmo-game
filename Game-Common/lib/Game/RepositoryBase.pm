@@ -21,4 +21,14 @@ has 'schema' => (
 	isa => ConsumerOf ['Game::Repository::Role::Resource'],
 );
 
+has 'actor_unit' => (
+	is => 'ro',
+	isa => ConsumerOf ['Game::Repository::Role::Resource'],
+);
+
+has 'battle_unit' => (
+	is => 'ro',
+	isa => ConsumerOf ['Game::Repository::Role::Resource'],
+);
+
 1;

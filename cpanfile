@@ -9,6 +9,7 @@ my @modules = qw(
 	Game::Lore
 	Game::Schema
 	Game::Repository
+	Game::Unit
 );
 
 # cpanfile mostly requests modules, real dependencies are in makefiles
