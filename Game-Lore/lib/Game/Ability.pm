@@ -1,28 +1,25 @@
-package Game::Ability::Parser;
+package Game::Ability;
 
 use header;
-use Game::Common;
+use Moo::Role;
 use Game::Common::Container;
 use Game::Ability::Compiled;
 use Game::Ability::Compiled::Effect;
+use Game::Ability::EffectType;
+use Game::Ability::Attribute;
 
-sub find_effect_type ($type)
+no header;
+
+with 'Game::LoreElement';
+
+sub get ($self, $ability = undef)
 {
-	state $list =
-		{map { $_->lore_id => $_->new } Game::Common->load_classes('Game::Ability::EffectType', 'EffectType/*.pm')};
+	state $abilities = $self->_parse;
 
-	return $list->{$type};
+	return defined $ability ? $abilities->{$ability} : $abilities;
 }
 
-sub find_attribute ($type)
-{
-	state $list =
-		{map { $_->lore_id => $_->new } Game::Common->load_classes('Game::Ability::Attribute', 'Attribute/*.pm')};
-
-	return $list->{$type};
-}
-
-sub parse ($class)
+sub _parse ($self)
 {
 	my $data = resolve('repo')->ability_data->load;
 	my %loaded;
@@ -30,7 +27,7 @@ sub parse ($class)
 	for my $row ($data->@*) {
 		if (!exists $loaded{$row->{id}}) {
 			$loaded{$row->{id}} = Game::Ability::Compiled->new(
-				attribute => find_attribute($row->{attribute}),
+				attribute => Game::Ability::Attribute->get($row->{attribute}),
 				$row->%{
 					qw(
 						id
@@ -47,8 +44,8 @@ sub parse ($class)
 
 		$loaded{$row->{id}}->group($row->{effect_group})->add_effect(
 			Game::Ability::Compiled::Effect->new(
-				effect_type => find_effect_type($row->{effect_type}),
-				attribute => find_attribute($row->{effect_attribute}),
+				effect_type => Game::Ability::EffectType->get($row->{effect_type}),
+				attribute => Game::Ability::Attribute->get($row->{effect_attribute}),
 				$row->%{
 					qw(
 						value deviation

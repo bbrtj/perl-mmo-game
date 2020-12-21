@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More;
 use Test::Exception;
-use Game::Ability::Parser;
+use Game::Ability;
 use Game::Common::Container;
 use Game::Model::CharacterCache;
 use Game::Model::User;
@@ -13,7 +13,7 @@ use DatabaseTest;
 DatabaseTest->test(
 	sub {
 		### uses Game::Repository::AbilityData
-		my $parsed = Game::Ability::Parser->parse;
+		my $parsed = Game::Ability->get;
 		ok exists $parsed->{ABI_STRIKE},
 			'ability got compiled';
 

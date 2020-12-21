@@ -2,10 +2,22 @@ package Game::Ability::Compiled;
 
 use header;
 use Moo;
-use Game::Types qw(ArrayRef HashRef InstanceOf ConsumerOf Maybe Bool PositiveInt PositiveOrZeroInt);
+use Game::Types qw(LoreId ArrayRef HashRef InstanceOf ConsumerOf Maybe Bool PositiveInt PositiveOrZeroInt);
 use Game::Ability::Compiled::Group;
 
 no header;
+
+with 'Game::Ability';
+
+has 'id' => (
+	is => 'ro',
+	isa => LoreId,
+);
+
+sub lore_id ($self)
+{
+	return $self->_lore_id;
+}
 
 has 'groups' => (
 	is => 'ro',

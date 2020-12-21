@@ -4,6 +4,6 @@ use warnings;
 use Test::More;
 
 use_ok('Game::Lore');
-use_ok('Game::Ability::Parser');
+use_ok('Game::Ability');
 
 done_testing;

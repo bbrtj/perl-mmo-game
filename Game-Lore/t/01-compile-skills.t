@@ -4,7 +4,7 @@ use warnings;
 use Test::More;
 use Mojo::Collection;
 use Game::Common::Container qw(add_to_container);
-use Game::Ability::Parser;
+use Game::Ability;
 use Game::RepositoryBase;
 
 package DataRepoMock {
@@ -73,7 +73,7 @@ package DataRepoMock {
 };
 
 add_to_container(repo => Game::RepositoryBase->new(ability_data => DataRepoMock->new));
-my $parsed = Game::Ability::Parser->parse;
+my $parsed = Game::Ability->get;
 
 ok exists $parsed->{test};
 is scalar keys $parsed->%*, 1;
