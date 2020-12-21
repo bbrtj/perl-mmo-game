@@ -6,27 +6,16 @@ use Game::Types qw(ConsumerOf);
 
 no header;
 
-has 'char_cache' => (
-	is => 'ro',
-	isa => ConsumerOf ['Game::Repository::Role::Resource'],
-);
-
-has 'ability_data' => (
-	is => 'ro',
-	isa => ConsumerOf ['Game::Repository::Role::Resource'],
-);
-
-has 'schema' => (
-	is => 'ro',
-	isa => ConsumerOf ['Game::Repository::Role::Resource'],
-);
-
-has 'actor_unit' => (
-	is => 'ro',
-	isa => ConsumerOf ['Game::Repository::Role::Resource'],
-);
-
-has 'battle_unit' => (
+has [
+	qw(
+		char_cache
+		ability_data
+		class_data
+		schema
+		actor_unit
+		battle_unit
+		)
+] => (
 	is => 'ro',
 	isa => ConsumerOf ['Game::Repository::Role::Resource'],
 );

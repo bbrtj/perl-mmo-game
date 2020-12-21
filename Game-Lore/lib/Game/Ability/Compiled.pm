@@ -16,7 +16,7 @@ has 'id' => (
 
 sub lore_id ($self)
 {
-	return $self->_lore_id;
+	return $self->id;
 }
 
 has 'groups' => (

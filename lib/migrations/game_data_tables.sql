@@ -39,49 +39,6 @@ CREATE TABLE gd_lore_descriptions (
 
 CREATE INDEX ind_lore_descriptions_lookup ON gd_lore_descriptions (language_id, lore_id);
 
-CREATE TABLE gd_classes (
-	id VARCHAR(20) PRIMARY KEY,
-	CONSTRAINT fk_lore
-		FOREIGN KEY(id)
-		REFERENCES gd_lores(id)
-);
-
-CREATE TABLE gd_areas (
-	id VARCHAR(20) PRIMARY KEY,
-	CONSTRAINT fk_lore
-		FOREIGN KEY(id)
-		REFERENCES gd_lores(id)
-);
-
-CREATE TABLE gd_locations (
-	id VARCHAR(20) PRIMARY KEY,
-	area_id VARCHAR(20) NULL,
-	CONSTRAINT fk_area_id
-		FOREIGN KEY(area_id)
-		REFERENCES gd_areas(id),
-	CONSTRAINT fk_lore
-		FOREIGN KEY(id)
-		REFERENCES gd_lores(id)
-);
-
-CREATE INDEX ind_locations_lookup ON gd_locations (area_id);
-
-CREATE TABLE gd_location_paths (
-	id SERIAL PRIMARY KEY,
-	location_from_id VARCHAR(20) NOT NULL,
-	location_to_id VARCHAR(20) NOT NULL,
-	travel_distance FLOAT NOT NULL,
-	CONSTRAINT fk_location_from_id
-		FOREIGN KEY(location_from_id)
-		REFERENCES gd_locations(id),
-	CONSTRAINT fk_location_to_id
-		FOREIGN KEY(location_to_id)
-		REFERENCES gd_locations(id)
-);
-
-CREATE INDEX ind_location_paths_lookup_1 ON gd_location_paths (location_from_id, location_to_id);
-CREATE INDEX ind_location_paths_lookup_2 ON gd_location_paths (location_to_id);
-
 CREATE TABLE gd_ability_effect_types (
 	id VARCHAR(20) PRIMARY KEY,
 	CONSTRAINT fk_lore
@@ -136,8 +93,75 @@ CREATE TABLE gd_ability_effects (
 
 CREATE INDEX ind_ability_effects_lookup ON gd_ability_effects (ability_id, effect_group);
 
+CREATE TABLE gd_classes (
+	id VARCHAR(20) PRIMARY KEY,
+	playable BOOLEAN NOT NULL,
+	base_health INT NOT NULL,
+	health_per_level INT NOT NULL,
+	base_health_regen FLOAT NOT NULL,
+	health_regen_per_level FLOAT NOT NULL,
+	base_focus INT NOT NULL,
+	focus_per_level INT NOT NULL,
+	base_focus_regen FLOAT NOT NULL,
+	focus_regen_per_level FLOAT NOT NULL,
+	base_stats VARCHAR NOT NULL,
+	stats_per_level VARCHAR NOT NULL,
+	CONSTRAINT fk_lore
+		FOREIGN KEY(id)
+		REFERENCES gd_lores(id)
+);
+
+CREATE TABLE gd_class_abilities (
+	class_id VARCHAR(20) NOT NULL,
+	ability_id VARCHAR(20) NOT NULL,
+	CONSTRAINT fk_class
+		FOREIGN KEY(class_id)
+		REFERENCES gd_classes(id),
+	CONSTRAINT fk_ability
+		FOREIGN KEY(ability_id)
+		REFERENCES gd_abilities(id),
+	PRIMARY KEY (class_id, ability_id)
+);
+
+CREATE TABLE gd_areas (
+	id VARCHAR(20) PRIMARY KEY,
+	CONSTRAINT fk_lore
+		FOREIGN KEY(id)
+		REFERENCES gd_lores(id)
+);
+
+CREATE TABLE gd_locations (
+	id VARCHAR(20) PRIMARY KEY,
+	area_id VARCHAR(20) NULL,
+	CONSTRAINT fk_area_id
+		FOREIGN KEY(area_id)
+		REFERENCES gd_areas(id),
+	CONSTRAINT fk_lore
+		FOREIGN KEY(id)
+		REFERENCES gd_lores(id)
+);
+
+CREATE INDEX ind_locations_lookup ON gd_locations (area_id);
+
+CREATE TABLE gd_location_paths (
+	id SERIAL PRIMARY KEY,
+	location_from_id VARCHAR(20) NOT NULL,
+	location_to_id VARCHAR(20) NOT NULL,
+	travel_distance FLOAT NOT NULL,
+	CONSTRAINT fk_location_from_id
+		FOREIGN KEY(location_from_id)
+		REFERENCES gd_locations(id),
+	CONSTRAINT fk_location_to_id
+		FOREIGN KEY(location_to_id)
+		REFERENCES gd_locations(id)
+);
+
+CREATE INDEX ind_location_paths_lookup_1 ON gd_location_paths (location_from_id, location_to_id);
+CREATE INDEX ind_location_paths_lookup_2 ON gd_location_paths (location_to_id);
+
 -- 1 down
 
+DROP TABLE gd_class_abilities;
 DROP TABLE gd_ability_effects;
 DROP TABLE gd_abilities;
 DROP TABLE gd_ability_effect_types;

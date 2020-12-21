@@ -21,6 +21,10 @@ has '+ability_data' => (
 	default => sub { Game::Repository::AbilityData->new },
 );
 
+has '+class_data' => (
+	default => sub { Game::Repository::ClassData->new },
+);
+
 has '+schema' => (
 	default => sub { Game::Repository::Schema->new },
 );
