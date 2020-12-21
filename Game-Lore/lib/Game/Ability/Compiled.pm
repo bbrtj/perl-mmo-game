@@ -119,6 +119,4 @@ sub group ($self, $number)
 	return $self->groups->{$number};
 }
 
-# TODO: also compile talents
-
 1;
