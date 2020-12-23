@@ -5,7 +5,7 @@ use Moo;
 
 with 'Game::Character::Rating';
 
-use constant lore_id => 'RAT_MCC';
+use constant lore_id => 'RAT_MCRC';
 
 1;
 
