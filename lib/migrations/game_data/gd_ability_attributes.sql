@@ -1,4 +1,4 @@
-INSERT INTO gd_ability_attributes (id) VALUES
+INSERT INTO gd_ability_attributes (id) VALUES 
 ('ABA_PHYS')
 ,('ABA_ELEM')
 ,('ABA_MENT')

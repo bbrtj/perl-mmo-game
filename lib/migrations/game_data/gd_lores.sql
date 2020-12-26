@@ -42,4 +42,25 @@ INSERT INTO gd_lores (id) VALUES
 ,('ABA_SOUND')
 ,('ABA_VVV')
 ,('ABI_STRIKE')
+,('RAT_CRC')
+,('RAT_CRD')
+,('RAT_MCRC')
+;
+INSERT INTO gd_lores (id) VALUES 
+('RAT_MCRD')
+,('RAT_DOD')
+,('RAT_END')
+,('RAT_WIL')
+,('STT_AGI')
+,('STT_CHA')
+,('STT_STR')
+,('STT_INT')
+,('STT_CON')
+,('STT_INI')
+;
+INSERT INTO gd_lores (id) VALUES 
+('STT_SPE')
+,('STT_LUC')
+,('STT_TEN')
+,('STT_STA')
 ;

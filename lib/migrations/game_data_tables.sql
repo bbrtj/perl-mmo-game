@@ -159,8 +159,26 @@ CREATE TABLE gd_location_paths (
 CREATE INDEX ind_location_paths_lookup_1 ON gd_location_paths (location_from_id, location_to_id);
 CREATE INDEX ind_location_paths_lookup_2 ON gd_location_paths (location_to_id);
 
+CREATE TABLE gd_ratings (
+	id VARCHAR(20) PRIMARY KEY,
+	CONSTRAINT fk_lore
+		FOREIGN KEY(id)
+		REFERENCES gd_lores(id)
+);
+
+CREATE TABLE gd_statistics (
+	id VARCHAR(20) PRIMARY KEY,
+	is_primary BOOLEAN NOT NULL,
+	CONSTRAINT fk_lore
+		FOREIGN KEY(id)
+		REFERENCES gd_lores(id)
+);
+
+
 -- 1 down
 
+DROP TABLE gd_ratings;
+DROP TABLE gd_statistics;
 DROP TABLE gd_class_abilities;
 DROP TABLE gd_ability_effects;
 DROP TABLE gd_abilities;

@@ -1,3 +1,3 @@
-INSERT INTO gd_locations (id) VALUES
-('LOC_GMDUNG')
+INSERT INTO gd_locations (id,area_id) VALUES 
+('LOC_GMDUNG',NULL)
 ;
