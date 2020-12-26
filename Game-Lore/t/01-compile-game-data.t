@@ -20,7 +20,7 @@ package AbilityRepoMock {
 		return [
 			{
 				id => 'test',
-				attribute => 'ABA_FIRE',
+				attribute => 'ABA_ELEM',
 				passive => 0,
 				cost => 0,
 				cooldown => 5,
@@ -37,7 +37,7 @@ package AbilityRepoMock {
 			},
 			{
 				id => 'test',
-				attribute => 'ABA_FIRE',
+				attribute => 'ABA_ELEM',
 				passive => 0,
 				cost => 0,
 				cooldown => 5,
@@ -54,7 +54,7 @@ package AbilityRepoMock {
 			},
 			{
 				id => 'test',
-				attribute => 'ABA_FIRE',
+				attribute => 'ABA_ELEM',
 				passive => 0,
 				cost => 0,
 				cooldown => 5,
@@ -118,7 +118,7 @@ ABILITIES: {
 	my $subject = $parsed->{test};
 
 	isa_ok $subject, "Game::Ability::Compiled";
-	isa_ok $subject->attribute, "Game::Ability::Attribute::Fire";
+	isa_ok $subject->attribute, "Game::Ability::Attribute::Elemental";
 	ok !$subject->passive;
 	is $subject->cost, 0;
 	is $subject->cooldown, 5;
