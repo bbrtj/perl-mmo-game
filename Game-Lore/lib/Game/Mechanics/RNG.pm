@@ -1,15 +1,12 @@
-package Game::Mechanics::Battle::Range;
+package Game::Mechanics::RNG;
 
 use header;
-use Game::Types qw(InstanceOf);
-
-use BATTLE_TYPE => InstanceOf ['Game::Unit::Battle'];
+use Game::RNG;
 
 no header;
 
 sub is_within_map ($self, $battle, @position)
 {
-	BATTLE_TYPE->assert_valid($battle);
 	my ($x, $y) = @position;
 	my ($mx, $my) = ($battle->battle->size_x, $battle->battle->size_y);
 
@@ -19,7 +16,7 @@ sub is_within_map ($self, $battle, @position)
 
 sub can_move_to ($self, $battle, $id, @position)
 {
-	return is_within_map($battle);
 }
 
 1;
+

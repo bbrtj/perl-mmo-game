@@ -170,6 +170,13 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  Crypt-Rijndael-1.15
+    pathname: L/LE/LEONT/Crypt-Rijndael-1.15.tar.gz
+    provides:
+      Crypt::Rijndael 1.15
+    requirements:
+      ExtUtils::MakeMaker 0
+      perl 5.006
   DBD-Pg-3.14.2
     pathname: T/TU/TURNSTEP/DBD-Pg-3.14.2.tar.gz
     provides:
@@ -435,6 +442,48 @@ DISTRIBUTIONS
       Exporter 0
       ExtUtils::MakeMaker 0
       perl 5.006
+  Data-Entropy-0.007
+    pathname: Z/ZE/ZEFRAM/Data-Entropy-0.007.tar.gz
+    provides:
+      Data::Entropy 0.007
+      Data::Entropy::Algorithms 0.007
+      Data::Entropy::RawSource::CryptCounter 0.007
+      Data::Entropy::RawSource::Local 0.007
+      Data::Entropy::RawSource::RandomOrg 0.007
+      Data::Entropy::RawSource::RandomnumbersInfo 0.007
+      Data::Entropy::Source 0.007
+    requirements:
+      Carp 0
+      Crypt::Rijndael 0
+      Data::Float 0.008
+      Errno 1.00
+      Exporter 0
+      HTTP::Lite 2.2
+      IO::File 1.03
+      Module::Build 0
+      Params::Classify 0
+      Test::More 0
+      constant 0
+      integer 0
+      parent 0
+      perl 5.006
+      strict 0
+      warnings 0
+  Data-Float-0.013
+    pathname: Z/ZE/ZEFRAM/Data-Float-0.013.tar.gz
+    provides:
+      Data::Float 0.013
+    requirements:
+      Carp 0
+      Exporter 0
+      Module::Build 0
+      Test::More 0
+      constant 0
+      integer 0
+      parent 0
+      perl 5.006
+      strict 0
+      warnings 0
   Data-Object-Attributes-0.06
     pathname: A/AW/AWNCORP/Data-Object-Attributes-0.06.tar.gz
     provides:
@@ -1205,6 +1254,17 @@ DISTRIBUTIONS
       perl 5.014000
       strict 0
       warnings 0
+  HTTP-Lite-2.44
+    pathname: N/NE/NEILB/HTTP-Lite-2.44.tar.gz
+    provides:
+      HTTP::Lite 2.44
+    requirements:
+      ExtUtils::MakeMaker 0
+      Fcntl 0
+      Socket 1.3
+      perl 5.005
+      strict 0
+      warnings 0
   Hash-Merge-0.302
     pathname: H/HE/HERMES/Hash-Merge-0.302.tar.gz
     provides:
@@ -1214,6 +1274,29 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.64
       Scalar::Util 0
       perl 5.008001
+  List-MoreUtils-0.430
+    pathname: R/RE/REHSACK/List-MoreUtils-0.430.tar.gz
+    provides:
+      List::MoreUtils 0.430
+      List::MoreUtils::PP 0.430
+    requirements:
+      Exporter::Tiny 0.038
+      ExtUtils::MakeMaker 0
+      List::MoreUtils::XS 0.430
+  List-MoreUtils-XS-0.430
+    pathname: R/RE/REHSACK/List-MoreUtils-XS-0.430.tar.gz
+    provides:
+      List::MoreUtils::XS 0.430
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      File::Basename 0
+      File::Copy 0
+      File::Path 0
+      File::Spec 0
+      IPC::Cmd 0
+      XSLoader 0.22
+      base 0
   MRO-Compat-0.13
     pathname: H/HA/HAARG/MRO-Compat-0.13.tar.gz
     provides:
@@ -1988,6 +2071,19 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
+  Params-Classify-0.015
+    pathname: Z/ZE/ZEFRAM/Params-Classify-0.015.tar.gz
+    provides:
+      Params::Classify 0.015
+    requirements:
+      Exporter 0
+      Module::Build 0
+      Scalar::Util 1.01
+      Test::More 0
+      parent 0
+      perl 5.006001
+      strict 0
+      warnings 0
   Params-Util-1.102
     pathname: R/RE/REHSACK/Params-Util-1.102.tar.gz
     provides:
@@ -2066,6 +2162,29 @@ DISTRIBUTIONS
       overload 0
       parent 0
       strict 0
+  Quantum-Superpositions-Lazy-1.02
+    pathname: B/BR/BRTASTIC/Quantum-Superpositions-Lazy-1.02.tar.gz
+    provides:
+      Quantum::Superpositions::Lazy 1.02
+      Quantum::Superpositions::Lazy::Computation 1.02
+      Quantum::Superpositions::Lazy::ComputedState 1.02
+      Quantum::Superpositions::Lazy::Operation::ComputationalOp 1.02
+      Quantum::Superpositions::Lazy::Operation::LogicOp 1.02
+      Quantum::Superpositions::Lazy::Role::Collapsible 1.02
+      Quantum::Superpositions::Lazy::Role::Operation 1.02
+      Quantum::Superpositions::Lazy::State 1.02
+      Quantum::Superpositions::Lazy::Statistics 1.02
+      Quantum::Superpositions::Lazy::Superposition 1.02
+      Quantum::Superpositions::Lazy::Util 1.02
+    requirements:
+      Data::Entropy 0
+      ExtUtils::MakeMaker 0
+      List::MoreUtils 0
+      Moo 0
+      Sort::Key 0
+      Type::Tiny 0
+      namespace::clean 0
+      perl 5.028
   Readonly-2.05
     pathname: S/SA/SANKO/Readonly-2.05.tar.gz
     provides:
@@ -2130,6 +2249,18 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0
       perl 5.006001
+  Sort-Key-1.33
+    pathname: S/SA/SALVA/Sort-Key-1.33.tar.gz
+    provides:
+      Sort::Key 1.33
+      Sort::Key::Maker 0.02
+      Sort::Key::Multi 1.30
+      Sort::Key::Natural 0.04
+      Sort::Key::Register 1.30
+      Sort::Key::Types 1.30
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::More 0.54
   Specio-0.46
     pathname: D/DR/DROLSKY/Specio-0.46.tar.gz
     provides:
