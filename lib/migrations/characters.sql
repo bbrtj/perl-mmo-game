@@ -37,7 +37,7 @@ CREATE TABLE character_variables (
 	experience BIGINT NOT NULL DEFAULT 0,
 	location VARCHAR(20) NOT NULL,
 	health FLOAT NOT NULL,
-	focus FLOAT NOT NULL,
+	mana FLOAT NOT NULL,
 	CONSTRAINT fk_character
 		FOREIGN KEY(id)
 		REFERENCES characters(id)
@@ -52,8 +52,8 @@ CREATE TABLE character_calculations (
 	level INT NOT NULL,
 	health_max INT NOT NULL,
 	health_regen FLOAT NOT NULL,
-	focus_max INT NOT NULL,
-	focus_regen FLOAT NOT NULL,
+	mana_max INT NOT NULL,
+	mana_regen FLOAT NOT NULL,
 	stats VARCHAR NOT NULL
 );
 

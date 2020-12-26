@@ -23,12 +23,12 @@ has 'health_regen' => (
 	isa => Num,
 );
 
-has 'focus_max' => (
+has 'mana_max' => (
 	is => 'ro',
 	isa => PositiveInt,
 );
 
-has 'focus_regen' => (
+has 'mana_regen' => (
 	is => 'ro',
 	isa => Num,
 );

@@ -16,10 +16,10 @@ use constant CLASS_LIST_FETCH_QUERY => <<'SQL';
 		cla.health_per_level,
 		cla.base_health_regen,
 		cla.health_per_level,
-		cla.base_focus,
-		cla.focus_per_level,
-		cla.base_focus_regen,
-		cla.focus_regen_per_level,
+		cla.base_mana,
+		cla.mana_per_level,
+		cla.base_mana_regen,
+		cla.mana_regen_per_level,
 		cla.base_stats
 		cla.stats_per_level,
 		cab.ability_id as ability

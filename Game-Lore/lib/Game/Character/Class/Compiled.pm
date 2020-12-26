@@ -57,25 +57,25 @@ has 'health_regen_per_level' => (
 	required => 1,
 );
 
-has 'base_focus' => (
+has 'base_mana' => (
 	is => 'ro',
 	isa => PositiveInt,
 	required => 1,
 );
 
-has 'focus_per_level' => (
+has 'mana_per_level' => (
 	is => 'ro',
 	isa => PositiveInt,
 	required => 1,
 );
 
-has 'base_focus_regen' => (
+has 'base_mana_regen' => (
 	is => 'ro',
 	isa => Num,
 	required => 1,
 );
 
-has 'focus_regen_per_level' => (
+has 'mana_regen_per_level' => (
 	is => 'ro',
 	isa => Num,
 	required => 1,

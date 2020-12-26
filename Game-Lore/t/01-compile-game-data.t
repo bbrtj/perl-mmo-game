@@ -90,10 +90,10 @@ package ClassRepoMock {
 				health_per_level => 100,
 				base_health_regen => 100,
 				health_regen_per_level => 100,
-				base_focus => 1,
-				focus_per_level => 100,
-				base_focus_regen => 100.1,
-				focus_regen_per_level => 100,
+				base_mana => 1,
+				mana_per_level => 100,
+				base_mana_regen => 100.1,
+				mana_regen_per_level => 100,
 				base_stats => 'STT_INT:50',
 				stats_per_level => 'STT_INT:20',
 				ability => 'test',
@@ -168,7 +168,7 @@ CLASSES: {
 
 	isa_ok $subject, "Game::Character::Class::Compiled";
 	is $subject->playable, 1, 'playable ok';
-	is $subject->base_focus_regen, '100.1', 'focus regen ok';
+	is $subject->base_mana_regen, '100.1', 'mana regen ok';
 
 	$subject = $subject->abilities;
 	is scalar $subject->@*, 1, 'class ability count ok';

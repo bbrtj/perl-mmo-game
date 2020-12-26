@@ -8,7 +8,7 @@ my $data = {
 	experience => 100000,
 	location => "TEST",
 	health => 100,
-	focus => 30,
+	mana => 30,
 };
 
 my $vars = Game::Model::CharacterVariables->new($data);

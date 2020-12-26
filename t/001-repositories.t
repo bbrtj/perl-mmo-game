@@ -33,8 +33,8 @@ DatabaseTest->test(
 			level => 5,
 			health_max => 300,
 			health_regen => 1.5,
-			focus_max => 150,
-			focus_regen => 6,
+			mana_max => 150,
+			mana_regen => 6,
 			stats => 'STT_STR:30;STT_AGI:19;STT_INT:10;STT_STA:25',
 		};
 

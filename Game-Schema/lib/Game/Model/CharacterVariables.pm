@@ -27,7 +27,7 @@ has 'health' => (
 	required => 1,
 );
 
-has 'focus' => (
+has 'mana' => (
 	is => 'ro',
 	isa => Num,
 	required => 1,

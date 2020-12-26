@@ -30,8 +30,8 @@ sub _parse ($self)
 						id playable
 						base_health health_per_level
 						base_health_regen health_regen_per_level
-						base_focus focus_per_level
-						base_focus_regen focus_regen_per_level
+						base_mana mana_per_level
+						base_mana_regen mana_regen_per_level
 						base_stats stats_per_level
 						)
 				}
