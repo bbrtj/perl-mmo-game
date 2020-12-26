@@ -25,6 +25,10 @@ has '+class_data' => (
 	default => sub { Game::Repository::ClassData->new },
 );
 
+has '+lore_data' => (
+	default => sub { Game::Repository::LoreData->new },
+);
+
 has '+schema' => (
 	default => sub { Game::Repository::Schema->new },
 );

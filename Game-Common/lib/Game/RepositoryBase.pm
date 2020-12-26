@@ -11,6 +11,7 @@ has [
 		char_cache
 		ability_data
 		class_data
+		lore_data
 		schema
 		actor_unit
 		battle_unit

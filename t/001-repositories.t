@@ -7,8 +7,11 @@ use Game::Ability;
 use Game::Common::Container;
 use Game::Model::CharacterCache;
 use Game::Model::User;
+use Game::Character::Statistic;
 use lib 't/lib';
 use DatabaseTest;
+
+use utf8;
 
 DatabaseTest->test(
 	sub {
@@ -24,6 +27,10 @@ DatabaseTest->test(
 			'ability has a single group';
 		is scalar $ability->effect_table->[0]->@*, 2,
 			'ability has two effects';
+
+		### uses Game::Repository::LoreData
+		my $class = Game::Character::Statistic->get('STT_STR');
+		is $class->lore_name, 'Siła', 'lore name ok';
 
 		### test Game::Repository::CharCache
 		my $char_repo = resolve('repo')->char_cache;
