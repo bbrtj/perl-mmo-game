@@ -6,8 +6,8 @@ use Moo;
 with 'Game::Character::Statistic';
 
 use constant lore_id => 'STT_INT';
-use constant mana_pp => 3;
-use constant misc_crit_damage_pp => 0.5;
+use constant primary_bonus => 3;    # mana
+use constant secondary_bonus => 0.5;    # misc crit dmg
 
 1;
 

@@ -9,3 +9,9 @@ d&d system: all secondary stats start at 6, no effect at 10, increase to 12 at c
 1.16 / 0.92 = 1.26087
 
 perl -e 'print "$_: " . int(100 * 2 ** (2 * $_ ** 0.57)) . "\n" for 1 .. 50'
+
+combat:
+  - movement and skill use in single turn
+  - can only move part of the distance to still attack this turn
+  - some skills require you to be stationary (cannot move in the same turn)
+  - some skills are instant (do not waste turn, can be used after moving full distance)

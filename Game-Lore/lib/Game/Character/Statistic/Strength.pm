@@ -6,8 +6,8 @@ use Moo;
 with 'Game::Character::Statistic';
 
 use constant lore_id => 'STT_STR';
-use constant endurance_pp => 1;
-use constant crit_damage_pp => 0.5;
+use constant primary_bonus => 1;    # endurance
+use constant secondary_bonus => 0.5;    # critical strike damage
 
 1;
 

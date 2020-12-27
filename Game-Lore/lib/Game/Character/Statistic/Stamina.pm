@@ -6,7 +6,8 @@ use Moo;
 with 'Game::Character::Statistic';
 
 use constant lore_id => 'STT_STA';
-use constant health_pp => 5;
+
+use constant primary_bonus => 5;    # health
 
 1;
 
