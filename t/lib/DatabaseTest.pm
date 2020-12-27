@@ -1,6 +1,6 @@
 package DatabaseTest;
 
-use v5.30;
+use v5.32;
 use warnings;
 use Test::DB;
 use Game::Common;

@@ -1,4 +1,4 @@
-use v5.30;
+use v5.32;
 use File::Basename;
 
 my $current = dirname(__FILE__);
