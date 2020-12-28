@@ -1,6 +1,9 @@
 package Game::Mechanics::Character::Statistics;
 
 use header;
+use Game::Config;
+use Game::Character::Statistic::Stamina;
+use Game::Character::Statistic::Speed;
 
 no header;
 
@@ -23,22 +26,22 @@ sub calc_statistics ($self, $actor)
 sub get_max_health ($self, $actor)
 {
 	my $level = $self->get_current_level($actor);
+	my $class = $actor->get_class;
 
-	# TODO change this based on class
-	my $base = 100;
-	my $per_level = 15;
-
-	# TODO replace constant with calculated stat
-	my $stamina = 10;
-	my $per_stamina = 5;
-
-	return $base + $level * $per_level + $stamina * $per_stamina;
+	return $class->base_health
+		+ $level * $class->health_per_level
+		+ $actor->get_statistic(Game::Character::Statistic::Stamina) *
+		Game::Character::Statistic::Stamina->primary_bonus;
 }
 
 sub get_battle_speed ($self, $actor)
 {
-	# TODO replace constant with calculated stat
-	my $speed = 10;
+	return $actor->get_class->base_speed
+		* (
+			1
+			+ ($actor->get_statistic(Game::Character::Statistic::Speed) - Game::Config->secondary_stat_break_even)
+			* Game::Character::Statistic::Speed->secondary_bonus
+		);
 }
 
 1;

@@ -39,6 +39,16 @@ has 'precalculated' => (
 	isa => HashRef,
 );
 
+has '_class' => (
+	is => 'ro',
+	reader => 'get_class',
+	isa => InstanceOf ['Game::Character::Class'],
+	lazy => 1,
+	default => sub ($self) {
+		return Game::Character::Class->get($self->character->class_id);
+	},
+);
+
 sub get_statistic ($self, $type)
 {
 }

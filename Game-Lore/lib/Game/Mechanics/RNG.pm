@@ -16,8 +16,11 @@ sub roll_with_luck ($self, $chance, $actor)
 {
 	return $self->roll(
 		$chance
-			* ($actor->get_statistic(Game::Character::Statistic::Luck) - Game::Config->secondary_stat_break_even)
-			* (1 + Game::Character::Statistic::Luck->secondary_bonus)
+			* (
+				1
+				+ ($actor->get_statistic(Game::Character::Statistic::Luck) - Game::Config->secondary_stat_break_even)
+				* Game::Character::Statistic::Luck->secondary_bonus
+			)
 	);
 }
 
