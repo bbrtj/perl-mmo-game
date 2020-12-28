@@ -5,7 +5,6 @@ use Test::More;
 use Test::Exception;
 use Game::Ability;
 use Game::Common::Container;
-use Game::Model::CharacterCache;
 use Game::Model::User;
 use Game::Character::Statistic;
 use lib 't/lib';
@@ -45,15 +44,14 @@ DatabaseTest->test(
 			stats => 'STT_STR:30;STT_AGI:19;STT_INT:10;STT_STA:25',
 		};
 
-		my $model = Game::Model::CharacterCache->new($data);
-		$data->{id} = $model->id;
-		$char_repo->save($model->serialize);
+		my $model = Game::Model::Character->dummy->new();
+		$char_repo->save($model->id, $data);
 
 		my $loaded = $char_repo->load($model->id);
 		is_deeply $loaded, $data, 'char cache repo save-load ok';
 
 		$data->{health_max} += 5;
-		ok $char_repo->save($data), 'update ok';
+		ok $char_repo->save($model->id, $data), 'update ok';
 
 		### test Game::Repository::Schema
 		my $user = Game::Model::User->dummy->new(

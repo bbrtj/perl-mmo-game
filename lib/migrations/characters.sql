@@ -47,19 +47,14 @@ CREATE INDEX ind_character_variables_lookup_location ON character_variables (loc
 
 -- this can be moved to redis later
 -- (no foreign key for this reason)
-CREATE TABLE character_calculations (
+CREATE TABLE character_cache (
 	id uuid primary key,
-	level INT NOT NULL,
-	health_max INT NOT NULL,
-	health_regen FLOAT NOT NULL,
-	mana_max INT NOT NULL,
-	mana_regen FLOAT NOT NULL,
-	stats VARCHAR NOT NULL
+	data VARCHAR NOT NULL
 );
 
 -- 5 down
 
-DROP TABLE character_calculations;
+DROP TABLE character_cache;
 DROP TABLE character_variables;
 DROP TABLE characters;
 DROP TABLE players;

@@ -170,6 +170,22 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  Cpanel-JSON-XS-4.25
+    pathname: R/RU/RURBAN/Cpanel-JSON-XS-4.25.tar.gz
+    provides:
+      Cpanel::JSON::XS 4.25
+      Cpanel::JSON::XS::Type undef
+    requirements:
+      Carp 0
+      Config 0
+      Encode 1.9801
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      Pod::Text 2.08
+      XSLoader 0
+      overload 0
+      strict 0
+      warnings 0
   Crypt-Rijndael-1.15
     pathname: L/LE/LEONT/Crypt-Rijndael-1.15.tar.gz
     provides:
@@ -1308,6 +1324,17 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.64
       Scalar::Util 0
       perl 5.008001
+  JSON-MaybeXS-1.004003
+    pathname: E/ET/ETHER/JSON-MaybeXS-1.004003.tar.gz
+    provides:
+      JSON::MaybeXS 1.004003
+    requirements:
+      Carp 0
+      Cpanel::JSON::XS 2.3310
+      ExtUtils::MakeMaker 0
+      JSON::PP 2.27300
+      Scalar::Util 0
+      perl 5.006
   List-MoreUtils-0.430
     pathname: R/RE/REHSACK/List-MoreUtils-0.430.tar.gz
     provides:

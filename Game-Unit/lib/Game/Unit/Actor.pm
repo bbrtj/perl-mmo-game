@@ -2,6 +2,7 @@ package Game::Unit::Actor;
 
 use header;
 use Moo;
+use Game::Common::Container;
 use Game::Model::Player;
 use Game::Model::Character;
 use Game::Model::CharacterVariables;
@@ -14,14 +15,14 @@ with 'Game::Unit';
 has 'player' => (
 	is => 'rw',
 	isa => Maybe [InstanceOf ['Game::Model::Player']],
-	predicate => is_player,
+	predicate => 'is_player',
 );
 
 has 'npc' => (
 	is => 'rw',
 
 	# isa => Maybe[InstanceOf['Game::Model::Npc']],
-	predicate => is_npc,
+	predicate => 'is_npc',
 );
 
 has 'character' => (
@@ -34,23 +35,22 @@ has 'variables' => (
 	isa => InstanceOf ['Game::Model::CharacterVariables'],
 );
 
-has 'precalculated' => (
-	is => 'rw',
-	isa => HashRef,
-);
-
-has '_class' => (
+has 'cache' => (
 	is => 'ro',
-	reader => 'get_class',
-	isa => InstanceOf ['Game::Character::Class'],
+	isa => HashRef,
 	lazy => 1,
 	default => sub ($self) {
-		return Game::Character::Class->get($self->character->class_id);
+		return resolve('repo')->char_cache->load($self->character->id);
 	},
 );
 
-sub get_statistic ($self, $type)
+sub set_cache_key ($self, $key, $value)
 {
+	my $cache = $self->cache;
+	$cache->{$key} = $value;
+	resolve('repo')->char_cache->save($self->character->id, $cache);
+
+	return;
 }
 
 1;

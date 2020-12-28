@@ -5,9 +5,6 @@ WriteMakefile(
 	NAME => 'Game::Common',
 	VERSION_FROM => 'lib/Game/Common.pm',
 
-	TEST_REQUIRES => {
-	},
-
 	PREREQ_PM => {
 		'Moo' => 0,
 		'Moose' => 0,
@@ -25,6 +22,7 @@ WriteMakefile(
 		'Data::Entropy' => 0,
 		'Quantum::Superpositions::Lazy' => 0,
 		'Data::Localize' => 0,
+		'JSON::MaybeXS' => 0,
 	},
 	AUTHOR => 'brtastic',
 );
