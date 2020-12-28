@@ -1,4 +1,4 @@
-INSERT INTO gd_lores (id) VALUES 
+INSERT INTO gd_lores (id) VALUES
 ('CLS_SAG')
 ,('CLS_WAR')
 ,('CLS_ROG')
@@ -10,7 +10,7 @@ INSERT INTO gd_lores (id) VALUES
 ,('AET_COEF_LVL')
 ,('AET_COEF_AGI')
 ;
-INSERT INTO gd_lores (id) VALUES 
+INSERT INTO gd_lores (id) VALUES
 ('AET_COEF_STR')
 ,('AET_COEF_INT')
 ,('AET_COEF_MAXHP')
@@ -22,9 +22,9 @@ INSERT INTO gd_lores (id) VALUES
 ,('AET_STUN')
 ,('AET_DISOR')
 ;
-INSERT INTO gd_lores (id) VALUES 
-('AET_TAR_ALLY')
-,('AET_TAR_FOE')
+INSERT INTO gd_lores (id) VALUES
+('AET_AFF_ALLY')
+,('AET_AFF_FOE')
 ,('AET_AOE')
 ,('AET_IMMU')
 ,('AET_RESI')
@@ -34,7 +34,7 @@ INSERT INTO gd_lores (id) VALUES
 ,('ABA_DRUG')
 ,('ABA_ACID')
 ;
-INSERT INTO gd_lores (id) VALUES 
+INSERT INTO gd_lores (id) VALUES
 ('ABA_ELEC')
 ,('ABA_FIRE')
 ,('ABA_GAS')
@@ -46,7 +46,7 @@ INSERT INTO gd_lores (id) VALUES
 ,('RAT_CRD')
 ,('RAT_MCRC')
 ;
-INSERT INTO gd_lores (id) VALUES 
+INSERT INTO gd_lores (id) VALUES
 ('RAT_MCRD')
 ,('RAT_DOD')
 ,('RAT_END')
@@ -58,7 +58,7 @@ INSERT INTO gd_lores (id) VALUES
 ,('STT_CON')
 ,('STT_INI')
 ;
-INSERT INTO gd_lores (id) VALUES 
+INSERT INTO gd_lores (id) VALUES
 ('STT_SPE')
 ,('STT_LUC')
 ,('STT_TEN')
