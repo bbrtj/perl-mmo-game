@@ -27,6 +27,7 @@ WriteMakefile(
 		'DateTime::Format::Pg' => 0,
 		'Data::Entropy' => 0,
 		'Quantum::Superpositions::Lazy' => 0,
+		'Data::Localize' => 0,
 	},
 	AUTHOR => 'brtastic',
 );

@@ -1,0 +1,6 @@
+
+msgid "target is out of range"
+msgstr "cel znajduje się poza zasięgiem"
+
+msgid "target is not in line of sight"
+msgstr "cel nie jest w zasięgu wzroku"
