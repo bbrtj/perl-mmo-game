@@ -2,20 +2,23 @@ package Game::Mechanics::RNG;
 
 use header;
 use Game::RNG;
+use Game::Config;
+use Game::Character::Statistic::Luck;
 
 no header;
 
-sub is_within_map ($self, $battle, @position)
+sub roll ($self, $chance)
 {
-	my ($x, $y) = @position;
-	my ($mx, $my) = ($battle->battle->size_x, $battle->battle->size_y);
-
-	# map goes from 0 to size_*
-	return $x >= 0 && $x < $mx && $y >= 0 && $y < $my;
+	return rng < $chance;
 }
 
-sub can_move_to ($self, $battle, $id, @position)
+sub roll_with_luck ($self, $chance, $actor)
 {
+	return $self->roll(
+		$chance
+			* ($actor->get_statistic(Game::Character::Statistic::Luck) - Game::Config->secondary_stat_break_even)
+			* (1 + Game::Character::Statistic::Luck->secondary_bonus)
+	);
 }
 
 1;

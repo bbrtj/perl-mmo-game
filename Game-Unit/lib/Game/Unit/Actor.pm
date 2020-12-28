@@ -39,4 +39,8 @@ has 'precalculated' => (
 	isa => HashRef,
 );
 
+sub get_statistic ($self, $type)
+{
+}
+
 1;
