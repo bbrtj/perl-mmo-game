@@ -7,4 +7,7 @@ use Test::More;
 use_ok('Game::Common');
 use_ok('Game::Common::Container');
 
+use header;
+ok defined $_isa, 'isa ok';
+
 done_testing;

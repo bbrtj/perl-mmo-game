@@ -2,7 +2,6 @@ package Game::Mechanics::Check::Carry;
 
 use header;
 use Moo;
-use Scalar::Util qw(blessed);
 
 no header;
 
@@ -25,7 +24,7 @@ sub gather ($self, $message, @checks)
 			$check = $check->();
 		}
 
-		if (blessed $check && $check->isa(Game::Mechanics::Check::Carry::)) {
+		if ($check->$_isa(Game::Mechanics::Check::Carry::)) {
 			if ($check->has_error) {
 				return $check;
 			}

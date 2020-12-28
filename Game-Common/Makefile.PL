@@ -23,6 +23,7 @@ WriteMakefile(
 		'Quantum::Superpositions::Lazy' => 0,
 		'Data::Localize' => 0,
 		'JSON::MaybeXS' => 0,
+		'Safe::Isa' => 0,
 	},
 	AUTHOR => 'brtastic',
 );

@@ -7,6 +7,8 @@ use feature ':5.30';
 
 use experimental;
 require namespace::clean;
+require Exporter;
+require Safe::Isa;
 
 sub import
 {
@@ -16,6 +18,7 @@ sub import
 	feature->import(':5.30');
 	experimental->import('signatures');
 	warnings->unimport('experimental::signatures');
+	{ local $Exporter::ExportLevel = 1; Safe::Isa->import; }
 	return;
 }
 
