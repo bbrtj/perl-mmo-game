@@ -22,7 +22,7 @@ if [ "$1" == "test" ]; then
 	fi
 	prove -l --verbose $tests
 elif [ "$1" == "tools" ]; then
-	cpanm Perl::Tidy Code::TidyAll Perl::Critic
+	cpanm Carton Perl::Tidy Code::TidyAll Perl::Critic
 	mkdir -p .git/hooks
 	cp script/git-hook-precommit .git/hooks/pre-commit
 elif [ "$1" == "lint" ]; then
