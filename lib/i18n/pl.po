@@ -1,6 +1,12 @@
 
-msgid "target is out of range"
+msgid "out_of_range"
 msgstr "cel znajduje się poza zasięgiem"
 
-msgid "target is not in line of sight"
+msgid "not_in_los"
 msgstr "cel nie jest w zasięgu wzroku"
+
+msgid "cannot_move"
+msgstr "nie można się tam poruszyć"
+
+msgid "invalid_coordinate"
+msgstr "niewłaściwa współrzędna"

@@ -12,7 +12,7 @@ our @EXPORT = qw(
 sub _t ($message, @args)
 {
 	state $localizer = do {
-		my $loc = Data::Localize->new(auto => 1);
+		my $loc = Data::Localize->new();
 
 		$loc->add_localizer(
 			class => 'Gettext',
