@@ -24,3 +24,11 @@ for my $module (@modules) {
 	requires $module, $version,
 		url => "${current_uri}/${filename}/${filename}-${version}.tar.gz";
 }
+
+# normal cpanfile dependencies which don't fit in modules
+
+on 'test' => sub {
+	requires 'Test::More';
+	requires 'Test::DB';
+	requires 'Test::Exception';
+};

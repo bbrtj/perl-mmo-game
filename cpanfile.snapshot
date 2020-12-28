@@ -484,6 +484,40 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  Data-Localize-0.00028
+    pathname: D/DM/DMAKI/Data-Localize-0.00028.tar.gz
+    provides:
+      Data::Localize 0.00028
+      Data::Localize::Auto undef
+      Data::Localize::Format undef
+      Data::Localize::Format::Gettext undef
+      Data::Localize::Format::Maketext undef
+      Data::Localize::Format::NamedArgs undef
+      Data::Localize::Gettext undef
+      Data::Localize::Gettext::Parser undef
+      Data::Localize::Localizer undef
+      Data::Localize::Log undef
+      Data::Localize::MultiLevel undef
+      Data::Localize::Namespace undef
+      Data::Localize::Storage undef
+      Data::Localize::Storage::BerkeleyDB undef
+      Data::Localize::Storage::Hash undef
+      Data::Localize::Trait::WithStorage undef
+      Data::Localize::Util undef
+    requirements:
+      Encode 0
+      ExtUtils::MakeMaker 6.59
+      I18N::LangTags 0
+      I18N::LangTags::Detect 0
+      Log::Minimal 0.14
+      Module::Build::Tiny 0.035
+      Module::Load 0
+      Module::Pluggable::Object 0
+      Moo 1.000008
+      MooX::Types::MooseLike::Base 0
+      Test::More 0.94
+      Test::Requires 0
+      perl 5.008
   Data-Object-Attributes-0.06
     pathname: A/AW/AWNCORP/Data-Object-Attributes-0.06.tar.gz
     provides:
@@ -1297,6 +1331,18 @@ DISTRIBUTIONS
       IPC::Cmd 0
       XSLoader 0.22
       base 0
+  Log-Minimal-0.19
+    pathname: K/KA/KAZEBURO/Log-Minimal-0.19.tar.gz
+    provides:
+      Log::Minimal 0.19
+    requirements:
+      CPAN::Meta 0
+      CPAN::Meta::Prereqs 0
+      Data::Dumper 0
+      ExtUtils::CBuilder 0
+      Module::Build 0.38
+      Scalar::Util 0
+      Term::ANSIColor 0
   MRO-Compat-0.13
     pathname: H/HA/HAARG/MRO-Compat-0.13.tar.gz
     provides:
@@ -1650,6 +1696,14 @@ DISTRIBUTIONS
       Sub::Defer 2.006006
       Sub::Quote 2.006006
       perl 5.006
+  MooX-Types-MooseLike-0.29
+    pathname: M/MA/MATEU/MooX-Types-MooseLike-0.29.tar.gz
+    provides:
+      MooX::Types::MooseLike 0.29
+      MooX::Types::MooseLike::Base 0.29
+    requirements:
+      ExtUtils::MakeMaker 0
+      Module::Runtime 0.014
   Moose-2.2013
     pathname: E/ET/ETHER/Moose-2.2013.tar.gz
     provides:
@@ -2515,6 +2569,15 @@ DISTRIBUTIONS
       Try::Tiny 0.07
       strict 0
       warnings 0
+  Test-Requires-0.11
+    pathname: T/TO/TOKUHIROM/Test-Requires-0.11.tar.gz
+    provides:
+      Test::Requires 0.11
+    requirements:
+      ExtUtils::MakeMaker 6.64
+      Test::Builder::Module 0
+      Test::More 0.47
+      perl 5.006
   Test-Warn-0.36
     pathname: B/BI/BIGJ/Test-Warn-0.36.tar.gz
     provides:
