@@ -1,7 +1,27 @@
 use Mojo::File qw(curfile path);
 use Encode qw(decode);
 
-my @files = glob curfile->dirname->to_string . '/game_data/*.sql';
+my @files = map { curfile->dirname->to_string . "/game_data/$_.sql" } qw(
+	gd_lores
+	gd_languages
+	gd_lore_names
+	gd_lore_descriptions
+
+	gd_areas
+	gd_locations
+	gd_location_paths
+
+	gd_ability_attributes
+	gd_ability_effect_types
+	gd_abilities
+	gd_ability_effects
+
+	gd_classes
+	gd_class_abilities
+
+	gd_ratings
+	gd_statistics
+);
 my $contents = join "\n", map { decode("UTF-8", path($_)->slurp) } @files;
 
 # replication requires superuser access
@@ -9,11 +29,7 @@ return <<SQL;
 
 -- 2 up
 
-SET session_replication_role = 'replica';
-
 $contents
-
-SET session_replication_role = 'origin';
 
 -- 2 down
 
