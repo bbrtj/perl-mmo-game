@@ -30,8 +30,8 @@ sub _parse ($self)
 				attribute => Game::Ability::Attribute->get($row->{attribute}),
 				$row->%{
 					qw(
-						id
-						passive cost
+						id cost
+						instant
 						cooldown range
 						target_self
 						target_ally

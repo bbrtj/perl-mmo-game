@@ -32,7 +32,7 @@ has 'attribute' => (
 	required => 1,
 );
 
-has 'passive' => (
+has 'instant' => (
 	is => 'ro',
 	isa => Bool,
 	required => 1,

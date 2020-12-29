@@ -12,7 +12,7 @@ use constant ABILITY_LIST_FETCH_QUERY => <<'SQL';
 	SELECT
 		abi.id,
 		abi.attribute_id as attribute,
-		abi.passive,
+		abi.instant,
 		abi.cost,
 		abi.cooldown,
 		abi.range,

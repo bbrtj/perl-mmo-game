@@ -56,7 +56,7 @@ CREATE TABLE gd_ability_attributes (
 CREATE TABLE gd_abilities (
 	id VARCHAR(20) PRIMARY KEY,
 	attribute_id VARCHAR(20) NOT NULL,
-	passive BOOLEAN,
+	instant BOOLEAN,
 	cost INT NULL,
 	cooldown INT NULL,
 	range INT NULL,

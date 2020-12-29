@@ -21,7 +21,7 @@ package AbilityRepoMock {
 			{
 				id => 'test',
 				attribute => 'ABA_ELEM',
-				passive => 0,
+				instant => 0,
 				cost => 0,
 				cooldown => 5,
 				range => 50,
@@ -38,7 +38,7 @@ package AbilityRepoMock {
 			{
 				id => 'test',
 				attribute => 'ABA_ELEM',
-				passive => 0,
+				instant => 0,
 				cost => 0,
 				cooldown => 5,
 				range => 50,
@@ -55,7 +55,7 @@ package AbilityRepoMock {
 			{
 				id => 'test',
 				attribute => 'ABA_ELEM',
-				passive => 0,
+				instant => 0,
 				cost => 0,
 				cooldown => 5,
 				range => 50,
@@ -119,7 +119,7 @@ ABILITIES: {
 
 	isa_ok $subject, "Game::Ability::Compiled";
 	isa_ok $subject->attribute, "Game::Ability::Attribute::Elemental";
-	ok !$subject->passive;
+	ok !$subject->instant;
 	is $subject->cost, 0;
 	is $subject->cooldown, 5;
 	is $subject->range, 50;
