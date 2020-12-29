@@ -22,3 +22,8 @@ INSERT INTO gd_ability_effect_types (id) VALUES
 ,('AET_DISP')
 ,('AET_INVI')
 ;
+INSERT INTO gd_ability_effect_types (id) VALUES 
+('AET_COEF_CHA')
+,('AET_DMD_AMP')
+,('AET_DMR_AMP')
+;
