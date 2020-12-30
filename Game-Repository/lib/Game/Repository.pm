@@ -17,14 +17,6 @@ has '+char_cache' => (
 	default => sub { Game::Repository::CharCache->new },
 );
 
-has '+ability_data' => (
-	default => sub { Game::Repository::AbilityData->new },
-);
-
-has '+class_data' => (
-	default => sub { Game::Repository::ClassData->new },
-);
-
 has '+lore_data' => (
 	default => sub { Game::Repository::LoreData->new },
 );

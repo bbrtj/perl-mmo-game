@@ -10,40 +10,24 @@ no header;
 
 with 'Game::LoreElement';
 
-sub get ($self, $class = undef)
+requires qw(
+	playable
+	base_health
+	health_per_level
+	base_health_regen
+	health_regen_per_level
+	base_mana
+	mana_per_level
+	base_mana_regen
+	mana_regen_per_level
+	base_stats
+	stats_per_level
+);
+
+sub _get
 {
-	state $classes = $self->_parse;
-
-	return defined $class ? $classes->{$class} : $classes;
-}
-
-sub _parse ($self)
-{
-	my $data = resolve('repo')->class_data->load;
-	my %loaded;
-
-	for my $row ($data->@*) {
-		if (!exists $loaded{$row->{id}}) {
-			$loaded{$row->{id}} = Game::Character::Class::Compiled->new(
-				$row->%{
-					qw(
-						id playable
-						base_health health_per_level
-						base_health_regen health_regen_per_level
-						base_mana mana_per_level
-						base_mana_regen mana_regen_per_level
-						base_stats stats_per_level
-						)
-				}
-			);
-		}
-
-		$loaded{$row->{id}}->add_ability(
-			Game::Ability->get($row->{ability})
-		);
-	}
-
-	return \%loaded;
+	state $list =
+		{map { $_->lore_id => $_->new } Game::Common->load_classes('Game::Character::Class', 'Class/*.pm')};
 }
 
 1;

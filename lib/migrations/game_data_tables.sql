@@ -55,57 +55,13 @@ CREATE TABLE gd_ability_attributes (
 
 CREATE TABLE gd_abilities (
 	id VARCHAR(20) PRIMARY KEY,
-	attribute_id VARCHAR(20) NOT NULL,
-	instant BOOLEAN,
-	cost INT NULL,
-	cooldown INT NULL,
-	range INT NULL,
-	target_self BOOLEAN NULL,
-	target_ally BOOLEAN NULL,
-	target_foe BOOLEAN NULL,
-	target_ground BOOLEAN NULL,
 	CONSTRAINT fk_lore
 		FOREIGN KEY(id)
-		REFERENCES gd_lores(id),
-	CONSTRAINT fk_ability_attribute
-		FOREIGN KEY(attribute_id)
-		REFERENCES gd_ability_attributes(id)
+		REFERENCES gd_lores(id)
 );
-
-CREATE TABLE gd_ability_effects (
-	id SERIAL PRIMARY KEY,
-	ability_id VARCHAR(20) NOT NULL,
-	type_id VARCHAR(20) NOT NULL,
-	attribute_id VARCHAR(20) NOT NULL,
-	effect_group INT NOT NULL DEFAULT 1,
-	value FLOAT NULL,
-	deviation FLOAT NULL,
-	CONSTRAINT fk_ability
-		FOREIGN KEY(ability_id)
-		REFERENCES gd_abilities(id),
-	CONSTRAINT fk_ability_attribute
-		FOREIGN KEY(attribute_id)
-		REFERENCES gd_ability_attributes(id),
-	CONSTRAINT fk_ability_effect_type
-		FOREIGN KEY(type_id)
-		REFERENCES gd_ability_effect_types(id)
-);
-
-CREATE INDEX ind_ability_effects_lookup ON gd_ability_effects (ability_id, effect_group);
 
 CREATE TABLE gd_classes (
 	id VARCHAR(20) PRIMARY KEY,
-	playable BOOLEAN NOT NULL,
-	base_health INT NOT NULL,
-	health_per_level INT NOT NULL,
-	base_health_regen FLOAT NOT NULL,
-	health_regen_per_level FLOAT NOT NULL,
-	base_mana INT NOT NULL,
-	mana_per_level INT NOT NULL,
-	base_mana_regen FLOAT NOT NULL,
-	mana_regen_per_level FLOAT NOT NULL,
-	base_stats VARCHAR NOT NULL,
-	stats_per_level VARCHAR NOT NULL,
 	CONSTRAINT fk_lore
 		FOREIGN KEY(id)
 		REFERENCES gd_lores(id)
@@ -180,7 +136,6 @@ CREATE TABLE gd_statistics (
 DROP TABLE gd_ratings;
 DROP TABLE gd_statistics;
 DROP TABLE gd_class_abilities;
-DROP TABLE gd_ability_effects;
 DROP TABLE gd_abilities;
 DROP TABLE gd_ability_effect_types;
 DROP TABLE gd_ability_attributes;

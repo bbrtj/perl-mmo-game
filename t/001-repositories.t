@@ -14,19 +14,6 @@ use utf8;
 
 DatabaseTest->test(
 	sub {
-		### uses Game::Repository::AbilityData
-		my $parsed = Game::Ability->get;
-		ok exists $parsed->{ABI_STRIKE},
-			'ability got compiled';
-
-		my $ability = $parsed->{ABI_STRIKE};
-		isa_ok $ability, 'Game::Ability::Compiled',
-			'ability is a compiled class';
-		is scalar $ability->effect_table->@*, 1,
-			'ability has a single group';
-		is scalar $ability->effect_table->[0]->@*, 2,
-			'ability has two effects';
-
 		### uses Game::Repository::LoreData
 		my $class = Game::Character::Statistic->get('STT_STR');
 		is $class->lore_name, 'Siła', 'lore name ok';

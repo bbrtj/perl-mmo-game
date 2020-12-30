@@ -9,8 +9,6 @@ no header;
 has [
 	qw(
 		char_cache
-		ability_data
-		class_data
 		lore_data
 		schema
 		actor_unit

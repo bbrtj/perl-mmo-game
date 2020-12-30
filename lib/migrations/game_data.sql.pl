@@ -14,7 +14,6 @@ my @files = map { curfile->dirname->to_string . "/game_data/$_.sql" } qw(
 	gd_ability_attributes
 	gd_ability_effect_types
 	gd_abilities
-	gd_ability_effects
 
 	gd_classes
 	gd_class_abilities

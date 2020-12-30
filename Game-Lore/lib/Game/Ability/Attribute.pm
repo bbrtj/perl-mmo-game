@@ -8,12 +8,10 @@ no header;
 
 with 'Game::LoreElement';
 
-sub get ($self, $attribute = undef)
+sub _get
 {
 	state $list =
 		{map { $_->lore_id => $_->new } Game::Common->load_classes('Game::Ability::Attribute', 'Attribute/*.pm')};
-
-	return defined $attribute ? $list->{$attribute} : $list;
 }
 
 1;
