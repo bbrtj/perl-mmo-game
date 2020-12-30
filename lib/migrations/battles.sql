@@ -20,6 +20,7 @@ CREATE TABLE battle_contestants (
 	pos_x FLOAT NOT NULL,
 	pos_y FLOAT NOT NULL,
 	initiative INT NOT NULL,
+	team INT NOT NULL,
 	CONSTRAINT fk_battle_id
 		FOREIGN KEY(battle_id)
 		REFERENCES battles(id),

@@ -2,7 +2,7 @@ package Game::Model::BattleContestant;
 
 use header;
 use Moose;
-use Game::Types qw(Uuid Num PositiveInt);
+use Game::Types qw(Uuid Num PositiveInt PositiveOrZeroInt);
 
 no header;
 
@@ -35,6 +35,12 @@ has 'pos_y' => (
 has 'initiative' => (
 	is => 'ro',
 	isa => PositiveInt,
+	required => 1,
+);
+
+has 'team' => (
+	is => 'ro',
+	isa => PositiveOrZeroInt,
 	required => 1,
 );
 
