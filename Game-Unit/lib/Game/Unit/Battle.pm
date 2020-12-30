@@ -3,8 +3,7 @@ package Game::Unit::Battle;
 use header;
 use Moo;
 use Game::Model::Battle;
-use Game::Model::BattleContestant;
-use Game::Types qw(InstanceOf ArrayRef Tuple);
+use Game::Types qw(InstanceOf ArrayRef);
 use List::Util qw(first);
 
 no header;
@@ -18,12 +17,12 @@ has 'battle' => (
 
 has 'contestants' => (
 	is => 'rw',
-	isa => ArrayRef [Tuple [InstanceOf ['Game::Model::BattleContestant'], InstanceOf ['Game::Unit::Actor']]],
+	isa => ArrayRef [InstanceOf ['Game::Unit::BattleActor']],
 );
 
 sub find_contestant ($self, $id)
 {
-	return first { $_->[1]->character->id eq $id }
+	return first { $_->character->id eq $id }
 		$self->contestants->@*;
 }
 

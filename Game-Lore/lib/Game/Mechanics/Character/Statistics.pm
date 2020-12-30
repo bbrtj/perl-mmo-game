@@ -18,11 +18,6 @@ sub get_current_level ($self, $actor)
 	return $level;
 }
 
-sub calc_statistics ($self, $actor)
-{
-	# TODO get the actual stats
-}
-
 sub get_max_health ($self, $actor)
 {
 	my $level = $self->get_current_level($actor);

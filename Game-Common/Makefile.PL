@@ -24,6 +24,7 @@ WriteMakefile(
 		'Data::Localize' => 0,
 		'JSON::MaybeXS' => 0,
 		'Safe::Isa' => 0,
+		'Throwable' => 0,
 	},
 	AUTHOR => 'brtastic',
 );

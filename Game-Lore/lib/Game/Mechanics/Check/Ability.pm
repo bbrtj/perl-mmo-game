@@ -9,12 +9,11 @@ use Game::Mechanics::Battle::Target;
 
 no header;
 
-sub in_range ($self, $battle, $character, $ability, $target)
+sub in_range ($self, $battle, $actor, $ability, $target)
 {
 	my $range = $ability->range // 5;    # TODO weapon range
-	my $contestant = $battle->find_contestant($character->id);
 	my $position = Game::Mechanics::Battle::Target->get_position($battle, $target);
-	my $pos_cur = [$contestant->[0]->pos_x, $contestant->[0]->pos_y];
+	my $pos_cur = [$actor->contestant->pos_x, $actor->contestant->pos_y];
 
 	return Game::Mechanics::Check::Carry->gather(
 		'out_of_range',
@@ -23,18 +22,12 @@ sub in_range ($self, $battle, $character, $ability, $target)
 	);
 }
 
-sub valid_target ($self, $battle, $ability, $target)
+sub valid_target ($self, $battle, $actor, $ability, $target)
 {
-	my $at_character = Game::Mechanics::Battle::Target->is_character($battle, $target);
-
-	if ($at_character) {
-
-		# TODO check if target is self / ally / foe
-		return 1;
-	}
-	else {
-		return $ability->target_ground;
-	}
+	return Game::Mechanics::Check::Carry->gather(
+		'invalid_target',
+		Game::Mechanics::Battle::Target->valid_target($self, $battle, $actor, $ability, $target)
+	);
 }
 
 1;

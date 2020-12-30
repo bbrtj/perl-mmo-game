@@ -10,3 +10,6 @@ msgstr "nie można się tam poruszyć"
 
 msgid "invalid_coordinate"
 msgstr "niewłaściwa współrzędna"
+
+msgid "invalid_target"
+msgstr "niepoprawny cel"
