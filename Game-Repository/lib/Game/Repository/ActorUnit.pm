@@ -6,6 +6,7 @@ use Game::Common::Container;
 use Game::Types qw(InstanceOf);
 use Game::Unit::Actor;
 use Game::Unit::BattleActor;
+use Game::Exception::RecordDoesNotExist;
 
 no header;
 
@@ -18,17 +19,27 @@ sub save ($self, $unit)
 
 	my $schema_repo = resolve('repo')->schema;
 
-	# we do not save player / npc here on purpose
+	# we do not save player / npc / contestant here on purpose
 	$schema_repo->save($unit->character);
 	$schema_repo->save($unit->variables);
-	if ($unit->isa(Game::Unit::BattleActor::)) {
-		$schema_repo->save($unit->contestant);
-	}
+
+	return;
 }
 
-sub load ($self, $id)
+sub load ($self, $id, $char_result = undef)
 {
-	my $char_result = resolve('dbc')->resultset('Character')->single({id => $id});
+	if (!defined $char_result) {
+		$char_result = resolve('dbc')->resultset('Character')->search(
+			{'me.id' => $id},
+			{
+				prefetch => [qw(player variables contestant)],
+			}
+		)->single;
+	}
+
+	Game::Exception::RecordDoesNotExist->throw
+		unless defined $char_result;
+
 	my $player_result = $char_result->player;
 
 	# my $npc_result = $char_result->npc;
@@ -36,15 +47,15 @@ sub load ($self, $id)
 	my $contestant_result = $char_result->contestant;
 
 	my %args = (
-		($player_result ? player => $player_result->to_model : ()),
+		($player_result ? (player => $player_result->to_model) : ()),
 
-		# ($npc_result ? npc => $npc_result->to_model : ()),
-		($contestant_result ? contestant => $contestant_result->to_model : ()),
+		# ($npc_result ? (npc => $npc_result->to_model) : ()),
+		($contestant_result ? (contestant => $contestant_result->to_model) : ()),
 		character => $char_result->to_model,
 		variables => $variables,
 	);
 
-	$class = $contestant_result
+	my $class = $contestant_result
 		? Game::Unit::Actor::
 		: Game::Unit::BattleActor::
 		;

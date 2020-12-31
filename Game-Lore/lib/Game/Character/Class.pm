@@ -3,7 +3,6 @@ package Game::Character::Class;
 use header;
 use Moo::Role;
 use Game::Common::Container;
-use Game::Character::Class::Compiled;
 use Game::Ability;
 
 no header;

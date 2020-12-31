@@ -16,8 +16,8 @@ CREATE INDEX ind_users_online ON players (online);
 
 CREATE TABLE characters (
 	id uuid primary key,
-	player_id uuid NOT NULL,
-	npc_id uuid NOT NULL,
+	player_id uuid NULL,
+	npc_id uuid NULL,
 	class_id VARCHAR(20) NOT NULL,
 	name VARCHAR(32) NOT NULL,
 	stats VARCHAR NOT NULL,
