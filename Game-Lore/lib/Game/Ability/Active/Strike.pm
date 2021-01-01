@@ -28,7 +28,8 @@ sub effects ($self, $caster, $targets)
 {
 	# TODO weapon damage
 	my $damage = 5;
-	Game::Mechanics::Character::Damage->deal_damage($self->attribute, $damage, $targets);
+	my $attribute = $self->attribute;    # resolve if inherits
+	Game::Mechanics::Character::Damage->deal_damage($attribute, $damage, $targets);
 }
 
 1;

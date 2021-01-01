@@ -8,6 +8,7 @@ use Game::Mechanics::Check::Ability;
 use Game::Mechanics::Battle::Affected;
 use Game::Mechanics::Battle::Effects;
 use Game::Mechanics::Battle::Action;
+use Game::Exception::RecordDoesNotExist;
 
 no header;
 
@@ -23,8 +24,12 @@ sub handler ($job, $battle_id, $caster_id, $ability_id, $target)
 	my $actor = $battle->find_contestant($caster_id);
 	my $ability = Game::Ability::Active->get($ability_id);
 
+	Game::Exception::RecordDoesNotExist->throw
+		unless defined $actor && defined $ability;
+
 	# try-catch this so that we can handle asserts
 	# check if the caster has turn now
+	# check if the caster can use that ability
 	Game::Mechanics::Check::Ability->valid_target($battle, $actor, $ability, $target)->assert_valid;
 	Game::Mechanics::Check::Ability->in_range($battle, $actor, $ability, $target)->assert_valid;
 
