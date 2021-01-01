@@ -18,7 +18,7 @@ sub get_affected ($self, $battle, $actor, $ability, $target)
 {
 	my @targets;
 
-	my $tactor = $self->get_actor($target);
+	my $tactor = Game::Mechanics::Battle::Target->get_actor($target);
 	if (defined $tactor) {
 		push @targets, $actor
 			if $self->affects($actor, $ability, $tactor);

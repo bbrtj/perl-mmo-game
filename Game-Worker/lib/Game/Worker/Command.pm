@@ -3,6 +3,8 @@ package Game::Worker::Command;
 use header;
 use Moo::Role;
 
+no header;
+
 has "_name" => (
 	is => "ro",
 	reader => "get_name",

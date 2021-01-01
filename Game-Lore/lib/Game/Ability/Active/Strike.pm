@@ -3,6 +3,7 @@ package Game::Ability::Active::Strike;
 use header;
 use Moo;
 use Game::Ability::Attribute::Inherit;
+use Game::Mechanics::Character::Damage;
 
 no header;
 
@@ -25,7 +26,9 @@ use constant target_ground => 0;
 
 sub effects ($self, $caster, $targets)
 {
-	# TODO
+	# TODO weapon damage
+	my $damage = 5;
+	Game::Mechanics::Character::Damage->deal_damage($self->attribute, $damage, $targets);
 }
 
 1;

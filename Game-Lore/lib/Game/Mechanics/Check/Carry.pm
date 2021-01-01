@@ -2,6 +2,7 @@ package Game::Mechanics::Check::Carry;
 
 use header;
 use Moo;
+use Game::Exception::CheckFailed;
 
 no header;
 
@@ -42,6 +43,15 @@ sub gather ($self, $message, @checks)
 			result => 1,
 		);
 	}
+}
+
+sub assert_valid ($self)
+{
+	if ($self->has_error) {
+		Game::Exception::CheckFailed->throw(message => $self->error);
+	}
+
+	return;
 }
 
 1;
