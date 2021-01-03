@@ -130,9 +130,26 @@ CREATE TABLE gd_statistics (
 		REFERENCES gd_lores(id)
 );
 
+CREATE TABLE gd_item_weapons (
+	id VARCHAR(20) PRIMARY KEY,
+	CONSTRAINT fk_lore
+		FOREIGN KEY(id)
+		REFERENCES gd_lores(id)
+);
+
+CREATE TABLE gd_item_armor (
+	id VARCHAR(20) PRIMARY KEY,
+	CONSTRAINT fk_lore
+		FOREIGN KEY(id)
+		REFERENCES gd_lores(id)
+);
+
+
 
 -- 1 down
 
+DROP TABLE gd_item_weapons;
+DROP TABLE gd_item_armor;
 DROP TABLE gd_ratings;
 DROP TABLE gd_statistics;
 DROP TABLE gd_class_abilities;
