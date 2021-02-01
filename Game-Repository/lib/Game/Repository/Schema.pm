@@ -4,6 +4,7 @@ use header;
 use Moo;
 use Game::Common::Container;
 use Game::Types qw(ConsumerOf);
+use Game::Exception::RecordDoesNotExist;
 
 no header;
 
@@ -19,9 +20,15 @@ sub save ($self, $model, $update = 0)
 	return resolve('dbc')->resultset($class)->$type($model->serialize);
 }
 
-sub load ($self, $resultset, $id)
+sub load ($self, $resultset, $search)
 {
-	return resolve('dbc')->resultset($resultset)->single({id => $id})->to_model;
+	$search = {id => $search}
+		unless ref $search;
+
+	my $found = resolve('dbc')->resultset($resultset)->single($search);
+	Game::Exception::RecordDoesNotExist->throw unless $found;
+
+	return $found->to_model;
 }
 
 1;

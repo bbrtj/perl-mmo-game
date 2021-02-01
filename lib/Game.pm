@@ -4,6 +4,7 @@ use header;
 use Mojo::Base 'Mojolicious';
 use Game::Common::Container;
 use Game::Bootstrap;
+use Game::Middleware;
 
 no header;
 
@@ -37,6 +38,12 @@ sub load_routes ($self, $config)
 
 	# Normal route to controller
 	$r->get('/')->to('main#index');
+
+	$r->post('/user/login')->to('user#login');
+	$r->post('/user/register')->to('user#register');
+
+	$r->under('/api' => Game::Middleware->can('is_user'));
+	$r->under('/api/game' => Game::Middleware->can('is_player'));
 }
 
 sub load_plugins ($self, $config)
