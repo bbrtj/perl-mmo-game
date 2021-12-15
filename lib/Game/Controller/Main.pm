@@ -1,9 +1,8 @@
 package Game::Controller::Main;
 
-use header;
 use Mojo::Base 'Mojolicious::Controller';
 
-no header;
+use header;
 
 # This action will render a template
 sub index ($self)
@@ -12,4 +11,3 @@ sub index ($self)
 	$self->render(msg => 'Welcome to the Mojolicious real-time web framework!');
 }
 
-1;

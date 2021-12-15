@@ -15,3 +15,8 @@ combat:
   - can only move part of the distance to still attack this turn
   - some skills require you to be stationary (cannot move in the same turn)
   - some skills are instant (do not waste turn, can be used after moving full distance)
+
+
+- check constants (multiple use constant)
+- ratings as intermediate form of stats
+- bcrypt pass

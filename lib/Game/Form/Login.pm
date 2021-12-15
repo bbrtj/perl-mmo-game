@@ -1,38 +1,37 @@
 package Game::Form::Login;
 
-use header;
-use Form::Tiny -filtered, -strict;
-use Game::Common::Container;
-use Game::Types qw(NonEmptySimpleStr Bool);
+use Form::Tiny -filtered, -consistent;
+use DI;
+use Types;
 use Form::Tiny::Error;
 
-no header;
+use header;
 
 has 'user' => (
 	is => 'ro',
 	writer => 'set_user',
-	isa => InstanceOf ['Game::Model::User'],
+	isa => Types::InstanceOf ['Game::Model::User'],
 	init_arg => undef,
 );
 
 form_field 'email' => (
-	type => NonEmptySimpleStr,
+	type => Types::NonEmptySimpleStr,
 	required => 1,
 );
 
 form_field 'password' => (
-	type => NonEmptySimpleStr,
+	type => Types::NonEmptySimpleStr,
 	required => 1,
 );
 
 form_field 'remember_me' => (
-	type => Bool,
+	type => Types::Bool,
 	required => 1,
 );
 
 form_cleaner sub ($self, $data) {
 	try {
-		my $user = resolve('repo')->schema->load({email => $data->{email}});
+		my $user = DI->get('repo')->schema->load({email => $data->{email}});
 		if (!$user->verify_password($data->{password})) {
 			$self->add_error(
 				Form::Tiny::Error::DoesNotValidate->new(
@@ -64,4 +63,3 @@ form_cleaner sub ($self, $data) {
 	}
 };
 
-1;

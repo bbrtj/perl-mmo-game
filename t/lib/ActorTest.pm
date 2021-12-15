@@ -1,7 +1,5 @@
 package ActorTest;
 
-use v5.32;
-use warnings;
 use Game::Unit::Actor;
 use Game::Model::Character;
 use Game::Model::CharacterVariables;
@@ -9,9 +7,10 @@ use Game::Model::Player;
 use Game::Model::User;
 use Game::Character::Class::Priest;
 
-sub create_actor
+use header;
+
+sub create_actor ($self)
 {
-	my ($self) = @_;
 	my $character = Game::Model::Character->dummy->new;
 	my $variables = Game::Model::CharacterVariables->dummy->new(id => $character->id);
 	my $player = Game::Model::Player->dummy->new;
@@ -47,4 +46,3 @@ sub create_actor
 	);
 }
 
-1;

@@ -1,7 +1,7 @@
 -- 6 up
 
 CREATE TABLE battles (
-	id uuid primary key,
+	id CHAR(26) primary key,
 	location_id VARCHAR(20) NULL,
 	size_x INT NOT NULL,
 	size_y INT NOT NULL,
@@ -14,9 +14,9 @@ CREATE TABLE battles (
 CREATE INDEX ind_battles_lookup ON battles (location_id);
 
 CREATE TABLE battle_contestants (
-	id uuid primary key,
-	battle_id uuid NOT NULL,
-	character_id uuid NOT NULL,
+	id CHAR(26) primary key,
+	battle_id CHAR(26) NOT NULL,
+	character_id CHAR(26) NOT NULL,
 	pos_x FLOAT NOT NULL,
 	pos_y FLOAT NOT NULL,
 	initiative INT NOT NULL,

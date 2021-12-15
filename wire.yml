@@ -1,0 +1,11 @@
+env:
+    class: Component::Env
+
+db:
+    class: Component::DB
+    args:
+        env:
+            $ref: env
+
+repo:
+    class: Game::Repository

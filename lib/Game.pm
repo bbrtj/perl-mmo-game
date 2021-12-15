@@ -1,38 +1,36 @@
 package Game;
 
-use header;
 use Mojo::Base 'Mojolicious';
-use Game::Common::Container;
 use Game::Bootstrap;
 use Game::Middleware;
 
-no header;
+use header;
 
 # This method will run once at server start
 sub startup ($self)
 {
-	my $config = bootstrap($self);
+	my $env = bootstrap($self);
 
-	load_config($self, $config);
-	load_commands($self, $config);
-	load_routes($self, $config);
-	load_plugins($self, $config);
-	load_helpers($self, $config);
+	load_config($self, $env);
+	load_commands($self, $env);
+	load_routes($self, $env);
+	load_plugins($self, $env);
+	load_helpers($self, $env);
 }
 
-sub load_config ($self, $config)
+sub load_config ($self, $env)
 {
 	# Configure the application
-	$self->mode($config->{mode} // "development");
-	$self->secrets($config->{secrets});
+	$self->mode($env->getenv('APP_MODE'));
+	$self->secrets($env->getenv('APP_SECRETS'));
 }
 
-sub load_commands ($self, $config)
+sub load_commands ($self, $env)
 {
 	push $self->commands->namespaces->@*, "Game::Command";
 }
 
-sub load_routes ($self, $config)
+sub load_routes ($self, $env)
 {
 	my $r = $self->routes;
 
@@ -46,24 +44,11 @@ sub load_routes ($self, $config)
 	$r->under('/api/game' => Game::Middleware->can('is_player'));
 }
 
-sub load_plugins ($self, $config)
+sub load_plugins ($self, $env)
 {
 }
 
-sub load_helpers ($self, $config)
+sub load_helpers ($self, $env)
 {
-	$self->helper(
-		db => sub {
-			state $pg = resolve('pg');
-		}
-	);
-
-	$self->helper(
-		dbc => sub ($self, $resultset) {
-			state $schema = resolve('dbc');
-			return $schema->resultset($resultset);
-		}
-	);
 }
 
-1;

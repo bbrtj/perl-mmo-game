@@ -1,18 +1,18 @@
 package Game::Command::migrate;
 
-use header;
 use Mojo::Base 'Mojolicious::Command';
 use Getopt::Long qw(GetOptionsFromArray);
 use Mojo::File qw(curfile path);
+use DI;
 
-no header;
+use header;
 
 has description => 'migrate database schema';
 
 # Usage message from SYNOPSIS
 has usage => sub ($self) { $self->extract_usage };
 
-sub get_files()
+sub get_files ()
 {
 	my $dir = curfile->dirname->dirname->sibling('migrations')->to_string;
 	return glob "$dir/*.{sql,sql.pl}";
@@ -31,7 +31,8 @@ sub run ($self, @args)
 		"downall" => \$downall,
 	);
 
-	my $migrations = $self->app->db->migrations;
+	my $db = DI->get('db')->db;
+	my $migrations = $db->migrations;
 	my $migration_string = '';
 	foreach my $file (get_files) {
 		my $fileobj = path($file);
@@ -64,8 +65,6 @@ sub run ($self, @args)
 	my $latest = $migrations->latest;
 	say "Currently at version $version / $latest";
 }
-
-1;
 
 __END__
 =head1 SYNOPSIS

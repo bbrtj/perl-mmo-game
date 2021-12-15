@@ -1,9 +1,8 @@
 package Game::Middleware;
 
-use header;
-use Game::Common::Container;
+use DI;
 
-no header;
+use header;
 
 sub unauthorized ($c)
 {
@@ -24,7 +23,7 @@ sub is_user ($c)
 	return unauthorized($c)
 		unless $user_id;
 
-	my $user = resolve('repo')->schema->load(User => $user_id);
+	my $user = DI->get('repo')->schema->load(User => $user_id);
 
 	return bad_request($c)
 		unless $user;
@@ -40,7 +39,7 @@ sub is_player ($c)
 	return unauthorized($c)
 		unless $player_id;
 
-	my $player = resolve('repo')->schema->load(Player => $player_id);
+	my $player = DI->get('repo')->schema->load(Player => $player_id);
 	my $user = $c->stash('user');
 
 	return bad_request($c)
@@ -50,4 +49,3 @@ sub is_player ($c)
 	return 1;
 }
 
-1;

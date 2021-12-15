@@ -1,34 +1,39 @@
-use v5.32;
-use File::Basename;
+requires 'Moo' => 0;
+requires 'Moose' => 0;
 
-my $current = dirname(__FILE__);
-my $current_uri = 'file://' . $current;
-my @modules = qw(
-	Game::Common
-	Game::Schema
-	Game::Repository
-	Game::Unit
-	Game::Worker
-	Game::Lore
-);
+requires 'Throwable' => 0;
+requires 'Beam::Wire' => 0;
+requires 'Dotenv' => 0;
+requires 'Data::Localize' => 0;
+requires 'Form::Tiny' => 0;
 
-# cpanfile mostly requests modules, real dependencies are in makefiles
-for my $module (@modules) {
-	my $filename = $module =~ s/::/-/gr;
-	my @dists = sort grep defined, map { /$filename-(.+)\.tar\.gz$/; $1 }
-		glob "${current}/${filename}/${filename}-*.tar.gz";
+requires 'Type::Tiny' => 0;
+requires 'Type::Libraries' => 0;
+requires 'Types::DateTime' => 0;
+requires 'Type::EmailAddress' => 0;
 
-	die "No dist for $module was found" unless @dists > 0;
+requires 'Mojolicious' => 0;
+requires 'Minion' => 0;
 
-	my $version = pop @dists;
-	requires $module, $version,
-		url => "${current_uri}/${filename}/${filename}-${version}.tar.gz";
-}
+requires 'Mojo::Pg' => 0;
+requires 'DBIx::Class' => 0;
+requires 'DateTime::Format::Pg' => 0;
 
-# normal cpanfile dependencies which don't fit in modules
+requires 'Import::Into' => 0;
+requires 'namespace::autoclean' => 0;
+requires 'true' => 0;
+
+requires 'Syntax::Keyword::Try' => 0;
+requires 'Safe::Isa' => 0;
+
+requires 'Data::Entropy' => 0;
+requires 'Data::ULID' => 0;
+requires 'Quantum::Superpositions::Lazy' => 0;
 
 on 'test' => sub {
 	requires 'Test::More';
 	requires 'Test::DB';
 	requires 'Test::Exception';
 };
+
+# vim: ft=perl

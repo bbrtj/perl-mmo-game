@@ -1,0 +1,33 @@
+#!/usr/bin/env perl
+
+use v5.32;
+use warnings;
+
+use File::Basename;
+use Env qw(@PATH @PERL5LIB);
+
+my $dir = dirname(__FILE__);
+
+# Carton
+unshift @PATH, "$dir/local/bin";
+unshift @PERL5LIB, "$dir/local/lib/perl5";
+
+my ($arg) = @ARGV;
+
+if ($arg eq 'lint') {
+	system('tidyall -a --mode lint');
+}
+elsif ($arg eq 'critic') {
+	system('tidyall -a --mode critic');
+}
+elsif ($arg eq 'prod') {
+	system('script/server minion worker -j 8 &');
+	system('hypnotoad script/web');
+}
+else {
+	my @watched = qw(lib templates);
+
+	system('script/server minion worker &');
+	system('script/server daemon -l http://*:3001 &');
+	system('morbo script/web -w @watched');
+}
