@@ -1,7 +1,5 @@
 use Test::More;
 
-use header -noclean;
-
 use_ok('Game::Common');
 use_ok('DI');
 

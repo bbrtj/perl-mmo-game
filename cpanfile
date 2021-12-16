@@ -31,9 +31,9 @@ requires 'Data::ULID' => 0;
 requires 'Quantum::Superpositions::Lazy' => 0;
 
 on 'test' => sub {
-	requires 'Test::More';
 	requires 'Test::DB';
-	requires 'Test::Exception';
+	requires 'Test2::Harness';
+	requires 'Test2::V0';
 };
 
 # vim: ft=perl

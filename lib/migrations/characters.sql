@@ -4,8 +4,8 @@ CREATE TABLE players (
 	id CHAR(26) primary key,
 	user_id CHAR(26),
 	online BOOLEAN NOT NULL DEFAULT false,
-	last_online TIMESTAMP NULL,
-	created_at TIMESTAMP NOT NULL,
+	last_online TIMESTAMPTZ NULL,
+	created_at TIMESTAMPTZ NOT NULL,
 	CONSTRAINT fk_user
 		FOREIGN KEY(user_id)
 		REFERENCES users(id)

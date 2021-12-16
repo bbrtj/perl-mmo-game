@@ -31,7 +31,7 @@ sub run ($self, @args)
 		"downall" => \$downall,
 	);
 
-	my $db = DI->get('db')->db;
+	my $db = DI->get('db')->dbh;
 	my $migrations = $db->migrations;
 	my $migration_string = '';
 	foreach my $file (get_files) {

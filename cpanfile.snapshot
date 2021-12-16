@@ -760,6 +760,13 @@ DISTRIBUTIONS
       constant 0
       strict 0
       warnings 0
+  Data-UUID-1.226
+    pathname: R/RJ/RJBS/Data-UUID-1.226.tar.gz
+    provides:
+      Data::UUID 1.226
+    requirements:
+      Digest::MD5 0
+      ExtUtils::MakeMaker 0
   DateTime-1.54
     pathname: D/DR/DROLSKY/DateTime-1.54.tar.gz
     provides:
@@ -1573,6 +1580,13 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  Importer-0.026
+    pathname: E/EX/EXODIST/Importer-0.026.tar.gz
+    provides:
+      Importer 0.026
+    requirements:
+      ExtUtils::MakeMaker 0
+      perl 5.008001
   Iterator-0.03
     pathname: R/RO/ROODE/Iterator-0.03.tar.gz
     provides:
@@ -1602,6 +1616,13 @@ DISTRIBUTIONS
       Module::Build 0.38
       Scalar::Util 0
       Term::ANSIColor 0
+  Long-Jump-0.000001
+    pathname: E/EX/EXODIST/Long-Jump-0.000001.tar.gz
+    provides:
+      Long::Jump 0.000001
+    requirements:
+      ExtUtils::MakeMaker 0
+      perl 5.008001
   MRO-Compat-0.13
     pathname: H/HA/HAARG/MRO-Compat-0.13.tar.gz
     provides:
@@ -3013,6 +3034,16 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0
+  Sub-Info-0.002
+    pathname: E/EX/EXODIST/Sub-Info-0.002.tar.gz
+    provides:
+      Sub::Info 0.002
+    requirements:
+      B 0
+      Carp 0
+      ExtUtils::MakeMaker 0
+      Importer 0.024
+      perl 5.008001
   Sub-Install-0.928
     pathname: R/RJ/RJBS/Sub-Install-0.928.tar.gz
     provides:
@@ -3066,6 +3097,23 @@ DISTRIBUTIONS
       XS::Parse::Keyword 0.06
       XS::Parse::Keyword::Builder 0.06
       perl 5.014
+  Term-Table-0.015
+    pathname: E/EX/EXODIST/Term-Table-0.015.tar.gz
+    provides:
+      Term::Table 0.015
+      Term::Table::Cell 0.015
+      Term::Table::CellStack 0.015
+      Term::Table::HashBase 0.015
+      Term::Table::LineBreak 0.015
+      Term::Table::Spacer 0.015
+      Term::Table::Util 0.015
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      Importer 0.024
+      List::Util 0
+      Scalar::Util 0
+      perl 5.008001
   Test-CPAN-Meta-0.25
     pathname: B/BA/BARBIE/Test-CPAN-Meta-0.25.tar.gz
     provides:
@@ -3237,6 +3285,315 @@ DISTRIBUTIONS
       Test::Builder 0.13
       Test::Builder::Tester 1.02
       perl 5.006
+  Test2-Harness-1.000091
+    pathname: E/EX/EXODIST/Test2-Harness-1.000091.tar.gz
+    provides:
+      App::Yath 1.000091
+      App::Yath::Command 1.000091
+      App::Yath::Command::abort 1.000091
+      App::Yath::Command::auditor 1.000091
+      App::Yath::Command::collector 1.000091
+      App::Yath::Command::do 1.000091
+      App::Yath::Command::failed 1.000091
+      App::Yath::Command::help 1.000091
+      App::Yath::Command::init 1.000091
+      App::Yath::Command::kill 1.000091
+      App::Yath::Command::projects 1.000091
+      App::Yath::Command::ps 1.000091
+      App::Yath::Command::reload 1.000091
+      App::Yath::Command::replay 1.000091
+      App::Yath::Command::run 1.000091
+      App::Yath::Command::runner 1.000091
+      App::Yath::Command::spawn 1.000091
+      App::Yath::Command::speedtag 1.000091
+      App::Yath::Command::start 1.000091
+      App::Yath::Command::status 1.000091
+      App::Yath::Command::stop 1.000091
+      App::Yath::Command::test 1.000091
+      App::Yath::Command::times 1.000091
+      App::Yath::Command::watch 1.000091
+      App::Yath::Command::which 1.000091
+      App::Yath::Converting 1.000091
+      App::Yath::Option 1.000091
+      App::Yath::Options 1.000091
+      App::Yath::Options::Collector 1.000091
+      App::Yath::Options::Debug 1.000091
+      App::Yath::Options::Display 1.000091
+      App::Yath::Options::Finder 1.000091
+      App::Yath::Options::Logging 1.000091
+      App::Yath::Options::Persist 1.000091
+      App::Yath::Options::PreCommand 1.000091
+      App::Yath::Options::Run 1.000091
+      App::Yath::Options::Runner 1.000091
+      App::Yath::Options::Workspace 1.000091
+      App::Yath::Plugin 1.000091
+      App::Yath::Plugin::Cover 1.000091
+      App::Yath::Plugin::Git 1.000091
+      App::Yath::Plugin::Notify 1.000091
+      App::Yath::Plugin::SelfTest undef
+      App::Yath::Plugin::SysInfo 1.000091
+      App::Yath::Plugin::YathUI 1.000091
+      App::Yath::Tester 1.000091
+      App::Yath::Util 1.000091
+      Test2::Formatter::QVF 1.000091
+      Test2::Formatter::Stream 1.000091
+      Test2::Formatter::Test2 1.000091
+      Test2::Formatter::Test2::Composer 1.000091
+      Test2::Harness 1.000091
+      Test2::Harness::Auditor 1.000091
+      Test2::Harness::Auditor::TimeTracker 1.000091
+      Test2::Harness::Auditor::Watcher 1.000091
+      Test2::Harness::Collector 1.000091
+      Test2::Harness::Collector::JobDir 1.000091
+      Test2::Harness::Collector::TapParser 1.000091
+      Test2::Harness::Event 1.000091
+      Test2::Harness::Finder 1.000091
+      Test2::Harness::IPC 1.000091
+      Test2::Harness::IPC::Process 1.000091
+      Test2::Harness::Log 1.000091
+      Test2::Harness::Log::CoverageAggregator 1.000091
+      Test2::Harness::Log::CoverageAggregator::ByRun 1.000091
+      Test2::Harness::Log::CoverageAggregator::ByTest 1.000091
+      Test2::Harness::Plugin 1.000091
+      Test2::Harness::Renderer 1.000091
+      Test2::Harness::Renderer::Formatter 1.000091
+      Test2::Harness::Run 1.000091
+      Test2::Harness::Runner 1.000091
+      Test2::Harness::Runner::Constants 1.000091
+      Test2::Harness::Runner::DepTracer 1.000091
+      Test2::Harness::Runner::Job 1.000091
+      Test2::Harness::Runner::Preload 1.000091
+      Test2::Harness::Runner::Preload::Stage 1.000091
+      Test2::Harness::Runner::Preloader 1.000091
+      Test2::Harness::Runner::Preloader::Stage 1.000091
+      Test2::Harness::Runner::Resource 1.000091
+      Test2::Harness::Runner::Run 1.000091
+      Test2::Harness::Runner::Spawn 1.000091
+      Test2::Harness::Runner::Spawn::Run 1.000091
+      Test2::Harness::Runner::State 1.000091
+      Test2::Harness::Settings 1.000091
+      Test2::Harness::Settings::Prefix 1.000091
+      Test2::Harness::TestFile 1.000091
+      Test2::Harness::Util 1.000091
+      Test2::Harness::Util::File 1.000091
+      Test2::Harness::Util::File::JSON 1.000091
+      Test2::Harness::Util::File::JSONL 1.000091
+      Test2::Harness::Util::File::Stream 1.000091
+      Test2::Harness::Util::File::Value 1.000091
+      Test2::Harness::Util::HashBase 1.000091
+      Test2::Harness::Util::IPC 1.000091
+      Test2::Harness::Util::JSON 1.000091
+      Test2::Harness::Util::Queue 1.000091
+      Test2::Harness::Util::Term 1.000091
+      Test2::Harness::Util::UUID 1.000091
+      Test2::Tools::HarnessTester 1.000091
+    requirements:
+      Carp 0
+      Config 0
+      Cwd 0
+      Data::Dumper 0
+      Data::UUID 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      Fcntl 0
+      File::Find 0
+      File::Path 2.11
+      File::Spec 0
+      File::Temp 0
+      Filter::Util::Call 0
+      IO::Compress::Bzip2 0
+      IO::Compress::Gzip 0
+      IO::Handle 1.27
+      IO::Uncompress::Bunzip2 0
+      IO::Uncompress::Gunzip 0
+      IPC::Cmd 0
+      Importer 0.025
+      JSON::PP 0
+      List::Util 1.44
+      Long::Jump 0.000001
+      POSIX 0
+      Scalar::Util 0
+      Scope::Guard 0
+      Symbol 0
+      Sys::Hostname 0
+      Term::Table 0.015
+      Test2 1.302170
+      Test2::API 1.302170
+      Test2::Bundle::Extended 0.000127
+      Test2::Event 1.302170
+      Test2::Event::V2 1.302170
+      Test2::Formatter 1.302170
+      Test2::Plugin::MemUsage 0.002003
+      Test2::Plugin::UUID 0.002001
+      Test2::Tools::AsyncSubtest 0.000127
+      Test2::Tools::Subtest 0.000127
+      Test2::Util 1.302170
+      Test2::Util::Term 0.000127
+      Test2::V0 0.000127
+      Test::Builder 1.302170
+      Test::Builder::Formatter 1.302170
+      Test::More 1.302170
+      Time::HiRes 0
+      base 0
+      constant 0
+      goto::file 0.005
+      parent 0
+      perl 5.010000
+  Test2-Plugin-MemUsage-0.002003
+    pathname: E/EX/EXODIST/Test2-Plugin-MemUsage-0.002003.tar.gz
+    provides:
+      Test2::Plugin::MemUsage 0.002003
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test2::API 1.302165
+      Test2::Event::V2 1.302165
+      perl 5.008009
+  Test2-Plugin-UUID-0.002001
+    pathname: E/EX/EXODIST/Test2-Plugin-UUID-0.002001.tar.gz
+    provides:
+      Test2::Plugin::UUID 0.002001
+    requirements:
+      Data::UUID 1.148
+      ExtUtils::MakeMaker 0
+      Test2::API 1.302165
+      perl 5.008009
+  Test2-Suite-0.000144
+    pathname: E/EX/EXODIST/Test2-Suite-0.000144.tar.gz
+    provides:
+      Test2::AsyncSubtest 0.000144
+      Test2::AsyncSubtest::Event::Attach 0.000144
+      Test2::AsyncSubtest::Event::Detach 0.000144
+      Test2::AsyncSubtest::Formatter 0.000144
+      Test2::AsyncSubtest::Hub 0.000144
+      Test2::Bundle 0.000144
+      Test2::Bundle::Extended 0.000144
+      Test2::Bundle::More 0.000144
+      Test2::Bundle::Simple 0.000144
+      Test2::Compare 0.000144
+      Test2::Compare::Array 0.000144
+      Test2::Compare::Bag 0.000144
+      Test2::Compare::Base 0.000144
+      Test2::Compare::Bool 0.000144
+      Test2::Compare::Custom 0.000144
+      Test2::Compare::DeepRef 0.000144
+      Test2::Compare::Delta 0.000144
+      Test2::Compare::Event 0.000144
+      Test2::Compare::EventMeta 0.000144
+      Test2::Compare::Float 0.000144
+      Test2::Compare::Hash 0.000144
+      Test2::Compare::Isa 0.000144
+      Test2::Compare::Meta 0.000144
+      Test2::Compare::Negatable 0.000144
+      Test2::Compare::Number 0.000144
+      Test2::Compare::Object 0.000144
+      Test2::Compare::OrderedSubset 0.000144
+      Test2::Compare::Pattern 0.000144
+      Test2::Compare::Ref 0.000144
+      Test2::Compare::Regex 0.000144
+      Test2::Compare::Scalar 0.000144
+      Test2::Compare::Set 0.000144
+      Test2::Compare::String 0.000144
+      Test2::Compare::Undef 0.000144
+      Test2::Compare::Wildcard 0.000144
+      Test2::Manual 0.000144
+      Test2::Manual::Anatomy 0.000144
+      Test2::Manual::Anatomy::API 0.000144
+      Test2::Manual::Anatomy::Context 0.000144
+      Test2::Manual::Anatomy::EndToEnd 0.000144
+      Test2::Manual::Anatomy::Event 0.000144
+      Test2::Manual::Anatomy::Hubs 0.000144
+      Test2::Manual::Anatomy::IPC 0.000144
+      Test2::Manual::Anatomy::Utilities 0.000144
+      Test2::Manual::Concurrency 0.000144
+      Test2::Manual::Contributing 0.000144
+      Test2::Manual::Testing 0.000144
+      Test2::Manual::Testing::Introduction 0.000144
+      Test2::Manual::Testing::Migrating 0.000144
+      Test2::Manual::Testing::Planning 0.000144
+      Test2::Manual::Testing::Todo 0.000144
+      Test2::Manual::Tooling 0.000144
+      Test2::Manual::Tooling::FirstTool 0.000144
+      Test2::Manual::Tooling::Formatter 0.000144
+      Test2::Manual::Tooling::Nesting 0.000144
+      Test2::Manual::Tooling::Plugin::TestExit 0.000144
+      Test2::Manual::Tooling::Plugin::TestingDone 0.000144
+      Test2::Manual::Tooling::Plugin::ToolCompletes 0.000144
+      Test2::Manual::Tooling::Plugin::ToolStarts 0.000144
+      Test2::Manual::Tooling::Subtest 0.000144
+      Test2::Manual::Tooling::TestBuilder 0.000144
+      Test2::Manual::Tooling::Testing 0.000144
+      Test2::Mock 0.000144
+      Test2::Plugin 0.000144
+      Test2::Plugin::BailOnFail 0.000144
+      Test2::Plugin::DieOnFail 0.000144
+      Test2::Plugin::ExitSummary 0.000144
+      Test2::Plugin::SRand 0.000144
+      Test2::Plugin::Times 0.000144
+      Test2::Plugin::UTF8 0.000144
+      Test2::Require 0.000144
+      Test2::Require::AuthorTesting 0.000144
+      Test2::Require::EnvVar 0.000144
+      Test2::Require::Fork 0.000144
+      Test2::Require::Module 0.000144
+      Test2::Require::Perl 0.000144
+      Test2::Require::RealFork 0.000144
+      Test2::Require::Threads 0.000144
+      Test2::Suite 0.000144
+      Test2::Todo 0.000144
+      Test2::Tools 0.000144
+      Test2::Tools::AsyncSubtest 0.000144
+      Test2::Tools::Basic 0.000144
+      Test2::Tools::Class 0.000144
+      Test2::Tools::ClassicCompare 0.000144
+      Test2::Tools::Compare 0.000144
+      Test2::Tools::Defer 0.000144
+      Test2::Tools::Encoding 0.000144
+      Test2::Tools::Event 0.000144
+      Test2::Tools::Exception 0.000144
+      Test2::Tools::Exports 0.000144
+      Test2::Tools::GenTemp 0.000144
+      Test2::Tools::Grab 0.000144
+      Test2::Tools::Mock 0.000144
+      Test2::Tools::Ref 0.000144
+      Test2::Tools::Spec 0.000144
+      Test2::Tools::Subtest 0.000144
+      Test2::Tools::Target 0.000144
+      Test2::Tools::Tester 0.000144
+      Test2::Tools::Warnings 0.000144
+      Test2::Util::Grabber 0.000144
+      Test2::Util::Ref 0.000144
+      Test2::Util::Stash 0.000144
+      Test2::Util::Sub 0.000144
+      Test2::Util::Table 0.000144
+      Test2::Util::Table::Cell 0.000144
+      Test2::Util::Table::LineBreak 0.000144
+      Test2::Util::Term 0.000144
+      Test2::Util::Times 0.000144
+      Test2::V0 0.000144
+      Test2::Workflow 0.000144
+      Test2::Workflow::BlockBase 0.000144
+      Test2::Workflow::Build 0.000144
+      Test2::Workflow::Runner 0.000144
+      Test2::Workflow::Task 0.000144
+      Test2::Workflow::Task::Action 0.000144
+      Test2::Workflow::Task::Group 0.000144
+    requirements:
+      B 0
+      Carp 0
+      Data::Dumper 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      Importer 0.024
+      Module::Pluggable 2.7
+      Scalar::Util 0
+      Scope::Guard 0
+      Sub::Info 0.002
+      Term::Table 0.013
+      Test2::API 1.302176
+      Time::HiRes 0
+      overload 0
+      perl 5.008001
+      utf8 0
   Throwable-1.000
     pathname: R/RJ/RJBS/Throwable-1.000.tar.gz
     provides:
@@ -3476,6 +3833,14 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  goto-file-0.005
+    pathname: E/EX/EXODIST/goto-file-0.005.tar.gz
+    provides:
+      goto::file 0.005
+    requirements:
+      ExtUtils::MakeMaker 0
+      Filter::Util::Call 0
+      perl 5.008001
   namespace-autoclean-0.29
     pathname: E/ET/ETHER/namespace-autoclean-0.29.tar.gz
     provides:

@@ -1,13 +1,17 @@
-package cases;
+package Test2::Tools::Provider;
 
-require Test::More;
+use Exporter qw(import);
+use Test2::API qw(context);
+use Test2::Tools::Subtest qw(subtest_buffered);
 
 use header -noclean;
+
+our @EXPORT = qw(test_data);
 
 sub get_sub ($desc, @cases)
 {
 	return sub : prototype(&) ($tester) {
-		Test::More::subtest $desc, sub {
+		subtest_buffered $desc, sub {
 			my $num = 0;
 			for my $case (@cases) {
 				local $_ = "case $num ok";
@@ -18,7 +22,7 @@ sub get_sub ($desc, @cases)
 	};
 }
 
-sub import ($class, %cases)
+sub test_data (%cases)
 {
 	my $pkg = caller;
 
@@ -27,7 +31,7 @@ sub import ($class, %cases)
 			unless $desc =~ m/[a-z0-9 _]/;
 
 		my @cases = $cases{$desc}->@*;
-		my $subname = $desc =~ s/ /_/gr;
+		my $subname = lc $desc =~ s/ /_/gr;
 
 		{
 			no strict 'refs';
@@ -35,4 +39,3 @@ sub import ($class, %cases)
 		}
 	}
 }
-

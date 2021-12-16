@@ -1,7 +1,6 @@
-use Test::More;
 use Game::Model::CharacterVariables;
 
-use header -noclean;
+use testheader;
 
 my $data = {
 	experience => 100000,
@@ -12,7 +11,7 @@ my $data = {
 
 my $vars = Game::Model::CharacterVariables->new($data);
 $data->{id} = $vars->id;
-is_deeply $vars->serialize, $data, 'serialization ok';
+is $vars->serialize, $data, 'serialization ok';
 
 done_testing;
 

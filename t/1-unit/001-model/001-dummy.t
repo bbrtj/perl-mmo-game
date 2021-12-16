@@ -1,7 +1,6 @@
-use Test::More;
 use Game::Model::User;
 
-use header -noclean;
+use testheader;
 
 my $dummy = Game::Model::User->dummy->new;
 isa_ok $dummy, 'Game::Model::User::Dummy';

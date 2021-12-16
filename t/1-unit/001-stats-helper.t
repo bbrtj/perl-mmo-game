@@ -1,10 +1,8 @@
-use Test::More;
+use testheader;
 
-use header -noclean;
+use Game::Helper::Stats;
 
-use_ok('Game::Helper::Stats');
-
-is_deeply Game::Helper::Stats->from_string('A:5;B:3;AB:3.33333'), {
+is Game::Helper::Stats->from_string('A:5;B:3;AB:3.33333'), {
 	A => 5,
 	B => 3,
 	AB => '3.33333',
@@ -16,10 +14,10 @@ my $test = {
 	ASD => 3,
 };
 
-is_deeply Game::Helper::Stats->from_string(Game::Helper::Stats->to_string($test)),
+is Game::Helper::Stats->from_string(Game::Helper::Stats->to_string($test)),
 	$test, 'to_string return value ok';
 
-is_deeply Game::Helper::Stats->weld_strings(
+is Game::Helper::Stats->weld_strings(
 	'A:1;B:2',
 	'B:3;C:4',
 	), {

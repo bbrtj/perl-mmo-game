@@ -11,7 +11,7 @@ CREATE TABLE users (
 	password VARCHAR(64) NOT NULL,
 	salt VARCHAR(16) NOT NULL,
 	status INT NOT NULL DEFAULT 1,
-	created_at TIMESTAMP NOT NULL
+	created_at TIMESTAMPTZ NOT NULL
 );
 
 CREATE INDEX ind_users_lookup ON users (email);

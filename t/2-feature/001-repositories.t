@@ -1,12 +1,10 @@
-use Test::More;
-use Test::Exception;
 use Game::Ability;
 use DI;
 use Game::Model::User;
 use Game::Character::Statistic;
 use DatabaseTest;
 
-use header -noclean;
+use testheader;
 
 DatabaseTest->test(
 	sub {
@@ -31,7 +29,7 @@ DatabaseTest->test(
 		$char_repo->save($model->id, $data);
 
 		my $loaded = $char_repo->load($model->id);
-		is_deeply $loaded, $data, 'char cache repo save-load ok';
+		is $loaded, $data, 'char cache repo save-load ok';
 
 		$data->{health_max} += 5;
 		ok $char_repo->save($model->id, $data), 'update ok';
@@ -45,18 +43,18 @@ DatabaseTest->test(
 		my $schema_repo = DI->get('repo')->schema;
 		ok $schema_repo, 'schema repo resolve ok';
 
-		dies_ok { $schema_repo->save($user) } 'dummies cannot be saved';
+		ok !lives { $schema_repo->save($user) }, 'dummies cannot be saved';
 
 		$user->promote;
-		lives_ok { $schema_repo->save($user) } 'non-dummies can be saved';
+		ok lives { $schema_repo->save($user) }, 'non-dummies can be saved';
 
 		my $fetched = $schema_repo->load(User => $user->id);
-		is_deeply $fetched->serialize, $user->serialize, 'after save ok';
+		is $fetched->serialize, $user->serialize, 'after save ok';
 
 		$user->set_password('test2');
-		lives_ok { $schema_repo->save($user, 1) } 'update ok';
+		ok lives { $schema_repo->save($user, 1) }, 'update ok';
 		$fetched = $schema_repo->load(User => $user->id);
-		is_deeply $fetched->serialize, $user->serialize, 'after update ok';
+		is $fetched->serialize, $user->serialize, 'after update ok';
 	}
 );
 
