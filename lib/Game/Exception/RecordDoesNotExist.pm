@@ -4,5 +4,5 @@ use Moo;
 
 use header;
 
-extends 'Game::ExceptionBase';
+extends 'Game::Exception';
 

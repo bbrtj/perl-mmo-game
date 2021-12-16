@@ -4,7 +4,7 @@ use Moo;
 
 use header;
 
-extends 'Game::ExceptionBase';
+extends 'Game::Exception';
 
 has 'message' => (
 	is => 'ro',

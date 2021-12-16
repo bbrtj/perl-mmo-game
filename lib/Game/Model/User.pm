@@ -2,11 +2,14 @@ package Game::Model::User;
 
 use Moose;
 use Types;
-use Digest::SHA qw(sha256_hex);
+use Digest::SHA qw(sha256);
+use Crypt::Eksblowfish::Bcrypt qw(bcrypt en_base64);
 
 use header;
 
 with 'Game::Model', 'Game::Model::Role::Stored';
+
+use constant BCRYPT_SETTINGS => '$2a$10$';
 
 has 'email' => (
 	is => 'ro',
@@ -16,18 +19,9 @@ has 'email' => (
 
 has 'password' => (
 	is => 'ro',
-	isa => Types::NonEmptySimpleStr->where(q{ length $_ == 64 }),
+	isa => Types::NonEmptySimpleStr->where(q{ length $_ <= 60 }),
 	writer => '_set_password',
 	required => 1,
-);
-
-has 'salt' => (
-	is => 'ro',
-	isa => Types::NonEmptySimpleStr->where(q{ length $_ == 16 }),
-	lazy => 1,
-	default => sub ($self) {
-		substr sha256_hex($self->id . time), 0, 16;
-	},
 );
 
 has 'status' => (
@@ -43,10 +37,13 @@ has 'created_at' => (
 	default => sub { time },
 );
 
-# TODO: bcrypt
-sub _make_password ($self, $plaintext_password)
+sub _gen_salt ($self) {
+	return en_base64(substr sha256($self->id . rand), 0, 16);
+}
+
+sub _make_password ($self, $plaintext_password, $settings = BCRYPT_SETTINGS . $self->_gen_salt)
 {
-	return sha256_hex(sha256_hex($plaintext_password) . $self->salt);
+	return bcrypt($plaintext_password, $settings);
 }
 
 sub set_password ($self, $plaintext_password)
@@ -57,7 +54,7 @@ sub set_password ($self, $plaintext_password)
 
 sub verify_password ($self, $plaintext_password)
 {
-	return $self->password eq $self->_make_password($plaintext_password);
+	return $self->password eq $self->_make_password($plaintext_password, $self->password);
 }
 
 __PACKAGE__->_register;

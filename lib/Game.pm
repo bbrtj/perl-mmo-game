@@ -2,7 +2,6 @@ package Game;
 
 use Mojo::Base 'Mojolicious';
 use Game::Bootstrap;
-use Game::Middleware;
 
 use header;
 
@@ -40,8 +39,8 @@ sub load_routes ($self, $env)
 	$r->post('/user/login')->to('user#login');
 	$r->post('/user/register')->to('user#register');
 
-	$r->under('/api' => Game::Middleware->can('is_user'));
-	$r->under('/api/game' => Game::Middleware->can('is_player'));
+	$r->under('/api')->to('middleware#is_user');
+	$r->under('/api/game')->to('middleware#is_player');
 }
 
 sub load_plugins ($self, $env)

@@ -4,8 +4,6 @@ use Mojo::File qw(path);
 
 use header;
 
-our $VERSION = "0.001";
-
 sub load_classes ($class, $namespace, $pattern)
 {
 	if ($pattern !~ m{^/}) {

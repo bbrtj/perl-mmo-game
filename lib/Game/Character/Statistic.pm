@@ -4,7 +4,7 @@ use Moo::Role;
 
 use header;
 
-with 'Game::LoreElement';
+with 'Game::Lore';
 
 sub _get
 {

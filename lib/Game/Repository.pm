@@ -6,8 +6,6 @@ use Types;
 
 use header;
 
-our $VERSION = "0.001";
-
 Game::Common->load_classes('Game::Repository', 'Repository/*.pm');
 
 has 'char_cache' => (

@@ -1,5 +1,6 @@
-package Game::Middleware;
+package Game::Controller::Middleware;
 
+use Mojo::Base 'Mojolicious::Controller';
 use DI;
 
 use header;

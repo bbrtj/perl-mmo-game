@@ -1,4 +1,4 @@
-package Game::ExceptionBase;
+package Game::Exception;
 
 use Moo;
 

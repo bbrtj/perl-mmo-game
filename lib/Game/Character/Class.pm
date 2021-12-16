@@ -5,7 +5,7 @@ use Game::Ability;
 
 use header;
 
-with 'Game::LoreElement';
+with 'Game::Lore';
 
 requires qw(
 	playable

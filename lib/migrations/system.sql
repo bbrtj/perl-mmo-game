@@ -8,8 +8,7 @@ CREATE TABLE config (
 CREATE TABLE users (
 	id CHAR(26) primary key,
 	email VARCHAR(128) NOT NULL,
-	password VARCHAR(64) NOT NULL,
-	salt VARCHAR(16) NOT NULL,
+	password VARCHAR(60) NOT NULL,
 	status INT NOT NULL DEFAULT 1,
 	created_at TIMESTAMPTZ NOT NULL
 );
