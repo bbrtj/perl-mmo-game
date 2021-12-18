@@ -10,6 +10,7 @@ use experimental;
 require namespace::autoclean;
 require true;
 
+require i18n;
 require Syntax::Keyword::Try;
 require Carp;
 require Scalar::Util;
@@ -31,12 +32,14 @@ sub import
 	Scalar::Util->import::into($pkg, qw(blessed));
 	List::Util->import::into($pkg, qw(first any));
 	Safe::Isa->import::into($pkg);
+	i18n->import::into($pkg);
 
 	namespace::autoclean->import(-cleanee => scalar(caller))
 		unless grep { $_ eq -noclean } @args;
 
 	feature->unimport::out_of($pkg, 'indirect');
 	warnings->unimport::out_of($pkg, 'experimental::signatures');
+	warnings->unimport::out_of($pkg, 'experimental::isa');
 	return;
 }
 
