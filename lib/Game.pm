@@ -2,6 +2,8 @@ package Game;
 
 use Mojo::Base 'Mojolicious';
 use Game::Bootstrap;
+use Mojo::Log;
+use Mojo::File qw(curfile);
 
 use header;
 
@@ -22,6 +24,12 @@ sub load_config ($self, $env)
 	# Configure the application
 	$self->mode($env->getenv('APP_MODE'));
 	$self->secrets($env->getenv('APP_SECRETS'));
+
+	my $log = Mojo::Log->new(
+		path => curfile->dirname->sibling('logs')->child('application.log'),
+		level => 'error',
+	);
+	$self->log($log);
 }
 
 sub load_commands ($self, $env)

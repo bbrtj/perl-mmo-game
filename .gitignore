@@ -1,3 +1,6 @@
 /.tidyall.d
 /local
 /.env
+
+/logs/*
+!/logs/.keep
