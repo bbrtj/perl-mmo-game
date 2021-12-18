@@ -2637,6 +2637,12 @@ DISTRIBUTIONS
       Scalar::Util 1.25
       Time::Local 1.19
       perl 5.008008
+  Object-Sub-0.103
+    pathname: F/FR/FRACTAL/Object-Sub-0.103.tar.gz
+    provides:
+      Object::Sub 0.103
+    requirements:
+      ExtUtils::MakeMaker 0
   Package-DeprecationManager-0.17
     pathname: D/DR/DROLSKY/Package-DeprecationManager-0.17.tar.gz
     provides:

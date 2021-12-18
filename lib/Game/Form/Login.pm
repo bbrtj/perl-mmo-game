@@ -18,18 +18,18 @@ has 'user' => (
 form_trim_strings;
 
 form_field 'email' => (
-	type => Types::NonEmptySimpleStr,
+	type => Types::SimpleStr,
 	required => 1,
 );
 
 form_field 'password' => (
-	type => Types::NonEmptySimpleStr,
+	type => Types::SimpleStr,
 	required => 1,
 );
 
 form_field 'remember_me' => (
 	type => Types::Bool,
-	required => 1,
+	default => sub { 0 },
 );
 
 form_cleaner sub ($self, $data) {
@@ -43,7 +43,7 @@ form_cleaner sub ($self, $data) {
 		}
 	}
 	catch ($e) {
-		if ($e->$_isa(Game::Exception::RecordDoesNotExist::)) {
+		if ($e isa Game::Exception::RecordDoesNotExist) {
 			$self->add_error(email => 'invalid email address');
 		}
 		else {

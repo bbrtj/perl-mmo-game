@@ -1,5 +1,6 @@
 requires 'Moo' => 0;
 requires 'Moose' => 0;
+requires 'Object::Sub' => 0;
 
 requires 'Throwable' => 0;
 requires 'Beam::Wire' => 0;
