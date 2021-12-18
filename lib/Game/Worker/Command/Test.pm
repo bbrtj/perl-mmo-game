@@ -11,5 +11,6 @@ use constant name => 'test';
 sub handler ($job)
 {
 	$job->app->log->debug("test test");
+	return;
 }
 

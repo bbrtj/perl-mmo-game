@@ -8,7 +8,7 @@ use header;
 
 sub roll ($self, $chance)
 {
-	return rng < $chance;
+	return rng() < $chance;
 }
 
 sub roll_with_luck ($self, $chance, $actor)

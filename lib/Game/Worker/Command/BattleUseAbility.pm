@@ -45,5 +45,6 @@ sub handler ($job, $battle_id, $caster_id, $ability_id, $target)
 	$repo->save($battle);
 
 	# setup feedback for the web application
+	return;
 }
 

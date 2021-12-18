@@ -37,7 +37,8 @@ has 'created_at' => (
 	default => sub { time },
 );
 
-sub _gen_salt ($self) {
+sub _gen_salt ($self)
+{
 	return en_base64(substr sha256($self->id . rand), 0, 16);
 }
 

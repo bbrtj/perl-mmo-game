@@ -64,6 +64,7 @@ sub run ($self, @args)
 	$version = $migrations->active;
 	my $latest = $migrations->latest;
 	say "Currently at version $version / $latest";
+	return;
 }
 
 __END__

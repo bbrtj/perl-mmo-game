@@ -29,5 +29,6 @@ sub effects ($self, $caster, $targets)
 	my $damage = 5;
 	my $attribute = $self->attribute;    # resolve if inherits
 	Game::Mechanics::Character::Damage->deal_damage($attribute, $damage, $targets);
+	return;
 }
 

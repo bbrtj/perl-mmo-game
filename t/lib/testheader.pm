@@ -13,4 +13,5 @@ sub import ($class)
 	Test2::Tools::Provider->import::into($pkg);
 
 	header->import::into($pkg, -noclean);
+	return;
 }

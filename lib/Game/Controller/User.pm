@@ -8,5 +8,6 @@ use header;
 sub login ($self)
 {
 	$self->render(json => 'Welcome to the Mojolicious real-time web framework!');
+	return;
 }
 

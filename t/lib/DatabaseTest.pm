@@ -49,5 +49,6 @@ sub test ($class, $sub)
 	# finally
 	DI->get('db')->db->disconnect;
 	$cloned->destroy;
+	return;
 }
 

@@ -1,6 +1,9 @@
 use Mojo::File qw(curfile path);
 use Encode qw(decode);
 
+use strict;
+use warnings;
+
 my @files = map { curfile->dirname->to_string . "/system_data/$_.sql" } qw(
 	config
 );

@@ -17,6 +17,8 @@ sub startup ($self)
 	load_routes($self, $env);
 	load_plugins($self, $env);
 	load_helpers($self, $env);
+
+	return;
 }
 
 sub load_config ($self, $env)
@@ -30,11 +32,15 @@ sub load_config ($self, $env)
 		level => 'error',
 	);
 	$self->log($log);
+
+	return;
 }
 
 sub load_commands ($self, $env)
 {
 	push $self->commands->namespaces->@*, "Game::Command";
+
+	return;
 }
 
 sub load_routes ($self, $env)
@@ -42,20 +48,24 @@ sub load_routes ($self, $env)
 	my $r = $self->routes;
 
 	# Normal route to controller
-	$r->get('/')->to('main#index');
+	$r->get('/')->to('main#main_page');
 
 	$r->post('/user/login')->to('user#login');
 	$r->post('/user/register')->to('user#register');
 
 	$r->under('/api')->to('middleware#is_user');
 	$r->under('/api/game')->to('middleware#is_player');
+
+	return;
 }
 
 sub load_plugins ($self, $env)
 {
+	return;
 }
 
 sub load_helpers ($self, $env)
 {
+	return;
 }
 

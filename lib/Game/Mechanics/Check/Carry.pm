@@ -17,7 +17,7 @@ has 'error' => (
 
 sub gather ($self, $message, @checks)
 {
-	die "no checks for `$message`" unless @checks;
+	croak "no checks for `$message`" unless @checks;
 
 	for my $check (reverse @checks) {
 		if (ref $check eq 'CODE') {
@@ -42,6 +42,9 @@ sub gather ($self, $message, @checks)
 			result => 1,
 		);
 	}
+
+	# should never get here
+	return;
 }
 
 sub assert_valid ($self)

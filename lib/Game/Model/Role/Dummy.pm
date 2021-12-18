@@ -37,5 +37,6 @@ sub promote ($self)
 	my $base = first { $_ =~ /^Game::Model::/ && $_ !~ /::Dummy$/ }
 		$self->meta->class_precedence_list;
 	$base->meta->rebless_instance_back($_[0]);
+	return;
 }
 

@@ -38,4 +38,6 @@ sub test_data (%cases)
 			*{"${pkg}::test_${subname}"} = get_sub $desc, @cases;
 		}
 	}
+
+	return;
 }

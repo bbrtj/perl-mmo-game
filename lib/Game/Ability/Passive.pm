@@ -13,7 +13,7 @@ requires qw(
 
 sub _get
 {
-	state $list =
+	return state $list =
 		{map { $_->lore_id => $_->new } Game::Common->load_classes('Game::Ability::Passive', 'Passive/*.pm')};
 }
 

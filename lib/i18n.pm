@@ -18,7 +18,8 @@ our @EXPORT = qw(
 
 our $CURRENT_LANG = undef;
 
-sub _t {
+sub _t
+{
 	my ($message, @args) = @_;
 
 	return __PACKAGE__->new(
@@ -27,7 +28,8 @@ sub _t {
 	);
 }
 
-sub _tt {
+sub _tt
+{
 	my $t = _t @_;
 	$t->id(0);
 
@@ -38,6 +40,7 @@ sub _tt {
 
 use overload
 	q{""} => "translate",
+	bool => sub { 1 },
 	fallback => 1;
 
 has 'id' => (
@@ -66,7 +69,6 @@ my $localizer = do {
 	);
 	$loc;
 };
-
 
 sub translate
 {

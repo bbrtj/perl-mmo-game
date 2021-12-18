@@ -74,6 +74,7 @@ sub get_result_class ($self)
 sub bootstrap ($class)
 {
 	Game::Common->load_classes('Game::Model', 'Model/*.pm');
+	return;
 }
 
 sub dummy ($class)

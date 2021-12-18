@@ -5,6 +5,7 @@ use warnings;
 use utf8;
 use feature ':5.32';
 use Import::Into;
+use List::Util qw(any);
 
 use experimental;
 require namespace::autoclean;
@@ -14,7 +15,6 @@ require i18n;
 require Syntax::Keyword::Try;
 require Carp;
 require Scalar::Util;
-require List::Util;
 require Safe::Isa;
 
 sub import
@@ -35,7 +35,8 @@ sub import
 	i18n->import::into($pkg);
 
 	namespace::autoclean->import(-cleanee => scalar(caller))
-		unless grep { $_ eq -noclean } @args;
+		unless any { $_ eq -noclean }
+		@args;
 
 	feature->unimport::out_of($pkg, 'indirect');
 	warnings->unimport::out_of($pkg, 'experimental::signatures');

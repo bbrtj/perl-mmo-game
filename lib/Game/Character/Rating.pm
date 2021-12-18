@@ -8,7 +8,7 @@ with 'Game::Lore';
 
 sub _get
 {
-	state $list =
+	return state $list =
 		{map { $_->lore_id => $_->new } Game::Common->load_classes('Game::Character::Rating', 'Rating/*.pm')};
 }
 
