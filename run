@@ -17,8 +17,8 @@ my ($arg) = @ARGV;
 if ($arg eq 'lint') {
 	system('tidyall -a --mode lint');
 }
-elsif ($arg eq 'critic') {
-	system('tidyall -a --mode critic');
+elsif ($arg =~ /^critic/) {
+	system('tidyall -a --mode ' . $arg);
 }
 elsif ($arg eq 'prod') {
 	system('script/server minion worker -j 8 &');

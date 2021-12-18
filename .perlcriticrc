@@ -1,0 +1,15 @@
+severity = 2
+theme = community + bugs + security + performance + tests
+exclude = Subroutines::ProhibitSubroutinePrototypes Modules::RequireEndWithOne ValuesAndExpressions::ProhibitConstantPragma Modules::ProhibitAutomaticExportation Modules::RequireExplicitPackage
+
+[TestingAndDebugging::RequireUseStrict]
+equivalent_modules = header testheader
+
+[TestingAndDebugging::RequireUseWarnings]
+equivalent_modules = header testheader
+
+[Community::Prototypes]
+signature_enablers = header testheader
+
+[Community::StrictWarnings]
+extra_importers = header testheader

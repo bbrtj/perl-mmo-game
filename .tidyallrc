@@ -5,7 +5,9 @@ argv = -pro=./.perltidyrc --character-encoding=none
 only_modes = lint commit
 
 [PerlCritic tests]
-select = **/*.{t}
-ignore = local/**/*.{t}
-argv = --theme=tests
+select = t/**/*.{t}
+only_modes = critic_tests
+
+[PerlCritic]
+select = {t,lib}/**/*.{pl,pm}
 only_modes = critic
