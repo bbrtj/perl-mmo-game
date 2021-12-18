@@ -3,9 +3,10 @@ package Game::Form::Login;
 use Form::Tiny -filtered, -consistent;
 use DI;
 use Types;
-use Form::Tiny::Error;
 
 use header;
+
+extends 'Game::Form';
 
 has 'user' => (
 	is => 'ro',
@@ -13,6 +14,8 @@ has 'user' => (
 	isa => Types::InstanceOf ['Game::Model::User'],
 	init_arg => undef,
 );
+
+form_trim_strings;
 
 form_field 'email' => (
 	type => Types::NonEmptySimpleStr,
@@ -33,12 +36,7 @@ form_cleaner sub ($self, $data) {
 	try {
 		my $user = DI->get('repo')->schema->load({email => $data->{email}});
 		if (!$user->verify_password($data->{password})) {
-			$self->add_error(
-				Form::Tiny::Error::DoesNotValidate->new(
-					field => 'password',
-					error => 'invalid password'
-				)
-			);
+			$self->add_error(password => 'invalid password');
 		}
 		else {
 			$self->set_user($user);
@@ -46,19 +44,10 @@ form_cleaner sub ($self, $data) {
 	}
 	catch ($e) {
 		if ($e->$_isa(Game::Exception::RecordDoesNotExist::)) {
-			$self->add_error(
-				Form::Tiny::Error::DoesNotValidate->new(
-					field => 'email',
-					error => 'invalid email address'
-				)
-			);
+			$self->add_error(email => 'invalid email address');
 		}
 		else {
-			$self->add_error(
-				Form::Tiny::Error->new(
-					error => 'unknown error'
-				)
-			);
+			$self->add_error('unknown error');
 		}
 	}
 };
