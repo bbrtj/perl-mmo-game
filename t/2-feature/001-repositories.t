@@ -13,7 +13,7 @@ DatabaseTest->test(
 		is $class->lore_name, 'Siła', 'lore name ok';
 
 		### test Game::Repository::CharCache
-		my $char_repo = DI->get('repo')->char_cache;
+		my $char_repo = DI->get('char_cache');
 		ok $char_repo, 'character cache repo resolve ok';
 
 		my $data = {
@@ -40,7 +40,7 @@ DatabaseTest->test(
 		);
 
 		$user->set_password('test');
-		my $schema_repo = DI->get('repo')->schema;
+		my $schema_repo = DI->get('schema_repo');
 		ok $schema_repo, 'schema repo resolve ok';
 
 		ok !lives { $schema_repo->save($user) }, 'dummies cannot be saved';

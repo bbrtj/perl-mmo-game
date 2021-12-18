@@ -4,7 +4,6 @@ use Exporter qw(import);
 use Schema;
 use Game::Common;
 use Game::Model;
-use Game::Repository;
 use Mojo::Pg;
 use Mojo::File qw(curfile);
 use DI;

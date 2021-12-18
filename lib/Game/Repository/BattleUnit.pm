@@ -15,7 +15,7 @@ sub save ($self, $unit)
 	state $type_check = Types::InstanceOf ['Game::Unit::Battle'];
 	$type_check->assert_valid($unit);
 
-	my $schema_repo = DI->get('repo')->schema;
+	my $schema_repo = DI->get('schema_repo');
 
 	$schema_repo->save($unit->battle);
 	for my $actor ($unit->contestants->@*) {
@@ -37,7 +37,7 @@ sub load ($self, $id)
 	Game::Exception::RecordDoesNotExist->throw
 		unless defined $battle_result;
 
-	my $actor_repo = DI->get('repo')->actor_unit;
+	my $actor_repo = DI->get('actor_unit');
 	my @contestant_results = $battle_result->contestants;
 	my @contestants = map { $actor_repo->load($_->character_id, $_->character) } @contestant_results;
 

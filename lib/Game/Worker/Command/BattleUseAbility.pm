@@ -18,7 +18,7 @@ use constant name => 'battle_use_ability';
 sub handler ($job, $battle_id, $caster_id, $ability_id, $target)
 {
 	# make sure we have no concurrent jobs for that battle
-	my $repo = DI->get('repo')->battle_unit;
+	my $repo = DI->get('battle_unit');
 	my $battle = $repo->load($battle_id);
 	my $actor = $battle->find_contestant($caster_id);
 	my $ability = Game::Ability::Active->get($ability_id);

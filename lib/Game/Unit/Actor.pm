@@ -39,7 +39,7 @@ has 'cache' => (
 	isa => Types::HashRef,
 	lazy => 1,
 	default => sub ($self) {
-		return DI->get('repo')->char_cache->load($self->character->id);
+		return DI->get('char_cache')->load($self->character->id);
 	},
 );
 
@@ -47,7 +47,7 @@ sub set_cache_key ($self, $key, $value)
 {
 	my $cache = $self->cache;
 	$cache->{$key} = $value;
-	DI->get('repo')->char_cache->save($self->character->id, $cache);
+	DI->get('char_cache')->save($self->character->id, $cache);
 
 	return;
 }

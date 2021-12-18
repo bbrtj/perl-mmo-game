@@ -16,7 +16,7 @@ sub save ($self, $unit)
 	state $type_check = Types::InstanceOf ['Game::Unit::Actor'];
 	$type_check->assert_valid($unit);
 
-	my $schema_repo = DI->get('repo')->schema;
+	my $schema_repo = DI->get('schema_repo');
 
 	# we do not save player / npc / contestant here on purpose
 	$schema_repo->save($unit->character);

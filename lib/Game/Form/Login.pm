@@ -34,7 +34,7 @@ form_field 'remember_me' => (
 
 form_cleaner sub ($self, $data) {
 	try {
-		my $user = DI->get('repo')->schema->load({email => $data->{email}});
+		my $user = DI->get('schema_repo')->load(User => {email => $data->{email}});
 		if (!$user->verify_password($data->{password})) {
 			$self->add_error(password => 'invalid password');
 		}

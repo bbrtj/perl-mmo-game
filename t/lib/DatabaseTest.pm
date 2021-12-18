@@ -3,7 +3,6 @@ package DatabaseTest;
 use Test::DB;
 use Game::Common;
 use DI;
-use Game::Repository;
 use Schema;
 use Game::Model;
 use Mojo::Pg;

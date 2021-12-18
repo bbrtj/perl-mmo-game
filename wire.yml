@@ -7,5 +7,17 @@ db:
         env:
             $ref: env
 
-repo:
-    class: Game::Repository
+schema_repo:
+    class: Game::Repository::Schema
+
+char_cache:
+    class: Game::Repository::CharCache
+
+lore_data:
+    class: Game::Repository::LoreData
+
+battle_unit:
+    class: Game::Repository::BattleUnit
+
+actor_unit:
+    class: Game::Repository::ActorUnit

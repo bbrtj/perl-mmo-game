@@ -24,7 +24,7 @@ sub is_user ($c)
 	return unauthorized($c)
 		unless $user_id;
 
-	my $user = DI->get('repo')->schema->load(User => $user_id);
+	my $user = DI->get('schema_repo')->load(User => $user_id);
 
 	return bad_request($c)
 		unless $user;
@@ -40,7 +40,7 @@ sub is_player ($c)
 	return unauthorized($c)
 		unless $player_id;
 
-	my $player = DI->get('repo')->schema->load(Player => $player_id);
+	my $player = DI->get('schema_repo')->load(Player => $player_id);
 	my $user = $c->stash('user');
 
 	return bad_request($c)

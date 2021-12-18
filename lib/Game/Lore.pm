@@ -17,11 +17,11 @@ sub get ($self, $id = undef)
 
 sub lore_name ($self)
 {
-	return DI->get('repo')->lore_data->load(name => $self->lore_id);
+	return DI->get('lore_data')->load(name => $self->lore_id);
 }
 
 sub lore_description ($self)
 {
-	return DI->get('repo')->lore_data->load(description => $self->lore_id);
+	return DI->get('lore_data')->load(description => $self->lore_id);
 }
 
