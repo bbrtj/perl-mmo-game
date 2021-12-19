@@ -21,12 +21,12 @@ sub is_user ($c)
 {
 	my $user_id = $c->session('user');
 
-	return unauthorized($c)
+	return $c->unauthorized
 		unless $user_id;
 
 	my $user = DI->get('schema_repo')->load(User => $user_id);
 
-	return bad_request($c)
+	return $c->bad_request
 		unless $user;
 
 	$c->stash(user => $user);
@@ -37,13 +37,13 @@ sub is_player ($c)
 {
 	my $player_id = $c->session('player');
 
-	return unauthorized($c)
+	return $c->unauthorized
 		unless $player_id;
 
 	my $player = DI->get('schema_repo')->load(Player => $player_id);
 	my $user = $c->stash('user');
 
-	return bad_request($c)
+	return $c->bad_request
 		unless $player || $player->user_id ne $user->id;
 
 	$c->stash(player => $player);
