@@ -2,8 +2,7 @@ package Game;
 
 use Mojo::Base 'Mojolicious';
 use Game::Bootstrap;
-use Mojo::Log;
-use Mojo::File qw(curfile);
+use DI;
 
 use header;
 
@@ -27,11 +26,7 @@ sub load_config ($self, $env)
 	$self->mode($env->getenv('APP_MODE'));
 	$self->secrets($env->getenv('APP_SECRETS'));
 
-	my $log = Mojo::Log->new(
-		path => curfile->dirname->sibling('logs')->child('application.log'),
-		level => 'error',
-	);
-	$self->log($log);
+	$self->log(DI->get('log'));
 
 	return;
 }
@@ -49,8 +44,10 @@ sub load_routes ($self, $env)
 
 	# Normal route to controller
 	$r->get('/')->to('main#main_page');
+	$r->get('/play')->to('main#play');
 
 	$r->post('/user/login')->to('user#login');
+	$r->post('/user/logout')->to('user#logout');
 	$r->post('/user/register')->to('user#register');
 
 	$r->under('/api')->to('middleware#is_user');
