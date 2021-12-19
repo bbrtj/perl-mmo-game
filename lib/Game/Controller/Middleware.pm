@@ -1,52 +1,64 @@
 package Game::Controller::Middleware;
 
-use Mojo::Base 'Mojolicious::Controller';
+use Moo;
 use DI;
 
 use header;
 
-sub unauthorized ($c)
+extends 'Mojolicious::Controller';
+
+sub unauthorized ($self)
 {
-	$c->render(json => {error => 'login required'}, status => 401);
+	$self->render(json => {error => 'login required'}, status => 401);
 	return undef;
 }
 
-sub bad_request ($c)
+sub bad_request ($self)
 {
-	$c->render(json => {error => 'invalid request'}, status => 400);
+	$self->render(json => {error => 'invalid request'}, status => 400);
 	return undef;
 }
 
-sub is_user ($c)
+sub stash_user ($self)
 {
-	my $user_id = $c->session('user');
+	my $user_id = $self->session->{user};
+	my $user;
 
-	return $c->unauthorized
-		unless $user_id;
+	$user = DI->get('schema_repo')->load(User => $user_id)
+		if $user_id;
+	$self->stash(user => $user);
 
-	my $user = DI->get('schema_repo')->load(User => $user_id);
-
-	return $c->bad_request
-		unless $user;
-
-	$c->stash(user => $user);
 	return 1;
 }
 
-sub is_player ($c)
+sub is_user ($self)
 {
-	my $player_id = $c->session('player');
+	my $user_id = $self->session->{user};
+	my $user = $self->stash('user');
 
-	return $c->unauthorized
+	return $self->unauthorized
+		unless $user_id;
+
+	return $self->bad_request
+		unless $user && $user->id eq $user_id;
+
+	return 1;
+}
+
+sub is_player ($self)
+{
+	my $player_id = $self->session->{player};
+
+	return $self->unauthorized
 		unless $player_id;
 
 	my $player = DI->get('schema_repo')->load(Player => $player_id);
-	my $user = $c->stash('user');
+	my $user = $self->stash('user');
 
-	return $c->bad_request
+	return $self->bad_request
 		unless $player || $player->user_id ne $user->id;
 
-	$c->stash(player => $player);
+	$self->stash(player => $player);
 	return 1;
 }
 

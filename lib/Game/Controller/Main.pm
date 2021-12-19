@@ -1,15 +1,19 @@
 package Game::Controller::Main;
 
-use Mojo::Base 'Mojolicious::Controller';
+use Moo;
 
 use header;
 
-# This action will render a template
+extends 'Mojolicious::Controller';
+
 sub main_page ($self)
 {
-	$self->minion->enqueue('test');
-	$self->render(msg => 'Welcome to the Mojolicious real-time web framework!');
+	$self->render('main/main_page');
 
 	return;
+}
+
+sub play ($self)
+{
 }
 

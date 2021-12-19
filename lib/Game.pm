@@ -42,16 +42,21 @@ sub load_routes ($self, $env)
 {
 	my $r = $self->routes;
 
+	my $main = $r->under('/')->to('middleware#stash_user');
+
 	# Normal route to controller
-	$r->get('/')->to('main#main_page');
-	$r->get('/play')->to('main#play');
+	$main->get('/')->to('main#main_page');
+	$main->get('/play')->to('main#play');
 
-	$r->post('/user/login')->to('user#login');
-	$r->post('/user/logout')->to('user#logout');
-	$r->post('/user/register')->to('user#register');
+	my $user = $main->under('/user');
+	$user->get('/login')->to('user#login_page');
+	$user->post('/login')->to('user#login');
+	$user->post('/logout')->to('user#logout');
+	$user->get('/register')->to('user#register_page');
+	$user->post('/register')->to('user#register');
 
-	$r->under('/api')->to('middleware#is_user');
-	$r->under('/api/game')->to('middleware#is_player');
+	my $api = $main->under('/api')->to('middleware#is_user');
+	my $game = $api->under('/game')->to('middleware#is_player');
 
 	return;
 }

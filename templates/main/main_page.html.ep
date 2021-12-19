@@ -1,9 +1,12 @@
 % layout 'default';
-% title 'Welcome';
-<h2><%= $msg %></h2>
-<p>
-	This page was generated from the template "templates/example/welcome.html.ep"
-	and the layout "templates/layouts/default.html.ep",
-	<%= link_to 'click here' => url_for %> to reload the page or
-	<%= link_to 'here' => '/index.html' %> to move forward to a static page.
-</p>
+% title 'Game project #1';
+<div>
+	% if ($user) {
+		<p><%= link_to 'Play' => url_for 'game' %></p>
+		<p><%= link_to 'Logout' => url_for 'userlogout' %></p>
+	% }
+	% else {
+		<p><%= link_to 'Login' => url_for 'userlogin' %></p>
+		<p><%= link_to 'Register' => url_for 'userregister' %></p>
+	% }
+</div>
