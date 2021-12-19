@@ -6,7 +6,9 @@ requires 'Throwable' => 0;
 requires 'Beam::Wire' => 0;
 requires 'Dotenv' => 0;
 requires 'Data::Localize' => 0;
+
 requires 'Form::Tiny' => 0;
+requires 'Form::Diva' => 0;
 
 requires 'Type::Tiny' => 0;
 requires 'Type::Libraries' => 0;

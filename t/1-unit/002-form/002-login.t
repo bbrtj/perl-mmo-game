@@ -14,15 +14,15 @@ BEGIN {
 		'login should fail' => [
 			[
 				{email => 'test@test.com', password => 'abcdefgh'},
-				{password => ['invalid password']},
+				{'' => ['invalid email or password']},
 			],
 			[
 				{email => 'test@test.com', password => 'Abcdefg1'},
-				{password => ['invalid password']},
+				{'' => ['invalid email or password']},
 			],
 			[
 				{email => 'testa@test.com', password => 'abcdefgh'},
-				{email => ['invalid email address']},
+				{'' => ['invalid email or password']},
 			],
 			[
 				{email => '', password => 'abcdefgh'},

@@ -3,10 +3,10 @@
 <div>
 	% if ($user) {
 		<p><%= link_to 'Play' => url_for 'game' %></p>
-		<p><%= link_to 'Logout' => url_for 'userlogout' %></p>
+		<p><%= link_to 'Logout' => url_for 'user/logout' %></p>
 	% }
 	% else {
-		<p><%= link_to 'Login' => url_for 'userlogin' %></p>
-		<p><%= link_to 'Register' => url_for 'userregister' %></p>
+		<p><%= link_to 'Login' => url_for 'user/login' %></p>
+		<p><%= link_to 'Register' => url_for 'user/register' %></p>
 	% }
 </div>

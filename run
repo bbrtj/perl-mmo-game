@@ -31,5 +31,5 @@ else {
 
 	system('script/server minion worker &');
 	system('script/server daemon -l http://*:3001 &');
-	system('morbo script/web -w @watched');
+	system("morbo script/web -w @watched");
 }

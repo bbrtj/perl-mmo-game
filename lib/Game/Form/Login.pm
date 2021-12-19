@@ -8,6 +8,8 @@ use header;
 
 extends 'Game::Form';
 
+with qw(Game::Form::Role::HTML);
+
 has 'user' => (
 	is => 'ro',
 	writer => 'set_user',
@@ -20,23 +22,26 @@ form_trim_strings;
 form_field 'email' => (
 	type => Types::SimpleStr,
 	required => 1,
+	data => { t => 'email', p => _tt('email address'), nl => 1},
 );
 
 form_field 'password' => (
 	type => Types::SimpleStr,
 	required => 1,
+	data => { t => 'password', p => _tt('password'), nl => 1},
 );
 
 form_field 'remember_me' => (
 	type => Types::Bool,
 	default => sub { 0 },
+	data => { t => 'checkbox', values => ['1:'._tt('remember me')], nl => 1 },
 );
 
 form_cleaner sub ($self, $data) {
 	try {
 		my $user = DI->get('schema_repo')->load(User => {email => $data->{email}});
 		if (!$user->verify_password($data->{password})) {
-			$self->add_error(password => 'invalid password');
+			$self->add_error('invalid email or password');
 		}
 		else {
 			$self->set_user($user);
@@ -44,7 +49,7 @@ form_cleaner sub ($self, $data) {
 	}
 	catch ($e) {
 		if ($e isa Game::Exception::RecordDoesNotExist) {
-			$self->add_error(email => 'invalid email address');
+			$self->add_error('invalid email or password');
 		}
 		else {
 			$self->add_error('unknown error');

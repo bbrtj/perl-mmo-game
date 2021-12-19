@@ -83,3 +83,4 @@ sub translate
 	return $localizer->localize($self->message, $self->args->@*);
 }
 
+1;
