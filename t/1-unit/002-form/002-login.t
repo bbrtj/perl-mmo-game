@@ -54,7 +54,6 @@ test_login_should_succeed sub ($data) {
 	my $form = Game::Form::Login->new;
 	$form->set_input($data);
 	ok $form->valid, "form valid $_";
-	diag $form->errors->@*;
 	is $form->user, exact_ref($model), 'fetched model ok';
 };
 
