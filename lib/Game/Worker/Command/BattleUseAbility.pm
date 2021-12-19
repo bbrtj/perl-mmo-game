@@ -5,7 +5,6 @@ use DI;
 use Game::Ability::Active;
 use Game::Mechanics::Check::Ability;
 use Game::Mechanics::Battle::Affected;
-use Game::Mechanics::Battle::Effects;
 use Game::Mechanics::Battle::Action;
 use Game::Exception::RecordDoesNotExist;
 
@@ -35,7 +34,7 @@ sub handler ($job, $battle_id, $caster_id, $ability_id, $target)
 	# check mana, cooldown
 
 	my $affected = Game::Mechanics::Battle::Affected->get_affected($battle, $actor, $ability, $target);
-	$ability->effects($caster, $affected);
+	$ability->effects($actor, $affected);
 
 	if (Game::Mechanics::Battle::Action->ends_turn($actor, ability => $ability)) {
 
