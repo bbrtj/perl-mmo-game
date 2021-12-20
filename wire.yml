@@ -13,6 +13,8 @@ log:
         path: 'logs/application.log'
         level: 'debug'
 
+# Repositories
+
 schema_repo:
     class: Game::Repository::Schema
 
@@ -27,3 +29,11 @@ battle_unit:
 
 actor_unit:
     class: Game::Repository::ActorUnit
+
+# Services
+
+user_service:
+    class: Service::User
+    args:
+        repo:
+            $ref: schema_repo
