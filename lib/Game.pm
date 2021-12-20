@@ -26,7 +26,7 @@ sub load_config ($self, $env)
 {
 	# Configure the application
 	$self->mode($env->getenv('APP_MODE'));
-	$self->secrets($env->getenv('APP_SECRETS'));
+	$self->secrets([split ',', $env->getenv('APP_SECRETS')]);
 
 	$self->log(DI->get('log'));
 
