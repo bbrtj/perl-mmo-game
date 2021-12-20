@@ -1,4 +1,8 @@
 use Game::Form::Register;
+use DI;
+use Object::Sub;
+use Game::Model::User;
+use Game::Exception::RecordDoesNotExist;
 
 use testheader;
 
@@ -40,6 +44,19 @@ BEGIN {
 		],
 		;
 }
+
+# TODO: test for when an email exists
+DI->set('schema_repo', Object::Sub->new({
+	load => sub ($self, $resultset, $params) {
+		if ($resultset eq 'User') {
+			Game::Exception::RecordDoesNotExist->throw;
+		}
+		else {
+			fail 'I did not expect any other resultset than User';
+			Game::Exception::RecordDoesNotExist->throw;
+		}
+	},
+}), 1);
 
 test_registration_should_succeed sub ($data) {
 	my $form = Game::Form::Register->new;

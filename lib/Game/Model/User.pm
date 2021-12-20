@@ -14,6 +14,9 @@ use constant BCRYPT_SETTINGS => '$2a$10$';
 has 'email' => (
 	is => 'ro',
 	isa => Types::EmailAddress,
+	trigger => sub ($self, $value, @) {
+		$self->{email} = lc $value;
+	},
 	required => 1,
 );
 

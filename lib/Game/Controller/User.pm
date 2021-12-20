@@ -36,6 +36,21 @@ sub login ($self)
 
 sub register ($self)
 {
+	my $form = Game::Form::Register->new;
+
+	if ($self->req->method eq 'POST') {
+		# TODO: csrf
+		$form->set_input($self->req->body_params->to_hash);
+
+		if ($form->valid) {
+			DI->get('user_service')->register_user($form->fields);
+		}
+	}
+
+	$self->stash('form', $form);
+	$self->render('user/register');
+
+	return;
 }
 
 sub logout ($self)
