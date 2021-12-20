@@ -30,7 +30,7 @@ sub _t
 
 sub _tt
 {
-	my $t = _t @_;
+	my $t = _t lc shift, @_;
 	$t->id(0);
 
 	return $t;
@@ -80,7 +80,11 @@ sub translate
 	$localizer->auto(!$self->id);
 	$localizer->set_languages($CURRENT_LANG // (), 'en');
 
-	return $localizer->localize($self->message, $self->args->@*);
+	my $localized = $localizer->localize($self->message, $self->args->@*);
+	$localized = ucfirst $localized
+		unless $self->id;
+
+	return $localized;
 }
 
 1;

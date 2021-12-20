@@ -14,19 +14,19 @@ BEGIN {
 		'login should fail' => [
 			[
 				{email => 'test@test.com', password => 'abcdefgh'},
-				{'' => ['invalid email or password']},
+				{'' => ['Invalid email or password']},
 			],
 			[
 				{email => 'test@test.com', password => 'Abcdefg1'},
-				{'' => ['invalid email or password']},
+				{'' => ['Invalid email or password']},
 			],
 			[
 				{email => 'testa@test.com', password => 'abcdefgh'},
-				{'' => ['invalid email or password']},
+				{'' => ['Invalid email or password']},
 			],
 			[
 				{email => '', password => 'abcdefgh'},
-				{email => ['field is required']},
+				{email => ['Field is required']},
 			],
 		],
 	;
@@ -54,7 +54,13 @@ test_login_should_succeed sub ($data) {
 	my $form = Game::Form::Login->new;
 	$form->set_input($data);
 	ok $form->valid, "form valid $_";
-	is $form->user, exact_ref($model), 'fetched model ok';
+
+	if (!$form->valid) {
+		diag Dumper($form->errors_hash);
+	}
+	else {
+		is $form->user, exact_ref($model), 'fetched model ok';
+	}
 };
 
 test_login_should_fail sub ($data, $errors) {

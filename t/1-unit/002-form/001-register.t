@@ -11,31 +11,31 @@ BEGIN {
 		'registration should fail' => [
 			[
 				{email => 'test@test.com', password => 'abcdefgh1', repeat_password => 'abcdefa'},
-				{'' => ['passwords do not match']}
+				{'' => ['Passwords do not match']}
 			],
 			[
 				{email => 'test@test.com', password => 'abcdefa', repeat_password => 'abcdefa'},
-				{'password' => ['password must have at least 8 characters', 'password must contain a digit']}
+				{'password' => ['Password must have at least 8 characters', 'Password must contain a digit']}
 			],
 			[
 				{email => 'test@test.com', password => 'abcdef1', repeat_password => 'abcdef1'},
-				{'password' => ['password must have at least 8 characters']}
+				{'password' => ['Password must have at least 8 characters']}
 			],
 			[
 				{email => 'test@test.com', password => 'abcdefgh', repeat_password => 'abcdefgh'},
-				{'password' => ['password must contain a digit']}
+				{'password' => ['Password must contain a digit']}
 			],
 			[
 				{email => '', password => 'abcdefg1', repeat_password => 'abcdefg1'},
-				{'email' => ['field is required']}
+				{'email' => ['Field is required']}
 			],
 			[
 				{email => 'test@test.com', password => '', repeat_password => 'abcdefg1'},
-				{'password' => ['field is required']}
+				{'password' => ['Field is required']}
 			],
 			[
 				{email => 'test@test.com', password => 'abcdefg1', repeat_password => ''},
-				{'repeat_password' => ['field is required']}
+				{'repeat_password' => ['Field is required']}
 			],
 		],
 		;
