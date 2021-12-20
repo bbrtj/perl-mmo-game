@@ -16,6 +16,7 @@ sub save ($self, $model, $update = 0)
 
 	my $class = $model->get_result_class;
 	my $type = $update ? 'update' : 'create';
+	# TODO: mark fields for update
 	return DI->get('db')->dbc->resultset($class)->$type($model->serialize);
 }
 

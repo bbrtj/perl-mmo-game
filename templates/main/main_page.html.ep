@@ -2,11 +2,17 @@
 % title 'Game project #1';
 <div>
 	% if ($user) {
-		<p><%= link_to 'Play' => url_for 'game' %></p>
-		<p><%= link_to 'Logout' => url_for 'user/logout' %></p>
+		<p><%= link_to _tt('Play') => url_for '/game' %></p>
+		<p>
+			<form method="POST" action="<%= url_for '/user/logout' %>">
+				<button>
+					%= _tt 'Logout';
+				</button>
+			</form>
+		</p>
 	% }
 	% else {
-		<p><%= link_to 'Login' => url_for 'user/login' %></p>
-		<p><%= link_to 'Register' => url_for 'user/register' %></p>
+		<p><%= link_to _tt('Login') => url_for '/user/login' %></p>
+		<p><%= link_to _tt('Register') => url_for '/user/register' %></p>
 	% }
 </div>
