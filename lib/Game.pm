@@ -44,10 +44,11 @@ sub load_routes ($self, $env)
 {
 	my $r = $self->routes;
 
-	my $main = $r->under('/')->to('middleware#stash_user');
+	my $main = $r->under('/')->to('middleware#prepare_request');
 
 	# Normal route to controller
 	$main->get('/')->to('main#main_page');
+	$main->get('/lang/:lang')->to('main#set_lang');
 	$main->get('/play')->to('main#play');
 
 	my $user = $main->under('/user');
@@ -69,6 +70,10 @@ sub load_plugins ($self, $env)
 sub load_helpers ($self, $env)
 {
 	$self->helper(_tt => sub { shift; _tt(@_) });
+	$self->helper(render_lang => sub ($self, @args) {
+		local $i18n::CURRENT_LANG = $self->session->{lang};
+		return $self->render(@args);
+	});
 	return;
 }
 

@@ -34,7 +34,7 @@ form_field 'password' => (
 form_field 'remember_me' => (
 	type => Types::Bool,
 	default => sub { 0 },
-	data => { t => 'checkbox', values => ['1:'._tt('remember me')], nl => 1 },
+	data => { t => 'checkbox', values => [_tt('1:[_1]', _tt('remember me'))], nl => 1 },
 );
 
 form_cleaner sub ($self, $data) {

@@ -1,4 +1,58 @@
 
+msgid "polish"
+msgstr "polski"
+
+msgid "english"
+msgstr "angielski"
+
+msgid "play"
+msgstr "graj"
+
+msgid "back"
+msgstr "powrót"
+
+msgid "send"
+msgstr "wyślij"
+
+msgid "login"
+msgstr "zaloguj się"
+
+msgid "logout"
+msgstr "wyloguj się"
+
+msgid "signing in"
+msgstr "logowanie"
+
+msgid "remember me"
+msgstr "zapamiętaj mnie"
+
+msgid "invalid email or password"
+msgstr "niepoprawny email lub hasło"
+
+msgid "register"
+msgstr "rejestracja"
+
+msgid "email address"
+msgstr "adres email"
+
+msgid "password"
+msgstr "hasło"
+
+msgid "repeat password"
+msgstr "powtórz hasło"
+
+msgid "field is required"
+msgstr "pole jest wymagane"
+
+msgid "password must have at least [_1] characters"
+msgstr "hasło musi mieć co najmniej [_1] znaków"
+
+msgid "that email is already taken"
+msgstr "ten email jest już zajęty"
+
+msgid "password must contain a digit"
+msgstr "hasło musi zawierać cyfrę"
+
 msgid "out_of_range"
 msgstr "cel znajduje się poza zasięgiem"
 

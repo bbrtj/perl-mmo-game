@@ -1,5 +1,9 @@
 % layout 'default';
 % title 'Game project #1';
+
+<%= link_to _tt('english') => url_for '/lang/en' %>
+<%= link_to _tt('polish') => url_for '/lang/pl' %>
+
 <div>
 	% if ($user) {
 		<p><%= link_to _tt('Play') => url_for '/game' %></p>

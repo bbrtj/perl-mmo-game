@@ -8,6 +8,7 @@ use Mojo::File qw(curfile);
 use Data::Localize;
 use Types::Standard qw(Str ArrayRef);
 use Carp qw(croak);
+use Data::Localize::Format::Maketext;
 
 # EXPORTED INTERFACE
 
@@ -66,6 +67,7 @@ my $localizer = do {
 	$loc->add_localizer(
 		class => 'Gettext',
 		path => curfile->dirname->to_string . '/i18n/*.po',
+		formatter => Data::Localize::Format::Maketext->new,
 	);
 	$loc;
 };

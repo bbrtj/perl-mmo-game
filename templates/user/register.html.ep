@@ -18,6 +18,8 @@
 		%= _tt 'Register'
 	</h1>
 
+	<p><%= link_to _tt('Back') => url_for '/' %></p>
+
 	<form method='POST' action=''>
 		<div class="row g-3">
 

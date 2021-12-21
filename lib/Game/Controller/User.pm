@@ -29,7 +29,7 @@ sub login ($self)
 	}
 
 	$self->stash('form', $form);
-	$self->render('user/login');
+	$self->render_lang('user/login');
 
 	return;
 }
@@ -48,7 +48,7 @@ sub register ($self)
 	}
 
 	$self->stash('form', $form);
-	$self->render('user/register');
+	$self->render_lang('user/register');
 
 	return;
 }

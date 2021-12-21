@@ -5,6 +5,8 @@
 	%= _tt 'Signing in'
 </h1>
 
+<p><%= link_to _tt('Back') => url_for '/' %></p>
+
 % my $gen_errors = $form->errors_hash->{''};
 
 <form method='POST' action=''>

@@ -10,4 +10,6 @@ use constant {
 	secondary_stat_initial => 6,
 	secondary_stat_total_points => 20,
 	secondary_stat_break_even => 10,
+
+	supported_langs => [qw(pl en)],
 };

@@ -19,7 +19,7 @@ sub bad_request ($self)
 	return undef;
 }
 
-sub stash_user ($self)
+sub prepare_request ($self)
 {
 	my $user_id = $self->session->{user};
 	my $user;
