@@ -9,6 +9,6 @@ extends 'Game::Unit::Actor';
 
 has 'contestant' => (
 	is => 'rw',
-	isa => Types::InstanceOf ['Game::Model::BattleContestant'],
+	isa => Types::InstanceOf ['Model::BattleContestant'],
 );
 

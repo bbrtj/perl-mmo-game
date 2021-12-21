@@ -3,7 +3,7 @@ package Game::Bootstrap;
 use Exporter qw(import);
 use Schema;
 use Game::Common;
-use Game::Model;
+use Model;
 use Mojo::Pg;
 use Mojo::File qw(curfile);
 use DI;
@@ -20,7 +20,7 @@ sub bootstrap ($app)
 	$app->plugin(Minion => {Pg => $config->getenv('DB_CONNECTION')});
 	my $pg = Mojo::Pg->new($config->getenv('DB_CONNECTION'));
 
-	Game::Model->bootstrap;
+	Model->bootstrap;
 
 	return $config;
 }

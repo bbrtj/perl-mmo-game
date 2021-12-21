@@ -1,7 +1,7 @@
-package Game::Model;
+package Model;
 
 use Moo::Role;
-use Game::Model::Role::Dummy;
+use Model::Role::Dummy;
 use Carp;
 use Scalar::Util qw(blessed);
 
@@ -29,7 +29,7 @@ sub _tweak_model ($class)
 		}
 		else {
 			$writer_name = "_$writer_name"
-				if $class->DOES('Game::Model::Role::Stored');
+				if $class->DOES('Model::Role::Stored');
 
 			$writer_attr->set_value($attribute, $writer_name);
 		}
@@ -37,7 +37,7 @@ sub _tweak_model ($class)
 		# set up hooks for dirty tracking:
 		# - if the method exists for set_$name, add after modifier to it
 		# - if the method doesn't exist, create a method that later calls the writer
-		if ($class->DOES('Game::Model::Role::Stored')) {
+		if ($class->DOES('Model::Role::Stored')) {
 			my $facade_name = "set_$name";
 			my $method = $class->meta->find_method_by_name($facade_name);
 
@@ -60,7 +60,7 @@ sub _tweak_model ($class)
 
 sub _register ($class)
 {
-	if ($class =~ /Game::Model::(.+)/) {
+	if ($class =~ /Model::(.+)/) {
 		my $resultset = "Schema::Result::$1";
 		$orm_mapping{$class} = $resultset;
 		$orm_mapping_reverse{$resultset} = $class;
@@ -119,13 +119,13 @@ sub get_result_class ($self)
 
 sub bootstrap ($class)
 {
-	Game::Common->load_classes('Game::Model', 'Model/*.pm');
+	Game::Common->load_classes('Model', 'Model/*.pm');
 	return;
 }
 
 sub dummy ($class)
 {
 	croak "dummy only works on class context" if ref $class;
-	return Game::Model::Role::Dummy->_make_dummy($class);
+	return Model::Role::Dummy->_make_dummy($class);
 }
 

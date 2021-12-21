@@ -1,4 +1,4 @@
-package Game::Model::User;
+package Model::User;
 
 use Moose;
 use Types;
@@ -7,7 +7,7 @@ use Crypt::Eksblowfish::Bcrypt qw(bcrypt en_base64);
 
 use header;
 
-with 'Game::Model', 'Game::Model::Role::Stored';
+with 'Model', 'Model::Role::Stored';
 
 use constant BCRYPT_SETTINGS => '$2a$10$';
 

@@ -1,7 +1,7 @@
 use Game::Form::Login;
 use DI;
 use Object::Sub;
-use Game::Model::User;
+use Model::User;
 use Exception::RecordDoesNotExist;
 
 use testheader;
@@ -33,7 +33,7 @@ BEGIN {
 }
 
 my $tested_mail = 'test@test.com';
-my $model = Game::Model::User->dummy->new(email => $tested_mail);
+my $model = Model::User->dummy->new(email => $tested_mail);
 $model->set_password('abcdefg1');
 $model->promote;
 

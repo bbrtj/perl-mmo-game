@@ -1,4 +1,4 @@
-package Game::Model::Role::Dummy;
+package Model::Role::Dummy;
 
 use Moose::Role;
 use Moose::Util qw(find_meta);
@@ -34,7 +34,7 @@ sub _make_dummy ($role, $class)
 
 sub promote ($self)
 {
-	my $base = first { $_ =~ /^Game::Model::/ && $_ !~ /::Dummy$/ }
+	my $base = first { $_ =~ /^Model::/ && $_ !~ /::Dummy$/ }
 		$self->meta->class_precedence_list;
 	$base->meta->rebless_instance_back($_[0]);
 	return;

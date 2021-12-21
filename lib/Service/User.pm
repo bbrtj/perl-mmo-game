@@ -1,7 +1,7 @@
 package Service::User;
 
 use Moo;
-use Game::Model::User;
+use Model::User;
 
 use header;
 
@@ -11,7 +11,7 @@ has 'repo' => (
 
 sub register_user ($self, $user_data)
 {
-	my $user = Game::Model::User->dummy->new($user_data);
+	my $user = Model::User->dummy->new($user_data);
 	$user->set_password($user_data->{password});
 	$user->promote;
 

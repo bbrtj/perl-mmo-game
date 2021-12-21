@@ -13,7 +13,7 @@ with qw(Game::Form::Role::HTML);
 has 'user' => (
 	is => 'ro',
 	writer => 'set_user',
-	isa => Types::InstanceOf ['Game::Model::User'],
+	isa => Types::InstanceOf ['Model::User'],
 	init_arg => undef,
 );
 

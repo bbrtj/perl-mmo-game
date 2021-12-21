@@ -1,11 +1,11 @@
-package Game::Model::Battle;
+package Model::Battle;
 
 use Moose;
 use Types;
 
 use header;
 
-with 'Game::Model', 'Game::Model::Role::Stored';
+with 'Model', 'Model::Role::Stored';
 
 my %sizes = qw(
 	small 80

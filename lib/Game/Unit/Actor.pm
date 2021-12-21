@@ -2,9 +2,9 @@ package Game::Unit::Actor;
 
 use Moo;
 use DI;
-use Game::Model::Player;
-use Game::Model::Character;
-use Game::Model::CharacterVariables;
+use Model::Player;
+use Model::Character;
+use Model::CharacterVariables;
 use Types;
 
 use header;
@@ -13,25 +13,25 @@ with 'Game::Unit';
 
 has 'player' => (
 	is => 'rw',
-	isa => Types::Maybe [Types::InstanceOf ['Game::Model::Player']],
+	isa => Types::Maybe [Types::InstanceOf ['Model::Player']],
 	predicate => 'is_player',
 );
 
 has 'npc' => (
 	is => 'rw',
 
-	# isa => Types::Maybe[Types::InstanceOf['Game::Model::Npc']],
+	# isa => Types::Maybe[Types::InstanceOf['Model::Npc']],
 	predicate => 'is_npc',
 );
 
 has 'character' => (
 	is => 'rw',
-	isa => Types::InstanceOf ['Game::Model::Character'],
+	isa => Types::InstanceOf ['Model::Character'],
 );
 
 has 'variables' => (
 	is => 'rw',
-	isa => Types::InstanceOf ['Game::Model::CharacterVariables'],
+	isa => Types::InstanceOf ['Model::CharacterVariables'],
 );
 
 has 'cache' => (

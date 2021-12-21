@@ -1,7 +1,7 @@
 package Game::Unit::Battle;
 
 use Moo;
-use Game::Model::Battle;
+use Model::Battle;
 use Types;
 use List::Util qw(first);
 
@@ -11,7 +11,7 @@ with 'Game::Unit';
 
 has 'battle' => (
 	is => 'rw',
-	isa => Types::InstanceOf ['Game::Model::Battle'],
+	isa => Types::InstanceOf ['Model::Battle'],
 );
 
 has 'contestants' => (

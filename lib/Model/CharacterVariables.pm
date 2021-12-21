@@ -1,11 +1,11 @@
-package Game::Model::CharacterVariables;
+package Model::CharacterVariables;
 
 use Moose;
 use Types;
 
 use header;
 
-with 'Game::Model', 'Game::Model::Role::Stored';
+with 'Model', 'Model::Role::Stored';
 
 has 'experience' => (
 	is => 'ro',

@@ -1,4 +1,4 @@
-use Game::Model::CharacterVariables;
+use Model::CharacterVariables;
 
 use testheader;
 
@@ -9,7 +9,7 @@ my $data = {
 	mana => 30,
 };
 
-my $vars = Game::Model::CharacterVariables->new($data);
+my $vars = Model::CharacterVariables->new($data);
 $data->{id} = $vars->id;
 is $vars->serialize, $data, 'serialization ok';
 

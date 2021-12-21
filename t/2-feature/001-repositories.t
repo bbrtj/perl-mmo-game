@@ -1,6 +1,6 @@
 use Game::Ability;
 use DI;
-use Game::Model::User;
+use Model::User;
 use Game::Character::Statistic;
 use Test2::Tools::DatabaseTest;
 
@@ -24,7 +24,7 @@ database_test {
 		stats => 'STT_STR:30;STT_AGI:19;STT_INT:10;STT_STA:25',
 	};
 
-	my $model = Game::Model::Character->dummy->new();
+	my $model = Model::Character->dummy->new();
 	$char_repo->save($model->id, $data);
 
 	my $loaded = $char_repo->load($model->id);
@@ -34,7 +34,7 @@ database_test {
 	ok $char_repo->save($model->id, $data), 'update ok';
 
 	### test Repository::Schema
-	my $user = Game::Model::User->dummy->new(
+	my $user = Model::User->dummy->new(
 		email => 'brtastic.dev@gmail.com',
 	);
 

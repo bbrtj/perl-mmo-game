@@ -6,7 +6,7 @@ use Test::DB;
 use Game::Common;
 use DI;
 use Schema;
-use Game::Model;
+use Model;
 use Mojo::Pg;
 use Component::DB;
 
@@ -40,7 +40,7 @@ sub database_test :prototype(&) ($sub)
 		my $db = Component::DB->new(env => $env, dbh => $pg);
 		DI->set('db', $db);
 
-		Game::Model->bootstrap;
+		Model->bootstrap;
 
 		$sub->();
 	}

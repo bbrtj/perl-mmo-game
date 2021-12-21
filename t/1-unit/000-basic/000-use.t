@@ -12,6 +12,6 @@ use_ok('Game::Lore');
 use_ok('Game::Ability');
 
 # use a model to see if it registers
-use_ok('Game::Model::Player');
+use_ok('Model::Player');
 
 done_testing;

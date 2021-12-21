@@ -1,4 +1,4 @@
-package Game::Model::Role::Stored;
+package Model::Role::Stored;
 
 use Moo::Role;
 use Types;

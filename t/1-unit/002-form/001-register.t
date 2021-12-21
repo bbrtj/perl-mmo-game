@@ -1,7 +1,7 @@
 use Game::Form::Register;
 use DI;
 use Object::Sub;
-use Game::Model::User;
+use Model::User;
 use Exception::RecordDoesNotExist;
 
 use testheader;

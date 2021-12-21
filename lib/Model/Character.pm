@@ -1,11 +1,11 @@
-package Game::Model::Character;
+package Model::Character;
 
 use Moose;
 use Types;
 
 use header;
 
-with 'Game::Model', 'Game::Model::Role::Stored';
+with 'Model', 'Model::Role::Stored';
 
 has 'player_id' => (
 	is => 'ro',
