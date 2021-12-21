@@ -3,8 +3,8 @@ package Repository::ActorUnit;
 use Moo;
 use DI;
 use Types;
-use Game::Unit::Actor;
-use Game::Unit::BattleActor;
+use Unit::Actor;
+use Unit::BattleActor;
 use Exception::RecordDoesNotExist;
 
 use header;
@@ -13,7 +13,7 @@ with 'Repository::Role::Resource';
 
 sub save ($self, $unit)
 {
-	state $type_check = Types::InstanceOf ['Game::Unit::Actor'];
+	state $type_check = Types::InstanceOf ['Unit::Actor'];
 	$type_check->assert_valid($unit);
 
 	my $schema_repo = DI->get('schema_repo');
@@ -55,8 +55,8 @@ sub load ($self, $id, $char_result = undef)
 	);
 
 	my $class = $contestant_result
-		? Game::Unit::Actor::
-		: Game::Unit::BattleActor::
+		? Unit::Actor::
+		: Unit::BattleActor::
 		;
 
 	return $class->new(%args);

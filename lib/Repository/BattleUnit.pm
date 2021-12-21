@@ -3,7 +3,7 @@ package Repository::BattleUnit;
 use Moo;
 use DI;
 use Types;
-use Game::Unit::Battle;
+use Unit::Battle;
 use Exception::RecordDoesNotExist;
 
 use header;
@@ -12,7 +12,7 @@ with 'Repository::Role::Resource';
 
 sub save ($self, $unit)
 {
-	state $type_check = Types::InstanceOf ['Game::Unit::Battle'];
+	state $type_check = Types::InstanceOf ['Unit::Battle'];
 	$type_check->assert_valid($unit);
 
 	my $schema_repo = DI->get('schema_repo');
@@ -41,7 +41,7 @@ sub load ($self, $id)
 	my @contestant_results = $battle_result->contestants;
 	my @contestants = map { $actor_repo->load($_->character_id, $_->character) } @contestant_results;
 
-	return Game::Unit::Battle->new(
+	return Unit::Battle->new(
 		battle => $battle_result->to_model,
 		contestants => \@contestants,
 	);

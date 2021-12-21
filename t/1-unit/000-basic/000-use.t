@@ -7,7 +7,7 @@ use_ok('Game::Common');
 use_ok('DI');
 
 use_ok('Game::Worker');
-use_ok('Game::Unit');
+use_ok('Unit');
 use_ok('Game::Lore');
 use_ok('Game::Ability');
 

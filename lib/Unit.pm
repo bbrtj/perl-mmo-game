@@ -1,4 +1,4 @@
-package Game::Unit;
+package Unit;
 
 use Moo::Role;
 

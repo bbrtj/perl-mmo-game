@@ -1,4 +1,4 @@
-package Game::Unit::Battle;
+package Unit::Battle;
 
 use Moo;
 use Model::Battle;
@@ -7,7 +7,7 @@ use List::Util qw(first);
 
 use header;
 
-with 'Game::Unit';
+with 'Unit';
 
 has 'battle' => (
 	is => 'rw',
@@ -16,7 +16,7 @@ has 'battle' => (
 
 has 'contestants' => (
 	is => 'rw',
-	isa => Types::ArrayRef [Types::InstanceOf ['Game::Unit::BattleActor']],
+	isa => Types::ArrayRef [Types::InstanceOf ['Unit::BattleActor']],
 );
 
 sub find_contestant ($self, $id)

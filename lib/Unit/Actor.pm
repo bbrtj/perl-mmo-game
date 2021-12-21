@@ -1,4 +1,4 @@
-package Game::Unit::Actor;
+package Unit::Actor;
 
 use Moo;
 use DI;
@@ -9,7 +9,7 @@ use Types;
 
 use header;
 
-with 'Game::Unit';
+with 'Unit';
 
 has 'player' => (
 	is => 'rw',

@@ -1,11 +1,11 @@
-package Game::Unit::BattleActor;
+package Unit::BattleActor;
 
 use Moo;
 use Types;
 
 use header;
 
-extends 'Game::Unit::Actor';
+extends 'Unit::Actor';
 
 has 'contestant' => (
 	is => 'rw',

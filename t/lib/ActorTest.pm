@@ -1,6 +1,6 @@
 package ActorTest;
 
-use Game::Unit::Actor;
+use Unit::Actor;
 use Model::Character;
 use Model::CharacterVariables;
 use Model::Player;
@@ -37,7 +37,7 @@ sub create_actor ($self)
 	);
 
 	return (
-		Game::Unit::Actor->new(
+		Unit::Actor->new(
 			player => $player,
 			character => $character,
 			variables => $variables,
