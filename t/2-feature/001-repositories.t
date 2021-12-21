@@ -7,11 +7,11 @@ use Test2::Tools::DatabaseTest;
 use testheader;
 
 database_test {
-	### uses Game::Repository::LoreData
+	### uses Repository::LoreData
 	my $class = Game::Character::Statistic->get('STT_STR');
 	is $class->lore_name, 'Siła', 'lore name ok';
 
-	### test Game::Repository::CharCache
+	### test Repository::CharCache
 	my $char_repo = DI->get('char_cache');
 	ok $char_repo, 'character cache repo resolve ok';
 
@@ -33,7 +33,7 @@ database_test {
 	$data->{health_max} += 5;
 	ok $char_repo->save($model->id, $data), 'update ok';
 
-	### test Game::Repository::Schema
+	### test Repository::Schema
 	my $user = Game::Model::User->dummy->new(
 		email => 'brtastic.dev@gmail.com',
 	);

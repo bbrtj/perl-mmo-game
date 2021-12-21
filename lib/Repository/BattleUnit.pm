@@ -1,4 +1,4 @@
-package Game::Repository::BattleUnit;
+package Repository::BattleUnit;
 
 use Moo;
 use DI;
@@ -8,7 +8,7 @@ use Game::Exception::RecordDoesNotExist;
 
 use header;
 
-with 'Game::Repository::Role::Resource';
+with 'Repository::Role::Resource';
 
 sub save ($self, $unit)
 {

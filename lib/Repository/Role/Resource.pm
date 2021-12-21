@@ -1,4 +1,4 @@
-package Game::Repository::Role::Resource;
+package Repository::Role::Resource;
 
 use Moo::Role;
 

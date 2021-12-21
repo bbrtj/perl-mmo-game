@@ -1,4 +1,4 @@
-package Game::Repository::LoreData;
+package Repository::LoreData;
 
 use Moo;
 use DI;
@@ -6,7 +6,7 @@ use Types;
 
 use header;
 
-with 'Game::Repository::Role::Resource';
+with 'Repository::Role::Resource';
 
 sub save { ... }
 

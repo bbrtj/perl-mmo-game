@@ -1,4 +1,4 @@
-package Game::Repository::Schema;
+package Repository::Schema;
 
 use Moo;
 use DI;
@@ -7,7 +7,7 @@ use Game::Exception::RecordDoesNotExist;
 
 use header;
 
-with 'Game::Repository::Role::Resource';
+with 'Repository::Role::Resource';
 
 has 'db' => (
 	is => 'ro',

@@ -1,4 +1,4 @@
-package Game::Repository::ActorUnit;
+package Repository::ActorUnit;
 
 use Moo;
 use DI;
@@ -9,7 +9,7 @@ use Game::Exception::RecordDoesNotExist;
 
 use header;
 
-with 'Game::Repository::Role::Resource';
+with 'Repository::Role::Resource';
 
 sub save ($self, $unit)
 {

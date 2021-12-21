@@ -16,22 +16,22 @@ log:
 # Repositories
 
 schema_repo:
-    class: Game::Repository::Schema
+    class: Repository::Schema
     args:
         db:
             $ref: db
 
 char_cache:
-    class: Game::Repository::CharCache
+    class: Repository::CharCache
 
 lore_data:
-    class: Game::Repository::LoreData
+    class: Repository::LoreData
 
 battle_unit:
-    class: Game::Repository::BattleUnit
+    class: Repository::BattleUnit
 
 actor_unit:
-    class: Game::Repository::ActorUnit
+    class: Repository::ActorUnit
 
 # Services
 

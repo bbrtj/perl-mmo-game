@@ -1,4 +1,4 @@
-package Game::Repository::CharCache;
+package Repository::CharCache;
 
 use Moo;
 use DI;
@@ -6,7 +6,7 @@ use Mojo::JSON qw(decode_json encode_json);
 
 use header;
 
-with 'Game::Repository::Role::Resource';
+with 'Repository::Role::Resource';
 
 sub save ($self, $id, $data = {})
 {
