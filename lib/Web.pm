@@ -70,10 +70,12 @@ sub load_plugins ($self, $env)
 sub load_helpers ($self, $env)
 {
 	$self->helper(_tt => sub { shift; _tt(@_) });
-	$self->helper(render_lang => sub ($self, @args) {
-		local $i18n::CURRENT_LANG = $self->session->{lang};
-		return $self->render(@args);
-	});
+	$self->helper(
+		render_lang => sub ($self, @args) {
+			local $i18n::CURRENT_LANG = $self->session->{lang};
+			return $self->render(@args);
+		}
+	);
 	return;
 }
 

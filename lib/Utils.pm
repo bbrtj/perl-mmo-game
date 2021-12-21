@@ -18,7 +18,8 @@ sub bootstrap ($class, $app)
 	return $config;
 }
 
-sub bootstrap_models ($class) {
+sub bootstrap_models ($class)
+{
 	$class->load_classes('Model', 'Model/*.pm');
 }
 

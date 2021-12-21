@@ -12,7 +12,7 @@ use header -noclean;
 
 our @EXPORT = qw(database_test);
 
-sub database_test :prototype(&) ($sub)
+sub database_test : prototype(&) ($sub)
 {
 	my $env = DI->get('env');
 	my $testdb = Test::DB->new;

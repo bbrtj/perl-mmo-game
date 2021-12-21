@@ -38,17 +38,17 @@ sub form_html ($self)
 	my @fields;
 	my @hidden;
 	for my $field ($self->field_defs->@*) {
-		my %field_data = ( n => $field->name );
+		my %field_data = (n => $field->name);
 		if (defined $field) {
 			%field_data = (
 				%field_data,
 				$field->data->%*
 			);
 
-			push @fields, { %field_data, comment => \%field_data };
+			push @fields, {%field_data, comment => \%field_data};
 		}
 		else {
-			push @hidden, { %field_data, comment => \%field_data };
+			push @hidden, {%field_data, comment => \%field_data};
 		}
 	}
 

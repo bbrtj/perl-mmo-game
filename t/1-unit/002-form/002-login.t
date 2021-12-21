@@ -29,7 +29,7 @@ BEGIN {
 				{email => ['Field is required']},
 			],
 		],
-	;
+		;
 }
 
 my $tested_mail = 'test@test.com';
@@ -37,18 +37,24 @@ my $model = Model::User->dummy->new(email => $tested_mail);
 $model->set_password('abcdefg1');
 $model->promote;
 
-DI->set('schema_repo', Object::Sub->new({
-	load => sub ($self, $resultset, $params) {
-		if ($resultset eq 'User') {
-			Exception::RecordDoesNotExist->throw unless $params->{email} eq $tested_mail;
-			return $model;
+DI->set(
+	'schema_repo',
+	Object::Sub->new(
+		{
+			load => sub ($self, $resultset, $params) {
+				if ($resultset eq 'User') {
+					Exception::RecordDoesNotExist->throw unless $params->{email} eq $tested_mail;
+					return $model;
+				}
+				else {
+					fail 'I did not expect any other resultset than User';
+					Exception::RecordDoesNotExist->throw;
+				}
+			},
 		}
-		else {
-			fail 'I did not expect any other resultset than User';
-			Exception::RecordDoesNotExist->throw;
-		}
-	},
-}), 1);
+	),
+	1
+);
 
 test_login_should_succeed sub ($data) {
 	my $form = Web::Form::Login->new;

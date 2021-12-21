@@ -13,10 +13,12 @@ sub login ($self)
 	my $form = Web::Form::Login->new;
 
 	if ($self->req->method eq 'POST') {
+
 		# TODO: csrf
 		$form->set_input($self->req->body_params->to_hash);
 
 		if ($form->valid) {
+
 			# TODO: referrer
 
 			$self->session->{user} = $form->user->id;
@@ -39,6 +41,7 @@ sub register ($self)
 	my $form = Web::Form::Register->new;
 
 	if ($self->req->method eq 'POST') {
+
 		# TODO: csrf
 		$form->set_input($self->req->body_params->to_hash);
 

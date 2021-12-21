@@ -46,17 +46,23 @@ BEGIN {
 }
 
 # TODO: test for when an email exists
-DI->set('schema_repo', Object::Sub->new({
-	load => sub ($self, $resultset, $params) {
-		if ($resultset eq 'User') {
-			Exception::RecordDoesNotExist->throw;
+DI->set(
+	'schema_repo',
+	Object::Sub->new(
+		{
+			load => sub ($self, $resultset, $params) {
+				if ($resultset eq 'User') {
+					Exception::RecordDoesNotExist->throw;
+				}
+				else {
+					fail 'I did not expect any other resultset than User';
+					Exception::RecordDoesNotExist->throw;
+				}
+			},
 		}
-		else {
-			fail 'I did not expect any other resultset than User';
-			Exception::RecordDoesNotExist->throw;
-		}
-	},
-}), 1);
+	),
+	1
+);
 
 test_registration_should_succeed sub ($data) {
 	my $form = Web::Form::Register->new;

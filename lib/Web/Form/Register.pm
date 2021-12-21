@@ -20,13 +20,13 @@ form_trim_strings;
 form_field 'email' => (
 	type => Types::SimpleStr,
 	required => 1,
-	data => { t => 'email', l => _tt('email address') },
+	data => {t => 'email', l => _tt('email address')},
 );
 
 form_field 'password' => (
 	type => Types::SimpleStr,
 	required => 1,
-	data => { t => 'password', l => _tt('password') },
+	data => {t => 'password', l => _tt('password')},
 );
 
 field_validator _tt('password must have at least [_1] characters', PASS_MIN_LENGTH)
@@ -42,7 +42,7 @@ field_validator 'password must contain a digit'
 form_field 'repeat_password' => (
 	type => Types::SimpleStr,
 	required => 1,
-	data => { t => 'password', l => _tt('repeat password') },
+	data => {t => 'password', l => _tt('repeat password')},
 );
 
 form_cleaner sub ($self, $data) {

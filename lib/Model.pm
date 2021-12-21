@@ -42,15 +42,21 @@ sub _tweak_model ($class)
 			my $method = $class->meta->find_method_by_name($facade_name);
 
 			if (defined $method) {
-				$class->meta->add_after_method_modifier($facade_name, sub ($self, @args) {
-					$self->_dirty->{$name} = 1;
-				});
+				$class->meta->add_after_method_modifier(
+					$facade_name,
+					sub ($self, @args) {
+						$self->_dirty->{$name} = 1;
+					}
+				);
 			}
 			else {
-				$class->meta->add_method($facade_name, sub ($self, @args) {
-					$self->_dirty->{$name} = 1;
-					return $self->$writer_name(@args);
-				});
+				$class->meta->add_method(
+					$facade_name,
+					sub ($self, @args) {
+						$self->_dirty->{$name} = 1;
+						return $self->$writer_name(@args);
+					}
+				);
 			}
 		}
 	}
@@ -83,7 +89,7 @@ sub serialize ($self)
 		map {
 			$_->name => $_->get_value($self)
 		} grep {
-			 $_->has_value($self)
+			$_->has_value($self)
 		} $self->_get_attributes
 	};
 }
