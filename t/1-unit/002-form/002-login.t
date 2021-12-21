@@ -2,7 +2,7 @@ use Game::Form::Login;
 use DI;
 use Object::Sub;
 use Game::Model::User;
-use Game::Exception::RecordDoesNotExist;
+use Exception::RecordDoesNotExist;
 
 use testheader;
 
@@ -40,12 +40,12 @@ $model->promote;
 DI->set('schema_repo', Object::Sub->new({
 	load => sub ($self, $resultset, $params) {
 		if ($resultset eq 'User') {
-			Game::Exception::RecordDoesNotExist->throw unless $params->{email} eq $tested_mail;
+			Exception::RecordDoesNotExist->throw unless $params->{email} eq $tested_mail;
 			return $model;
 		}
 		else {
 			fail 'I did not expect any other resultset than User';
-			Game::Exception::RecordDoesNotExist->throw;
+			Exception::RecordDoesNotExist->throw;
 		}
 	},
 }), 1);

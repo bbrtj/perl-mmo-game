@@ -55,7 +55,7 @@ form_cleaner sub ($self, $data) {
 	}
 	catch ($e) {
 		die $e
-			unless $e isa Game::Exception::RecordDoesNotExist;
+			unless $e isa Exception::RecordDoesNotExist;
 	}
 };
 

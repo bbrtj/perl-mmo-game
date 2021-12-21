@@ -1,6 +1,6 @@
 package Game::Mechanics::Battle::Target;
 
-use Game::Exception::InvalidTarget;
+use Exception::InvalidTarget;
 
 use header;
 
@@ -15,7 +15,7 @@ sub get_position ($self, $battle, $target)
 		if ref $target eq ref [] && @$target == 2;
 
 	my $actor = $self->get_actor($battle, $target);
-	Game::Exception::InvalidTarget->throw unless defined $actor;
+	Exception::InvalidTarget->throw unless defined $actor;
 
 	return [$actor->contestant->pos_x, $actor->contestant->pos_y];
 }

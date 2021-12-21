@@ -5,7 +5,7 @@ use DI;
 use Types;
 use Game::Unit::Actor;
 use Game::Unit::BattleActor;
-use Game::Exception::RecordDoesNotExist;
+use Exception::RecordDoesNotExist;
 
 use header;
 
@@ -36,7 +36,7 @@ sub load ($self, $id, $char_result = undef)
 		)->single;
 	}
 
-	Game::Exception::RecordDoesNotExist->throw
+	Exception::RecordDoesNotExist->throw
 		unless defined $char_result;
 
 	my $player_result = $char_result->player;

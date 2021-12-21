@@ -2,7 +2,7 @@ use Game::Form::Register;
 use DI;
 use Object::Sub;
 use Game::Model::User;
-use Game::Exception::RecordDoesNotExist;
+use Exception::RecordDoesNotExist;
 
 use testheader;
 
@@ -49,11 +49,11 @@ BEGIN {
 DI->set('schema_repo', Object::Sub->new({
 	load => sub ($self, $resultset, $params) {
 		if ($resultset eq 'User') {
-			Game::Exception::RecordDoesNotExist->throw;
+			Exception::RecordDoesNotExist->throw;
 		}
 		else {
 			fail 'I did not expect any other resultset than User';
-			Game::Exception::RecordDoesNotExist->throw;
+			Exception::RecordDoesNotExist->throw;
 		}
 	},
 }), 1);

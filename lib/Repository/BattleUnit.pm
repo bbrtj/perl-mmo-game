@@ -4,7 +4,7 @@ use Moo;
 use DI;
 use Types;
 use Game::Unit::Battle;
-use Game::Exception::RecordDoesNotExist;
+use Exception::RecordDoesNotExist;
 
 use header;
 
@@ -34,7 +34,7 @@ sub load ($self, $id)
 		}
 	)->single;
 
-	Game::Exception::RecordDoesNotExist->throw
+	Exception::RecordDoesNotExist->throw
 		unless defined $battle_result;
 
 	my $actor_repo = DI->get('actor_unit');

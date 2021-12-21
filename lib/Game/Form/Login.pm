@@ -48,7 +48,7 @@ form_cleaner sub ($self, $data) {
 		}
 	}
 	catch ($e) {
-		if ($e isa Game::Exception::RecordDoesNotExist) {
+		if ($e isa Exception::RecordDoesNotExist) {
 			$self->add_error('invalid email or password');
 		}
 		else {

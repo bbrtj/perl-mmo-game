@@ -3,7 +3,7 @@ package Repository::Schema;
 use Moo;
 use DI;
 use Types;
-use Game::Exception::RecordDoesNotExist;
+use Exception::RecordDoesNotExist;
 
 use header;
 
@@ -35,7 +35,7 @@ sub load ($self, $resultset, $search)
 		unless ref $search;
 
 	my $found = $self->db->dbc->resultset($resultset)->single($search);
-	Game::Exception::RecordDoesNotExist->throw unless $found;
+	Exception::RecordDoesNotExist->throw unless $found;
 
 	return $found->to_model;
 }
