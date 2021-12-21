@@ -2,7 +2,7 @@ use testheader;
 
 # i18n should be loaded by the header already
 
-isa_ok _t('out_of_range'), i18n::;
+isa_ok _t('out_of_range'), 'i18n';
 ok lives { _t('out_of_range') }, 'no lang translation lives before stringification ok';
 like dies { _t('out_of_range') . '' }, qr/no lang/, 'no lang translation dies ok';
 

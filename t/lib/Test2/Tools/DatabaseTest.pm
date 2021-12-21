@@ -1,5 +1,7 @@
-package DatabaseTest;
+package Test2::Tools::DatabaseTest;
 
+use Exporter qw(import);
+use Test2::API qw(context);
 use Test::DB;
 use Game::Common;
 use DI;
@@ -8,9 +10,11 @@ use Game::Model;
 use Mojo::Pg;
 use Component::DB;
 
-use header;
+use header -noclean;
 
-sub test ($class, $sub)
+our @EXPORT = qw(database_test);
+
+sub database_test :prototype(&) ($sub)
 {
 	my $env = DI->get('env');
 	my $testdb = Test::DB->new;
@@ -41,8 +45,9 @@ sub test ($class, $sub)
 		$sub->();
 	}
 	catch ($e) {
-		require Test::More;
-		Test::More::fail("fatal error during database testing: $e");
+		my $ctx = context;
+		$ctx->fail("fatal error during database testing: $e");
+		$ctx->release;
 	}
 
 	# finally

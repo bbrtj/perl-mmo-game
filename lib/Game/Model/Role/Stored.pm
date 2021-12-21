@@ -12,3 +12,9 @@ has 'id' => (
 	default => sub { undef },
 );
 
+# dirty columns - for updating the model in db
+has '_dirty' => (
+	is => 'ro',
+	isa => Types::HashRef,
+	default => sub { {} },
+);

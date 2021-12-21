@@ -17,6 +17,9 @@ log:
 
 schema_repo:
     class: Game::Repository::Schema
+    args:
+        db:
+            $ref: db
 
 char_cache:
     class: Game::Repository::CharCache

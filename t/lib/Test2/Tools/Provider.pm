@@ -1,7 +1,6 @@
 package Test2::Tools::Provider;
 
 use Exporter qw(import);
-use Test2::API qw(context);
 use Test2::Tools::Subtest qw(subtest_buffered);
 
 use header -noclean;

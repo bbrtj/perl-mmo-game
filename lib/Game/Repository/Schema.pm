@@ -9,15 +9,24 @@ use header;
 
 with 'Game::Repository::Role::Resource';
 
+has 'db' => (
+	is => 'ro',
+);
+
 sub save ($self, $model, $update = 0)
 {
-	state $type_check = Types::ConsumerOf ['Game::Model'];
+	state $type_check = Types::ConsumerOf ['Game::Model::Role::Stored'];
 	$type_check->assert_valid($model);
 
 	my $class = $model->get_result_class;
-	my $type = $update ? 'update' : 'create';
-	# TODO: mark fields for update
-	return DI->get('db')->dbc->resultset($class)->$type($model->serialize);
+	my $type = $update ? 'update' : 'insert';
+	my $dbmodel = $self->db->dbc->resultset($class)->new($model->serialize);
+	if ($update) {
+		$dbmodel->in_storage(1);
+		$dbmodel->make_column_dirty($_) for keys $model->_dirty->%*;
+	}
+	$dbmodel->$type;
+	return;
 }
 
 sub load ($self, $resultset, $search)
@@ -25,7 +34,7 @@ sub load ($self, $resultset, $search)
 	$search = {id => $search}
 		unless ref $search;
 
-	my $found = DI->get('db')->dbc->resultset($resultset)->single($search);
+	my $found = $self->db->dbc->resultset($resultset)->single($search);
 	Game::Exception::RecordDoesNotExist->throw unless $found;
 
 	return $found->to_model;

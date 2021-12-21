@@ -24,7 +24,7 @@ sub gather ($self, $message, @checks)
 			$check = $check->();
 		}
 
-		if ($check->$_isa(Game::Mechanics::Check::Carry::)) {
+		if ($check->$_isa('Game::Mechanics::Check::Carry')) {
 			if ($check->has_error) {
 				return $check;
 			}
