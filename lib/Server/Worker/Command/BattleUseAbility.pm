@@ -1,4 +1,4 @@
-package Game::Worker::Command::BattleUseAbility;
+package Server::Worker::Command::BattleUseAbility;
 
 use Moo;
 use DI;
@@ -10,7 +10,7 @@ use Exception::RecordDoesNotExist;
 
 use header;
 
-with 'Game::Worker::Command';
+with 'Server::Worker::Command';
 
 use constant name => 'battle_use_ability';
 

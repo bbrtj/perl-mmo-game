@@ -6,7 +6,7 @@ use warnings;
 use_ok('Utils');
 use_ok('DI');
 
-use_ok('Game::Worker');
+use_ok('Server::Worker');
 use_ok('Unit');
 use_ok('Game::Lore');
 use_ok('Game::Ability');

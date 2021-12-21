@@ -1,10 +1,10 @@
-package Game::Worker::Command::Test;
+package Server::Worker::Command::Test;
 
 use Moo;
 
 use header;
 
-with 'Game::Worker::Command';
+with 'Server::Worker::Command';
 
 use constant name => 'test';
 

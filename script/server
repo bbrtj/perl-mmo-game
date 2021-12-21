@@ -2,12 +2,12 @@
 
 use Mojolicious::Lite -signatures;
 use Utils;
-use Game::Worker;
+use Server::Worker;
 
 Utils->bootstrap(app);
 
 plugin 'Minion::Admin';
 
-Game::Worker->register(app->minion);
+Server::Worker->register(app->minion);
 
 app->start;

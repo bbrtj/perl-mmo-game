@@ -1,4 +1,4 @@
-package Game::Worker::Command;
+package Server::Worker::Command;
 
 use Moo::Role;
 
