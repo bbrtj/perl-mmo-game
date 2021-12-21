@@ -1,4 +1,4 @@
-package Game::Form::Register;
+package Web::Form::Register;
 
 use Form::Tiny -filtered, -consistent;
 use DI;
@@ -6,9 +6,9 @@ use Types;
 
 use header;
 
-extends 'Game::Form';
+extends 'Web::Form';
 
-with qw(Game::Form::Role::HTML);
+with qw(Web::Form::Role::HTML);
 
 use constant PASS_MIN_LENGTH => 8;
 

@@ -1,4 +1,4 @@
-use Game::Form::Register;
+use Web::Form::Register;
 use DI;
 use Object::Sub;
 use Model::User;
@@ -59,13 +59,13 @@ DI->set('schema_repo', Object::Sub->new({
 }), 1);
 
 test_registration_should_succeed sub ($data) {
-	my $form = Game::Form::Register->new;
+	my $form = Web::Form::Register->new;
 	$form->set_input($data);
 	ok $form->valid, "form valid $_";
 };
 
 test_registration_should_fail sub ($data, $errors) {
-	my $form = Game::Form::Register->new;
+	my $form = Web::Form::Register->new;
 	$form->set_input($data);
 	ok !$form->valid, "form invalid $_";
 	is $form->errors_hash, $errors, "errors hash $_";

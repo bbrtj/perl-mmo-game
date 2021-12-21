@@ -1,4 +1,4 @@
-package Game;
+package Web;
 
 use Moo;
 use Game::Bootstrap;
@@ -35,7 +35,7 @@ sub load_config ($self, $env)
 
 sub load_commands ($self, $env)
 {
-	push $self->commands->namespaces->@*, "Game::Command";
+	push $self->commands->namespaces->@*, "Web::Command";
 
 	return;
 }

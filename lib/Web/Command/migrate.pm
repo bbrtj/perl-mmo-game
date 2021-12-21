@@ -1,4 +1,4 @@
-package Game::Command::migrate;
+package Web::Command::migrate;
 
 use Mojo::Base 'Mojolicious::Command';
 use Getopt::Long qw(GetOptionsFromArray);

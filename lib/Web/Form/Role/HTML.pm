@@ -1,4 +1,4 @@
-package Game::Form::Role::HTML;
+package Web::Form::Role::HTML;
 
 use Moo::Role;
 use Form::Diva;

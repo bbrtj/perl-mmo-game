@@ -6,4 +6,4 @@ use warnings;
 use Mojolicious::Commands;
 
 # Start command line interface for application
-Mojolicious::Commands->start_app('Game');
+Mojolicious::Commands->start_app('Web');

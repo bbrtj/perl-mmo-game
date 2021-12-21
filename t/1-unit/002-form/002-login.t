@@ -1,4 +1,4 @@
-use Game::Form::Login;
+use Web::Form::Login;
 use DI;
 use Object::Sub;
 use Model::User;
@@ -51,7 +51,7 @@ DI->set('schema_repo', Object::Sub->new({
 }), 1);
 
 test_login_should_succeed sub ($data) {
-	my $form = Game::Form::Login->new;
+	my $form = Web::Form::Login->new;
 	$form->set_input($data);
 	ok $form->valid, "form valid $_";
 
@@ -64,7 +64,7 @@ test_login_should_succeed sub ($data) {
 };
 
 test_login_should_fail sub ($data, $errors) {
-	my $form = Game::Form::Login->new;
+	my $form = Web::Form::Login->new;
 	$form->set_input($data);
 	ok !$form->valid, "form invalid $_";
 	is $form->errors_hash, $errors, "errors hash $_";

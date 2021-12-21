@@ -1,4 +1,4 @@
-package Game::Form::Login;
+package Web::Form::Login;
 
 use Form::Tiny -filtered, -consistent;
 use DI;
@@ -6,9 +6,9 @@ use Types;
 
 use header;
 
-extends 'Game::Form';
+extends 'Web::Form';
 
-with qw(Game::Form::Role::HTML);
+with qw(Web::Form::Role::HTML);
 
 has 'user' => (
 	is => 'ro',

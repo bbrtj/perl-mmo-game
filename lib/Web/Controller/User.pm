@@ -1,8 +1,8 @@
-package Game::Controller::User;
+package Web::Controller::User;
 
 use Moo;
-use Game::Form::Login;
-use Game::Form::Register;
+use Web::Form::Login;
+use Web::Form::Register;
 
 use header;
 
@@ -10,7 +10,7 @@ extends 'Mojolicious::Controller';
 
 sub login ($self)
 {
-	my $form = Game::Form::Login->new;
+	my $form = Web::Form::Login->new;
 
 	if ($self->req->method eq 'POST') {
 		# TODO: csrf
@@ -36,7 +36,7 @@ sub login ($self)
 
 sub register ($self)
 {
-	my $form = Game::Form::Register->new;
+	my $form = Web::Form::Register->new;
 
 	if ($self->req->method eq 'POST') {
 		# TODO: csrf

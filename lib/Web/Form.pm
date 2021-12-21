@@ -1,4 +1,4 @@
-package Game::Form;
+package Web::Form;
 
 use Form::Tiny -consistent;
 

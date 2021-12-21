@@ -1,4 +1,4 @@
-package Game::Controller::Middleware;
+package Web::Controller::Middleware;
 
 use Moo;
 use DI;
