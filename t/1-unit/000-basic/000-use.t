@@ -3,7 +3,7 @@ use Test::More;
 use strict;
 use warnings;
 
-use_ok('Game::Common');
+use_ok('Utils');
 use_ok('DI');
 
 use_ok('Game::Worker');

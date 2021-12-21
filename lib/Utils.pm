@@ -1,8 +1,26 @@
-package Game::Common;
+package Utils;
 
 use Mojo::File qw(path);
+use Schema;
+use Mojo::Pg;
+use DI;
 
 use header;
+
+sub bootstrap ($class, $app)
+{
+	my $config = DI->get('env');
+	$app->plugin(Minion => {Pg => $config->getenv('DB_CONNECTION')});
+	my $pg = Mojo::Pg->new($config->getenv('DB_CONNECTION'));
+
+	$class->bootstrap_models;
+
+	return $config;
+}
+
+sub bootstrap_models ($class) {
+	$class->load_classes('Model', 'Model/*.pm');
+}
 
 sub load_classes ($class, $namespace, $pattern)
 {

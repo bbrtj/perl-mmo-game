@@ -1,12 +1,12 @@
 package Game::Worker;
 
-use Game::Common;
+use Utils;
 
 use header;
 
 sub register ($class, $minion)
 {
-	foreach my $class (Game::Common->load_classes('Game::Worker::Command', 'Worker/Command/*.pm')) {
+	foreach my $class (Utils->load_classes('Game::Worker::Command', 'Worker/Command/*.pm')) {
 		my $command = $class->new;
 		$minion->add_task($command->name, $command->can('handler'));
 	}

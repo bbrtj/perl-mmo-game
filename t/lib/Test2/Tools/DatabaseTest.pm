@@ -3,10 +3,8 @@ package Test2::Tools::DatabaseTest;
 use Exporter qw(import);
 use Test2::API qw(context);
 use Test::DB;
-use Game::Common;
 use DI;
-use Schema;
-use Model;
+use Utils;
 use Mojo::Pg;
 use Component::DB;
 
@@ -40,7 +38,7 @@ sub database_test :prototype(&) ($sub)
 		my $db = Component::DB->new(env => $env, dbh => $pg);
 		DI->set('db', $db);
 
-		Model->bootstrap;
+		Utils->bootstrap_models;
 
 		$sub->();
 	}

@@ -1,7 +1,7 @@
 package Game::Ability::Passive;
 
 use Moo::Role;
-use Game::Common;
+use Utils;
 
 use header;
 
@@ -14,6 +14,6 @@ requires qw(
 sub _get
 {
 	return state $list =
-		{map { $_->lore_id => $_->new } Game::Common->load_classes('Game::Ability::Passive', 'Passive/*.pm')};
+		{map { $_->lore_id => $_->new } Utils->load_classes('Game::Ability::Passive', 'Passive/*.pm')};
 }
 

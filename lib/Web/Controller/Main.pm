@@ -1,7 +1,7 @@
 package Web::Controller::Main;
 
 use Moo;
-use Config;
+use Web::Config;
 
 use header;
 
@@ -17,7 +17,7 @@ sub main_page ($self)
 sub set_lang ($self)
 {
 	my $lang = $self->param('lang');
-	if (any { $_ eq $lang } Config->supported_langs->@*) {
+	if (any { $_ eq $lang } Web::Config->supported_langs->@*) {
 		$self->session->{lang} = $lang;
 		# TODO: referrer
 		$self->redirect_to('/');

@@ -1,4 +1,4 @@
-package Config;
+package Web::Config;
 
 use header;
 

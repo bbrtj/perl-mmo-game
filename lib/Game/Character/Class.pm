@@ -24,6 +24,6 @@ requires qw(
 sub _get
 {
 	return state $list =
-		{map { $_->lore_id => $_->new } Game::Common->load_classes('Game::Character::Class', 'Class/*.pm')};
+		{map { $_->lore_id => $_->new } Utils->load_classes('Game::Character::Class', 'Class/*.pm')};
 }
 

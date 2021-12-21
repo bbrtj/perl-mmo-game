@@ -1,7 +1,7 @@
 package Web;
 
 use Moo;
-use Game::Bootstrap;
+use Utils;
 use DI;
 
 use header;
@@ -11,7 +11,7 @@ extends 'Mojolicious';
 # This method will run once at server start
 sub startup ($self)
 {
-	my $env = bootstrap($self);
+	my $env = Utils->bootstrap($self);
 
 	load_config($self, $env);
 	load_commands($self, $env);
