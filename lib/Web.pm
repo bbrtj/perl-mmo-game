@@ -49,7 +49,9 @@ sub load_routes ($self, $env)
 	# Normal route to controller
 	$main->get('/')->to('main#main_page');
 	$main->get('/lang/:lang')->to('main#set_lang');
-	$main->get('/play')->to('main#play');
+
+	my $play = $main->under('/play')->to('middleware#is_user');
+	$play->get('/')->to('main#play');
 
 	my $user = $main->under('/user');
 	$user->any([qw(GET POST)] => '/login')->to('user#login');

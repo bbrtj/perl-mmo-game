@@ -36,6 +36,7 @@ sub is_user ($self)
 	my $user_id = $self->session->{user};
 	my $user = $self->stash('user');
 
+	# TODO: redirect to login unless ajax
 	return $self->unauthorized
 		unless $user_id;
 

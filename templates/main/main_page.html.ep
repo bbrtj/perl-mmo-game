@@ -6,7 +6,7 @@
 
 <div>
 	% if ($user) {
-		<p><%= link_to _tt('Play') => url_for '/game' %></p>
+		<p><%= link_to _tt('Play') => url_for '/play' %></p>
 		<p>
 			<form method="POST" action="<%= url_for '/user/logout' %>">
 				<button>

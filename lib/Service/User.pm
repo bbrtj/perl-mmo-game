@@ -28,7 +28,7 @@ sub register_user ($self, $user_data)
 	$self->repo->save($player);
 
 	my $character = Model::Character->new(
-		player_id => $user->id,
+		player_id => $player->id,
 		class_id => Game::Character::Class::Warrior->lore_id,
 		name => $user->email =~ s/@.*$//r,
 		stats => Game::Character::Class::Warrior->base_stats,
