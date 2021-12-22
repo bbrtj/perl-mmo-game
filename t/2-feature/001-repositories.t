@@ -8,6 +8,8 @@ use testheader;
 
 database_test {
 	### uses Repository::LoreData
+	local $i18n::CURRENT_LANG = 'pl';
+
 	my $class = Game::Character::Statistic->get('STT_STR');
 	is $class->lore_name, 'Siła', 'lore name ok';
 

@@ -1,7 +1,6 @@
 package Game::Lore;
 
 use Moo::Role;
-use DI;
 
 use header;
 
@@ -17,11 +16,11 @@ sub get ($self, $id = undef)
 
 sub lore_name ($self)
 {
-	return DI->get('lore_data')->load(name => $self->lore_id);
+	return _lt($self->lore_id, 'name');
 }
 
 sub lore_description ($self)
 {
-	return DI->get('lore_data')->load(description => $self->lore_id);
+	return _lt($self->lore_id, 'description');
 }
 

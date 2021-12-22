@@ -2,11 +2,12 @@ package i18n;
 
 # very basic structure because it is used in header
 
+use v5.32;
 use Moo;
 use Exporter qw(import);
 use Mojo::File qw(curfile);
 use Data::Localize;
-use Types::Standard qw(Str ArrayRef);
+use Types::Standard qw(Str ArrayRef Bool);
 use Carp qw(croak);
 use Data::Localize::Format::Maketext;
 
@@ -15,10 +16,13 @@ use Data::Localize::Format::Maketext;
 our @EXPORT = qw(
 	_t
 	_tt
+	_lt
 );
 
 our $CURRENT_LANG = undef;
 
+# simple translate
+# uses a message id that won't get translated directly
 sub _t
 {
 	my ($message, @args) = @_;
@@ -29,10 +33,23 @@ sub _t
 	);
 }
 
+# text translate
+# a text in English that will get translated if translation is not found
 sub _tt
 {
 	my $t = _t lc shift, @_;
 	$t->id(0);
+
+	return $t;
+}
+
+# lore translate
+# will translate using database lore data, searching for the id
+# the second parameters should be a type - name or description
+sub _lt
+{
+	my $t = _t shift, shift;
+	$t->lore(1);
 
 	return $t;
 }
@@ -46,7 +63,14 @@ use overload
 
 has 'id' => (
 	is => 'rw',
+	isa => Bool,
 	default => sub { 1 },
+);
+
+has 'lore' => (
+	is => 'rw',
+	isa => Bool,
+	default => sub { 0 },
 );
 
 has 'message' => (
@@ -79,6 +103,10 @@ sub translate
 	croak 'could not translate (no lang): ' . $self->message
 		if !defined $CURRENT_LANG && $self->id;
 
+	if ($self->lore) {
+		return $self->translate_lore;
+	}
+
 	$localizer->auto(!$self->id);
 	$localizer->set_languages($CURRENT_LANG // (), 'en');
 
@@ -87,6 +115,16 @@ sub translate
 		unless $self->id;
 
 	return $localized;
+}
+
+sub translate_lore
+{
+	my ($self) = @_;
+
+	require DI; # lazy load to avoid circularity
+	state $repo = DI->get('lore_data');
+
+	return $repo->load($self->args->[0], $self->message, $CURRENT_LANG);
 }
 
 1;

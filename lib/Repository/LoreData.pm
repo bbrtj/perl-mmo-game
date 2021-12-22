@@ -13,13 +13,12 @@ has 'db' => (
 
 sub save { ... }
 
-# TODO lang
-sub load ($self, $type, $id, $lang = 'PL')
+sub load ($self, $type, $id, $lang)
 {
 	state $check = Types::Enum [qw(name description)];
 	$check->assert_valid($type);
 
-	my $result = $self->db->db->query(<<~"SQL", $id, $lang)->hash;
+	my $result = $self->db->db->query(<<~"SQL", $id, uc $lang)->hash;
 		SELECT $type FROM gd_lore_${type}s WHERE lore_id = ? AND language_id = ?
 	SQL
 
