@@ -2,7 +2,7 @@
 
 CREATE TABLE players (
 	id CHAR(26) primary key,
-	user_id CHAR(26),
+	user_id CHAR(26) NOT NULL,
 	online BOOLEAN NOT NULL DEFAULT false,
 	last_online TIMESTAMPTZ NULL,
 	created_at TIMESTAMPTZ NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE characters (
 		REFERENCES gd_classes(id)
 );
 
-CREATE INDEX ind_characters_lookup_player ON characters (player_id);
+CREATE UNIQUE INDEX ind_characters_lookup_player ON characters (player_id);
 CREATE INDEX ind_characters_lookup_npc ON characters (npc_id);
 
 CREATE TABLE character_variables (
