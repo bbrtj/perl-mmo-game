@@ -11,7 +11,6 @@ my $dir = dirname(__FILE__);
 # Carton
 unshift @PATH, "$dir/local/bin";
 unshift @PERL5LIB, "$dir/local/lib/perl5";
-unshift @PERL5LIB, "$dir/lib";
 
 my ($arg) = @ARGV;
 $arg //= '';

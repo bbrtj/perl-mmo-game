@@ -1,6 +1,8 @@
 #!/usr/bin/env perl
 
-use Mojolicious::Lite -signatures;
+use Mojolicious::Lite;
+use lib 'lib';
+
 use Utils;
 use Server::Worker;
 

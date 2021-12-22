@@ -1,16 +1,16 @@
 package Web::Command::migrate;
 
-use Mojo::Base 'Mojolicious::Command';
+use Moo;
 use Getopt::Long qw(GetOptionsFromArray);
 use Mojo::File qw(curfile path);
 use DI;
 
 use header;
 
-has description => 'migrate database schema';
+extends 'Mojolicious::Command';
 
-# Usage message from SYNOPSIS
-has usage => sub ($self) { $self->extract_usage };
+use constant description => 'migrate database schema';
+use constant usage => sub ($self) { $self->extract_usage };
 
 sub get_files ()
 {
