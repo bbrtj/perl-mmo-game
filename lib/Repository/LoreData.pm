@@ -1,12 +1,15 @@
 package Repository::LoreData;
 
 use Moo;
-use DI;
 use Types;
 
 use header;
 
 with 'Repository::Role::Resource';
+
+has 'db' => (
+	is => 'ro',
+);
 
 sub save { ... }
 
@@ -16,7 +19,7 @@ sub load ($self, $type, $id, $lang = 'PL')
 	state $check = Types::Enum [qw(name description)];
 	$check->assert_valid($type);
 
-	my $result = DI->get('db')->db->query(<<~"SQL", $id, $lang)->hash;
+	my $result = $self->db->db->query(<<~"SQL", $id, $lang)->hash;
 		SELECT $type FROM gd_lore_${type}s WHERE lore_id = ? AND language_id = ?
 	SQL
 

@@ -23,15 +23,33 @@ schema_repo:
 
 char_cache:
     class: Repository::CharCache
+    args:
+        db:
+            $ref: db
 
 lore_data:
     class: Repository::LoreData
-
-battle_unit:
-    class: Repository::BattleUnit
+    args:
+        db:
+            $ref: db
 
 actor_unit:
     class: Repository::ActorUnit
+    args:
+        repo:
+            $ref: schema_repo
+        db:
+            $ref: db
+
+battle_unit:
+    class: Repository::BattleUnit
+    args:
+        repo:
+            $ref: schema_repo
+        db:
+            $ref: db
+        actor_repo:
+            $ref: actor_unit
 
 # Services
 

@@ -1,7 +1,6 @@
 package Repository::Schema;
 
 use Moo;
-use DI;
 use Types;
 use Exception::RecordDoesNotExist;
 
