@@ -5,7 +5,13 @@ use Test2::Tools::Subtest qw(subtest_buffered);
 
 use header -noclean;
 
-our @EXPORT = qw(test_data);
+our @EXPORT = qw(test_data before_each);
+
+my $before;
+sub before_each :prototype(&) ($sub)
+{
+	$before = $sub;
+}
 
 sub get_sub ($desc, @cases)
 {
@@ -13,6 +19,9 @@ sub get_sub ($desc, @cases)
 		subtest_buffered $desc, sub {
 			my $num = 0;
 			for my $case (@cases) {
+				$before->($num)
+					if defined $before;
+
 				local $_ = "case $num ok";
 				my $output = $tester->($case->@*);
 				$num += 1;

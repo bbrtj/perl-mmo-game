@@ -47,9 +47,11 @@ my $load_mock = $mock->add_method('load')
 
 DI->set('schema_repo', $mock->object, 1);
 
-test_login_should_succeed sub ($data) {
+before_each {
 	$load_mock->clear;
+};
 
+test_login_should_succeed sub ($data) {
 	my $form = Web::Form::Login->new;
 	$form->set_input($data);
 	ok $form->valid, "form valid $_";
@@ -66,8 +68,6 @@ test_login_should_succeed sub ($data) {
 };
 
 test_login_should_fail sub ($data, $errors) {
-	$load_mock->clear;
-
 	my $form = Web::Form::Login->new;
 	$form->set_input($data);
 	ok !$form->valid, "form invalid $_";
