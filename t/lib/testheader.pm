@@ -1,6 +1,7 @@
 package testheader;
 
 use header;
+use MockObject;
 
 require Test2::V0;
 require Test2::Tools::Provider;
