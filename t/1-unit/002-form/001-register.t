@@ -41,18 +41,27 @@ BEGIN {
 				{email => 'test@test.com', password => 'abcdefg1', repeat_password => ''},
 				{'repeat_password' => ['Field is required']}
 			],
+			[
+				{email => 'test2@test.com', password => 'abcdefg1', repeat_password => 'abcdefg1'},
+				{'' => ['That email is already taken']}
+			],
 		],
 		;
 }
 
-# TODO: test for when an email exists
+my $tested_mail = 'test2@test.com';
+my $model = Model::User->dummy->new(email => $tested_mail);
+$model->set_password('abcdefg1');
+$model->promote;
+
 DI->set(
 	'schema_repo',
 	Object::Sub->new(
 		{
 			load => sub ($self, $resultset, $params) {
 				if ($resultset eq 'User') {
-					Exception::RecordDoesNotExist->throw;
+					Exception::RecordDoesNotExist->throw unless $params->{email} eq $tested_mail;
+					return $model;
 				}
 				else {
 					fail 'I did not expect any other resultset than User';
