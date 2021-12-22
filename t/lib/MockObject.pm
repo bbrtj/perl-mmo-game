@@ -28,8 +28,15 @@ sub setup ($self)
 			$params->{called_times} += 1;
 			push $params->{called_with}->@*, [@params];
 
-			die $params->{throws}
-				if defined $params->{throws};
+			die $params->{returns}
+				if $params->{throws};
+
+			return $params->{returns}->@*
+				if $params->{returns_list} && ref $params->{returns} eq 'ARRAY';
+
+			return $params->{returns}->(@params)
+				if $params->{calls_return} && ref $params->{returns} eq 'CODE';
+
 			return $params->{returns};
 		};
 	}
@@ -37,7 +44,7 @@ sub setup ($self)
 	return Object::Sub->new(\%init_hash);
 }
 
-sub add_method ($self, $method, $returns = undef)
+sub add_method ($self, $method, @returns)
 {
 	$self->_clear_object
 		unless exists $self->mocked_subs->{$method};
@@ -45,11 +52,11 @@ sub add_method ($self, $method, $returns = undef)
 	$self->mocked_subs->{$method} = {
 		called_times => 0,
 		called_with => [],
-		throws => undef,
-		returns => $returns,
+		throws => 0,
+		calls_return => 0,
 	};
 
-	return $self->method($method);
+	return $self->method($method)->should_return(@returns);
 }
 
 # testers
@@ -75,13 +82,31 @@ sub method ($self, $method)
 		call_history => sub ($self) {
 			return $params->{called_with}->@*;
 		},
-		should_return => sub ($self, $value) {
-			$params->{returns} = $value;
+		should_return => sub ($self, @values) {
+			$params->{throws} = 0;
+			$params->{calls_return} = 0;
+
+			if (@values == 1) {
+				$params->{returns} = $values[0];
+				$params->{returns_list} = 0;
+			}
+			else {
+				$params->{returns} = [@values];
+				$params->{returns_list} = 1;
+			}
 
 			return $self->clear;
 		},
-		should_throw => sub ($self, $value) {
-			$params->{throws} = $value;
+		should_call => sub ($self, $sub) {
+			$params->{throws} = 0;
+			$params->{calls_return} = 1;
+			$params->{returns} = $sub;
+
+			return $self->clear;
+		},
+		should_throw => sub ($self, $exception) {
+			$params->{throws} = 1;
+			$params->{returns} = $exception;
 
 			return $self->clear;
 		},
