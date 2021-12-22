@@ -55,10 +55,12 @@ $mock_model->promote;
 
 my $mock = MockObject->new;
 my $load_mock = $mock->add_method('load')
-	->should_call(sub ($resultset, $params) {
-		Exception::RecordDoesNotExist->throw unless $params->{email} eq $tested_mail;
-		return $mock_model;
-	});
+	->should_call(
+		sub ($resultset, $params) {
+			Exception::RecordDoesNotExist->throw unless $params->{email} eq $tested_mail;
+			return $mock_model;
+		}
+	);
 
 DI->set('schema_repo', $mock->object, 1);
 
@@ -82,7 +84,7 @@ test_registration_should_fail sub ($data, $errors) {
 	is $form->errors_hash, $errors, "errors hash $_";
 
 	# mock might not get called because db is queried in form cleaner
-	if ($load_mock->was_called_once) {
+	if ($load_mock->was_called) {
 		is $load_mock->called_with, [User => {email => $data->{email}}], "mock called parameters $_";
 	}
 };

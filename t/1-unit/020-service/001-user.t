@@ -11,7 +11,7 @@ BEGIN {
 		'should find user by email' => [
 			['test@test.com'],
 		],
-	;
+		;
 }
 
 my $mock = MockObject->new;
@@ -29,7 +29,7 @@ test_should_register_user sub ($data) {
 	my $user = $service->register_user($data);
 	isa_ok $user, 'Model::User';
 	ok $save_mock->was_called, "mocked database save call $_";
-	is $save_mock->first_called_with, [exact_ref($user)], "mocked database save params $_"
+	is $save_mock->first_called_with, [exact_ref($user)], "mocked database save params $_";
 };
 
 $load_mock->should_return($mock_user);
@@ -39,7 +39,7 @@ test_should_find_user_by_email sub ($data) {
 	my $user = $service->find_user_by_email($data);
 	ok $load_mock->was_called_once, "mocked database load call $_";
 	is $user, exact_ref($mock_user), "mocked database load $_";
-	is $load_mock->called_with, [User => {email => $data}], "mocked database load params $_"
+	is $load_mock->called_with, [User => {email => $data}], "mocked database load params $_";
 };
 
 done_testing;
