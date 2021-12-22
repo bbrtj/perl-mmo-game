@@ -4,6 +4,7 @@ use Moo;
 use Model::User;
 use Model::Player;
 use Model::Character;
+use Game::Character::Class::Warrior;
 
 use header;
 
