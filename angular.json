@@ -21,7 +21,10 @@
 					"builder": "@angular-devkit/build-angular:browser",
 					"options": {
 						"outputPath": "public",
-						"index": "front/game/src/index.html",
+						"index": {
+							"input": "front/game/src/index.html",
+							"output": "../dist/play.html"
+						},
 						"main": "front/game/src/main.ts",
 						"polyfills": "front/game/src/polyfills.ts",
 						"tsConfig": "front/game/tsconfig.app.json",

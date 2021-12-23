@@ -58,8 +58,10 @@ sub load_routes ($self, $env)
 	$user->post('/logout')->to('user#logout');
 	$user->any([qw(GET POST)] => '/register')->to('user#register');
 
-	my $api = $main->under('/api')->to('middleware#is_user');
-	my $game = $api->under('/game')->to('middleware#is_player');
+	my $api = $main->under('/api')->to('API::Middleware#is_user');
+	$api->websocket('/socket')->to('API::Socket#websocket');
+
+	my $game = $api->under('/game')->to('API::Middleware#is_player');
 
 	return;
 }

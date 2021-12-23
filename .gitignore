@@ -5,6 +5,7 @@
 /logs/*
 !/logs/.keep
 /public
+/dist
 
 # Angular stuff
 # compiled output

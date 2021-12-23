@@ -9,13 +9,14 @@ extends 'Mojolicious::Controller';
 
 sub unauthorized ($self)
 {
-	$self->render(json => {error => 'login required'}, status => 401);
+	$self->redirect_to('/user/login');
 	return undef;
 }
 
 sub bad_request ($self)
 {
-	$self->render(json => {error => 'invalid request'}, status => 400);
+	$self->render(text => 'Something went wrong, try again later');
+	$self->rendered(400);
 	return undef;
 }
 
@@ -36,7 +37,6 @@ sub is_user ($self)
 	my $user_id = $self->session->{user};
 	my $user = $self->stash('user');
 
-	# TODO: redirect to login unless ajax
 	return $self->unauthorized
 		unless $user_id;
 
@@ -45,21 +45,3 @@ sub is_user ($self)
 
 	return 1;
 }
-
-sub is_player ($self)
-{
-	my $player_id = $self->session->{player};
-
-	return $self->unauthorized
-		unless $player_id;
-
-	my $player = DI->get('schema_repo')->load(Player => $player_id);
-	my $user = $self->stash('user');
-
-	return $self->bad_request
-		unless $player || $player->user_id ne $user->id;
-
-	$self->stash(player => $player);
-	return 1;
-}
-

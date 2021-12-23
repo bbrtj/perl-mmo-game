@@ -1,20 +1,21 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-// https://angular.io/api/common/APP_BASE_HREF
+import { CharacterSelectionComponent } from './character-selection/character-selection.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
 	declarations: [
-		AppComponent
+		AppComponent,
+		CharacterSelectionComponent,
+		MapComponent,
 	],
 	imports: [
 		BrowserModule,
-		AppRoutingModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
