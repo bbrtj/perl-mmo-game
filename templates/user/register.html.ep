@@ -9,8 +9,7 @@
 	</h1>
 
 	<p>
-		%= _tt 'You may now';
-		%= link_to _tt('Log in') => url_for '/user/login';
+		%= link_to _tt('You may now log in') => url_for '/user/login';
 	</p>
 % }
 % else {

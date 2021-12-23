@@ -53,6 +53,12 @@ msgstr "ten email jest już zajęty"
 msgid "password must contain a digit"
 msgstr "hasło musi zawierać cyfrę"
 
+msgid "registration successful"
+msgstr "rejestracja zakończona pomyślnie"
+
+msgid "you may now log in"
+msgstr "możesz się już zalogować"
+
 msgid "out_of_range"
 msgstr "cel znajduje się poza zasięgiem"
 
