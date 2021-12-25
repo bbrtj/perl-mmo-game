@@ -8,7 +8,8 @@ use header -noclean;
 our @EXPORT = qw(test_data before_each);
 
 my $before;
-sub before_each :prototype(&) ($sub)
+
+sub before_each : prototype(&) ($sub)
 {
 	$before = $sub;
 }

@@ -1760,6 +1760,22 @@ DISTRIBUTIONS
       Mojolicious 9.0
       YAML::XS 0.67
       perl 5.016
+  Minion-Backend-Redis-0.003
+    pathname: D/DF/DFUG/Minion-Backend-Redis-0.003.tar.gz
+    provides:
+      Minion::Backend::Redis 0.003
+    requirements:
+      Carp 0
+      Digest::SHA 0
+      List::Util 1.33
+      Minion 10.20
+      Module::Build::Tiny 0.034
+      Mojo::Redis 3.25
+      Mojolicious 9.02
+      Sort::Versions 0
+      Sys::Hostname 0
+      Time::HiRes 0
+      perl v5.20.2
   Module-Build-0.4231
     pathname: L/LE/LEONT/Module-Build-0.4231.tar.gz
     provides:
@@ -1903,6 +1919,21 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Mojolicious 8.50
       SQL::Abstract::Pg 1.0
+      perl 5.016
+  Mojo-Redis-3.27
+    pathname: J/JH/JHTHORSEN/Mojo-Redis-3.27.tar.gz
+    provides:
+      Mojo::Redis 3.27
+      Mojo::Redis::Cache undef
+      Mojo::Redis::Connection undef
+      Mojo::Redis::Connection::Offline undef
+      Mojo::Redis::Cursor undef
+      Mojo::Redis::Database undef
+      Mojo::Redis::PubSub undef
+    requirements:
+      ExtUtils::MakeMaker 0
+      Mojolicious 8.50
+      Protocol::Redis::Faster 0.002
       perl 5.016
   Mojolicious-9.22
     pathname: S/SR/SRI/Mojolicious-9.22.tar.gz
@@ -2850,6 +2881,26 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       File::Basename 0
       Test::More 0.6
+  Protocol-Redis-1.0011
+    pathname: U/UN/UNDEF/Protocol-Redis-1.0011.tar.gz
+    provides:
+      Protocol::Redis 1.0011
+      Protocol::Redis::Test undef
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      Test::More 0.94
+      perl 5.008001
+  Protocol-Redis-Faster-0.003
+    pathname: D/DB/DBOOK/Protocol-Redis-Faster-0.003.tar.gz
+    provides:
+      Protocol::Redis::Faster 0.003
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      Protocol::Redis 1.0000
+      parent 0
+      perl 5.008001
   Quantum-Superpositions-Lazy-1.08
     pathname: B/BR/BRTASTIC/Quantum-Superpositions-Lazy-1.08.tar.gz
     provides:
@@ -2991,6 +3042,16 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0.54
+  Sort-Versions-1.62
+    pathname: N/NE/NEILB/Sort-Versions-1.62.tar.gz
+    provides:
+      Sort::Versions 1.62
+    requirements:
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      perl 5.006
+      strict 0
+      warnings 0
   Specio-0.47
     pathname: D/DR/DROLSKY/Specio-0.47.tar.gz
     provides:

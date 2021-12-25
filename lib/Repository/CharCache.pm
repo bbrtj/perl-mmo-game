@@ -7,24 +7,22 @@ use header;
 
 with 'Repository::Role::Resource';
 
-has 'db' => (
+use constant REDIS_KEY => 'char_cache';
+
+has 'redis' => (
 	is => 'ro',
 );
 
 sub save ($self, $id, $data = {})
 {
-	$data = {id => $id, data => encode_json($data)};
-	return $self->db->db->insert(
-		'character_cache', $data,
-		{on_conflict => [id => $data]}
-	);
+	$self->redis->db->hset(REDIS_KEY, $id, encode_json($data));
+	return 1;
 }
 
 sub load ($self, $id)
 {
-	my $cache = $self->db->db->select('character_cache', undef, {id => $id})
-		->hash;
+	my $cache = $self->redis->db->hget(REDIS_KEY, $id);
 
-	return $cache ? decode_json($cache->{data}) : {};
+	return $cache ? decode_json($cache) : {};
 }
 

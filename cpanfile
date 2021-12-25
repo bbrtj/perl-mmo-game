@@ -22,6 +22,9 @@ requires 'Mojo::Pg' => 0;
 requires 'DBIx::Class' => 0;
 requires 'DateTime::Format::Pg' => 0;
 
+requires 'Mojo::Redis' => 0;
+requires 'Minion::Backend::Redis' => 0;
+
 requires 'Import::Into' => 0;
 requires 'namespace::autoclean' => 0;
 requires 'true' => 0;

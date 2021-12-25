@@ -121,7 +121,7 @@ sub translate_lore
 {
 	my ($self) = @_;
 
-	require DI; # lazy load to avoid circularity
+	require DI;    # lazy load to avoid circularity
 	state $repo = DI->get('lore_data');
 
 	return $repo->load($self->args->[0], $self->message, $CURRENT_LANG);

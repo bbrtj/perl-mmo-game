@@ -7,6 +7,12 @@ db:
         env:
             $ref: env
 
+redis:
+    class: Component::Redis
+    args:
+        env:
+            $ref: env
+
 log:
     class: Mojo::Log
     args:
@@ -24,8 +30,8 @@ schema_repo:
 char_cache:
     class: Repository::CharCache
     args:
-        db:
-            $ref: db
+        redis:
+            $ref: redis
 
 lore_data:
     class: Repository::LoreData

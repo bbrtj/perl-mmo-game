@@ -45,16 +45,8 @@ CREATE TABLE character_variables (
 
 CREATE INDEX ind_character_variables_lookup_location ON character_variables (location);
 
--- this can be moved to redis later
--- (no foreign key for this reason)
-CREATE TABLE character_cache (
-	id CHAR(26) primary key,
-	data VARCHAR NOT NULL
-);
-
 -- 5 down
 
-DROP TABLE character_cache;
 DROP TABLE character_variables;
 DROP TABLE characters;
 DROP TABLE players;
