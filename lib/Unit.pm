@@ -6,7 +6,8 @@ use header;
 
 # return models that should be saved
 # (proper order is needed)
-sub models ($self) {
+sub models ($self)
+{
 	return [];
 }
 

@@ -7,7 +7,8 @@ use Import::Into;
 
 require Moose::Role;
 
-sub import {
+sub import
+{
 	my $caller = caller;
 	Moose::Role->import::into($caller);
 }

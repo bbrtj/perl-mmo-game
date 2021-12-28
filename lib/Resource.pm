@@ -7,7 +7,7 @@ use header;
 
 has 'subject' => (
 	is => 'ro',
-	isa => Types::InstanceOf['Unit'],
+	isa => Types::InstanceOf ['Unit'],
 );
 
 has 'more_data' => (
@@ -20,7 +20,7 @@ around BUILDARGS => sub ($orig, $class, @args) {
 
 	return {
 		subject => $subject,
-		more_data => { @args },
+		more_data => {@args},
 	};
 };
 

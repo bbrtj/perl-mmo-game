@@ -13,4 +13,3 @@ sub create ($self, $player_result)
 	);
 }
 
-

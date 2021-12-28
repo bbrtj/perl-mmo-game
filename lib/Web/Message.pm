@@ -11,9 +11,9 @@ sub _available ($self)
 	return state $loaded = {
 		map {
 			my $class = $_;
-			s{^.*:}{}; # only last part
-			$_ = lcfirst; # title to camel case
-			s{([A-Z]+)}{_$1}; # camel to snake case
+			s{^.*:}{};    # only last part
+			$_ = lcfirst;    # title to camel case
+			s{([A-Z]+)}{_$1};    # camel to snake case
 			$_ => $class->new;
 		} Utils->load_classes('Web::Message', 'Message/*.pm')
 	};

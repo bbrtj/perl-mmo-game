@@ -20,7 +20,7 @@ has 'repo' => (
 
 sub save ($self, $unit)
 {
-	state $check = Types::InstanceOf['Unit'];
+	state $check = Types::InstanceOf ['Unit'];
 	$check->assert_valid($unit);
 
 	$self->repo->update($_) for $unit->models->@*;

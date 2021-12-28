@@ -6,18 +6,25 @@ use warnings;
 use Hook::AfterRuntime;
 use Import::Into;
 
+use My::Moose::Trait::AutoSetters;
+
 require Moose;
 
-sub import {
+sub import
+{
 	my $caller = caller;
 	my $self = shift;
-	my @args = map {
-		();
-		inline_constructor => 0 if /-constr/;
+
+	my @args = grep {
+		$_ ne -constr
 	} @_;
 
-	Moose->import::into($caller);
-	after_runtime { $caller->meta->make_immutable(@args) };
+	my @immutable_args = @args < @_
+		? (inline_constructor => 0)
+		: ();
+
+	Moose->import::into($caller, @args);
+	after_runtime { $caller->meta->make_immutable(@immutable_args) };
 }
 
 1;

@@ -17,4 +17,3 @@ sub create ($self, $user_result)
 	);
 }
 
-

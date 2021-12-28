@@ -36,7 +36,7 @@ sub save ($self, $model, $update = 0)
 
 sub update
 {
-	$_[2] = 1; # update flag
+	$_[2] = 1;    # update flag
 	goto \&save;
 }
 
