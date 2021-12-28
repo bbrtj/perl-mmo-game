@@ -1,6 +1,6 @@
 package Game::Ability::EffectType::Damage;
 
-use Moo;
+use My::Moose;
 
 use header;
 

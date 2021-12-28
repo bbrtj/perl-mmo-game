@@ -1,6 +1,6 @@
 package Game::Item::ArmorType;
 
-use Moo::Role;
+use My::Moose::Role;
 use Utils;
 
 use header;

@@ -1,6 +1,6 @@
 package Game::Character::Class;
 
-use Moo::Role;
+use My::Moose::Role;
 use Game::Ability;
 
 use header;

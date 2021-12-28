@@ -1,6 +1,6 @@
 package Game::Character::Rating::Dodge;
 
-use Moo;
+use My::Moose;
 
 use header;
 

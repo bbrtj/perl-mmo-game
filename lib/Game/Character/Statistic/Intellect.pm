@@ -1,6 +1,6 @@
 package Game::Character::Statistic::Intellect;
 
-use Moo;
+use My::Moose;
 
 use header;
 

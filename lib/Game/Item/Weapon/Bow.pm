@@ -1,6 +1,6 @@
 package Game::Item::Weapon::Bow;
 
-use Moo;
+use My::Moose;
 use Game::Ability::Attribute::Physical;
 use Game::Config;
 

@@ -1,13 +1,15 @@
 package Model::User;
 
-use Moose;
+use My::Moose;
 use Types;
 use Digest::SHA qw(sha256);
 use Crypt::Eksblowfish::Bcrypt qw(bcrypt en_base64);
 
 use header;
 
-with 'Model', 'Model::Role::Stored';
+extends 'Model';
+
+with 'Model::Role::Stored';
 
 use constant BCRYPT_SETTINGS => '$2a$10$';
 

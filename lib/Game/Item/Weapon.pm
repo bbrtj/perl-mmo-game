@@ -1,6 +1,6 @@
 package Game::Item::Weapon;
 
-use Moo::Role;
+use My::Moose::Role;
 use Utils;
 
 use header;

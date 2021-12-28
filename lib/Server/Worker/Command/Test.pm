@@ -1,6 +1,6 @@
 package Server::Worker::Command::Test;
 
-use Moo;
+use My::Moose;
 
 use header;
 

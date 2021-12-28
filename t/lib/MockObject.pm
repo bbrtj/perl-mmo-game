@@ -1,6 +1,6 @@
 package MockObject;
 
-use Moo;
+use My::Moose;
 use Object::Sub;
 
 use header;

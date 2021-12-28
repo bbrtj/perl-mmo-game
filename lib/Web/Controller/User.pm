@@ -1,6 +1,6 @@
 package Web::Controller::User;
 
-use Moo;
+use My::Moose -constr;
 use Web::Form::Login;
 use Web::Form::Register;
 

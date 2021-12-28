@@ -1,6 +1,6 @@
 package Repository::LoreData;
 
-use Moo;
+use My::Moose;
 use Types;
 
 use header;

@@ -1,6 +1,6 @@
 package Game::Lore;
 
-use Moo::Role;
+use My::Moose::Role;
 
 use header;
 

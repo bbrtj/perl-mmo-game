@@ -1,6 +1,6 @@
 package Game::Character::Statistic::Strength;
 
-use Moo;
+use My::Moose;
 
 use header;
 

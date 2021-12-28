@@ -1,6 +1,6 @@
 package Exception;
 
-use Moo;
+use My::Moose;
 
 use header;
 

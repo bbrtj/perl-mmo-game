@@ -1,6 +1,6 @@
 package Game::Character::Rating::MiscCritDamage;
 
-use Moo;
+use My::Moose;
 
 use header;
 

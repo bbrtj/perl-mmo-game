@@ -1,7 +1,7 @@
 package Component::Redis;
 
 use Types;
-use Moo;
+use My::Moose;
 use Mojo::Redis;
 
 use header;
@@ -15,9 +15,5 @@ has 'redis' => (
 	default => sub ($self) {
 		Mojo::Redis->new($self->env->getenv('REDIS_CONNECTION'));
 	},
+	handles => [qw(db pubsub)],
 );
-
-sub db ($self)
-{
-	return $self->redis->db;
-}

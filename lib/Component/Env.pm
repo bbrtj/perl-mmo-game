@@ -1,7 +1,7 @@
 package Component::Env;
 
 use Types;
-use Moo;
+use My::Moose;
 use Dotenv -load;
 
 use header;

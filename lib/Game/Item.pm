@@ -1,6 +1,6 @@
 package Game::Item;
 
-use Moo::Role;
+use My::Moose::Role;
 
 use header;
 

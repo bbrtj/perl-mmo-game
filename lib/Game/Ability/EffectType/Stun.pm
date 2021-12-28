@@ -1,6 +1,6 @@
 package Game::Ability::EffectType::Stun;
 
-use Moo;
+use My::Moose;
 
 use header;
 

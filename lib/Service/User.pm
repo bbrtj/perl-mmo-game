@@ -1,6 +1,6 @@
 package Service::User;
 
-use Moo;
+use My::Moose;
 use Model::User;
 use Model::Player;
 use Model::Character;
@@ -42,3 +42,4 @@ sub find_user_by_email ($self, $email)
 {
 	return $self->repo->load(User => {email => lc $email});
 }
+

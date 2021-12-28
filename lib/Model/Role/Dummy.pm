@@ -1,6 +1,6 @@
 package Model::Role::Dummy;
 
-use Moose::Role;
+use My::Moose::Role;
 use Moose::Util qw(find_meta);
 use Moose::Meta::Class;
 use List::Util qw(first);

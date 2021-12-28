@@ -1,6 +1,6 @@
 package Game::Character::Rating::Endurance;
 
-use Moo;
+use My::Moose;
 
 use header;
 

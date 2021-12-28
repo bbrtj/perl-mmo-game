@@ -1,11 +1,13 @@
 package Model::BattleContestant;
 
-use Moose;
+use My::Moose;
 use Types;
 
 use header;
 
-with 'Model', 'Model::Role::Stored';
+extends 'Model';
+
+with 'Model::Role::Stored';
 
 has 'battle_id' => (
 	is => 'ro',

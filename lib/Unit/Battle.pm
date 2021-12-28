@@ -1,13 +1,13 @@
 package Unit::Battle;
 
-use Moo;
+use My::Moose;
 use Model::Battle;
 use Types;
 use List::Util qw(first);
 
 use header;
 
-with 'Unit';
+extends 'Unit';
 
 has 'battle' => (
 	is => 'rw',
@@ -23,5 +23,13 @@ sub find_contestant ($self, $id)
 {
 	return first { $_->character->id eq $id }
 		$self->contestants->@*;
+}
+
+sub models ($self)
+{
+	return [
+		$self->battle,
+		map { $_->models->@* } $self->contestants->@*,
+	];
 }
 

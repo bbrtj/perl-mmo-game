@@ -1,6 +1,6 @@
 package Game::Helper::Stats;
 
-use Moo;
+use My::Moose;
 
 use header;
 

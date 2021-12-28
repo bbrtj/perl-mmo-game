@@ -1,6 +1,6 @@
 package Game::Ability::Attribute::Mental;
 
-use Moo;
+use My::Moose;
 
 use header;
 

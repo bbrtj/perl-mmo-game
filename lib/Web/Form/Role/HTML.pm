@@ -1,6 +1,6 @@
 package Web::Form::Role::HTML;
 
-use Moo::Role;
+use My::Moose::Role;
 use Form::Diva;
 
 use header;

@@ -1,11 +1,13 @@
 package Model::CharacterVariables;
 
-use Moose;
+use My::Moose;
 use Types;
 
 use header;
 
-with 'Model', 'Model::Role::Stored';
+extends 'Model';
+
+with 'Model::Role::Stored';
 
 has 'experience' => (
 	is => 'ro',

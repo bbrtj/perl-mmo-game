@@ -1,6 +1,6 @@
 package Server::Worker::Command::BattleUseAbility;
 
-use Moo;
+use My::Moose;
 use DI;
 use Game::Ability::Active;
 use Game::Mechanics::Check::Ability;

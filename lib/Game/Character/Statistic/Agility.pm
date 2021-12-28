@@ -1,6 +1,6 @@
 package Game::Character::Statistic::Agility;
 
-use Moo;
+use My::Moose;
 
 use header;
 

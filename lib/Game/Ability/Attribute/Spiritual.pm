@@ -1,6 +1,6 @@
 package Game::Ability::Attribute::Spiritual;
 
-use Moo;
+use My::Moose;
 
 use header;
 

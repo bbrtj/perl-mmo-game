@@ -1,6 +1,6 @@
 package Repository::Role::Resource;
 
-use Moo::Role;
+use My::Moose::Role;
 
 use header;
 

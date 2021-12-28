@@ -1,6 +1,6 @@
 package Game::Item::ArmorType::Medium;
 
-use Moo;
+use My::Moose;
 
 use header;
 

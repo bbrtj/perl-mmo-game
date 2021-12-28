@@ -1,6 +1,6 @@
 package Game::Ability::EffectType::Resistance;
 
-use Moo;
+use My::Moose;
 
 use header;
 

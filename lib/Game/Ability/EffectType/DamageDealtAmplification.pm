@@ -1,6 +1,6 @@
 package Game::Ability::EffectType::DamageDealtAmplification;
 
-use Moo;
+use My::Moose;
 
 use header;
 

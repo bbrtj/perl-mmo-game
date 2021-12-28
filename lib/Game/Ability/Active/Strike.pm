@@ -1,6 +1,6 @@
 package Game::Ability::Active::Strike;
 
-use Moo;
+use My::Moose;
 use Game::Ability::Attribute::Inherit;
 use Game::Mechanics::Character::Damage;
 

@@ -1,6 +1,6 @@
 package Repository::CharCache;
 
-use Moo;
+use My::Moose;
 use Mojo::JSON qw(decode_json encode_json);
 
 use header;

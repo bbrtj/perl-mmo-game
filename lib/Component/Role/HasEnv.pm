@@ -1,7 +1,7 @@
 package Component::Role::HasEnv;
 
 use Types;
-use Moo::Role;
+use My::Moose::Role;
 
 use header;
 

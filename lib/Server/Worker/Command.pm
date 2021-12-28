@@ -1,6 +1,6 @@
 package Server::Worker::Command;
 
-use Moo::Role;
+use My::Moose::Role;
 
 use header;
 

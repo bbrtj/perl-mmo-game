@@ -1,6 +1,6 @@
 package Unit::BattleActor;
 
-use Moo;
+use My::Moose;
 use Types;
 
 use header;
@@ -11,4 +11,12 @@ has 'contestant' => (
 	is => 'rw',
 	isa => Types::InstanceOf ['Model::BattleContestant'],
 );
+
+sub models ($self)
+{
+	return [
+		$self->SUPER::models->@*,
+		$self->contestant,
+	];
+}
 

@@ -1,5 +1,5 @@
-requires 'Moo' => 0;
 requires 'Moose' => 0;
+requires 'Hook::AfterRuntime' => 0;
 requires 'Object::Sub' => 0;
 
 requires 'Throwable' => 0;

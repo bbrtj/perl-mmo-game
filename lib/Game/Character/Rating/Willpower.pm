@@ -1,6 +1,6 @@
 package Game::Character::Rating::Willpower;
 
-use Moo;
+use My::Moose;
 
 use header;
 

@@ -1,6 +1,6 @@
 package Web::Controller::Middleware;
 
-use Moo;
+use My::Moose -constr;
 use DI;
 
 use header;

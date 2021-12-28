@@ -42,8 +42,10 @@ sub create_actor ($self)
 			character => $character,
 			variables => $variables,
 		),
-		$user,
-		$player
+		user => $user,
+		player => $player,
+		character => $character,
+		variables => $variables,
 	);
 }
 

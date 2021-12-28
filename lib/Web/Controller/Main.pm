@@ -1,6 +1,6 @@
 package Web::Controller::Main;
 
-use Moo;
+use My::Moose -constr;
 use Web::Config;
 
 use header;

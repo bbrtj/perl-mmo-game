@@ -1,6 +1,6 @@
 package Exception::RecordDoesNotExist;
 
-use Moo;
+use My::Moose;
 
 use header;
 

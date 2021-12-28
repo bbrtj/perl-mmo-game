@@ -1,6 +1,6 @@
 package Game::Item::Weapon::2hSword;
 
-use Moo;
+use My::Moose;
 
 use header;
 

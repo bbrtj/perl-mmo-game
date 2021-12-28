@@ -1,6 +1,6 @@
 package Game::Character::Statistic;
 
-use Moo::Role;
+use My::Moose::Role;
 
 use header;
 

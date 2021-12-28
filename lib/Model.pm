@@ -1,6 +1,6 @@
 package Model;
 
-use Moo::Role;
+use My::Moose;
 use Model::Role::Dummy;
 use Carp;
 use Scalar::Util qw(blessed);
@@ -32,6 +32,7 @@ sub _tweak_model ($class)
 				if $class->DOES('Model::Role::Stored');
 
 			$writer_attr->set_value($attribute, $writer_name);
+			$attribute->install_accessors(1);
 		}
 
 		# set up hooks for dirty tracking:
@@ -72,7 +73,7 @@ sub _register ($class)
 		$orm_mapping_reverse{$resultset} = $class;
 
 		$class->_tweak_model;
-		return $class->meta->make_immutable;
+		return;
 	}
 
 	croak "cannot register $class";
@@ -129,3 +130,4 @@ sub dummy ($class)
 	return Model::Role::Dummy->_make_dummy($class);
 }
 
+__PACKAGE__->meta->make_immutable;

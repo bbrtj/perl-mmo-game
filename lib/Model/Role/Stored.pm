@@ -1,6 +1,6 @@
 package Model::Role::Stored;
 
-use Moo::Role;
+use My::Moose::Role;
 use Types;
 
 use header;
@@ -17,4 +17,6 @@ has '_dirty' => (
 	is => 'ro',
 	isa => Types::HashRef,
 	default => sub { {} },
+	lazy => 1,
+	clearer => '_clear_dirty',
 );

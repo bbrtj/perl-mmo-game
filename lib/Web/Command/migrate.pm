@@ -1,6 +1,6 @@
 package Web::Command::migrate;
 
-use Moo;
+use My::Moose -constr;
 use Getopt::Long qw(GetOptionsFromArray);
 use Mojo::File qw(curfile path);
 use DI;

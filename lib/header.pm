@@ -6,6 +6,7 @@ use utf8;
 use feature ':5.32';
 use Import::Into;
 use List::Util qw(any);
+use Hook::AfterRuntime;
 
 use experimental;
 require namespace::autoclean;

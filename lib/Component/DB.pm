@@ -1,7 +1,7 @@
 package Component::DB;
 
 use Types;
-use Moo;
+use My::Moose;
 use Mojo::Pg;
 use Schema;
 

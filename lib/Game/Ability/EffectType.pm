@@ -1,6 +1,6 @@
 package Game::Ability::EffectType;
 
-use Moo::Role;
+use My::Moose::Role;
 use Utils;
 
 use header;

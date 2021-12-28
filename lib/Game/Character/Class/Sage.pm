@@ -1,6 +1,6 @@
 package Game::Character::Class::Sage;
 
-use Moo;
+use My::Moose;
 
 use header;
 

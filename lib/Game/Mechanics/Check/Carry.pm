@@ -1,6 +1,6 @@
 package Game::Mechanics::Check::Carry;
 
-use Moo;
+use My::Moose;
 use Exception::CheckFailed;
 
 use header;

@@ -1,6 +1,6 @@
 package Unit::Actor;
 
-use Moo;
+use My::Moose;
 use DI;
 use Model::Player;
 use Model::Character;
@@ -9,7 +9,7 @@ use Types;
 
 use header;
 
-with 'Unit';
+extends 'Unit';
 
 has 'player' => (
 	is => 'rw',
@@ -50,5 +50,14 @@ sub set_cache_key ($self, $key, $value)
 	DI->get('char_cache')->save($self->character->id, $cache);
 
 	return;
+}
+
+sub models ($self)
+{
+	# we do not return npc / player here on purpose
+	return [
+		$self->character,
+		$self->variables,
+	];
 }
 

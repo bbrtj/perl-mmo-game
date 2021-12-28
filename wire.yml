@@ -39,23 +39,13 @@ lore_data:
         db:
             $ref: db
 
-actor_unit:
-    class: Repository::ActorUnit
+units:
+    class: Repository::Units
     args:
-        repo:
-            $ref: schema_repo
         db:
             $ref: db
-
-battle_unit:
-    class: Repository::BattleUnit
-    args:
         repo:
             $ref: schema_repo
-        db:
-            $ref: db
-        actor_repo:
-            $ref: actor_unit
 
 # Services
 

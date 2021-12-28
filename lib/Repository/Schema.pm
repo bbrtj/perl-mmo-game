@@ -1,10 +1,12 @@
 package Repository::Schema;
 
-use Moo;
+use My::Moose;
 use Types;
 use Exception::RecordDoesNotExist;
 
 use header;
+
+### Schema is the most basic way to save / load models
 
 with 'Repository::Role::Resource';
 
@@ -21,11 +23,21 @@ sub save ($self, $model, $update = 0)
 	my $type = $update ? 'update' : 'insert';
 	my $dbmodel = $self->db->dbc->resultset($class)->new($model->serialize);
 	if ($update) {
+		my %dirty = $model->_dirty->%*;
+		return unless %dirty;
+
 		$dbmodel->in_storage(1);
-		$dbmodel->make_column_dirty($_) for keys $model->_dirty->%*;
+		$dbmodel->make_column_dirty($_) for keys %dirty;
 	}
 	$dbmodel->$type;
+	$model->_clear_dirty;
 	return;
+}
+
+sub update
+{
+	$_[2] = 1; # update flag
+	goto \&save;
 }
 
 sub load ($self, $resultset, $search)

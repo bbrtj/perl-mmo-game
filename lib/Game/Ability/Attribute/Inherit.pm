@@ -1,6 +1,6 @@
 package Game::Ability::Attribute::Inherit;
 
-use Moo;
+use My::Moose;
 
 use header;
 

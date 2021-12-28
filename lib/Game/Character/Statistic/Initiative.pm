@@ -1,6 +1,6 @@
 package Game::Character::Statistic::Initiative;
 
-use Moo;
+use My::Moose;
 
 use header;
 

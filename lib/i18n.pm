@@ -3,7 +3,7 @@ package i18n;
 # very basic structure because it is used in header
 
 use v5.32;
-use Moo;
+use My::Moose;
 use Exporter qw(import);
 use Mojo::File qw(curfile);
 use Data::Localize;

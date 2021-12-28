@@ -1,6 +1,6 @@
 package Game::Character::Rating;
 
-use Moo::Role;
+use My::Moose::Role;
 
 use header;
 

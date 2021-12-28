@@ -1,6 +1,6 @@
 package Web::Controller::Role::API;
 
-use Moo::Role;
+use My::Moose::Role;
 use Mojo::JSON qw(decode_json false true);
 
 use header;

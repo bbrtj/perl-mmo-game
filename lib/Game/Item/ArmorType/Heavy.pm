@@ -1,6 +1,6 @@
 package Game::Item::ArmorType::Heavy;
 
-use Moo;
+use My::Moose;
 
 use header;
 
