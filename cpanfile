@@ -32,6 +32,9 @@ requires 'true' => 0;
 requires 'Syntax::Keyword::Try' => 0;
 requires 'Safe::Isa' => 0;
 
+requires 'Sereal::Encoder' => 0;
+requires 'Sereal::Decoder' => 0;
+
 requires 'Data::Entropy' => 0;
 requires 'Data::ULID' => 0;
 requires 'Quantum::Superpositions::Lazy' => 0;

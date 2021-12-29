@@ -3053,6 +3053,33 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0
       perl 5.006001
+  Sereal-Decoder-4.018
+    pathname: Y/YV/YVES/Sereal-Decoder-4.018.tar.gz
+    provides:
+      Sereal::Decoder 4.018
+      Sereal::Decoder::Constants 4.018
+      Sereal::Performance undef
+    requirements:
+      ExtUtils::MakeMaker 7.0
+      ExtUtils::ParseXS 2.21
+      File::Find 0
+      File::Path 0
+      Test::LongString 0
+      XSLoader 0
+      perl 5.008
+  Sereal-Encoder-4.018
+    pathname: Y/YV/YVES/Sereal-Encoder-4.018.tar.gz
+    provides:
+      Sereal::Encoder 4.018
+      Sereal::Encoder::Constants 4.018
+    requirements:
+      ExtUtils::MakeMaker 7.0
+      ExtUtils::ParseXS 2.21
+      File::Find 0
+      File::Path 0
+      Test::LongString 0
+      XSLoader 0
+      perl 5.008
   Sort-Key-1.33
     pathname: S/SA/SALVA/Sort-Key-1.33.tar.gz
     provides:
@@ -3372,6 +3399,14 @@ DISTRIBUTIONS
       Try::Tiny 0.07
       strict 0
       warnings 0
+  Test-LongString-0.17
+    pathname: R/RG/RGARCIA/Test-LongString-0.17.tar.gz
+    provides:
+      Test::LongString 0.17
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::Builder 0.12
+      Test::Builder::Tester 1.04
   Test-NoWarnings-1.06
     pathname: H/HA/HAARG/Test-NoWarnings-1.06.tar.gz
     provides:

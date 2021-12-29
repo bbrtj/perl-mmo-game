@@ -4,11 +4,11 @@ use My::Moose;
 
 use header;
 
-with 'Server::Worker::Command';
+extends 'Server::Worker::Command';
 
 use constant name => 'test';
 
-sub handler ($job)
+sub handle ($self, $job)
 {
 	$job->app->log->debug("test test");
 	return;

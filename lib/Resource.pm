@@ -2,6 +2,7 @@ package Resource;
 
 use My::Moose;
 use Types;
+use Mojo::JSON qw(to_json);
 
 use header;
 

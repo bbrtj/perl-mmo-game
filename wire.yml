@@ -7,6 +7,12 @@ db:
         env:
             $ref: env
 
+worker:
+    class: Component::Worker
+    args:
+        env:
+            $ref: env
+
 redis:
     class: Component::Redis
     args:
@@ -18,6 +24,12 @@ log:
     args:
         path: 'logs/application.log'
         level: 'debug'
+
+encoder:
+    class: Sereal::Encoder
+
+decoder:
+    class: Sereal::Decoder
 
 # Repositories
 

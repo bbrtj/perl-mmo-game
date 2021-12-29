@@ -2,6 +2,7 @@ package Web::Controller::Main;
 
 use My::Moose -constr;
 use Web::Config;
+use DI;
 
 use header;
 
@@ -38,7 +39,7 @@ sub set_lang ($self)
 sub play ($self)
 {
 	# TODO: minion integration via redis memo
-	$self->minion->enqueue('test');
+	DI->get('worker')->enqueue('test');
 
 	$self->reply->static('../dist/play.html');
 }

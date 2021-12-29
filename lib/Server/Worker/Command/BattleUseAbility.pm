@@ -10,11 +10,11 @@ use Exception::RecordDoesNotExist;
 
 use header;
 
-with 'Server::Worker::Command';
+extends 'Server::Worker::Command';
 
 use constant name => 'battle_use_ability';
 
-sub handler ($job, $battle_id, $caster_id, $ability_id, $target)
+sub handle ($self, $job, $battle_id, $caster_id, $ability_id, $target)
 {
 	# make sure we have no concurrent jobs for that battle
 	my $repo = DI->get('battle_unit');

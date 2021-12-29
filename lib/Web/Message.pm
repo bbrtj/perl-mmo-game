@@ -1,31 +1,23 @@
 package Web::Message;
 
 use My::Moose;
-use Utils;
 use Exception::WebSocket::InvalidCommand;
+use Exception::WebSocket::CorruptedInput;
+use Server::Config;
+use DI;
 
 use header;
 
-sub _available ($self)
+sub handle ($self, $id, $type, $user, $data)
 {
-	return state $loaded = {
-		map {
-			my $class = $_;
-			s{^.*:}{};    # only last part
-			$_ = lcfirst;    # title to camel case
-			s{([A-Z]+)}{_$1};    # camel to snake case
-			$_ => $class->new;
-		} Utils->load_classes('Web::Message', 'Message/*.pm')
-	};
-}
+	Exception::WebSocket::CorruptedInput->throw
+		if !$id || ref $data ne 'HASH';
 
-sub get_handler ($self, $name)
-{
-	my $avail = $self->_available;
 	Exception::WebSocket::InvalidCommand->throw
-		unless exists $avail->{$name};
+		unless $type && Server::Config->actions->{$type};
 
-	return $avail->{$name};
+	state $worker = DI->get('worker');
+	$worker->enqueue("($type)" => [$id, $user->id, $data]);
+
+	return;
 }
-
-sub handle ($self, $user, $data) { ... }

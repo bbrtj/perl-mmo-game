@@ -10,8 +10,7 @@ use header;
 sub bootstrap ($class, $app)
 {
 	my $config = DI->get('env');
-	$app->plugin(Minion => {Redis => $config->getenv('REDIS_CONNECTION')});
-	my $pg = Mojo::Pg->new($config->getenv('DB_CONNECTION'));
+	$app->plugin('+My::Mojolicious::Plugin::Minion');
 
 	$class->bootstrap_models;
 
