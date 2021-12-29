@@ -10,10 +10,14 @@ around add_attribute => sub {
 	my ($orig, $self, $name, @args) = @_;
 	my %params = @args == 1 ? $args[0]->%* : @args;
 
+	if (exists $params{writer} && !$params{writer}) {
+		delete $params{writer};
+		return $self->$orig($name, %params)
+	}
+
 	# exit early if it's not something we want or can alter
 	return $self->$orig($name, @args)
-		if (exists $params{writer} && !$params{writer})
-		|| $name =~ /^_/
+		if $name =~ /^_/
 		|| $name =~ /^\+/;
 
 	$params{writer} //= "set_$name";
