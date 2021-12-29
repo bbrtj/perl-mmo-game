@@ -1,6 +1,6 @@
 package Model;
 
-use My::Moose -traits => [qw(AutoSetters)];
+use My::Moose -traits => [qw(AutoSetters Serializable)];
 use Model::Role::Dummy;
 use Carp;
 use Scalar::Util qw(blessed);
@@ -23,22 +23,6 @@ sub _register ($class)
 	croak "cannot register $class";
 }
 
-sub _get_attributes ($self)
-{
-	return grep { $_->name !~ /^_/ } $self->meta->get_all_attributes;
-}
-
-sub serialize ($self)
-{
-	return {
-		map {
-			$_->name => $_->get_value($self)
-		} grep {
-			$_->has_value($self)
-		} $self->_get_attributes
-	};
-}
-
 sub from_result ($class, $row)
 {
 	my $resultset = blessed $row;
@@ -54,7 +38,7 @@ sub from_result ($class, $row)
 				unless $sub;
 
 			$name => $sub->($row);
-		} $real_class->_get_attributes
+		} $real_class->meta->serialized_attributes->@*
 	);
 }
 

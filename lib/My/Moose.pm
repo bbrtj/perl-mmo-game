@@ -7,6 +7,7 @@ use Hook::AfterRuntime;
 use Import::Into;
 
 use My::Moose::Trait::AutoSetters;
+use My::Moose::Trait::Serializable;
 
 require Moose;
 
