@@ -3,6 +3,8 @@ package i18n;
 # very basic structure because it is used in header
 
 use v5.32;
+use warnings;
+
 use My::Moose;
 use Exporter qw(import);
 use Mojo::File qw(curfile);

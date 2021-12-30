@@ -42,5 +42,7 @@ sub play ($self)
 	DI->get('worker')->enqueue('test');
 
 	$self->reply->static('../dist/play.html');
+
+	return;
 }
 

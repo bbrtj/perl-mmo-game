@@ -8,7 +8,7 @@ use DI;
 
 use header;
 
-sub handle ($self, $id, $type, $user, $data)
+sub handle ($self, $id, $type, $user_id, $data)
 {
 	Exception::WebSocket::CorruptedInput->throw
 		if !$id || ref $data ne 'HASH';
@@ -17,7 +17,7 @@ sub handle ($self, $id, $type, $user, $data)
 		unless $type && Server::Config->actions->{$type};
 
 	state $worker = DI->get('worker');
-	$worker->enqueue("($type)" => [$id, $user->id, $data]);
+	$worker->enqueue("($type)" => [$id, $user_id, $data]);
 
 	return;
 }

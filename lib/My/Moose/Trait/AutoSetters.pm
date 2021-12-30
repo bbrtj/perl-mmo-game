@@ -12,7 +12,7 @@ around add_attribute => sub {
 
 	if (exists $params{writer} && !$params{writer}) {
 		delete $params{writer};
-		return $self->$orig($name, %params)
+		return $self->$orig($name, %params);
 	}
 
 	# exit early if it's not something we want or can alter
@@ -28,7 +28,7 @@ around add_attribute => sub {
 		$self->add_after_method_modifier(
 			$attribute->get_write_method,
 			sub {
-				my ($instance, @args) = @_;
+				my ($instance) = @_;
 				$instance->_dirty->{$attribute->name} = 1;
 			}
 		);

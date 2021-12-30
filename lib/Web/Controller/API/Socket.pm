@@ -8,20 +8,15 @@ use header;
 
 extends 'Mojolicious::Controller';
 
-has 'pubsub' => (
+has 'channel' => (
 	is => 'ro',
-	default => sub { DI->get('redis')->pubsub },
-);
-
-has 'encoder' => (
-	is => 'ro',
-	default => sub { DI->get('encoder') },
+	default => sub { DI->get('channel_service') },
 );
 
 sub websocket ($self)
 {
 	local $i18n::CURRENT_LANG = $self->session->{lang};
-	my $user = $self->stash('user');
+	my $user = $self->stash('user')->id;
 	$self->inactivity_timeout(3600);
 
 	# react to websocket messages
@@ -36,20 +31,27 @@ sub websocket ($self)
 		}
 	);
 
-	# send async stuff back from backend
-	my $key = 'server_echo:' . $user->user_id;
+	my $cb = $self->channel->listen(
+		$user,
+		sub ($struct) {
+			$self->send({json => $struct});
+		}
+	);
 
-	my $cb = $self->pubsub->listen(
-		$key => sub ($, $data) {
-			my $json = $self->decoder->decode($data);
-			$self->send({json => $json});
+	my $cb_global = $self->channel->listen(
+		undef,
+		sub ($struct) {
+			$self->send({json => $struct});
 		}
 	);
 
 	$self->on(
 		finish => sub ($, $code, $reason = undef) {
-			$self->pubsub->unlisten($key => $cb);
+			$self->channel->unlisten($user, $cb);
+			$self->channel->unlisten(undef, $cb_global);
 		}
 	);
+
+	return;
 }
 

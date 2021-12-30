@@ -11,6 +11,8 @@ sub import
 {
 	my $caller = caller;
 	Moose::Role->import::into($caller);
+
+	return;
 }
 
 1;

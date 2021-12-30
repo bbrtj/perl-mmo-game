@@ -24,6 +24,7 @@ sub save ($self, $unit)
 	$check->assert_valid($unit);
 
 	$self->repo->update($_) for $unit->models->@*;
+	return;
 }
 
 sub get_actor ($self, $character_id)

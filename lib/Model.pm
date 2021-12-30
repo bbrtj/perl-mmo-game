@@ -3,7 +3,6 @@ package Model;
 use My::Moose -traits => [qw(AutoSetters Serializable)];
 use Model::Role::Dummy;
 use Carp;
-use Scalar::Util qw(blessed);
 
 use header;
 

@@ -26,6 +26,8 @@ sub import
 
 	Moose->import::into($caller, @args);
 	after_runtime { $caller->meta->make_immutable(@immutable_args) };
+
+	return;
 }
 
 1;

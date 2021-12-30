@@ -12,6 +12,8 @@ my $before;
 sub before_each : prototype(&) ($sub)
 {
 	$before = $sub;
+
+	return;
 }
 
 sub get_sub ($desc, @cases)

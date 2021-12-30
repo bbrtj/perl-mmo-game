@@ -66,3 +66,13 @@ user_service:
     args:
         repo:
             $ref: schema_repo
+
+channel_service:
+    class: Service::Channel
+    args:
+        store:
+            $ref: redis
+        encoder:
+            $ref: encoder
+        decoder:
+            $ref: decoder

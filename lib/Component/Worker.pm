@@ -15,7 +15,9 @@ has 'minion' => (
 	default => sub ($self) {
 		Minion->new(Redis => $self->env->getenv('REDIS_CONNECTION'));
 	},
-	handles => [qw(
-		enqueue
-	)],
+	handles => [
+		qw(
+			enqueue
+		)
+	],
 );

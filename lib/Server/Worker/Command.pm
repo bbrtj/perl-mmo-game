@@ -7,11 +7,8 @@ use header;
 
 sub send_to ($self, $user_id, $data)
 {
-	state $pubsub = DI->get('redis')->pubsub;
-	state $encoder = DI->get('encoder');
+	state $channel = DI->get('channel_service');
 
-	my $key = 'server_echo:' . $user_id;
-	$pubsub->notify($key => encoder->encode($data));
-
+	$channel->broadcast($user_id, $data);
 	return;
 }

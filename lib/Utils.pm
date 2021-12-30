@@ -10,7 +10,7 @@ use header;
 sub bootstrap ($class, $app)
 {
 	my $config = DI->get('env');
-	$app->plugin('+My::Mojolicious::Plugin::Minion');
+	$app->plugin('My::Mojolicious::Plugin::Minion');
 
 	$class->bootstrap_models;
 
@@ -20,6 +20,8 @@ sub bootstrap ($class, $app)
 sub bootstrap_models ($class)
 {
 	$class->load_classes('Model', 'Model/*.pm');
+
+	return;
 }
 
 sub load_classes ($class, $namespace, $pattern)
