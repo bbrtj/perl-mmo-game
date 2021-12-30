@@ -13,7 +13,7 @@ sub hash ($self)
 		{
 			name => $_->character->name,
 			class => Game::Character::Class->get($_->character->class_id)->lore_name,
-			last_online => $_->last_online,
+			last_online => $_->player->last_online,
 		}
 	} $self->subject->players->@*;
 

@@ -5,7 +5,9 @@ use lib 'lib';
 
 use Utils;
 use Server::Worker;
+use DI;
 
+DI->get('log')->filename('logs/minion.log');
 Utils->bootstrap(app);
 
 plugin 'Minion::Admin';

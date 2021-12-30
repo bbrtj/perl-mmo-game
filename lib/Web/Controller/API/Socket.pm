@@ -3,6 +3,7 @@ package Web::Controller::API::Socket;
 use My::Moose -constr;
 use DI;
 use Web::Message;
+use Mojo::JSON qw(to_json);
 
 use header;
 
@@ -15,7 +16,6 @@ has 'channel' => (
 
 sub websocket ($self)
 {
-	local $i18n::CURRENT_LANG = $self->session->{lang};
 	my $user = $self->stash('user')->id;
 	$self->inactivity_timeout(3600);
 
@@ -34,14 +34,14 @@ sub websocket ($self)
 	my $cb = $self->channel->listen(
 		$user,
 		sub ($struct) {
-			$self->send({json => $struct});
+			$self->reply($struct);
 		}
 	);
 
 	my $cb_global = $self->channel->listen(
 		undef,
 		sub ($struct) {
-			$self->send({json => $struct});
+			$self->reply($struct);
 		}
 	);
 
@@ -53,5 +53,11 @@ sub websocket ($self)
 	);
 
 	return;
+}
+
+sub reply ($self, $struct)
+{
+	local $i18n::CURRENT_LANG = $self->stash('lang');
+	return $self->send(to_json($struct));
 }
 

@@ -41,5 +41,6 @@ export class AppComponent {
 			ref = this.componentPlaceholder.createComponent(type);
 			this.components[typestr] = ref;
 		}
+		this.components[typestr].instance.called();
 	}
 }

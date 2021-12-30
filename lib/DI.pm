@@ -6,9 +6,11 @@ use header;
 
 my $wire = Beam::Wire->new(file => 'wire.yml');
 
-sub get ($class, @args)
+sub get ($class, $name, %args)
 {
-	return $wire->get(@args);
+	%args = (args => {%args})
+		if keys %args;
+	return $wire->get($name, %args);
 }
 
 sub set ($class, $name, $value, $replace = 0)

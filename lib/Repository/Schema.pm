@@ -2,7 +2,7 @@ package Repository::Schema;
 
 use My::Moose;
 use Types;
-use Exception::RecordDoesNotExist;
+use Schema::Utils qw(ensure_single);
 
 use header;
 
@@ -45,9 +45,8 @@ sub load ($self, $resultset, $search)
 	$search = {id => $search}
 		unless ref $search;
 
-	my $found = $self->db->dbc->resultset($resultset)->single($search);
-	Exception::RecordDoesNotExist->throw unless $found;
+	my $rs = $self->db->dbc->resultset($resultset)->search($search);
 
-	return $found->to_model;
+	return ensure_single($rs)->to_model;
 }
 

@@ -1,7 +1,6 @@
 package Server::Worker::Action;
 
 use My::Moose;
-use i18n;
 
 use header;
 

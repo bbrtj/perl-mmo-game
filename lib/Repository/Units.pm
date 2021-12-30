@@ -5,6 +5,7 @@ use Factory::Actor;
 use Factory::Battle;
 use Factory::User;
 use Types;
+use Schema::Utils qw(ensure_single);
 
 use header;
 
@@ -29,36 +30,36 @@ sub save ($self, $unit)
 
 sub get_actor ($self, $character_id)
 {
-	my $result = $self->db->dbc->resultset('Character')->search(
+	my $rs = $self->db->dbc->resultset('Character')->search(
 		{'me.id' => $character_id},
 		{
 			prefetch => [qw(player variables contestant)],
 		}
-	)->single;
+	);
 
-	return Factory::Actor->create($result);
+	return Factory::Actor->create(ensure_single($rs));
 }
 
 sub get_battle ($self, $battle_id)
 {
-	my $result = $self->db->dbc->resultset('Battle')->search(
-		{'battle.id' => $battle_id},
+	my $rs = $self->db->dbc->resultset('Battle')->search(
+		{'me.id' => $battle_id},
 		{
 			prefetch => {contestants => {character => [qw(player variables contestant)]}}
 		}
-	)->single;
+	);
 
-	return Factory::Actor->create($result);
+	return Factory::Actor->create(ensure_single($rs));
 }
 
 sub get_user ($self, $user_id)
 {
-	my $result = $self->db->dbc->resultset('User')->search(
-		{'user.id' => $user_id},
+	my $rs = $self->db->dbc->resultset('User')->search(
+		{'me.id' => $user_id},
 		{
 			prefetch => {players => [qw(character)]}
 		}
-	)->single;
+	);
 
-	return Factory::User->create($result);
+	return Factory::User->create(ensure_single($rs));
 }

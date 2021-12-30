@@ -29,6 +29,9 @@ requires 'Import::Into' => 0;
 requires 'namespace::autoclean' => 0;
 requires 'true' => 0;
 
+requires 'Log::Dispatch' => 0;
+requires 'MojoX::Log::Dispatch::Simple' => 0;
+
 requires 'Syntax::Keyword::Try' => 0;
 requires 'Safe::Isa' => 0;
 

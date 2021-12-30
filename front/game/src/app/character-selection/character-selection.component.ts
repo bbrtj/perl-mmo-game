@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WebSocketService } from '../../websocket/websocket.service';
 
 @Component({
 	selector: 'app-character-selection',
@@ -11,9 +12,18 @@ export class CharacterSelectionComponent implements OnInit {
 		return 'CharacterSelection';
 	}
 
-	constructor() {}
+	constructor(private ws: WebSocketService) {
+	}
 
 	ngOnInit(): void {
+	}
+
+	called() {
+		console.log('called!');
+		this.ws.subscribe((data: any) => {
+			console.log(data);
+		});
+		this.ws.send({t: 'list_characters', n: 1});
 	}
 
 }

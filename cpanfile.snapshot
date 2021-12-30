@@ -1675,6 +1675,53 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Iterator 0.01
       Test::Simple 0.40
+  Log-Dispatch-2.70
+    pathname: D/DR/DROLSKY/Log-Dispatch-2.70.tar.gz
+    provides:
+      Log::Dispatch 2.70
+      Log::Dispatch::ApacheLog 2.70
+      Log::Dispatch::Base 2.70
+      Log::Dispatch::Code 2.70
+      Log::Dispatch::Email 2.70
+      Log::Dispatch::Email::MIMELite 2.70
+      Log::Dispatch::Email::MailSend 2.70
+      Log::Dispatch::Email::MailSender 2.70
+      Log::Dispatch::Email::MailSendmail 2.70
+      Log::Dispatch::File 2.70
+      Log::Dispatch::File::Locked 2.70
+      Log::Dispatch::Handle 2.70
+      Log::Dispatch::Null 2.70
+      Log::Dispatch::Output 2.70
+      Log::Dispatch::Screen 2.70
+      Log::Dispatch::Syslog 2.70
+      Log::Dispatch::Types 2.70
+      Log::Dispatch::Vars 2.70
+    requirements:
+      Carp 0
+      Devel::GlobalDestruction 0
+      Dist::CheckConflicts 0.02
+      Encode 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      Fcntl 0
+      IO::Handle 0
+      Module::Runtime 0
+      Params::ValidationCompiler 0
+      Scalar::Util 0
+      Specio 0.32
+      Specio::Declare 0
+      Specio::Exporter 0
+      Specio::Library::Builtins 0
+      Specio::Library::Numeric 0
+      Specio::Library::String 0
+      Sys::Syslog 0.28
+      Try::Tiny 0
+      base 0
+      namespace::autoclean 0
+      parent 0
+      perl 5.006
+      strict 0
+      warnings 0
   Log-Minimal-0.19
     pathname: K/KA/KAZEBURO/Log-Minimal-0.19.tar.gz
     provides:
@@ -1958,6 +2005,17 @@ DISTRIBUTIONS
       Mojolicious 8.50
       Protocol::Redis::Faster 0.002
       perl 5.016
+  MojoX-Log-Dispatch-Simple-1.11
+    pathname: G/GR/GRYPHON/MojoX-Log-Dispatch-Simple-1.11.tar.gz
+    provides:
+      MojoX::Log::Dispatch::Simple 1.11
+    requirements:
+      ExtUtils::MakeMaker 0
+      Mojo::Base 0
+      Mojo::Util 0
+      perl 5.010
+      strict 0
+      warnings 0
   Mojolicious-9.22
     pathname: S/SR/SRI/Mojolicious-9.22.tar.gz
     provides:

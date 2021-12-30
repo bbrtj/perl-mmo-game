@@ -20,10 +20,9 @@ redis:
             $ref: env
 
 log:
-    class: Mojo::Log
+    class: Component::Log
     args:
-        path: 'logs/application.log'
-        level: 'debug'
+        filename: 'logs/application.log'
 
 encoder:
     class: Sereal::Encoder

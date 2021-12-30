@@ -3,7 +3,6 @@ package Web;
 use My::Moose -constr;
 use Utils;
 use DI;
-use Mojo::EventEmitter;
 
 use header;
 
@@ -28,8 +27,6 @@ sub load_config ($self, $env)
 	# Configure the application
 	$self->mode($env->getenv('APP_MODE'));
 	$self->secrets([split ',', $env->getenv('APP_SECRETS')]);
-
-	$self->log(DI->get('log'));
 
 	return;
 }
@@ -78,7 +75,7 @@ sub load_helpers ($self, $env)
 
 	$self->helper(
 		render_lang => sub ($self, @args) {
-			local $i18n::CURRENT_LANG = $self->session->{lang};
+			local $i18n::CURRENT_LANG = $self->stash('lang');
 			return $self->render(@args);
 		}
 	);

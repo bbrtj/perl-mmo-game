@@ -4,6 +4,7 @@ use Mojo::File qw(path);
 use Schema;
 use Mojo::Pg;
 use DI;
+use MojoX::Log::Dispatch::Simple;
 
 use header;
 
@@ -11,6 +12,13 @@ sub bootstrap ($class, $app)
 {
 	my $config = DI->get('env');
 	$app->plugin('My::Mojolicious::Plugin::Minion');
+
+	$app->log(
+		MojoX::Log::Dispatch::Simple->new(
+			dispatch => DI->get('log')->logger,
+			level => 'debug',
+		)
+	);
 
 	$class->bootstrap_models;
 
