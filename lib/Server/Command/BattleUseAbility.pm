@@ -1,4 +1,4 @@
-package Server::Worker::Command::BattleUseAbility;
+package Server::Command::BattleUseAbility;
 
 use My::Moose;
 use DI;
@@ -10,11 +10,16 @@ use Exception::RecordDoesNotExist;
 
 use header;
 
-extends 'Server::Worker::Command';
+extends 'Server::Command';
 
-use constant name => 'battle_use_ability';
+use constant {
+	name => 'battle_use_ability',
+	disabled => 1,
+	interval => 5,
+};
 
-sub handle ($self, $job, $battle_id, $caster_id, $ability_id, $target)
+# TODO: needs rewriting
+sub handle ($self, $battle_id, $caster_id, $ability_id, $target)
 {
 	# make sure we have no concurrent jobs for that battle
 	my $repo = DI->get('battle_unit');

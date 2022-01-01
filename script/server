@@ -1,17 +1,22 @@
 #!/usr/bin/env perl
 
-use Mojolicious::Lite;
+use strict;
+use warnings;
 use lib 'lib';
 
 use Utils;
 use Server::Worker;
 use DI;
+use Getopt::Long;
 
-DI->get('log')->filename('logs/minion.log');
-Utils->bootstrap(app);
+my $processes = 4;
 
-plugin 'Minion::Admin';
+GetOptions(
+	'processes|p=i', \$processes,
+);
 
-Server::Worker->register(app->minion);
+DI->get('log')->filename('logs/worker.log');
+Utils->bootstrap_models;
 
-app->start;
+my $worker = DI->get('worker');
+$worker->start($processes);

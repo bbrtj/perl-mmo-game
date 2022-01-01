@@ -13,11 +13,11 @@ sub handle ($self, $id, $type, $user_id, $data)
 	Exception::WebSocket::CorruptedInput->throw
 		if !$id || ref $data ne 'HASH';
 
-	Exception::WebSocket::InvalidCommand->throw
-		unless $type && Server::Config->actions->{$type};
-
 	state $worker = DI->get('worker');
-	$worker->enqueue("($type)" => [$id, $user_id, $data]);
+	Exception::WebSocket::InvalidCommand->throw
+		unless $type && exists $worker->actions->{$type};
+
+	$worker->broadcast(action => $type, $id, $user_id, $data);
 
 	return;
 }

@@ -38,9 +38,6 @@ sub set_lang ($self)
 
 sub play ($self)
 {
-	# TODO: minion integration via redis memo
-	DI->get('worker')->enqueue('test');
-
 	$self->reply->static('../dist/play.html');
 
 	return;

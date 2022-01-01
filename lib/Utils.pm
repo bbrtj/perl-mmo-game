@@ -11,7 +11,6 @@ use header;
 sub bootstrap ($class, $app)
 {
 	my $config = DI->get('env');
-	$app->plugin('My::Mojolicious::Plugin::Minion');
 
 	$app->log(
 		MojoX::Log::Dispatch::Simple->new(

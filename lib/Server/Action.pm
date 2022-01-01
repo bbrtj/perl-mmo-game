@@ -1,12 +1,12 @@
-package Server::Worker::Action;
+package Server::Action;
 
 use My::Moose;
 
 use header;
 
-extends 'Server::Worker::Command';
+extends 'Server::Command';
 
-sub handle ($self, $job, $id, $user_id, $data)
+sub handle ($self, $id, $user_id, $data)
 {
 	my $returned = inner;
 

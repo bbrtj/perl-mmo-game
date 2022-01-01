@@ -14,6 +14,7 @@ has 'logger' => (
 	default => sub ($self) {
 		Log::Dispatch->new(outputs => $self->build_config);
 	},
+	handles => [qw(debug info warning error critical emergency)],
 );
 
 has 'filename' => (

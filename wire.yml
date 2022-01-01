@@ -7,12 +7,6 @@ db:
         env:
             $ref: env
 
-worker:
-    class: Component::Worker
-    args:
-        env:
-            $ref: env
-
 redis:
     class: Component::Redis
     args:
@@ -75,3 +69,17 @@ channel_service:
             $ref: encoder
         decoder:
             $ref: decoder
+
+# Others
+worker:
+    class: Server::Worker
+    args:
+        log:
+            $ref: log
+        redis:
+            $ref: redis
+        encoder:
+            $ref: encoder
+        decoder:
+            $ref: decoder
+

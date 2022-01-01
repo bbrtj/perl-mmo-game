@@ -1808,44 +1808,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Math::Random::ISAAC 1.001
       Moo 2
-  Minion-10.22
-    pathname: S/SR/SRI/Minion-10.22.tar.gz
-    provides:
-      LinkCheck undef
-      LinkCheck::Controller::Links undef
-      LinkCheck::Task::CheckLinks undef
-      Minion 10.22
-      Minion::Backend undef
-      Minion::Backend::Pg undef
-      Minion::Command::minion undef
-      Minion::Command::minion::job undef
-      Minion::Command::minion::worker undef
-      Minion::Iterator undef
-      Minion::Job undef
-      Minion::Worker undef
-      Mojolicious::Plugin::Minion undef
-      Mojolicious::Plugin::Minion::Admin undef
-    requirements:
-      ExtUtils::MakeMaker 0
-      Mojolicious 9.0
-      YAML::XS 0.67
-      perl 5.016
-  Minion-Backend-Redis-0.003
-    pathname: D/DF/DFUG/Minion-Backend-Redis-0.003.tar.gz
-    provides:
-      Minion::Backend::Redis 0.003
-    requirements:
-      Carp 0
-      Digest::SHA 0
-      List::Util 1.33
-      Minion 10.20
-      Module::Build::Tiny 0.034
-      Mojo::Redis 3.25
-      Mojolicious 9.02
-      Sort::Versions 0
-      Sys::Hostname 0
-      Time::HiRes 0
-      perl v5.20.2
   Module-Build-0.4231
     pathname: L/LE/LEONT/Module-Build-0.4231.tar.gz
     provides:
@@ -3150,16 +3112,6 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0.54
-  Sort-Versions-1.62
-    pathname: N/NE/NEILB/Sort-Versions-1.62.tar.gz
-    provides:
-      Sort::Versions 1.62
-    requirements:
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      perl 5.006
-      strict 0
-      warnings 0
   Specio-0.47
     pathname: D/DR/DROLSKY/Specio-0.47.tar.gz
     provides:
@@ -4041,15 +3993,6 @@ DISTRIBUTIONS
       yaml_mapping undef
       yaml_scalar undef
       yaml_sequence undef
-    requirements:
-      ExtUtils::MakeMaker 0
-      perl 5.008001
-  YAML-LibYAML-0.83
-    pathname: T/TI/TINITA/YAML-LibYAML-0.83.tar.gz
-    provides:
-      YAML::LibYAML 0.83
-      YAML::XS 0.83
-      YAML::XS::LibYAML undef
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008001
