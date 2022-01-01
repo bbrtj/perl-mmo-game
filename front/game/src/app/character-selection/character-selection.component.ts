@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { WebSocketService } from '../../websocket/websocket.service';
+import { WSCommunicationService } from '../../websocket/ws-communication.service';
+import { Character } from './character';
 
 @Component({
 	selector: 'app-character-selection',
@@ -7,23 +8,21 @@ import { WebSocketService } from '../../websocket/websocket.service';
 	styleUrls: ['./character-selection.component.sass']
 })
 export class CharacterSelectionComponent implements OnInit {
+	characters: Character[] = [];
 
 	public static componentName() {
 		return 'CharacterSelection';
 	}
 
-	constructor(private ws: WebSocketService) {
+	constructor(private ws: WSCommunicationService) {
 	}
 
 	ngOnInit(): void {
 	}
 
-	called() {
-		console.log('called!');
-		this.ws.subscribe((data: any) => {
-			console.log(data);
-		});
-		this.ws.send({t: 'list_characters', n: 1});
+	async called() {
+		this.characters = [];
+		this.characters = await this.ws.request('list_characters') as Character[];
 	}
 
 }

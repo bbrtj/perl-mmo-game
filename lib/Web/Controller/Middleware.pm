@@ -28,7 +28,8 @@ sub prepare_request ($self)
 	$user = DI->get('schema_repo')->load(User => $user_id)
 		if $user_id;
 	$self->stash(user => $user);
-	$self->stash(lang => $self->session->{lang} // 'en');
+	# TODO: make this 'en' after lore translations are done
+	$self->stash(lang => $self->session->{lang} // 'pl');
 
 	return 1;
 }

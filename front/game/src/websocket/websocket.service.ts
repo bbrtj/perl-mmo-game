@@ -6,16 +6,19 @@ import { Injectable } from '@angular/core';
 export class WebSocketService {
 	socket: WebSocket;
 	subscribers: Function[] = [];
+	opened: boolean = false;
 
 	ws_open(event: any) {
-		console.log("ws subscribed");
+		this.opened = true;
 	}
 
 	ws_close(event: any)
 	{
 		if (!event.wasClean) {
-			console.error("ws connection terminated");
+			console.error("ws connection terminated abnormally");
 		}
+		this.opened = false;
+		// TODO: try to reopen
 	}
 
 	ws_error(error: any)
@@ -25,7 +28,6 @@ export class WebSocketService {
 
 	ws_message(event: any)
 	{
-		console.log('got event:', event);
 		for (let subscriber of this.subscribers) {
 			subscriber(JSON.parse(event.data));
 		}
@@ -33,10 +35,10 @@ export class WebSocketService {
 
 	constructor() {
 		this.socket = new WebSocket("ws://" + window.location.host + "/api/socket");
-		this.socket.onopen = this.ws_open;
-		this.socket.onclose = this.ws_close;
-		this.socket.onmessage = this.ws_message;
-		this.socket.onerror = this.ws_error;
+		this.socket.onopen = (e: any) => this.ws_open(e);
+		this.socket.onclose = (e: any) => this.ws_close(e);
+		this.socket.onmessage = (e: any) => this.ws_message(e);
+		this.socket.onerror = (e: any) => this.ws_error(e);
 	}
 
 	subscribe(subscriber: Function)
@@ -46,7 +48,13 @@ export class WebSocketService {
 
 	send(data: any)
 	{
-		this.socket.send(JSON.stringify(data));
+		if (this.opened) {
+			this.socket.send(JSON.stringify(data));
+		} else {
+			setTimeout(() => {
+				this.send(data);
+			}, 200);
+		}
 	}
 }
 

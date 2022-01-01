@@ -26,3 +26,11 @@ around BUILDARGS => sub ($orig, $class, @args) {
 };
 
 sub hash ($self) { ... }
+
+sub wrap ($self, $ref)
+{
+	return {
+		res => $ref,
+		$self->more_data->%*,
+	};
+}

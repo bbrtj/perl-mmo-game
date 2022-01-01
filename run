@@ -28,7 +28,7 @@ elsif ($arg eq 'prod') {
 else {
 	my @watched = qw(lib templates);
 
-	system('script/server minion worker &');
+	system('script/server minion worker -s 2 -S 0 &');
 	system('script/server daemon -l http://*:3001 &');
 	system("morbo script/web -w @watched");
 }

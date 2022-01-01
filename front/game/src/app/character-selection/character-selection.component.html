@@ -1,1 +1,7 @@
-<p>character-selection works!</p>
+<ul>
+	<li *ngFor="let character of characters">
+		<p>name: {{ character.name }}</p>
+		<p>class: {{ character.class }}</p>
+		<p>last_online: {{ character.last_online }}</p>
+	</li>
+</ul>
