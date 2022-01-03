@@ -1,0 +1,79 @@
+object MarkerForm: TMarkerForm
+  Left = 486
+  Height = 309
+  Top = 368
+  Width = 366
+  Caption = 'Add a marker'
+  ClientHeight = 309
+  ClientWidth = 366
+  DesignTimePPI = 111
+  FormStyle = fsStayOnTop
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  ShowInTaskBar = stNever
+  LCLVersion = '2.0.12.0'
+  Scaled = False
+  object Label1: TLabel
+    Left = 8
+    Height = 17
+    Top = 8
+    Width = 15
+    Caption = 'ID'
+    ParentColor = False
+  end
+  object LoreId: TEdit
+    Left = 64
+    Height = 25
+    Top = 4
+    Width = 296
+    TabOrder = 0
+  end
+  object Label2: TLabel
+    Left = 8
+    Height = 17
+    Top = 40
+    Width = 42
+    Caption = 'Name'
+    ParentColor = False
+  end
+  object LoreName: TEdit
+    Left = 65
+    Height = 25
+    Top = 36
+    Width = 295
+    TabOrder = 1
+  end
+  object Label3: TLabel
+    Left = 8
+    Height = 17
+    Top = 72
+    Width = 80
+    Caption = 'Description'
+    ParentColor = False
+  end
+  object LoreDescription: TMemo
+    Left = 8
+    Height = 168
+    Top = 96
+    Width = 352
+    TabOrder = 2
+  end
+  object AddButton: TButton
+    Left = 8
+    Height = 29
+    Top = 272
+    Width = 87
+    Caption = 'Add'
+    OnClick = AddButtonClick
+    TabOrder = 3
+  end
+  object CancelButton: TButton
+    Left = 104
+    Height = 29
+    Top = 272
+    Width = 87
+    Caption = 'Cancel'
+    OnClick = CancelButtonClick
+    TabOrder = 4
+  end
+end

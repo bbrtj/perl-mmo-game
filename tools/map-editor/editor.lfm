@@ -1,0 +1,84 @@
+object EditorForm: TEditorForm
+  Left = 108
+  Height = 701
+  Top = 50
+  Width = 1145
+  Caption = 'Editor'
+  ClientHeight = 701
+  ClientWidth = 1145
+  DesignTimePPI = 111
+  LCLVersion = '2.0.12.0'
+  object MapView: TImage
+    Left = 8
+    Height = 660
+    Top = 8
+    Width = 990
+    OnMouseDown = MapViewClick
+    OnPaint = MapViewPaint
+    Stretch = True
+  end
+  object LoadButton: TButton
+    Left = 1008
+    Height = 29
+    Top = 8
+    Width = 127
+    Caption = 'Load map'
+    OnClick = LoadButtonClick
+    TabOrder = 0
+    TabStop = False
+  end
+  object SaveButton: TButton
+    Left = 1008
+    Height = 29
+    Top = 48
+    Width = 127
+    Caption = 'Save metadata'
+    OnClick = SaveButtonClick
+    TabOrder = 1
+    TabStop = False
+  end
+  object Marker: TShape
+    Left = 1120
+    Height = 15
+    Top = 653
+    Width = 15
+    Brush.Color = clRed
+    ParentShowHint = False
+    Shape = stDiamond
+    ShowHint = True
+    Visible = False
+  end
+  object ActionInfo: TLabel
+    Left = 8
+    Height = 1
+    Top = 680
+    Width = 1
+    ParentColor = False
+  end
+  object EditPaths: TButton
+    Left = 1008
+    Height = 29
+    Top = 88
+    Width = 127
+    Caption = 'Edit Paths'
+    OnClick = EditPathsClick
+    TabOrder = 2
+  end
+  object StateInfo: TLabel
+    Left = 1008
+    Height = 1
+    Top = 648
+    Width = 1
+    ParentColor = False
+    Caption = 'Normal'
+  end
+  object DeleteButton: TButton
+    Left = 1008
+    Height = 29
+    Top = 128
+    Width = 127
+    Caption = 'Delete'
+    OnClick = DeleteButtonClick
+    TabOrder = 3
+  end
+end
