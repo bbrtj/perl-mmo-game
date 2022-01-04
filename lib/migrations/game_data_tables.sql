@@ -89,6 +89,8 @@ CREATE TABLE gd_areas (
 CREATE TABLE gd_locations (
 	id VARCHAR(20) PRIMARY KEY,
 	area_id VARCHAR(20) NULL,
+	position_x FLOAT NOT NULL,
+	position_y FLOAT NOT NULL,
 	CONSTRAINT fk_area_id
 		FOREIGN KEY(area_id)
 		REFERENCES gd_areas(id),
@@ -103,7 +105,7 @@ CREATE TABLE gd_location_paths (
 	id SERIAL PRIMARY KEY,
 	location_from_id VARCHAR(20) NOT NULL,
 	location_to_id VARCHAR(20) NOT NULL,
-	travel_distance FLOAT NOT NULL,
+	travel_distance FLOAT NOT NULL DEFAULT 1.0,
 	CONSTRAINT fk_location_from_id
 		FOREIGN KEY(location_from_id)
 		REFERENCES gd_locations(id),

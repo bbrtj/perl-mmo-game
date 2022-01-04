@@ -10,10 +10,6 @@ my @files = map { curfile->dirname->to_string . "/game_data/$_.sql" } qw(
 	gd_lore_names
 	gd_lore_descriptions
 
-	gd_areas
-	gd_locations
-	gd_location_paths
-
 	gd_ability_attributes
 	gd_ability_effect_types
 	gd_abilities

@@ -1,6 +1,7 @@
 requires 'Moose' => 0;
 requires 'Hook::AfterRuntime' => 0;
 requires 'Object::Sub' => 0;
+requires 'Util::H2O' => 0;
 
 requires 'Throwable' => 0;
 requires 'Beam::Wire' => 0;

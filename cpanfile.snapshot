@@ -3930,6 +3930,17 @@ DISTRIBUTIONS
       Module::Runtime 0
       Type::Tiny 0.041
       perl 5.008
+  Util-H2O-0.16
+    pathname: H/HA/HAUKEX/Util-H2O-0.16.tar.gz
+    provides:
+      Util::H2O 0.16
+    requirements:
+      Carp 0
+      Exporter 5.58
+      ExtUtils::MakeMaker 6.64
+      Hash::Util 0.06
+      Symbol 0
+      perl 5.006000
   Variable-Magic-0.62
     pathname: V/VP/VPIT/Variable-Magic-0.62.tar.gz
     provides:
