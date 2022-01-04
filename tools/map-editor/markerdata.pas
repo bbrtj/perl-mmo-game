@@ -5,9 +5,30 @@ unit markerdata;
 interface
 
 uses
-	Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls, FPJSON;
+	Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls, FPJSON,
+	editortypes;
 
 type
+
+	TMarkerData = class
+
+	private
+		FLoreId: TLoreId;
+		FLoreName: TLoreName;
+		FLoreDescription: String;
+
+	public
+		procedure Initialize(const vLoreId, vLoreName, vLoreDescription: String);
+
+		function Export(): TJSONObject; virtual;
+		procedure Import(const json: TJSONObject); virtual;
+
+		property LoreId: TLoreId read FLoreId write FLoreId;
+		property LoreName: TLoreName read FLoreName write FLoreName;
+		property LoreDescription: String read FLoreDescription write FLoreDescription;
+
+	end;
+
 	{ TMarkerForm }
 
 	TMarkerForm = class(TForm)
@@ -45,6 +66,36 @@ implementation
 
 {$R *.lfm}
 
+{ TMarkerData }
+
+{}
+function TMarkerData.Export(): TJSONObject;
+begin
+	result := TJSONObject.Create([
+		'lore_id', LoreId,
+		'lore_name', LoreName,
+		'lore_description', LoreDescription
+	]);
+end;
+
+{}
+procedure TMarkerData.Import(const json: TJSONObject);
+begin
+	Initialize(
+		json.Get('lore_id', ''),
+		json.Get('lore_name', ''),
+		json.Get('lore_description', '')
+	);
+end;
+
+{}
+procedure TMarkerData.Initialize(const vLoreId, vLoreName, vLoreDescription: String);
+begin
+	LoreId := vLoreId;
+	LoreName := vLoreName;
+	LoreDescription := vLoreDescription;
+end;
+
 { TMarkerForm }
 
 {}
@@ -55,8 +106,12 @@ end;
 {}
 procedure TMarkerForm.AddButtonClick(Sender: TObject);
 begin
-	MarkerAdded := true;
-	Close;
+	if length(LoreIdValue) = 0 then
+		Label1.Caption := 'Fill!'
+	else begin
+		MarkerAdded := true;
+		Close;
+	end;
 end;
 
 {}

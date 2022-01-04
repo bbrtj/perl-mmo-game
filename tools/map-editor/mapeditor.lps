@@ -20,8 +20,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="77"/>
-        <CursorPos Y="80"/>
+        <TopLine Value="78"/>
+        <CursorPos Y="81"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -45,7 +45,7 @@
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit3>
     </Units>
-    <JumpHistory Count="5" HistoryIndex="4">
+    <JumpHistory Count="6" HistoryIndex="5">
       <Position1>
         <Filename Value="editor.pas"/>
         <Caret Line="57" Column="44" TopLine="48"/>
@@ -66,6 +66,10 @@
         <Filename Value="editor.pas"/>
         <Caret Line="79" TopLine="76"/>
       </Position5>
+      <Position6>
+        <Filename Value="editor.pas"/>
+        <Caret Line="80" TopLine="77"/>
+      </Position6>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

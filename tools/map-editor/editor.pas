@@ -5,26 +5,40 @@ unit editor;
 interface
 
 uses
-	Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, FPJSON,
-	map;
+	Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
+	Menus, ActnList, ComCtrls, FPJSON,
+	map, markerdata;
 
 type
 
 	{ TEditorForm }
 
 	TEditorForm = class(TForm)
-		DeleteButton: TButton;
-		EditPaths: TButton;
+		EditorMenu: TMainMenu;
+		MenuItem1: TMenuItem;
+		MenuItem2: TMenuItem;
+		MenuItem3: TMenuItem;
+		MenuItem4: TMenuItem;
+		MenuItem5: TMenuItem;
+		MenuItem6: TMenuItem;
+		MenuItem7: TMenuItem;
+		MenuItem8: TMenuItem;
+		MenuItem9: TMenuItem;
+
 		StateInfo: TLabel;
 		ActionInfo: TLabel;
-		LoadButton: TButton;
-		SaveButton: TButton;
+
 		MapView: TImage;
 		Marker: TShape;
-		procedure DeleteButtonClick(Sender: TObject);
-		procedure EditPathsClick(Sender: TObject);
-		procedure LoadButtonClick(Sender: TObject);
-		procedure SaveButtonClick(Sender: TObject);
+
+		procedure FormCreate(Sender: TObject);
+  procedure MenuLoadClick(Sender: TObject);
+		procedure MenuSaveClick(Sender: TObject);
+		procedure MenuPropertiesClick(Sender: TObject);
+		procedure MenuQuitClick(Sender: TObject);
+		procedure MenuEditPathsClick(Sender: TObject);
+		procedure MenuDeleteClick(Sender: TObject);
+
 		procedure MapViewClick(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 		procedure MapViewPaint(Sender: TObject);
 
@@ -70,7 +84,7 @@ begin
 end;
 
 {}
-procedure TEditorForm.LoadButtonClick(Sender: TObject);
+procedure TEditorForm.MenuLoadClick(Sender: TObject);
 var
 	dialog: TOpenDialog;
 	image: TPicture;
@@ -92,33 +106,18 @@ begin
 	dialog.Free;
 end;
 
-{}
-procedure TEditorForm.EditPathsClick(Sender: TObject);
+procedure TEditorForm.FormCreate(Sender: TObject);
 begin
-	if map <> nil then begin
-		map.Edited := nil;
-		map.Connecting := not map.Connecting;
-		UpdateStateInfo;
-	end
-	else begin
-		ShowMessage('Please load a map first');
-	end;
+
 end;
 
-procedure TEditorForm.DeleteButtonClick(Sender: TObject);
+procedure TEditorForm.MenuQuitClick(Sender: TObject);
 begin
-	if map <> nil then begin
-		map.Edited := nil;
-		map.Deleting := not map.Deleting;
-		UpdateStateInfo;
-	end
-	else begin
-		ShowMessage('Please load a map first');
-	end;
+	Close;
 end;
 
 {}
-procedure TEditorForm.SaveButtonClick(Sender: TObject);
+procedure TEditorForm.MenuSaveClick(Sender: TObject);
 var
 	exported: TJSONObject;
 	exportedString: String;
@@ -135,6 +134,58 @@ begin
 		exported.Free;
 
 		UpdateInfo('Save successful (' + map.MetaFileName + ')');
+	end
+	else begin
+		ShowMessage('Please load a map first');
+	end;
+end;
+
+{}
+procedure TEditorForm.MenuPropertiesClick(Sender: TObject);
+var
+	dialog: TMarkerForm;
+begin
+	if map <> Nil then begin
+		dialog := TMarkerForm.Create(nil);
+
+		dialog.LoreIdValue := map.MapData.LoreId;
+		dialog.LoreNameValue := map.MapData.LoreName;
+		dialog.LoreDescriptionValue := map.MapData.LoreDescription;
+
+		dialog.ShowModal();
+
+		if dialog.MarkerAdded then
+			map.MapData.Initialize(dialog.LoreIdValue, dialog.LoreNameValue, dialog.LoreDescriptionValue)
+		else
+			UpdateInfo('Aborted');
+
+		dialog.Free;
+	end
+	else begin
+		ShowMessage('Please load a map first');
+	end;
+end;
+
+{}
+procedure TEditorForm.MenuEditPathsClick(Sender: TObject);
+begin
+	if map <> nil then begin
+		map.SetEdited(nil);
+		map.Connecting := not map.Connecting;
+		UpdateStateInfo;
+	end
+	else begin
+		ShowMessage('Please load a map first');
+	end;
+end;
+
+{}
+procedure TEditorForm.MenuDeleteClick(Sender: TObject);
+begin
+	if map <> nil then begin
+		map.SetEdited(nil);
+		map.Deleting := not map.Deleting;
+		UpdateStateInfo;
 	end
 	else begin
 		ShowMessage('Please load a map first');

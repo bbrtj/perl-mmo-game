@@ -1,14 +1,20 @@
 object EditorForm: TEditorForm
-  Left = 108
-  Height = 701
-  Top = 50
-  Width = 1145
+  Left = 553
+  Height = 712
+  Top = 154
+  Width = 1006
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
   Caption = 'Editor'
-  ClientHeight = 701
-  ClientWidth = 1145
+  ClientHeight = 690
+  ClientWidth = 1006
   DesignTimePPI = 111
+  Menu = EditorMenu
+  OnCreate = FormCreate
+  Position = poDesktopCenter
   LCLVersion = '2.0.12.0'
   object MapView: TImage
+    Cursor = crCross
     Left = 8
     Height = 660
     Top = 8
@@ -17,27 +23,8 @@ object EditorForm: TEditorForm
     OnPaint = MapViewPaint
     Stretch = True
   end
-  object LoadButton: TButton
-    Left = 1008
-    Height = 29
-    Top = 8
-    Width = 127
-    Caption = 'Load map'
-    OnClick = LoadButtonClick
-    TabOrder = 0
-    TabStop = False
-  end
-  object SaveButton: TButton
-    Left = 1008
-    Height = 29
-    Top = 48
-    Width = 127
-    Caption = 'Save metadata'
-    OnClick = SaveButtonClick
-    TabOrder = 1
-    TabStop = False
-  end
   object Marker: TShape
+    Cursor = crHandPoint
     Left = 1120
     Height = 15
     Top = 653
@@ -50,35 +37,63 @@ object EditorForm: TEditorForm
   end
   object ActionInfo: TLabel
     Left = 8
-    Height = 1
-    Top = 680
-    Width = 1
+    Height = 17
+    Top = 672
+    Width = 23
+    Caption = 'zzz'
     ParentColor = False
-  end
-  object EditPaths: TButton
-    Left = 1008
-    Height = 29
-    Top = 88
-    Width = 127
-    Caption = 'Edit Paths'
-    OnClick = EditPathsClick
-    TabOrder = 2
   end
   object StateInfo: TLabel
-    Left = 1008
-    Height = 1
-    Top = 648
-    Width = 1
-    ParentColor = False
+    AnchorSideLeft.Side = asrBottom
+    Left = 944
+    Height = 17
+    Top = 672
+    Width = 51
+    Alignment = taRightJustify
     Caption = 'Normal'
+    ParentBidiMode = False
+    ParentColor = False
   end
-  object DeleteButton: TButton
-    Left = 1008
-    Height = 29
-    Top = 128
-    Width = 127
-    Caption = 'Delete'
-    OnClick = DeleteButtonClick
-    TabOrder = 3
+  object EditorMenu: TMainMenu
+    Left = 664
+    Top = 65520
+    object MenuItem1: TMenuItem
+      Caption = 'Map'
+      object MenuItem2: TMenuItem
+        Caption = 'Load'
+        ShortCut = 16463
+        OnClick = MenuLoadClick
+      end
+      object MenuItem3: TMenuItem
+        Caption = 'Save'
+        ShortCut = 16467
+        OnClick = MenuSaveClick
+      end
+      object MenuItem5: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem4: TMenuItem
+        Caption = 'Properties'
+        OnClick = MenuPropertiesClick
+      end
+      object MenuItem9: TMenuItem
+        Caption = 'Quit'
+        ShortCut = 16465
+        OnClick = MenuQuitClick
+      end
+    end
+    object MenuItem6: TMenuItem
+      Caption = 'State'
+      object MenuItem7: TMenuItem
+        Caption = 'Edit paths'
+        ShortCut = 16453
+        OnClick = MenuEditPathsClick
+      end
+      object MenuItem8: TMenuItem
+        Caption = 'Delete'
+        ShortCut = 16452
+        OnClick = MenuDeleteClick
+      end
+    end
   end
 end
