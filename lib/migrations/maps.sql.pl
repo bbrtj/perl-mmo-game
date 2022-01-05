@@ -5,6 +5,10 @@ use English;
 
 use header -noclean;
 
+my $dbh = DI->get('db')->db->dbh;
+
+use constant CHUNK_SIZE => 1000;
+
 sub create_insert ($table, @data)
 {
 	my @keys;
@@ -14,15 +18,24 @@ sub create_insert ($table, @data)
 		@keys = sort keys $point->%*
 			unless @keys;
 
-		my $value = join ',', map { "'" . $point->{$_} . "'" } @keys;
+		my $value = join ',', map { $dbh->quote($point->{$_}) } @keys;
 		push @values, "($value)";
 	}
 
-	# TODO: chunk the insert?
+	my @chunks;
+	push @chunks, [ splice @values, 0, CHUNK_SIZE ] while @values;
+
 	local $LIST_SEPARATOR = ', ';
-	return <<~SQL;
-		INSERT INTO $table (@keys) VALUES @values;
-	SQL
+
+	my $sql = '';
+	for my $chunk (@chunks) {
+		@values = $chunk->@*;
+		$sql .= <<~SQL;
+			INSERT INTO $table (@keys) VALUES @values;
+		SQL
+	}
+
+	return $sql;
 }
 
 sub create_translation_insert($type, @data)
