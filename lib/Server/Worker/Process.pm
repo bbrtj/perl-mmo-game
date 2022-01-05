@@ -53,7 +53,7 @@ sub handle ($self, $data)
 		$instance->handle(@args);
 	}
 	catch ($e) {
-		$self->worker->log->error("Processing $name failed");
+		$self->worker->log->error("Processing $name failed: $e");
 		$self->worker->log->debug("Error was: " . Dumper($e));
 	}
 

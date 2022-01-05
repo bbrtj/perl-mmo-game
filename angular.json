@@ -20,10 +20,12 @@
 				"build": {
 					"builder": "@angular-devkit/build-angular:browser",
 					"options": {
-						"outputPath": "public",
+						"baseHref": "/play",
+						"localize": true,
+						"outputPath": "public/play",
 						"index": {
 							"input": "front/game/src/index.html",
-							"output": "../dist/play.html"
+							"output": "index.html"
 						},
 						"main": "front/game/src/main.ts",
 						"polyfills": "front/game/src/polyfills.ts",
@@ -106,6 +108,12 @@
 						],
 						"scripts": []
 					}
+				}
+			},
+			"i18n": {
+				"sourceLocale": "en",
+				"locales": {
+					"pl": "front/game/src/locale/messages.pl.json"
 				}
 			}
 		}

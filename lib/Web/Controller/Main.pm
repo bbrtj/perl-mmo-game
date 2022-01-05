@@ -38,7 +38,8 @@ sub set_lang ($self)
 
 sub play ($self)
 {
-	$self->reply->static('../dist/play.html');
+	my $lang = $self->stash('lang');
+	$self->reply->static("play/$lang/index.html");
 
 	return;
 }
