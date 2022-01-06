@@ -37,11 +37,12 @@ has 'decoder' => (
 # TODO: intervals
 has 'commands' => (
 	is => 'ro',
-	isa => Types::HashRef[Types::InstanceOf['Server::Command']],
+	isa => Types::HashRef [Types::InstanceOf ['Server::Command']],
 	default => sub ($self) {
-		return { map {
-			$_->name => $_->new
-		} grep { !$_->disabled } Utils->load_classes('Server::Command', 'Command/*.pm')
+		return {
+			map {
+				$_->name => $_->new
+			} grep { !$_->disabled } Utils->load_classes('Server::Command', 'Command/*.pm')
 		};
 	},
 	init_arg => undef,
@@ -51,11 +52,12 @@ has 'commands' => (
 # they are what players call to play the game
 has 'actions' => (
 	is => 'ro',
-	isa => Types::HashRef[Types::InstanceOf['Server::Action']],
+	isa => Types::HashRef [Types::InstanceOf ['Server::Action']],
 	default => sub ($self) {
-		return { map {
-			$_->name => $_->new
-		} grep { !$_->disabled } Utils->load_classes('Server::Action', 'Action/*.pm')
+		return {
+			map {
+				$_->name => $_->new
+			} grep { !$_->disabled } Utils->load_classes('Server::Action', 'Action/*.pm')
 		};
 	},
 	init_arg => undef,
@@ -91,7 +93,8 @@ sub start ($self, $processes = 4)
 	};
 
 	my $check_every = 1;
-	my $interval; $interval = sub {
+	my $interval;
+	$interval = sub {
 		state $seconds_passed = 0;
 		$setup_commands->($seconds_passed);
 		Mojo::IOLoop->timer($check_every => $interval);

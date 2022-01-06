@@ -32,6 +32,7 @@ sub run ($self, @args)
 		my %contents = (locale => $lang);
 
 		for my $tkey (keys %translations) {
+
 			# TODO: adjust argument placeholders in translations
 			$contents{translations}{$tkey} = _t $translations{$tkey};
 		}

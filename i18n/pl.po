@@ -57,7 +57,7 @@ msgstr "Hasło"
 msgid "repeat_password"
 msgstr "Powtórz hasło"
 
-msgid "msg.required_field"
+msgid "field is required"
 msgstr "Pole jest wymagane"
 
 msgid "msg.password_too_short[_1]"

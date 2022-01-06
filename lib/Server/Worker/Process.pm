@@ -10,7 +10,7 @@ use constant LOCK_KEY => 'worker_locks';
 
 has 'worker' => (
 	is => 'ro',
-	isa => Types::InstanceOf['Server::Worker'],
+	isa => Types::InstanceOf ['Server::Worker'],
 	weak_ref => 1,
 	required => 1,
 );
@@ -64,7 +64,8 @@ sub do_work ($self)
 {
 	my $decoder = $self->worker->decoder;
 	my $cb = $self->worker->redis->pubsub->listen(
-		$self->worker->PUBSUB_KEY, sub ($, $data) {
+		$self->worker->PUBSUB_KEY,
+		sub ($, $data) {
 			$self->handle($decoder->decode($data));
 		}
 	);

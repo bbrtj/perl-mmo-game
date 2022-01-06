@@ -57,7 +57,7 @@ msgstr "Password"
 msgid "repeat_password"
 msgstr "Repeat password"
 
-msgid "msg.required_field"
+msgid "field is required"
 msgstr "Field is required"
 
 msgid "msg.password_too_short[_1]"
@@ -68,6 +68,9 @@ msgstr "That email is already taken"
 
 msgid "msg.password_must_have_digit"
 msgstr "Password must contain a digit"
+
+msgid "msg.passwords_mismatch"
+msgstr "Passwords do not match"
 
 msgid "msg.registration_successful"
 msgstr "Registration was successful"

@@ -29,12 +29,12 @@ form_field 'password' => (
 	data => {t => 'password', l => _t('password')},
 );
 
-field_validator _t('password must have at least [_1] characters', PASS_MIN_LENGTH)
+field_validator _t('msg.password_too_short[_1]', PASS_MIN_LENGTH)
 	=> sub ($self, $value) {
 		return length $value >= PASS_MIN_LENGTH;
 	};
 
-field_validator 'password must contain a digit'
+field_validator 'msg.password_must_have_digit'
 	=> sub ($self, $value) {
 		return $value =~ /\d/;
 	};
@@ -46,12 +46,12 @@ form_field 'repeat_password' => (
 );
 
 form_cleaner sub ($self, $data) {
-	$self->add_error('passwords do not match')
+	$self->add_error('msg.passwords_mismatch')
 		unless $data->{password} eq $data->{repeat_password};
 
 	try {
 		my $user = DI->get('user_service')->find_user_by_email($data->{email});
-		$self->add_error('that email is already taken');
+		$self->add_error('msg.email_taken');
 	}
 	catch ($e) {
 		die $e

@@ -23,7 +23,7 @@ sub create_insert ($table, @data)
 	}
 
 	my @chunks;
-	push @chunks, [ splice @values, 0, CHUNK_SIZE ] while @values;
+	push @chunks, [splice @values, 0, CHUNK_SIZE] while @values;
 
 	local $LIST_SEPARATOR = ', ';
 
@@ -38,7 +38,7 @@ sub create_insert ($table, @data)
 	return $sql;
 }
 
-sub create_translation_insert($type, @data)
+sub create_translation_insert ($type, @data)
 {
 	my $table = "gd_lore_${type}s";
 	return create_insert $table, map {
@@ -46,7 +46,7 @@ sub create_translation_insert($type, @data)
 	} @data;
 }
 
-sub store_dictionary($inserts, $object)
+sub store_dictionary ($inserts, $object)
 {
 	push $inserts->dictionary->@*, {
 		id => $object->{lore_id},
@@ -55,7 +55,7 @@ sub store_dictionary($inserts, $object)
 	return;
 }
 
-sub store_translations($inserts, $object, $lang)
+sub store_translations ($inserts, $object, $lang)
 {
 	push $inserts->translations->@*, {
 		language_id => uc($lang),
@@ -131,13 +131,13 @@ for my $file ($files->each) {
 }
 
 my $contents = join "\n",
-	create_insert(gd_lores =>  $inserts->dictionary->@*),
-	create_insert(gd_areas =>  $inserts->areas->@*),
-	create_insert(gd_locations =>  $inserts->locations->@*),
-	create_insert(gd_location_paths =>  $inserts->connections->@*),
+	create_insert(gd_lores => $inserts->dictionary->@*),
+	create_insert(gd_areas => $inserts->areas->@*),
+	create_insert(gd_locations => $inserts->locations->@*),
+	create_insert(gd_location_paths => $inserts->connections->@*),
 	create_translation_insert(name => $inserts->translations->@*),
 	create_translation_insert(description => $inserts->translations->@*),
-;
+	;
 
 return <<SQL;
 
