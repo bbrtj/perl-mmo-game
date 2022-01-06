@@ -1,0 +1,107 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"X-Generator: Poedit 1.8.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+msgid "polish"
+msgstr "Polish"
+
+msgid "english"
+msgstr "English"
+
+msgid "navigation.play"
+msgstr "Play"
+
+msgid "navigation.back"
+msgstr "Back"
+
+msgid "navigation.send"
+msgstr "Send"
+
+msgid "navigation.login"
+msgstr "Login"
+
+msgid "navigation.logout"
+msgstr "Logout"
+
+msgid "navigation.register"
+msgstr "Register"
+
+msgid "registration"
+msgstr "Registration"
+
+msgid "signing_in"
+msgstr "Signing in"
+
+msgid "remember_me"
+msgstr "Remember me"
+
+msgid "msg.invalid_credentials"
+msgstr "Invalid email or password"
+
+msgid "email_address"
+msgstr "Email address"
+
+msgid "password"
+msgstr "Password"
+
+msgid "repeat_password"
+msgstr "Repeat password"
+
+msgid "msg.required_field"
+msgstr "Field is required"
+
+msgid "msg.password_too_short[_1]"
+msgstr "Password must have at least [_1] characters"
+
+msgid "msg.email_taken"
+msgstr "That email is already taken"
+
+msgid "msg.password_must_have_digit"
+msgstr "Password must contain a digit"
+
+msgid "msg.registration_successful"
+msgstr "Registration was successful"
+
+msgid "msg.log_in"
+msgstr "You may now log in"
+
+msgid "err.out_of_range"
+msgstr "target is out of range"
+
+msgid "err.not_in_los"
+msgstr "target is not in line of sight"
+
+msgid "err.cannot_move"
+msgstr "cannot move there"
+
+msgid "err.invalid_coordinate"
+msgstr "invalid coordinate"
+
+msgid "err.invalid_target"
+msgstr "invalid target"
+
+msgid "character_selection"
+msgstr "Character selection"
+
+msgid "map"
+msgstr "Map"
+
+msgid "character.name"
+msgstr "Name"
+
+msgid "character.class"
+msgstr "Class"
+
+msgid "character.last_online"
+msgstr "Last online"
+

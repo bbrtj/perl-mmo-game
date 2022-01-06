@@ -1,23 +1,23 @@
 % layout 'default';
-% title _tt 'Register';
+% title _t 'registration';
 
 % my $gen_errors = $form->errors_hash->{''};
 
 % if ($form->is_validated && $form->valid) {
 	<h1>
-		%= _tt 'Registration successful';
+		%= _t 'msg.registration_successful';
 	</h1>
 
 	<p>
-		%= link_to _tt('You may now log in') => url_for '/user/login';
+		%= link_to _t('msg.log_in') => url_for '/user/login';
 	</p>
 % }
 % else {
 	<h1>
-		%= _tt 'Register'
+		%= _t 'navigation.register'
 	</h1>
 
-	<p><%= link_to _tt('Back') => url_for '/' %></p>
+	<p><%= link_to _t('navigation.back') => url_for '/' %></p>
 
 	<form method='POST' action=''>
 		<div class="row g-3">
@@ -43,7 +43,7 @@
 			% }
 
 			<div class="col-sm-12">
-				<input class="form-control" type="submit" value="<%= _tt('Send') %>">
+				<input class="form-control" type="submit" value="<%= _t('navigation.send') %>">
 			</div>
 		</div>
 	</form>

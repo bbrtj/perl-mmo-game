@@ -111,9 +111,9 @@
 				}
 			},
 			"i18n": {
-				"sourceLocale": "en",
 				"locales": {
-					"pl": "front/game/src/locale/messages.pl.json"
+					"pl": "i18n/messages.pl.json",
+					"en": "i18n/messages.en.json"
 				}
 			}
 		}

@@ -27,7 +27,7 @@ sub can_move_to ($self, $battle, $id, $position)
 sub can_see ($self, $battle, $id, $position)
 {
 	return Game::Mechanics::Check::Carry->gather(
-		'not_in_los',
+		'target is not in line of sight',
 		$self->is_within_map($battle, $position)
 	);
 }

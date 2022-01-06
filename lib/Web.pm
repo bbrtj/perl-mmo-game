@@ -71,8 +71,11 @@ sub load_plugins ($self, $env)
 
 sub load_helpers ($self, $env)
 {
+	# helpers for templates
+	$self->helper(_t => sub { shift; _t(@_) });
 	$self->helper(_tt => sub { shift; _tt(@_) });
 
+	# helper to render with proper language
 	$self->helper(
 		render_lang => sub ($self, @args) {
 			local $i18n::CURRENT_LANG = $self->stash('lang');

@@ -1,11 +1,11 @@
 % layout 'default';
-% title _tt 'Signing in';
+% title _t 'signing_in';
 
 <h1>
-	%= _tt 'Signing in'
+	%= _t 'signing_in'
 </h1>
 
-<p><%= link_to _tt('Back') => url_for '/' %></p>
+<p><%= link_to _t('navigation.back') => url_for '/' %></p>
 
 % my $gen_errors = $form->errors_hash->{''};
 
@@ -33,7 +33,7 @@
 		% }
 
 		<div class="col-sm-12">
-			<input class="form-control" type="submit" value="<%= _tt('Send') %>">
+			<input class="form-control" type="submit" value="<%= _t('navigation.send') %>">
 		</div>
 	</div>
 </form>

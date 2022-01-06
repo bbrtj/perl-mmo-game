@@ -36,10 +36,10 @@ sub _t
 }
 
 # text translate
-# a text in English that will get translated if translation is not found
+# a text in English that will be returned. Can be used to nest translations
 sub _tt
 {
-	my $t = _t lc shift, @_;
+	my $t = _t shift, @_;
 	$t->id(0);
 
 	return $t;
@@ -92,7 +92,7 @@ my $localizer = do {
 
 	$loc->add_localizer(
 		class => 'Gettext',
-		path => curfile->dirname->to_string . '/i18n/*.po',
+		path => curfile->dirname->sibling('i18n')->child('*.po')->to_string,
 		formatter => Data::Localize::Format::Maketext->new,
 	);
 	$loc;
@@ -105,28 +105,39 @@ sub translate
 	croak 'could not translate (no lang): ' . $self->message
 		if !defined $CURRENT_LANG && $self->id;
 
-	if ($self->lore) {
-		return $self->translate_lore;
-	}
+	my $lang = $CURRENT_LANG // 'en';
 
-	$localizer->auto(!$self->id);
-	$localizer->set_languages($CURRENT_LANG // (), 'en');
+	return $self->translate_lore($lang)
+		if $self->lore;
+
+	return $self->translate_gettext($lang);
+
+}
+
+sub translate_gettext
+{
+	my ($self, $lang) = @_;
+	my $is_id = $self->id;
+
+	$localizer->auto(!$is_id);
+	$localizer->set_languages($lang);
 
 	my $localized = $localizer->localize($self->message, $self->args->@*);
-	$localized = ucfirst $localized
-		unless $self->id;
+
+	croak 'did not find translation for: ' . $self->message
+		if !defined $localized && $is_id;
 
 	return $localized;
 }
 
 sub translate_lore
 {
-	my ($self) = @_;
+	my ($self, $lang) = @_;
 
 	require DI;    # lazy load to avoid circularity
 	state $repo = DI->get('lore_data');
 
-	return $repo->load($self->args->[0], $self->message, uc $CURRENT_LANG);
+	return $repo->load($self->args->[0], $self->message, uc $lang);
 }
 
 1;

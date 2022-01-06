@@ -1,22 +1,22 @@
 % layout 'default';
 % title 'Game project #1';
 
-<%= link_to _tt('english') => url_for '/lang/en' %>
-<%= link_to _tt('polish') => url_for '/lang/pl' %>
+<%= link_to _t('english') => url_for '/lang/en' %>
+<%= link_to _t('polish') => url_for '/lang/pl' %>
 
 <div>
 	% if ($user) {
-		<p><%= link_to _tt('Play') => url_for '/play' %></p>
+		<p><%= link_to _t('navigation.play') => url_for '/play' %></p>
 		<p>
 			<form method="POST" action="<%= url_for '/user/logout' %>">
 				<button>
-					%= _tt 'Logout';
+					%= _t 'navigation.logout';
 				</button>
 			</form>
 		</p>
 	% }
 	% else {
-		<p><%= link_to _tt('Login') => url_for '/user/login' %></p>
-		<p><%= link_to _tt('Register') => url_for '/user/register' %></p>
+		<p><%= link_to _t('navigation.login') => url_for '/user/login' %></p>
+		<p><%= link_to _t('navigation.register') => url_for '/user/register' %></p>
 	% }
 </div>

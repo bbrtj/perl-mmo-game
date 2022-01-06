@@ -115,7 +115,7 @@ my $inserts = h2o {
 
 for my $file ($files->each) {
 	my $basename = $file->basename('.map.json');
-	next unless $basename =~ m{ \w+ \. (\w{2})}x;
+	next unless $basename =~ m{ \A \w+ \. (\w{2}) \z }x;
 	my $lang = $1;
 	my $json = decode_json $file->slurp;
 
