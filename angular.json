@@ -7,7 +7,7 @@
 			"projectType": "application",
 			"schematics": {
 				"@schematics/angular:component": {
-					"style": "sass"
+					"style": "scss"
 				},
 				"@schematics/angular:application": {
 					"strict": true
@@ -30,13 +30,13 @@
 						"main": "front/game/src/main.ts",
 						"polyfills": "front/game/src/polyfills.ts",
 						"tsConfig": "front/game/tsconfig.app.json",
-						"inlineStyleLanguage": "sass",
+						"inlineStyleLanguage": "scss",
 						"assets": [
 							"front/game/src/favicon.ico",
 							"front/game/src/assets"
 						],
 						"styles": [
-							"front/game/src/styles.sass"
+							"front/game/src/styles.scss"
 						],
 						"scripts": []
 					},
@@ -98,13 +98,13 @@
 						"polyfills": "front/game/src/polyfills.ts",
 						"tsConfig": "front/game/tsconfig.spec.json",
 						"karmaConfig": "front/game/karma.conf.js",
-						"inlineStyleLanguage": "sass",
+						"inlineStyleLanguage": "scss",
 						"assets": [
 							"front/game/src/favicon.ico",
 							"front/game/src/assets"
 						],
 						"styles": [
-							"front/game/src/styles.sass"
+							"front/game/src/styles.scss"
 						],
 						"scripts": []
 					}

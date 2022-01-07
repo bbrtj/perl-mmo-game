@@ -7,7 +7,7 @@ import { ComponentMap } from './component-map';
 @Component({
 	selector: 'game-root',
 	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.sass']
+	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
 	title = 'game';

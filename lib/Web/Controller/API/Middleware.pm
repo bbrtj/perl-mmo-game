@@ -7,6 +7,7 @@ use header;
 
 extends 'Web::Controller::Middleware';
 
+# TODO: respond method
 sub unauthorized ($self)
 {
 	$self->respond(0, 'login required');
