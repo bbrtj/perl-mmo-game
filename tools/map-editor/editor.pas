@@ -125,7 +125,7 @@ var
 begin
 	if map <> Nil then begin
 		exported := map.Export(MapView);
-		exportedString := exported.AsJSON;
+		exportedString := exported.FormatJSON([foUseTabchar], 1);
 
 		outFile := TFileStream.Create(map.MetaFileName, fmCreate);
 		outFile.WriteBuffer(exportedString[1], length(exportedString));

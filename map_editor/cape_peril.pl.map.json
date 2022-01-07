@@ -1,1 +1,67 @@
-{ "lore_id" : "AREA_CP", "lore_name" : "Przylądek Peril", "lore_description" : "Legenda głosi, że pierwsi odkrywcy, którzy postawili tu stopę po wielomiesięcznej żegludze, mieli nazwać to miejsce Przylądkiem Wybawienia. Pozornie bezpieczna kraina nie miała im jednak nic do zaoferowania prócz śmierci. Dziesięciolecia później wciąż opiera się kolonizatorom, karając ich tym okrutniej, im bardziej zuchwałe są ich zapędy.", "name" : "/usr/home/bartosz/dox/game-project-01/front/game/src/assets/cape_peril.png", "canvas_width" : 999, "canvas_height" : 666, "markers" : [{ "lore_id" : "LOC_CP_HARBOR", "lore_name" : "Port Peril", "lore_description" : "Postawiony w okolicy przylądka Peril port to zazwyczaj pierwsze miejsce, w którym lądują nowo przybyli osadnicy, kupcy oraz poszukiwacze przygód.", "x" : 74, "y" : 592 }, { "lore_id" : "LOC_CP_MARKET", "lore_name" : "Rynek", "lore_description" : "Wąskie, kręte uliczki w połowie zastawione są stoiskami oferującymi wszelakie produkty. Wszechobecny tłok i gwar skutecznie ukrywają toczone tutaj czarne interesy przed skorumpowaną milicją.", "x" : 197, "y" : 504 }, { "lore_id" : "LOC_CP_GATE", "lore_name" : "Brama", "lore_description" : "Brama w palisadzie wyznacza koniec obszaru objętego ochroną milicyjną. Patrole ograniczają się tylko do sprawdzania stanu ogrodzenia oraz bezpośredniego sąsiedztwa bramy. Głucha cisza na zewnątrz mocno kontrastuje z hałasem dobiegającym ze środka.", "x" : 329, "y" : 503 }, { "lore_id" : "LOC_CP_INN", "lore_name" : "Karczma", "lore_description" : "Biorąc pod uwagę czas trwania rejsu nie powinno dziwić, że jest to pierwsze miejsce, do którego udają się nowo przybyli. Mimo oczywistej pokusy widać tu niewielu marynarzy, którzy często wolą nie opuszczać okrętów poza koniecznością.", "x" : 191, "y" : 563 }, { "lore_id" : "LOC_CP_DEPO", "lore_name" : "Depozytorium", "lore_description" : "Prawdopodobnie najbardziej chroniony budynek w całym porcie. Zaufana instytucja odpłatnie przetrzymująca towary oraz kosztowności od każdego, kto zapłaci.", "x" : 152, "y" : 439 }], "connections" : [["LOC_CP_HARBOR", "LOC_CP_MARKET"], ["LOC_CP_MARKET", "LOC_CP_GATE"], ["LOC_CP_MARKET", "LOC_CP_INN"], ["LOC_CP_GATE", "LOC_CP_INN"], ["LOC_CP_MARKET", "LOC_CP_DEPO"]] }
+{
+	"lore_id" : "AREA_CP",
+	"lore_name" : "Przylądek Peril",
+	"lore_description" : "Legenda głosi, że pierwsi odkrywcy, którzy postawili tu stopę po wielomiesięcznej żegludze, mieli nazwać to miejsce Przylądkiem Wybawienia. Pozornie bezpieczna kraina nie miała im jednak nic do zaoferowania prócz śmierci. Dziesięciolecia później wciąż opiera się kolonizatorom, karając ich tym okrutniej, im bardziej zuchwałe są ich zapędy.",
+	"name" : "/usr/home/bartosz/dox/game-project-01/front/game/src/assets/cape_peril.png",
+	"canvas_width" : 1008,
+	"canvas_height" : 672,
+	"markers" : [
+		{
+			"lore_id" : "LOC_CP_HARBOR",
+			"lore_name" : "Port Peril",
+			"lore_description" : "Postawiony w okolicy przylądka Peril port to zazwyczaj pierwsze miejsce, w którym lądują nowo przybyli osadnicy, kupcy oraz poszukiwacze przygód.",
+			"x" : 76,
+			"y" : 603
+		},
+		{
+			"lore_id" : "LOC_CP_MARKET",
+			"lore_name" : "Rynek",
+			"lore_description" : "Wąskie, kręte uliczki w połowie zastawione są stoiskami oferującymi wszelakie produkty. Wszechobecny tłok i gwar skutecznie ukrywają toczone tutaj czarne interesy przed skorumpowaną milicją.",
+			"x" : 212,
+			"y" : 506
+		},
+		{
+			"lore_id" : "LOC_CP_GATE",
+			"lore_name" : "Brama",
+			"lore_description" : "Brama w palisadzie wyznacza koniec obszaru objętego ochroną milicyjną. Patrole ograniczają się tylko do sprawdzania stanu ogrodzenia oraz bezpośredniego sąsiedztwa bramy. Głucha cisza na zewnątrz mocno kontrastuje z hałasem dobiegającym ze środka.",
+			"x" : 333,
+			"y" : 506
+		},
+		{
+			"lore_id" : "LOC_CP_INN",
+			"lore_name" : "Karczma",
+			"lore_description" : "Biorąc pod uwagę czas trwania rejsu nie powinno dziwić, że jest to pierwsze miejsce, do którego udają się nowo przybyli. Mimo oczywistej pokusy widać tu niewielu marynarzy, którzy często wolą nie opuszczać okrętów poza koniecznością.",
+			"x" : 178,
+			"y" : 570
+		},
+		{
+			"lore_id" : "LOC_CP_DEPO",
+			"lore_name" : "Depozytorium",
+			"lore_description" : "Prawdopodobnie najbardziej chroniony budynek w całym porcie. Zaufana instytucja odpłatnie przetrzymująca towary oraz kosztowności od każdego, kto zapłaci.",
+			"x" : 158,
+			"y" : 448
+		}
+	],
+	"connections" : [
+		[
+			"LOC_CP_HARBOR",
+			"LOC_CP_MARKET"
+		],
+		[
+			"LOC_CP_MARKET",
+			"LOC_CP_GATE"
+		],
+		[
+			"LOC_CP_MARKET",
+			"LOC_CP_INN"
+		],
+		[
+			"LOC_CP_GATE",
+			"LOC_CP_INN"
+		],
+		[
+			"LOC_CP_MARKET",
+			"LOC_CP_DEPO"
+		]
+	]
+}
