@@ -442,7 +442,7 @@ var
 	conn: TMarkerConnection;
 begin
 	result := FMapData.Export();
-	result.Add('name', imageFilename);
+	result.Add('name', ExtractFileName(imageFilename));
 	result.Add('canvas_width', canvas.Width);
 	result.Add('canvas_height', canvas.Height);
 
@@ -489,7 +489,7 @@ begin
 	inFile.Free;
 
 	jsonObject := GetJSON(contents) as TJSONObject;
-	imageFilename := jsonObject.Get('name', '');
+	imageFilename := 'assets/' + jsonObject.Get('name', '');
 	FMapData.Import(jsonObject);
 
 	jsonMarkers := jsonObject.get('markers', TJSONArray.Create);

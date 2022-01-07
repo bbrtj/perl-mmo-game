@@ -2,7 +2,7 @@
 	"lore_id" : "AREA_CP",
 	"lore_name" : "Przylądek Peril",
 	"lore_description" : "Legenda głosi, że pierwsi odkrywcy, którzy postawili tu stopę po wielomiesięcznej żegludze, mieli nazwać to miejsce Przylądkiem Wybawienia. Pozornie bezpieczna kraina nie miała im jednak nic do zaoferowania prócz śmierci. Dziesięciolecia później wciąż opiera się kolonizatorom, karając ich tym okrutniej, im bardziej zuchwałe są ich zapędy.",
-	"name" : "/usr/home/bartosz/dox/game-project-01/front/game/src/assets/cape_peril.png",
+	"name" : "cape_peril.png",
 	"canvas_width" : 1008,
 	"canvas_height" : 672,
 	"markers" : [
