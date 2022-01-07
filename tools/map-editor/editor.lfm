@@ -1,14 +1,14 @@
 object EditorForm: TEditorForm
   Left = 553
-  Height = 712
+  Height = 614
   Top = 154
-  Width = 1006
+  Width = 813
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Editor'
-  ClientHeight = 690
-  ClientWidth = 1006
-  DesignTimePPI = 111
+  ClientHeight = 592
+  ClientWidth = 813
+  DesignTimePPI = 113
   Menu = EditorMenu
   OnCreate = FormCreate
   Position = poDesktopCenter
@@ -16,18 +16,18 @@ object EditorForm: TEditorForm
   object MapView: TImage
     Cursor = crCross
     Left = 8
-    Height = 660
+    Height = 672
     Top = 8
-    Width = 990
+    Width = 1008
     OnMouseDown = MapViewClick
     OnPaint = MapViewPaint
     Stretch = True
   end
   object Marker: TShape
     Cursor = crHandPoint
-    Left = 1120
+    Left = 1140
     Height = 15
-    Top = 653
+    Top = 665
     Width = 15
     Brush.Color = clRed
     ParentShowHint = False
@@ -38,25 +38,27 @@ object EditorForm: TEditorForm
   object ActionInfo: TLabel
     Left = 8
     Height = 17
-    Top = 672
+    Top = 684
     Width = 23
     Caption = 'zzz'
     ParentColor = False
+    ParentFont = False
   end
   object StateInfo: TLabel
     AnchorSideLeft.Side = asrBottom
-    Left = 944
+    Left = 961
     Height = 17
-    Top = 672
+    Top = 684
     Width = 51
     Alignment = taRightJustify
     Caption = 'Normal'
     ParentBidiMode = False
     ParentColor = False
+    ParentFont = False
   end
   object EditorMenu: TMainMenu
-    Left = 664
-    Top = 65520
+    Left = 676
+    Top = 1165
     object MenuItem1: TMenuItem
       Caption = 'Map'
       object MenuItem2: TMenuItem

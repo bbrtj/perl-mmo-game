@@ -5,8 +5,8 @@ unit markerdata;
 interface
 
 uses
-	Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls, FPJSON,
-	editortypes;
+	Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
+	ComCtrls, FPJSON, editortypes;
 
 type
 
@@ -34,15 +34,19 @@ type
 	TMarkerForm = class(TForm)
 		AddButton: TButton;
 		CancelButton: TButton;
-		Label3: TLabel;
-		LoreName: TEdit;
-		Label2: TLabel;
-		LoreId: TEdit;
 		Label1: TLabel;
+		Label2: TLabel;
+		Label3: TLabel;
 		LoreDescription: TMemo;
+		LoreId: TEdit;
+		LoreName: TEdit;
+		MarkerTabs: TPageControl;
+		MarkerInfoTab: TTabSheet;
+		TabSheet2: TTabSheet;
 		procedure AddButtonClick(Sender: TObject);
 		procedure CancelButtonClick(Sender: TObject);
 		procedure FormCreate(Sender: TObject);
+		procedure MarkerTabsChange(Sender: TObject);
 	private
 
 	public
@@ -101,6 +105,11 @@ end;
 {}
 procedure TMarkerForm.FormCreate(Sender: TObject);
 begin
+end;
+
+procedure TMarkerForm.MarkerTabsChange(Sender: TObject);
+begin
+
 end;
 
 {}
