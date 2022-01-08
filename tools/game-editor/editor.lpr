@@ -1,4 +1,4 @@
-program mapeditor;
+program editor;
 
 {$mode objfpc}{$H+}
 
@@ -7,7 +7,7 @@ uses
 	cthreads,
 	{$ENDIF}{$ENDIF}
 	Interfaces, // this includes the LCL widgetset
-	Forms, editor
+	Forms, mapeditor, editormode
 	{ you can add units after this };
 
 {$R *.res}
@@ -16,7 +16,8 @@ begin
 	RequireDerivedFormResource:=True;
 	Application.Scaled:=True;
 	Application.Initialize;
-	Application.CreateForm(TEditorForm, EditorForm);
+	Application.CreateForm(TMapEditorForm, MapEditorForm);
+	Application.CreateForm(TEditorModeForm, EditorModeForm);
 	Application.Run;
 end.
 

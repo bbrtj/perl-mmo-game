@@ -3,8 +3,8 @@
 	"lore_name" : "Przylądek Peril",
 	"lore_description" : "Legenda głosi, że pierwsi odkrywcy, którzy postawili tu stopę po wielomiesięcznej żegludze, mieli nazwać to miejsce Przylądkiem Wybawienia. Pozornie bezpieczna kraina nie miała im jednak nic do zaoferowania prócz śmierci. Dziesięciolecia później wciąż opiera się kolonizatorom, karając ich tym okrutniej, im bardziej zuchwałe są ich zapędy.",
 	"name" : "cape_peril.png",
-	"canvas_width" : 1008,
-	"canvas_height" : 672,
+	"canvas_width" : 990,
+	"canvas_height" : 660,
 	"markers" : [
 		{
 			"lore_id" : "LOC_CP_HARBOR",

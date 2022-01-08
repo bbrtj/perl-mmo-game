@@ -1,4 +1,4 @@
 lib
 backup
-mapeditor
 *.res
+*.lps

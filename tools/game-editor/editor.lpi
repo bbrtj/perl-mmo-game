@@ -30,15 +30,15 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
-        <Filename Value="mapeditor.lpr"/>
+        <Filename Value="editor.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="editor.pas"/>
+        <Filename Value="mapeditor.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="EditorForm"/>
+        <ComponentName Value="MapEditorForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit1>
@@ -49,12 +49,19 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="editormode.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="EditorModeForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="mapeditor"/>
+      <Filename Value="../editor"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

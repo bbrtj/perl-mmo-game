@@ -1,4 +1,4 @@
-unit editor;
+unit mapeditor;
 
 {$mode objfpc}{$H+}
 
@@ -11,9 +11,9 @@ uses
 
 type
 
-	{ TEditorForm }
+	{ TMapEditorForm }
 
-	TEditorForm = class(TForm)
+	TMapEditorForm = class(TForm)
 		EditorMenu: TMainMenu;
 		MenuItem1: TMenuItem;
 		MenuItem2: TMenuItem;
@@ -55,16 +55,16 @@ type
 	end;
 
 var
-	EditorForm: TEditorForm;
+	MapEditorForm: TMapEditorForm;
 
 implementation
 
 {$R *.lfm}
 
-{ TEditorForm }
+{ TMapEditorForm }
 
 {}
-procedure TEditorForm.MapViewClick(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+procedure TMapEditorForm.MapViewClick(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
 	if ssDouble in Shift then begin
 		if map <> Nil then
@@ -76,7 +76,7 @@ begin
 end;
 
 {}
-procedure TEditorForm.MapViewPaint(Sender: TObject);
+procedure TMapEditorForm.MapViewPaint(Sender: TObject);
 begin
 	if map <> Nil then begin
 		map.Draw(MapView.Canvas);
@@ -84,7 +84,7 @@ begin
 end;
 
 {}
-procedure TEditorForm.MenuLoadClick(Sender: TObject);
+procedure TMapEditorForm.MenuLoadClick(Sender: TObject);
 var
 	dialog: TOpenDialog;
 	image: TPicture;
@@ -106,18 +106,18 @@ begin
 	dialog.Free;
 end;
 
-procedure TEditorForm.FormCreate(Sender: TObject);
+procedure TMapEditorForm.FormCreate(Sender: TObject);
 begin
 
 end;
 
-procedure TEditorForm.MenuQuitClick(Sender: TObject);
+procedure TMapEditorForm.MenuQuitClick(Sender: TObject);
 begin
 	Close;
 end;
 
 {}
-procedure TEditorForm.MenuSaveClick(Sender: TObject);
+procedure TMapEditorForm.MenuSaveClick(Sender: TObject);
 var
 	exported: TJSONObject;
 	exportedString: String;
@@ -141,7 +141,7 @@ begin
 end;
 
 {}
-procedure TEditorForm.MenuPropertiesClick(Sender: TObject);
+procedure TMapEditorForm.MenuPropertiesClick(Sender: TObject);
 var
 	dialog: TMarkerForm;
 begin
@@ -167,7 +167,7 @@ begin
 end;
 
 {}
-procedure TEditorForm.MenuEditPathsClick(Sender: TObject);
+procedure TMapEditorForm.MenuEditPathsClick(Sender: TObject);
 begin
 	if map <> nil then begin
 		map.SetEdited(nil);
@@ -180,7 +180,7 @@ begin
 end;
 
 {}
-procedure TEditorForm.MenuDeleteClick(Sender: TObject);
+procedure TMapEditorForm.MenuDeleteClick(Sender: TObject);
 begin
 	if map <> nil then begin
 		map.SetEdited(nil);
@@ -193,13 +193,13 @@ begin
 end;
 
 {}
-procedure TEditorForm.UpdateInfo(const actionText: String);
+procedure TMapEditorForm.UpdateInfo(const actionText: String);
 begin
 	ActionInfo.Caption := actionText;
 end;
 
 {}
-procedure TEditorForm.UpdateStateInfo();
+procedure TMapEditorForm.UpdateStateInfo();
 var
 	info: String;
 begin
@@ -215,13 +215,13 @@ begin
 end;
 
 {}
-procedure TEditorForm.MapChanged();
+procedure TMapEditorForm.MapChanged();
 begin
 	MapView.Invalidate;
 end;
 
 {}
-procedure TEditorForm.ClearMap();
+procedure TMapEditorForm.ClearMap();
 begin
 	if map <> Nil then begin
 		FreeAndNil(map);

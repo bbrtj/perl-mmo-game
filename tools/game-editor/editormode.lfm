@@ -1,0 +1,39 @@
+object EditorModeForm: TEditorModeForm
+  Left = 546
+  Height = 124
+  Top = 368
+  Width = 210
+  Caption = 'Game Editor'
+  ClientHeight = 124
+  ClientWidth = 210
+  DesignTimePPI = 114
+  OnCreate = FormCreate
+  LCLVersion = '2.0.12.0'
+  object ClassEditorButton: TButton
+    Left = 8
+    Height = 30
+    Top = 8
+    Width = 192
+    Caption = 'Class editor'
+    OnClick = ClassEditorButtonClick
+    TabOrder = 0
+  end
+  object MapEditorButton: TButton
+    Left = 8
+    Height = 30
+    Top = 41
+    Width = 192
+    Caption = 'Map editor'
+    OnClick = MapEditorButtonClick
+    TabOrder = 1
+  end
+  object ExitButton: TButton
+    Left = 8
+    Height = 30
+    Top = 88
+    Width = 192
+    Caption = 'Exit'
+    OnClick = ExitButtonClick
+    TabOrder = 2
+  end
+end
