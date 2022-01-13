@@ -6,8 +6,8 @@ interface
 
 uses
 	Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-	Menus, ActnList, ComCtrls, FPJSON,
-	map, markerdata;
+	Menus, ActnList, ComCtrls, Buttons, FPJSON,
+	map;
 
 type
 
@@ -24,6 +24,7 @@ type
 		MenuItem7: TMenuItem;
 		MenuItem8: TMenuItem;
 		MenuItem9: TMenuItem;
+		Panel1: TPanel;
 
 		StateInfo: TLabel;
 		ActionInfo: TLabel;
@@ -32,7 +33,7 @@ type
 		Marker: TShape;
 
 		procedure FormCreate(Sender: TObject);
-  procedure MenuLoadClick(Sender: TObject);
+		procedure MenuLoadClick(Sender: TObject);
 		procedure MenuSaveClick(Sender: TObject);
 		procedure MenuPropertiesClick(Sender: TObject);
 		procedure MenuQuitClick(Sender: TObject);
@@ -53,9 +54,6 @@ type
 		procedure MapChanged();
 
 	end;
-
-var
-	MapEditorForm: TMapEditorForm;
 
 implementation
 
@@ -119,19 +117,19 @@ end;
 {}
 procedure TMapEditorForm.MenuSaveClick(Sender: TObject);
 var
-	exported: TJSONObject;
+	// exported: TJSONObject;
 	exportedString: String;
 	outFile: TFileStream;
 begin
 	if map <> Nil then begin
-		exported := map.Export(MapView);
-		exportedString := exported.FormatJSON([foUseTabchar], 1);
+		exportedString := map.Export();
+		// exportedString := exported.FormatJSON([foUseTabchar], 1);
 
 		outFile := TFileStream.Create(map.MetaFileName, fmCreate);
 		outFile.WriteBuffer(exportedString[1], length(exportedString));
 
 		outFile.Free;
-		exported.Free;
+		// exported.Free;
 
 		UpdateInfo('Save successful (' + map.MetaFileName + ')');
 	end
@@ -142,24 +140,9 @@ end;
 
 {}
 procedure TMapEditorForm.MenuPropertiesClick(Sender: TObject);
-var
-	dialog: TMarkerForm;
 begin
 	if map <> Nil then begin
-		dialog := TMarkerForm.Create(nil);
-
-		dialog.LoreIdValue := map.MapData.LoreId;
-		dialog.LoreNameValue := map.MapData.LoreName;
-		dialog.LoreDescriptionValue := map.MapData.LoreDescription;
-
-		dialog.ShowModal();
-
-		if dialog.MarkerAdded then
-			map.MapData.Initialize(dialog.LoreIdValue, dialog.LoreNameValue, dialog.LoreDescriptionValue)
-		else
-			UpdateInfo('Aborted');
-
-		dialog.Free;
+		map.UpdateTranslations();
 	end
 	else begin
 		ShowMessage('Please load a map first');

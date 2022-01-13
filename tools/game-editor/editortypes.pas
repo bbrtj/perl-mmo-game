@@ -11,9 +11,9 @@ type
 	TMapChangedProcedure = procedure () of object;
 	TIndexList = specialize TFPGList<Integer>;
 
+	TLanguageId = String[2];
 	TLoreId = String[20];
 	TLoreName = String[255];
-
 
 implementation
 

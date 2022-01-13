@@ -6,7 +6,8 @@ interface
 
 uses
 	Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Buttons, ExtCtrls,
-	StdCtrls;
+	StdCtrls,
+	mapeditor;
 
 type
 
@@ -42,8 +43,14 @@ begin
 end;
 
 procedure TEditorModeForm.MapEditorButtonClick(Sender: TObject);
+var
+	mapEd: TMapEditorForm;
 begin
-
+	Visible := False;
+	mapEd := TMapEditorForm.Create(self);
+	mapEd.ShowModal;
+	mapEd.Free;
+	Visible := True;
 end;
 
 procedure TEditorModeForm.ClassEditorButtonClick(Sender: TObject);

@@ -3,11 +3,14 @@ object EditorModeForm: TEditorModeForm
   Height = 124
   Top = 368
   Width = 210
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsDialog
   Caption = 'Game Editor'
   ClientHeight = 124
   ClientWidth = 210
   DesignTimePPI = 114
   OnCreate = FormCreate
+  Position = poDesktopCenter
   LCLVersion = '2.0.12.0'
   object ClassEditorButton: TButton
     Left = 8
