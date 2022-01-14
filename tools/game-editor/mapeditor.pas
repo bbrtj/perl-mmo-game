@@ -66,7 +66,7 @@ procedure TMapEditorForm.MapViewClick(Sender: TObject; Button: TMouseButton; Shi
 begin
 	if ssDouble in Shift then begin
 		if map <> Nil then
-			map.AddMarker(X, Y)
+			map.AddMarker(X + MapView.Left, Y + MapView.Top)
 		else begin
 			ShowMessage('Please load a map first');
 		end;

@@ -17,7 +17,8 @@ type
 		ClassEditorButton: TButton;
 		MapEditorButton: TButton;
 		ExitButton: TButton;
-		procedure FormCreate(Sender: TObject);
+		procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+  procedure FormCreate(Sender: TObject);
 
 		procedure ClassEditorButtonClick(Sender: TObject);
 		procedure MapEditorButtonClick(Sender: TObject);
@@ -42,15 +43,20 @@ begin
 
 end;
 
+procedure TEditorModeForm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+	closeAction := caFree;
+	Visible := True;
+end;
+
 procedure TEditorModeForm.MapEditorButtonClick(Sender: TObject);
 var
 	mapEd: TMapEditorForm;
 begin
 	Visible := False;
 	mapEd := TMapEditorForm.Create(self);
-	mapEd.ShowModal;
-	mapEd.Free;
-	Visible := True;
+	mapEd.OnClose := @FormClose;
+	mapEd.Show;
 end;
 
 procedure TEditorModeForm.ClassEditorButtonClick(Sender: TObject);

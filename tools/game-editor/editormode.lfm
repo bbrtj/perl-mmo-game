@@ -1,42 +1,45 @@
 object EditorModeForm: TEditorModeForm
   Left = 546
-  Height = 124
+  Height = 126
   Top = 368
-  Width = 210
+  Width = 214
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 'Game Editor'
-  ClientHeight = 124
-  ClientWidth = 210
-  DesignTimePPI = 114
+  ClientHeight = 126
+  ClientWidth = 214
+  DesignTimePPI = 116
   OnCreate = FormCreate
   Position = poDesktopCenter
   LCLVersion = '2.0.12.0'
   object ClassEditorButton: TButton
     Left = 8
-    Height = 30
+    Height = 31
     Top = 8
-    Width = 192
+    Width = 195
     Caption = 'Class editor'
     OnClick = ClassEditorButtonClick
+    ParentFont = False
     TabOrder = 0
   end
   object MapEditorButton: TButton
     Left = 8
-    Height = 30
-    Top = 41
-    Width = 192
+    Height = 31
+    Top = 42
+    Width = 195
     Caption = 'Map editor'
     OnClick = MapEditorButtonClick
+    ParentFont = False
     TabOrder = 1
   end
   object ExitButton: TButton
     Left = 8
-    Height = 30
-    Top = 88
-    Width = 192
+    Height = 31
+    Top = 90
+    Width = 195
     Caption = 'Exit'
     OnClick = ExitButtonClick
+    ParentFont = False
     TabOrder = 2
   end
 end

@@ -4,7 +4,7 @@ unit map;
 
 interface
 
-uses Classes, SysUtils, ExtCtrls, Graphics, FGL, fpjsonrtti, FPJSON, JSONParser,
+uses Classes, SysUtils, ExtCtrls, Graphics, FGL, fpjsonrtti, FPJSON,
 	translationdialog, loreiddialog, editortypes, serialization;
 
 type
@@ -19,9 +19,11 @@ type
 		FMarker: TShape;
 		FMap: TMap;
 		FTranslations: TTranslations;
+		FConnectedTo: TStringList;
 
 		procedure SetPosX(const position: Integer);
 		procedure SetPosY(const position: Integer);
+		procedure SetLoreId(const id: TLoreId);
 	public
 		constructor Create(); override;
 		destructor Destroy; override;
@@ -33,16 +35,18 @@ type
 
 		procedure Disable();
 
+		procedure ConnectWith(markerId: TLoreId);
+		procedure DisconnectWith(markerId: TLoreId);
+
 	published
-		property LoreId: TLoreId read FLoreId write FLoreId;
+		property LoreId: TLoreId read FLoreId write SetLoreId;
 		property PosX: Integer read FPosX write SetPosX;
 		property PosY: Integer read FPosY write SetPosY;
 		property Translations: TTranslations read FTranslations write FTranslations;
+		property ConnectedTo: TStringlist read FConnectedTo write FConnectedTo;
 	end;
 
 	TMarkers = specialize TFPGObjectList<TMapMarker>;
-	TMarkerConnection = specialize TFPGObjectList<TMapMarker>;
-	TMarkerConnections = specialize TFPGObjectList<TMarkerConnection>;
 
 	TMap = class(TSerialized)
 	private
@@ -52,12 +56,8 @@ type
 		FMarkerBlueprint: TShape;
 		FMarkers: TMarkers;
 		FDeletedMarkers: TMarkers;
-		FConnections: TMarkerConnections;
 
 		FMapData: TTranslations;
-
-		FOffsetX: Integer;
-		FOffsetY: Integer;
 
 		FEdited: TMapMarker;
 		FConnecting: Boolean;
@@ -66,9 +66,7 @@ type
 		FLogger: TLoggerProcedure;
 		FOnChange: TMapChangedProcedure;
 
-		function FindConnection(const marker1, marker2: TMapMarker): Integer;
 		procedure AddConnection(const marker1, marker2: TMapMarker);
-		procedure AddConnection(const marker1, marker2: String);
 		procedure DeleteConnection(const marker1, marker2: TMapMarker);
 		procedure DeleteConnections(const marker: TMapMarker);
 
@@ -101,13 +99,9 @@ type
 		property Logger: TLoggerProcedure read FLogger write FLogger;
 		property OnChange: TMapChangedProcedure read FOnChange write FOnChange;
 
-		property OffsetX: Integer read FOffsetX;
-		property OffsetY: Integer read FOffsetY;
-
 	published
 		property ImageName: String read FImageFilename write FImageFilename;
 		property Translations: TTranslations read FMapData write FMapData;
-		property Connections: TMarkerConnections read FConnections write FConnections;
 		property Markers: TMarkers read FMarkers write FMarkers;
 
 	end;
@@ -119,6 +113,11 @@ implementation
 constructor TMapMarker.Create();
 begin
 	FTranslations := TTranslations.Create;
+	FConnectedTo := TStringList.Create;
+	FConnectedTo.Sorted := true;
+	FConnectedTo.Duplicates := dupIgnore;
+	FConnectedTo.LineBreak := ';';
+	FConnectedTo.TrailingLineBreak := false;
 end;
 
 {}
@@ -147,6 +146,7 @@ begin
 
 	SetPosX(FPosX);
 	SetPosY(FPosY);
+	SetLoreId(FLoreId);
 end;
 
 {}
@@ -154,7 +154,7 @@ procedure TMapMarker.SetPosX(const position: Integer);
 begin
 	FPosX := position;
 	if FMarker <> nil then
-		FMarker.Left := position + FMap.OffsetX - FMarker.Width div 2;
+		FMarker.Left := position - FMarker.Width div 2;
 end;
 
 {}
@@ -162,7 +162,15 @@ procedure TMapMarker.SetPosY(const position: Integer);
 begin
 	FPosY := position;
 	if FMarker <> nil then
-		FMarker.Top := position + FMap.OffsetY - FMarker.Height div 2;
+		FMarker.Top := position - FMarker.Height div 2;
+end;
+
+{}
+procedure TMapMarker.SetLoreId(const id: TLoreId);
+begin
+	FLoreId := id;
+	if FMarker <> nil then
+		FMarker.Hint := id;
 end;
 
 {}
@@ -185,6 +193,20 @@ begin
 	dialog.ShowModal();
 end;
 
+{}
+procedure TMapMarker.ConnectWith(markerId: TLoreId);
+begin
+	FConnectedTo.Add(markerId);
+end;
+
+{}
+procedure TMapMarker.DisconnectWith(markerId: TLoreId);
+var
+	ind: Integer;
+begin
+	if FConnectedTo.Find(markerId, ind) then
+		FConnectedTo.Delete(ind);
+end;
 
 {}
 procedure TMapMarker.Disable();
@@ -199,7 +221,6 @@ constructor TMap.Create(const filename: String);
 begin
 	FMarkers := TMarkers.Create;
 	FDeletedMarkers := TMarkers.Create;
-	FConnections := TMarkerConnections.Create;
 	FImage := TPicture.Create;
 	FConnecting := false;
 	FMapData := TTranslations.Create;
@@ -227,9 +248,6 @@ end;
 {}
 procedure TMap.Initialize(const canvas: TImage);
 begin
-	FOffsetX := canvas.Left;
-	FOffsetY := canvas.Top;
-
 	if length(FMetaFilename) > 0 then
 		Import(FMetaFilename)
 	else
@@ -357,86 +375,40 @@ begin
 end;
 
 {}
-function TMap.FindConnection(const marker1, marker2: TMapMarker): Integer;
-var
-	index: Integer;
-begin
-	result := -1;
-	for index := 0 to FConnections.Count - 1 do begin
-		if ((FConnections[index][0] = marker1) and (FConnections[index][1] = marker2)
-		   or (FConnections[index][0] = marker2) and (FConnections[index][1] = marker1))
-		   then
-			exit(index);
-	end;
-end;
-
-{}
 procedure TMap.AddConnection(const marker1, marker2: TMapMarker);
-var
-	conn: TMarkerConnection;
 begin
-	if FindConnection(marker1, marker2) < 0 then begin
-		conn := TMarkerConnection.Create(false);
-		conn.Add(marker1);
-		conn.Add(marker2);
-		FConnections.Add(conn);
-	end;
-end;
-
-{}
-procedure TMap.AddConnection(const marker1, marker2: String);
-var
-	marker: TMapMarker;
-	foundMarker: TMapMarker;
-begin
-	foundMarker := nil;
-
-	for marker in FMarkers do begin
-		if (marker.LoreId = marker1) or (marker.LoreId = marker2) then begin
-			if foundMarker <> nil then
-				AddConnection(foundMarker, marker)
-			else
-				foundMarker := marker;
-		end;
-	end;
+	marker1.ConnectWith(marker2.LoreId);
+	marker2.ConnectWith(marker1.LoreId);
 end;
 
 {}
 procedure TMap.DeleteConnection(const marker1, marker2: TMapMarker);
-var
-	index: Integer;
 begin
-	index := FindConnection(marker1, marker2);
-	if index >= 0 then
-		FConnections.Delete(index);
+	marker1.DisconnectWith(marker2.LoreId);
+	marker2.DisconnectWith(marker1.LoreId);
 end;
 
 {}
 procedure TMap.DeleteConnections(const marker: TMapMarker);
 var
-	index: Integer;
-	indexList: TIndexList;
+	loopMarker: TMapMarker;
 begin
-	indexList := TIndexList.Create;
+	for loopMarker in FMarkers do
+		loopMarker.DisconnectWith(marker.LoreId);
 
-	for index := 0 to FConnections.Count - 1 do begin
-		if (FConnections[index][0] = marker) or (FConnections[index][1] = marker) then
-			indexList.Add(index);
-	end;
-
-	for index := indexList.Count - 1 downto 0 do
-		FConnections.Delete(indexList[index]);
-
-	indexList.Free;
+	marker.ConnectedTo.Clear;
 end;
 
 {}
 function TMap.Export(): String;
 var
+	jsonResult: TJSONObject;
 	streamer: TGameStreamer;
 begin
 	streamer := TGameStreamer.Create();
-	result := streamer.Streamer.ObjectToJSONString(self);
+	jsonResult := streamer.Streamer.ObjectToJSON(self);
+	jsonResult.Strings['ImageName'] := ExtractFileName(FImageFilename);
+	result := jsonResult.FormatJSON([foUseTabchar], 1);
 
 	streamer.Free;
 end;
@@ -470,6 +442,7 @@ begin
 	for marker in FMarkers do
 		marker.SetMap(self);
 
+	FImageFilename := 'assets/' + FImageFilename;
 end;
 
 {}
@@ -477,18 +450,23 @@ procedure TMap.Draw(canvas: TCanvas);
 var
 	points: Array[0 .. 1] of TPoint;
 
-	conn: TMarkerConnection;
+	ind1, ind2: Integer;
+	pass: Integer;
 begin
 	canvas.Pen.Color := clBlue;
 	canvas.Pen.Width := 2;
 	canvas.Pen.Style := psSolid;
 
-	for conn in FConnections do begin
-		points[0].X := conn[0].PosX;
-		points[0].Y := conn[0].PosY;
-		points[1].X := conn[1].PosX;
-		points[1].Y := conn[1].PosY;
-		canvas.Polyline(points, 0, 2);
+	for ind1 := 0 to FMarkers.Count - 1 do begin
+		for ind2 := ind1 + 1 to FMarkers.Count - 1 do begin
+			if FMarkers[ind1].ConnectedTo.Find(FMarkers[ind2].LoreId, pass) then begin
+				points[0].X := FMarkers[ind1].PosX;
+				points[0].Y := FMarkers[ind1].PosY;
+				points[1].X := FMarkers[ind2].PosX;
+				points[1].Y := FMarkers[ind2].PosY;
+				canvas.Polyline(points, 0, 2);
+			end;
+		end;
 	end;
 end;
 

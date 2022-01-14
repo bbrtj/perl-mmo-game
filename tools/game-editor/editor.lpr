@@ -15,7 +15,7 @@ uses
 begin
 	RequireDerivedFormResource:=True;
 	Application.Title:='mapeditor';
- Application.Scaled:=True;
+	Application.Scaled:=True;
 	Application.Initialize;
 	Application.CreateForm(TEditorModeForm, EditorModeForm);
 	Application.Run;
