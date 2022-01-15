@@ -48,18 +48,13 @@ sub load_routes ($self, $env)
 	$main->get('/')->to('main#main_page');
 	$main->get('/lang/:lang')->to('main#set_lang');
 
-	my $play = $main->under('/play')->to('middleware#is_user');
-	$play->get('/')->to('main#play');
-
 	my $user = $main->under('/user');
 	$user->any([qw(GET POST)] => '/login')->to('user#login');
 	$user->post('/logout')->to('user#logout');
 	$user->any([qw(GET POST)] => '/register')->to('user#register');
 
-	my $api = $main->under('/api')->to('API::Middleware#is_user');
-	$api->websocket('/socket')->to('API::Socket#websocket');
-
-	my $game = $api->under('/game')->to('API::Middleware#is_player');
+	my $api = $main->under('/api');
+	my $user_api = $api->under('/user')->to('middleware#is_user');
 
 	return;
 }

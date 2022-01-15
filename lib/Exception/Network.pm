@@ -1,4 +1,4 @@
-package Exception::WebSocket::InvalidCommand;
+package Exception::Network;
 
 use My::Moose;
 
