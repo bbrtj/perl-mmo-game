@@ -14,8 +14,8 @@ use header;
 
 use constant TIMEOUT_SEC => 120;
 
-has 'log' => (
-	is => 'ro',
+with qw(
+	Server::Forked
 );
 
 has 'worker' => (
@@ -24,7 +24,6 @@ has 'worker' => (
 
 has 'channel' => (
 	is => 'ro',
-	default => sub { DI->get('channel_service') },
 );
 
 has 'port' => (
@@ -59,7 +58,7 @@ sub connection ($self, $loop, $stream, $id)
 		);
 
 		for my $aref (@callbacks) {
-			push $aref, $self->channel->listen(
+			push $aref->@*, $self->channel->listen(
 				$aref->[0],
 				sub ($struct) {
 					$self->reply($struct);
@@ -107,8 +106,8 @@ sub reply ($self, $stream, $struct)
 	return $stream->write(to_json($struct));
 }
 
-sub start ($self) {
-	# TODO: fork
+sub start ($self)
+{
 	Mojo::IOLoop->server({
 		port => $self->port,
 		reuse => 1,
@@ -117,5 +116,15 @@ sub start ($self) {
 		unshift @_, $self;
 		goto \&connection;
 	});
+}
+
+sub listen ($self, $processes = 4)
+{
+	$self->create_forks($processes - 1, sub ($process_id) {
+		$self->start;
+	});
+
+	# main process will be a server as well
+	$self->start;
 }
 

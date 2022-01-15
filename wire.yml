@@ -83,3 +83,13 @@ worker:
         decoder:
             $ref: decoder
 
+server:
+    class: Server
+    args:
+        log:
+            $ref: log
+        worker:
+            $ref: worker
+        channel:
+            $ref: channel_service
+

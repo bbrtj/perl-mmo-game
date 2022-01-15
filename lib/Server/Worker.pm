@@ -6,18 +6,13 @@ use Types;
 use Server::Worker::Process;
 use Data::ULID qw(ulid);
 use Mojo::IOLoop;
-use POSIX ();
 
 use header;
 
-$SIG{INT} = $SIG{KILL} = $SIG{TERM} = sub {
-	Mojo::IOLoop->stop;
-};
-
 use constant PUBSUB_KEY => 'server_jobs';
 
-has 'log' => (
-	is => 'ro',
+with qw(
+	Server::Forked
 );
 
 has 'redis' => (
@@ -63,25 +58,11 @@ has 'actions' => (
 	init_arg => undef,
 );
 
-sub start ($self, $processes = 4)
+sub start ($self, $processes = 2)
 {
-	my @children;
-	for my $process_id (1 .. $processes) {
-		my $pid = fork;
-		if (defined $pid) {
-			if ($pid) {
-				Server::Worker::Process->new(worker => $self, process_id => $process_id)->do_work;
-				exit;
-			}
-			else {
-				$self->log->debug("Process $process_id started");
-				push @children, $pid;
-			}
-		}
-		else {
-			$self->log->error("Could not fork worker ($process_id out of $processes)");
-		}
-	}
+	$self->create_forks($processes, sub ($process_id) {
+		Server::Worker::Process->new(worker => $self, process_id => $process_id)->do_work;
+	});
 
 	my @commands = values $self->commands->%*;
 	my $setup_commands = sub ($seconds) {
@@ -102,15 +83,12 @@ sub start ($self, $processes = 4)
 	};
 
 	$interval->();
-	Mojo::IOLoop->start;
-
-	$self->log->debug('Worker is shutting down...');
-	1 while waitpid(-1, POSIX::WNOHANG) > 0;
 	return;
 }
 
 sub broadcast ($self, $type, $name, @args)
 {
+	# TODO: this ulid may slow things down
 	my $data = [ulid, "$type:$name", @args];
 	$self->redis->pubsub->notify(PUBSUB_KEY, $self->encoder->encode($data));
 
