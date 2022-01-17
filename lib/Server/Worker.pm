@@ -15,15 +15,9 @@ with qw(
 	Server::Forked
 );
 
-has 'redis' => (
-	is => 'ro',
-);
+our $IS_WORKER = 0;
 
-has 'encoder' => (
-	is => 'ro',
-);
-
-has 'decoder' => (
+has 'channel' => (
 	is => 'ro',
 );
 
@@ -60,6 +54,7 @@ has 'actions' => (
 
 sub start ($self, $processes = 2)
 {
+	local $IS_WORKER = 1;
 	$self->create_forks($processes, sub ($process_id) {
 		Server::Worker::Process->new(worker => $self, process_id => $process_id)->do_work;
 	});
@@ -90,7 +85,7 @@ sub broadcast ($self, $type, $name, @args)
 {
 	# TODO: this ulid may slow things down
 	my $data = [ulid, "$type:$name", @args];
-	$self->redis->pubsub->notify(PUBSUB_KEY, $self->encoder->encode($data));
+	$self->channel->broadcast(undef, $data);
 
 	return;
 }

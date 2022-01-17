@@ -30,7 +30,7 @@ sub hash ($self) { ... }
 sub wrap ($self, $ref)
 {
 	return {
-		res => $ref,
+		d => $ref,
 		$self->more_data->%*,
 	};
 }

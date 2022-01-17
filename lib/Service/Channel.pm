@@ -19,34 +19,38 @@ has 'decoder' => (
 	handles => [qw(decode)],
 );
 
-sub get_key ($self, $user_id)
-{
-	$user_id = ":$user_id"
-		if defined $user_id;
+has 'key' => (
+	is => 'ro',
+);
 
-	return 'server_echo' . ($user_id // '');
+sub get_key ($self, $id)
+{
+	$id = ":$id"
+		if defined $id;
+
+	return $self->key . ($id // '');
 }
 
-sub broadcast ($self, $user_id, $data)
+sub broadcast ($self, $id, $data)
 {
-	$self->pubsub->notify($self->get_key($user_id) => $self->encode($data));
+	$self->pubsub->notify($self->get_key($id) => $self->encode($data));
 	return;
 }
 
-sub listen ($self, $user_id, $callback)
+sub listen ($self, $id, $callback)
 {
 	my $wrapped_callback = $self->pubsub->listen(
-		$self->get_key($user_id) => sub ($, $data) {
-			my $struct = $self->decode($data);
-			$callback->($struct);
+		$self->get_key($id) => sub {
+			@_ = ($self->decode($_[1]));
+			goto $callback;
 		}
 	);
 
 	return $wrapped_callback;
 }
 
-sub unlisten ($self, $user_id, $wrapped_callback)
+sub unlisten ($self, $id, $wrapped_callback)
 {
-	$self->pubsub->unlisten($self->get_key($user_id) => $wrapped_callback);
+	$self->pubsub->unlisten($self->get_key($id) => $wrapped_callback);
 	return;
 }

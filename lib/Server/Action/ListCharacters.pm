@@ -10,10 +10,10 @@ extends 'Server::Action';
 
 use constant name => 'list_characters';
 
-augment handle => sub ($self, $id, $user_id, $data) {
+augment handle => sub ($self, $session_id, $id, $data) {
 	state $repo = DI->get('units');
-	my $unit = $repo->get_user($user_id);
-	inner;
+	# TODO: get user from redis
+	my $unit = $repo->get_user($id);
 
-	return Resource::CharacterList->new($unit, id => $id);
+	return Resource::CharacterList->new($unit, n => $id);
 };

@@ -69,6 +69,18 @@ channel_service:
             $ref: encoder
         decoder:
             $ref: decoder
+        key: server_feedback
+
+worker_channel_service:
+    class: Service::Channel
+    args:
+        store:
+            $ref: redis
+        encoder:
+            $ref: encoder
+        decoder:
+            $ref: decoder
+        key: server_jobs
 
 # Others
 worker:
@@ -76,12 +88,8 @@ worker:
     args:
         log:
             $ref: log
-        redis:
-            $ref: redis
-        encoder:
-            $ref: encoder
-        decoder:
-            $ref: decoder
+        channel:
+            $ref: worker_channel_service
 
 server:
     class: Server

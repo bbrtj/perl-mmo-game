@@ -21,17 +21,17 @@ has 'process_id' => (
 	required => 1,
 );
 
-sub _lock ($self, $uid)
+sub _lock ($self, $ulid)
 {
-	state $db = $self->worker->redis->db;
-	return $db->hsetnx(LOCK_KEY, $uid, $self->process_id);
+	state $db = DI->get('redis')->db;
+	return $db->hsetnx(LOCK_KEY, $ulid, $self->process_id);
 }
 
 sub handle ($self, $data)
 {
-	my ($id, $name, @args) = $data->@*;
+	my ($ulid, $name, @args) = $data->@*;
 
-	return if !$self->_lock($id);
+	return if !$self->_lock($ulid);
 
 	(my $type, $name) = split /:/, $name;
 	$type .= 's';
@@ -62,11 +62,10 @@ sub handle ($self, $data)
 
 sub do_work ($self)
 {
-	my $decoder = $self->worker->decoder;
-	my $cb = $self->worker->redis->pubsub->listen(
-		$self->worker->PUBSUB_KEY,
-		sub ($, $data) {
-			$self->handle($decoder->decode($data));
+	my $cb = $self->worker->channel->listen(
+		undef,
+		sub ($data) {
+			$self->handle($data);
 		}
 	);
 
