@@ -1,0 +1,131 @@
+{
+  "$$ClassName" : "TCastleUserInterface",
+  "FullSize" : true,
+  "Name" : "Group1",
+  "$Children" : [
+    {
+      "$$ClassName" : "TCastleUserInterface",
+      "Border" : {
+        "$$ClassName" : "TBorder",
+        "AllSides" : 2.0000000000000000E+000
+      },
+      "BorderColorPersistent" : {
+        "$$ClassName" : "TCastleColorPersistent",
+        "Alpha" : 1.0000000000000000E+000,
+        "Blue" : 1.3725490868091583E-001,
+        "Green" : 8.5490196943283081E-001,
+        "Red" : 7.9607844352722168E-001
+      },
+      "Cursor" : "mcStandard",
+      "Height" : 2.0000000000000000E+002,
+      "HorizontalAnchorParent" : "hpMiddle",
+      "HorizontalAnchorSelf" : "hpMiddle",
+      "Name" : "Group2",
+      "VerticalAnchorDelta" : 2.0000000000000000E+001,
+      "VerticalAnchorParent" : "vpMiddle",
+      "VerticalAnchorSelf" : "vpMiddle",
+      "Width" : 3.6000000000000000E+002,
+      "$NonVisualComponents" : [
+        {
+          "$$ClassName" : "TCastleFont",
+          "LoadCharacters" : "żółćęśąźńŻÓŁĆĘŚĄŹŃ",
+          "Name" : "DejaVuFont",
+          "URL" : "castle-data:/DejaVuSans.ttf"
+        }
+      ],
+      "$Children" : [
+        {
+          "$$ClassName" : "TCastleEdit",
+          "CaptureAllInput" : false,
+          "Cursor" : "mcText",
+          "CustomFont" : "DejaVuFont",
+          "HorizontalAnchorDelta" : 3.0000000000000000E+001,
+          "Name" : "UsernameField",
+          "Padding" : 6.0000000000000000E+000,
+          "Placeholder" : "email",
+          "TextTranslate" : false,
+          "UnfocusedColorPersistent" : {
+            "$$ClassName" : "TCastleColorPersistent",
+            "Blue" : 0.0000000000000000E+000,
+            "Green" : 0.0000000000000000E+000,
+            "Red" : 0.0000000000000000E+000
+          },
+          "VerticalAnchorDelta" : -2.9999954223632812E+001,
+          "VerticalAnchorParent" : "vpTop",
+          "VerticalAnchorSelf" : "vpTop",
+          "Width" : 2.9000000000000000E+002
+        },
+        {
+          "$$ClassName" : "TCastleButton",
+          "AutoSizeWidth" : false,
+          "Caption" : "Login",
+          "CustomBackgroundDisabled" : {
+            "$$ClassName" : "TCastleImagePersistent"
+          },
+          "CustomBackgroundFocused" : {
+            "$$ClassName" : "TCastleImagePersistent"
+          },
+          "CustomBackgroundNormal" : {
+            "$$ClassName" : "TCastleImagePersistent"
+          },
+          "CustomBackgroundPressed" : {
+            "$$ClassName" : "TCastleImagePersistent"
+          },
+          "CustomFont" : "DejaVuFont",
+          "HorizontalAnchorParent" : "hpMiddle",
+          "HorizontalAnchorSelf" : "hpMiddle",
+          "Image" : {
+            "$$ClassName" : "TCastleImagePersistent"
+          },
+          "Name" : "LoginButton",
+          "PaddingVertical" : 1.2000000000000000E+001,
+          "VerticalAnchorDelta" : -1.1900006103515625E+002,
+          "VerticalAnchorParent" : "vpTop",
+          "VerticalAnchorSelf" : "vpTop"
+        },
+        {
+          "$$ClassName" : "TCastleEdit",
+          "CaptureAllInput" : false,
+          "Cursor" : "mcText",
+          "CustomFont" : "DejaVuFont",
+          "HorizontalAnchorDelta" : 3.0000000000000000E+001,
+          "Name" : "PasswordField",
+          "Padding" : 6.0000000000000000E+000,
+          "PasswordChar" : "*",
+          "Placeholder" : "password",
+          "TextTranslate" : false,
+          "UnfocusedColorPersistent" : {
+            "$$ClassName" : "TCastleColorPersistent",
+            "Blue" : 0.0000000000000000E+000,
+            "Green" : 0.0000000000000000E+000,
+            "Red" : 0.0000000000000000E+000
+          },
+          "VerticalAnchorDelta" : -6.9999954223632812E+001,
+          "VerticalAnchorParent" : "vpTop",
+          "VerticalAnchorSelf" : "vpTop",
+          "Width" : 2.9000000000000000E+002
+        },
+        {
+          "$$ClassName" : "TCastleLabel",
+          "ColorPersistent" : {
+            "$$ClassName" : "TCastleColorPersistent",
+            "Blue" : 8.5098040103912354E-001,
+            "Green" : 8.5098040103912354E-001,
+            "Red" : 8.5098040103912354E-001
+          },
+          "CustomFont" : "DejaVuFont",
+          "Exists" : false,
+          "FontScale" : 1.1000000238418579E+000,
+          "HorizontalAnchorParent" : "hpMiddle",
+          "HorizontalAnchorSelf" : "hpMiddle",
+          "Name" : "LoginStatus",
+          "Text" : [
+            "Log in"
+          ],
+          "VerticalAnchorDelta" : 8.0000000000000000E+000,
+          "VerticalAnchorParent" : "vpTop"
+        }
+      ]
+    }
+  ]
+}
