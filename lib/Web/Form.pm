@@ -1,8 +1,10 @@
 package Web::Form;
 
-use Form::Tiny -consistent;
+use Form::Tiny plugins => [qw(Diva)];
 
 use header;
+
+diva_config label_class => 'col-sm-12 form-label';
 
 form_hook after_error => sub ($self, $error) {
 	if (!($error->error isa 'i18n')) {

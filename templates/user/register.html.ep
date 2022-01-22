@@ -1,7 +1,7 @@
 % layout 'default';
 % title _t 'registration';
 
-% my $gen_errors = $form->errors_hash->{''};
+% my $form_errors = $form->diva->form_errors;
 
 % if ($form->is_validated && $form->valid) {
 	<h1>
@@ -22,7 +22,7 @@
 	<form method='POST' action=''>
 		<div class="row g-3">
 
-			% for my $field ($form->form_html->@*) {
+			% for my $field ($form->diva->generate->@*) {
 				%== $field->{label}
 				<div class="col-sm-12">
 					%== $field->{input}
@@ -34,11 +34,9 @@
 				% }
 			% }
 
-			% if (defined $gen_errors) {
+			% if ($form_errors) {
 				<div id="register-general-feedback" class="col-sm-12 form-feedback">
-					% for my $error ($gen_errors->@*) {
-						<p><%= $error %></p>
-					% }
+					%== $form_errors
 				</div>
 			% }
 

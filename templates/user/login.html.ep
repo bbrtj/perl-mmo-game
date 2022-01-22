@@ -7,12 +7,12 @@
 
 <p><%= link_to _t('navigation.back') => url_for '/' %></p>
 
-% my $gen_errors = $form->errors_hash->{''};
+% my $form_errors = $form->diva->form_errors;
 
 <form method='POST' action=''>
 	<div class="row g-3">
 
-		% for my $field ($form->form_html->@*) {
+		% for my $field ($form->diva->generate->@*) {
 			%== $field->{label}
 			<div class="col-sm-12">
 				%== $field->{input}
@@ -24,11 +24,9 @@
 			% }
 		% }
 
-		% if (defined $gen_errors) {
+		% if ($form_errors) {
 			<div id="login-general-feedback" class="col-sm-12 form-feedback">
-				% for my $error ($gen_errors->@*) {
-					<p><%= $error %></p>
-				% }
+				%== $form_errors
 			</div>
 		% }
 

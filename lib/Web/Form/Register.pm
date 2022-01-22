@@ -1,14 +1,12 @@
 package Web::Form::Register;
 
-use Form::Tiny -filtered, -consistent;
+use Form::Tiny -filtered;
 use DI;
 use Types;
 
 use header;
 
 extends 'Web::Form';
-
-with qw(Web::Form::Role::HTML);
 
 use constant PASS_MIN_LENGTH => 8;
 

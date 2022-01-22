@@ -1,14 +1,12 @@
 package Web::Form::Login;
 
-use Form::Tiny -filtered, -consistent;
+use Form::Tiny -filtered;
 use DI;
 use Types;
 
 use header;
 
 extends 'Web::Form';
-
-with qw(Web::Form::Role::HTML);
 
 has 'user' => (
 	is => 'ro',
@@ -22,19 +20,19 @@ form_trim_strings;
 form_field 'email' => (
 	type => Types::SimpleStr,
 	required => 1,
-	data => {t => 'email', p => _t('email_address'), nl => 1},
+	data => {t => 'email', p => _t('email_address'), l => undef},
 );
 
 form_field 'password' => (
 	type => Types::SimpleStr,
 	required => 1,
-	data => {t => 'password', p => _t('password'), nl => 1},
+	data => {t => 'password', p => _t('password'), l => undef},
 );
 
 form_field 'remember_me' => (
 	type => Types::Bool,
 	default => sub { 0 },
-	data => {t => 'checkbox', values => [_tt('1:[_1]', _t('remember_me'))], nl => 1},
+	data => {t => 'checkbox', values => [_tt('1:[_1]', _t('remember_me'))], l => undef},
 );
 
 form_cleaner sub ($self, $data) {
