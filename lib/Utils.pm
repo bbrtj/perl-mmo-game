@@ -5,6 +5,7 @@ use Schema;
 use Mojo::Pg;
 use DI;
 use MojoX::Log::Dispatch::Simple;
+use Mojo::IOLoop;
 
 use header;
 
@@ -27,6 +28,20 @@ sub bootstrap ($class, $app)
 sub bootstrap_models ($class)
 {
 	$class->load_classes('Model', 'Model/*.pm');
+
+	return;
+}
+
+sub bootstrap_mojo ($class)
+{
+	my $config = DI->get('env');
+
+	my $reactor = Mojo::IOLoop->singleton->reactor;
+
+	$reactor->unsubscribe('error');
+	$reactor->on(error => sub ($reactor, $err) {
+		DI->get('log')->critical($err);
+	});
 
 	return;
 }

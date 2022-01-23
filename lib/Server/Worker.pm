@@ -10,6 +10,7 @@ use Mojo::IOLoop;
 use header;
 
 use constant PUBSUB_KEY => 'server_jobs';
+use constant name => 'Worker';
 
 with qw(
 	Server::Forked

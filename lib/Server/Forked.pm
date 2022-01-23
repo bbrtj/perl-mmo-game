@@ -8,6 +8,7 @@ use header;
 
 requires qw(
 	start
+	name
 );
 
 has 'forked' => (
@@ -29,7 +30,7 @@ sub setup ($self)
 after start => sub ($self, @) {
 	Mojo::IOLoop->start;
 	if (!$self->forked) {
-		$self->log->debug("Shutting down...");
+		$self->log->debug($self->name . ": Shutting down...");
 		1 while waitpid(-1, POSIX::WNOHANG) > 0;
 	}
 };
@@ -51,12 +52,12 @@ sub create_forks ($self, $processes, $worker_code)
 				exit;
 			}
 			else {
-				$self->log->debug("Process $process_id started");
+				$self->log->debug($self->name . ": Process $process_id started");
 				push @children, $pid;
 			}
 		}
 		else {
-			$self->log->error("Could not fork process ($process_id out of $processes)");
+			$self->log->error($self->name . ": Could not fork process ($process_id out of $processes)");
 		}
 	}
 

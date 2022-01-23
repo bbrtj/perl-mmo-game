@@ -15,7 +15,9 @@ GetOptions(
 );
 
 DI->get('log')->filename('logs/worker.log');
+
 Utils->bootstrap_models;
+Utils->bootstrap_mojo;
 
 my $worker = DI->get('worker');
 $worker->start($processes);

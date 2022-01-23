@@ -15,7 +15,9 @@ GetOptions(
 );
 
 DI->get('log')->filename('logs/server.log');
+
 Utils->bootstrap_models;
+Utils->bootstrap_mojo;
 
 my $server = DI->get('server');
 $server->listen($processes);
