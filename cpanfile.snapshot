@@ -1620,12 +1620,12 @@ DISTRIBUTIONS
       Type::Tiny 1.004000
       namespace::clean 0
       perl 5.010001
-  Form-Tiny-Plugin-Diva-1.00
-    pathname: B/BR/BRTASTIC/Form-Tiny-Plugin-Diva-1.00.tar.gz
+  Form-Tiny-Plugin-Diva-1.01
+    pathname: B/BR/BRTASTIC/Form-Tiny-Plugin-Diva-1.01.tar.gz
     provides:
-      Form::Tiny::Plugin::Diva 1.00
-      Form::Tiny::Plugin::Diva::Adapter 1.00
-      Form::Tiny::Plugin::Diva::MetaRole 1.00
+      Form::Tiny::Plugin::Diva 1.01
+      Form::Tiny::Plugin::Diva::Adapter 1.01
+      Form::Tiny::Plugin::Diva::MetaRole 1.01
     requirements:
       ExtUtils::MakeMaker 0
       Form::Diva 0
