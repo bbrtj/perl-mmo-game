@@ -19,3 +19,11 @@ combat:
 
 - check constants (multiple use constant)
 - ratings as intermediate form of stats
+
+Non combat mode:
+- move around, look for things, interact with objects, npcs and players
+
+out of combat skills:
+  - searching
+  - lock picking
+  - speech?
