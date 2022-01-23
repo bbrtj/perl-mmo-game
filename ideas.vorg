@@ -19,5 +19,3 @@ combat:
 
 - check constants (multiple use constant)
 - ratings as intermediate form of stats
-
-- Ulid only generates ~12k per second. May need replacing at some point
