@@ -110,21 +110,6 @@ DISTRIBUTIONS
       Types::Standard 0
       YAML 0
       perl 5.010
-  Capture-Tiny-0.48
-    pathname: D/DA/DAGOLDEN/Capture-Tiny-0.48.tar.gz
-    provides:
-      Capture::Tiny 0.48
-    requirements:
-      Carp 0
-      Exporter 0
-      ExtUtils::MakeMaker 6.17
-      File::Spec 0
-      File::Temp 0
-      IO::Handle 0
-      Scalar::Util 0
-      perl 5.006
-      strict 0
-      warnings 0
   Class-Accessor-Grouped-0.10014
     pathname: H/HA/HAARG/Class-Accessor-Grouped-0.10014.tar.gz
     provides:
@@ -216,22 +201,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Class-Mix-0.006
-    pathname: Z/ZE/ZEFRAM/Class-Mix-0.006.tar.gz
-    provides:
-      Class::Mix 0.006
-    requirements:
-      Carp 0
-      Exporter 0
-      Module::Build 0
-      Params::Classify 0
-      Test::More 0
-      constant 0
-      if 0
-      parent 0
-      perl 5.006
-      strict 0
-      warnings 0
   Class-Singleton-1.6
     pathname: S/SH/SHAY/Class-Singleton-1.6.tar.gz
     provides:
@@ -285,57 +254,16 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Crypt-Eksblowfish-0.009
-    pathname: Z/ZE/ZEFRAM/Crypt-Eksblowfish-0.009.tar.gz
+  Crypt-Bcrypt-0.007
+    pathname: L/LE/LEONT/Crypt-Bcrypt-0.007.tar.gz
     provides:
-      Crypt::Eksblowfish 0.009
-      Crypt::Eksblowfish::Bcrypt 0.009
-      Crypt::Eksblowfish::Blowfish 0.009
-      Crypt::Eksblowfish::Family 0.009
-      Crypt::Eksblowfish::Subkeyed 0.009
-      Crypt::Eksblowfish::Uklblowfish 0.009
+      Crypt::Bcrypt 0.007
     requirements:
-      Carp 0
-      Class::Mix 0.001
-      Exporter 0
-      ExtUtils::CBuilder 0.15
-      MIME::Base64 2.21
-      Module::Build 0
-      Test::More 0
-      XSLoader 0
-      parent 0
-      perl 5.006
-      strict 0
-      warnings 0
-  Crypt-Random-Source-0.14
-    pathname: E/ET/ETHER/Crypt-Random-Source-0.14.tar.gz
-    provides:
-      Crypt::Random::Source 0.14
-      Crypt::Random::Source::Base 0.14
-      Crypt::Random::Source::Base::File 0.14
-      Crypt::Random::Source::Base::Handle 0.14
-      Crypt::Random::Source::Base::Proc 0.14
-      Crypt::Random::Source::Base::RandomDevice 0.14
-      Crypt::Random::Source::Factory 0.14
-      Crypt::Random::Source::Strong 0.14
-      Crypt::Random::Source::Strong::devrandom 0.14
-      Crypt::Random::Source::Weak 0.14
-      Crypt::Random::Source::Weak::devurandom 0.14
-    requirements:
-      Capture::Tiny 0.08
-      Carp 0
+      Exporter 5.57
       ExtUtils::MakeMaker 0
-      File::Spec 0
-      IO::File 1.14
-      IO::Handle 0
-      Module::Build::Tiny 0.034
-      Module::Find 0
-      Module::Runtime 0
-      Moo 1.002000
-      Sub::Exporter 0
-      Types::Standard 0
-      namespace::clean 0.11
-      perl 5.008
+      ExtUtils::ParseXS 2.21
+      MIME::Base64 2.21
+      XSLoader 0
       strict 0
       warnings 0
   Crypt-Rijndael-1.16
@@ -1533,20 +1461,6 @@ DISTRIBUTIONS
       Scalar::Util 0
       Test::More 0
       perl 5.006
-  Encode-Base32-GMP-0.02
-    pathname: J/JW/JWANG/Encode-Base32-GMP-0.02.tar.gz
-    provides:
-      Encode::Base32::GMP 0.02
-    requirements:
-      Carp 0
-      Digest::MD5 0
-      Exporter 0
-      ExtUtils::MakeMaker 6.30
-      Math::GMPz 0
-      Scalar::Util 0
-      base 0
-      strict 0
-      warnings 0
   Eval-Closure-0.14
     pathname: D/DO/DOY/Eval-Closure-0.14.tar.gz
     provides:
@@ -1904,33 +1818,6 @@ DISTRIBUTIONS
       Net::Domain 1.05
       Net::SMTP 1.03
       Test::More 0
-  Math-GMPz-0.52
-    pathname: S/SI/SISYPHUS/Math-GMPz-0.52.tar.gz
-    provides:
-      Math::GMPz 0.52
-      Math::GMPz::Random 0.52
-      Math::GMPz::V 0.52
-    requirements:
-      ExtUtils::MakeMaker 0
-  Math-Random-ISAAC-1.004
-    pathname: J/JA/JAWNSY/Math-Random-ISAAC-1.004.tar.gz
-    provides:
-      Math::Random::ISAAC 1.004
-      Math::Random::ISAAC::PP 1.004
-    requirements:
-      ExtUtils::MakeMaker 6.31
-      Test::More 0.62
-      Test::NoWarnings 0.084
-  Math-Random-Secure-0.080001
-    pathname: F/FR/FREW/Math-Random-Secure-0.080001.tar.gz
-    provides:
-      Math::Random::Secure 0.080001
-      Math::Random::Secure::RNG 0.080001
-    requirements:
-      Crypt::Random::Source 0.07
-      ExtUtils::MakeMaker 0
-      Math::Random::ISAAC 1.001
-      Moo 2
   Module-Build-0.4231
     pathname: L/LE/LEONT/Module-Build-0.4231.tar.gz
     provides:
@@ -3540,15 +3427,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::Builder 0.12
       Test::Builder::Tester 1.04
-  Test-NoWarnings-1.06
-    pathname: H/HA/HAARG/Test-NoWarnings-1.06.tar.gz
-    provides:
-      Test::NoWarnings 1.06
-      Test::NoWarnings::Warning 1.06
-    requirements:
-      ExtUtils::MakeMaker 0
-      Test::Builder 0.86
-      perl 5.006
   Test-Pod-1.52
     pathname: E/ET/ETHER/Test-Pod-1.52.tar.gz
     provides:

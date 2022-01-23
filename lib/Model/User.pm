@@ -2,8 +2,8 @@ package Model::User;
 
 use My::Moose;
 use Types;
-use Digest::SHA qw(sha256);
-use Crypt::Eksblowfish::Bcrypt qw(bcrypt en_base64);
+use Crypt::PRNG qw(random_bytes);
+use Crypt::Bcrypt qw(bcrypt bcrypt_check);
 
 use header;
 
@@ -11,7 +11,8 @@ extends 'Model';
 
 with 'Model::Role::Stored';
 
-use constant BCRYPT_SETTINGS => '$2a$10$';
+use constant BCRYPT_SUBTYPE => '2b';
+use constant BCRYPT_COST => '10';
 
 has 'email' => (
 	is => 'ro',
@@ -42,14 +43,9 @@ has 'created_at' => (
 	default => sub { time },
 );
 
-sub _gen_salt ($self)
+sub _make_password ($self, $plaintext_password)
 {
-	return en_base64(substr sha256($self->id . rand), 0, 16);
-}
-
-sub _make_password ($self, $plaintext_password, $settings = BCRYPT_SETTINGS . $self->_gen_salt)
-{
-	return bcrypt($plaintext_password, $settings);
+	return bcrypt($plaintext_password, BCRYPT_SUBTYPE, BCRYPT_COST, random_bytes(16));
 }
 
 sub set_password ($self, $plaintext_password)
@@ -60,7 +56,7 @@ sub set_password ($self, $plaintext_password)
 
 sub verify_password ($self, $plaintext_password)
 {
-	return $self->password eq $self->_make_password($plaintext_password, $self->password);
+	return bcrypt_check($plaintext_password, $self->password);
 }
 
 __PACKAGE__->_register;

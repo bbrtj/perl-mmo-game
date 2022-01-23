@@ -39,7 +39,7 @@ requires 'Sereal::Decoder' => 0;
 requires 'Data::Entropy' => 0;
 requires 'Data::ULID' => 0;
 requires 'Quantum::Superpositions::Lazy' => 0;
-requires 'Crypt::Eksblowfish::Bcrypt' => 0;
+requires 'Crypt::Bcrypt' => 0;
 
 on 'test' => sub {
 	requires 'Test::DB';
