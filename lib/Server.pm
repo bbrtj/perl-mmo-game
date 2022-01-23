@@ -14,7 +14,6 @@ use header;
 # TODO kqueue
 
 use constant TIMEOUT_SEC => 120;
-use constant name => 'Server';
 
 with qw(
 	Server::Forked

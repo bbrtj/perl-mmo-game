@@ -28,3 +28,9 @@ sub getenv : lvalue ($self, $name)
 
 	return $rawenv->{$name};
 }
+
+sub is_production ($self)
+{
+	return $self->rawenv->{APP_MODE} eq 'deployment'
+		|| $self->rawenv->{APP_MODE} eq 'production';
+}

@@ -10,7 +10,6 @@ use Mojo::IOLoop;
 use header;
 
 use constant PUBSUB_KEY => 'server_jobs';
-use constant name => 'Worker';
 
 with qw(
 	Server::Forked
@@ -24,7 +23,6 @@ has 'channel' => (
 
 # Commands are internal only and ran in intervals
 # (basically an advanced cron)
-# TODO: intervals
 has 'commands' => (
 	is => 'ro',
 	isa => Types::HashRef [Types::InstanceOf ['Server::Command']],
@@ -53,6 +51,12 @@ has 'actions' => (
 	init_arg => undef,
 );
 
+sub cleanup ($self)
+{
+	$self->log->info('Cleaning up...');
+	Mojo::IOLoop->timer(60, sub { $self->cleanup });
+}
+
 sub start ($self, $processes = 2)
 {
 	local $IS_WORKER = 1;
@@ -60,31 +64,27 @@ sub start ($self, $processes = 2)
 		Server::Worker::Process->new(worker => $self, process_id => $process_id)->do_work;
 	});
 
-	my @commands = values $self->commands->%*;
-	my $setup_commands = sub ($seconds) {
-		for my $command (@commands) {
-			if ($seconds % $command->interval == 0) {
-				$self->broadcast(command => $command->name);
-			}
-		}
+	my $broadcast_command = sub ($command) {
+		$self->broadcast(command => $command->name);
 	};
 
-	my $check_every = 1;
-	my $interval;
-	$interval = sub {
-		state $seconds_passed = 0;
-		$setup_commands->($seconds_passed);
-		Mojo::IOLoop->timer($check_every => $interval);
-		$seconds_passed += $check_every;
+	my $setup_command; $setup_command = sub ($command) {
+		Mojo::IOLoop->timer($command->interval, sub {
+			$broadcast_command->($command);
+			$setup_command->($command);
+		});
 	};
 
-	$interval->();
+	for my $command (values $self->commands->%*) {
+		$setup_command->($command);
+	}
+
+	$self->cleanup;
 	return;
 }
 
 sub broadcast ($self, $type, $name, @args)
 {
-	# TODO: this ulid may slow things down
 	my $data = [ulid, "$type:$name", @args];
 	$self->channel->broadcast(undef, $data);
 

@@ -16,6 +16,8 @@ redis:
 log:
     class: Component::Log
     args:
+        env:
+            $ref: env
         filename: 'logs/application.log'
 
 encoder:
