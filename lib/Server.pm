@@ -3,7 +3,6 @@ package Server;
 use My::Moose;
 use Mojo::IOLoop;
 use Mojo::JSON qw(to_json from_json);
-use Util::H2O;
 use Data::ULID qw(ulid);
 
 use Exception::Network::InvalidCommand;
@@ -24,6 +23,10 @@ has 'worker' => (
 );
 
 has 'channel' => (
+	is => 'ro',
+);
+
+has 'cache' => (
 	is => 'ro',
 );
 
@@ -49,22 +52,19 @@ sub connection ($self, $loop, $stream, $id)
 {
 	$self->log->debug('New TCP connection from ' . $stream->handle->peerhost);
 
-	my $session = h2o {
-		id => ulid,
-		user_id => undef,
-		lang => 'pl',
-	};
+	my $session = Model::PlayerSession->new;
+	$self->cache->save($session);
 
 	# TODO: dispatch map
 	my $handle_feedback = sub ($data_href) {
 		if ($data_href->{echo}) {
-			local $i18n::CURRENT_LANG = $session->lang;
+			local $i18n::CURRENT_LANG = $session->language;
 
 			# NOTE: this newline is essential for the client to get this data
 			$stream->write(to_json($data_href->{echo}) . "\n");
 		}
-		if ($data_href->{login}) {
-			$session->user_id($data_href->{login});
+		if ($data_href->{refresh}) {
+			$session = $self->cache->load(PlayerSession => $session->id);
 		}
 	};
 
@@ -94,6 +94,7 @@ sub connection ($self, $loop, $stream, $id)
 
 	$stream->on(close => sub {
 		$self->channel->unlisten(@$_) for @callbacks;
+		$self->cache->remove($session);
 	});
 
 	$stream->on(error => sub ($, $err) {

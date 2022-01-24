@@ -34,24 +34,6 @@ has 'variables' => (
 	isa => Types::InstanceOf ['Model::CharacterVariables'],
 );
 
-has 'cache' => (
-	is => 'ro',
-	isa => Types::HashRef,
-	lazy => 1,
-	default => sub ($self) {
-		return DI->get('char_cache')->load($self->character->id);
-	},
-);
-
-sub set_cache_key ($self, $key, $value)
-{
-	my $cache = $self->cache;
-	$cache->{$key} = $value;
-	DI->get('char_cache')->save($self->character->id, $cache);
-
-	return;
-}
-
 sub models ($self)
 {
 	# we do not return npc / player here on purpose

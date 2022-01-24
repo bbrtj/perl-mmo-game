@@ -9,7 +9,9 @@ extends 'Server::Action';
 
 use constant name => 'login';
 
-augment handle => sub ($self, $session_id, $id, $data) {
+sub handle ($self, $session_id, $id, $data)
+{
+	my $session = $self->cache->load(PlayerSession => $session_id);
 	my $result = {success => 0};
 	my $feedback = {echo => {n => $id, d => $result}};
 
@@ -17,10 +19,14 @@ augment handle => sub ($self, $session_id, $id, $data) {
 	my $form = Web::Form::Login->new;
 	$form->set_input($data);
 	if ($form->valid) {
+		$session->set_user_id($form->user->id);
+		# TODO: proper language, or move languages to the client fully
+		$session->set_language('pl');
+		$self->cache->save($session);
+
 		$result->{success} = 1;
-		$feedback->{login} = $form->user->id;
-		# TODO: set user in redis for this session_id
+		$feedback->{refresh} = 1;
 	}
 
-	return $feedback;
+	return $self->send_to($session_id, $feedback);
 };

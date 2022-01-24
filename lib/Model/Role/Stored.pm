@@ -5,11 +5,7 @@ use Types;
 
 use header;
 
-with qw(My::Moose::Role::TracksDirty);
-
-has 'id' => (
-	is => 'ro',
-	isa => Types::Ulid,
-	coerce => 1,
-	default => sub { undef },
+with qw(
+	My::Moose::Role::TracksDirty
+	Model::Role::Identified
 );

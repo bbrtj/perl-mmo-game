@@ -21,10 +21,7 @@ log:
         filename: 'logs/application.log'
 
 encoder:
-    class: Sereal::Encoder
-
-decoder:
-    class: Sereal::Decoder
+    class: Component::Encoder
 
 # Repositories
 
@@ -34,11 +31,13 @@ schema_repo:
         db:
             $ref: db
 
-char_cache:
-    class: Repository::CharCache
+cache:
+    class: Repository::Cache
     args:
         redis:
             $ref: redis
+        encoder:
+            $ref: encoder
 
 lore_data:
     class: Repository::LoreData
@@ -69,8 +68,6 @@ channel_service:
             $ref: redis
         encoder:
             $ref: encoder
-        decoder:
-            $ref: decoder
         key: server_feedback
 
 worker_channel_service:
@@ -80,8 +77,6 @@ worker_channel_service:
             $ref: redis
         encoder:
             $ref: encoder
-        decoder:
-            $ref: decoder
         key: server_jobs
 
 # Others
@@ -92,6 +87,8 @@ worker:
             $ref: log
         channel:
             $ref: worker_channel_service
+        cache:
+            $ref: cache
 
 server:
     class: Server
@@ -102,4 +99,6 @@ server:
             $ref: worker
         channel:
             $ref: channel_service
+        cache:
+            $ref: cache
 

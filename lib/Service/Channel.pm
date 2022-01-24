@@ -6,17 +6,10 @@ use header;
 
 has 'store' => (
 	is => 'ro',
-	handles => [qw(pubsub)],
 );
 
 has 'encoder' => (
 	is => 'ro',
-	handles => [qw(encode)],
-);
-
-has 'decoder' => (
-	is => 'ro',
-	handles => [qw(decode)],
 );
 
 has 'key' => (
@@ -33,15 +26,15 @@ sub get_key ($self, $id)
 
 sub broadcast ($self, $id, $data)
 {
-	$self->pubsub->notify($self->get_key($id) => $self->encode($data));
+	$self->store->pubsub->notify($self->get_key($id) => $self->encoder->encode($data));
 	return;
 }
 
 sub listen ($self, $id, $callback)
 {
-	my $wrapped_callback = $self->pubsub->listen(
+	my $wrapped_callback = $self->store->pubsub->listen(
 		$self->get_key($id) => sub {
-			@_ = ($self->decode($_[1]));
+			@_ = ($self->encoder->decode($_[1]));
 			goto $callback;
 		}
 	);
@@ -51,6 +44,6 @@ sub listen ($self, $id, $callback)
 
 sub unlisten ($self, $id, $wrapped_callback)
 {
-	$self->pubsub->unlisten($self->get_key($id) => $wrapped_callback);
+	$self->store->pubsub->unlisten($self->get_key($id) => $wrapped_callback);
 	return;
 }
