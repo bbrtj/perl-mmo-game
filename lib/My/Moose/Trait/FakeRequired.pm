@@ -22,6 +22,8 @@ after initialize => sub {
 			die "No value for $attr_name in " . ref $instance
 				unless $attr->has_value($instance);
 		}
+
+		return;
 	};
 
 	$class->meta->add_method(promote => $promote_method);

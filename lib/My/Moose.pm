@@ -3,10 +3,10 @@ package My::Moose;
 use v5.32;
 use warnings;
 
-use Hook::AfterRuntime;
+# use Hook::AfterRuntime;
 use Import::Into;
 
-require Moose;
+require Mouse;
 
 sub import
 {
@@ -26,8 +26,8 @@ sub import
 		%args = @_;
 	}
 
-	Moose->import::into($caller, %args);
-	after_runtime { $caller->meta->make_immutable(@immutable_args) };
+	Mouse->import::into($caller, %args);
+	# after_runtime { $caller->meta->make_immutable(@immutable_args) };
 
 	return;
 }

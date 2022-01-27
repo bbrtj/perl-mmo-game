@@ -5,12 +5,12 @@ use warnings;
 
 use Import::Into;
 
-require Moose::Role;
+require Mouse::Role;
 
 sub import
 {
 	my $caller = caller;
-	Moose::Role->import::into($caller);
+	Mouse::Role->import::into($caller);
 
 	return;
 }
