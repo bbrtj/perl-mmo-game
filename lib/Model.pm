@@ -1,6 +1,6 @@
 package Model;
 
-use My::Moose -traits => [qw(AutoSetters Serializable)];
+use My::Moose -traits => [qw(My::Moose::Trait::AutoSetters My::Moose::Trait::Serializable)];
 use Model::Role::Dummy;
 use Carp;
 

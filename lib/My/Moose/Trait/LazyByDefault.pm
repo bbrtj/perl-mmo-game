@@ -2,9 +2,7 @@ package My::Moose::Trait::LazyByDefault;
 
 use v5.32;
 use warnings;
-use Moose::Role;
-
-Moose::Util::meta_class_alias('LazyByDefault');
+use My::Moose::Role;
 
 around add_attribute => sub {
 	my ($orig, $self, $name, @args) = @_;
@@ -14,7 +12,9 @@ around add_attribute => sub {
 	return $self->$orig($name, @args)
 		if $name =~ /^\+/;
 
-	$params{lazy} //= 1;
+	if ($params{default} || $params{builder}) {
+		$params{lazy} //= 1;
+	}
 
 	return $self->$orig($name, %params);
 };

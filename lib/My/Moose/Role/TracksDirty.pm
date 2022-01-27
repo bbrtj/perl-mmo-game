@@ -2,7 +2,7 @@ package My::Moose::Role::TracksDirty;
 
 use v5.32;
 use warnings;
-use Moose::Role;
+use My::Moose::Role;
 
 has '_dirty' => (
 	is => 'ro',

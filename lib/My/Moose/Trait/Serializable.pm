@@ -2,9 +2,7 @@ package My::Moose::Trait::Serializable;
 
 use v5.32;
 use warnings;
-use Moose::Role;
-
-Moose::Util::meta_class_alias('Serializable');
+use My::Moose::Role;
 
 has 'serialized_attributes' => (
 	is => 'ro',

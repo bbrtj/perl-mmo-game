@@ -6,10 +6,6 @@ use warnings;
 use Hook::AfterRuntime;
 use Import::Into;
 
-use My::Moose::Trait::AutoSetters;
-use My::Moose::Trait::Serializable;
-use My::Moose::Trait::LazyByDefault;
-
 require Moose;
 
 sub import

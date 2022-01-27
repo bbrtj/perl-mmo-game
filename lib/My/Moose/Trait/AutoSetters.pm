@@ -2,9 +2,7 @@ package My::Moose::Trait::AutoSetters;
 
 use v5.32;
 use warnings;
-use Moose::Role;
-
-Moose::Util::meta_class_alias('AutoSetters');
+use My::Moose::Role;
 
 around add_attribute => sub {
 	my ($orig, $self, $name, @args) = @_;
