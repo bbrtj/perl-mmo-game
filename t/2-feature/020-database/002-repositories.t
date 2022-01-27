@@ -26,7 +26,7 @@ database_test {
 	# 	stats => 'STT_STR:30;STT_AGI:19;STT_INT:10;STT_STA:25',
 	# };
 
-	# my $model = Model::Character->dummy->new();
+	# my $model = Model::Character->new();
 	# $char_repo->save($model->id, $data);
 
 	# my $loaded = $char_repo->load($model->id);
@@ -36,7 +36,7 @@ database_test {
 	# ok $char_repo->save($model->id, $data), 'update ok';
 
 	### test Repository::Schema
-	my $user = Model::User->dummy->new(
+	my $user = Model::User->new(
 		email => 'brtastic.dev@gmail.com',
 	);
 
@@ -44,10 +44,8 @@ database_test {
 	my $schema_repo = DI->get('schema_repo');
 	ok $schema_repo, 'schema repo resolve ok';
 
-	ok !lives { $schema_repo->save($user) }, 'dummies cannot be saved';
-
 	$user->promote;
-	ok lives { $schema_repo->save($user) }, 'non-dummies can be saved';
+	ok lives { $schema_repo->save($user) }, 'Models can be saved';
 
 	my $fetched = $schema_repo->load(User => $user->id);
 	is $fetched->serialize, $user->serialize, 'after save ok';

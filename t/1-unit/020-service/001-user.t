@@ -15,7 +15,7 @@ BEGIN {
 }
 
 my $mock = MockObject->new;
-my $mock_user = Model::User->dummy->new;
+my $mock_user = Model::User->new;
 my $save_mock = $mock->add_method('save');
 my $load_mock = $mock->add_method('load');
 

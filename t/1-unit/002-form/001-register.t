@@ -49,7 +49,7 @@ BEGIN {
 }
 
 my $tested_mail = 'test2@test.com';
-my $mock_model = Model::User->dummy->new(email => $tested_mail);
+my $mock_model = Model::User->new(email => $tested_mail);
 $mock_model->set_password('abcdefg1');
 $mock_model->promote;
 

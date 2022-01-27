@@ -2,13 +2,11 @@ use Model::User;
 
 use testheader;
 
-my $dummy = Model::User->dummy->new;
-isa_ok $dummy, 'Model::User::Dummy';
+my $dummy = Model::User->new;
 
 my $password = 'aoeuaoeu1';
 $dummy->set_email('a@gmail.com');
 $dummy->set_password($password);
-ok $dummy->meta->is_immutable, 'dummy is moose-immutable';
 
 $dummy->promote;
 $dummy->set_email('brtastic.dev@gmail.com');

@@ -20,7 +20,7 @@ sub import
 		shift;
 		%args = @_;
 		push @immutable_args, inline_constructor => 0;
-		push $args{-traits}->@*, 'LazyByDefault';
+		push $args{-traits}->@*, 'My::Moose::Trait::LazyByDefault';
 	}
 	else {
 		%args = @_;

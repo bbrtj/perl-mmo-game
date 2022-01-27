@@ -1,7 +1,11 @@
 package Model;
 
-use My::Moose -traits => [qw(My::Moose::Trait::AutoSetters My::Moose::Trait::Serializable)];
-use Model::Role::Dummy;
+use My::Moose -traits => [qw(
+	My::Moose::Trait::AutoSetters
+	My::Moose::Trait::Serializable
+	My::Moose::Trait::FakeRequired
+)];
+
 use Carp;
 
 use header;
@@ -83,11 +87,5 @@ sub get_cache_name ($self)
 		unless $cache_mapping{$class};
 
 	return $cache_mapping{$class};
-}
-
-sub dummy ($class)
-{
-	croak "dummy only works on class context" if ref $class;
-	return Model::Role::Dummy->_make_dummy($class);
 }
 
