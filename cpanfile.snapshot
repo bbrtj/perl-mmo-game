@@ -1365,6 +1365,19 @@ DISTRIBUTIONS
       perl 5.008004
       strict 0
       warnings 0
+  Devel-CheckCompiler-0.07
+    pathname: S/SY/SYOHEX/Devel-CheckCompiler-0.07.tar.gz
+    provides:
+      Devel::AssertC99 undef
+      Devel::CheckCompiler 0.07
+    requirements:
+      Exporter 0
+      ExtUtils::CBuilder 0
+      File::Temp 0
+      Module::Build::Tiny 0.035
+      Test::More 0.98
+      parent 0
+      perl 5.008001
   Devel-GlobalDestruction-0.14
     pathname: H/HA/HAARG/Devel-GlobalDestruction-0.14.tar.gz
     provides:
@@ -1589,30 +1602,30 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
-  Form-Tiny-2.04
-    pathname: B/BR/BRTASTIC/Form-Tiny-2.04.tar.gz
+  Form-Tiny-2.06
+    pathname: B/BR/BRTASTIC/Form-Tiny-2.06.tar.gz
     provides:
-      Form::Tiny 2.04
-      Form::Tiny::Error 2.04
-      Form::Tiny::Error::DoesNotValidate 2.04
-      Form::Tiny::Error::InvalidFormat 2.04
-      Form::Tiny::Error::IsntStrict 2.04
-      Form::Tiny::Error::NestedFormError 2.04
-      Form::Tiny::Error::Required 2.04
-      Form::Tiny::FieldDefinition 2.04
-      Form::Tiny::FieldDefinitionBuilder 2.04
-      Form::Tiny::Filter 2.04
-      Form::Tiny::Form 2.04
-      Form::Tiny::Hook 2.04
-      Form::Tiny::Inline 2.04
-      Form::Tiny::Inline::Builder 2.04
-      Form::Tiny::Meta 2.04
-      Form::Tiny::Meta::Filtered 2.04
-      Form::Tiny::Meta::Strict 2.04
-      Form::Tiny::Path 2.04
-      Form::Tiny::PathValue 2.04
+      Form::Tiny 2.06
+      Form::Tiny::Error 2.06
+      Form::Tiny::Error::DoesNotValidate 2.06
+      Form::Tiny::Error::InvalidFormat 2.06
+      Form::Tiny::Error::IsntStrict 2.06
+      Form::Tiny::Error::NestedFormError 2.06
+      Form::Tiny::Error::Required 2.06
+      Form::Tiny::FieldDefinition 2.06
+      Form::Tiny::FieldDefinitionBuilder 2.06
+      Form::Tiny::Filter 2.06
+      Form::Tiny::Form 2.06
+      Form::Tiny::Hook 2.06
+      Form::Tiny::Inline 2.06
+      Form::Tiny::Inline::Builder 2.06
+      Form::Tiny::Meta 2.06
+      Form::Tiny::Meta::Filtered 2.06
+      Form::Tiny::Meta::Strict 2.06
+      Form::Tiny::Path 2.06
+      Form::Tiny::PathValue 2.06
       Form::Tiny::Plugin undef
-      Form::Tiny::Utils 2.04
+      Form::Tiny::Utils 2.06
     requirements:
       ExtUtils::MakeMaker 0
       Import::Into 0
@@ -1889,6 +1902,21 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  Module-Build-XSUtil-0.19
+    pathname: H/HI/HIDEAKIO/Module-Build-XSUtil-0.19.tar.gz
+    provides:
+      Module::Build::XSUtil 0.19
+    requirements:
+      Devel::CheckCompiler 0
+      Devel::PPPort 0
+      Exporter 0
+      ExtUtils::CBuilder 0
+      File::Basename 0
+      File::Path 0
+      Module::Build 0.4005
+      XSLoader 0
+      parent 0
+      perl 5.008001
   Module-Find-0.15
     pathname: C/CR/CRENZ/Module-Find-0.15.tar.gz
     provides:
@@ -2607,6 +2635,44 @@ DISTRIBUTIONS
       parent 0.223
       strict 1.03
       warnings 1.03
+  Mouse-v2.5.10
+    pathname: S/SK/SKAJI/Mouse-v2.5.10.tar.gz
+    provides:
+      Mouse v2.5.10
+      Mouse::Exporter undef
+      Mouse::Meta::Attribute undef
+      Mouse::Meta::Class undef
+      Mouse::Meta::Method undef
+      Mouse::Meta::Method::Accessor undef
+      Mouse::Meta::Method::Constructor undef
+      Mouse::Meta::Method::Delegation undef
+      Mouse::Meta::Method::Destructor undef
+      Mouse::Meta::Module undef
+      Mouse::Meta::Role undef
+      Mouse::Meta::Role::Application undef
+      Mouse::Meta::Role::Application::RoleSummation undef
+      Mouse::Meta::Role::Composite undef
+      Mouse::Meta::Role::Method undef
+      Mouse::Meta::TypeConstraint undef
+      Mouse::Object undef
+      Mouse::PurePerl undef
+      Mouse::Role v2.5.10
+      Mouse::Spec v2.5.10
+      Mouse::TypeRegistry undef
+      Mouse::Util v2.5.10
+      Mouse::Util::MetaRole undef
+      Mouse::Util::TypeConstraints undef
+      Squirrel undef
+      Squirrel::Role undef
+      Test::Mouse undef
+      ouse undef
+    requirements:
+      ExtUtils::CBuilder 0
+      Module::Build 0.4005
+      Module::Build::XSUtil 0.19
+      Scalar::Util 1.14
+      XSLoader 0.02
+      perl 5.008005
   Net-DNS-1.33
     pathname: N/NL/NLNETLABS/Net-DNS-1.33.tar.gz
     provides:

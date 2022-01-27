@@ -5,11 +5,14 @@ use Types;
 
 use header;
 
-with 'Throwable';
-
 # TODO: stringify with the msg if present?
 has 'msg' => (
 	is => 'ro',
 	isa => Types::Str,
 );
 
+sub throw ($self, @args)
+{
+	die $self if ref $self;
+	die $self->new(@args);
+}

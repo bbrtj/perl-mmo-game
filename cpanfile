@@ -1,14 +1,14 @@
 requires 'Moose' => 0;
+requires 'Mouse' => 0;
 requires 'Hook::AfterRuntime' => 0;
 requires 'Object::Sub' => 0;
 requires 'Util::H2O' => 0;
 
-requires 'Throwable' => 0;
 requires 'Beam::Wire' => 0;
 requires 'Dotenv' => 0;
 requires 'Data::Localize' => 0;
 
-requires 'Form::Tiny' => '2.04';
+requires 'Form::Tiny' => '2.06';
 requires 'Form::Tiny::Plugin::Diva' => 0;
 
 requires 'Type::Tiny' => 0;
