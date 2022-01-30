@@ -25,20 +25,11 @@
       "VerticalAnchorParent" : "vpMiddle",
       "VerticalAnchorSelf" : "vpMiddle",
       "Width" : 3.6000000000000000E+002,
-      "$NonVisualComponents" : [
-        {
-          "$$ClassName" : "TCastleFont",
-          "LoadCharacters" : "żółćęśąźńŻÓŁĆĘŚĄŹŃ",
-          "Name" : "DejaVuFont",
-          "URL" : "castle-data:/DejaVuSans.ttf"
-        }
-      ],
       "$Children" : [
         {
           "$$ClassName" : "TCastleEdit",
           "CaptureAllInput" : false,
           "Cursor" : "mcText",
-          "CustomFont" : "DejaVuFont",
           "HorizontalAnchorDelta" : 3.0000000000000000E+001,
           "Name" : "UsernameField",
           "Padding" : 6.0000000000000000E+000,
@@ -71,7 +62,6 @@
           "CustomBackgroundPressed" : {
             "$$ClassName" : "TCastleImagePersistent"
           },
-          "CustomFont" : "DejaVuFont",
           "HorizontalAnchorParent" : "hpMiddle",
           "HorizontalAnchorSelf" : "hpMiddle",
           "Image" : {
@@ -87,7 +77,6 @@
           "$$ClassName" : "TCastleEdit",
           "CaptureAllInput" : false,
           "Cursor" : "mcText",
-          "CustomFont" : "DejaVuFont",
           "HorizontalAnchorDelta" : 3.0000000000000000E+001,
           "Name" : "PasswordField",
           "Padding" : 6.0000000000000000E+000,
@@ -113,7 +102,6 @@
             "Green" : 8.5098040103912354E-001,
             "Red" : 8.5098040103912354E-001
           },
-          "CustomFont" : "DejaVuFont",
           "Exists" : false,
           "FontScale" : 1.1000000238418579E+000,
           "HorizontalAnchorParent" : "hpMiddle",

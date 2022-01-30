@@ -11,4 +11,8 @@
 		reference_width="1600"
 		reference_height="900"
 	/>
+	<default_font
+		url="castle-data:/DejaVuSans.ttf"
+		sample_text="żółćęśąźńŻÓŁĆĘŚĄŹŃ"
+	/>
 </castle_settings>
