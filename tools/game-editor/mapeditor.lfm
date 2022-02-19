@@ -1,12 +1,11 @@
 object MapEditorForm: TMapEditorForm
   Left = 553
-  Height = 756
+  Height = 749
   Top = 154
-  Width = 1378
+  Width = 1366
   Caption = 'Map Editor'
-  ClientHeight = 733
-  ClientWidth = 1378
-  DesignTimePPI = 116
+  ClientHeight = 729
+  ClientWidth = 1366
   Menu = EditorMenu
   OnCreate = FormCreate
   Position = poDesktopCenter
@@ -15,11 +14,11 @@ object MapEditorForm: TMapEditorForm
     AnchorSideLeft.Control = Panel1
     AnchorSideTop.Control = Panel1
     AnchorSideTop.Side = asrBottom
-    Left = 8
-    Height = 18
-    Top = 674
-    Width = 24
-    BorderSpacing.Top = 4
+    Left = 7
+    Height = 15
+    Top = 558
+    Width = 19
+    BorderSpacing.Top = 3
     Caption = 'zzz'
     ParentColor = False
     ParentFont = False
@@ -30,44 +29,44 @@ object MapEditorForm: TMapEditorForm
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Panel1
     AnchorSideRight.Side = asrBottom
-    Left = 945
-    Height = 18
-    Top = 674
-    Width = 55
+    Left = 784
+    Height = 15
+    Top = 558
+    Width = 44
     Alignment = taRightJustify
     Anchors = [akTop, akRight]
-    BorderSpacing.Top = 4
+    BorderSpacing.Top = 3
     Caption = 'Normal'
     ParentBidiMode = False
     ParentColor = False
     ParentFont = False
   end
   object Panel1: TPanel
-    Left = 8
-    Height = 662
-    Top = 8
-    Width = 992
+    Left = 7
+    Height = 548
+    Top = 7
+    Width = 821
     Caption = 'Panel1'
-    ClientHeight = 662
-    ClientWidth = 992
+    ClientHeight = 548
+    ClientWidth = 821
     ParentFont = False
     TabOrder = 0
     object MapView: TImage
       Cursor = crCross
       Left = 1
-      Height = 660
+      Height = 546
       Top = 1
-      Width = 990
+      Width = 819
       OnMouseDown = MapViewClick
       OnPaint = MapViewPaint
       Stretch = True
     end
     object Marker: TShape
       Cursor = crHandPoint
-      Left = 952
-      Height = 15
-      Top = 16
-      Width = 15
+      Left = 788
+      Height = 12
+      Top = 13
+      Width = 12
       Brush.Color = clRed
       ParentShowHint = False
       Shape = stDiamond
@@ -76,8 +75,8 @@ object MapEditorForm: TMapEditorForm
     end
   end
   object EditorMenu: TMainMenu
-    Left = 694
-    Top = 1195
+    Left = 574
+    Top = 989
     object MenuItem1: TMenuItem
       Caption = 'Map'
       object MenuItem2: TMenuItem

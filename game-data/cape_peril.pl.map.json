@@ -4,8 +4,8 @@
 		{
 			"ConnectedTo" : "LOC_CP_MARKET",
 			"LoreId" : "LOC_CP_HARBOR",
-			"PosX" : 72,
-			"PosY" : 595,
+			"PosX" : 0.072727,
+			"PosY" : 0.901515,
 			"Translations" : [
 				{
 					"LanguageId" : "pl",
@@ -17,8 +17,8 @@
 		{
 			"ConnectedTo" : "LOC_CP_DEPO;LOC_CP_GATE;LOC_CP_HARBOR;LOC_CP_INN",
 			"LoreId" : "LOC_CP_MARKET",
-			"PosX" : 212,
-			"PosY" : 491,
+			"PosX" : 0.214141,
+			"PosY" : 0.743939,
 			"Translations" : [
 				{
 					"LanguageId" : "pl",
@@ -30,8 +30,8 @@
 		{
 			"ConnectedTo" : "LOC_CP_MARKET",
 			"LoreId" : "LOC_CP_GATE",
-			"PosX" : 328,
-			"PosY" : 496,
+			"PosX" : 0.331313,
+			"PosY" : 0.751515,
 			"Translations" : [
 				{
 					"LanguageId" : "pl",
@@ -43,8 +43,8 @@
 		{
 			"ConnectedTo" : "LOC_CP_MARKET",
 			"LoreId" : "LOC_CP_INN",
-			"PosX" : 172,
-			"PosY" : 556,
+			"PosX" : 0.173737,
+			"PosY" : 0.842424,
 			"Translations" : [
 				{
 					"LanguageId" : "pl",
@@ -56,8 +56,8 @@
 		{
 			"ConnectedTo" : "LOC_CP_MARKET",
 			"LoreId" : "LOC_CP_DEPO",
-			"PosX" : 154,
-			"PosY" : 439,
+			"PosX" : 0.155556,
+			"PosY" : 0.665152,
 			"Translations" : [
 				{
 					"LanguageId" : "pl",
@@ -75,3 +75,4 @@
 		}
 	]
 }
+

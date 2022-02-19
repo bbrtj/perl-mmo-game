@@ -14,15 +14,15 @@ type
 	TMapMarker = class(TSerialized)
 	private
 		FLoreId: TLoreId;
-		FPosX: Integer;
-		FPosY: Integer;
+		FPosX: Real;
+		FPosY: Real;
 		FMarker: TShape;
 		FMap: TMap;
 		FTranslations: TTranslations;
 		FConnectedTo: TStringList;
 
-		procedure SetPosX(const position: Integer);
-		procedure SetPosY(const position: Integer);
+		procedure SetPosX(position: Real);
+		procedure SetPosY(position: Real);
 		procedure SetLoreId(const id: TLoreId);
 	public
 		constructor Create(); override;
@@ -40,8 +40,8 @@ type
 
 	published
 		property LoreId: TLoreId read FLoreId write SetLoreId;
-		property PosX: Integer read FPosX write SetPosX;
-		property PosY: Integer read FPosY write SetPosY;
+		property PosX: Real read FPosX write SetPosX;
+		property PosY: Real read FPosY write SetPosY;
 		property Translations: TTranslations read FTranslations write FTranslations;
 		property ConnectedTo: TStringlist read FConnectedTo write FConnectedTo;
 	end;
@@ -65,6 +65,9 @@ type
 
 		FLogger: TLoggerProcedure;
 		FOnChange: TMapChangedProcedure;
+
+		FCanvasWidth: Integer;
+		FCanvasHeight: Integer;
 
 		procedure AddConnection(const marker1, marker2: TMapMarker);
 		procedure DeleteConnection(const marker1, marker2: TMapMarker);
@@ -98,6 +101,9 @@ type
 
 		property Logger: TLoggerProcedure read FLogger write FLogger;
 		property OnChange: TMapChangedProcedure read FOnChange write FOnChange;
+
+		property CanvasWidth: Integer read FCanvasWidth;
+		property CanvasHeight: Integer read FCanvasHeight;
 
 	published
 		property ImageName: String read FImageFilename write FImageFilename;
@@ -150,19 +156,25 @@ begin
 end;
 
 {}
-procedure TMapMarker.SetPosX(const position: Integer);
+procedure TMapMarker.SetPosX(position: Real);
 begin
+	if (position > 1) and (FMap <> nil) then
+		position := position / FMap.CanvasWidth;
+
 	FPosX := position;
 	if FMarker <> nil then
-		FMarker.Left := position - FMarker.Width div 2;
+		FMarker.Left := round(position * FMap.CanvasWidth) - FMarker.Width div 2;
 end;
 
 {}
-procedure TMapMarker.SetPosY(const position: Integer);
+procedure TMapMarker.SetPosY(position: Real);
 begin
+	if (position > 1) and (FMap <> nil) then
+		position := position / FMap.CanvasHeight;
+
 	FPosY := position;
 	if FMarker <> nil then
-		FMarker.Top := position - FMarker.Height div 2;
+		FMarker.Top := round(position * FMap.CanvasHeight) - FMarker.Height div 2;
 end;
 
 {}
@@ -248,6 +260,10 @@ end;
 {}
 procedure TMap.Initialize(const canvas: TImage);
 begin
+	{ Do this before importing! }
+	FCanvasWidth := canvas.Width;
+	FCanvasHeight := canvas.Height;
+
 	if length(FMetaFilename) > 0 then
 		Import(FMetaFilename)
 	else
@@ -460,10 +476,10 @@ begin
 	for ind1 := 0 to FMarkers.Count - 1 do begin
 		for ind2 := ind1 + 1 to FMarkers.Count - 1 do begin
 			if FMarkers[ind1].ConnectedTo.Find(FMarkers[ind2].LoreId, pass) then begin
-				points[0].X := FMarkers[ind1].PosX;
-				points[0].Y := FMarkers[ind1].PosY;
-				points[1].X := FMarkers[ind2].PosX;
-				points[1].Y := FMarkers[ind2].PosY;
+				points[0].X := round(FMarkers[ind1].PosX * CanvasWidth);
+				points[0].Y := round(FMarkers[ind1].PosY * CanvasHeight);
+				points[1].X := round(FMarkers[ind2].PosX * CanvasWidth);
+				points[1].Y := round(FMarkers[ind2].PosY * CanvasHeight);
 				canvas.Polyline(points, 0, 2);
 			end;
 		end;
@@ -474,3 +490,4 @@ initialization
 	ListSerializationMap.Add(TSerializedList.Create(TMarkers, TMapMarker));
 
 end.
+
