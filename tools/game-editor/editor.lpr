@@ -7,14 +7,14 @@ uses
 	cthreads,
 	{$ENDIF}{$ENDIF}
 	Interfaces, // this includes the LCL widgetset
-	Forms, mapeditor, editormode, map
+	Forms, mapeditor, editormode, classeditor
 	{ you can add units after this };
 
 {$R *.res}
 
 begin
 	RequireDerivedFormResource:=True;
-	Application.Title:='mapeditor';
+	Application.Title:='Editor';
 	Application.Scaled:=True;
 	Application.Initialize;
 	Application.CreateForm(TEditorModeForm, EditorModeForm);

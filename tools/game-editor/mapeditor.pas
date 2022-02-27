@@ -7,7 +7,7 @@ interface
 uses
 	Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
 	Menus, ActnList, ComCtrls, Buttons, FPJSON,
-	map;
+	GameMap;
 
 type
 

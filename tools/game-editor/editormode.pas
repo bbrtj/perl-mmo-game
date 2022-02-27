@@ -22,7 +22,7 @@ type
 		PageControl1: TPageControl;
 		MapsTab: TTabSheet;
 		procedure ExitActionExecute(Sender: TObject);
-  procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+		procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
 		procedure FormCreate(Sender: TObject);
 		procedure MapsListDblClick(Sender: TObject);
 

@@ -1,4 +1,4 @@
-unit map;
+unit gamemap;
 
 {$mode objfpc}{$H+}
 

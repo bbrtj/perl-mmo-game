@@ -1,0 +1,38 @@
+object ClassEditor: TClassEditor
+  Left = 806
+  Height = 749
+  Top = 250
+  Width = 1366
+  Caption = 'Class editor'
+  Menu = ClassEditorMenu
+  LCLVersion = '2.0.12.0'
+  object ClassEditorMenu: TMainMenu
+    Left = 1144
+    Top = 48
+    object MenuItem1: TMenuItem
+      Caption = 'Class'
+      object SaveMenuItem: TMenuItem
+        Action = SaveAction
+        Caption = 'Save'
+      end
+      object QuitMenuItem: TMenuItem
+        Action = QuitAction
+        Caption = 'Quit'
+      end
+    end
+  end
+  object ActionList1: TActionList
+    Left = 1240
+    Top = 48
+    object SaveAction: TAction
+      Caption = 'SaveAction'
+      OnExecute = SaveActionExecute
+      ShortCut = 16467
+    end
+    object QuitAction: TAction
+      Caption = 'ExitAction'
+      OnExecute = QuitActionExecute
+      ShortCut = 16465
+    end
+  end
+end
