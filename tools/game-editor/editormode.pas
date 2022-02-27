@@ -6,23 +6,27 @@ interface
 
 uses
 	Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Buttons, ExtCtrls,
-	StdCtrls, ComCtrls, FPJSON,
+	StdCtrls, ComCtrls, Menus, ActnList, FPJSON,
 	mapeditor, editorcommon;
 
 type
 
 	{ TEditorModeForm }
 	TEditorModeForm = class(TForm)
-		ExitButton: TButton;
+		ExitAction: TAction;
+		ActionList1: TActionList;
+		EditorMenu: TMainMenu;
 		MapsList: TListBox;
+		MenuItem1: TMenuItem;
+		ExitButton: TMenuItem;
 		PageControl1: TPageControl;
 		MapsTab: TTabSheet;
-		procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+		procedure ExitActionExecute(Sender: TObject);
+  procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
 		procedure FormCreate(Sender: TObject);
 		procedure MapsListDblClick(Sender: TObject);
 
 		procedure UpdateMapList();
-		procedure ExitButtonClick(Sender: TObject);
 	private
 
 	public
@@ -73,9 +77,9 @@ begin
 end;
 
 {}
-procedure TEditorModeForm.ExitButtonClick(Sender: TObject);
+procedure TEditorModeForm.ExitActionExecute(Sender: TObject);
 begin
-	Close;
+	 Close;
 end;
 
 {}
