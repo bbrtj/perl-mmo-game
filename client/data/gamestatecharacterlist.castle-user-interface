@@ -1,0 +1,34 @@
+{
+  "$$ClassName" : "TCastleUserInterface",
+  "FullSize" : true,
+  "Name" : "Group1",
+  "$Children" : [
+    {
+      "$$ClassName" : "TCastleVerticalGroup",
+      "Name" : "CharacterList",
+      "VerticalAnchorDelta" : -7.0000000000000000E+001,
+      "VerticalAnchorParent" : "vpTop",
+      "VerticalAnchorSelf" : "vpTop",
+      "$Children" : [
+        {
+          "$$ClassName" : "TCastleUserInterface",
+          "Name" : "Group2",
+          "VerticalAnchorParent" : "vpTop",
+          "VerticalAnchorSelf" : "vpTop"
+        }
+      ]
+    },
+    {
+      "$$ClassName" : "TCastleLabel",
+      "FontScale" : 2.0000000000000000E+000,
+      "HorizontalAnchorParent" : "hpMiddle",
+      "HorizontalAnchorSelf" : "hpMiddle",
+      "Name" : "Label2",
+      "Text" : [
+        "Select your character"
+      ],
+      "VerticalAnchorDelta" : -7.0000000000000000E+001,
+      "VerticalAnchorParent" : "vpTop"
+    }
+  ]
+}

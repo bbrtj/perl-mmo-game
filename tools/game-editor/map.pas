@@ -5,7 +5,7 @@ unit map;
 interface
 
 uses Classes, SysUtils, ExtCtrls, Graphics, FGL, fpjsonrtti, FPJSON,
-	translationdialog, loreiddialog, editortypes, serialization;
+	translationdialog, loreiddialog, editorcommon, serialization;
 
 type
 
@@ -240,7 +240,7 @@ begin
 	FImageFilename := '';
 	FMetaFilename := '';
 
-	if filename.EndsWith('.map.json') then
+	if filename.EndsWith('.json') then
 		FMetaFilename := filename
 	else
 		FImageFilename := filename;
@@ -267,7 +267,7 @@ begin
 	if length(FMetaFilename) > 0 then
 		Import(FMetaFilename)
 	else
-		FMetaFilename := FImageFilename + '.map.json';
+		FMetaFilename := GetDataDirectory(ddtMap, ChangeFileExt(ExtractFileName(FImageFilename), '.json'));
 
 	FImage.LoadFromFile(FImageFilename);
 	canvas.Picture := FImage;
@@ -458,7 +458,7 @@ begin
 	for marker in FMarkers do
 		marker.SetMap(self);
 
-	FImageFilename := 'assets/' + FImageFilename;
+	FImageFilename := 'assets/maps/' + FImageFilename;
 end;
 
 {}

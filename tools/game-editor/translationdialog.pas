@@ -7,7 +7,7 @@ interface
 uses
 	Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
 	ComCtrls, FGL,
-	editortypes, serialization;
+	editorcommon, serialization;
 
 type
 

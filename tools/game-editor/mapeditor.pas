@@ -53,6 +53,8 @@ type
 		procedure UpdateInfo(const actionText: String);
 		procedure MapChanged();
 
+		procedure LoadMap(const vMapFile: String);
+
 	end;
 
 implementation
@@ -90,16 +92,10 @@ begin
 	dialog := TOpenDialog.Create(self);
 
 	dialog.Options := [ofFileMustExist];
-	dialog.Filter := 'Metadata files|*.map.json|Map images|*.png';
+	dialog.Filter := 'Metadata files|*.json|Map images|*.png';
 
-	if dialog.Execute then begin
-		ClearMap;
-		map := TMap.Create(dialog.FileName);
-		map.MarkerBlueprint := Marker;
-		map.Logger := @self.UpdateInfo;
-		map.OnChange := @self.MapChanged;
-		map.Initialize(MapView);
-	end;
+	if dialog.Execute then
+		LoadMap(dialog.FileName);
 
 	dialog.Free;
 end;
@@ -211,6 +207,19 @@ begin
 		MapView.Picture := Nil;
 	end;
 end;
+
+{}
+procedure TMapEditorForm.LoadMap(const vMapFile: String);
+begin
+	ClearMap;
+	map := TMap.Create(vMapFile);
+	map.MarkerBlueprint := Marker;
+	map.Logger := @self.UpdateInfo;
+	map.OnChange := @self.MapChanged;
+	map.Initialize(MapView);
+end;
+
+{ implementation end }
 
 end.
 

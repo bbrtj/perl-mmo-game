@@ -6,22 +6,22 @@ interface
 
 uses
 	Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Buttons, ExtCtrls,
-	StdCtrls,
-	mapeditor;
+	StdCtrls, ComCtrls, FPJSON,
+	mapeditor, editorcommon;
 
 type
 
 	{ TEditorModeForm }
-
- TEditorModeForm = class(TForm)
-		ClassEditorButton: TButton;
-		MapEditorButton: TButton;
+	TEditorModeForm = class(TForm)
 		ExitButton: TButton;
+		MapsList: TListBox;
+		PageControl1: TPageControl;
+		MapsTab: TTabSheet;
 		procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-  procedure FormCreate(Sender: TObject);
+		procedure FormCreate(Sender: TObject);
+		procedure MapsListDblClick(Sender: TObject);
 
-		procedure ClassEditorButtonClick(Sender: TObject);
-		procedure MapEditorButtonClick(Sender: TObject);
+		procedure UpdateMapList();
 		procedure ExitButtonClick(Sender: TObject);
 	private
 
@@ -38,36 +38,120 @@ implementation
 
 { TEditorModeForm }
 
+{}
 procedure TEditorModeForm.FormCreate(Sender: TObject);
 begin
-
+	UpdateMapList();
 end;
 
+procedure TEditorModeForm.MapsListDblClick(Sender: TObject);
+var
+	vItem: String;
+	mapEd: TMapEditorForm;
+begin
+	if MapsList.ItemIndex >= 0 then begin
+		vItem := MapsList.Items[MapsList.ItemIndex];
+
+		Visible := False;
+		mapEd := TMapEditorForm.Create(self);
+		mapEd.OnClose := @FormClose;
+		mapEd.Show;
+
+		mapEd.LoadMap(vItem);
+	end;
+end;
+
+{}
 procedure TEditorModeForm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-	closeAction := caFree;
+	CloseAction := caFree;
+
+	if Sender is TMapEditorForm then
+		UpdateMapList();
+
 	Visible := True;
 end;
 
-procedure TEditorModeForm.MapEditorButtonClick(Sender: TObject);
-var
-	mapEd: TMapEditorForm;
-begin
-	Visible := False;
-	mapEd := TMapEditorForm.Create(self);
-	mapEd.OnClose := @FormClose;
-	mapEd.Show;
-end;
-
-procedure TEditorModeForm.ClassEditorButtonClick(Sender: TObject);
-begin
-
-end;
-
+{}
 procedure TEditorModeForm.ExitButtonClick(Sender: TObject);
 begin
 	Close;
 end;
+
+{}
+procedure TEditorModeForm.UpdateMapList();
+var
+	vMapImages: TStrings;
+	vFile: String;
+	vSearchDir: String;
+
+	vResult: Integer;
+	vMapInfo: TSearchRec;
+
+	function GetMapImageFromJson(const vFile: String): String;
+	var
+		vJsonContents: TStrings;
+		vJsonObject: TJSONObject;
+
+	begin
+		vJsonContents := TStringList.Create;
+		vJsonContents.LoadFromFile(vFile);
+
+		vJsonObject := GetJSON(vJsonContents.Text) as TJSONObject;
+		result := vJsonObject.Get('ImageName', '');
+
+		vJsonObject.Free;
+		vJsonContents.Free;
+	end;
+
+	procedure FillMapImages();
+	begin
+		vSearchDir := GetAssetDirectory(ddtMap, '*.png');
+
+		vResult := findFirst(vSearchDir, faAnyFile, vMapInfo);
+		while vResult = 0 do begin
+			vMapImages.Add(vMapInfo.Name);
+
+			vResult := findNext(vMapInfo);
+		end;
+
+		findClose(vMapInfo);
+	end;
+
+	procedure HideMapImage(const vName: String);
+	var
+		vIndex: Integer;
+	begin
+		vIndex := vMapImages.IndexOf(vName);
+		if vIndex >= 0 then
+			vMapImages.Delete(vIndex);
+	end;
+
+begin
+	vMapImages := TStringList.Create;
+	FillMapImages();
+
+	MapsList.Clear;
+	vSearchDir := GetDataDirectory(ddtMap, '*.json');
+
+	vResult := findFirst(vSearchDir, faAnyFile, vMapInfo);
+	while vResult = 0 do begin
+		vFile := GetDataDirectory(ddtMap, vMapInfo.Name);
+		HideMapImage(GetMapImageFromJson(vFile));
+		MapsList.Items.Add(vFile);
+
+		vResult := findNext(vMapInfo);
+	end;
+
+	findClose(vMapInfo);
+
+	for vFile in vMapImages do begin
+		MapsList.Items.Add(GetAssetDirectory(ddtMap, vFile));
+	end;
+	vMapImages.Free;
+end;
+
+{ implementation end }
 
 end.
 

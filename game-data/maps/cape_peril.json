@@ -4,8 +4,8 @@
 		{
 			"ConnectedTo" : "LOC_CP_MARKET",
 			"LoreId" : "LOC_CP_HARBOR",
-			"PosX" : 0.072727,
-			"PosY" : 0.901515,
+			"PosX" : 7.2727000000000000E-002,
+			"PosY" : 9.0151499999999996E-001,
 			"Translations" : [
 				{
 					"LanguageId" : "pl",
@@ -17,8 +17,8 @@
 		{
 			"ConnectedTo" : "LOC_CP_DEPO;LOC_CP_GATE;LOC_CP_HARBOR;LOC_CP_INN",
 			"LoreId" : "LOC_CP_MARKET",
-			"PosX" : 0.214141,
-			"PosY" : 0.743939,
+			"PosX" : 2.1414100000000000E-001,
+			"PosY" : 7.4393900000000002E-001,
 			"Translations" : [
 				{
 					"LanguageId" : "pl",
@@ -30,8 +30,8 @@
 		{
 			"ConnectedTo" : "LOC_CP_MARKET",
 			"LoreId" : "LOC_CP_GATE",
-			"PosX" : 0.331313,
-			"PosY" : 0.751515,
+			"PosX" : 3.3131300000000002E-001,
+			"PosY" : 7.5151500000000004E-001,
 			"Translations" : [
 				{
 					"LanguageId" : "pl",
@@ -43,8 +43,8 @@
 		{
 			"ConnectedTo" : "LOC_CP_MARKET",
 			"LoreId" : "LOC_CP_INN",
-			"PosX" : 0.173737,
-			"PosY" : 0.842424,
+			"PosX" : 1.7373700000000000E-001,
+			"PosY" : 8.4242399999999995E-001,
 			"Translations" : [
 				{
 					"LanguageId" : "pl",
@@ -56,8 +56,8 @@
 		{
 			"ConnectedTo" : "LOC_CP_MARKET",
 			"LoreId" : "LOC_CP_DEPO",
-			"PosX" : 0.155556,
-			"PosY" : 0.665152,
+			"PosX" : 1.5555600000000000E-001,
+			"PosY" : 6.6515199999999997E-001,
 			"Translations" : [
 				{
 					"LanguageId" : "pl",
@@ -75,4 +75,3 @@
 		}
 	]
 }
-

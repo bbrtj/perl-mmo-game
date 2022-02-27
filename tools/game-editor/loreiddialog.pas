@@ -6,18 +6,21 @@ interface
 
 uses
 	Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-	editortypes;
+	ActnList, editorcommon;
 
 type
 
 	{ TLoreIdDialog }
 
 	TLoreIdDialog = class(TForm)
+		CancelAction: TAction;
+		AddAction: TAction;
+		ActionList1: TActionList;
 		AddButton: TButton;
 		CancelButton: TButton;
 		LoreId: TLabeledEdit;
-		procedure AddButtonClick(Sender: TObject);
-		procedure CancelButtonClick(Sender: TObject);
+		procedure AddActionExecute(Sender: TObject);
+		procedure CancelActionExecute(Sender: TObject);
 	private
 		function GetLoreId(): TLoreId;
 		procedure SetLoreId(value: TLoreId);
@@ -34,16 +37,14 @@ implementation
 
 { TLoreIdDialog }
 
-{}
-procedure TLoreIdDialog.AddButtonClick(Sender: TObject);
+procedure TLoreIdDialog.AddActionExecute(Sender: TObject);
 begin
 	Saved := true;
 
 	Close;
 end;
 
-{}
-procedure TLoreIdDialog.CancelButtonClick(Sender: TObject);
+procedure TLoreIdDialog.CancelActionExecute(Sender: TObject);
 begin
 	Saved := false;
 
