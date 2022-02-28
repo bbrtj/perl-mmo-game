@@ -4,9 +4,11 @@ object LoreIdDialog: TLoreIdDialog
   Top = 250
   Width = 1366
   AutoSize = True
+  BorderWidth = 5
   Caption = 'Set lore ID'
   ClientHeight = 749
   ClientWidth = 1366
+  DesignTimePPI = 97
   Position = poDesktopCenter
   LCLVersion = '2.0.12.0'
   WindowState = wsFullScreen
@@ -14,9 +16,9 @@ object LoreIdDialog: TLoreIdDialog
     Left = 7
     Height = 23
     Top = 20
-    Width = 180
+    Width = 182
     EditLabel.Height = 15
-    EditLabel.Width = 180
+    EditLabel.Width = 182
     EditLabel.Caption = 'Lore ID'
     EditLabel.ParentColor = False
     EditLabel.ParentFont = False
@@ -24,10 +26,10 @@ object LoreIdDialog: TLoreIdDialog
     TabOrder = 0
   end
   object CancelButton: TButton
-    Left = 87
+    Left = 88
     Height = 24
     Top = 47
-    Width = 73
+    Width = 74
     Action = CancelAction
     Caption = 'Cancel'
     ParentFont = False
@@ -37,15 +39,15 @@ object LoreIdDialog: TLoreIdDialog
     Left = 7
     Height = 24
     Top = 47
-    Width = 73
+    Width = 74
     Action = AddAction
     Caption = 'Add'
     ParentFont = False
     TabOrder = 2
   end
   object ActionList1: TActionList
-    Left = 55
-    Top = 145
+    Left = 56
+    Top = 147
     object AddAction: TAction
       Caption = 'AddAction'
       OnExecute = AddActionExecute

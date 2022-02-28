@@ -51,12 +51,12 @@ type
 	TMap = class(TSerialized)
 	private
 		FImageFilename: String;
-		FMetaFilename: String;
 		FImage: TPicture;
 		FMarkerBlueprint: TShape;
 		FMarkers: TMarkers;
 		FDeletedMarkers: TMarkers;
 
+		FLoreId: TLoreId;
 		FMapData: TTranslations;
 
 		FEdited: TMapMarker;
@@ -76,9 +76,9 @@ type
 		function CreateMarker(): TMapMarker;
 
 	public
-		constructor Create(const filename: String);
+		constructor Create;
 		destructor Destroy; override;
-		procedure Initialize(const canvas: TImage);
+		procedure Initialize(const canvas: TImage; const vMarker: TShape; const vContent: String = '');
 
 		procedure UpdateTranslations();
 
@@ -88,12 +88,12 @@ type
 		procedure SetConnected(const value: TMapMarker);
 		procedure SetEdited(const value: TMapMarker);
 
-		procedure Import(const filename: String);
+		procedure Import(const vContent: String);
 		function Export(): String;
+		function MetaFileName(): String;
 
 		procedure Draw(canvas: TCanvas);
 
-		property MetaFileName: String read FMetaFilename;
 		property MarkerBlueprint: TShape read FMarkerBlueprint write FMarkerBlueprint;
 
 		property Connecting: Boolean read FConnecting write FConnecting;
@@ -107,6 +107,7 @@ type
 
 	published
 		property ImageName: String read FImageFilename write FImageFilename;
+		property LoreId: TLoreId read FLoreId write FLoreId;
 		property Translations: TTranslations read FMapData write FMapData;
 		property Markers: TMarkers read FMarkers write FMarkers;
 
@@ -229,21 +230,13 @@ end;
 { TMap }
 
 {}
-constructor TMap.Create(const filename: String);
+constructor TMap.Create();
 begin
 	FMarkers := TMarkers.Create;
 	FDeletedMarkers := TMarkers.Create;
 	FImage := TPicture.Create;
 	FConnecting := false;
 	FMapData := TTranslations.Create;
-
-	FImageFilename := '';
-	FMetaFilename := '';
-
-	if filename.EndsWith('.json') then
-		FMetaFilename := filename
-	else
-		FImageFilename := filename;
 end;
 
 {}
@@ -258,16 +251,15 @@ begin
 end;
 
 {}
-procedure TMap.Initialize(const canvas: TImage);
+procedure TMap.Initialize(const canvas: TImage; const vMarker: TShape; const vContent: String = '');
 begin
 	{ Do this before importing! }
+	FMarkerBlueprint := vMarker;
 	FCanvasWidth := canvas.Width;
 	FCanvasHeight := canvas.Height;
 
-	if length(FMetaFilename) > 0 then
-		Import(FMetaFilename)
-	else
-		FMetaFilename := GetDataDirectory(ddtMap, ChangeFileExt(ExtractFileName(FImageFilename), '.json'));
+	if length(vContent) > 0 then
+		Import(vContent);
 
 	FImage.LoadFromFile(FImageFilename);
 	canvas.Picture := FImage;
@@ -430,35 +422,25 @@ begin
 end;
 
 {}
-procedure TMap.Import(const filename: String);
-const
-	readSize = 4096;
+procedure TMap.Import(const vContent: String);
 var
-	contents: String;
-
-	inFile: TFileStream;
-	readBuffer: Array[0 .. 4095] of Char;
-	bytesRead: Integer;
-
 	streamer: TGameStreamer;
 	marker: TMapMarker;
 begin
-	inFile := TFileStream.Create(filename, fmOpenRead);
-	contents := '';
-	repeat
-		bytesRead := inFile.Read(readBuffer, readSize);
-		contents := contents + readBuffer;
-	until bytesRead < readSize;
-	inFile.Free;
-
 	streamer := TGameStreamer.Create();
-	streamer.DeStreamer.JSONToObject(contents, self);
+	streamer.DeStreamer.JSONToObject(vContent, self);
 	streamer.Free;
 
 	for marker in FMarkers do
 		marker.SetMap(self);
 
 	FImageFilename := 'assets/maps/' + FImageFilename;
+end;
+
+{}
+function TMap.MetaFileName(): String;
+begin
+	result := GetDataDirectory(ddtMap, ChangeFileExt(ExtractFileName(FImageFilename), '.json'));
 end;
 
 {}
@@ -485,6 +467,8 @@ begin
 		end;
 	end;
 end;
+
+{ implementation end }
 
 initialization
 	ListSerializationMap.Add(TSerializedList.Create(TMarkers, TMapMarker));

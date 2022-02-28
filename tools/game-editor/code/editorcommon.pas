@@ -14,7 +14,7 @@ type
 	TLoreId = String[20];
 	TLoreName = String[255];
 
-	TDataDirectoryType = (ddtNone, ddtMap);
+	TDataDirectoryType = (ddtNone, ddtMap, ddtClass);
 
 function GetDataDirectory(const vType: TDataDirectoryType; const vPath: String): String;
 function GetAssetDirectory(const vType: TDataDirectoryType; const vPath: String): String;
@@ -28,6 +28,7 @@ begin
 
 	case vType of
 		ddtMap: result += 'maps/';
+		ddtClass: result += 'classes/';
 	end;
 
 	result += vPath;
@@ -40,6 +41,7 @@ begin
 
 	case vType of
 		ddtMap: result += 'maps/';
+		ddtClass: result += 'classes/';
 	end;
 
 	result += vPath;

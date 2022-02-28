@@ -7,7 +7,7 @@ interface
 uses
 	Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
 	Menus, ActnList, ComCtrls, Buttons, FPJSON,
-	GameMap;
+	GameMap, editorcommon, loreiddialog;
 
 type
 
@@ -16,14 +16,16 @@ type
 	TMapEditorForm = class(TForm)
 		EditorMenu: TMainMenu;
 		MenuItem1: TMenuItem;
-		MenuItem2: TMenuItem;
-		MenuItem3: TMenuItem;
-		MenuItem4: TMenuItem;
+		MenuItem10: TMenuItem;
+		LoreIdMenuItem: TMenuItem;
+		TranslationsMenuItem: TMenuItem;
+		LoadMenuItem: TMenuItem;
+		SaveMenuItem: TMenuItem;
 		MenuItem5: TMenuItem;
 		MenuItem6: TMenuItem;
-		MenuItem7: TMenuItem;
-		MenuItem8: TMenuItem;
-		MenuItem9: TMenuItem;
+		EditPathsMenuItem: TMenuItem;
+		DeleteMenuItem: TMenuItem;
+		QuitMenuItem: TMenuItem;
 		Panel1: TPanel;
 
 		StateInfo: TLabel;
@@ -33,9 +35,10 @@ type
 		Marker: TShape;
 
 		procedure FormCreate(Sender: TObject);
+		procedure LoreIdMenuItemClick(Sender: TObject);
 		procedure MenuLoadClick(Sender: TObject);
 		procedure MenuSaveClick(Sender: TObject);
-		procedure MenuPropertiesClick(Sender: TObject);
+		procedure MenuTranslationsClick(Sender: TObject);
 		procedure MenuQuitClick(Sender: TObject);
 		procedure MenuEditPathsClick(Sender: TObject);
 		procedure MenuDeleteClick(Sender: TObject);
@@ -105,6 +108,18 @@ begin
 
 end;
 
+procedure TMapEditorForm.LoreIdMenuItemClick(Sender: TObject);
+var
+	dialog: TLoreIdDialog;
+begin
+	dialog := TLoreIdDialog.Create(nil);
+	dialog.LoreIdValue := map.LoreId;
+	dialog.ShowModal();
+
+	if dialog.Saved then
+		map.LoreId := dialog.LoreIdValue;
+end;
+
 procedure TMapEditorForm.MenuQuitClick(Sender: TObject);
 begin
 	Close;
@@ -113,19 +128,14 @@ end;
 {}
 procedure TMapEditorForm.MenuSaveClick(Sender: TObject);
 var
-	// exported: TJSONObject;
-	exportedString: String;
-	outFile: TFileStream;
+	vExported: TStrings;
 begin
 	if map <> Nil then begin
-		exportedString := map.Export();
-		// exportedString := exported.FormatJSON([foUseTabchar], 1);
+		vExported := TStringList.Create;
+		vExported.Text := map.Export();
+		vExported.SaveToFile(map.MetaFileName);
 
-		outFile := TFileStream.Create(map.MetaFileName, fmCreate);
-		outFile.WriteBuffer(exportedString[1], length(exportedString));
-
-		outFile.Free;
-		// exported.Free;
+		vExported.Free;
 
 		UpdateInfo('Save successful (' + map.MetaFileName + ')');
 	end
@@ -135,7 +145,7 @@ begin
 end;
 
 {}
-procedure TMapEditorForm.MenuPropertiesClick(Sender: TObject);
+procedure TMapEditorForm.MenuTranslationsClick(Sender: TObject);
 begin
 	if map <> Nil then begin
 		map.UpdateTranslations();
@@ -210,13 +220,29 @@ end;
 
 {}
 procedure TMapEditorForm.LoadMap(const vMapFile: String);
+	function FetchFileContent(const vFileName: String): String;
+	var
+		vContent: TStrings;
+	begin
+		vContent := TStringList.Create;
+		vContent.LoadFromFile(vFileName);
+
+		result := vContent.Text;
+		vContent.Free;
+	end;
+
 begin
 	ClearMap;
-	map := TMap.Create(vMapFile);
-	map.MarkerBlueprint := Marker;
+	map := TMap.Create;
 	map.Logger := @self.UpdateInfo;
 	map.OnChange := @self.MapChanged;
-	map.Initialize(MapView);
+
+	if vMapFile.EndsWith('.json') then
+		map.Initialize(MapView, Marker, FetchFileContent(vMapFile))
+	else begin
+		map.ImageName := vMapFile;
+		map.Initialize(MapView, Marker);
+	end;
 end;
 
 { implementation end }

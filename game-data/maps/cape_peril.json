@@ -1,5 +1,6 @@
 {
 	"ImageName" : "cape_peril.png",
+	"LoreId" : "AREA_CAPEPERIL",
 	"Markers" : [
 		{
 			"ConnectedTo" : "LOC_CP_MARKET",

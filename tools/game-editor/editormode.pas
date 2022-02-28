@@ -7,7 +7,7 @@ interface
 uses
 	Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Buttons, ExtCtrls,
 	StdCtrls, ComCtrls, Menus, ActnList, FPJSON,
-	mapeditor, editorcommon;
+	mapeditor, classeditor, editorcommon;
 
 type
 
@@ -17,16 +17,20 @@ type
 		ActionList1: TActionList;
 		EditorMenu: TMainMenu;
 		MapsList: TListBox;
+		ClassesList: TListBox;
 		MenuItem1: TMenuItem;
 		ExitButton: TMenuItem;
 		PageControl1: TPageControl;
 		MapsTab: TTabSheet;
+		ClassesTab: TTabSheet;
+		procedure ClassesListDblClick(Sender: TObject);
 		procedure ExitActionExecute(Sender: TObject);
 		procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
 		procedure FormCreate(Sender: TObject);
 		procedure MapsListDblClick(Sender: TObject);
 
 		procedure UpdateMapList();
+		procedure UpdateClassList();
 	private
 
 	public
@@ -46,6 +50,7 @@ implementation
 procedure TEditorModeForm.FormCreate(Sender: TObject);
 begin
 	UpdateMapList();
+	UpdateClassList();
 end;
 
 procedure TEditorModeForm.MapsListDblClick(Sender: TObject);
@@ -73,6 +78,9 @@ begin
 	if Sender is TMapEditorForm then
 		UpdateMapList();
 
+	if Sender is TClassEditor then
+		UpdateClassList();
+
 	Visible := True;
 end;
 
@@ -80,6 +88,23 @@ end;
 procedure TEditorModeForm.ExitActionExecute(Sender: TObject);
 begin
 	 Close;
+end;
+
+procedure TEditorModeForm.ClassesListDblClick(Sender: TObject);
+var
+	vItem: String;
+	classEd: TClassEditor;
+begin
+	if ClassesList.ItemIndex >= 0 then begin
+		vItem := ClassesList.Items[ClassesList.ItemIndex];
+
+		Visible := False;
+		classEd := TClassEditor.Create(self);
+		classEd.OnClose := @FormClose;
+		classEd.Show;
+
+		classEd.LoadClass(vItem);
+	end;
 end;
 
 {}
@@ -153,6 +178,31 @@ begin
 		MapsList.Items.Add(GetAssetDirectory(ddtMap, vFile));
 	end;
 	vMapImages.Free;
+end;
+
+{}
+procedure TEditorModeForm.UpdateClassList();
+var
+	vFile: String;
+	vSearchDir: String;
+
+	vResult: Integer;
+	vClassInfo: TSearchRec;
+begin
+	ClassesList.Clear;
+	vSearchDir := GetDataDirectory(ddtClass, '*.json');
+
+	vResult := findFirst(vSearchDir, faAnyFile, vClassInfo);
+	while vResult = 0 do begin
+		vFile := GetDataDirectory(ddtMap, vClassInfo.Name);
+		ClassesList.Items.Add(vFile);
+
+		vResult := findNext(vClassInfo);
+	end;
+
+	findClose(vClassInfo);
+
+	ClassesList.Items.Add('+new');
 end;
 
 { implementation end }
