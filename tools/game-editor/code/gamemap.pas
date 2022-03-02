@@ -204,6 +204,7 @@ begin
 
 	dialog.Translations := FTranslations;
 	dialog.ShowModal();
+	dialog.Free;
 end;
 
 {}
@@ -275,6 +276,7 @@ begin
 
 	dialog.Translations := FMapData;
 	dialog.ShowModal();
+	dialog.Free;
 end;
 
 {}

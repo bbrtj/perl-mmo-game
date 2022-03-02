@@ -96,14 +96,16 @@ var
 	classEd: TClassEditor;
 begin
 	if ClassesList.ItemIndex >= 0 then begin
-		vItem := ClassesList.Items[ClassesList.ItemIndex];
-
 		Visible := False;
 		classEd := TClassEditor.Create(self);
 		classEd.OnClose := @FormClose;
 		classEd.Show;
 
-		classEd.LoadClass(vItem);
+		// last item is always 'Add new'
+		if ClassesList.ItemIndex <> ClassesList.Count - 1 then begin
+			vItem := ClassesList.Items[ClassesList.ItemIndex];
+			classEd.LoadClass(vItem);
+		end;
 	end;
 end;
 
@@ -190,11 +192,12 @@ var
 	vClassInfo: TSearchRec;
 begin
 	ClassesList.Clear;
+
 	vSearchDir := GetDataDirectory(ddtClass, '*.json');
 
 	vResult := findFirst(vSearchDir, faAnyFile, vClassInfo);
 	while vResult = 0 do begin
-		vFile := GetDataDirectory(ddtMap, vClassInfo.Name);
+		vFile := GetDataDirectory(ddtClass, vClassInfo.Name);
 		ClassesList.Items.Add(vFile);
 
 		vResult := findNext(vClassInfo);
@@ -202,7 +205,7 @@ begin
 
 	findClose(vClassInfo);
 
-	ClassesList.Items.Add('+new');
+	ClassesList.Items.Add('Add new');
 end;
 
 { implementation end }

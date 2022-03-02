@@ -20,9 +20,9 @@ object EditorModeForm: TEditorModeForm
     Height = 267
     Top = 8
     Width = 477
-    ActivePage = ClassesTab
+    ActivePage = MapsTab
     ParentFont = False
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 0
     object MapsTab: TTabSheet
       Caption = 'Maps'
@@ -53,7 +53,6 @@ object EditorModeForm: TEditorModeForm
         ItemHeight = 0
         OnDblClick = ClassesListDblClick
         ParentFont = False
-        Sorted = True
         TabOrder = 0
       end
     end

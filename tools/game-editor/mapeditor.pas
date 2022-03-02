@@ -118,6 +118,7 @@ begin
 
 	if dialog.Saved then
 		map.LoreId := dialog.LoreIdValue;
+	dialog.Free;
 end;
 
 procedure TMapEditorForm.MenuQuitClick(Sender: TObject);

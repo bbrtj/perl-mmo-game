@@ -1,0 +1,10 @@
+{
+	"LoreId" : "CLS_TEST",
+	"Translations" : [
+		{
+			"LanguageId" : "pl",
+			"LoreDescription" : "z opisem",
+			"LoreName" : "Testowa klasa"
+		}
+	]
+}
