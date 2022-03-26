@@ -1,4 +1,4 @@
--- 5 up
+-- 2 up
 
 CREATE TABLE players (
 	id CHAR(26) primary key,
@@ -18,15 +18,12 @@ CREATE TABLE characters (
 	id CHAR(26) primary key,
 	player_id CHAR(26) NULL,
 	npc_id CHAR(26) NULL,
-	class_id VARCHAR(20) NOT NULL,
+	class_id VARCHAR(32) NOT NULL,
 	name VARCHAR(32) NOT NULL,
 	stats VARCHAR NOT NULL,
 	CONSTRAINT fk_player
 		FOREIGN KEY(player_id)
 		REFERENCES players(id),
-	CONSTRAINT fk_class
-		FOREIGN KEY(class_id)
-		REFERENCES gd_classes(id)
 );
 
 CREATE UNIQUE INDEX ind_characters_lookup_player ON characters (player_id);
@@ -35,7 +32,7 @@ CREATE INDEX ind_characters_lookup_npc ON characters (npc_id);
 CREATE TABLE character_variables (
 	id CHAR(26) primary key,
 	experience BIGINT NOT NULL DEFAULT 0,
-	location VARCHAR(20) NOT NULL,
+	location VARCHAR(32) NOT NULL,
 	health FLOAT NOT NULL,
 	mana FLOAT NOT NULL,
 	CONSTRAINT fk_character
@@ -45,8 +42,9 @@ CREATE TABLE character_variables (
 
 CREATE INDEX ind_character_variables_lookup_location ON character_variables (location);
 
--- 5 down
+-- 2 down
 
 DROP TABLE character_variables;
 DROP TABLE characters;
 DROP TABLE players;
+

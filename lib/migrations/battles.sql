@@ -1,14 +1,11 @@
--- 6 up
+-- 3 up
 
 CREATE TABLE battles (
 	id CHAR(26) primary key,
-	location_id VARCHAR(20) NULL,
+	location_id VARCHAR(32) NULL,
 	size_x INT NOT NULL,
 	size_y INT NOT NULL,
 	turn INT NOT NULL DEFAULT 0,
-	CONSTRAINT fk_location_id
-		FOREIGN KEY(location_id)
-		REFERENCES gd_locations(id)
 );
 
 CREATE INDEX ind_battles_lookup ON battles (location_id);
@@ -31,7 +28,8 @@ CREATE TABLE battle_contestants (
 
 CREATE INDEX ind_battle_contestants_lookup ON battle_contestants (battle_id, character_id);
 
--- 6 down
+-- 3 down
 
 DROP TABLE battle_contestants;
 DROP TABLE battles;
+

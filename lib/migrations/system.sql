@@ -1,9 +1,4 @@
--- 3 up
-
-CREATE TABLE config (
-	key VARCHAR(64) PRIMARY KEY,
-	value TEXT
-);
+-- 1 up
 
 CREATE TABLE users (
 	id CHAR(26) primary key,
@@ -15,7 +10,7 @@ CREATE TABLE users (
 
 CREATE INDEX ind_users_lookup ON users (email);
 
--- 3 down
+-- 1 down
 
-DROP TABLE config;
 DROP TABLE users;
+
