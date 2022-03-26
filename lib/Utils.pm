@@ -32,6 +32,13 @@ sub bootstrap_models ($class)
 	return;
 }
 
+sub bootstrap_lore ($class)
+{
+	$class->load_classes('Game::Lore', 'Game/Lore/*.pm');
+
+	return;
+}
+
 sub bootstrap_mojo ($class)
 {
 	my $config = DI->get('env');

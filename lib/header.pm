@@ -17,6 +17,7 @@ require Syntax::Keyword::Try;
 require Carp;
 require Scalar::Util;
 require Safe::Isa;
+require Ref::Util;
 
 sub import
 {
@@ -31,6 +32,7 @@ sub import
 	true->import::into($pkg);
 	Carp->import::into($pkg, qw(croak));
 	Scalar::Util->import::into($pkg, qw(blessed));
+	Ref::Util->import::into($pkg, qw(is_arrayref is_hashref is_coderef));
 	List::Util->import::into($pkg, qw(first any));
 	Safe::Isa->import::into($pkg);
 	i18n->import::into($pkg);

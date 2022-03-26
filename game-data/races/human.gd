@@ -7,8 +7,7 @@ translations pl => {
 
 define {
 	# starting_zone =>
-	base_stat_bonuses => {
-	},
+	base_stat_bonuses => {},
 };
 
 # primary stats bonuses

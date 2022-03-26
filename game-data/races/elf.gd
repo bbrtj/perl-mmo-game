@@ -9,8 +9,8 @@ define {
 	# starting_zone =>
 	base_stat_bonuses => {
 		primary_stat 'Strength' => -1,
-		primary_stat 'Dexterity' => 2,
-		primary_stat 'Wisdom' => 1,
+		primary_stat 'Dexterity' => 1,
+		primary_stat 'Wisdom' => 2,
 		primary_stat 'Constitution' => -2,
 	},
 };
