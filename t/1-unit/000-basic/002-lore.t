@@ -1,10 +1,11 @@
 use testheader;
 
-use Game::LoreLoader;
+use Utils;
 use Game::Lore;
 use Game::Config;
 
-Game::LoreLoader->load_all;
+Utils->bootstrap_lore;
+
 my $assassin = Game::Lore->get_named('Game::Lore::Class', 'Assassin');
 
 is $assassin->id, 'L.CLAS.ASSASS', 'class loaded ok';

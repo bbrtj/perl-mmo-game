@@ -1,17 +1,19 @@
-use Game::Ability;
 use DI;
 use Model::User;
-use Game::Character::Statistic;
 use Test2::Tools::DatabaseTest;
+use Game::Helpers;
+use Utils;
 
 use testheader;
+
+Utils->bootstrap_lore;
 
 database_test {
 	### uses Repository::LoreData
 	local $i18n::CURRENT_LANG = 'pl';
 
-	my $class = Game::Character::Statistic->get('STT_STR');
-	is $class->lore_name, 'Siła', 'lore name ok';
+	my $class = lore_primary_stat 'Strength';
+	is $class->data->translations->{pl}{name}, 'Siła', 'lore name ok';
 
 	### test Repository::CharCache
 	# my $char_repo = DI->get('char_cache');
@@ -57,3 +59,4 @@ database_test {
 };
 
 done_testing;
+

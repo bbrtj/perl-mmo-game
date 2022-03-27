@@ -34,6 +34,24 @@ sub transform_name ($self, $name)
 	return $name;
 }
 
+sub get_helpers ($self)
+{
+	my %subs;
+
+	for my $type (TYPES->@*) {
+		my $class = 'Game::Lore::' . $self->transform_name($type);
+
+		$subs{"lore_$type"} = sub :prototype($) ($name) {
+			my $found = Game::Lore->get_named($class, $name);
+			die "lore $class, $name was not found"
+				unless defined $found;
+			return $found;
+		};
+	}
+
+	return %subs;
+}
+
 sub get_dsl ($self)
 {
 	my @items;
@@ -130,13 +148,14 @@ sub get_dsl ($self)
 sub import ($self, @args)
 {
 	my $package = caller;
-	my %dsl = $self->get_dsl;
+	my $want_helpers = (grep { $_ eq -helpers } @args) > 0;
+	my %subs = $want_helpers ? $self->get_helpers : $self->get_dsl;
 
-	for my $name (keys %dsl) {
+	for my $name (keys %subs) {
 		no strict 'refs';
 
-		set_subname $name, $dsl{$name};
-		*{"${package}::${name}"} = $dsl{$name};
+		set_subname $name, $subs{$name};
+		*{"${package}::${name}"} = $subs{$name};
 	}
 
 	return;

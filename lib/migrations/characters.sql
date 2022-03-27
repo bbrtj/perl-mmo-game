@@ -23,7 +23,7 @@ CREATE TABLE characters (
 	stats VARCHAR NOT NULL,
 	CONSTRAINT fk_player
 		FOREIGN KEY(player_id)
-		REFERENCES players(id),
+		REFERENCES players(id)
 );
 
 CREATE UNIQUE INDEX ind_characters_lookup_player ON characters (player_id);

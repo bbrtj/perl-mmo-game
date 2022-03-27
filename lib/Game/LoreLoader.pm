@@ -1,7 +1,8 @@
 package Game::LoreLoader;
 
 use Mojo::File qw(curfile path);
-use Utils;
+use Encode qw(decode);
+
 use header;
 
 use constant DIRECTORY => curfile->dirname->dirname->dirname->child('game-data');
@@ -17,7 +18,7 @@ sub load ($self, $name)
 	die "$filename does not exist"
 		unless -f $filename;
 
-	my $contents = $filename->slurp;
+	my $contents = decode 'utf-8', $filename->slurp;
 
 	state $last_id = 1;
 	my $package = "Game::LoreLoader::Sandbox" . $last_id++;
@@ -26,6 +27,7 @@ sub load ($self, $name)
 		package $package;
 		use v5.30;
 		use warnings;
+		use utf8;
 		use Game::LoreLoader::DSL;
 
 		$contents
@@ -44,8 +46,6 @@ sub load ($self, $name)
 
 sub load_all ($self)
 {
-	Utils->bootstrap_lore;
-
 	for my $file (DIRECTORY->list_tree->each) {
 		next unless $file->extname eq 'gd';
 		$self->load($file->to_rel(DIRECTORY));

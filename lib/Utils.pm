@@ -6,6 +6,7 @@ use Mojo::Pg;
 use DI;
 use MojoX::Log::Dispatch::Simple;
 use Mojo::IOLoop;
+use Game::LoreLoader;
 
 use header;
 
@@ -21,6 +22,7 @@ sub bootstrap ($class, $app)
 	);
 
 	$class->bootstrap_models;
+	$class->bootstrap_lore;
 
 	return $config;
 }
@@ -35,6 +37,7 @@ sub bootstrap_models ($class)
 sub bootstrap_lore ($class)
 {
 	$class->load_classes('Game::Lore', 'Game/Lore/*.pm');
+	Game::LoreLoader->load_all;
 
 	return;
 }

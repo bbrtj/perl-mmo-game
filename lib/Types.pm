@@ -22,10 +22,10 @@ Type::Libraries->setup_class(
 my $LoreId = Type::Tiny->new(
 	name => 'LoreId',
 	parent => NonEmptySimpleStr,
-	constraint => q{ length $_ <= 20 },
+	constraint => q{ length $_ <= 32 },
 	inlined => sub {
 		my $varname = pop;
-		return (undef, "length $varname <= 20");
+		return (undef, "length $varname <= 32");
 	},
 );
 

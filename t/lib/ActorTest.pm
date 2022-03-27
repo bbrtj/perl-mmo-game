@@ -5,7 +5,7 @@ use Model::Character;
 use Model::CharacterVariables;
 use Model::Player;
 use Model::User;
-use Game::Character::Class::Priest;
+use Game::Helpers;
 
 use header;
 
@@ -23,9 +23,9 @@ sub create_actor ($self)
 
 	my $character = Model::Character->new(
 		player_id => $player->id,
-		class_id => Game::Character::Class::Priest->lore_id,
-		name => 'Priestx',
-		stats => 'STT_CHA:10',
+		class_id => lore_class('Witchhunter')->id,
+		name => 'Whx',
+		stats => '',
 	);
 
 	my $variables = Model::CharacterVariables->new(

@@ -35,7 +35,7 @@ has 'name' => (
 
 has 'stats' => (
 	is => 'ro',
-	isa => Types::NonEmptySimpleStr,
+	isa => Types::Str,
 	required => 1,
 );
 
@@ -45,3 +45,4 @@ sub is_player ($self)
 }
 
 __PACKAGE__->_register;
+

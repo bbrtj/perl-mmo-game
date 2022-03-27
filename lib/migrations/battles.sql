@@ -5,7 +5,7 @@ CREATE TABLE battles (
 	location_id VARCHAR(32) NULL,
 	size_x INT NOT NULL,
 	size_y INT NOT NULL,
-	turn INT NOT NULL DEFAULT 0,
+	turn INT NOT NULL DEFAULT 0
 );
 
 CREATE INDEX ind_battles_lookup ON battles (location_id);

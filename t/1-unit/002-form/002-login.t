@@ -2,6 +2,7 @@ use Web::Form::Login;
 use DI;
 use Model::User;
 use Exception::RecordDoesNotExist;
+use Utils;
 
 use testheader;
 
@@ -31,6 +32,7 @@ BEGIN {
 		;
 }
 
+Utils->bootstrap_lore;
 my $tested_mail = 'test@test.com';
 my $mock_model = Model::User->new(email => $tested_mail);
 $mock_model->set_password('abcdefg1');

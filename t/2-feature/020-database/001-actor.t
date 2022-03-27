@@ -1,8 +1,11 @@
 use DI;
 use ActorTest;
 use Test2::Tools::DatabaseTest;
+use Utils;
 
 use testheader;
+
+Utils->bootstrap_lore;
 
 database_test {
 	my ($actor, %related_models) = ActorTest->create_actor;
@@ -19,3 +22,4 @@ database_test {
 };
 
 done_testing;
+

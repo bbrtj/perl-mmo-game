@@ -1,5 +1,6 @@
 use DI;
 use Model::User;
+use Utils;
 
 use testheader;
 
@@ -13,6 +14,8 @@ BEGIN {
 		],
 		;
 }
+
+Utils->bootstrap_lore;
 
 my $mock = MockObject->new;
 my $mock_user = Model::User->new;
@@ -47,3 +50,4 @@ test_should_find_user_by_email sub ($data) {
 };
 
 done_testing;
+

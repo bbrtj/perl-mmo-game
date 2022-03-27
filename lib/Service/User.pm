@@ -4,7 +4,7 @@ use My::Moose;
 use Model::User;
 use Model::Player;
 use Model::Character;
-use Game::Character::Class::Warrior;
+use Game::Helpers;
 
 use header;
 
@@ -29,9 +29,9 @@ sub register_user ($self, $user_data)
 
 	my $character = Model::Character->new(
 		player_id => $player->id,
-		class_id => Game::Character::Class::Warrior->lore_id,
+		class_id => lore_class('Assassin')->id,
 		name => $user->email =~ s/@.*$//r,
-		stats => Game::Character::Class::Warrior->base_stats,
+		stats => '',
 	);
 	$self->repo->save($character);
 
