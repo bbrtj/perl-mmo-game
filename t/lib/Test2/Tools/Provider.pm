@@ -5,9 +5,10 @@ use Test2::Tools::Subtest qw(subtest_buffered);
 
 use header -noclean;
 
-our @EXPORT = qw(test_data before_each);
+our @EXPORT = qw(test test_data before_each);
 
 my $before;
+my %subs;
 
 sub before_each : prototype(&) ($sub)
 {
@@ -18,7 +19,7 @@ sub before_each : prototype(&) ($sub)
 
 sub get_sub ($desc, @cases)
 {
-	return sub : prototype(&) ($tester) {
+	return sub ($tester) {
 		subtest_buffered $desc, sub {
 			my $num = 0;
 			for my $case (@cases) {
@@ -35,8 +36,6 @@ sub get_sub ($desc, @cases)
 
 sub test_data (%cases)
 {
-	my $pkg = caller;
-
 	for my $desc (keys %cases) {
 		croak 'invalid test name'
 			unless $desc =~ m/[a-z0-9 _]/;
@@ -44,11 +43,18 @@ sub test_data (%cases)
 		my @cases = $cases{$desc}->@*;
 		my $subname = lc $desc =~ s/ /_/gr;
 
-		{
-			no strict 'refs';
-			*{"${pkg}::test_${subname}"} = get_sub $desc, @cases;
-		}
+		$subs{$subname} = get_sub $desc, @cases;
 	}
 
 	return;
 }
+
+sub test ($name, $sub)
+{
+	croak 'no such test name'
+		unless exists $subs{$name};
+
+	$subs{$name}->($sub);
+	return;
+}
+

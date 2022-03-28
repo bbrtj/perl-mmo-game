@@ -6,31 +6,30 @@ use Utils;
 
 use testheader;
 
-BEGIN {
-	test_data
-		'login should succeed' => [
-			[{email => 'test@test.com', password => 'abcdefg1', remember_me => 1}],
+test_data
+	'login should succeed' => [
+		[{email => 'test@test.com', password => 'abcdefg1', remember_me => 1}],
+	];
+
+test_data
+	'login should fail' => [
+		[
+			{email => 'test@test.com', password => 'abcdefgh'},
+			{'' => ['Invalid email or password']},
 		],
-		'login should fail' => [
-			[
-				{email => 'test@test.com', password => 'abcdefgh'},
-				{'' => ['Invalid email or password']},
-			],
-			[
-				{email => 'test@test.com', password => 'Abcdefg1'},
-				{'' => ['Invalid email or password']},
-			],
-			[
-				{email => 'testa@test.com', password => 'abcdefgh'},
-				{'' => ['Invalid email or password']},
-			],
-			[
-				{email => '', password => 'abcdefgh'},
-				{email => ['Field is required']},
-			],
+		[
+			{email => 'test@test.com', password => 'Abcdefg1'},
+			{'' => ['Invalid email or password']},
 		],
-		;
-}
+		[
+			{email => 'testa@test.com', password => 'abcdefgh'},
+			{'' => ['Invalid email or password']},
+		],
+		[
+			{email => '', password => 'abcdefgh'},
+			{email => ['Field is required']},
+		],
+	];
 
 Utils->bootstrap_lore;
 my $tested_mail = 'test@test.com';
@@ -53,7 +52,7 @@ before_each {
 	$load_mock->clear;
 };
 
-test_login_should_succeed sub ($data) {
+test login_should_succeed => sub ($data) {
 	my $form = Web::Form::Login->new;
 	$form->set_input($data);
 	ok $form->valid, "form valid $_";
@@ -69,7 +68,7 @@ test_login_should_succeed sub ($data) {
 	}
 };
 
-test_login_should_fail sub ($data, $errors) {
+test login_should_fail => sub ($data, $errors) {
 	my $form = Web::Form::Login->new;
 	$form->set_input($data);
 	ok !$form->valid, "form invalid $_";

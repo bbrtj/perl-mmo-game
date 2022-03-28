@@ -4,16 +4,13 @@ use Utils;
 
 use testheader;
 
-BEGIN {
-	test_data
-		'should register user' => [
-			[{email => 'test@test.com', password => 'abcdefg1'}],
-		],
-		'should find user by email' => [
-			['test@test.com'],
-		],
-		;
-}
+test_data
+	'should register user' => [
+		[{email => 'test@test.com', password => 'abcdefg1'}],
+	],
+	'should find user by email' => [
+		['test@test.com'],
+	];
 
 Utils->bootstrap_lore;
 
@@ -30,7 +27,7 @@ before_each {
 };
 
 $save_mock->should_return(1);
-test_should_register_user sub ($data) {
+test should_register_user => sub ($data) {
 	my $user = $service->register_user($data);
 	isa_ok $user, 'Model::User';
 	ok $save_mock->was_called, "mocked database save call $_";
@@ -42,7 +39,7 @@ before_each {
 };
 
 $load_mock->should_return($mock_user);
-test_should_find_user_by_email sub ($data) {
+test should_find_user_by_email => sub ($data) {
 	my $user = $service->find_user_by_email($data);
 	ok $load_mock->was_called_once, "mocked database load call $_";
 	is $user, exact_ref($mock_user), "mocked database load $_";
