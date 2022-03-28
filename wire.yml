@@ -41,9 +41,6 @@ cache:
 
 lore_data:
     class: Repository::LoreData
-    args:
-        db:
-            $ref: db
 
 units:
     class: Repository::Units

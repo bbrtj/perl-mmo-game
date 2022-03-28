@@ -1,32 +1,47 @@
 package Repository::LoreData;
 
 use My::Moose;
-use Types;
-use Exception::TranslationNotFound;
+use Exception::LoreNotFound;
 
 use header;
 
 with 'Repository::Role::Resource';
 
-has 'db' => (
-	is => 'ro',
-);
+my %named_collection;
+my %collection;
 
-sub save { ... }
-
-# TODO: since these are pretty simple strings, cache this
-sub load ($self, $type, $id, $lang)
+sub save ($self, $obj)
 {
-	state $check = Types::Enum [qw(name description)];
-	$check->assert_valid($type);
+	$named_collection{blessed $obj}{$obj->name} = $obj;
+	$collection{$obj->id} = $obj;
 
-	my $result = $self->db->db->query(<<~"SQL", $id, uc $lang)->hash;
-		SELECT $type FROM gd_lore_${type}s WHERE lore_id = ? AND language_id = ?
-	SQL
+	return;
+}
 
-	Exception::TranslationNotFound->throw(msg => "no lore $type for id `$id` and language `$lang`")
-		unless $result;
+sub load ($self, $id)
+{
+	my $found = $collection{$id};
 
-	return $result->{$type};
+	Exception::LoreNotFound->throw(msg => "no lore for $id identifier")
+		unless defined $found;
+
+	return $found;
+}
+
+sub load_named ($self, $class, $name)
+{
+	my $found = $named_collection{$class}{$name};
+
+	Exception::LoreNotFound->throw(msg => "no lore for class $class and name $name")
+		unless defined $found;
+
+	return $found;
+}
+
+sub dump ($self)
+{
+	use Data::Dumper;
+	print Dumper(\%named_collection);
+	return;
 }
 

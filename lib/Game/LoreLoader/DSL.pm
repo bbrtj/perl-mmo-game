@@ -3,6 +3,7 @@ package Game::LoreLoader::DSL;
 use Game::LoreLoader;
 use Game::LoreLoader::LoreDummy;
 use Game::Config;
+use DI;
 
 use Sub::Util qw(set_subname);
 
@@ -36,16 +37,14 @@ sub transform_name ($self, $name)
 
 sub get_helpers ($self)
 {
+	state $repo = DI->get('lore_data');
 	my %subs;
 
 	for my $type (TYPES->@*) {
 		my $class = 'Game::Lore::' . $self->transform_name($type);
 
 		$subs{"lore_$type"} = sub :prototype($) ($name) {
-			my $found = Game::Lore->get_named($class, $name);
-			die "lore $class, $name was not found"
-				unless defined $found;
-			return $found;
+			return $repo->load_named($class, $name);
 		};
 	}
 

@@ -137,7 +137,12 @@ sub translate_lore
 	require DI;    # lazy load to avoid circularity
 	state $repo = DI->get('lore_data');
 
-	return $repo->load($self->args->[0], $self->message, uc $lang);
+	my $translation = $repo->load($self->message)->data->translations->{lc $lang}{$self->args->[0]};
+
+	die "no translation for $lang and " . $self->message
+		unless defined $translation;
+	return $translation;
 }
 
 1;
+

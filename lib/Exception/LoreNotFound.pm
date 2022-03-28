@@ -1,4 +1,4 @@
-package Exception::TranslationNotFound;
+package Exception::LoreNotFound;
 
 use My::Moose;
 

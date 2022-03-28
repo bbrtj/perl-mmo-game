@@ -1,12 +1,14 @@
 use testheader;
 
 use Utils;
-use Game::Lore;
+use DI;
 use Game::Config;
 
 Utils->bootstrap_lore;
 
-my $assassin = Game::Lore->get_named('Game::Lore::Class', 'Assassin');
+my $repo = DI->get('lore_data');
+
+my $assassin = $repo->load_named('Game::Lore::Class', 'Assassin');
 
 is $assassin->id, 'L.CLAS.ASSASS', 'class loaded ok';
 

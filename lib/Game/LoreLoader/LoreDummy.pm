@@ -3,6 +3,7 @@ package Game::LoreLoader::LoreDummy;
 use My::Moose;
 use Types;
 use Game::Lore;
+use DI;
 
 use header;
 
@@ -20,7 +21,8 @@ has 'class' => (
 
 sub create ($self)
 {
-	my $stored = Game::Lore->get_named($self->class, $self->name);
+	state $repo = DI->get('lore_data');
+	my $stored = $repo->load_named($self->class, $self->name);
 
 	return $stored;
 }

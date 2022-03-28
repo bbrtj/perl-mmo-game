@@ -2,6 +2,7 @@ package Game::Lore;
 
 use My::Moose;
 use Types;
+use DI;
 
 use header;
 
@@ -17,8 +18,7 @@ has 'name' => (
 	isa => Types::Str,
 );
 
-my %collection;
-my %named_collection;
+my %data_collection;
 
 around BUILDARGS => sub ($orig, $self, %args) {
 	$args{id} = join '.', 'L', $self->prefix, $args{id}
@@ -28,30 +28,21 @@ around BUILDARGS => sub ($orig, $self, %args) {
 
 sub BUILD ($self, @)
 {
-	$named_collection{blessed $self}{$self->name} = $self;
+	state $repo = DI->get('lore_data');
+	$repo->save($self);
 	return;
-}
-
-sub get_named ($self, $class, $name)
-{
-	return $named_collection{$class}{$name};
-}
-
-sub get_all_named ($self)
-{
-	return \%named_collection;
 }
 
 sub data ($self)
 {
 	my $id = $self->id;
 
-	if (!exists $collection{$id}) {
+	if (!exists $data_collection{$id}) {
 		my $target_class = blessed($self) . 'Data';
-		$collection{$id} = $target_class->new;
+		$data_collection{$id} = $target_class->new;
 	}
 
-	return $collection{$id};
+	return $data_collection{$id};
 }
 
 sub prefix ($self)
