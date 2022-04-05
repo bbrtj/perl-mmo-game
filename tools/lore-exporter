@@ -1,0 +1,56 @@
+#!/usr/bin/env perl
+
+use v5.32;
+use warnings;
+
+my $dir;
+BEGIN {
+	use File::Basename;
+	$dir = dirname(dirname(__FILE__));
+}
+
+use lib "$dir/local/lib/perl5";
+use lib "$dir/lib";
+
+use Utils;
+use DI;
+use Mojo::JSON qw(to_json);
+
+my ($lang) = @ARGV;
+die 'please specify a language'
+	unless $lang;
+
+$lang = lc $lang;
+
+my %supported_langs = map { $_ => 1 } qw(pl);
+die 'that language is not supported'
+	unless $supported_langs{$lang};
+
+Utils->bootstrap_lore;
+
+my $repo = DI->get('lore_data');
+my %lores = $repo->load_all()->%*;
+
+my @items;
+for my $key (keys %lores) {
+	my $item = $lores{$key};
+	push @items, {
+		LoreId => $item->id,
+		LoreName => $item->data->translations->{$lang}{name},
+		LoreDescription => $item->data->translations->{$lang}{desc},
+	};
+}
+
+my $struct = {
+	Items => \@items
+};
+
+binmode STDOUT, ':utf8';
+say to_json $struct;
+
+__END__
+
+=pod
+
+Exports all lores in the system. Used to produce lores file for the client.
+

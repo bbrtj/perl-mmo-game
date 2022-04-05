@@ -47,5 +47,12 @@ my $struct = {
 	Markers => \@markers
 };
 
+binmode STDOUT, ':utf8';
 say to_json $struct;
+
+__END__
+
+=pod
+
+Exports map specified on input. Used in game editor to edit coordinates on a map.
 
