@@ -13,21 +13,21 @@ translations pl => {
 };
 
 lore PUNC => attribute 'Punctured';
-subtype_of attribute 'Physical';
+parent attribute 'Physical';
 
 translations pl => {
 	name => 'Kłute',
 };
 
 lore CRUSH => attribute 'Crushed';
-subtype_of attribute 'Physical';
+parent attribute 'Physical';
 
 translations pl => {
 	name => 'Miażdżone',
 };
 
 lore SLASH => attribute 'Slashed';
-subtype_of attribute 'Physical';
+parent attribute 'Physical';
 
 translations pl => {
 	name => 'Cięte',
@@ -42,21 +42,21 @@ translations pl => {
 };
 
 lore MENTAL => attribute 'Mental';
-subtype_of attribute 'Magical';
+parent attribute 'Magical';
 
 translations pl => {
 	name => 'Umysłowe',
 };
 
 lore DARK => attribute 'Dark';
-subtype_of attribute 'Magical';
+parent attribute 'Magical';
 
 translations pl => {
 	name => 'Mroczne',
 };
 
 lore HOLY => attribute 'Holy';
-subtype_of attribute 'Magical';
+parent attribute 'Magical';
 
 translations pl => {
 	name => 'Święte',
@@ -71,28 +71,28 @@ translations pl => {
 };
 
 lore FIRE => attribute 'Fire';
-subtype_of attribute 'Elemental';
+parent attribute 'Elemental';
 
 translations pl => {
 	name => 'Od ognia',
 };
 
 lore WATER => attribute 'Water';
-subtype_of attribute 'Elemental';
+parent attribute 'Elemental';
 
 translations pl => {
 	name => 'Od wody',
 };
 
 lore EARTH => attribute 'Earth';
-subtype_of attribute 'Elemental';
+parent attribute 'Elemental';
 
 translations pl => {
 	name => 'Od ziemi',
 };
 
 lore AIR => attribute 'Air';
-subtype_of attribute 'Elemental';
+parent attribute 'Elemental';
 
 translations pl => {
 	name => 'Od powietrza',

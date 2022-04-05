@@ -38,6 +38,16 @@ sub load_named ($self, $class, $name)
 	return $found;
 }
 
+sub load_all_named ($self, $class)
+{
+	my $found = $named_collection{$class};
+
+	Exception::LoreNotFound->throw(msg => "no lore collection for class $class")
+		unless defined $found;
+
+	return $found;
+}
+
 sub dump ($self)
 {
 	use Data::Dumper;

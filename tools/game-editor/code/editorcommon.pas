@@ -11,10 +11,10 @@ type
 	TMapChangedProcedure = procedure () of object;
 
 	TLanguageId = String[2];
-	TLoreId = String[20];
+	TLoreId = String[32];
 	TLoreName = String[255];
 
-	TDataDirectoryType = (ddtNone, ddtMap, ddtClass);
+	TDataDirectoryType = (ddtNone, ddtMap);
 
 function GetDataDirectory(const vType: TDataDirectoryType; const vPath: String): String;
 function GetAssetDirectory(const vType: TDataDirectoryType; const vPath: String): String;
@@ -28,7 +28,6 @@ begin
 
 	case vType of
 		ddtMap: result += 'maps/';
-		ddtClass: result += 'classes/';
 	end;
 
 	result += vPath;
@@ -41,7 +40,6 @@ begin
 
 	case vType of
 		ddtMap: result += 'maps/';
-		ddtClass: result += 'classes/';
 	end;
 
 	result += vPath;

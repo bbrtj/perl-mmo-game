@@ -5,7 +5,7 @@ unit gamemap;
 interface
 
 uses Classes, SysUtils, ExtCtrls, Graphics, FGL, fpjsonrtti, FPJSON,
-	translationdialog, loreiddialog, editorcommon, serialization;
+	loreiddialog, editorcommon, serialization;
 
 type
 
@@ -18,7 +18,6 @@ type
 		FPosY: Real;
 		FMarker: TShape;
 		FMap: TMap;
-		FTranslations: TTranslations;
 		FConnectedTo: TStringList;
 
 		procedure SetPosX(position: Real);
@@ -31,18 +30,13 @@ type
 		procedure SetMap(map: TMap);
 
 		procedure MarkerClicked(Sender: TObject);
-		procedure UpdateTranslations();
 
-		procedure Disable();
-
-		procedure ConnectWith(markerId: TLoreId);
-		procedure DisconnectWith(markerId: TLoreId);
+		procedure OnObjectStreamed(vJson: TJSONObject); override;
 
 	published
 		property LoreId: TLoreId read FLoreId write SetLoreId;
 		property PosX: Real read FPosX write SetPosX;
 		property PosY: Real read FPosY write SetPosY;
-		property Translations: TTranslations read FTranslations write FTranslations;
 		property ConnectedTo: TStringlist read FConnectedTo write FConnectedTo;
 	end;
 
@@ -50,18 +44,14 @@ type
 
 	TMap = class(TSerialized)
 	private
-		FImageFilename: String;
+		FLoreFileName: String;
 		FImage: TPicture;
 		FMarkerBlueprint: TShape;
 		FMarkers: TMarkers;
-		FDeletedMarkers: TMarkers;
 
 		FLoreId: TLoreId;
-		FMapData: TTranslations;
 
 		FEdited: TMapMarker;
-		FConnecting: Boolean;
-		FDeleting: Boolean;
 
 		FLogger: TLoggerProcedure;
 		FOnChange: TMapChangedProcedure;
@@ -69,35 +59,24 @@ type
 		FCanvasWidth: Integer;
 		FCanvasHeight: Integer;
 
-		procedure AddConnection(const marker1, marker2: TMapMarker);
-		procedure DeleteConnection(const marker1, marker2: TMapMarker);
-		procedure DeleteConnections(const marker: TMapMarker);
-
-		function CreateMarker(): TMapMarker;
-
 	public
 		constructor Create;
 		destructor Destroy; override;
 		procedure Initialize(const canvas: TImage; const vMarker: TShape; const vContent: String = '');
 
-		procedure UpdateTranslations();
-
 		procedure AddMarker(const X, Y: Integer);
-		procedure DeleteMarker(const marker: TMapMarker);
 
-		procedure SetConnected(const value: TMapMarker);
 		procedure SetEdited(const value: TMapMarker);
 
 		procedure Import(const vContent: String);
 		function Export(): String;
+
 		function MetaFileName(): String;
+		function ImageName(): String;
 
 		procedure Draw(canvas: TCanvas);
 
 		property MarkerBlueprint: TShape read FMarkerBlueprint write FMarkerBlueprint;
-
-		property Connecting: Boolean read FConnecting write FConnecting;
-		property Deleting: Boolean read FDeleting write FDeleting;
 
 		property Logger: TLoggerProcedure read FLogger write FLogger;
 		property OnChange: TMapChangedProcedure read FOnChange write FOnChange;
@@ -105,10 +84,9 @@ type
 		property CanvasWidth: Integer read FCanvasWidth;
 		property CanvasHeight: Integer read FCanvasHeight;
 
+		property LoreFileName: String read FLoreFileName write FLoreFileName;
+
 	published
-		property ImageName: String read FImageFilename write FImageFilename;
-		property LoreId: TLoreId read FLoreId write FLoreId;
-		property Translations: TTranslations read FMapData write FMapData;
 		property Markers: TMarkers read FMarkers write FMarkers;
 
 	end;
@@ -119,7 +97,6 @@ implementation
 {}
 constructor TMapMarker.Create();
 begin
-	FTranslations := TTranslations.Create;
 	FConnectedTo := TStringList.Create;
 	FConnectedTo.Sorted := true;
 	FConnectedTo.Duplicates := dupIgnore;
@@ -132,7 +109,6 @@ destructor TMapMarker.Destroy;
 begin
 	if FMarker <> nil then
 		FMarker.Free;
-	FTranslations.Free;
 	inherited;
 end;
 
@@ -189,43 +165,13 @@ end;
 {}
 procedure TMapMarker.MarkerClicked(Sender: TObject);
 begin
-	if FMap.Connecting then
-		FMap.SetConnected(self)
-	else
-		FMap.SetEdited(self);
+	FMap.SetEdited(self);
 end;
 
 {}
-procedure TMapMarker.UpdateTranslations();
-var
-	dialog: TTranslationDialog;
+procedure TMapMarker.OnObjectStreamed(vJson: TJSONObject);
 begin
-	dialog := TTranslationDialog.Create(nil);
-
-	dialog.Translations := FTranslations;
-	dialog.ShowModal();
-	dialog.Free;
-end;
-
-{}
-procedure TMapMarker.ConnectWith(markerId: TLoreId);
-begin
-	FConnectedTo.Add(markerId);
-end;
-
-{}
-procedure TMapMarker.DisconnectWith(markerId: TLoreId);
-var
-	ind: Integer;
-begin
-	if FConnectedTo.Find(markerId, ind) then
-		FConnectedTo.Delete(ind);
-end;
-
-{}
-procedure TMapMarker.Disable();
-begin
-	FMarker.Parent := nil;
+	vJson.Delete('ConnectedTo');
 end;
 
 { TMap }
@@ -234,10 +180,7 @@ end;
 constructor TMap.Create();
 begin
 	FMarkers := TMarkers.Create;
-	FDeletedMarkers := TMarkers.Create;
 	FImage := TPicture.Create;
-	FConnecting := false;
-	FMapData := TTranslations.Create;
 end;
 
 {}
@@ -246,8 +189,6 @@ begin
 	{ Do not free marker blueprint! }
 	FImage.Free;
 	FMarkers.Free;
-	FDeletedMarkers.Free;
-	FMapData.Free;
 	inherited;
 end;
 
@@ -262,77 +203,21 @@ begin
 	if length(vContent) > 0 then
 		Import(vContent);
 
-	FImage.LoadFromFile(FImageFilename);
+	FImage.LoadFromFile(ImageName);
 	canvas.Picture := FImage;
 	Logger('Map initialized');
 end;
 
 {}
-procedure TMap.UpdateTranslations();
-var
-	dialog: TTranslationDialog;
-begin
-	dialog := TTranslationDialog.Create(nil);
-
-	dialog.Translations := FMapData;
-	dialog.ShowModal();
-	dialog.Free;
-end;
-
-{}
-function TMap.CreateMarker(): TMapMarker;
-begin
-	result := TMapMarker.Create();
-	result.SetMap(self);
-	FMarkers.Add(result);
-end;
-
-{}
-procedure TMap.DeleteMarker(const marker: TMapMarker);
-begin
-	DeleteConnections(marker);
-	FDeletedMarkers.Add(markers.Extract(marker));
-	marker.Disable();
-	OnChange;
-end;
-
-{}
 procedure TMap.AddMarker(const X, Y: Integer);
-var
-	dialog: TLoreIdDialog;
-	marker: TMapMarker;
 begin
-	if FDeleting then begin
-		Logger('You are in a wrong mode!');
-		exit;
-	end;
-
-	dialog := TLoreIdDialog.Create(nil);
-
-	marker := nil;
 	if FEdited <> nil then begin
-		marker := FEdited;
-		dialog.LoreIdValue := marker.LoreId;
-	end;
-
-	dialog.ShowModal();
-
-	if dialog.Saved then begin
-		if marker = nil then
-			marker := CreateMarker();
-
-		marker.LoreId := dialog.LoreIdValue;
-		marker.PosX := X;
-		marker.PosY := Y;
+		FEdited.PosX := X;
+		FEdited.PosY := Y;
+		Logger('Marker saved: ' + FEdited.LoreId);
+		FEdited := nil;
 		OnChange();
-		Logger('Marker saved: ' + dialog.LoreIdValue);
-	end
-	else
-		Logger('Aborted');
-
-	FEdited := nil;
-
-	dialog.Free;
+	end;
 end;
 
 {}
@@ -344,10 +229,6 @@ begin
 	end;
 
 	if FEdited = value then begin
-		if FDeleting then
-			DeleteMarker(value)
-		else
-			FEdited.UpdateTranslations();
 		FEdited := nil;
 	end
 	else begin
@@ -358,58 +239,6 @@ begin
 end;
 
 {}
-procedure TMap.SetConnected(const value: TMapMarker);
-begin
-	if FEdited = nil then begin
-		FEdited := value;
-		Logger('Select a second marker to connect');
-	end
-	else begin
-		if value <> FEdited then begin
-			if not FDeleting then begin
-				AddConnection(FEdited, value);
-				Logger('Connected markers: ' + FEdited.LoreId + ' -> ' + value.LoreId);
-			end
-			else begin
-				DeleteConnection(FEdited, value);
-				Logger('Deleted connection');
-			end;
-
-			OnChange();
-		end
-		else
-			Logger('Will not connect to self!');
-
-		FEdited := nil;
-	end;
-end;
-
-{}
-procedure TMap.AddConnection(const marker1, marker2: TMapMarker);
-begin
-	marker1.ConnectWith(marker2.LoreId);
-	marker2.ConnectWith(marker1.LoreId);
-end;
-
-{}
-procedure TMap.DeleteConnection(const marker1, marker2: TMapMarker);
-begin
-	marker1.DisconnectWith(marker2.LoreId);
-	marker2.DisconnectWith(marker1.LoreId);
-end;
-
-{}
-procedure TMap.DeleteConnections(const marker: TMapMarker);
-var
-	loopMarker: TMapMarker;
-begin
-	for loopMarker in FMarkers do
-		loopMarker.DisconnectWith(marker.LoreId);
-
-	marker.ConnectedTo.Clear;
-end;
-
-{}
 function TMap.Export(): String;
 var
 	jsonResult: TJSONObject;
@@ -417,7 +246,6 @@ var
 begin
 	streamer := TGameStreamer.Create();
 	jsonResult := streamer.Streamer.ObjectToJSON(self);
-	jsonResult.Strings['ImageName'] := ExtractFileName(FImageFilename);
 	result := jsonResult.FormatJSON([foUseTabchar], 1);
 
 	streamer.Free;
@@ -435,14 +263,18 @@ begin
 
 	for marker in FMarkers do
 		marker.SetMap(self);
-
-	FImageFilename := 'assets/maps/' + FImageFilename;
 end;
 
 {}
 function TMap.MetaFileName(): String;
 begin
-	result := GetDataDirectory(ddtMap, ChangeFileExt(ExtractFileName(FImageFilename), '.json'));
+	result := GetDataDirectory(ddtMap, ChangeFileExt(ExtractFileName(FLoreFileName), '.json'));
+end;
+
+{}
+function TMap.ImageName(): String;
+begin
+	result := GetAssetDirectory(ddtMap, ChangeFileExt(ExtractFileName(FLoreFileName), '.png'));
 end;
 
 {}

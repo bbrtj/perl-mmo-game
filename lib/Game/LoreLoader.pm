@@ -6,15 +6,16 @@ use Encode qw(decode);
 use header;
 
 use constant DIRECTORY => curfile->dirname->dirname->dirname->child('game-data');
+use constant EXTENSION => 'gd';
 
 my %loaded;
 
 sub load ($self, $name)
 {
-	$name =~ s/\.gd$//;
+	$name =~ s/\.@{[EXTENSION]}$//;
 	return if $loaded{$name};
 
-	my $filename = DIRECTORY->child("$name.gd");
+	my $filename = DIRECTORY->child("$name." . EXTENSION);
 	die "$filename does not exist"
 		unless -f $filename;
 
@@ -28,6 +29,9 @@ sub load ($self, $name)
 		use v5.30;
 		use warnings;
 		use utf8;
+
+		use constant FILENAME => '$filename';
+
 		use Game::LoreLoader::DSL;
 
 		$contents
@@ -47,7 +51,7 @@ sub load ($self, $name)
 sub load_all ($self)
 {
 	for my $file (DIRECTORY->list_tree->each) {
-		next unless $file->extname eq 'gd';
+		next unless $file->extname eq EXTENSION;
 		$self->load($file->to_rel(DIRECTORY));
 	}
 }

@@ -1,0 +1,51 @@
+#!/usr/bin/env perl
+
+use v5.32;
+use warnings;
+
+my $dir;
+BEGIN {
+	use File::Basename;
+	$dir = dirname(dirname(__FILE__));
+}
+
+use lib "$dir/local/lib/perl5";
+use lib "$dir/lib";
+
+use Game::LoreLoader;
+use DI;
+use Mojo::File qw(path);
+use Mojo::JSON qw(to_json);
+
+my ($file) = @ARGV;
+die 'you must specify a file path relative to game-data directory'
+	unless defined $file;
+
+Game::LoreLoader->load(path($file)->to_rel(Game::LoreLoader->DIRECTORY));
+
+my $repo = DI->get('lore_data');
+my %areas = $repo->load_all_named('Game::Lore::Area')->%*;
+
+my @keys = keys %areas;
+
+die 'File contents are too vague - more than one area found'
+	unless @keys < 2;
+die 'No areas found. Is this file finished?'
+	unless @keys > 0;
+
+my @markers;
+for my $location ($areas{$keys[0]}->data->children->@*) {
+	push @markers, {
+		LoreId => $location->id,
+		PosX => $location->data->x // rand,
+		PosY => $location->data->y // rand,
+		ConnectedTo => join ';', map { $_->id } $location->data->connections->@*,
+	};
+}
+
+my $struct = {
+	Markers => \@markers
+};
+
+say to_json $struct;
+

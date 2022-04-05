@@ -39,7 +39,7 @@ sub data ($self)
 
 	if (!exists $data_collection{$id}) {
 		my $target_class = blessed($self) . 'Data';
-		$data_collection{$id} = $target_class->new;
+		$data_collection{$id} = $target_class->new(main_obj => $self);
 	}
 
 	return $data_collection{$id};

@@ -1,12 +1,12 @@
 object MapEditorForm: TMapEditorForm
   Left = 553
-  Height = 749
+  Height = 757
   Top = 154
-  Width = 1366
+  Width = 1380
   Caption = 'Map Editor'
-  ClientHeight = 729
-  ClientWidth = 1366
-  DesignTimePPI = 97
+  ClientHeight = 737
+  ClientWidth = 1380
+  DesignTimePPI = 98
   Menu = EditorMenu
   OnCreate = FormCreate
   Position = poDesktopCenter
@@ -17,54 +17,36 @@ object MapEditorForm: TMapEditorForm
     AnchorSideTop.Side = asrBottom
     Left = 7
     Height = 15
-    Top = 564
+    Top = 570
     Width = 19
     BorderSpacing.Top = 3
     Caption = 'zzz'
     ParentColor = False
     ParentFont = False
   end
-  object StateInfo: TLabel
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = Panel1
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Panel1
-    AnchorSideRight.Side = asrBottom
-    Left = 793
-    Height = 15
-    Top = 564
-    Width = 44
-    Alignment = taRightJustify
-    Anchors = [akTop, akRight]
-    BorderSpacing.Top = 3
-    Caption = 'Normal'
-    ParentBidiMode = False
-    ParentColor = False
-    ParentFont = False
-  end
   object Panel1: TPanel
     Left = 7
-    Height = 554
+    Height = 560
     Top = 7
-    Width = 830
+    Width = 839
     Caption = 'Panel1'
-    ClientHeight = 554
-    ClientWidth = 830
+    ClientHeight = 560
+    ClientWidth = 839
     ParentFont = False
     TabOrder = 0
     object MapView: TImage
       Cursor = crCross
       Left = 1
-      Height = 552
+      Height = 558
       Top = 1
-      Width = 828
+      Width = 837
       OnMouseDown = MapViewClick
       OnPaint = MapViewPaint
       Stretch = True
     end
     object Marker: TShape
       Cursor = crHandPoint
-      Left = 796
+      Left = 804
       Height = 12
       Top = 13
       Width = 12
@@ -76,15 +58,10 @@ object MapEditorForm: TMapEditorForm
     end
   end
   object EditorMenu: TMainMenu
-    Left = 580
-    Top = 999
+    Left = 586
+    Top = 1009
     object MenuItem1: TMenuItem
       Caption = 'Map'
-      object LoadMenuItem: TMenuItem
-        Caption = 'Load'
-        ShortCut = 16463
-        OnClick = MenuLoadClick
-      end
       object SaveMenuItem: TMenuItem
         Caption = 'Save'
         ShortCut = 16467
@@ -97,30 +74,6 @@ object MapEditorForm: TMapEditorForm
         Caption = 'Quit'
         ShortCut = 16465
         OnClick = MenuQuitClick
-      end
-    end
-    object MenuItem10: TMenuItem
-      Caption = 'Properties'
-      object LoreIdMenuItem: TMenuItem
-        Caption = 'Set ID'
-        OnClick = LoreIdMenuItemClick
-      end
-      object TranslationsMenuItem: TMenuItem
-        Caption = 'Translations'
-        OnClick = MenuTranslationsClick
-      end
-    end
-    object MenuItem6: TMenuItem
-      Caption = 'State'
-      object EditPathsMenuItem: TMenuItem
-        Caption = 'Edit paths'
-        ShortCut = 16453
-        OnClick = MenuEditPathsClick
-      end
-      object DeleteMenuItem: TMenuItem
-        Caption = 'Delete'
-        ShortCut = 16452
-        OnClick = MenuDeleteClick
       end
     end
   end

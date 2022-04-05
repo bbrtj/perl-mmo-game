@@ -1,30 +1,29 @@
 {
 	"Markers" : [
 		{
-			"LoreId" : "LOC_CP_HARBOR",
-			"PosX" : 7.2727000000000000E-002,
-			"PosY" : 9.0151499999999996E-001
+			"LoreId" : "L.LOC.CP_HARBOR",
+			"PosX" : 9.1995221027479090E-002,
+			"PosY" : 8.7813620071684584E-001
 		},
 		{
-			"LoreId" : "LOC_CP_MARKET",
+			"LoreId" : "L.LOC.CP_MARKET",
 			"PosX" : 2.1414100000000000E-001,
 			"PosY" : 7.4393900000000002E-001
 		},
 		{
-			"LoreId" : "LOC_CP_GATE",
+			"LoreId" : "L.LOC.CP_GATE",
 			"PosX" : 3.3131300000000002E-001,
 			"PosY" : 7.5151500000000004E-001
 		},
 		{
-			"LoreId" : "LOC_CP_INN",
-			"PosX" : 1.7373700000000000E-001,
-			"PosY" : 8.4242399999999995E-001
+			"LoreId" : "L.LOC.CP_INN",
+			"PosX" : 1.9235364396654700E-001,
+			"PosY" : 8.4587813620071695E-001
 		},
 		{
-			"LoreId" : "LOC_CP_DEPO",
+			"LoreId" : "L.LOC.CP_DEPO",
 			"PosX" : 1.5555600000000000E-001,
 			"PosY" : 6.6515199999999997E-001
 		}
 	]
 }
-

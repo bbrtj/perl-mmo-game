@@ -10,6 +10,7 @@ type
 	TSerialized = class(TPersistent)
 	public
 		constructor Create(); virtual;
+		procedure OnObjectStreamed(vJson: TJSONObject); virtual;
 	end;
 
 	TSerializedListType = class of TFPSList;
@@ -35,6 +36,8 @@ type
 
 		procedure OnRestoreProperty(sender: TObject; aObject: TObject; info: PPropInfo; aValue: TJSONData; var handled: Boolean);
 		procedure DeStreamGenericList(const aArray: TJSONArray; value: TObject; itemInfo: TSerializedList);
+
+		procedure OnObjectStreamed(sender: TObject; aObject: TObject; vJson: TJSONObject);
 	public
 		constructor Create();
 		destructor Destroy(); override;
@@ -55,6 +58,13 @@ begin
 end;
 
 {}
+procedure TSerialized.OnObjectStreamed(vJson: TJSONObject);
+begin
+	// can be reimplemented
+end;
+
+
+{}
 constructor TSerializedList.Create(ltype: TSerializedListType; litemtype: TSerializedListItemType);
 begin
 	ListType := ltype;
@@ -69,6 +79,7 @@ begin
 	FDeStreamer := TJSONDeStreamer.Create(nil);
 
 	FStreamer.OnStreamProperty := @OnStreamProperty;
+	FStreamer.AfterStreamObject := @OnObjectStreamed;
 	FDeStreamer.OnRestoreProperty := @OnRestoreProperty;
 end;
 
@@ -140,6 +151,15 @@ begin
 		(value as itemInfo.ListType).Add(@resultObject);
 	end;
 end;
+
+{}
+procedure TGameStreamer.OnObjectStreamed(sender: TObject; aObject: TObject; vJson: TJSONObject);
+begin
+	if aObject is TSerialized then
+		(aObject as TSerialized).OnObjectStreamed(vJson);
+end;
+
+{ implementation end }
 
 { Free functions }
 

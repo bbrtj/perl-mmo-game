@@ -1,39 +1,39 @@
 object EditorModeForm: TEditorModeForm
   Left = 546
-  Height = 749
+  Height = 319
   Top = 368
-  Width = 1366
+  Width = 960
   AutoSize = True
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsToolWindow
   BorderWidth = 5
   Caption = 'Game Editor'
-  ClientHeight = 729
-  ClientWidth = 1366
-  DesignTimePPI = 97
+  ClientHeight = 297
+  ClientWidth = 960
+  DesignTimePPI = 111
   Menu = EditorMenu
   OnCreate = FormCreate
   Position = poDesktopCenter
   LCLVersion = '2.0.12.0'
   object PageControl1: TPageControl
     Left = 8
-    Height = 267
-    Top = 8
-    Width = 477
+    Height = 306
+    Top = 9
+    Width = 546
     ActivePage = MapsTab
     ParentFont = False
     TabIndex = 0
     TabOrder = 0
     object MapsTab: TTabSheet
       Caption = 'Maps'
-      ClientHeight = 235
-      ClientWidth = 473
+      ClientHeight = 271
+      ClientWidth = 542
       ParentFont = False
       object MapsList: TListBox
-        Left = 8
-        Height = 218
-        Top = 8
-        Width = 457
+        Left = 9
+        Height = 249
+        Top = 9
+        Width = 523
         ItemHeight = 0
         OnDblClick = MapsListDblClick
         ParentFont = False
@@ -41,25 +41,10 @@ object EditorModeForm: TEditorModeForm
         TabOrder = 0
       end
     end
-    object ClassesTab: TTabSheet
-      Caption = 'Classes'
-      ClientHeight = 235
-      ClientWidth = 473
-      object ClassesList: TListBox
-        Left = 7
-        Height = 218
-        Top = 8
-        Width = 457
-        ItemHeight = 0
-        OnDblClick = ClassesListDblClick
-        ParentFont = False
-        TabOrder = 0
-      end
-    end
   end
   object EditorMenu: TMainMenu
-    Left = 550
-    Top = 40
+    Left = 629
+    Top = 46
     object MenuItem1: TMenuItem
       Caption = 'Editor'
       object ExitButton: TMenuItem
@@ -69,8 +54,8 @@ object EditorModeForm: TEditorModeForm
     end
   end
   object ActionList1: TActionList
-    Left = 550
-    Top = 105
+    Left = 629
+    Top = 120
     object ExitAction: TAction
       Caption = 'ExitAction'
       OnExecute = ExitActionExecute

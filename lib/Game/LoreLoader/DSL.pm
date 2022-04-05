@@ -6,6 +6,8 @@ use Game::Config;
 use DI;
 
 use Sub::Util qw(set_subname);
+use Mojo::File qw(path);
+use Mojo::JSON qw(decode_json);
 
 use header -noclean;
 
@@ -17,6 +19,8 @@ use constant TYPES => [qw(
 	slot
 	primary_stat
 	secondary_stat
+	area
+	location
 )];
 
 use constant CONFIGS => [qw(
@@ -24,7 +28,7 @@ use constant CONFIGS => [qw(
 	define
 	uses
 	type
-	subtype_of
+	parent
 )];
 
 sub transform_name ($self, $name)
@@ -51,8 +55,9 @@ sub get_helpers ($self)
 	return %subs;
 }
 
-sub get_dsl ($self)
+sub get_dsl ($self, $caller)
 {
+	state $repo = DI->get('lore_data');
 	my @items;
 
 	my sub reporter ($text) {
@@ -74,6 +79,31 @@ sub get_dsl ($self)
 		},
 		requires => sub ($dependency) {
 			Game::LoreLoader->load($dependency);
+			return;
+		},
+		connection => sub ($from, $to) {
+			$from = $from->create;
+			$to = $to->create;
+
+			push $from->data->connections->@*, $to;
+			push $to->data->connections->@*, $from;
+			return;
+		},
+		load_coordinates => sub ($from_key) {
+			my $file = path($caller->FILENAME);
+			my $json_file = $file->dirname->child($file->basename('.' . Game::LoreLoader->EXTENSION) . '.json');
+
+			return unless -f $json_file;
+			my $coordinates = decode_json $json_file->slurp;
+
+			for my $item ($coordinates->{$from_key}->@*) {
+				my ($lore_id, $x, $y) = $item->@{qw(LoreId PosX PosY)};
+				my $lore_item = $repo->load($lore_id);
+				$lore_item->data->set_x($x);
+				$lore_item->data->set_y($y);
+			}
+
+			return;
 		},
 	);
 
@@ -148,7 +178,7 @@ sub import ($self, @args)
 {
 	my $package = caller;
 	my $want_helpers = (grep { $_ eq -helpers } @args) > 0;
-	my %subs = $want_helpers ? $self->get_helpers : $self->get_dsl;
+	my %subs = $want_helpers ? $self->get_helpers : $self->get_dsl($package);
 
 	for my $name (keys %subs) {
 		no strict 'refs';

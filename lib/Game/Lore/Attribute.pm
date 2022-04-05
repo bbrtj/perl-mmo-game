@@ -17,9 +17,7 @@ package Game::Lore::AttributeData {
 
 	extends 'Game::LoreData';
 
-	has 'subtype_of' => (
-		is => 'ro',
-		writer => 'set_subtype_of',
+	has '+parent' => (
 		isa => Types::InstanceOf['Game::Lore::Attribute'],
 	);
 }

@@ -109,13 +109,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit1>
-      <Unit2>
-        <Filename Value="translationdialog.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="TranslationDialog"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit2>
       <Unit3>
         <Filename Value="editormode.pas"/>
         <IsPartOfProject Value="True"/>
@@ -134,12 +127,6 @@
         <Filename Value="map.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit5>
-      <Unit6>
-        <Filename Value="classeditor.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="ClassEditor"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit6>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -174,3 +161,4 @@
     </Exceptions>
   </Debugging>
 </CONFIG>
+
