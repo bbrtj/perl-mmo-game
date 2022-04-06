@@ -12,14 +12,15 @@ interface
 implementation
 
 uses SysUtils,
-	CastleWindow, CastleLog, CastleUIState
+	CastleWindow, CastleLog, CastleUIState,
+	GameLore
 	{$region 'Castle Initialization Uses'}
 	// The content here may be automatically updated by CGE editor.
 	, GameStateLogin
 	{$endregion 'Castle Initialization Uses'};
 
 var
-	Window: TCastleWindowBase;
+	Window: TCastleWindow;
 
 { One-time initialization of resources. }
 procedure ApplicationInitialize;
@@ -38,6 +39,7 @@ begin
 	{$endregion 'Castle State Creation'}
 
 	TUIState.Current := StateLogin;
+	LoreCollection.Initialize;
 end;
 
 initialization
@@ -45,7 +47,7 @@ initialization
 	Application.OnInitialize := @ApplicationInitialize;
 
 	{ Create and assign Application.MainWindow. }
-	Window := TCastleWindowBase.Create(Application);
+	Window := TCastleWindow.Create(Application);
 	Window.ParseParameters; // allows to control window size / fullscreen on the command-line
 	Application.MainWindow := Window;
 
@@ -55,3 +57,4 @@ initialization
 		(because in case of non-desktop platforms,
 		some necessary resources may not be prepared yet). }
 end.
+

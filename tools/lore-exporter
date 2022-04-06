@@ -2,6 +2,7 @@
 
 use v5.32;
 use warnings;
+use autodie;
 
 my $dir;
 BEGIN {
@@ -16,37 +17,31 @@ use Utils;
 use DI;
 use Mojo::JSON qw(to_json);
 
-my ($lang) = @ARGV;
-die 'please specify a language'
-	unless $lang;
-
-$lang = lc $lang;
-
-my %supported_langs = map { $_ => 1 } qw(pl);
-die 'that language is not supported'
-	unless $supported_langs{$lang};
-
 Utils->bootstrap_lore;
 
 my $repo = DI->get('lore_data');
 my %lores = $repo->load_all()->%*;
 
-my @items;
-for my $key (keys %lores) {
-	my $item = $lores{$key};
-	push @items, {
-		LoreId => $item->id,
-		LoreName => $item->data->translations->{$lang}{name},
-		LoreDescription => $item->data->translations->{$lang}{desc},
+for my $lang (qw(pl)) {
+	my @items;
+	for my $key (keys %lores) {
+		my $item = $lores{$key};
+		push @items, {
+			LoreId => $item->id,
+			LoreName => $item->data->translations->{$lang}{name},
+			LoreDescription => $item->data->translations->{$lang}{desc},
+		};
+	}
+
+	my $struct = {
+		Items => \@items
 	};
+
+	{
+		open my $fh, '>:utf8', "client/data/lore.$lang.json";
+		say {$fh} to_json $struct;
+	}
 }
-
-my $struct = {
-	Items => \@items
-};
-
-binmode STDOUT, ':utf8';
-say to_json $struct;
 
 __END__
 

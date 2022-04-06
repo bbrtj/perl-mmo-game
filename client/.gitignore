@@ -12,3 +12,7 @@ client.exe
 
 # May contain secret data (your Android keystore username and password)
 AndroidAntProperties.txt
+
+# other stuff
+data/lore.*.json
+

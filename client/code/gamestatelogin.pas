@@ -2,7 +2,7 @@ unit GameStateLogin;
 
 interface
 
-uses Classes,
+uses Classes, GameLore,
 	CastleVectors, CastleUIState, CastleComponentSerialize,
 	CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleFonts, CastleStringUtils, CastleUnicode,
@@ -134,3 +134,4 @@ begin
 end;
 
 end.
+

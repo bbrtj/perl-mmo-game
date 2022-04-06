@@ -184,3 +184,4 @@ finalization
 	// GlobalClient.Free;
 
 end.
+
