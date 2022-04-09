@@ -38,8 +38,6 @@ sub database_test : prototype(&) ($sub)
 		my $db = Component::DB->new(env => $env, dbh => $pg);
 		DI->set('db', $db);
 
-		Utils->bootstrap_models;
-
 		$sub->();
 	}
 	catch ($e) {

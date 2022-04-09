@@ -31,7 +31,7 @@ sub create_actor ($self)
 	my $variables = Model::CharacterVariables->new(
 		id => $character->id,
 		experience => 1234,
-		location => 'LOC_GMDUNG',
+		location_id => 'LOC_GMDUNG',
 		health => 100.3,
 		mana => 120.6,
 	);

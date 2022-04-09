@@ -1,8 +1,8 @@
 package Utils;
 
-use Mojo::File qw(path);
-use Schema;
-use Mojo::Pg;
+use Model;
+use Game::Lore;
+
 use DI;
 use MojoX::Log::Dispatch::Simple;
 use Mojo::IOLoop;
@@ -21,22 +21,13 @@ sub bootstrap ($class, $app)
 		)
 	);
 
-	$class->bootstrap_models;
 	$class->bootstrap_lore;
 
 	return $config;
 }
 
-sub bootstrap_models ($class)
-{
-	$class->load_classes('Model', 'Model/*.pm');
-
-	return;
-}
-
 sub bootstrap_lore ($class)
 {
-	$class->load_classes('Game::Lore', 'Game/Lore/*.pm');
 	Game::LoreLoader->load_all;
 
 	return;
@@ -54,20 +45,5 @@ sub bootstrap_mojo ($class)
 	});
 
 	return;
-}
-
-sub load_classes ($class, $namespace, $pattern)
-{
-	if ($pattern !~ m{^/}) {
-		$pattern = path((caller)[1])->dirname->to_string . "/$pattern";
-	}
-
-	my @classes = map { m{/(\w+)\.pm$}; "${namespace}::$1" } glob $pattern;
-	for my $class (@classes) {
-		my $success = eval "use $class; 1";
-		die "error loading $class: $@" unless $success;
-	}
-
-	return @classes;
 }
 

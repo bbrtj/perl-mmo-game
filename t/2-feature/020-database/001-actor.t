@@ -10,7 +10,7 @@ Utils->bootstrap_lore;
 database_test {
 	my ($actor, %related_models) = ActorTest->create_actor;
 	foreach my $model (@related_models{qw(user player character variables)}) {
-		DI->get('schema_repo')->save($model);
+		DI->get('models')->save($model);
 	}
 
 	$related_models{variables}->set_experience(1500);

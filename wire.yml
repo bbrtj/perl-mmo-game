@@ -25,8 +25,8 @@ encoder:
 
 # Repositories
 
-schema_repo:
-    class: Repository::Schema
+models:
+    class: Repository::Models
     args:
         db:
             $ref: db
@@ -48,7 +48,7 @@ units:
         db:
             $ref: db
         repo:
-            $ref: schema_repo
+            $ref: models
 
 # Services
 
@@ -56,7 +56,7 @@ user_service:
     class: Service::User
     args:
         repo:
-            $ref: schema_repo
+            $ref: models
 
 channel_service:
     class: Service::Channel

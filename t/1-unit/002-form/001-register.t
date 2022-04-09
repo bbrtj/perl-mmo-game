@@ -61,7 +61,7 @@ my $load_mock = $mock->add_method('load')
 		}
 	);
 
-DI->set('schema_repo', $mock->object, 1);
+DI->set('models', $mock->object, 1);
 
 before_each {
 	$load_mock->clear;

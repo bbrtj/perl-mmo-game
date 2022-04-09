@@ -17,7 +17,7 @@ has 'player_id' => (
 
 has 'npc_id' => (
 	is => 'ro',
-	isa => Types::Maybe [Types::Ulid],
+	isa => Types::Maybe [Types::LoreId],
 	default => sub { undef },
 );
 

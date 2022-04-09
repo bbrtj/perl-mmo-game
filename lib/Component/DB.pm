@@ -25,7 +25,7 @@ has 'dbc' => (
 	isa => Types::InstanceOf ['Schema'],
 	lazy => 1,
 	default => sub ($self) {
-		Schema->connect(sub { $self->dbh->db->dbh });
+		Schema->connect(sub { $self->db->dbh });
 	},
 );
 
@@ -33,3 +33,4 @@ sub db ($self)
 {
 	return $self->dbh->db;
 }
+

@@ -3,8 +3,11 @@ package Game::Lore;
 use My::Moose;
 use Types;
 use DI;
+use Mojo::Loader qw(load_classes);
 
 use header;
+
+load_classes('Game::Lore');
 
 has 'id' => (
 	is => 'ro',

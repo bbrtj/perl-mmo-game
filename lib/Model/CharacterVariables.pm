@@ -16,7 +16,7 @@ has 'experience' => (
 	default => sub { 0 },
 );
 
-has 'location' => (
+has 'location_id' => (
 	is => 'ro',
 	isa => Types::LoreId,
 	required => 1,

@@ -19,7 +19,7 @@ my $mock_user = Model::User->new;
 my $save_mock = $mock->add_method('save');
 my $load_mock = $mock->add_method('load');
 
-DI->set('schema_repo', $mock->object, 1);
+DI->set('models', $mock->object, 1);
 my $service = DI->get('user_service');
 
 before_each {

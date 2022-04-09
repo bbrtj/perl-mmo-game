@@ -8,7 +8,6 @@ use header;
 use overload
 	'""' => 'stringify';
 
-# TODO: stringify with the msg if present?
 has 'msg' => (
 	is => 'ro',
 	isa => Types::Str,

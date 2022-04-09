@@ -4,7 +4,7 @@ use testheader;
 
 my $data = {
 	experience => 100000,
-	location => "TEST",
+	location_id => "TEST",
 	health => 100,
 	mana => 30,
 };

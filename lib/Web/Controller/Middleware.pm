@@ -25,7 +25,7 @@ sub prepare_request ($self)
 	my $user_id = $self->session->{user};
 	my $user;
 
-	$user = DI->get('schema_repo')->load(User => $user_id)
+	$user = DI->get('models')->load(User => $user_id)
 		if $user_id;
 	$self->stash(user => $user);
 

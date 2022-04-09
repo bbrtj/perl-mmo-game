@@ -17,7 +17,7 @@ CREATE INDEX ind_users_online ON players (online);
 CREATE TABLE characters (
 	id CHAR(26) primary key,
 	player_id CHAR(26) NULL,
-	npc_id CHAR(26) NULL,
+	npc_id VARCHAR(32) NULL,
 	class_id VARCHAR(32) NOT NULL,
 	name VARCHAR(32) NOT NULL,
 	stats VARCHAR NOT NULL,
@@ -32,7 +32,7 @@ CREATE INDEX ind_characters_lookup_npc ON characters (npc_id);
 CREATE TABLE character_variables (
 	id CHAR(26) primary key,
 	experience BIGINT NOT NULL DEFAULT 0,
-	location VARCHAR(32) NOT NULL,
+	location_id VARCHAR(32) NOT NULL,
 	health FLOAT NOT NULL,
 	mana FLOAT NOT NULL,
 	CONSTRAINT fk_character

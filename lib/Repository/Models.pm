@@ -1,8 +1,8 @@
-package Repository::Schema;
+package Repository::Models;
 
 use My::Moose;
 use Types;
-use Schema::Utils qw(ensure_single);
+use Schema::Utils qw(fetch_single);
 
 use header;
 
@@ -22,22 +22,23 @@ sub save ($self, $model, $update = 0)
 	my $class = $model->get_result_class;
 	my $type = $update ? 'update' : 'insert';
 	my $dbmodel = $self->db->dbc->resultset($class)->new($model->serialize);
+
 	if ($update) {
-		my %dirty = $model->_dirty->%*;
-		return unless %dirty;
+		my @dirty = keys $model->_dirty->%*;
+		return unless @dirty > 0;
 
 		$dbmodel->in_storage(1);
-		$dbmodel->make_column_dirty($_) for keys %dirty;
+		$dbmodel->make_column_dirty($_) for @dirty;
 	}
+
 	$dbmodel->$type;
 	$model->_clear_dirty;
 	return;
 }
 
-sub update
+sub update ($self, $model)
 {
-	$_[2] = 1;    # update flag
-	goto \&save;
+	return $self->save($model, 1);
 }
 
 sub load ($self, $resultset, $search)
@@ -47,6 +48,6 @@ sub load ($self, $resultset, $search)
 
 	my $rs = $self->db->dbc->resultset($resultset)->search($search);
 
-	return ensure_single($rs)->to_model;
+	return fetch_single($rs)->to_model;
 }
 

@@ -43,18 +43,18 @@ database_test {
 	);
 
 	$user->set_password('test');
-	my $schema_repo = DI->get('schema_repo');
-	ok $schema_repo, 'schema repo resolve ok';
+	my $models = DI->get('models');
+	ok $models, 'schema repo resolve ok';
 
 	$user->promote;
-	ok lives { $schema_repo->save($user) }, 'Models can be saved';
+	ok lives { $models->save($user) }, 'Models can be saved';
 
-	my $fetched = $schema_repo->load(User => $user->id);
+	my $fetched = $models->load(User => $user->id);
 	is $fetched->serialize, $user->serialize, 'after save ok';
 
 	$user->set_password('test2');
-	ok lives { $schema_repo->save($user, 1) }, 'update ok';
-	$fetched = $schema_repo->load(User => $user->id);
+	ok lives { $models->save($user, 1) }, 'update ok';
+	$fetched = $models->load(User => $user->id);
 	is $fetched->serialize, $user->serialize, 'after update ok';
 };
 
