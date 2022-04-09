@@ -127,6 +127,7 @@ procedure TStateLogin.onLogin(const vLogin: TModelBase);
 begin
 	if (vLogin as TLoginResultMessage.Model).success = 1 then
 		FStatus.Caption := 'Success!'
+		// TODO: change game state to character list
 	else begin
 		FStatus.Caption := 'Login has failed';
 		GlobalClient.Disconnect;

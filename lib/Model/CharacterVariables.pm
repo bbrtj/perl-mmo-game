@@ -22,6 +22,18 @@ has 'location_id' => (
 	required => 1,
 );
 
+has 'pos_x' => (
+	is => 'ro',
+	isa => Types::Num,
+	required => 1,
+);
+
+has 'pos_y' => (
+	is => 'ro',
+	isa => Types::Num,
+	required => 1,
+);
+
 has 'health' => (
 	is => 'ro',
 	isa => Types::Num,
@@ -35,3 +47,4 @@ has 'mana' => (
 );
 
 __PACKAGE__->_register;
+

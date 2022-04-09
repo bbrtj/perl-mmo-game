@@ -1,11 +1,11 @@
 package Server::Worker;
 
 use My::Moose;
-use Utils;
 use Types;
 use Server::Worker::Process;
 use Data::ULID qw(ulid);
 use Mojo::IOLoop;
+use Mojo::Loader qw(load_classes);
 
 use header;
 
@@ -30,7 +30,7 @@ has 'commands' => (
 		return {
 			map {
 				$_->name => $_->new
-			} grep { !$_->disabled } Utils->load_classes('Server::Command', 'Command/*.pm')
+			} grep { !$_->disabled } load_classes('Server::Command')
 		};
 	},
 	init_arg => undef,
@@ -45,7 +45,7 @@ has 'actions' => (
 		return {
 			map {
 				$_->name => $_->new
-			} grep { !$_->disabled } Utils->load_classes('Server::Action', 'Action/*.pm')
+			} grep { !$_->disabled } load_classes('Server::Action')
 		};
 	},
 	init_arg => undef,

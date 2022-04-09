@@ -2,10 +2,9 @@ package Repository::Units;
 
 use My::Moose;
 use Factory::Actor;
-use Factory::Battle;
 use Factory::User;
 use Types;
-use Schema::Utils qw(ensure_single);
+use Schema::Utils qw(fetch_single);
 
 use header;
 
@@ -33,23 +32,11 @@ sub get_actor ($self, $character_id)
 	my $rs = $self->db->dbc->resultset('Character')->search(
 		{'me.id' => $character_id},
 		{
-			prefetch => [qw(player variables contestant)],
+			prefetch => [qw(player variables)],
 		}
 	);
 
-	return Factory::Actor->create(ensure_single($rs));
-}
-
-sub get_battle ($self, $battle_id)
-{
-	my $rs = $self->db->dbc->resultset('Battle')->search(
-		{'me.id' => $battle_id},
-		{
-			prefetch => {contestants => {character => [qw(player variables contestant)]}}
-		}
-	);
-
-	return Factory::Actor->create(ensure_single($rs));
+	return Factory::Actor->create(fetch_single($rs));
 }
 
 sub get_user ($self, $user_id)
@@ -61,5 +48,6 @@ sub get_user ($self, $user_id)
 		}
 	);
 
-	return Factory::User->create(ensure_single($rs));
+	return Factory::User->create(fetch_single($rs));
 }
+

@@ -33,6 +33,8 @@ CREATE TABLE character_variables (
 	id CHAR(26) primary key,
 	experience BIGINT NOT NULL DEFAULT 0,
 	location_id VARCHAR(32) NOT NULL,
+	pos_x FLOAT NOT NULL,
+	pos_y FLOAT NOT NULL,
 	health FLOAT NOT NULL,
 	mana FLOAT NOT NULL,
 	CONSTRAINT fk_character
@@ -40,7 +42,7 @@ CREATE TABLE character_variables (
 		REFERENCES characters(id)
 );
 
-CREATE INDEX ind_character_variables_lookup_location ON character_variables (location);
+CREATE INDEX ind_character_variables_lookup_location ON character_variables (location_id);
 
 -- 2 down
 

@@ -32,6 +32,8 @@ sub create_actor ($self)
 		id => $character->id,
 		experience => 1234,
 		location_id => 'LOC_GMDUNG',
+		pos_x => 2.2,
+		pos_y => 5.3,
 		health => 100.3,
 		mana => 120.6,
 	);
