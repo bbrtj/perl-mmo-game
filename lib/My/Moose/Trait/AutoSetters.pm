@@ -27,7 +27,7 @@ around add_attribute => sub {
 			$attribute->get_write_method,
 			sub {
 				my ($instance) = @_;
-				$instance->_dirty->{$attribute->name} = 1;
+				$instance->_dirty($attribute->name);
 			}
 		);
 	}
@@ -36,3 +36,4 @@ around add_attribute => sub {
 };
 
 1;
+

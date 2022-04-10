@@ -19,20 +19,21 @@ sub save ($self, $model, $update = 0)
 	state $type_check = Types::ConsumerOf ['Model::Role::Stored'];
 	$type_check->assert_valid($model);
 
-	my $class = $model->get_result_class;
+	my @dirty = $model->_dirty;
+	return if $update && @dirty == 0;
+
 	my $type = $update ? 'update' : 'insert';
-	my $dbmodel = $self->db->dbc->resultset($class)->new($model->serialize);
+	my $dbmodel = $self->db->dbc
+		->resultset($model->get_result_class)
+		->new($model->serialize);
 
 	if ($update) {
-		my @dirty = keys $model->_dirty->%*;
-		return unless @dirty > 0;
-
 		$dbmodel->in_storage(1);
 		$dbmodel->make_column_dirty($_) for @dirty;
 	}
 
 	$dbmodel->$type;
-	$model->_clear_dirty;
+	$model->_clear_dirty unless @dirty == 0;
 	return;
 }
 
