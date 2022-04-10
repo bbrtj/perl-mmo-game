@@ -1,10 +1,7 @@
 package Service::User;
 
 use My::Moose;
-use Model::User;
-use Model::Player;
-use Model::Character;
-use Game::Helpers;
+use Model;
 
 use header;
 
@@ -21,19 +18,6 @@ sub register_user ($self, $user_data)
 	$self->repo->save($user);
 
 	# TODO: send an email
-
-	# TODO: remove this after getting proper character creation
-
-	my $player = Model::Player->new(user_id => $user->id);
-	$self->repo->save($player);
-
-	my $character = Model::Character->new(
-		player_id => $player->id,
-		class_id => lore_class('Assassin')->id,
-		name => $user->email =~ s/@.*$//r,
-		stats => '',
-	);
-	$self->repo->save($character);
 
 	return $user;
 }

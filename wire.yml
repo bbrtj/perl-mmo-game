@@ -76,6 +76,12 @@ worker_channel_service:
             $ref: encoder
         key: server_jobs
 
+faker_service:
+    class: Service::Faker
+    args:
+        repo:
+            $ref: models
+
 # Others
 worker:
     class: Server::Worker
