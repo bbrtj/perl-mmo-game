@@ -14,7 +14,7 @@ sub register_user ($self, $user_data)
 	my $user = Model::User->new($user_data);
 	$user->set_password($user_data->{password});
 
-	$user->promote;
+	$user->check;
 	$self->repo->save($user);
 
 	# TODO: send an email

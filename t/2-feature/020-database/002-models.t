@@ -15,7 +15,7 @@ database_test {
 	my $models = DI->get('models');
 	ok $models, 'schema repo resolve ok';
 
-	$user->promote;
+	$user->check;
 	ok lives { $models->save($user) }, 'Models can be saved';
 
 	my $fetched = $models->load(User => $user->id);

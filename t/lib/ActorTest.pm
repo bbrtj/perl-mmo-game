@@ -15,7 +15,7 @@ sub create_actor ($self)
 		email => 'test@test.pl',
 	);
 	$user->set_password('asdfasdf');
-	$user->promote;
+	$user->check;
 
 	my $player = Model::Player->new(
 		user_id => $user->id,

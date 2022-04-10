@@ -8,7 +8,7 @@ my $password = 'aoeuaoeu1';
 $dummy->set_email('a@gmail.com');
 $dummy->set_password($password);
 
-$dummy->promote;
+$dummy->check;
 $dummy->set_email('brtastic.dev@gmail.com');
 
 isa_ok $dummy, 'Model::User';

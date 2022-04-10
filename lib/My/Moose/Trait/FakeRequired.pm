@@ -26,7 +26,9 @@ after initialize => sub {
 		return;
 	};
 
-	$class->meta->add_method(promote => $promote_method);
+	# check method is for checking whether the model is complete
+	# if the data comes from a source that is not trustworthy
+	$class->meta->add_method(check => $promote_method);
 
 	return;
 };
@@ -44,3 +46,4 @@ around add_attribute => sub {
 };
 
 1;
+

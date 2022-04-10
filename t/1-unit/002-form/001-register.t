@@ -50,7 +50,7 @@ test_data
 my $tested_mail = 'test2@test.com';
 my $mock_model = Model::User->new(email => $tested_mail);
 $mock_model->set_password('abcdefg1');
-$mock_model->promote;
+$mock_model->check;
 
 my $mock = MockObject->new;
 my $load_mock = $mock->add_method('load')
