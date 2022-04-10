@@ -14,7 +14,7 @@ has 'dbh' => (
 	isa => Types::InstanceOf ['Mojo::Pg'],
 	lazy => 1,
 	default => sub ($self) {
-		Mojo::Pg->new($self->env->getenv('DB_CONNECTION'))
+		return Mojo::Pg->new($self->env->getenv('DB_CONNECTION'))
 			->username($self->env->getenv('DB_USER'))
 			->password($self->env->getenv('DB_PASS'));
 	},
@@ -25,7 +25,7 @@ has 'dbc' => (
 	isa => Types::InstanceOf ['Schema'],
 	lazy => 1,
 	default => sub ($self) {
-		Schema->connect(sub { $self->db->dbh });
+		return Schema->connect(sub { $self->db->dbh });
 	},
 );
 
