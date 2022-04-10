@@ -36,8 +36,8 @@ has 'variables' => (
 
 sub models ($self)
 {
-	# we do not return npc / player here on purpose
 	return [
+		# do not return player because we don't intend to change it in this unit
 		$self->character,
 		$self->variables,
 	];

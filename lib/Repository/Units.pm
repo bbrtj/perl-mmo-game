@@ -18,12 +18,12 @@ has 'repo' => (
 
 # TODO: check if queries actually fetched anything
 
-sub save ($self, $unit)
+sub save ($self, $unit, $update = 1)
 {
 	state $check = Types::InstanceOf ['Unit'];
 	$check->assert_valid($unit);
 
-	$self->repo->update($_) for $unit->models->@*;
+	$self->repo->save($_, $update) for $unit->models->@*;
 	return;
 }
 

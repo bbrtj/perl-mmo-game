@@ -9,9 +9,12 @@ Utils->bootstrap_lore;
 
 database_test {
 	my ($actor, %related_models) = ActorTest->create_actor;
-	foreach my $model (@related_models{qw(user player character variables)}) {
+	foreach my $model (@related_models{qw(user player)}) {
 		DI->get('models')->save($model);
 	}
+
+	# insert, not update
+	DI->get('units')->save($actor, 0);
 
 	$related_models{variables}->set_experience(1500);
 	$related_models{character}->set_name('Priesty');

@@ -22,8 +22,8 @@ sub throw ($self, @args)
 sub stringify ($self, @)
 {
 	my $class = ref $self;
-	my $msg = $self->msg // 'no message';
+	my $msg = $self->msg ? ': ' . $self->msg : '';
 
-	return "Exception $class: $msg";
+	return "Exception $class$msg";
 }
 
