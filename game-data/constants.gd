@@ -1,3 +1,5 @@
+requires 'maps/cape_peril';
+
 my $max_level = 30;
 
 define {
@@ -18,5 +20,7 @@ define {
 	reduction_per_resilience => 0.08, # %
 	reduction_per_willpower => 0.08, # %
 	regeneration_per_vigor => 0.1, # %
+
+	starting_location => location 'Cape Peril - Harbor',
 };
 

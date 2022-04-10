@@ -16,6 +16,19 @@ translations pl => {
 	desc => "Postawiony w okolicy przylądka Peril port to zazwyczaj pierwsze miejsce, w którym lądują nowo przybyli osadnicy, kupcy oraz poszukiwacze przygód."
 };
 
+specify map => <<MAP;
+..........
+.OOOOO....
+.OOOOOO...
+.OOOOOOO..
+.OOOOOOOOO
+.OOOOOOOOO
+.OOOOOOO..
+.OOOOOO...
+.OOOOO....
+..........
+MAP
+
 ### LOCATION
 
 lore CP_MARKET => location 'Cape Peril - Market';

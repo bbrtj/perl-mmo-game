@@ -36,7 +36,12 @@ my $DateTime = Type::Tiny->new(
 
 my $ULID = Type::Tiny->new(
 	name => 'Ulid',
-	parent => (StrLength [26])->where(q{ /\A[0-9a-zA-Z]+\z/ }),
+	parent => StrLength [26],
+	constraint => q{ /\A[0-9a-zA-Z]+\z/ },
+	inlined => sub {
+		my $varname = pop;
+		return (undef, "$varname =~ /\\A[0-9a-zA-Z]+\\z/");
+	},
 );
 
 __PACKAGE__->add_type($LoreId);
