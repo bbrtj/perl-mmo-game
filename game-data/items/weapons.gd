@@ -7,7 +7,7 @@ uses attribute 'Punctured';
 uses slot 'Left hand';
 uses slot 'Right hand';
 
-type 'weapon';
+specify type => 'weapon';
 
 translations pl => {
 	name => 'Sztylet'

@@ -27,7 +27,6 @@ use constant CONFIGS => [qw(
 	translations
 	define
 	uses
-	type
 	parent
 )];
 
@@ -55,16 +54,65 @@ sub get_helpers ($self)
 	return %subs;
 }
 
+sub _configure ($self, $context, $field, @values)
+{
+	my sub reporter ($text) {
+		$context = $context ? ref $context : '(no context)';
+		die sprintf $text, $context;
+	}
+
+	$context = $context->data
+		unless $context->can($field);
+
+	reporter "Context %s cannot utilize $field"
+		unless $context->can($field);
+
+	my $storage = $context->$field;
+
+	if (is_hashref $storage) {
+		if (@values == 1 && is_hashref $values[0]) {
+			@values = $values[0]->%*;
+		}
+
+		my %kv_values = @values;
+		for my $key (keys %kv_values) {
+			reporter "replacing $key for $field in %s"
+				if defined $storage->{$key};
+
+			my $value = $kv_values{$key};
+			$value = $value->create
+				if $value->$_isa('Game::LoreLoader::LoreDummy');
+
+			$storage->{$key} = $value;
+		}
+	}
+
+	elsif (is_arrayref $storage) {
+		for my $value (@values) {
+			$value = $value->create
+				if $value->$_isa('Game::LoreLoader::LoreDummy');
+
+			push $storage->@*, $value;
+		}
+	}
+
+	else {
+		reporter "invalid data for plain $field for %s"
+			unless @values == 1;
+
+		my $value = $values[0];
+		$value = $value->create
+			if $value->$_isa('Game::LoreLoader::LoreDummy');
+
+		my $setter = "set_$field";
+		$context->$setter($value);
+	}
+}
+
 sub get_dsl ($self, $caller)
 {
 	state $repo = DI->get('lore_data');
 	my @items;
-
-	my sub reporter ($text) {
-		my $context = $items[-1];
-		$context = $context ? ref $context : '(no context)';
-		die sprintf $text, $context;
-	}
 
 	my %dsl = (
 		lore => sub ($id, $el) {
@@ -88,6 +136,10 @@ sub get_dsl ($self, $caller)
 			push $from->data->connections->@*, $to;
 			push $to->data->connections->@*, $from;
 			return;
+		},
+		specify => sub ($what, @values) {
+			my $context = $items[-1] // 'Game::Config';
+			$self->_configure($context, $what, @values);
 		},
 		load_coordinates => sub ($from_key) {
 			my $file = path($caller->FILENAME);
@@ -121,53 +173,7 @@ sub get_dsl ($self, $caller)
 	for my $config (CONFIGS->@*) {
 		$dsl{$config} = sub (@values) {
 			my $context = $items[-1] // 'Game::Config';
-
-			$context = $context->data
-				unless $context->can($config);
-
-			reporter "Context %s cannot utilize $config"
-				unless $context->can($config);
-
-			my $storage = $context->$config;
-
-			if (is_hashref $storage) {
-				if (@values == 1 && is_hashref $values[0]) {
-					@values = $values[0]->%*;
-				}
-
-				my %kv_values = @values;
-				for my $key (keys %kv_values) {
-					reporter "replacing $key for $config in %s"
-						if defined $storage->{$key};
-
-					my $value = $kv_values{$key};
-					$value = $value->create
-						if $value->$_isa('Game::LoreLoader::LoreDummy');
-
-					$storage->{$key} = $value;
-				}
-			}
-
-			elsif (is_arrayref $storage) {
-				for my $value (@values) {
-					$value = $value->create
-						if $value->$_isa('Game::LoreLoader::LoreDummy');
-
-					push $storage->@*, $value;
-				}
-			}
-
-			else {
-				reporter "invalid data for plain $config for %s"
-					unless @values == 1;
-
-				my $value = $values[0];
-				$value = $value->create
-					if $value->$_isa('Game::LoreLoader::LoreDummy');
-
-				my $setter = "set_$config";
-				$context->$setter($value);
-			}
+			$self->_configure($context, $config, @values);
 		};
 	}
 
