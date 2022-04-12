@@ -151,8 +151,8 @@ sub get_dsl ($self, $caller)
 			for my $item ($coordinates->{$from_key}->@*) {
 				my ($lore_id, $x, $y) = $item->@{qw(LoreId PosX PosY)};
 				my $lore_item = $repo->load($lore_id);
-				$lore_item->data->set_x($x);
-				$lore_item->data->set_y($y);
+				$lore_item->data->set_pos_x($x);
+				$lore_item->data->set_pos_y($y);
 			}
 
 			return;

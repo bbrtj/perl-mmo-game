@@ -19,15 +19,15 @@ package Game::Lore::LocationData {
 
 	extends 'Game::LoreData';
 
-	has 'x' => (
+	has 'pos_x' => (
 		is => 'ro',
-		writer => 'set_x',
+		writer => 'set_pos_x',
 		isa => Types::Num,
 	);
 
-	has 'y' => (
+	has 'pos_y' => (
 		is => 'ro',
-		writer => 'set_y',
+		writer => 'set_pos_y',
 		isa => Types::Num,
 	);
 

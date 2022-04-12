@@ -37,8 +37,8 @@ my @markers;
 for my $location ($areas{$keys[0]}->data->children->@*) {
 	push @markers, {
 		LoreId => $location->id,
-		PosX => $location->data->x // rand,
-		PosY => $location->data->y // rand,
+		PosX => $location->data->pos_x // rand,
+		PosY => $location->data->pos_y // rand,
 		ConnectedTo => join ';', map { $_->id } $location->data->connections->@*,
 	};
 }
