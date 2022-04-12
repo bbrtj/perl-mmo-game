@@ -33,7 +33,7 @@ sub import
 	Carp->import::into($pkg, qw(croak));
 	Scalar::Util->import::into($pkg, qw(blessed));
 	Ref::Util->import::into($pkg, qw(is_arrayref is_hashref is_coderef));
-	List::Util->import::into($pkg, qw(first any));
+	List::Util->import::into($pkg, qw(first any zip));
 	Safe::Isa->import::into($pkg);
 	i18n->import::into($pkg);
 
