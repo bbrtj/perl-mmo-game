@@ -1,7 +1,6 @@
 package Game::Mechanics::Check::Map;
 
 use Game::Mechanics::Check;
-use POSIX qw(ceil);
 
 use header;
 
@@ -67,8 +66,8 @@ sub can_see ($self, $location, $position1, $position2)
 
 		my $loop_coords = sub ($from, $to, $run_func) {
 			my @loop_list = $to >= $from
-				? ceil($from) .. int($to)
-				: ceil($to) .. int($from);
+				? int($from) + 1 .. int($to)
+				: int($to) + 1 .. int($from);
 
 			for my $current (@loop_list) {
 				return 0 if !$run_func->($current);
