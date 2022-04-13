@@ -39,20 +39,14 @@ sub can_move_to ($self, $location, $position1, $position2)
 
 sub can_see ($self, $location, $position1, $position2)
 {
-	# my @pos;
 	my $check = sub {
-		my $check_xy = sub ($pos_x, $pos_y) {
+		my $check_neighbours = sub ($which, @pos) {
 			state $coordinates = $location->map->coordinates;
-			# push @pos, [$pos_x, $pos_y];
-			return $coordinates->[$pos_y][$pos_x];
-		};
 
-		my $check_neighbours = sub ($which, @points) {
-			my $checked = $check_xy->(@points);
-			return $checked if $points[$which] == 0;
-
-			$points[$which] -= 1;
-			return $checked && $check_xy->(@points);
+			return $coordinates->[$pos[1]][$pos[0]] && do {
+				$pos[$which] -= 1;
+				$pos[$which] < 0 ? 1 : $coordinates->[$pos[1]][$pos[0]]
+			};
 		};
 
 		my @central = $position1->@*;
@@ -88,8 +82,6 @@ sub can_see ($self, $location, $position1, $position2)
 		return 1;
 	};
 
-	# $check->();
-	# warn $location->map->to_string_and_mark(@pos) if @pos;
 	return Game::Mechanics::Check->gather(
 		'err.not_in_los',
 		$self->is_within_map($location, $position1, $position2),
