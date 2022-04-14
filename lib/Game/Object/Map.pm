@@ -7,14 +7,19 @@ use Storable qw(dclone);
 
 use header;
 
+use constant NOT_MAP => 0;
+use constant MAP => 1;
+use constant INACCESSIBLE => 2;
+
 use constant CHARACTERS => {
-	'.' => 0,
-	'O' => 1,
+	'.' => NOT_MAP,
+	'O' => MAP,
+	'X' => INACCESSIBLE,
 };
 
 has 'coordinates' => (
 	is => 'ro',
-	isa => Types::ArrayRef[Types::ArrayRef[Types::Bool]],
+	isa => Types::ArrayRef[Types::ArrayRef[Types::Int]],
 	required => 1,
 );
 
@@ -52,6 +57,31 @@ sub from_string ($self, $map_str)
 	);
 }
 
+sub inline_check_within_map ($self)
+{
+	my ($sx, $sy) = ($self->size_x, $self->size_y);
+	my @coords = $self->coordinates->@*;
+
+	return sub ($x, $y) {
+		return 0 <= $x < $sx
+			&& 0 <= $y < $sy
+			&& $coords[$y][$x] != NOT_MAP;
+	};
+}
+
+sub check_within_map ($self, $x, $y)
+{
+	state $sub = $self->inline_check_within_map;
+	return $sub->($x, $y);
+}
+
+sub check_can_be_accessed ($self, $x, $y)
+{
+	return 0 <= $x < $self->size_x
+		&& 0 <= $y < $self->size_y
+		&& $self->coordinates->[$y][$x] == MAP;
+}
+
 sub to_string_and_mark ($self, @positions)
 {
 	my @lines;
@@ -63,7 +93,7 @@ sub to_string_and_mark ($self, @positions)
 	}
 
 	for my $coords ($coordinates->@*) {
-		push @lines, join '', map { $characters_rev{$_} // 'x' } $coords->@*;
+		push @lines, join '', map { $characters_rev{$_} // '@' } $coords->@*;
 	}
 
 	return join "\n", @lines;
