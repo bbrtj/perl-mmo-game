@@ -21,14 +21,17 @@ sub check ($self, $message, $check)
 # complex checking of nested checks and coderefs
 sub gather ($self, $message, @checks)
 {
-	croak "no checks for `$message`" if @checks == 0;
+	croak "no checks for $message" if @checks == 0;
 
 	for my $check (@checks) {
 		if (is_coderef $check) {
 			$check = $check->();
 		}
 
-		if ($check->$_isa('Game::Mechanics::Check')) {
+		if (blessed $check) {
+			die "check for $message is blessed but not Game::Mechanics::Check"
+				unless $check isa 'Game::Mechanics::Check';
+
 			return $check
 				if $check->has_error;
 		}
