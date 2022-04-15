@@ -1,4 +1,4 @@
-package Unit::Player;
+package Unit::Nested::Player;
 
 use My::Moose;
 use Model;

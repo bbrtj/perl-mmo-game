@@ -2,7 +2,7 @@ package Unit::User;
 
 use My::Moose;
 use Model;
-use Unit::Player;
+use Unit::Nested::Player;
 use Types;
 
 use header;
@@ -16,7 +16,7 @@ has 'user' => (
 
 has 'players' => (
 	is => 'rw',
-	isa => Types::ArrayRef [Types::InstanceOf ['Unit::Player']],
+	isa => Types::ArrayRef [Types::InstanceOf ['Unit::Nested::Player']],
 );
 
 sub models ($self)
