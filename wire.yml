@@ -45,8 +45,6 @@ lore_data:
 units:
     class: Repository::Units
     args:
-        db:
-            $ref: db
         repo:
             $ref: models
 

@@ -1,22 +1,36 @@
 package Repository::Units;
 
 use My::Moose;
-use Factory::Actor;
-use Factory::User;
 use Types;
-use Schema::Utils qw(fetch_single);
+use Mojo::Loader qw(load_classes);
+use Sub::Util qw(set_subname);
 
 use header;
 
-has 'db' => (
-	is => 'ro',
-);
+# load all factories
+BEGIN {
+	my @factories = load_classes('Factory');
+
+	for my $class (@factories) {
+		my $factory_name = lc ((split/::/, $class)[-1]);
+
+		my $instance = $class->new;
+		my $name = "get_${factory_name}";
+		my $sub = sub ($obj, @params) {
+			my $data = $instance->fetch(@params);
+			return $instance->create($data);
+		};
+
+		no strict 'refs';
+		my $me = __PACKAGE__;
+		*{"${me}::${name}"} = $sub;
+		set_subname($sub, $name);
+	}
+}
 
 has 'repo' => (
 	is => 'ro',
 );
-
-# TODO: check if queries actually fetched anything
 
 sub save ($self, $unit, $update = 1)
 {
@@ -25,29 +39,5 @@ sub save ($self, $unit, $update = 1)
 
 	$self->repo->save($_, $update) for $unit->models->@*;
 	return;
-}
-
-sub get_actor ($self, $character_id)
-{
-	my $rs = $self->db->dbc->resultset('Character')->search(
-		{'me.id' => $character_id},
-		{
-			prefetch => [qw(player variables)],
-		}
-	);
-
-	return Factory::Actor->create(fetch_single($rs));
-}
-
-sub get_user ($self, $user_id)
-{
-	my $rs = $self->db->dbc->resultset('User')->search(
-		{'me.id' => $user_id},
-		{
-			prefetch => {players => [qw(character)]}
-		}
-	);
-
-	return Factory::User->create(fetch_single($rs));
 }
 
