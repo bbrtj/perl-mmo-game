@@ -71,7 +71,7 @@ sub inline_check_within_map ($self)
 
 sub check_within_map ($self, $x, $y)
 {
-	state $sub = $self->inline_check_within_map;
+	my $sub = $self->inline_check_within_map;
 	return $sub->($x, $y);
 }
 
