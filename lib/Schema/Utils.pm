@@ -9,6 +9,7 @@ use header -noclean;
 our @EXPORT_OK = qw(
 	fetch_single
 	ensure_single
+	fetch_all
 );
 
 sub fetch_single ($rs)
@@ -17,6 +18,11 @@ sub fetch_single ($rs)
 	Exception::RecordDoesNotExist->throw unless $found;
 
 	return $found;
+}
+
+sub fetch_all ($rs)
+{
+	return [$rs->all];
 }
 
 sub ensure_single ($rs)

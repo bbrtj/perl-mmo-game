@@ -40,6 +40,7 @@ package Game::Lore::LocationData {
 	has 'connections' => (
 		is => 'ro',
 		default => sub { [] },
+		isa => Types::ArrayRef [Types::InstanceOf ['Game::Lore::Location']],
 	);
 
 	has '+parent' => (
