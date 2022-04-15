@@ -40,7 +40,7 @@ has 'health' => (
 	required => 1,
 );
 
-has 'mana' => (
+has 'energy' => (
 	is => 'ro',
 	isa => Types::Num,
 	required => 1,

@@ -25,7 +25,7 @@ sub create_actor ($self)
 		player_id => $player->id,
 		class_id => lore_class('Witchhunter')->id,
 		name => 'Whx',
-		stats => '',
+		base_stats => '',
 	);
 
 	my $variables = Model::CharacterVariables->new(
@@ -35,7 +35,7 @@ sub create_actor ($self)
 		pos_x => 2.2,
 		pos_y => 5.3,
 		health => 100.3,
-		mana => 120.6,
+		energy => 120.6,
 	);
 
 	return (

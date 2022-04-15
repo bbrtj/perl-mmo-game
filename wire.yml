@@ -77,6 +77,12 @@ worker_channel_service:
 faker_service:
     class: Service::Faker
     args:
+        character_service:
+            $ref: character_service
+
+character_service:
+    class: Service::Character
+    args:
         repo:
             $ref: models
 

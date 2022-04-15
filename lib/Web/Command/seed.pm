@@ -17,7 +17,7 @@ sub run ($self, @args)
 
 	for my $email (qw(test test2 test3)) {
 		my $user = $user_service->register_user({email => $email . '@test.com', password => 'test'});
-		$faker->create_player($user);
+		$faker->fake_player($user);
 	}
 	return;
 }

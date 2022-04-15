@@ -34,3 +34,8 @@ sub db ($self)
 	return $self->dbh->db;
 }
 
+sub transaction ($self, $code)
+{
+	return $self->dbc->txn_do($code);
+}
+

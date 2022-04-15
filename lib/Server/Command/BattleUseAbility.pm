@@ -36,7 +36,7 @@ sub handle ($self, $battle_id, $caster_id, $ability_id, $target)
 	Game::Mechanics::Check::Ability->valid_target($battle, $actor, $ability, $target)->assert_valid;
 	Game::Mechanics::Check::Ability->in_range($battle, $actor, $ability, $target)->assert_valid;
 
-	# check mana, cooldown
+	# check energy, cooldown
 
 	my $affected = Game::Mechanics::Battle::Affected->get_affected($battle, $actor, $ability, $target);
 	$ability->effects($actor, $affected);

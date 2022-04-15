@@ -33,7 +33,7 @@ has 'name' => (
 	required => 1,
 );
 
-has 'stats' => (
+has 'base_stats' => (
 	is => 'ro',
 	isa => Types::Str,
 	required => 1,

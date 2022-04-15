@@ -27,7 +27,7 @@ translations pl => {
 };
 
 lore PERS => secondary_stat 'Persistence';
-# Affects mana pool
+# Affects energy pool
 
 translations pl => {
 	name => 'Upór',

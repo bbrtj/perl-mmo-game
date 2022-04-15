@@ -1,5 +1,5 @@
 use DI;
-use Model::User;
+use Model;
 use Utils;
 
 use testheader;

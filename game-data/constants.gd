@@ -22,5 +22,7 @@ define {
 	regeneration_per_vigor => 0.1, # %
 
 	starting_location => location 'Cape Peril - Harbor',
+	starting_location_x => 3,
+	starting_location_y => 3,
 };
 

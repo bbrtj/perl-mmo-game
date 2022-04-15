@@ -20,14 +20,14 @@ CREATE TABLE characters (
 	npc_id VARCHAR(32) NULL,
 	class_id VARCHAR(32) NOT NULL,
 	name VARCHAR(32) NOT NULL,
-	stats VARCHAR NOT NULL,
+	base_stats VARCHAR NOT NULL,
 	CONSTRAINT fk_player
 		FOREIGN KEY(player_id)
 		REFERENCES players(id)
 );
 
 CREATE UNIQUE INDEX ind_characters_lookup_player ON characters (player_id);
-CREATE INDEX ind_characters_lookup_npc ON characters (npc_id);
+CREATE UNIQUE INDEX ind_characters_name ON characters (name);
 
 CREATE TABLE character_variables (
 	id CHAR(26) primary key,
@@ -36,7 +36,7 @@ CREATE TABLE character_variables (
 	pos_x FLOAT NOT NULL,
 	pos_y FLOAT NOT NULL,
 	health FLOAT NOT NULL,
-	mana FLOAT NOT NULL,
+	energy FLOAT NOT NULL,
 	CONSTRAINT fk_character
 		FOREIGN KEY(id)
 		REFERENCES characters(id)

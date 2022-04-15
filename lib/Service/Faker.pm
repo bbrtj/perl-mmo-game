@@ -6,22 +6,16 @@ use Game::Helpers;
 
 use header;
 
-has 'repo' => (
+has 'character_service' => (
 	is => 'ro',
 );
 
-sub create_player ($self, $user)
+sub fake_player ($self, $user)
 {
-	my $player = Model::Player->new(user_id => $user->id);
-	$self->repo->save($player);
-
-	my $character = Model::Character->new(
-		player_id => $player->id,
-		class_id => lore_class('Assassin')->id,
+	$self->character_service->create_player($user, {
+		class => lore_class('Assassin'),
 		name => $user->email =~ s/@.*$//r,
-		stats => '',
-	);
-	$self->repo->save($character);
+	});
 
 	return;
 }

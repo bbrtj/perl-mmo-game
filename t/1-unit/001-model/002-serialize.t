@@ -6,7 +6,7 @@ my $data = {
 	experience => 100000,
 	location_id => "TEST",
 	health => 100,
-	mana => 30,
+	energy => 30,
 };
 
 my $vars = Model::CharacterVariables->new($data);

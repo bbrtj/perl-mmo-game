@@ -8,7 +8,7 @@ CREATE TABLE users (
 	created_at TIMESTAMPTZ NOT NULL
 );
 
-CREATE INDEX ind_users_lookup ON users (email);
+CREATE UNIQUE INDEX ind_users_email ON users (email);
 
 -- 1 down
 
