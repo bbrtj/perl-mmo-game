@@ -1,7 +1,7 @@
 package Unit::User;
 
 use My::Moose;
-use Model::User;
+use Model;
 use Unit::Player;
 use Types;
 

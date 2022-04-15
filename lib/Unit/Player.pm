@@ -1,8 +1,7 @@
 package Unit::Player;
 
 use My::Moose;
-use Model::Player;
-use Model::Character;
+use Model;
 use Types;
 
 use header;

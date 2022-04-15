@@ -1,10 +1,7 @@
 package Unit::Actor;
 
 use My::Moose;
-use DI;
-use Model::Player;
-use Model::Character;
-use Model::CharacterVariables;
+use Model;
 use Types;
 
 use header;
@@ -37,9 +34,15 @@ has 'variables' => (
 sub models ($self)
 {
 	return [
-		# do not return player because we don't intend to change it in this unit
-		$self->character,
 		$self->variables,
 	];
 }
+
+__END__
+
+=pod
+
+Actor is an unit that is used in all mechanics checks and so on. Because of
+that, we do not intend to save player or character data, as it should not be
+changed in this unit. Use other units for that instead.
 
