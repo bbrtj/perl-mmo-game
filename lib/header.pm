@@ -42,9 +42,19 @@ sub import
 		@args;
 
 	feature->unimport::out_of($pkg, 'indirect');
+	no_experimental_warnings($pkg);
+	return;
+}
+
+# used rarely to get rid of experimental warnings after a module exported warnings
+# must be used like this: BEGIN { header::no_experimental_warnings }
+sub no_experimental_warnings
+{
+	my ($pkg) = @_;
+	$pkg //= caller;
+
 	warnings->unimport::out_of($pkg, 'experimental::signatures');
 	warnings->unimport::out_of($pkg, 'experimental::isa');
-	return;
 }
 
 1;

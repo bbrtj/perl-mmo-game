@@ -1,4 +1,5 @@
 use Web::Form::Login;
+use Form::Login;
 use DI;
 use Model::User;
 use Exception::RecordDoesNotExist;
@@ -7,12 +8,17 @@ use Utils;
 use testheader;
 
 test_data
-	'login should succeed' => [
+	'web login should succeed' => [
 		[{email => 'test@test.com', password => 'abcdefg1', remember_me => 1}],
 	];
 
 test_data
-	'login should fail' => [
+	'login should succeed' => [
+		[{email => 'test@test.com', password => 'abcdefg1'}],
+	];
+
+test_data
+	'web login should fail' => [
 		[
 			{email => 'test@test.com', password => 'abcdefgh'},
 			{'' => ['Invalid email or password']},
@@ -28,6 +34,26 @@ test_data
 		[
 			{email => '', password => 'abcdefgh'},
 			{email => ['Field is required']},
+		],
+	];
+
+test_data
+	'login should fail' => [
+		[
+			{email => 'test@test.com', password => 'abcdefgh'},
+			{'' => ['msg.invalid_credentials']},
+		],
+		[
+			{email => 'test@test.com', password => 'Abcdefg1'},
+			{'' => ['msg.invalid_credentials']},
+		],
+		[
+			{email => 'testa@test.com', password => 'abcdefgh'},
+			{'' => ['msg.invalid_credentials']},
+		],
+		[
+			{email => '', password => 'abcdefgh'},
+			{email => ['field is required']},
 		],
 	];
 
@@ -52,33 +78,42 @@ before_each {
 	$load_mock->clear;
 };
 
-test login_should_succeed => sub ($data) {
-	my $form = Web::Form::Login->new;
-	$form->set_input($data);
-	ok $form->valid, "form valid $_";
+for my $prefix ('', 'web') {
+	my $class = join '::', grep { $_ } (ucfirst $prefix, "Form::Login");
+	my $test_prefix = $prefix ? $prefix . '_' : '';
 
-	if (!$form->valid) {
-		diag Dumper($form->errors_hash);
-	}
-	else {
-		is $form->user, exact_ref($mock_model), 'fetched model ok';
+	test $test_prefix . login_should_succeed => sub ($data) {
+		$_ .= " ($class)";
 
-		ok $load_mock->was_called_once, "mock called once $_";
-		is $load_mock->called_with, [User => {email => $data->{email}}], "mock called parameters $_";
-	}
-};
+		my $form = $class->new;
+		$form->set_input($data);
+		ok $form->valid, "form valid $_";
 
-test login_should_fail => sub ($data, $errors) {
-	my $form = Web::Form::Login->new;
-	$form->set_input($data);
-	ok !$form->valid, "form invalid $_";
-	is $form->errors_hash, $errors, "errors hash $_";
+		if (!$form->valid) {
+			diag Dumper($form->errors_hash);
+		}
+		else {
+			is $form->user, exact_ref($mock_model), 'fetched model ok';
 
-	# mock might not get called because db is queried in form cleaner
-	if ($load_mock->was_called) {
-		is $load_mock->called_with, [User => {email => $data->{email}}], "mock called parameters $_";
-	}
-};
+			ok $load_mock->was_called_once, "mock called once $_";
+			is $load_mock->called_with, [User => {email => $data->{email}}], "mock called parameters $_";
+		}
+	};
+
+	test $test_prefix . login_should_fail => sub ($data, $errors) {
+		$_ .= " ($class)";
+
+		my $form = $class->new;
+		$form->set_input($data);
+		ok !$form->valid, "form invalid $_";
+		is $form->errors_hash, $errors, "errors hash $_";
+
+		# mock might not get called because db is queried in form cleaner
+		if ($load_mock->was_called) {
+			is $load_mock->called_with, [User => {email => $data->{email}}], "mock called parameters $_";
+		}
+	};
+}
 
 done_testing;
 

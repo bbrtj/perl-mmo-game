@@ -1,7 +1,7 @@
 package Server::Action::Login;
 
 use My::Moose;
-use Web::Form::Login;
+use Form::Login;
 
 use header;
 
@@ -16,7 +16,7 @@ sub handle ($self, $session_id, $id, $data)
 	my $feedback = {echo => {n => $id, d => $result}};
 
 	# TODO: check if the user is already logged in?
-	my $form = Web::Form::Login->new;
+	my $form = Form::Login->new;
 	$form->set_input($data);
 	if ($form->valid) {
 		$session->set_user_id($form->user->id);
@@ -30,3 +30,4 @@ sub handle ($self, $session_id, $id, $data)
 
 	return $self->send_to($session_id, $feedback);
 };
+

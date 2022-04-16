@@ -1,12 +1,10 @@
 package Web::Form::Register;
 
-use Form::Tiny -filtered;
+use Form::Tiny -filtered, plugins => ['+Web::HTMLFormPlugin'];
 use DI;
 use Types;
 
 use header;
-
-extends 'Web::Form';
 
 use constant PASS_MIN_LENGTH => 8;
 
