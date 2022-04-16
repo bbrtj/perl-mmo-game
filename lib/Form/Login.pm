@@ -36,12 +36,10 @@ form_cleaner sub ($self, $data) {
 		}
 	}
 	catch ($e) {
-		if ($e isa Exception::RecordDoesNotExist) {
-			$self->add_error('msg.invalid_credentials');
-		}
-		else {
-			die $e;
-		}
+		die $e
+			unless $e isa Exception::RecordDoesNotExist;
+
+		$self->add_error('msg.invalid_credentials');
 	}
 };
 

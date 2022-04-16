@@ -16,3 +16,8 @@ form_field 'remember_me' => (
 	data => {t => 'checkbox', values => [_tt('1:[_1]', _t('remember_me'))], l => undef},
 );
 
+form_hook after_validate => sub ($self, $data) {
+	# clear password field, so that it won't end up in user's HTML (for their security)
+	$self->input->{password} = '';
+};
+
