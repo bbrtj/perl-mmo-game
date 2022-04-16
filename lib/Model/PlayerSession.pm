@@ -2,7 +2,7 @@ package Model::PlayerSession;
 
 use My::Moose;
 use Types;
-use Web::Config;
+use Game::Config;
 
 use header;
 
@@ -17,7 +17,8 @@ has 'user_id' => (
 
 has 'language' => (
 	is => 'ro',
-	isa => Types::Enum[Web::Config->supported_langs->@*],
+	isa => Types::Enum[Game::Config->config->{supported_langs}->@*],
 );
 
 __PACKAGE__->_register_cache;
+
