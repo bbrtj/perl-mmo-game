@@ -222,7 +222,7 @@ sub run_fix ($self)
 
 sub run_show ($self, $key)
 {
-	my @found = $self->_find_by_id($key, 'msgstr');
+	my @found = $self->_find_by_id($key);
 
 	if (@found == 0) {
 		$self->_print_name_suggestions($self->translations->[0], $key, 4);
@@ -274,7 +274,7 @@ sub run ($self, @args)
 	GetOptionsFromArray(
 		\@args,
 		'show|s=s' => \$show,
-		'search|S=s' => \$search,
+		'list|l=s' => \$search,
 		'translate|t=s' => \$translate,
 		'rename=s' => \$rename,
 		'to=s' => \$to,
@@ -316,7 +316,7 @@ __END__
 	Usage: APPLICATION translate [OPTIONS]
 	Options:
 		-s=[ID], --show [ID]  shows message strings for key ID
-		-S=[QUERY], --search [QUERY]  Searches for given QUERY (substring of ID)
+		-l=[QUERY], --list [QUERY]  Searches for given QUERY (substring of ID)
 		-t=[ID], --translate [ID]  add or replace existing key
 		--rename [ID] --to [ID]  rename translation to a different key
 		--fix  prompts the user to fix all the missing translations
