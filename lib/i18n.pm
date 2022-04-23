@@ -18,6 +18,7 @@ use Data::Localize::Format::Maketext;
 our @EXPORT = qw(
 	_t
 	_tt
+	_tph
 	_lt
 );
 
@@ -29,8 +30,12 @@ sub _t
 {
 	my ($message, @args) = @_;
 
+	my ($actual_message, @more_args) = split /\|/, $message;
+	@args = @more_args
+		if @more_args > 0;
+
 	return __PACKAGE__->new(
-		message => $message,
+		message => $actual_message,
 		args => \@args,
 	);
 }
@@ -39,10 +44,21 @@ sub _t
 # a text in English that will be returned. Can be used to nest translations
 sub _tt
 {
-	my $t = _t shift, @_;
-	$t->id(0);
+	my ($message, @args) = @_;
 
-	return $t;
+	return __PACKAGE__->new(
+		message => $message,
+		args => \@args,
+		id => 0,
+	);
+}
+
+# placeholder translate
+# will add values to placeholders in the string. Does not actually translate
+# used to transfer translation strings and placeholders to client where they are translated
+sub _tph
+{
+	return join '|', @_;
 }
 
 # lore translate
