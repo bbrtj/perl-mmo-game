@@ -21,8 +21,6 @@ sub bootstrap ($class, $app)
 		)
 	);
 
-	$class->bootstrap_lore;
-
 	return $config;
 }
 

@@ -12,9 +12,9 @@ extends 'Mojolicious';
 sub startup ($self)
 {
 	my $env = Utils->bootstrap($self);
+	Utils->bootstrap_lore;
 
 	load_config($self, $env);
-	load_commands($self, $env);
 	load_routes($self, $env);
 	load_plugins($self, $env);
 	load_helpers($self, $env);
@@ -27,13 +27,6 @@ sub load_config ($self, $env)
 	# Configure the application
 	$self->mode($env->getenv('APP_MODE'));
 	$self->secrets([split ',', $env->getenv('APP_SECRETS')]);
-
-	return;
-}
-
-sub load_commands ($self, $env)
-{
-	push $self->commands->namespaces->@*, "Web::Command";
 
 	return;
 }

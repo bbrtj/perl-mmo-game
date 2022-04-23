@@ -1,4 +1,4 @@
-package Web::Command::seed;
+package CLI::seed;
 
 use My::Moose -constr;
 use DI;
@@ -8,7 +8,7 @@ use header;
 extends 'Mojolicious::Command';
 
 use constant description => 'seed test data';
-use constant usage => sub ($self) { $self->extract_usage };
+sub usage ($self) { $self->extract_usage }
 
 sub run ($self, @args)
 {
@@ -23,6 +23,8 @@ sub run ($self, @args)
 }
 
 __END__
+
 =head1 SYNOPSIS
+
 	Usage: APPLICATION seed
 

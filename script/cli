@@ -1,0 +1,19 @@
+#!/usr/bin/env perl
+
+use v5.32;
+use warnings;
+
+my $dir;
+BEGIN {
+	use File::Basename;
+	$dir = dirname(dirname(__FILE__));
+}
+
+use lib "$dir/local/lib/perl5";
+use lib "$dir/lib";
+
+use Mojolicious::Commands;
+
+# Start command line interface for application
+Mojolicious::Commands->start_app('CLI');
+

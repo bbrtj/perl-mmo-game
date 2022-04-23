@@ -43,6 +43,9 @@ requires 'Data::ULID' => 0;
 requires 'Quantum::Superpositions::Lazy' => 0;
 requires 'Crypt::Bcrypt' => 0;
 
+requires 'Text::PO' => 0;
+requires 'Text::Levenshtein::BV' => 0;
+
 on 'test' => sub {
 	requires 'Test::DB';
 	requires 'Test2::Harness';

@@ -1,4 +1,4 @@
-package Web::Command::migrate;
+package CLI::migrate;
 
 use My::Moose -constr;
 use Getopt::Long qw(GetOptionsFromArray);
@@ -10,7 +10,7 @@ use header;
 extends 'Mojolicious::Command';
 
 use constant description => 'migrate database schema';
-use constant usage => sub ($self) { $self->extract_usage };
+sub usage ($self) { $self->extract_usage }
 
 sub get_files ()
 {
@@ -68,9 +68,12 @@ sub run ($self, @args)
 }
 
 __END__
+
 =head1 SYNOPSIS
+
 	Usage: APPLICATION migrate [OPTIONS]
 	Options:
 		--up  migrates up
 		--down  migrates down one migration
 		--downall  migrates down all migrations
+
