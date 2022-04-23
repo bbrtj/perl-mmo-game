@@ -92,12 +92,24 @@ msgstr "Ostatnio online"
 msgid "err.email_taken"
 msgstr "Ten email jest już zajęty"
 
-msgid "err.password_too_short[_1]"
-msgstr "Hasło musi mieć co najmniej [_1] znaków"
-
 msgid "err.passwords_mismatch"
 msgstr "Hasła nie są takie same"
 
 msgid "err.password_must_have_digit"
 msgstr "Hasło musi zawierać cyfrę"
+
+msgid "err.name_must_consist_of_letters"
+msgstr "Imię musi składać się tylko z liter łacińskich"
+
+msgid "err.password_too_short[]"
+msgstr "Hasło musi mieć co najmniej [_1] znaków"
+
+msgid "err.name_too_short[]"
+msgstr "Imię musi mieć co najmniej [_1] znaków"
+
+msgid "err.name_too_long[]"
+msgstr "Imię musi mieć co najwyżej [_1] znaków"
+
+msgid "err.element_invalid"
+msgstr "Element nie jest poprawny"
 

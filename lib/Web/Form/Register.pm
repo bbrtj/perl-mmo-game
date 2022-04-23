@@ -25,7 +25,7 @@ form_field 'password' => (
 	data => {t => 'password', l => _t('password')},
 );
 
-field_validator _t('err.password_too_short[_1]', PASS_MIN_LENGTH)
+field_validator _t('err.password_too_short[]', PASS_MIN_LENGTH)
 	=> sub ($self, $value) {
 		return length $value >= PASS_MIN_LENGTH;
 	};

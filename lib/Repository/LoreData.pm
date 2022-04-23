@@ -18,6 +18,13 @@ sub save ($self, $obj)
 	return;
 }
 
+sub check ($self, $id, $type = undef)
+{
+	return 0 unless defined $collection{$id};
+	return 1 unless defined $type;
+	return $collection{$id} isa 'Game::Lore::' . ucfirst $type;
+}
+
 sub load ($self, $id)
 {
 	my $found = $collection{$id};

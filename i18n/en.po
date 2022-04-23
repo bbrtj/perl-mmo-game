@@ -92,12 +92,24 @@ msgstr "Invalid email or password"
 msgid "err.email_taken"
 msgstr "That email is already taken"
 
-msgid "err.password_too_short[_1]"
-msgstr "Password must have at least [_1] characters"
-
 msgid "err.passwords_mismatch"
 msgstr "Passwords do not match"
 
 msgid "err.password_must_have_digit"
 msgstr "Password must contain a digit"
+
+msgid "err.name_must_consist_of_letters"
+msgstr "Name must only consist of latin letters"
+
+msgid "err.password_too_short[]"
+msgstr "Password must have at least [_1] characters"
+
+msgid "err.name_too_short[]"
+msgstr "Name must have at least [_1] letters"
+
+msgid "err.name_too_long[]"
+msgstr "Name must have at most [_1] letters"
+
+msgid "err.element_invalid"
+msgstr "Element is not valid"
 
