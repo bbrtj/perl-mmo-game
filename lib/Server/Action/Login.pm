@@ -20,8 +20,6 @@ sub handle ($self, $session_id, $id, $data)
 	$form->set_input($data);
 	if ($form->valid) {
 		$session->set_user_id($form->user->id);
-		# TODO: proper language, or move languages to the client fully
-		$session->set_language('pl');
 		$self->cache->save($session);
 
 		$result->{success} = 1;

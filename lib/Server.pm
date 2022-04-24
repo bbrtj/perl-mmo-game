@@ -4,6 +4,7 @@ use My::Moose;
 use Mojo::IOLoop;
 use Mojo::JSON qw(to_json from_json);
 use Data::ULID qw(ulid);
+use Server::Config;
 
 use Exception::Network::InvalidCommand;
 use Exception::Network::CorruptedInput;
@@ -11,8 +12,6 @@ use Exception::Network::CorruptedInput;
 use header;
 
 # TODO kqueue
-
-use constant TIMEOUT_SEC => 120;
 
 with qw(
 	Server::Forked
@@ -32,7 +31,7 @@ has 'cache' => (
 
 has 'port' => (
 	is => 'ro',
-	default => sub { 14832 },
+	default => sub { Server::Config::GAME_SERVER_PORT },
 );
 
 sub handle_message ($self, $id, $req_id, $type, $data)
@@ -58,8 +57,6 @@ sub connection ($self, $loop, $stream, $id)
 	# TODO: dispatch map
 	my $handle_feedback = sub ($data_href) {
 		if ($data_href->{echo}) {
-			local $i18n::CURRENT_LANG = $session->language;
-
 			# NOTE: this newline is essential for the client to get this data
 			$stream->write(to_json($data_href->{echo}) . "\n");
 		}
@@ -101,7 +98,7 @@ sub connection ($self, $loop, $stream, $id)
 		$self->log->error("TCP Error: $err");
 	});
 
-	$stream->timeout(TIMEOUT_SEC);
+	$stream->timeout(Server::Config::GAME_SERVER_TIMEOUT);
 	return;
 }
 

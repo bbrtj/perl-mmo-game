@@ -15,10 +15,5 @@ has 'user_id' => (
 	isa => Types::Ulid,
 );
 
-has 'language' => (
-	is => 'ro',
-	isa => Types::Enum[Game::Config->config->{supported_langs}->@*],
-);
-
 __PACKAGE__->_register_cache;
 

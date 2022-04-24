@@ -70,4 +70,8 @@ sub do_work ($self)
 	);
 
 	Mojo::IOLoop->start;
+
+	$self->worker->channel->unlisten(undef, $cb);
+	return;
 }
+

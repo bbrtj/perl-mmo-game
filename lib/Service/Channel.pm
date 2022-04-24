@@ -18,10 +18,7 @@ has 'key' => (
 
 sub get_key ($self, $id)
 {
-	$id = ":$id"
-		if defined $id;
-
-	return $self->key . ($id // '');
+	return $self->key . (defined $id ? ":$id" : '');
 }
 
 sub broadcast ($self, $id, $data)
@@ -47,3 +44,14 @@ sub unlisten ($self, $id, $wrapped_callback)
 	$self->store->pubsub->unlisten($self->get_key($id) => $wrapped_callback);
 	return;
 }
+
+__END__
+
+=pod
+
+This is a communication channel between processes. It uses a KV store
+(currently Redis) to do publish/subscribe across processes.
+
+Multiple instances of this class will be defined in C<wire.yml> with different
+configuration. This way one class can be used for different context.
+

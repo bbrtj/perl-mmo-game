@@ -1,7 +1,6 @@
 package Resource::CharacterList;
 
 use My::Moose;
-use Game::Character::Class;
 
 use header;
 
@@ -20,3 +19,4 @@ sub hash ($self)
 
 	return $self->wrap(\@characters);
 }
+

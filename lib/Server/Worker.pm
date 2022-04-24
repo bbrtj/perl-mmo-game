@@ -15,8 +15,6 @@ with qw(
 	Server::Forked
 );
 
-our $IS_WORKER = 0;
-
 has 'channel' => (
 	is => 'ro',
 );
@@ -51,6 +49,8 @@ has 'actions' => (
 	init_arg => undef,
 );
 
+# keeps the worker alive in case of no specified commands
+# can perform synchronization jobs
 sub cleanup ($self)
 {
 	$self->log->info('Cleaning up...');
@@ -59,18 +59,13 @@ sub cleanup ($self)
 
 sub start ($self, $processes = 2)
 {
-	local $IS_WORKER = 1;
 	$self->create_forks($processes, sub ($process_id) {
 		Server::Worker::Process->new(worker => $self, process_id => $process_id)->do_work;
 	});
 
-	my $broadcast_command = sub ($command) {
-		$self->broadcast(command => $command->name);
-	};
-
 	my $setup_command; $setup_command = sub ($command) {
 		Mojo::IOLoop->timer($command->interval, sub {
-			$broadcast_command->($command);
+			$self->broadcast(command => $command->name);
 			$setup_command->($command);
 		});
 	};
@@ -90,4 +85,16 @@ sub broadcast ($self, $type, $name, @args)
 
 	return;
 }
+
+__END__
+
+=pod
+
+Worker is basically an internal cron job runner and server synchronizer. It
+spawns processes, and then broadcasts jobs (commands) to them. The first
+process to store a redis key with job ULID gets to process it.
+
+Some processes work on cron-like tasks, while others take care of actual game
+logic. Each game zone spawns one process to take care of its events and keeps
+its internal state, which is then synchronized to the database in intervals.
 
