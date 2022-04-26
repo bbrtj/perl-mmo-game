@@ -17,6 +17,6 @@ sub hash ($self)
 		}
 	} $self->subject->players->@*;
 
-	return $self->wrap(\@characters);
+	return \@characters;
 }
 

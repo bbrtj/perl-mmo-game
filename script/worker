@@ -8,7 +8,7 @@ use Utils;
 use DI;
 use Getopt::Long;
 
-my $processes = 2;
+my $processes = 6;
 
 GetOptions(
 	'processes|p=i', \$processes,

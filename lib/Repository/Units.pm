@@ -8,6 +8,7 @@ use Sub::Util qw(set_subname);
 use header;
 
 # load all factories
+# introduce methods like: get_location, get_actor
 BEGIN {
 	my @factories = load_classes('Factory');
 

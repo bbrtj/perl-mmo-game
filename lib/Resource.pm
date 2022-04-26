@@ -11,26 +11,11 @@ has 'subject' => (
 	isa => Types::InstanceOf ['Unit'],
 );
 
-has 'more_data' => (
-	is => 'ro',
-	default => sub { {} },
-);
-
 around BUILDARGS => sub ($orig, $class, @args) {
-	my $subject = shift @args;
-
 	return {
-		subject => $subject,
-		more_data => {@args},
+		subject => shift @args,
 	};
 };
 
 sub hash ($self) { ... }
 
-sub wrap ($self, $ref)
-{
-	return {
-		d => $ref,
-		$self->more_data->%*,
-	};
-}

@@ -3,11 +3,11 @@ package Server;
 use My::Moose;
 use Mojo::IOLoop;
 use Mojo::JSON qw(to_json from_json);
-use Data::ULID qw(ulid);
 use Server::Config;
 
-use Exception::Network::InvalidCommand;
+use Exception::Network::InvalidAction;
 use Exception::Network::CorruptedInput;
+use Exception::Network::InvalidState;
 
 use header;
 
@@ -34,16 +34,56 @@ has 'port' => (
 	default => sub { Server::Config::GAME_SERVER_PORT },
 );
 
-sub handle_message ($self, $id, $req_id, $type, $data)
+has 'connections' => (
+	is => 'ro',
+	default => sub { {} },
+);
+
+# return inlined sub that will quickly search for a matching action
+sub _get_action_inlined ($self)
 {
-	Exception::Network::CorruptedInput->throw
-		if !$req_id || ref $data ne 'HASH';
+	my %map = (
+		$self->worker->commands->%*,
+		$self->worker->actions->%*,
+	);
 
-	Exception::Network::InvalidCommand->throw
-		unless $type && exists $self->worker->actions->{$type};
+	return sub ($type) {
+		Exception::Network::InvalidAction->throw
+			unless defined $map{$type};
 
-	# TODO: priorities
-	$self->worker->broadcast(action => $type, $id, $req_id, $data);
+		return $map{$type};
+	};
+}
+
+# NOTE: this function needs to do the bare minimum to ensure low latency
+sub handle_message ($self, $session, $req_id, $type, $data = undef)
+{
+	state $actions = $self->_get_action_inlined;
+
+	Exception::Network::CorruptedInput->throw(msg => 'no id or no type')
+		if !$req_id || !$type;
+
+	# $action may be either an action or a command
+	# (both are really the same thing but differ in where they should be passed)
+	my $action = $actions->($type);
+
+	Exception::Network::InvalidState->throw
+		unless $session->state eq $action->required_state;
+
+	# validate may return an object that was created from $data
+	try {
+		$data = $action->validate(defined $data ? from_json($data) : undef);
+	} catch ($e) {
+		Exception::Network::CorruptedInput->throw(msg => $e);
+	}
+
+	if ($action->isa('Server::Action')) {
+		$self->worker->broadcast_action($session->location, $type, $session->id, $req_id, $data);
+	}
+	else {
+		$self->worker->broadcast($type, $session->id, $req_id, $data);
+	}
+
 	return;
 }
 
@@ -51,46 +91,53 @@ sub connection ($self, $loop, $stream, $id)
 {
 	$self->log->debug('New TCP connection from ' . $stream->handle->peerhost);
 
+	# TODO: check if a player session exists, if yes then hook onto it
+	# However, make sure we don't have two clients connected at once
 	my $session = Model::PlayerSession->new;
 	$self->cache->save($session);
 
-	# TODO: dispatch map
 	my $handle_feedback = sub ($data_href) {
-		if ($data_href->{echo}) {
-			# NOTE: this newline is essential for the client to get this data
-			$stream->write(to_json($data_href->{echo}) . "\n");
+		my %data = $data_href->%*;
+
+		if ($data{echo}) {
+			$stream->write(
+				($data{id} // '')
+				. Server::Config::PROTOCOL_CONTROL_CHARACTER
+				. to_json($data{echo})
+				# NOTE: this newline is essential for the client to get this data
+				. "\n"
+			);
 		}
-		if ($data_href->{refresh}) {
+
+		if ($data{refresh}) {
 			$session = $self->cache->load(PlayerSession => $session->id);
 		}
 	};
 
-	my @callbacks = (
-		[$session->id],
-		[undef],
-	);
-
-	push $_->@*, $self->channel->listen(
-		$_->[0],
-		$handle_feedback
-	) for @callbacks;
-
 	# react to tcp messages
 	# TODO: should exceptions be caught?
-	# TODO: save user game session state
 	$stream->on(
 		read => sub ($, $bytes) {
-			return if $bytes eq 'heartbeat';
+			return if $bytes eq 'ping';
 
-			my $msg = from_json $bytes;
-			my ($id, $type, $data) = $msg->@{qw(n t d)};
+			# check the length of $bytes to avoid getting attacked
+			Exception::Network::CorruptedInput->throw
+				if length $bytes > Server::Config::PROTOCOL_MAX_LENGTH;
 
-			$self->handle_message($session->id, $id, $type, $data // {});
+			$self->handle_message(
+				$session,
+				split Server::Config::PROTOCOL_CONTROL_CHARACTER, $bytes, 3
+			);
 		}
 	);
 
+	$self->connections->{$id} = $handle_feedback;
+	my $cb = $self->channel->listen($session->id, $handle_feedback);
+
 	$stream->on(close => sub {
-		$self->channel->unlisten(@$_) for @callbacks;
+		# TODO: log out from the world
+		$self->channel->unlisten($session->id, $cb);
+		delete $self->connections->{$id};
 		$self->cache->remove($session);
 	});
 
@@ -104,6 +151,14 @@ sub connection ($self, $loop, $stream, $id)
 
 sub start ($self)
 {
+	# listen to data that should be transmitted to all the players at once
+	# (global events, announcements, server messages)
+	my $cb = $self->channel->listen(undef, sub {
+		for my $connection_cb (values $self->connections->%*) {
+			$connection_cb->(@_);
+		}
+	});
+
 	Mojo::IOLoop->server({
 		port => $self->port,
 		reuse => 1,
@@ -112,11 +167,13 @@ sub start ($self)
 		unshift @_, $self;
 		goto \&connection;
 	});
+
+	$self->channel->unlisten(undef, $cb);
 }
 
 sub listen ($self, $processes = 4)
 {
-	$self->create_forks($processes - 1, sub ($process_id) {
+	$self->create_forks('tcp', $processes - 1, sub ($process_id) {
 		$self->start;
 	});
 

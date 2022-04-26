@@ -17,9 +17,7 @@ has 'actors' => (
 
 has 'location' => (
 	is => 'ro',
-	isa => (Types::InstanceOf['Game::Lore::LocationData'])
-		->plus_coercions(Types::InstanceOf['Game::Lore::Location'], q{ $_->data }),
-	coerce => 1,
+	isa => Types::InstanceOf['Game::Lore::Location'],
 	required => 1,
 );
 

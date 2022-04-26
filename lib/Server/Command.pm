@@ -5,21 +5,16 @@ use DI;
 
 use header;
 
-sub name { ... }
-sub interval { ... }
-sub handle { ... }
+with qw(
+	Server::Processable
+);
 
-use constant disabled => 0;
-
-sub cache { state $cache = DI->get('cache') }
-
-sub send_to ($self, $id, $data)
+# should be reintroduced if a command uses any incoming data
+sub validate ($self, $data)
 {
-	state $channel = DI->get('channel_service');
-
-	$data = {echo => $data->hash}
-		if $data isa 'Resource';
-
-	$channel->broadcast($id, $data);
-	return;
+	# clear data, since there's no need to pass around possible extra stuff
+	return undef;
 }
+
+sub required_state { ... }
+

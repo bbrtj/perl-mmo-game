@@ -34,26 +34,29 @@ after start => sub ($self, @) {
 	}
 };
 
-sub create_forks ($self, $processes, $worker_code)
+sub create_forks ($self, $prefix, $processes, $worker_code, $parent_code = sub {})
 {
 	$self->setup;
 
 	my $classname = ref $self;
 	$self->log->system_name($classname);
-	my @children;
-	for my $process_id (1 .. $processes) {
+
+	for my $pnum (1 .. $processes) {
+		my $process_id = "${prefix}${pnum}";
+
 		my $pid = fork;
 		if (defined $pid) {
 			if ($pid) {
 				$self->forked(1);
-				$0 = "perl $classname worker #$process_id";
+				$0 = "perl $classname worker $process_id";
+				$self->log->system_name("${classname}/${process_id}");
 
 				$worker_code->($process_id);
 				exit;
 			}
 			else {
 				$self->log->info("Process $process_id started");
-				push @children, $pid;
+				$parent_code->();
 			}
 		}
 		else {
@@ -61,5 +64,6 @@ sub create_forks ($self, $processes, $worker_code)
 		}
 	}
 
-	return @children;
+	return;
 }
+
