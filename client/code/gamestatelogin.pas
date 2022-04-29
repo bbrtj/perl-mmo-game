@@ -6,7 +6,8 @@ uses Classes, GameLore,
 	CastleVectors, CastleUIState, CastleComponentSerialize,
 	CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleFonts, CastleStringUtils, CastleUnicode,
-	GameNetwork, GameModels, GameModels.General;
+	GameNetwork, GameNetworkMessages,
+	GameModels, GameModels.General;
 
 type
 	TStateLogin = class(TUIState)
@@ -105,19 +106,18 @@ end;
 {}
 procedure TStateLogin.onConnected();
 var
-	vMessage: TLoginMessage;
-	vData: TLoginMessage.Model;
+	vData: TLoginMessage;
 begin
 	FStatus.Caption := 'Logging in...';
 
-	vMessage := TLoginMessage.Create;
-	vData := vMessage.d as TLoginMessage.Model;
+	vData := TLoginMessage.Create;
 
 	vData.email := FUsernameField.Text;
 	vData.password := FPasswordField.Text;
 
 	GlobalClient.Send(
-		vMessage,
+		FindMessageType('login'),
+		vData,
 		@onLogin
 	);
 end;
@@ -125,7 +125,7 @@ end;
 {}
 procedure TStateLogin.onLogin(const vLogin: TModelBase);
 begin
-	if (vLogin as TLoginResultMessage.Model).success = 1 then
+	if (vLogin as TLoginResultMessage).success = '1' then
 		FStatus.Caption := 'Success!'
 		// TODO: change game state to character list
 	else begin

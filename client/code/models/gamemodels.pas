@@ -2,46 +2,61 @@ unit GameModels;
 
 interface
 
-uses Serialization;
+uses SysUtils, Serialization;
 
 type
 
-	TModelBase = TSerialized;
+	TModelBase = class abstract(TSerialized);
 
 	TModelClass = class of TModelBase;
 
-	TMessageBase = class;
-	TMessageClass = class of TMessageBase;
-
-	TMessageMeta = class(TSerialized)
-	protected
-		FId: Integer;
-		FType: String;
-
-	published
-		property n: Integer read FId write FId;
-		property t: String read FType write FType;
+	TModelSerializationBase = class abstract
+	public
+		function Serialize(const vModel: TModelBase): String; virtual; abstract;
+		function DeSerialize(const vSerialized: String; const vModelClass: TModelClass): TModelBase; virtual; abstract;
 	end;
 
-	TMessageBase = class abstract(TMessageMeta)
-	protected
-		FModel: TModelBase;
+	TJSONModelSerialization = class (TModelSerializationBase)
+	private
+		FStreamer: TGameStreamer;
 
 	public
-		destructor Destroy(); override;
-		function ResultClass(): TMessageClass; virtual; abstract;
+		constructor Create();
+		destructor Destroy; override;
 
-	published
-		property d: TModelBase read FModel write FModel;
+		function Serialize(const vModel: TModelBase): String; override;
+		function DeSerialize(const vSerialized: String; const vModelClass: TModelClass): TModelBase; override;
 	end;
 
 implementation
 
-destructor TMessageBase.Destroy();
+{}
+constructor TJSONModelSerialization.Create();
 begin
-	if FModel <> nil then
-		FModel.Free;
+	FStreamer := TGameStreamer.Create;
+end;
+
+{}
+destructor TJSONModelSerialization.Destroy;
+begin
+	FStreamer.Free;
 	inherited;
 end;
 
+{}
+function TJSONModelSerialization.Serialize(const vModel: TModelBase): String;
+begin
+	result := FStreamer.Streamer.ObjectToJSONString(vModel);
+end;
+
+{}
+function TJSONModelSerialization.DeSerialize(const vSerialized: String; const vModelClass: TModelClass): TModelBase;
+begin
+	result := vModelClass.Create;
+	FStreamer.DeStreamer.JSONToObject(vSerialized, result);
+end;
+
+{ implementation end }
+
 end.
+

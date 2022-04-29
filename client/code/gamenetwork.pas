@@ -5,8 +5,8 @@ interface
 uses
 	FGL,
 	CastleClientServer,
-	GameModels, GameModels.General,
-	Serialization;
+	GameNetworkMessages,
+	GameModels, GameModels.General;
 
 type
 	TNetworkCallback = procedure() of object;
@@ -14,11 +14,11 @@ type
 
 	TCallbackItem = class
 	public
-		id: Integer;
-		callback: TNetworkMessageCallback;
-		messageClass: TMessageClass;
+		Id: Integer;
+		Callback: TNetworkMessageCallback;
+		MessageType: TMessageType;
 
-		constructor Create(const vId: Integer; const vCallback: TNetworkMessageCallback; const vClass: TMessageClass);
+		constructor Create(const vId: Integer; const vCallback: TNetworkMessageCallback; const vType: TMessageType);
 	end;
 
 	TCallbackItems = specialize TFPGObjectList<TCallbackItem>;
@@ -27,15 +27,17 @@ type
 	private
 		FClient: TCastleTCPClient;
 		FCallbacks: TCallbackItems;
-		FStreamer: TGameStreamer;
+		FModelSerializer: TModelSerializationBase;
 
 		procedure OnDisconnected;
-		procedure OnMessageRecieved(const vReceived: String);
+		procedure OnMessageReceived(const vReceived: String);
 
+		function DoSend(const vType: TMessageType; const vData: TModelBase): Integer;
 		function AssignId(): Integer;
 
 	public
 	const
+		// TODO: configure at compile stage
 		cDefaultHost = 'localhost';
 		cDefaultPort = 14832;
 
@@ -45,8 +47,8 @@ type
 		procedure Connect(const vHost: String; const vPort: Word; const vCallback: TNetworkCallback);
 		procedure Disconnect();
 
-		procedure Send(const vMessage: TMessageBase);
-		procedure Send(const vMessage: TMessageBase; const vCallback: TNetworkMessageCallback);
+		procedure Send(const vType: TMessageType; const vData: TModelBase);
+		procedure Send(const vType: TMessageType; const vData: TModelBase; const vCallback: TNetworkMessageCallback);
 	end;
 
 var
@@ -55,11 +57,11 @@ var
 implementation
 
 {}
-constructor TCallbackItem.Create(const vId: Integer; const vCallback: TNetworkMessageCallback; const vClass: TMessageClass);
+constructor TCallbackItem.Create(const vId: Integer; const vCallback: TNetworkMessageCallback; const vType: TMessageType);
 begin
-	id := vId;
-	callback := vCallback;
-	messageClass := vClass;
+	Id := vId;
+	Callback := vCallback;
+	MessageType := vType;
 end;
 
 {}
@@ -67,7 +69,7 @@ constructor TNetwork.Create();
 begin
 	FClient := TCastleTCPClient.Create;
 	FCallbacks := TCallbackItems.Create;
-	FStreamer := TGameStreamer.Create;
+	FModelSerializer := TJSONModelSerialization.Create;
 end;
 
 {}
@@ -75,7 +77,7 @@ destructor TNetwork.Destroy;
 begin
 	FClient.Free;
 	FCallbacks.Free;
-	FStreamer.Free;
+	FModelSerializer.Free;
 	inherited;
 end;
 
@@ -92,7 +94,7 @@ begin
 
 	FClient.OnConnected := vCallback;
 	FClient.OnDisconnected := @OnDisconnected;
-	FClient.OnMessageRecieved := @OnMessageRecieved;
+	FClient.OnMessageReceived := @OnMessageReceived;
 
 	FClient.Connect;
 end;
@@ -115,32 +117,32 @@ begin
 end;
 
 {}
-procedure TNetwork.OnMessageRecieved (const vReceived: String);
+procedure TNetwork.OnMessageReceived (const vReceived: String);
 var
-	vMeta: TMessageMeta;
-	vMessage: TMessageBase;
+	vMessage: TMessage;
+	vModel: TModelBase;
 	vCallback: TCallbackItem;
 begin
 	writeln('got: ' + vReceived);
-	vMeta := TMessageMeta.Create;
-	FStreamer.DeStreamer.JSONToObject(vReceived, vMeta);
+	vMessage := TMessage.Create;
+	vMessage.Body := vReceived;
 
 	for vCallback in FCallbacks do begin
-		if vCallback.id = vMeta.n then begin
-			vMessage := vCallback.messageClass.Create;
-			FStreamer.DeStreamer.JSONToObject(vReceived, vMessage);
+		if vCallback.Id = vMessage.Id then begin
+			vModel := FModelSerializer.DeSerialize(vMessage.Data, vCallback.MessageType.MessageCallbackModel);
 
-			vCallback.callback(vMessage.d);
+			vCallback.callback(vModel);
 
 			FCallbacks.Remove(vCallback);
-			vMeta.Free;
 			vMessage.Free;
+			vModel.Free;
 			exit;
 		end;
 	end;
 
 	// TODO: handle something that we were not waiting for
-	vMeta.Free;
+	writeln('not handled');
+	vMessage.Free;
 end;
 
 {}
@@ -160,20 +162,31 @@ begin
 end;
 
 {}
-procedure TNetwork.Send(const vMessage: TMessageBase);
+function TNetwork.DoSend(const vType: TMessageType; const vData: TModelBase): Integer;
 var
-	vToSend: String;
+	vToSend: TOutMessage;
 begin
-	vToSend := FStreamer.Streamer.ObjectToJSONString(vMessage);
-	FClient.Send(vToSend);
+	vToSend := TOutMessage.Create;
+	vToSend.Id := AssignId();
+	vToSend.Typ := vType.MessageType;
+	vToSend.Data := FModelSerializer.Serialize(vData);
+
+	result := vToSend.Id;
+
+	FClient.Send(vToSend.Body);
+	vToSend.Free;
 end;
 
 {}
-procedure TNetwork.Send(const vMessage: TMessageBase; const vCallback: TNetworkMessageCallback);
+procedure TNetwork.Send(const vType: TMessageType; const vData: TModelBase; const vCallback: TNetworkMessageCallback);
 begin
-	vMessage.n := AssignId();
-	Send(vMessage);
-	FCallbacks.Add(TCallbackItem.Create(vMessage.n, vCallback, vMessage.ResultClass()));
+	FCallbacks.Add(TCallbackItem.Create(DoSend(vType, vData), vCallback, vType));
+end;
+
+{}
+procedure TNetwork.Send(const vType: TMessageType; const vData: TModelBase);
+begin
+	DoSend(vType, vData);
 end;
 
 initialization
@@ -182,6 +195,8 @@ initialization
 finalization
 	// TODO: this hangs and throws access violation
 	// GlobalClient.Free;
+
+{ implementation end }
 
 end.
 
