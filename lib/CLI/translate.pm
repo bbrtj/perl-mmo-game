@@ -175,10 +175,12 @@ sub run_rename ($self, $key_from, $key_to)
 	else {
 		for my $data (@found) {
 			my ($trans, $el) = @$data;
-			$trans->add_element({
-				msgid => $key_to,
-				msgstr => $el->msgstr,
-			});
+			$trans->add_element(
+				{
+					msgid => $key_to,
+					msgstr => $el->msgstr,
+				}
+			);
 
 			$trans->remove_element($el);
 			$trans->sync;
@@ -211,6 +213,7 @@ sub run_fix ($self)
 			$self->run_rename($id, $to);
 		}
 		elsif ($choice eq '3') {
+
 			# do nothing
 		}
 		else {

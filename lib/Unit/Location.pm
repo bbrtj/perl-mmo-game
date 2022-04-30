@@ -17,7 +17,7 @@ has 'actors' => (
 
 has 'location' => (
 	is => 'ro',
-	isa => Types::InstanceOf['Game::Lore::Location'],
+	isa => Types::InstanceOf ['Game::Lore::Location'],
 	required => 1,
 );
 

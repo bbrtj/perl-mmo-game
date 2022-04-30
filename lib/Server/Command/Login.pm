@@ -38,5 +38,5 @@ sub handle ($self, $session_id, $id, $data)
 		id => $id,
 		refresh => $success
 	);
-};
+}
 

@@ -13,7 +13,7 @@ BEGIN {
 	my @factories = load_classes('Factory');
 
 	for my $class (@factories) {
-		my $factory_name = lc ((split/::/, $class)[-1]);
+		my $factory_name = lc((split /::/, $class)[-1]);
 
 		my $instance = $class->new;
 		my $name = "load_${factory_name}";
@@ -22,7 +22,7 @@ BEGIN {
 			return $instance->create($data);
 		};
 
-		no strict 'refs'; ## no critic 'TestingAndDebugging::ProhibitNoStrict'
+		no strict 'refs';    ## no critic 'TestingAndDebugging::ProhibitNoStrict'
 		my $me = __PACKAGE__;
 		*{"${me}::${name}"} = $sub;
 		set_subname($sub, $name);

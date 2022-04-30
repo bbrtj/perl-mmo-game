@@ -6,7 +6,7 @@ use warnings;
 # use Hook::AfterRuntime;
 use Import::Into;
 
-require Mouse; ## no critic 'Community::PreferredAlternatives'
+require Mouse;    ## no critic 'Community::PreferredAlternatives'
 
 sub import
 {
@@ -27,6 +27,7 @@ sub import
 	}
 
 	Mouse->import::into($caller, %args);
+
 	# after_runtime { $caller->meta->make_immutable(@immutable_args) };
 
 	return;

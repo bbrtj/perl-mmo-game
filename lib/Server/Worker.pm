@@ -102,37 +102,50 @@ sub start ($self, $processes = 2)
 	my $game_processes = $processes - $jobs_processes;
 
 	# create processes for shared jobs
-	$self->create_forks('job', $jobs_processes, sub ($process_id) {
-		Server::Worker::Process::Jobs->new(
-			worker => $self,
-			process_id => $process_id
-		)->do_work;
-	});
+	$self->create_forks(
+		'job',
+		$jobs_processes,
+		sub ($process_id) {
+			Server::Worker::Process::Jobs->new(
+				worker => $self,
+				process_id => $process_id
+			)->do_work;
+		}
+	);
 
 	# create processes for game servers
 	my $get_locations = $self->_location_dispenser($game_processes);
-	$self->create_forks('game', $game_processes, sub ($process_id) {
-		my @processes = map {
-			Server::Worker::Process::Game->new(
-				worker => $self,
-				process_id => $process_id,
-				location_data => $_,
-			)
-		} $get_locations->();
+	$self->create_forks(
+		'game',
+		$game_processes,
+		sub ($process_id) {
+			my @processes = map {
+				Server::Worker::Process::Game->new(
+					worker => $self,
+					process_id => $process_id,
+					location_data => $_,
+				)
+			} $get_locations->();
 
-		$_->do_work for @processes;
+			$_->do_work for @processes;
 
-		Mojo::IOLoop->start;
+			Mojo::IOLoop->start;
 
-		$_->finish_work for @processes;
-	}, $get_locations);
+			$_->finish_work for @processes;
+		},
+		$get_locations
+	);
 
 	# setup crons
-	my $setup_job; $setup_job = sub ($job) {
-		Mojo::IOLoop->timer($job->interval, sub {
-			$self->broadcast($job->name);
-			$setup_job->($job);
-		});
+	my $setup_job;
+	$setup_job = sub ($job) {
+		Mojo::IOLoop->timer(
+			$job->interval,
+			sub {
+				$self->broadcast($job->name);
+				$setup_job->($job);
+			}
+		);
 	};
 
 	for my $job (values $self->jobs->%*) {

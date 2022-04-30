@@ -39,7 +39,7 @@ sub load ($self, $name)
 
 	my $error = do {
 		local $@ = undef;
-		my $success = eval "$contents; 1"; ## no critic 'BuiltinFunctions::ProhibitStringyEval'
+		my $success = eval "$contents; 1";    ## no critic 'BuiltinFunctions::ProhibitStringyEval'
 		$success ? undef : $@;
 	};
 

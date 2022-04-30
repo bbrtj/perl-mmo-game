@@ -15,7 +15,7 @@ sub fetch ($self, @search)
 		if @search == 1;
 
 	my $rs = $self->dbc->resultset('User')->search(
-		{ @search },
+		{@search},
 		{
 			prefetch => {players => [qw(character)]}
 		}

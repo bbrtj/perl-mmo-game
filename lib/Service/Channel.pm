@@ -28,7 +28,7 @@ sub broadcast ($self, $id, $data)
 }
 
 # this is a homonym, but we use pubsub->listen, so ignore it
-sub listen ($self, $id, $callback) ## no critic 'Subroutines::ProhibitBuiltinHomonyms'
+sub listen ($self, $id, $callback)    ## no critic 'Subroutines::ProhibitBuiltinHomonyms'
 {
 	my $wrapped_callback = $self->store->pubsub->listen(
 		$self->get_key($id) => sub {

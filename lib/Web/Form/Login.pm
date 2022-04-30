@@ -17,6 +17,7 @@ form_field 'remember_me' => (
 );
 
 form_hook after_validate => sub ($self, $data) {
+
 	# clear password field, so that it won't end up in user's HTML (for their security)
 	$self->input->{password} = '';
 };

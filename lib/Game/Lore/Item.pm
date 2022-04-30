@@ -22,7 +22,7 @@ package Game::Lore::ItemData {
 	has 'type' => (
 		is => 'ro',
 		writer => 'set_type',
-		isa => Types::Enum[qw(weapon armor consumable other)],
+		isa => Types::Enum [qw(weapon armor consumable other)],
 		default => sub { 'other' }
 	);
 

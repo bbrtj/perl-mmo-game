@@ -38,9 +38,11 @@ sub bootstrap_mojo ($class)
 	my $reactor = Mojo::IOLoop->singleton->reactor;
 
 	$reactor->unsubscribe('error');
-	$reactor->on(error => sub ($reactor, $err) {
-		DI->get('log')->critical($err);
-	});
+	$reactor->on(
+		error => sub ($reactor, $err) {
+			DI->get('log')->critical($err);
+		}
+	);
 
 	return;
 }

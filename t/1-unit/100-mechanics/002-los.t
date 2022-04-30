@@ -33,7 +33,7 @@ my $map = Game::Object::Map->from_string(<<MAP);
 ............
 MAP
 
-my $location = h2o { map => $map };
+my $location = h2o {map => $map};
 
 test should_see => sub {
 	ok Game::Mechanics::Check::Map->can_see($location, @_)->result, $_;

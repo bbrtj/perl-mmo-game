@@ -32,11 +32,13 @@ sub create_player ($self, $user, $player_data)
 		energy => $class->data->define->{base_energy},
 	);
 
-	$self->repo->db->transaction(sub {
-		$self->repo->save($player);
-		$self->repo->save($character);
-		$self->repo->save($character_variables);
-	});
+	$self->repo->db->transaction(
+		sub {
+			$self->repo->save($player);
+			$self->repo->save($character);
+			$self->repo->save($character_variables);
+		}
+	);
 
 	return $player;
 }

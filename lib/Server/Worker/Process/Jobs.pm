@@ -16,7 +16,7 @@ has 'commands' => (
 		return {
 			$self->worker->commands->%*,
 			$self->worker->jobs->%*,
-		}
+		};
 	},
 );
 

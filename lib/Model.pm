@@ -1,10 +1,12 @@
 package Model;
 
-use My::Moose -traits => [qw(
-	My::Moose::Trait::AutoSetters
-	My::Moose::Trait::Serializable
-	My::Moose::Trait::FakeRequired
-)];
+use My::Moose -traits => [
+	qw(
+		My::Moose::Trait::AutoSetters
+		My::Moose::Trait::Serializable
+		My::Moose::Trait::FakeRequired
+	)
+];
 
 use Carp;
 use Mojo::Loader qw(load_classes);

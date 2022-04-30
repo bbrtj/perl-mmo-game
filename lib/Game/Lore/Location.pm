@@ -35,7 +35,7 @@ package Game::Lore::LocationData {
 	has 'map' => (
 		is => 'ro',
 		writer => '_set_map',
-		isa => Types::InstanceOf['Game::Object::Map'],
+		isa => Types::InstanceOf ['Game::Object::Map'],
 	);
 
 	has 'connections' => (
@@ -45,7 +45,7 @@ package Game::Lore::LocationData {
 	);
 
 	has '+parent' => (
-		isa => Types::InstanceOf['Game::Lore::Area'],
+		isa => Types::InstanceOf ['Game::Lore::Area'],
 	);
 
 	sub set_map ($self, $map_str)

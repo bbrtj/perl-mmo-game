@@ -23,7 +23,8 @@ sub send_to ($self, $session_id, $echo, %more)
 {
 	my $data = {
 		%more,
-		(defined $echo
+		(
+			defined $echo
 			? (echo => ($echo isa 'Resource' ? $echo->serialize : $echo))
 			: ()
 		)

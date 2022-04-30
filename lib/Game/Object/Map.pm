@@ -19,7 +19,7 @@ use constant CHARACTERS => {
 
 has 'coordinates' => (
 	is => 'ro',
-	isa => Types::ArrayRef[Types::ArrayRef[Types::Int]],
+	isa => Types::ArrayRef [Types::ArrayRef [Types::Int]],
 	required => 1,
 );
 

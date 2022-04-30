@@ -42,7 +42,7 @@ around add_attribute => sub {
 		delete $params{required};
 	}
 
-	return $self->$orig($name, %params)
+	return $self->$orig($name, %params);
 };
 
 1;

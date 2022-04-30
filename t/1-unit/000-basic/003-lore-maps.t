@@ -27,7 +27,8 @@ is $harbor->data->map->coordinates, [
 	[0, 1, 1, 1, 1, 1, 1, 0, 0, 0],
 	[0, 1, 1, 1, 1, 1, 0, 0, 0, 0],
 	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-], 'map loaded ok';
+	],
+	'map loaded ok';
 
 done_testing;
 

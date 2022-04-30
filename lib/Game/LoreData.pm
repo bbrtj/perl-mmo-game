@@ -7,7 +7,7 @@ use header;
 
 has 'main_obj' => (
 	is => 'ro',
-	isa => Types::InstanceOf['Game::Lore'],
+	isa => Types::InstanceOf ['Game::Lore'],
 	weak_ref => 1,
 );
 
@@ -31,14 +31,14 @@ has 'uses' => (
 
 has 'children' => (
 	is => 'ro',
-	isa => Types::ArrayRef[Types::InstanceOf['Game::Lore']],
+	isa => Types::ArrayRef [Types::InstanceOf ['Game::Lore']],
 	default => sub { [] },
 );
 
 has 'parent' => (
 	is => 'ro',
 	writer => '_set_parent',
-	isa => Types::InstanceOf['Game::Lore'],
+	isa => Types::InstanceOf ['Game::Lore'],
 	weak_ref => 1,
 );
 

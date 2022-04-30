@@ -30,12 +30,13 @@ sub _clear_dirty
 	return;
 }
 
-sub DEMOLISH {
+sub DEMOLISH
+{
 	my $self = shift;
 	delete $dirty{refaddr $self};
 
 	return;
-};
+}
 
 1;
 

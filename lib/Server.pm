@@ -73,7 +73,8 @@ sub handle_message ($self, $session, $req_id, $type, $data = undef)
 	# validate may return an object that was created from $data
 	try {
 		$data = $action->validate(defined $data ? from_json($data) : undef);
-	} catch ($e) {
+	}
+	catch ($e) {
 		Exception::Network::CorruptedInput->throw(msg => $e);
 	}
 
@@ -103,9 +104,10 @@ sub connection ($self, $loop, $stream, $id)
 			$stream->write(
 				($data{id} // '')
 				. Server::Config::PROTOCOL_CONTROL_CHARACTER
-				. to_json($data{echo})
-				# NOTE: this newline is essential for the client to get this data
-				. "\n"
+					. to_json($data{echo})
+
+					# NOTE: this newline is essential for the client to get this data
+					. "\n"
 			);
 		}
 
@@ -134,16 +136,21 @@ sub connection ($self, $loop, $stream, $id)
 	$self->connections->{$id} = $handle_feedback;
 	my $cb = $self->channel->listen($session->id, $handle_feedback);
 
-	$stream->on(close => sub {
-		# TODO: log out from the world
-		$self->channel->unlisten($session->id, $cb);
-		delete $self->connections->{$id};
-		$self->cache->remove($session);
-	});
+	$stream->on(
+		close => sub {
 
-	$stream->on(error => sub ($, $err) {
-		$self->log->error("TCP Error: $err");
-	});
+			# TODO: log out from the world
+			$self->channel->unlisten($session->id, $cb);
+			delete $self->connections->{$id};
+			$self->cache->remove($session);
+		}
+	);
+
+	$stream->on(
+		error => sub ($, $err) {
+			$self->log->error("TCP Error: $err");
+		}
+	);
 
 	$stream->timeout(Server::Config::GAME_SERVER_TIMEOUT);
 	return;
@@ -153,20 +160,26 @@ sub start ($self)
 {
 	# listen to data that should be transmitted to all the players at once
 	# (global events, announcements, server messages)
-	my $cb = $self->channel->listen(undef, sub {
-		for my $connection_cb (values $self->connections->%*) {
-			$connection_cb->(@_);
+	my $cb = $self->channel->listen(
+		undef,
+		sub {
+			for my $connection_cb (values $self->connections->%*) {
+				$connection_cb->(@_);
+			}
 		}
-	});
+	);
 
-	Mojo::IOLoop->server({
-		port => $self->port,
-		reuse => 1,
-		# TODO: tls
-	} => sub {
-		unshift @_, $self;
-		goto \&connection;
-	});
+	Mojo::IOLoop->server(
+		{
+			port => $self->port,
+			reuse => 1,
+
+			# TODO: tls
+		} => sub {
+			unshift @_, $self;
+			goto \&connection;
+		}
+	);
 
 	$self->channel->unlisten(undef, $cb);
 
@@ -175,9 +188,13 @@ sub start ($self)
 
 sub start_listening ($self, $processes = 4)
 {
-	$self->create_forks('tcp', $processes - 1, sub ($process_id) {
-		$self->start;
-	});
+	$self->create_forks(
+		'tcp',
+		$processes - 1,
+		sub ($process_id) {
+			$self->start;
+		}
+	);
 
 	# main process will be a server as well
 	$self->start;

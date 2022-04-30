@@ -20,16 +20,17 @@ sub can_see ($self, $location, $position1, $position2)
 	my $coeff_x = ($position2->[1] - $central[1]) / ($position2->[0] - $central[0]);
 
 	my $check_for_x = sub ($pos_x) {
-		my $pos_y = int ($central[1] + ($pos_x - $central[0]) * $coeff_x);
+		my $pos_y = int($central[1] + ($pos_x - $central[0]) * $coeff_x);
 		return $check->($pos_x, $pos_y) && ($pos_x == 0 || $check->($pos_x - 1, $pos_y));
 	};
 
 	my $check_for_y = sub ($pos_y) {
-		my $pos_x = int ($central[0] + ($pos_y - $central[1]) / $coeff_x);
+		my $pos_x = int($central[0] + ($pos_y - $central[1]) / $coeff_x);
 		return $check->($pos_x, $pos_y) && ($pos_y == 0 || $check->($pos_x, $pos_y - 1));
 	};
 
 	my $loop_coords = sub ($from, $to, $run_func) {
+
 		# $from and $to will be tested as a part of checking the lower coordinate ($pos - 1 above)
 		my @loop_list = $to >= $from
 			? $from + 1 .. $to

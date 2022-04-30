@@ -11,24 +11,28 @@ use Mojo::JSON qw(decode_json);
 
 use header -noclean;
 
-use constant TYPES => [qw(
-	attribute
-	race
-	class
-	item
-	slot
-	primary_stat
-	secondary_stat
-	area
-	location
-)];
+use constant TYPES => [
+	qw(
+		attribute
+		race
+		class
+		item
+		slot
+		primary_stat
+		secondary_stat
+		area
+		location
+	)
+];
 
-use constant CONFIGS => [qw(
-	translations
-	define
-	uses
-	parent
-)];
+use constant CONFIGS => [
+	qw(
+		translations
+		define
+		uses
+		parent
+	)
+];
 
 sub transform_name ($self, $name)
 {
@@ -46,7 +50,7 @@ sub get_helpers ($self)
 	for my $type (TYPES->@*) {
 		my $class = 'Game::Lore::' . $self->transform_name($type);
 
-		$subs{"lore_$type"} = sub :prototype($) ($name) {
+		$subs{"lore_$type"} = sub : prototype($) ($name) {
 			return $repo->load_named($class, $name);
 		};
 	}
@@ -56,7 +60,8 @@ sub get_helpers ($self)
 
 sub _configure ($self, $context, $field, @values)
 {
-	my sub reporter ($text) { ## no critic 'Subroutines::ProhibitBuiltinHomonyms'
+	my sub reporter ($text)
+	{    ## no critic 'Subroutines::ProhibitBuiltinHomonyms'
 		$context = $context ? ref $context : '(no context)';
 		die sprintf $text, $context;
 	}
@@ -118,8 +123,8 @@ sub get_dsl ($self, $caller)
 
 	my %dsl = (
 		lore => sub ($id, $el) {
-			my $class =  $el->class;
-			eval "require $class; 1" ## no critic 'BuiltinFunctions::ProhibitStringyEval'
+			my $class = $el->class;
+			eval "require $class; 1"    ## no critic 'BuiltinFunctions::ProhibitStringyEval'
 				|| die "Could not load $class";
 
 			push @items, $class->new(
@@ -166,7 +171,7 @@ sub get_dsl ($self, $caller)
 	for my $type (TYPES->@*) {
 		my $class = 'Game::Lore::' . $self->transform_name($type);
 
-		$dsl{$type} = sub :prototype($) ($name) {
+		$dsl{$type} = sub : prototype($) ($name) {
 			return Game::LoreLoader::LoreDummy->new(
 				class => $class,
 				name => $name,
@@ -191,7 +196,7 @@ sub import ($self, @args)
 	my %subs = $want_helpers ? $self->get_helpers : $self->get_dsl($package);
 
 	for my $name (keys %subs) {
-		no strict 'refs'; ## no critic 'TestingAndDebugging::ProhibitNoStrict'
+		no strict 'refs';    ## no critic 'TestingAndDebugging::ProhibitNoStrict'
 
 		set_subname $name, $subs{$name};
 		*{"${package}::${name}"} = $subs{$name};

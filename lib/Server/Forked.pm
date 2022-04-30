@@ -37,7 +37,7 @@ after start => sub ($self, @) {
 	}
 };
 
-sub create_forks ($self, $prefix, $processes, $worker_code, $parent_code = sub {})
+sub create_forks ($self, $prefix, $processes, $worker_code, $parent_code = sub { })
 {
 	$self->setup;
 

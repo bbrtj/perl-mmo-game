@@ -13,7 +13,7 @@ has 'encoder' => (
 	isa => Types::InstanceOf ['Sereal::Encoder'],
 	lazy => 1,
 	default => sub ($self) {
-		Sereal::Encoder->new
+		Sereal::Encoder->new;
 	},
 	handles => [qw(encode)],
 );
@@ -23,7 +23,7 @@ has 'decoder' => (
 	isa => Types::InstanceOf ['Sereal::Decoder'],
 	lazy => 1,
 	default => sub ($self) {
-		Sereal::Decoder->new
+		Sereal::Decoder->new;
 	},
 	handles => [qw(decode)],
 );

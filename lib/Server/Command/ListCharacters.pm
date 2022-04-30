@@ -24,5 +24,5 @@ sub handle ($self, $session_id, $id, $data)
 		Resource::CharacterList->new($unit),
 		id => $id
 	);
-};
+}
 

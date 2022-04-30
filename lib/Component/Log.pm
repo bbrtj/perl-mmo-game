@@ -67,14 +67,18 @@ sub build_config ($self)
 {
 
 	return [
-		($self->env->is_production ? () : ([
-			'Screen',
-			name => 'development debug',
-			min_level => 'debug',
-			max_level => 'critical',
-			stderr => 0,
-			callbacks => $self->_get_screen_callback,
-		])),
+		(
+			$self->env->is_production ? () : (
+				[
+					'Screen',
+					name => 'development debug',
+					min_level => 'debug',
+					max_level => 'critical',
+					stderr => 0,
+					callbacks => $self->_get_screen_callback,
+				]
+			)
+		),
 		[
 			'File::Locked',
 			name => 'file',

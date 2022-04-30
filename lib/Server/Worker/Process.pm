@@ -20,6 +20,6 @@ has 'process_id' => (
 
 sub do_work ($self)
 {
-	...
+	...;
 }
 

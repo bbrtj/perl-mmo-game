@@ -39,6 +39,7 @@ sub handle ($self, $session_id, $id, $data)
 	}
 
 	if ($success) {
+
 		# TODO: start sending location data to the player
 		# TODO: switch player online status in the DB
 		# TODO: let game process know that it should add the player to its data
@@ -51,7 +52,7 @@ sub handle ($self, $session_id, $id, $data)
 
 	return $self->send_to(
 		$session_id,
-		{ success => $success },
+		{success => $success},
 		id => $id,
 		refresh => 1
 	);
