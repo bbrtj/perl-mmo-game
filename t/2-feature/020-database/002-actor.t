@@ -19,14 +19,14 @@ database_test {
 	subtest 'stores character variables', sub {
 		$related_models{variables}->set_experience(1500);
 		DI->get('units')->save($actor);
-		my $loaded = DI->get('units')->get_actor($actor->character->id);
+		my $loaded = DI->get('units')->load_actor($actor->character->id);
 		is $loaded, $actor, 'repository stored actor data ok';
 	};
 
 	subtest 'does not store character data', sub {
 		$related_models{character}->set_name('Priesty');
 		DI->get('units')->save($actor);
-		my $loaded = DI->get('units')->get_actor($actor->character->id);
+		my $loaded = DI->get('units')->load_actor($actor->character->id);
 		isnt $loaded, $actor, 'repository did not store actor data ok';
 	};
 };

@@ -9,10 +9,13 @@ use header;
 
 extends 'Factory';
 
-sub fetch ($self, $user_id)
+sub fetch ($self, @search)
 {
+	unshift @search, 'me.id'
+		if @search == 1;
+
 	my $rs = $self->dbc->resultset('User')->search(
-		{'me.id' => $user_id},
+		{ @search },
 		{
 			prefetch => {players => [qw(character)]}
 		}

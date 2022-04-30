@@ -8,7 +8,6 @@ use header;
 
 has 'subject' => (
 	is => 'ro',
-	isa => Types::InstanceOf ['Unit'],
 );
 
 around BUILDARGS => sub ($orig, $class, @args) {
@@ -17,5 +16,5 @@ around BUILDARGS => sub ($orig, $class, @args) {
 	};
 };
 
-sub hash ($self) { ... }
+sub serialize ($self) { ... }
 

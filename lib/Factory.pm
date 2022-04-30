@@ -13,12 +13,12 @@ has 'dbc' => (
 # free to use fields
 sub fetch ($self, @)
 {
-	die "$self->fetch needs reimplementing";
+	...
 }
 
 # should not require an instantiated $self
 sub create ($self, @)
 {
-	die "$self->create needs reimplementing";
+	...
 }
 

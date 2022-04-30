@@ -8,7 +8,7 @@ use Sub::Util qw(set_subname);
 use header;
 
 # load all factories
-# introduce methods like: get_location, get_actor
+# introduce methods like: load_location, load_actor
 BEGIN {
 	my @factories = load_classes('Factory');
 
@@ -16,7 +16,7 @@ BEGIN {
 		my $factory_name = lc ((split/::/, $class)[-1]);
 
 		my $instance = $class->new;
-		my $name = "get_${factory_name}";
+		my $name = "load_${factory_name}";
 		my $sub = sub ($obj, @params) {
 			my $data = $instance->fetch(@params);
 			return $instance->create($data);

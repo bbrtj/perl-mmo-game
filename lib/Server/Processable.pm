@@ -23,7 +23,10 @@ sub send_to ($self, $session_id, $echo, %more)
 {
 	my $data = {
 		%more,
-		echo => ($echo isa 'Resource' ? $echo->hash : $echo),
+		(defined $echo
+			? (echo => ($echo isa 'Resource' ? $echo->serialize : $echo))
+			: ()
+		)
 	};
 
 	$self->channel->broadcast($session_id, $data);

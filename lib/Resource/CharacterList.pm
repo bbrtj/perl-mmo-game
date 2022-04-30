@@ -6,7 +6,11 @@ use header;
 
 extends 'Resource';
 
-sub hash ($self)
+has '+subject' => (
+	isa => Types::InstanceOf ['Unit::User'],
+);
+
+sub serialize ($self)
 {
 	my @characters = map {
 		{

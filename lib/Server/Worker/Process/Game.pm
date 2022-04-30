@@ -12,7 +12,7 @@ has 'location_data' => (
 	is => 'ro',
 	isa => (Types::InstanceOf['Unit::Location'])
 		->plus_coercions(
-			Types::InstanceOf['Game::Lore::Location'], q{ DI->get('units')->get_location($_->id) }
+			Types::InstanceOf['Game::Lore::Location'], q{ DI->get('units')->load_location($_->id) }
 		),
 	coerce => 1,
 	required => 1,

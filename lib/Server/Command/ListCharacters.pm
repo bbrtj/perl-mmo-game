@@ -17,7 +17,7 @@ sub handle ($self, $session_id, $id, $data)
 	state $repo = DI->get('units');
 
 	my $session = $self->cache->load(PlayerSession => $session_id);
-	my $unit = $repo->get_user($session->user_id);
+	my $unit = $repo->load_user($session->user_id);
 
 	return $self->send_to(
 		$session_id,
