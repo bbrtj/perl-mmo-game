@@ -60,10 +60,3 @@ sub load_all_named ($self, $class)
 	return $found;
 }
 
-sub dump ($self)
-{
-	use Data::Dumper;
-	print Dumper(\%named_collection);
-	return;
-}
-

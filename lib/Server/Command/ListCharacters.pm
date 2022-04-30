@@ -9,8 +9,8 @@ use header;
 
 extends 'Server::Command';
 
-sub name { 'list_characters' }
-sub required_state { Model::PlayerSession->STATE_LOGGED_IN }
+use constant name => 'list_characters';
+use constant required_state => Model::PlayerSession->STATE_LOGGED_IN;
 
 sub handle ($self, $session_id, $id, $data)
 {

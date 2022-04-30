@@ -10,7 +10,7 @@ use header;
 extends 'Mojolicious::Command';
 
 use constant description => 'migrate database schema';
-sub usage ($self) { $self->extract_usage }
+sub usage ($self) { return $self->extract_usage }
 
 sub get_files ()
 {

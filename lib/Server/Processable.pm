@@ -17,7 +17,7 @@ has 'channel' => (
 
 sub name { ... }
 sub handle { ... }
-sub disabled { 0 }
+use constant disabled => 0;
 
 sub send_to ($self, $session_id, $echo, %more)
 {

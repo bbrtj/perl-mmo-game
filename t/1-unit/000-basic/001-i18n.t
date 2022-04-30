@@ -3,7 +3,7 @@ use testheader;
 # i18n should be loaded by the header already
 
 # undefine language for tests
-local $i18n::CURRENT_LANG;
+local $i18n::CURRENT_LANG = undef;
 
 isa_ok _t('err.out_of_range'), 'i18n';
 ok lives { _t('err.out_of_range') }, 'no lang translation lives before stringification ok';
@@ -14,3 +14,4 @@ local $i18n::CURRENT_LANG = 'pl';
 is _t('err.out_of_range'), 'cel znajduje się poza zasięgiem', 'translation with _t ok';
 
 done_testing;
+

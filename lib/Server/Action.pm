@@ -7,5 +7,5 @@ use header;
 
 extends 'Server::Command';
 
-sub required_state { Model::PlayerSession->STATE_PLAYING }
+use constant required_state => Model::PlayerSession->STATE_PLAYING;
 

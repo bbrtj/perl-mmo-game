@@ -10,7 +10,7 @@ use header;
 extends 'Mojolicious::Command';
 
 use constant description => 'translate text for the application';
-sub usage ($self) { $self->extract_usage }
+sub usage ($self) { return $self->extract_usage }
 
 has 'translations' => (
 	is => 'ro',
@@ -153,6 +153,8 @@ sub run_translate ($self, $key)
 	for my $trans ($self->translations->@*) {
 		$trans->sync;
 	}
+
+	return;
 }
 
 sub run_rename ($self, $key_from, $key_to)
@@ -201,14 +203,14 @@ sub run_fix ($self)
 		say "3. Do nothing";
 
 		my $choice = $self->_prompt('Choice');
-		if ($choice eq 1) {
+		if ($choice eq '1') {
 			$self->run_translate($id);
 		}
-		elsif ($choice eq 2) {
+		elsif ($choice eq '2') {
 			my $to = $self->_prompt('New key');
 			$self->run_rename($id, $to);
 		}
-		elsif ($choice eq 3) {
+		elsif ($choice eq '3') {
 			# do nothing
 		}
 		else {
@@ -256,6 +258,8 @@ sub run_search ($self, $query)
 	for my $id (keys %found) {
 		say $id;
 	}
+
+	return;
 }
 
 sub run ($self, @args)

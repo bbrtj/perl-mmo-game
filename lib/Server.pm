@@ -169,9 +169,11 @@ sub start ($self)
 	});
 
 	$self->channel->unlisten(undef, $cb);
+
+	return;
 }
 
-sub listen ($self, $processes = 4)
+sub start_listening ($self, $processes = 4)
 {
 	$self->create_forks('tcp', $processes - 1, sub ($process_id) {
 		$self->start;
@@ -179,5 +181,6 @@ sub listen ($self, $processes = 4)
 
 	# main process will be a server as well
 	$self->start;
+	return;
 }
 

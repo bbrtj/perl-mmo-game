@@ -22,7 +22,7 @@ BEGIN {
 			return $instance->create($data);
 		};
 
-		no strict 'refs';
+		no strict 'refs'; ## no critic 'TestingAndDebugging::ProhibitNoStrict'
 		my $me = __PACKAGE__;
 		*{"${me}::${name}"} = $sub;
 		set_subname($sub, $name);

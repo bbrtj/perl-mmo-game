@@ -26,11 +26,15 @@ sub _clear_dirty
 {
 	my $self = shift;
 	$dirty{refaddr $self} = {};
+
+	return;
 }
 
-after DESTROY => sub {
+sub DEMOLISH {
 	my $self = shift;
 	delete $dirty{refaddr $self};
+
+	return;
 };
 
 1;

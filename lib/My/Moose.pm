@@ -6,7 +6,7 @@ use warnings;
 # use Hook::AfterRuntime;
 use Import::Into;
 
-require Mouse;
+require Mouse; ## no critic 'Community::PreferredAlternatives'
 
 sub import
 {
@@ -33,3 +33,4 @@ sub import
 }
 
 1;
+

@@ -8,8 +8,8 @@ use header;
 
 extends 'Server::Command';
 
-sub name { 'login' }
-sub required_state { Model::PlayerSession->STATE_NEW }
+use constant name => 'login';
+use constant required_state => Model::PlayerSession->STATE_NEW;
 
 # only do basic validation here, leave the rest for a backend job
 sub validate ($self, $data)

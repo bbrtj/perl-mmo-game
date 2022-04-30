@@ -17,7 +17,7 @@ sub database_test : prototype(&) ($sub)
 	my $env = DI->get('env');
 	my $testdb = Test::DB->new;
 
-	$ENV{TESTDB_DATABASE} = 'postgres';
+	local $ENV{TESTDB_DATABASE} = 'postgres';
 	my $cloned = $testdb->clone(
 		hostname => $env->getenv('DB_HOST'),
 		hostport => $env->getenv('DB_PORT'),

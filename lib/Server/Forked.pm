@@ -21,9 +21,12 @@ has 'log' => (
 
 sub setup ($self)
 {
+	## no critic
 	$SIG{INT} = $SIG{KILL} = $SIG{TERM} = sub {
 		Mojo::IOLoop->stop;
 	};
+
+	return;
 }
 
 after start => sub ($self, @) {
@@ -48,7 +51,7 @@ sub create_forks ($self, $prefix, $processes, $worker_code, $parent_code = sub {
 		if (defined $pid) {
 			if ($pid) {
 				$self->forked(1);
-				$0 = "perl $classname worker $process_id";
+				local $0 = "perl $classname worker $process_id";
 				$self->log->system_name("${classname}/${process_id}");
 
 				$worker_code->($process_id);

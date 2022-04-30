@@ -5,10 +5,11 @@ use Types;
 
 use header;
 
+## no critic 'Modules::ProhibitMultiplePackages'
+
 extends 'Game::Lore';
 
 use constant prefix => 'LOC';
-
 
 package Game::Lore::LocationData {
 	use My::Moose;

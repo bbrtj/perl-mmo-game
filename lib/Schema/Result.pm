@@ -17,6 +17,8 @@ sub essentials ($self, $table)
 	$self->table($table);
 	$self->add_column('id');
 	$self->set_primary_key('id');
+
+	return;
 }
 
 sub belongs_to ($self, $name, $class, $column, @more)

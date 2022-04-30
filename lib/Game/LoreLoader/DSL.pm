@@ -56,7 +56,7 @@ sub get_helpers ($self)
 
 sub _configure ($self, $context, $field, @values)
 {
-	my sub reporter ($text) {
+	my sub reporter ($text) { ## no critic 'Subroutines::ProhibitBuiltinHomonyms'
 		$context = $context ? ref $context : '(no context)';
 		die sprintf $text, $context;
 	}
@@ -107,6 +107,8 @@ sub _configure ($self, $context, $field, @values)
 		my $setter = "set_$field";
 		$context->$setter($value);
 	}
+
+	return;
 }
 
 sub get_dsl ($self, $caller)
@@ -117,7 +119,9 @@ sub get_dsl ($self, $caller)
 	my %dsl = (
 		lore => sub ($id, $el) {
 			my $class =  $el->class;
-			eval "require $class";
+			eval "require $class; 1" ## no critic 'BuiltinFunctions::ProhibitStringyEval'
+				|| die "Could not load $class";
+
 			push @items, $class->new(
 				id => $id,
 				name => $el->name,
@@ -145,7 +149,7 @@ sub get_dsl ($self, $caller)
 			my $file = path($caller->FILENAME);
 			my $json_file = $file->dirname->child($file->basename('.' . Game::LoreLoader->EXTENSION) . '.json');
 
-			return unless -f $json_file;
+			return unless -e $json_file;
 			my $coordinates = decode_json $json_file->slurp;
 
 			for my $item ($coordinates->{$from_key}->@*) {
@@ -187,7 +191,7 @@ sub import ($self, @args)
 	my %subs = $want_helpers ? $self->get_helpers : $self->get_dsl($package);
 
 	for my $name (keys %subs) {
-		no strict 'refs';
+		no strict 'refs'; ## no critic 'TestingAndDebugging::ProhibitNoStrict'
 
 		set_subname $name, $subs{$name};
 		*{"${package}::${name}"} = $subs{$name};

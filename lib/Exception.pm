@@ -6,7 +6,9 @@ use Types;
 use header;
 
 use overload
-	'""' => 'stringify';
+	'""' => 'stringify',
+	bool => sub { 1 },
+	fallback => 1;
 
 has 'msg' => (
 	is => 'ro',

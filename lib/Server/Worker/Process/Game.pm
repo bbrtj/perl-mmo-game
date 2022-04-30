@@ -62,14 +62,16 @@ sub save_work ($self)
 {
 	DI->get('units')->save($self->location_data);
 	$self->worker->log->info('Game data for ' . $self->location_data->location->id . ' saved');
+
+	return;
 }
 
 sub finish_work ($self)
 {
 	# Save location data here! Otherwise we leak it
 	$self->save_work;
-
 	$self->worker->channel->unlisten($self->location_data->location->id, $self->{_cb});
+
 	return;
 }
 

@@ -1,6 +1,8 @@
+color = 1
+verbose = 3
 severity = 2
 theme = community + bugs + security + performance + tests
-exclude = Subroutines::ProhibitSubroutinePrototypes Modules::RequireEndWithOne ValuesAndExpressions::ProhibitConstantPragma Modules::ProhibitAutomaticExportation Modules::RequireExplicitPackage
+exclude = Subroutines::ProhibitSubroutinePrototypes Subroutines::ProhibitNestedSubs Modules::RequireEndWithOne ValuesAndExpressions::ProhibitConstantPragma Modules::ProhibitAutomaticExportation Modules::RequireExplicitPackage Subroutines::ProhibitExplicitReturnUndef
 
 [TestingAndDebugging::RequireUseStrict]
 equivalent_modules = header testheader
@@ -13,3 +15,4 @@ signature_enablers = header testheader
 
 [Community::StrictWarnings]
 extra_importers = header testheader
+

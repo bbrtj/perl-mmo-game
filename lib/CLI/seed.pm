@@ -8,7 +8,7 @@ use header;
 extends 'Mojolicious::Command';
 
 use constant description => 'seed test data';
-sub usage ($self) { $self->extract_usage }
+sub usage ($self) { return $self->extract_usage }
 
 sub run ($self, @args)
 {

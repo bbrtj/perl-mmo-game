@@ -43,6 +43,7 @@ sub import
 
 	feature->unimport::out_of($pkg, 'indirect');
 	no_experimental_warnings($pkg);
+
 	return;
 }
 
@@ -55,6 +56,8 @@ sub no_experimental_warnings
 
 	warnings->unimport::out_of($pkg, 'experimental::signatures');
 	warnings->unimport::out_of($pkg, 'experimental::isa');
+
+	return;
 }
 
 1;

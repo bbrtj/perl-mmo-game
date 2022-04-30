@@ -17,7 +17,7 @@ sub load ($self, $name)
 
 	my $filename = DIRECTORY->child("$name." . EXTENSION);
 	die "$filename does not exist"
-		unless -f $filename;
+		unless -e $filename;
 
 	my $contents = decode 'utf-8', $filename->slurp;
 
@@ -38,8 +38,8 @@ sub load ($self, $name)
 		PERL
 
 	my $error = do {
-		local $@;
-		my $success = eval "$contents; 1;";
+		local $@ = undef;
+		my $success = eval "$contents; 1"; ## no critic 'BuiltinFunctions::ProhibitStringyEval'
 		$success ? undef : $@;
 	};
 
@@ -54,5 +54,7 @@ sub load_all ($self)
 		next unless $file->extname eq EXTENSION;
 		$self->load($file->to_rel(DIRECTORY));
 	}
+
+	return;
 }
 

@@ -9,8 +9,8 @@ use header;
 
 extends 'Server::Command';
 
-sub name { 'enter_game' }
-sub required_state { Model::PlayerSession->STATE_LOGGED_IN }
+use constant name => 'enter_game';
+use constant required_state => Model::PlayerSession->STATE_LOGGED_IN;
 
 sub validate ($self, $data)
 {
@@ -55,5 +55,5 @@ sub handle ($self, $session_id, $id, $data)
 		id => $id,
 		refresh => 1
 	);
-};
+}
 

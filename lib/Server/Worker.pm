@@ -71,6 +71,8 @@ sub cleanup ($self)
 {
 	$self->log->info('Cleaning up...');
 	Mojo::IOLoop->timer(60, sub { $self->cleanup });
+
+	return;
 }
 
 sub _location_dispenser ($self, $game_processes)
