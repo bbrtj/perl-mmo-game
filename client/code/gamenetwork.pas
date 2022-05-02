@@ -166,6 +166,7 @@ function TNetwork.DoSend(const vType: TMessageType; const vData: TModelBase): In
 var
 	vToSend: TOutMessage;
 begin
+	// TODO: make sure we are connected?
 	vToSend := TOutMessage.Create;
 	vToSend.Id := AssignId();
 	vToSend.Typ := vType.MessageType;
@@ -173,6 +174,7 @@ begin
 
 	result := vToSend.Id;
 
+	writeln('Sending ' + vToSend.Body);
 	FClient.Send(vToSend.Body);
 	vToSend.Free;
 end;

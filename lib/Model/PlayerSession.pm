@@ -19,6 +19,7 @@ with 'Model::Role::Identified';
 has 'user_id' => (
 	is => 'ro',
 	isa => Types::Ulid,
+	clearer => 'clear_user_id',
 );
 
 has 'state' => (

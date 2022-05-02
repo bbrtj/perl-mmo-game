@@ -15,18 +15,22 @@ has 'rawenv' => (
 	is => 'ro',
 	isa => Types::HashRef,
 	default => sub {
-		return {%defaults, %ENV};
+		return {%defaults};
 	},
 );
 
-sub getenv : lvalue ($self, $name)
+sub getenv ($self, $name)
 {
 	my $rawenv = $self->rawenv;
 
-	croak "unknown environmental variable $name"
-		unless exists $rawenv->{$name};
+	my $value = exists $rawenv->{$name}
+		? $rawenv->{$name}
+		: exists $ENV{$name}
+			? $ENV{$name}
+			: croak "unknown environmental variable $name"
+	;
 
-	return $rawenv->{$name};
+	return $value;
 }
 
 sub is_production ($self)
@@ -34,3 +38,4 @@ sub is_production ($self)
 	return $self->rawenv->{APP_MODE} eq 'deployment'
 		|| $self->rawenv->{APP_MODE} eq 'production';
 }
+

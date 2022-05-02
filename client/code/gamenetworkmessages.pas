@@ -2,7 +2,8 @@ unit GameNetworkMessages;
 
 interface
 
-uses FGL, SysUtils, GameModels;
+uses FGL, SysUtils,
+	GameModels, GameModels.General;
 
 type
 	TMessage = class
@@ -102,7 +103,9 @@ end;
 {}
 function TOutMessage.GetBody(): String;
 begin
-	result := FId.ToString() + SEPARATOR + FType + SEPARATOR + FData;
+	result := FId.ToString() + SEPARATOR + FType;
+	if FData <> '' then
+		result += SEPARATOR + FData;
 end;
 
 {}
@@ -124,6 +127,11 @@ end;
 
 initialization
 	MessageTypesMap := TMessageTypes.Create;
+
+	MessageTypesMap.Add(TMessageType.Create('login', TLoginMessage, TSuccessResultMessage));
+	MessageTypesMap.Add(TMessageType.Create('logout', TEmptyModel));
+	MessageTypesMap.Add(TMessageType.Create('list_characters', TEmptyModel, TCharacterListResultMessage));
+	MessageTypesMap.Add(TMessageType.Create('enter_game', TPlaintextModel, TSuccessResultMessage));
 
 finalization
 	MessageTypesMap.Free;

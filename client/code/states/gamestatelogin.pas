@@ -2,10 +2,11 @@ unit GameStateLogin;
 
 interface
 
-uses Classes, GameLore,
+uses SysUtils, Classes,
 	CastleVectors, CastleUIState, CastleComponentSerialize,
 	CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleFonts, CastleStringUtils, CastleUnicode,
+	GameUIComponents,
 	GameNetwork, GameNetworkMessages,
 	GameModels, GameModels.General;
 
@@ -14,7 +15,7 @@ type
 	private
 		FUsernameField: TCastleEdit;
 		FPasswordField: TCastleEdit;
-		FLoginButton: TCastleButton;
+		FLoginButton: TGameButton;
 		FStatus: TCastleLabel;
 
 	public
@@ -26,7 +27,7 @@ type
 		procedure DoLogin(vSender: TObject);
 
 		procedure onConnected();
-		procedure onLogin(const vLogin: TModelBase);
+		procedure onLogin(const vSuccess: TModelBase);
 	end;
 
 var
@@ -34,7 +35,7 @@ var
 
 implementation
 
-uses SysUtils;
+uses GameStateCharacterList;
 
 { TStateLogin ----------------------------------------------------------------- }
 
@@ -52,7 +53,7 @@ begin
 	{ Find components, by name, that we need to access from code }
 	FUsernameField := DesignedComponent('UsernameField') as TCastleEdit;
 	FPasswordField := DesignedComponent('PasswordField') as TCastleEdit;
-	FLoginButton := DesignedComponent('LoginButton') as TCastleButton;
+	FLoginButton := DesignedComponent('LoginButton') as TGameButton;
 	FStatus := DesignedComponent('LoginStatus') as TCastleLabel;
 
 	FLoginButton.onClick := @DoLogin;
@@ -120,14 +121,16 @@ begin
 		vData,
 		@onLogin
 	);
+
+	vData.Free;
 end;
 
 {}
-procedure TStateLogin.onLogin(const vLogin: TModelBase);
+procedure TStateLogin.onLogin(const vSuccess: TModelBase);
 begin
-	if (vLogin as TLoginResultMessage).success = '1' then
-		FStatus.Caption := 'Success!'
-		// TODO: change game state to character list
+	if (vSuccess as TSuccessResultMessage).Value = '1' then begin
+		TUIState.Current := StateCharacterList;
+	end
 	else begin
 		FStatus.Caption := 'Login has failed';
 		GlobalClient.Disconnect;

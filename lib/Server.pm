@@ -11,6 +11,8 @@ use Exception::Network::InvalidState;
 
 use header;
 
+use constant DEBUG => DI->get('env')->getenv('DEBUG');
+
 # TODO kqueue
 
 with qw(
@@ -48,7 +50,7 @@ sub _get_action_inlined ($self)
 	);
 
 	return sub ($type) {
-		Exception::Network::InvalidAction->throw
+		Exception::Network::InvalidAction->throw(msg => "Got $type")
 			unless defined $map{$type};
 
 		return $map{$type};
@@ -67,15 +69,15 @@ sub handle_message ($self, $session, $req_id, $type, $data = undef)
 	# (both are really the same thing but differ in where they should be passed)
 	my $action = $actions->($type);
 
-	Exception::Network::InvalidState->throw
+	Exception::Network::InvalidState->throw(msg => sprintf "Currently %s, needs %s", $session->state, $action->required_state)
 		unless $session->state eq $action->required_state;
 
 	# validate may return an object that was created from $data
 	try {
-		$data = $action->validate(defined $data ? from_json($data) : undef);
+		$data = $action->validate($action->deserializes && $data ? from_json($data) : $data);
 	}
 	catch ($e) {
-		Exception::Network::CorruptedInput->throw(msg => $e);
+		Exception::Network::CorruptedInput->throw(msg => "$e");
 	}
 
 	if ($action->isa('Server::Action')) {
@@ -100,14 +102,13 @@ sub connection ($self, $loop, $stream, $id)
 	my $handle_feedback = sub ($data_href) {
 		my %data = $data_href->%*;
 
-		if ($data{echo}) {
+		if (defined $data{echo}) {
 			$stream->write(
 				($data{id} // '')
 				. Server::Config::PROTOCOL_CONTROL_CHARACTER
-					. to_json($data{echo})
-
-					# NOTE: this newline is essential for the client to get this data
-					. "\n"
+				. (ref $data{echo} eq '' ? $data{echo} : to_json($data{echo}))
+				# NOTE: this newline is essential for the client to get this data
+				. "\n"
 			);
 		}
 
@@ -120,7 +121,11 @@ sub connection ($self, $loop, $stream, $id)
 	# TODO: should exceptions be caught?
 	$stream->on(
 		read => sub ($, $bytes) {
+			$bytes =~ s/\r?\n?\Z//;
+
 			return if $bytes eq 'ping';
+			$self->log->debug("TCP message: '$bytes'")
+				if DEBUG;
 
 			# check the length of $bytes to avoid getting attacked
 			Exception::Network::CorruptedInput->throw

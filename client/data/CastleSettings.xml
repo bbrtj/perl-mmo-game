@@ -13,6 +13,9 @@
 	/>
 	<default_font
 		url="castle-data:/DejaVuSans.ttf"
+		sizes_at_load="10 15 20 25 30 35 40 45 50 55 60"
 		sample_text="żółćęśąźńŻÓŁĆĘŚĄŹŃ"
+		anti_aliased="true"
 	/>
 </castle_settings>
+

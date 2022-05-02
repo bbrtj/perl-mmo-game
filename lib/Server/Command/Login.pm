@@ -10,6 +10,7 @@ extends 'Server::Command';
 
 use constant name => 'login';
 use constant required_state => Model::PlayerSession->STATE_NEW;
+use constant deserializes => 1;
 
 # only do basic validation here, leave the rest for a backend job
 sub validate ($self, $data)
@@ -34,7 +35,7 @@ sub handle ($self, $session_id, $id, $data)
 
 	return $self->send_to(
 		$session_id,
-		{success => $success},
+		$success,
 		id => $id,
 		refresh => $success
 	);

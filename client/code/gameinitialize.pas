@@ -16,7 +16,8 @@ uses SysUtils,
 	GameLore
 	{$region 'Castle Initialization Uses'}
 	// The content here may be automatically updated by CGE editor.
-	, GameStateLogin
+	, GameStateLogin, GameStateCharacterList
+	, GameStateLoading
 	{$endregion 'Castle Initialization Uses'};
 
 var
@@ -36,6 +37,8 @@ begin
 	{$region 'Castle State Creation'}
 	// The content here may be automatically updated by CGE editor.
 	StateLogin := TStateLogin.Create(Application);
+	StateCharacterList := TStateCharacterList.Create(Application);
+	StateLoading := TStateLoading.Create(Application);
 	{$endregion 'Castle State Creation'}
 
 	TUIState.Current := StateLogin;

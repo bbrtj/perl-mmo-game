@@ -21,6 +21,6 @@ sub serialize ($self)
 		}
 	} $self->subject->players->@*;
 
-	return \@characters;
+	return {characters => \@characters};
 }
 

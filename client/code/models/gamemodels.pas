@@ -10,6 +10,18 @@ type
 
 	TModelClass = class of TModelBase;
 
+	TEmptyModel = class (TModelBase);
+
+	TPlaintextModel = class (TModelBase)
+	private
+		FValue: Variant;
+
+	published
+		property Value: Variant read FValue write FValue;
+
+	end;
+
+
 	TModelSerializationBase = class abstract
 	public
 		function Serialize(const vModel: TModelBase): String; virtual; abstract;
@@ -27,6 +39,9 @@ type
 		function Serialize(const vModel: TModelBase): String; override;
 		function DeSerialize(const vSerialized: String; const vModelClass: TModelClass): TModelBase; override;
 	end;
+
+	var
+		DummyModel: TEmptyModel;
 
 implementation
 
@@ -46,17 +61,32 @@ end;
 {}
 function TJSONModelSerialization.Serialize(const vModel: TModelBase): String;
 begin
-	result := FStreamer.Streamer.ObjectToJSONString(vModel);
+	if vModel is TEmptyModel then
+		result := ''
+	else if vModel is TPlaintextModel then
+		result := (vModel as TPlaintextModel).Value
+	else
+		result := FStreamer.Streamer.ObjectToJSONString(vModel);
 end;
 
 {}
 function TJSONModelSerialization.DeSerialize(const vSerialized: String; const vModelClass: TModelClass): TModelBase;
 begin
 	result := vModelClass.Create;
-	FStreamer.DeStreamer.JSONToObject(vSerialized, result);
+
+	if vModelClass.InheritsFrom(TPlaintextModel) then
+		(result as TPlaintextModel).Value := vSerialized
+	else
+		FStreamer.DeStreamer.JSONToObject(vSerialized, result);
 end;
 
 { implementation end }
+
+initialization
+	DummyModel := TEmptyModel.Create;
+
+finalization
+	DummyModel.Free;
 
 end.
 

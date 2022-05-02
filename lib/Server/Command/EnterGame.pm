@@ -52,7 +52,7 @@ sub handle ($self, $session_id, $id, $data)
 
 	return $self->send_to(
 		$session_id,
-		{success => $success},
+		$success,
 		id => $id,
 		refresh => 1
 	);
