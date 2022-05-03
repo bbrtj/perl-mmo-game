@@ -55,7 +55,7 @@
           "HorizontalAnchorDelta" : 3.0000000000000000E+001,
           "Name" : "UsernameField",
           "Padding" : 6.0000000000000000E+000,
-          "Placeholder" : "email",
+          "Placeholder" : "email_address",
           "TextTranslate" : false,
           "UnfocusedColorPersistent" : {
             "$$ClassName" : "TCastleColorPersistent",
@@ -111,7 +111,7 @@
         },
         {
           "$$ClassName" : "TGameButton",
-          "Caption" : "Log in",
+          "Caption" : "navigation.login",
           "CustomBackgroundDisabled" : {
             "$$ClassName" : "TCastleImagePersistent"
           },
@@ -123,6 +123,25 @@
           },
           "CustomBackgroundPressed" : {
             "$$ClassName" : "TCastleImagePersistent"
+          },
+          "CustomColorDisabledPersistent" : {
+            "$$ClassName" : "TCastleColorPersistent",
+            "Alpha" : 1.0000000000000000E+000
+          },
+          "CustomColorFocusedPersistent" : {
+            "$$ClassName" : "TCastleColorPersistent",
+            "Alpha" : 1.0000000000000000E+000,
+            "Blue" : 1.1999999731779099E-001,
+            "Green" : 1.1999999731779099E-001,
+            "Red" : 1.1999999731779099E-001
+          },
+          "CustomColorNormalPersistent" : {
+            "$$ClassName" : "TCastleColorPersistent",
+            "Alpha" : 1.0000000000000000E+000
+          },
+          "CustomColorPressedPersistent" : {
+            "$$ClassName" : "TCastleColorPersistent",
+            "Alpha" : 1.0000000000000000E+000
           },
           "CustomTextColorPersistent" : {
             "$$ClassName" : "TCastleColorPersistent",

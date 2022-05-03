@@ -13,7 +13,7 @@ implementation
 
 uses SysUtils,
 	CastleWindow, CastleLog, CastleUIState,
-	GameLore
+	GameLore, GameTranslations
 	{$region 'Castle Initialization Uses'}
 	// The content here may be automatically updated by CGE editor.
 	, GameStateLogin, GameStateCharacterList
@@ -29,6 +29,11 @@ begin
 	{ Adjust container settings for a scalable UI (adjusts to any window size in a smart way). }
 	Window.Container.LoadSettings('castle-data:/CastleSettings.xml');
 
+	LoreCollection.Initialize;
+
+	GlobalTranslations := TGameMOFile.Create;
+	TranslateAllGameDesigns;
+
 	{ Create TStateLogin that will handle "main" state of the game.
 		Larger games may use multiple states,
 		e.g. TStateMainMenu ("main menu state"),
@@ -42,7 +47,6 @@ begin
 	{$endregion 'Castle State Creation'}
 
 	TUIState.Current := StateLogin;
-	LoreCollection.Initialize;
 end;
 
 initialization

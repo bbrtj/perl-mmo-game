@@ -56,7 +56,7 @@
     },
     {
       "$$ClassName" : "TGameButton",
-      "Caption" : "Log out",
+      "Caption" : "navigation.logout",
       "CustomBackgroundDisabled" : {
         "$$ClassName" : "TCastleImagePersistent"
       },
