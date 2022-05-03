@@ -15,4 +15,5 @@ AndroidAntProperties.txt
 
 # other stuff
 data/lore.*.json
+data/translations.mo
 

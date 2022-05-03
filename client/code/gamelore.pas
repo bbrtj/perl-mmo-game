@@ -68,7 +68,7 @@ begin
 	vStreamer := TGameStreamer.Create;
 	vLines := TStringList.Create;
 
-	vLines.LoadFromStream(Download('castle-data:/lore.pl.json'));
+	vLines.LoadFromStream(Download('castle-data:/lore.json'));
 	vStreamer.DeStreamer.JSONToObject(vLines.Text, self);
 
 	vStreamer.Free;
