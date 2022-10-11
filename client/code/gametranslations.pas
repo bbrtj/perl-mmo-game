@@ -27,7 +27,6 @@ implementation
 { not exported }
 procedure TranslateGameDesignCallback(const vComponent: TComponent; const vGroupName: String);
 begin
-	writeln('translating');
 	TranslateProperties(vComponent, @GlobalTranslations.TranslateCallback);
 end;
 
@@ -46,8 +45,7 @@ end;
 {}
 procedure TGameMOFile.TranslateCallback(const vSender: TCastleComponent; const vPropertyName: String; var vPropertyValue: String);
 begin
-	writeln('translating ' + vPropertyName);
-	vPropertyValue := Translate(vPropertyName);
+	vPropertyValue := Translate(vPropertyValue);
 end;
 
 { implementation end }

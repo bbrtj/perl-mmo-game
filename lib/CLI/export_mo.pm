@@ -12,24 +12,11 @@ sub usage ($self) { return $self->extract_usage }
 
 sub run ($self, $language = undef)
 {
-	# Workaround for current bugs
-	require Text::PO;
-	require Text::PO::MO;
-	@Text::PO::META = qw(Language Content-Type);
-
 	die 'need a language' unless defined $language;
 
-	my $translation = Text::PO->new;
-	$translation->parse(path->child('i18n')->child("$language.po"));
-
+	my $translation = path->child('i18n')->child("$language.po");
 	my $output = path->child('client')->child('data')->child('translations.mo');
-	my $mo = Text::PO::MO->new($output, {
-		auto_decode => 1,
-		encoding => 'utf-8',
-		default_encoding => 'utf-8',
-	});
-
-	$mo->write($translation, { file => $output });
+	`msgfmt $translation -o $output`;
 
 	say "done, generated in $output";
 
