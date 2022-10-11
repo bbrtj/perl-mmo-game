@@ -4,13 +4,11 @@ use v5.32;
 use warnings;
 
 use File::Basename;
-use Env qw(@PATH @PERL5LIB);
+use Env qw(@PATH);
 
 my $dir = dirname(__FILE__);
 
-# Carton
 unshift @PATH, "$dir/local/bin";
-unshift @PERL5LIB, "$dir/local/lib/perl5";
 
 my ($arg) = @ARGV;
 $arg //= '';
@@ -32,3 +30,4 @@ else {
 	system('script/worker &');
 	system('script/server');
 }
+

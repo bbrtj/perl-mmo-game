@@ -3,14 +3,8 @@
 use v5.32;
 use warnings;
 
-my $dir;
-BEGIN {
-	use File::Basename;
-	$dir = dirname(dirname(__FILE__));
-}
-
-use lib "$dir/local/lib/perl5";
-use lib "$dir/lib";
+use lib 'local/lib/perl5';
+use lib 'lib';
 
 use Mojolicious::Commands;
 

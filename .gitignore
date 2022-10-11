@@ -1,6 +1,7 @@
 /.tidyall.d
 /local
 /.env
+/.carmel
 
 /logs/*
 !/logs/.keep
