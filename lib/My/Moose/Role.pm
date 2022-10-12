@@ -1,13 +1,12 @@
 package My::Moose::Role;
 
-use v5.32;
-use warnings;
+use v5.36;
 
 use Import::Into;
 
 require Mouse::Role;
 
-sub import
+sub import ($me)
 {
 	my $caller = caller;
 	Mouse::Role->import::into($caller);
@@ -16,3 +15,4 @@ sub import
 }
 
 1;
+

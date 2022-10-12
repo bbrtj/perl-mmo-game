@@ -1,7 +1,6 @@
 package My::Moose::Trait::AutoSetters;
 
-use v5.32;
-use warnings;
+use v5.36;
 use My::Moose::Role;
 
 around add_attribute => sub {

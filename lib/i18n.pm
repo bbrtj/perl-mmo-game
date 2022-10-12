@@ -2,8 +2,7 @@ package i18n;
 
 # very basic structure because it is used in header
 
-use v5.32;
-use warnings;
+use v5.36;
 
 use My::Moose;
 use Exporter qw(import);
@@ -26,10 +25,8 @@ our $CURRENT_LANG = undef;
 
 # simple translate
 # uses a message id that won't get translated directly
-sub _t
+sub _t ($message, @args)
 {
-	my ($message, @args) = @_;
-
 	my ($actual_message, @more_args) = split /\|/, $message;
 	@args = @more_args
 		if @more_args > 0;
@@ -42,10 +39,8 @@ sub _t
 
 # text translate
 # a text in English that will be returned. Can be used to nest translations
-sub _tt
+sub _tt ($message, @args)
 {
-	my ($message, @args) = @_;
-
 	return __PACKAGE__->new(
 		message => $message,
 		args => \@args,
@@ -56,17 +51,17 @@ sub _tt
 # placeholder translate
 # will add values to placeholders in the string. Does not actually translate
 # used to transfer translation strings and placeholders to client where they are translated
-sub _tph
+sub _tph (@args)
 {
-	return join '|', @_;
+	return join '|', @args;
 }
 
 # lore translate
 # will translate using database lore data, searching for the id
 # the second parameters should be a type - name or description
-sub _lt
+sub _lt ($message, @args)
 {
-	my $t = _t shift, shift;
+	my $t = _t $message, @args;
 	$t->lore(1);
 
 	return $t;
@@ -114,10 +109,8 @@ my $localizer = do {
 	$loc;
 };
 
-sub translate
+sub translate ($self)
 {
-	my ($self) = @_;
-
 	croak 'could not translate (no lang): ' . $self->message
 		if !defined $CURRENT_LANG && $self->id;
 
@@ -130,9 +123,8 @@ sub translate
 
 }
 
-sub translate_gettext
+sub translate_gettext ($self, $lang)
 {
-	my ($self, $lang) = @_;
 	my $is_id = $self->id;
 
 	$localizer->auto(!$is_id);
@@ -146,10 +138,8 @@ sub translate_gettext
 	return $localized;
 }
 
-sub translate_lore
+sub translate_lore ($self, $lang)
 {
-	my ($self, $lang) = @_;
-
 	require DI;    # lazy load to avoid circularity
 	state $repo = DI->get('lore_data');
 

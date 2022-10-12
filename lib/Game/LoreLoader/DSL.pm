@@ -86,7 +86,7 @@ sub _configure ($self, $context, $field, @values)
 
 			my $value = $kv_values{$key};
 			$value = $value->create
-				if $value->$_isa('Game::LoreLoader::LoreDummy');
+				if $value isa 'Game::LoreLoader::LoreDummy';
 
 			$storage->{$key} = $value;
 		}
@@ -95,7 +95,7 @@ sub _configure ($self, $context, $field, @values)
 	elsif (is_arrayref $storage) {
 		for my $value (@values) {
 			$value = $value->create
-				if $value->$_isa('Game::LoreLoader::LoreDummy');
+				if $value isa 'Game::LoreLoader::LoreDummy';
 
 			push $storage->@*, $value;
 		}
@@ -107,7 +107,7 @@ sub _configure ($self, $context, $field, @values)
 
 		my $value = $values[0];
 		$value = $value->create
-			if $value->$_isa('Game::LoreLoader::LoreDummy');
+			if $value isa 'Game::LoreLoader::LoreDummy';
 
 		my $setter = "set_$field";
 		$context->$setter($value);

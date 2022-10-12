@@ -1561,13 +1561,6 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 6.17
       perl 5.006001
-  ExtUtils-CChecker-0.11
-    pathname: P/PE/PEVANS/ExtUtils-CChecker-0.11.tar.gz
-    provides:
-      ExtUtils::CChecker 0.11
-    requirements:
-      ExtUtils::CBuilder 0
-      Module::Build 0.4004
   ExtUtils-Config-0.008
     pathname: L/LE/LEONT/ExtUtils-Config-0.008.tar.gz
     provides:
@@ -3716,17 +3709,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Syntax-Keyword-Try-0.27
-    pathname: P/PE/PEVANS/Syntax-Keyword-Try-0.27.tar.gz
-    provides:
-      Syntax::Keyword::Try 0.27
-      Syntax::Keyword::Try::Deparse 0.27
-    requirements:
-      ExtUtils::CBuilder 0
-      Module::Build 0.4004
-      XS::Parse::Keyword 0.06
-      XS::Parse::Keyword::Builder 0.06
-      perl 5.014
   Task-Weaken-1.06
     pathname: E/ET/ETHER/Task-Weaken-1.06.tar.gz
     provides:
@@ -4556,19 +4538,6 @@ DISTRIBUTIONS
       Want 0.29
     requirements:
       ExtUtils::MakeMaker 0
-  XS-Parse-Keyword-0.22
-    pathname: P/PE/PEVANS/XS-Parse-Keyword-0.22.tar.gz
-    provides:
-      XS::Parse::Infix 0.22
-      XS::Parse::Infix::Builder 0.22
-      XS::Parse::Keyword 0.22
-      XS::Parse::Keyword::Builder 0.22
-    requirements:
-      ExtUtils::CBuilder 0
-      ExtUtils::CChecker 0.11
-      ExtUtils::ParseXS 3.16
-      Module::Build 0.4004
-      perl 5.014
   XString-0.005
     pathname: A/AT/ATOOMIC/XString-0.005.tar.gz
     provides:

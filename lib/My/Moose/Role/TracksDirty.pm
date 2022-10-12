@@ -1,7 +1,6 @@
 package My::Moose::Role::TracksDirty;
 
-use v5.32;
-use warnings;
+use v5.36;
 use My::Moose::Role;
 
 use Scalar::Util qw(refaddr);

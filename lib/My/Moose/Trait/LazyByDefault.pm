@@ -1,7 +1,6 @@
 package My::Moose::Trait::LazyByDefault;
 
-use v5.32;
-use warnings;
+use v5.36;
 use My::Moose::Role;
 
 around add_attribute => sub {
@@ -20,3 +19,4 @@ around add_attribute => sub {
 };
 
 1;
+

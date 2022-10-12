@@ -30,7 +30,6 @@ requires 'true' => 0;
 requires 'Log::Dispatch' => 0;
 requires 'MojoX::Log::Dispatch::Simple' => 0;
 
-requires 'Syntax::Keyword::Try' => 0;
 requires 'Safe::Isa' => 0;
 requires 'Ref::Util' => 0;
 requires 'List::Util' => 0;

@@ -1,47 +1,33 @@
 package header;
 
-use strict;
-use warnings;
+use v5.36;
 use utf8;
-use feature ':5.32';
 use Import::Into;
-use List::Util qw(any);
-use Hook::AfterRuntime;
 
-use experimental;
-require namespace::autoclean;
+require feature;
 require true;
 
 require i18n;
-require Syntax::Keyword::Try;
 require Carp;
 require Scalar::Util;
-require Safe::Isa;
 require Ref::Util;
+require List::Util;
 
-sub import
+sub import ($me, @args)
 {
 	my $pkg = caller;
-	my ($me, @args) = @_;
 
-	strict->import::into($pkg);
-	warnings->import::into($pkg);
+	feature->import::into($pkg, ':5.36', qw(try refaliasing declared_refs defer));
+	feature->unimport::out_of($pkg, 'indirect');
 	utf8->import::into($pkg);
-	feature->import::into($pkg, ':5.32', qw(isa signatures));
-	Syntax::Keyword::Try->import::into($pkg);
-	true->import::into($pkg);
 	Carp->import::into($pkg, qw(croak));
 	Scalar::Util->import::into($pkg, qw(blessed));
 	Ref::Util->import::into($pkg, qw(is_arrayref is_hashref is_coderef));
-	List::Util->import::into($pkg, qw(first any zip));
-	Safe::Isa->import::into($pkg);
+	List::Util->import::into($pkg, qw(first any mesh));
 	i18n->import::into($pkg);
 
-	namespace::autoclean->import(-cleanee => scalar(caller))
-		unless any { $_ eq -noclean }
-		@args;
+	true->import::into($pkg);
 
-	feature->unimport::out_of($pkg, 'indirect');
 	no_experimental_warnings($pkg);
 
 	return;
@@ -49,13 +35,13 @@ sub import
 
 # used rarely to get rid of experimental warnings after a module exported warnings
 # must be used like this: BEGIN { header::no_experimental_warnings }
-sub no_experimental_warnings
+sub no_experimental_warnings ($pkg = caller)
 {
-	my ($pkg) = @_;
-	$pkg //= caller;
-
-	warnings->unimport::out_of($pkg, 'experimental::signatures');
-	warnings->unimport::out_of($pkg, 'experimental::isa');
+	warnings->unimport::out_of($pkg, 'experimental::try');
+	warnings->unimport::out_of($pkg, 'experimental::refaliasing');
+	warnings->unimport::out_of($pkg, 'experimental::declared_refs');
+	warnings->unimport::out_of($pkg, 'experimental::defer');
+	warnings->unimport::out_of($pkg, 'experimental::for_list');
 
 	return;
 }

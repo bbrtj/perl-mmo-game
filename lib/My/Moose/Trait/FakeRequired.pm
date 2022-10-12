@@ -1,7 +1,6 @@
 package My::Moose::Trait::FakeRequired;
 
-use v5.32;
-use warnings;
+use v5.36;
 use My::Moose::Role;
 
 has 'required_attributes' => (

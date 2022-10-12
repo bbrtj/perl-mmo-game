@@ -4,7 +4,7 @@
 
 =over
 
-=item * Perl 5.32 (preferably from perlbrew)
+=item * Perl 5.36 (preferably from perlbrew)
 
 =item * Carton (CPAN module)
 

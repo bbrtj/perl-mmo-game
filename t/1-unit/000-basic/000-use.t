@@ -1,7 +1,6 @@
 use Test::More;
 
-use strict;
-use warnings;
+use v5.36;
 
 use_ok('Utils');
 use_ok('DI');
