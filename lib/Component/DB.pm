@@ -1,7 +1,7 @@
 package Component::DB;
 
 use My::Moose;
-use Mojo::Pg;
+use DBI;
 use Schema;
 
 use header;
@@ -10,12 +10,18 @@ with 'Component::Role::HasEnv';
 
 has 'dbh' => (
 	is => 'ro',
-	isa => Types::InstanceOf ['Mojo::Pg'],
+	isa => Types::InstanceOf ['DBI::db'],
 	lazy => 1,
 	default => sub ($self) {
-		return Mojo::Pg->new($self->env->getenv('DB_CONNECTION'))
-			->username($self->env->getenv('DB_USER'))
-			->password($self->env->getenv('DB_PASS'));
+		my $dbh = DBI->connect(
+			$self->env->getenv('DB_CONNECTION'),
+			$self->env->getenv('DB_USER'),
+			$self->env->getenv('DB_PASS'),
+		);
+
+		return $dbh if $dbh;
+
+		croak $DBI::errstr;
 	},
 );
 
@@ -24,14 +30,9 @@ has 'dbc' => (
 	isa => Types::InstanceOf ['Schema'],
 	lazy => 1,
 	default => sub ($self) {
-		return Schema->connect(sub { $self->db->dbh });
+		return Schema->connect(sub { $self->dbh });
 	},
 );
-
-sub db ($self)
-{
-	return $self->dbh->db;
-}
 
 sub transaction ($self, $code)
 {

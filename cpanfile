@@ -17,8 +17,9 @@ requires 'Type::EmailAddress' => 0;
 
 requires 'Mojolicious' => 0;
 
+requires 'DBI' => 0;
+requires 'DBD::Pg' => 0;
 requires 'Mojo::Redis' => 0;
-requires 'Mojo::Pg' => 0;
 requires 'DBIx::Class' => 0;
 requires 'DateTime::Format::Pg' => 0;
 

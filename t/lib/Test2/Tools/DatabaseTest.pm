@@ -4,7 +4,6 @@ use Exporter qw(import);
 use Test2::API qw(context);
 use Test::DB;
 use Utils;
-use Mojo::Pg;
 use Component::DB;
 
 use header;
@@ -30,11 +29,7 @@ sub database_test : prototype(&) ($sub)
 	try {
 		DI->forget('db');
 
-		my $pg = Mojo::Pg->new->dsn($cloned->dsn)
-			->username($env->getenv('DB_USER'))
-			->password($env->getenv('DB_PASS'));
-
-		my $db = Component::DB->new(env => $env, dbh => $pg);
+		my $db = Component::DB->new(env => $env, dbh => $cloned->dbh);
 		DI->set('db', $db);
 
 		$sub->();
@@ -46,7 +41,7 @@ sub database_test : prototype(&) ($sub)
 	}
 
 	# finally
-	DI->get('db')->db->disconnect;
+	DI->get('db')->dbh->disconnect;
 	$cloned->destroy;
 	return;
 }

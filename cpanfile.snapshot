@@ -2125,21 +2125,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Mojo-Pg-4.27
-    pathname: S/SR/SRI/Mojo-Pg-4.27.tar.gz
-    provides:
-      Mojo::Pg 4.27
-      Mojo::Pg::Database undef
-      Mojo::Pg::Migrations undef
-      Mojo::Pg::PubSub undef
-      Mojo::Pg::Results undef
-      Mojo::Pg::Transaction undef
-    requirements:
-      DBD::Pg 3.007004
-      ExtUtils::MakeMaker 0
-      Mojolicious 8.50
-      SQL::Abstract::Pg 1.0
-      perl 5.016
   Mojo-Redis-3.29
     pathname: J/JH/JHTHORSEN/Mojo-Redis-3.29.tar.gz
     provides:
@@ -3468,14 +3453,6 @@ DISTRIBUTIONS
       Test::Warn 0
       Text::Balanced 2.00
       perl 5.006
-  SQL-Abstract-Pg-1.0
-    pathname: S/SR/SRI/SQL-Abstract-Pg-1.0.tar.gz
-    provides:
-      SQL::Abstract::Pg 1.0
-    requirements:
-      ExtUtils::MakeMaker 0
-      SQL::Abstract 2.0
-      perl 5.016
   Scalar-List-Utils-1.63
     pathname: P/PE/PEVANS/Scalar-List-Utils-1.63.tar.gz
     provides:
