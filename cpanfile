@@ -1,7 +1,6 @@
 requires 'Moose' => 0;
 requires 'Mouse' => 0;
 requires 'Hook::AfterRuntime' => 0;
-requires 'Object::Sub' => 0;
 requires 'Util::H2O' => 0;
 
 requires 'Beam::Wire' => 0;
@@ -30,7 +29,6 @@ requires 'true' => 0;
 requires 'Log::Dispatch' => 0;
 requires 'MojoX::Log::Dispatch::Simple' => 0;
 
-requires 'Safe::Isa' => 0;
 requires 'Ref::Util' => 0;
 requires 'List::Util' => 0;
 

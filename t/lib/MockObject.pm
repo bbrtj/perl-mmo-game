@@ -1,7 +1,7 @@
 package MockObject;
 
 use My::Moose;
-use Object::Sub;
+use Util::H2O;
 
 use header;
 
@@ -41,7 +41,7 @@ sub setup ($self)
 		};
 	}
 
-	return Object::Sub->new(\%init_hash);
+	return h2o -meth, \%init_hash;
 }
 
 sub add_method ($self, $method, @returns)
@@ -66,78 +66,76 @@ sub method ($self, $method)
 	croak "no method $method was mocked"
 		unless defined $params;
 
-	return Object::Sub->new(
-		{
-			called_times => sub ($self) {
-				return $params->{called_times};
-			},
+	return h2o -meth, {
+		called_times => sub ($self) {
+			return $params->{called_times};
+		},
 
-			called_with => sub ($self) {
-				return $self->last_called_with;
-			},
+		called_with => sub ($self) {
+			return $self->last_called_with;
+		},
 
-			first_called_with => sub ($self) {
-				return $params->{called_with}[0];
-			},
+		first_called_with => sub ($self) {
+			return $params->{called_with}[0];
+		},
 
-			last_called_with => sub ($self) {
-				return $params->{called_with}[-1];
-			},
+		last_called_with => sub ($self) {
+			return $params->{called_with}[-1];
+		},
 
-			call_history => sub ($self) {
-				return $params->{called_with}->@*;
-			},
+		call_history => sub ($self) {
+			return $params->{called_with}->@*;
+		},
 
-			should_return => sub ($self, @values) {
-				$params->{throws} = 0;
-				$params->{calls_return} = 0;
+		should_return => sub ($self, @values) {
+			$params->{throws} = 0;
+			$params->{calls_return} = 0;
 
-				if (@values == 1) {
-					$params->{returns} = $values[0];
-					$params->{returns_list} = 0;
-				}
-				else {
-					$params->{returns} = [@values];
-					$params->{returns_list} = 1;
-				}
+			if (@values == 1) {
+				$params->{returns} = $values[0];
+				$params->{returns_list} = 0;
+			}
+			else {
+				$params->{returns} = [@values];
+				$params->{returns_list} = 1;
+			}
 
-				return $self->clear;
-			},
+			return $self->clear;
+		},
 
-			should_call => sub ($self, $sub) {
-				$params->{throws} = 0;
-				$params->{calls_return} = 1;
-				$params->{returns} = $sub;
+		should_call => sub ($self, $sub) {
+			$params->{throws} = 0;
+			$params->{calls_return} = 1;
+			$params->{returns} = $sub;
 
-				return $self->clear;
-			},
+			return $self->clear;
+		},
 
-			should_throw => sub ($self, $exception) {
-				$params->{throws} = 1;
-				$params->{returns} = $exception;
+		should_throw => sub ($self, $exception) {
+			$params->{throws} = 1;
+			$params->{returns} = $exception;
 
-				return $self->clear;
-			},
+			return $self->clear;
+		},
 
-			was_called => sub ($self) {
-				return $self->called_times > 0;
-			},
+		was_called => sub ($self) {
+			return $self->called_times > 0;
+		},
 
-			was_called_once => sub ($self) {
-				return $self->was_called_times(1);
-			},
+		was_called_once => sub ($self) {
+			return $self->was_called_times(1);
+		},
 
-			was_called_times => sub ($self, $times) {
-				return $self->called_times == $times;
-			},
+		was_called_times => sub ($self, $times) {
+			return $self->called_times == $times;
+		},
 
-			clear => sub ($self) {
-				$params->{called_times} = 0;
-				$params->{called_with} = [];
+		clear => sub ($self) {
+			$params->{called_times} = 0;
+			$params->{called_with} = [];
 
-				return $self;
-			},
-		}
-	);
+			return $self;
+		},
+	};
 }
 

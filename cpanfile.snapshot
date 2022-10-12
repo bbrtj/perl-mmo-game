@@ -2971,12 +2971,6 @@ DISTRIBUTIONS
       Carp 0
       ExtUtils::MakeMaker 0
       POSIX 0
-  Object-Sub-0.103
-    pathname: F/FR/FRACTAL/Object-Sub-0.103.tar.gz
-    provides:
-      Object::Sub 0.103
-    requirements:
-      ExtUtils::MakeMaker 0
   PPI-1.276
     pathname: O/OA/OALDERS/PPI-1.276.tar.gz
     provides:
@@ -3482,15 +3476,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       SQL::Abstract 2.0
       perl 5.016
-  Safe-Isa-1.000010
-    pathname: E/ET/ETHER/Safe-Isa-1.000010.tar.gz
-    provides:
-      Safe::Isa 1.000010
-    requirements:
-      Exporter 5.57
-      ExtUtils::MakeMaker 0
-      Scalar::Util 0
-      perl 5.006
   Scalar-List-Utils-1.63
     pathname: P/PE/PEVANS/Scalar-List-Utils-1.63.tar.gz
     provides:
