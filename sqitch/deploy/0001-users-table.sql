@@ -1,4 +1,6 @@
--- 1 up
+-- Deploy gamedb:0001-users-table to pg
+
+BEGIN;
 
 CREATE TABLE users (
 	id CHAR(26) primary key,
@@ -10,7 +12,5 @@ CREATE TABLE users (
 
 CREATE UNIQUE INDEX ind_users_email ON users (email);
 
--- 1 down
-
-DROP TABLE users;
+COMMIT;
 
