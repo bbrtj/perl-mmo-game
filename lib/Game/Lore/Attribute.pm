@@ -1,7 +1,6 @@
 package Game::Lore::Attribute;
 
 use My::Moose;
-use Types;
 
 use header;
 
@@ -13,7 +12,6 @@ use constant prefix => 'ATTR';
 
 package Game::Lore::AttributeData {
 	use My::Moose;
-	use Types;
 
 	use header;
 

@@ -1,7 +1,6 @@
 package Game::Lore::Class;
 
 use My::Moose;
-use Types;
 
 use header;
 
@@ -13,7 +12,6 @@ use constant prefix => 'CLAS';
 
 package Game::Lore::ClassData {
 	use My::Moose;
-	use Types;
 
 	use header;
 

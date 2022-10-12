@@ -1,7 +1,6 @@
 package Game::Object::Map;
 
 use My::Moose;
-use Types;
 use Form::Tiny::Utils qw(trim);
 use Storable qw(dclone);
 

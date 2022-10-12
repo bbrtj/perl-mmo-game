@@ -1,7 +1,6 @@
 package Exception;
 
 use My::Moose;
-use Types;
 
 use header;
 

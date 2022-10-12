@@ -1,6 +1,5 @@
 package Component::Redis;
 
-use Types;
 use My::Moose;
 use Mojo::Redis;
 
@@ -17,3 +16,4 @@ has 'redis' => (
 	},
 	handles => [qw(db pubsub)],
 );
+

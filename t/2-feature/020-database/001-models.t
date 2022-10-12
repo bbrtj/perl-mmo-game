@@ -1,4 +1,3 @@
-use DI;
 use Model::User;
 use Test2::Tools::DatabaseTest;
 use Utils;

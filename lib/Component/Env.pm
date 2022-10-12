@@ -1,6 +1,5 @@
 package Component::Env;
 
-use Types;
 use My::Moose;
 use Dotenv -load;
 

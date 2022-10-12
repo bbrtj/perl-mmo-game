@@ -3,13 +3,12 @@ package Game::LoreLoader::DSL;
 use Game::LoreLoader;
 use Game::LoreLoader::LoreDummy;
 use Game::Config;
-use DI;
 
 use Sub::Util qw(set_subname);
 use Mojo::File qw(path);
 use Mojo::JSON qw(decode_json);
 
-use header -noclean;
+use header;
 
 use constant TYPES => [
 	qw(

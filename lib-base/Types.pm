@@ -1,13 +1,13 @@
 package Types;
 
+use v5.36;
+
 use Type::Libraries;
 use Type::Tiny;
 use Types::Standard qw(Num Undef);
 use Types::Common::String qw(NonEmptySimpleStr StrLength);
 use Types::DateTime qw(DateTime Format);
 use Data::ULID;
-
-use header;
 
 Type::Libraries->setup_class(
 	__PACKAGE__,
@@ -54,4 +54,6 @@ __PACKAGE__->add_type($DateTime)->coercion->add_type_coercions(
 __PACKAGE__->add_type($ULID)->coercion->add_type_coercions(
 	Undef, q{ Data::ULID::ulid() },
 )->freeze;
+
+1;
 

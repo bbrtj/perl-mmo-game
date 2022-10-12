@@ -1,7 +1,6 @@
 package Repository::Models;
 
 use My::Moose;
-use Types;
 use Schema::Utils qw(fetch_single);
 
 use header;

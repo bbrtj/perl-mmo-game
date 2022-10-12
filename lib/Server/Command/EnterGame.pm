@@ -3,7 +3,6 @@ package Server::Command::EnterGame;
 use My::Moose;
 use Model;
 use Resource::MapData;
-use Types;
 
 use header;
 

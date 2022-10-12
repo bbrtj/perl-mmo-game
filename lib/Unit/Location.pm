@@ -4,7 +4,6 @@ use My::Moose;
 use Model;
 use Unit::Actor;
 use Game::Helpers;
-use Types;
 
 use header;
 

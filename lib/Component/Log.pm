@@ -1,6 +1,5 @@
 package Component::Log;
 
-use Types;
 use My::Moose;
 use Log::Dispatch;
 use Time::Piece;

@@ -1,7 +1,6 @@
 package Repository::Units;
 
 use My::Moose;
-use Types;
 use Mojo::Loader qw(load_classes);
 use Sub::Util qw(set_subname);
 

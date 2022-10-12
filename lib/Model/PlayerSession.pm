@@ -1,7 +1,6 @@
 package Model::PlayerSession;
 
 use My::Moose;
-use Types;
 use Game::Config;
 
 use header;

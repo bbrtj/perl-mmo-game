@@ -1,6 +1,5 @@
 package Component::Role::HasEnv;
 
-use Types;
 use My::Moose::Role;
 
 use header;
@@ -10,3 +9,4 @@ has 'env' => (
 	isa => Types::InstanceOf ['Component::Env'],
 	required => 1,
 );
+

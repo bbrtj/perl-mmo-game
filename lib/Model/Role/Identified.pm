@@ -1,7 +1,6 @@
 package Model::Role::Identified;
 
 use My::Moose::Role;
-use Types;
 
 use header;
 
@@ -11,3 +10,4 @@ has 'id' => (
 	coerce => 1,
 	default => sub { undef },
 );
+

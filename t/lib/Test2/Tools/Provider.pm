@@ -3,7 +3,7 @@ package Test2::Tools::Provider;
 use Exporter qw(import);
 use Test2::Tools::Subtest qw(subtest_buffered);
 
-use header -noclean;
+use header;
 
 our @EXPORT = qw(test test_data before_each);
 
@@ -37,11 +37,14 @@ sub get_sub ($desc, @cases)
 sub test_data (%cases)
 {
 	for my $desc (keys %cases) {
-		croak 'invalid test name'
+		croak "invalid test name $desc"
 			unless $desc =~ m/[a-z0-9 _]/;
 
 		my @cases = $cases{$desc}->@*;
 		my $subname = lc $desc =~ s/ /_/gr;
+
+		croak "test name $desc already exists"
+			if $subs{$subname};
 
 		$subs{$subname} = get_sub $desc, @cases;
 	}

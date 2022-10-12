@@ -1,6 +1,5 @@
 use Web::Form::Login;
 use Form::Login;
-use DI;
 use Model::User;
 use Exception::RecordDoesNotExist;
 use Utils;
@@ -87,9 +86,11 @@ for my $prefix ('', 'web') {
 
 		my $form = $class->new;
 		$form->set_input($data);
-		ok $form->valid, "form valid $_";
 
-		if (!$form->valid) {
+		my $valid = $form->valid;
+		ok $valid, "form valid $_";
+
+		if (!$valid) {
 			diag Dumper($form->errors_hash);
 		}
 		else {

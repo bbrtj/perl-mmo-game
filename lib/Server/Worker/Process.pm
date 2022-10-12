@@ -1,7 +1,6 @@
 package Server::Worker::Process;
 
 use My::Moose;
-use Types;
 
 use header;
 

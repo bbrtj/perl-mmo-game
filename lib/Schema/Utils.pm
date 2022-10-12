@@ -4,7 +4,7 @@ use Exporter qw(import);
 use Exception::RecordDoesNotExist;
 use Exception::SearchCriteriaTooVague;
 
-use header -noclean;
+use header;
 
 our @EXPORT_OK = qw(
 	fetch_single

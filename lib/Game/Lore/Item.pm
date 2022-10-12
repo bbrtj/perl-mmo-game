@@ -1,7 +1,6 @@
 package Game::Lore::Item;
 
 use My::Moose;
-use Types;
 
 use header;
 
@@ -13,7 +12,6 @@ use constant prefix => 'ITEM';
 
 package Game::Lore::ItemData {
 	use My::Moose;
-	use Types;
 
 	use header;
 

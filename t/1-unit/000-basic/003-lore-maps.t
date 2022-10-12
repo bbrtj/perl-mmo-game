@@ -1,7 +1,6 @@
 use testheader;
 
 use Utils;
-use DI;
 use Game::Config;
 use Game::Helpers;
 

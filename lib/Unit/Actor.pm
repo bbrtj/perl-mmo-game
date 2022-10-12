@@ -2,7 +2,6 @@ package Unit::Actor;
 
 use My::Moose;
 use Model;
-use Types;
 
 use header;
 

@@ -2,7 +2,6 @@ package Web::Controller::Main;
 
 use My::Moose -constr;
 use Web::Config;
-use DI;
 
 use header;
 

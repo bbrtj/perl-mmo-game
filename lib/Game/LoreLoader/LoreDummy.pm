@@ -1,9 +1,7 @@
 package Game::LoreLoader::LoreDummy;
 
 use My::Moose;
-use Types;
 use Game::Lore;
-use DI;
 
 use header;
 

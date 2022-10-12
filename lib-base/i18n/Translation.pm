@@ -1,73 +1,13 @@
-package i18n;
-
-# very basic structure because it is used in header
+package i18n::Translation;
 
 use v5.36;
 
 use My::Moose;
-use Exporter qw(import);
 use Mojo::File qw(curfile);
 use Data::Localize;
 use Types::Standard qw(Str ArrayRef Bool);
 use Carp qw(croak);
 use Data::Localize::Format::Maketext;
-
-# EXPORTED INTERFACE
-
-our @EXPORT = qw(
-	_t
-	_tt
-	_tph
-	_lt
-);
-
-our $CURRENT_LANG = undef;
-
-# simple translate
-# uses a message id that won't get translated directly
-sub _t ($message, @args)
-{
-	my ($actual_message, @more_args) = split /\|/, $message;
-	@args = @more_args
-		if @more_args > 0;
-
-	return __PACKAGE__->new(
-		message => $actual_message,
-		args => \@args,
-	);
-}
-
-# text translate
-# a text in English that will be returned. Can be used to nest translations
-sub _tt ($message, @args)
-{
-	return __PACKAGE__->new(
-		message => $message,
-		args => \@args,
-		id => 0,
-	);
-}
-
-# placeholder translate
-# will add values to placeholders in the string. Does not actually translate
-# used to transfer translation strings and placeholders to client where they are translated
-sub _tph (@args)
-{
-	return join '|', @args;
-}
-
-# lore translate
-# will translate using database lore data, searching for the id
-# the second parameters should be a type - name or description
-sub _lt ($message, @args)
-{
-	my $t = _t $message, @args;
-	$t->lore(1);
-
-	return $t;
-}
-
-# OO INTERFACE
 
 use overload
 	q{""} => "translate",
@@ -103,18 +43,19 @@ my $localizer = do {
 
 	$loc->add_localizer(
 		class => 'Gettext',
-		path => curfile->dirname->sibling('i18n')->child('*.po')->to_string,
+		path => curfile->dirname->dirname->sibling('i18n')->child('*.po')->to_string,
 		formatter => Data::Localize::Format::Maketext->new,
 	);
 	$loc;
 };
 
-sub translate ($self)
+# NOTE: used in overload
+sub translate ($self, @)
 {
 	croak 'could not translate (no lang): ' . $self->message
-		if !defined $CURRENT_LANG && $self->id;
+		if !defined $i18n::CURRENT_LANG && $self->id;
 
-	my $lang = $CURRENT_LANG // 'en';
+	my $lang = $i18n::CURRENT_LANG // 'en';
 
 	return $self->translate_lore($lang)
 		if $self->lore;
@@ -132,7 +73,7 @@ sub translate_gettext ($self, $lang)
 
 	my $localized = $localizer->localize($self->message, $self->args->@*);
 
-	croak 'did not find translation for: ' . $self->message
+	croak "did not find translation for ($lang): " . $self->message
 		if !defined $localized && $is_id;
 
 	return $localized;

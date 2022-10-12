@@ -1,7 +1,6 @@
 package Server::Command::ListCharacters;
 
 use My::Moose;
-use DI;
 use Resource::CharacterList;
 use Model::PlayerSession;
 

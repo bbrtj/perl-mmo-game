@@ -5,13 +5,16 @@ use utf8;
 use Import::Into;
 
 require feature;
-require true;
+use true;
 
 require i18n;
 require Carp;
 require Scalar::Util;
 require Ref::Util;
 require List::Util;
+
+use DI;
+use Types;
 
 sub import ($me, @args)
 {
@@ -45,6 +48,4 @@ sub no_experimental_warnings ($pkg = caller)
 
 	return;
 }
-
-1;
 

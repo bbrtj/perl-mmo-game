@@ -1,7 +1,6 @@
 package Model::Character;
 
 use My::Moose;
-use Types;
 
 use header;
 

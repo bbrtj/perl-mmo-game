@@ -1,7 +1,6 @@
 package Server::Processable;
 
 use My::Moose::Role;
-use DI;
 
 use header;
 

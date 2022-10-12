@@ -1,7 +1,6 @@
 package Server::Worker::Process::Game;
 
 use My::Moose;
-use Types;
 use Data::Dumper;
 
 use header;

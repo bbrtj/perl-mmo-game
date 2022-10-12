@@ -3,7 +3,6 @@ package CLI::export_lore;
 use My::Moose -constr;
 use Mojo::File qw(path);
 use Mojo::JSON qw(encode_json);
-use DI;
 use Utils;
 
 use header;

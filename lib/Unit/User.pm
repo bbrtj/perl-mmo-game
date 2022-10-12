@@ -3,7 +3,6 @@ package Unit::User;
 use My::Moose;
 use Model;
 use Unit::Nested::Player;
-use Types;
 
 use header;
 

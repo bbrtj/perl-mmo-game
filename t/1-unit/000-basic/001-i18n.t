@@ -5,7 +5,7 @@ use testheader;
 # undefine language for tests
 local $i18n::CURRENT_LANG = undef;
 
-isa_ok _t('err.out_of_range'), 'i18n';
+isa_ok _t('err.out_of_range'), 'i18n::Translation';
 ok lives { _t('err.out_of_range') }, 'no lang translation lives before stringification ok';
 like dies { _t('err.out_of_range') . '' }, qr/no lang/, 'no lang translation dies ok';
 

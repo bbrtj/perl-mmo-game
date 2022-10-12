@@ -1,8 +1,8 @@
 package DI;
 
-use Beam::Wire;
+use v5.36;
 
-use header;
+use Beam::Wire;
 
 my $wire = Beam::Wire->new(file => 'wire.yml');
 
@@ -33,3 +33,6 @@ sub has ($class, $name)
 {
 	return exists $wire->services->{$name};
 }
+
+1;
+

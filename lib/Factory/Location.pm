@@ -4,7 +4,6 @@ use My::Moose;
 use Factory::Actor;
 use Unit::Location;
 use Schema::Utils qw(fetch_all);
-use DI;
 
 use header;
 

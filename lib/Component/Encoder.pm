@@ -1,6 +1,5 @@
 package Component::Encoder;
 
-use Types;
 use My::Moose;
 
 use Sereal::Encoder;
@@ -27,3 +26,4 @@ has 'decoder' => (
 	},
 	handles => [qw(decode)],
 );
+

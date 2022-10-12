@@ -3,12 +3,11 @@ package Test2::Tools::DatabaseTest;
 use Exporter qw(import);
 use Test2::API qw(context);
 use Test::DB;
-use DI;
 use Utils;
 use Mojo::Pg;
 use Component::DB;
 
-use header -noclean;
+use header;
 
 our @EXPORT = qw(database_test);
 

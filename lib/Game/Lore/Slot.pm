@@ -1,7 +1,6 @@
 package Game::Lore::Slot;
 
 use My::Moose;
-use Types;
 
 use header;
 
@@ -13,7 +12,6 @@ use constant prefix => 'SLOT';
 
 package Game::Lore::SlotData {
 	use My::Moose;
-	use Types;
 
 	use header;
 

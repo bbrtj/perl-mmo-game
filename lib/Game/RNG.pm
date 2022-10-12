@@ -4,7 +4,7 @@ use Exporter qw(import);
 use Data::Entropy::Algorithms qw(rand_flt rand_int pick_r);
 use Quantum::Superpositions::Lazy;
 
-use header -noclean;
+use header;
 
 our @EXPORT = qw(
 	rng

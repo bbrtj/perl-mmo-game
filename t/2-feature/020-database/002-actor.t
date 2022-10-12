@@ -1,4 +1,3 @@
-use DI;
 use ActorTest;
 use Test2::Tools::DatabaseTest;
 use Utils;

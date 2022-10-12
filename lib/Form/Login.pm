@@ -1,8 +1,6 @@
 package Form::Login;
 
 use Form::Tiny;
-use DI;
-use Types;
 
 use header;
 

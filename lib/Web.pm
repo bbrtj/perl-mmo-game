@@ -2,7 +2,6 @@ package Web;
 
 use My::Moose -constr;
 use Utils;
-use DI;
 
 use header;
 

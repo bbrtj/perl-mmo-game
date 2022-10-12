@@ -1,7 +1,6 @@
 package Model::Player;
 
 use My::Moose;
-use Types;
 
 use header;
 
@@ -36,3 +35,4 @@ has 'created_at' => (
 );
 
 __PACKAGE__->_register;
+

@@ -1,7 +1,6 @@
 package Factory;
 
 use My::Moose;
-use DI;
 
 use header;
 

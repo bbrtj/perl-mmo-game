@@ -1,7 +1,6 @@
 package Model::User;
 
 use My::Moose;
-use Types;
 use Crypt::PRNG qw(random_bytes);
 use Crypt::Bcrypt qw(bcrypt bcrypt_check);
 
@@ -60,3 +59,4 @@ sub verify_password ($self, $plaintext_password)
 }
 
 __PACKAGE__->_register;
+

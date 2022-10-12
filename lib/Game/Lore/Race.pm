@@ -1,7 +1,6 @@
 package Game::Lore::Race;
 
 use My::Moose;
-use Types;
 
 use header;
 
@@ -13,7 +12,6 @@ use constant prefix => 'RACE';
 
 package Game::Lore::RaceData {
 	use My::Moose;
-	use Types;
 
 	use header;
 

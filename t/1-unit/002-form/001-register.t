@@ -1,5 +1,4 @@
 use Web::Form::Register;
-use DI;
 use Model::User;
 use Exception::RecordDoesNotExist;
 

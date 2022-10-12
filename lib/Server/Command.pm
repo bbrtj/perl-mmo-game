@@ -1,7 +1,6 @@
 package Server::Command;
 
 use My::Moose;
-use DI;
 
 use header;
 

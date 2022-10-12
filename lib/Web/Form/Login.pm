@@ -1,8 +1,6 @@
 package Web::Form::Login;
 
 use Form::Tiny -filtered, plugins => ['+Web::HTMLFormPlugin'];
-use DI;
-use Types;
 
 use header;
 

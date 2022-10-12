@@ -19,7 +19,7 @@ after setup => sub ($self) {
 	$self->add_diva_config(label_class => 'col-sm-12 form-label');
 	$self->add_hook(
 		after_error => sub ($self, $error) {
-			if (!($error->error isa 'i18n')) {
+			if (!($error->error isa 'i18n::Translation')) {
 				$error->set_error(_t $error->error);
 			}
 		}

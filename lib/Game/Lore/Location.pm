@@ -1,7 +1,6 @@
 package Game::Lore::Location;
 
 use My::Moose;
-use Types;
 
 use header;
 
@@ -13,7 +12,6 @@ use constant prefix => 'LOC';
 
 package Game::Lore::LocationData {
 	use My::Moose;
-	use Types;
 	use Game::Object::Map;
 
 	use header;

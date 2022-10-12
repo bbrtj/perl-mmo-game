@@ -3,7 +3,6 @@ package CLI::migrate;
 use My::Moose -constr;
 use Getopt::Long qw(GetOptionsFromArray);
 use Mojo::File qw(curfile path);
-use DI;
 
 use header;
 

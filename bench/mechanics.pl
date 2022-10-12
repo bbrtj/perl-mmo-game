@@ -1,9 +1,10 @@
+use lib 'lib-base';
 use lib 'lib';
 use Game::Mechanics::Check::Map;
 use Game::Object::Map;
 use Util::H2O;
 
-use header -noclean;
+use header;
 
 use Benchmark qw(cmpthese);
 

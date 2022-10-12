@@ -1,7 +1,6 @@
 package Game::LoreData;
 
 use My::Moose;
-use Types;
 
 use header;
 

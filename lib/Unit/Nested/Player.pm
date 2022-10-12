@@ -2,7 +2,6 @@ package Unit::Nested::Player;
 
 use My::Moose;
 use Model;
-use Types;
 
 use header;
 

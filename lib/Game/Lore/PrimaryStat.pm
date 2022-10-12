@@ -1,7 +1,6 @@
 package Game::Lore::PrimaryStat;
 
 use My::Moose;
-use Types;
 
 use header;
 
@@ -13,7 +12,6 @@ use constant prefix => 'PSTA';
 
 package Game::Lore::PrimaryStatData {
 	use My::Moose;
-	use Types;
 
 	use header;
 

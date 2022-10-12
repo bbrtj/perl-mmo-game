@@ -1,7 +1,6 @@
 package Web::Controller::Middleware;
 
 use My::Moose -constr;
-use DI;
 
 use header;
 
@@ -48,3 +47,4 @@ sub is_user ($self)
 
 	return 1;
 }
+

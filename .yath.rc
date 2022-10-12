@@ -1,3 +1,4 @@
+-D lib-base
 -D t/lib
 
 [test]

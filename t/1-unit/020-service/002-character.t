@@ -1,4 +1,3 @@
-use DI;
 use Model;
 use Utils;
 use Game::Helpers;

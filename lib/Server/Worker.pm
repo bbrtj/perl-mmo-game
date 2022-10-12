@@ -1,7 +1,6 @@
 package Server::Worker;
 
 use My::Moose;
-use Types;
 use Server::Worker::Process::Game;
 use Server::Worker::Process::Jobs;
 use Data::ULID qw(ulid);

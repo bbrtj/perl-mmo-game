@@ -1,7 +1,6 @@
 package CLI::seed;
 
 use My::Moose -constr;
-use DI;
 
 use header;
 

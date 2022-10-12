@@ -1,7 +1,5 @@
 #!/usr/bin/env perl
 
-use v5.36;
-
 my $dir;
 BEGIN {
 	use File::Basename;
@@ -9,12 +7,14 @@ BEGIN {
 }
 
 use lib "$dir/local/lib/perl5";
+use lib "$dir/lib-base";
 use lib "$dir/lib";
 
 use Game::LoreLoader;
-use DI;
 use Mojo::File qw(path);
 use Mojo::JSON qw(to_json);
+
+use header;
 
 my ($file) = @ARGV;
 die 'you must specify a file path relative to game-data directory'
