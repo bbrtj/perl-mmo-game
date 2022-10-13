@@ -6,7 +6,7 @@
 
 =item * Perl 5.36 (preferably from perlbrew)
 
-=item * Carton (CPAN module)
+=item * Carmel, Sqitch (CPAN modules)
 
 =item * Postgresql client library with headers
 
@@ -22,7 +22,7 @@ Copy I<.env.example> to I<.env> and adjust the variables.
 
 =head3 Setup tools
 
-	cpanm Carton Perl::Tidy Code::TidyAll Perl::Critic
+	cpanm Carmel Sqitch Perl::Tidy Code::TidyAll Perl::Critic
 	mkdir -p .git/hooks
 	cp tools/git-hook-precommit .git/hooks/pre-commit
 
