@@ -62,19 +62,18 @@ my $mock_model = Model::User->new(email => $tested_mail);
 $mock_model->set_password('abcdefg1');
 $mock_model->check;
 
-my $mock = MockObject->new;
-my $load_mock = $mock->add_method('load')
-	->should_call(
-		sub ($self, $resultset, $params) {
-			X::RecordDoesNotExist->throw unless $params->{email} eq $tested_mail;
-			return $mock_model;
-		}
-	);
+my $mock = MockObject->new(context => 'load');
+$mock->add_method('load')->should_call(
+	sub ($self, $resultset, $params) {
+		X::RecordDoesNotExist->throw unless $params->{email} eq $tested_mail;
+		return $mock_model;
+	}
+);
 
 DI->set('models', $mock->object, 1);
 
 before_each {
-	$load_mock->clear;
+	$mock->m->clear;
 };
 
 for my $prefix ('', 'web') {
@@ -96,8 +95,8 @@ for my $prefix ('', 'web') {
 		else {
 			is $form->user, exact_ref($mock_model), 'fetched model ok';
 
-			ok $load_mock->was_called_once, "mock called once $_";
-			is $load_mock->called_with, [User => {email => $data->{email}}], "mock called parameters $_";
+			ok $mock->m->was_called_once, "mock called once $_";
+			is $mock->m->called_with, [User => {email => $data->{email}}], "mock called parameters $_";
 		}
 	};
 
@@ -110,8 +109,8 @@ for my $prefix ('', 'web') {
 		is $form->errors_hash, $errors, "errors hash $_";
 
 		# mock might not get called because db is queried in form cleaner
-		if ($load_mock->was_called) {
-			is $load_mock->called_with, [User => {email => $data->{email}}], "mock called parameters $_";
+		if ($mock->m->was_called) {
+			is $mock->m->called_with, [User => {email => $data->{email}}], "mock called parameters $_";
 		}
 	};
 }
