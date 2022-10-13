@@ -17,6 +17,7 @@ has 'dbh' => (
 			$self->env->getenv('DB_CONNECTION'),
 			$self->env->getenv('DB_USER'),
 			$self->env->getenv('DB_PASS'),
+			{ RaiseError => 1 },
 		);
 
 		return $dbh if $dbh;
