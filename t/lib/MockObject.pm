@@ -2,19 +2,21 @@ package MockObject;
 
 use My::Moose;
 use Util::H2O;
+use MockObject::Method;
 
 use header;
 
-has 'mocked_subs' => (
-	is => 'ro',
+has option 'context' => (
+	writer => 1,
+);
+
+has field 'mocked_subs' => (
 	default => sub { {} },
 );
 
-has 'object' => (
-	is => 'ro',
-	builder => 'setup',
-	lazy => 1,
-	clearer => '_clear_object',
+has field 'object' => (
+	lazy => 'setup',
+	clearer => -hidden
 );
 
 sub setup ($self)
@@ -23,119 +25,38 @@ sub setup ($self)
 	my %init_hash;
 
 	for my $method_name (keys %methods) {
+		my $method = $self->mocked_subs->{$method_name};
 		$init_hash{$method_name} = sub ($inner_self, @params) {
-			my $params = $self->mocked_subs->{$method_name};
-			$params->{called_times} += 1;
-			push $params->{called_with}->@*, [@params];
-
-			die $params->{returns}
-				if $params->{throws};
-
-			return $params->{returns}->@*
-				if $params->{returns_list} && ref $params->{returns} eq 'ARRAY';
-
-			return $params->{returns}->(@params)
-				if $params->{calls_return} && ref $params->{returns} eq 'CODE';
-
-			return $params->{returns};
+			return $method->_called($inner_self, @params);
 		};
 	}
 
 	return h2o -meth, \%init_hash;
 }
 
-sub add_method ($self, $method, @returns)
+sub add_method ($self, $method_name, @returns)
 {
-	$self->_clear_object
-		unless exists $self->mocked_subs->{$method};
+	$self->_clear_object;
+	my $method = $self->mocked_subs->{$method_name} = MockObject::Method->new;
 
-	$self->mocked_subs->{$method} = {
-		called_times => 0,
-		called_with => [],
-		throws => 0,
-		calls_return => 0,
-	};
+	if (@returns) {
+		$method->should_return(@returns);
+	}
 
-	return $self->method($method)->should_return(@returns);
+	return $method;
 }
 
-# testers
-sub method ($self, $method)
+sub method ($self, $method_name)
 {
-	my $params = $self->mocked_subs->{$method};
-	croak "no method $method was mocked"
-		unless defined $params;
+	return $self->mocked_subs->{$method_name}
+		// croak "Method $method_name was not mocked!";
+}
 
-	return h2o -meth, {
-		called_times => sub ($self) {
-			return $params->{called_times};
-		},
+sub m ($self, $method_name = $self->context)
+{
+	croak 'No context was set'
+		unless defined $method_name || $self->has_context;
 
-		called_with => sub ($self) {
-			return $self->last_called_with;
-		},
-
-		first_called_with => sub ($self) {
-			return $params->{called_with}[0];
-		},
-
-		last_called_with => sub ($self) {
-			return $params->{called_with}[-1];
-		},
-
-		call_history => sub ($self) {
-			return $params->{called_with}->@*;
-		},
-
-		should_return => sub ($self, @values) {
-			$params->{throws} = 0;
-			$params->{calls_return} = 0;
-
-			if (@values == 1) {
-				$params->{returns} = $values[0];
-				$params->{returns_list} = 0;
-			}
-			else {
-				$params->{returns} = [@values];
-				$params->{returns_list} = 1;
-			}
-
-			return $self->clear;
-		},
-
-		should_call => sub ($self, $sub) {
-			$params->{throws} = 0;
-			$params->{calls_return} = 1;
-			$params->{returns} = $sub;
-
-			return $self->clear;
-		},
-
-		should_throw => sub ($self, $exception) {
-			$params->{throws} = 1;
-			$params->{returns} = $exception;
-
-			return $self->clear;
-		},
-
-		was_called => sub ($self) {
-			return $self->called_times > 0;
-		},
-
-		was_called_once => sub ($self) {
-			return $self->was_called_times(1);
-		},
-
-		was_called_times => sub ($self, $times) {
-			return $self->called_times == $times;
-		},
-
-		clear => sub ($self) {
-			$params->{called_times} = 0;
-			$params->{called_with} = [];
-
-			return $self;
-		},
-	};
+	return $self->method($method_name);
 }
 

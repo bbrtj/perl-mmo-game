@@ -16,7 +16,7 @@ my $save_mock = $mock->add_method('save', 1);
 
 my $dbmock = MockObject->new;
 my $txn_mock = $dbmock->add_method('transaction');
-$txn_mock->should_call(sub { shift->() });
+$txn_mock->should_call(sub ($self, $code) { $code->() });
 $mock->add_method('db', $dbmock->object);
 
 DI->set('models', $mock->object, 1);

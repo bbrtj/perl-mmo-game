@@ -54,7 +54,7 @@ $mock_model->check;
 my $mock = MockObject->new;
 my $load_mock = $mock->add_method('load')
 	->should_call(
-		sub ($resultset, $params) {
+		sub ($self, $resultset, $params) {
 			X::RecordDoesNotExist->throw unless $params->{email} eq $tested_mail;
 			return $mock_model;
 		}
