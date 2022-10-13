@@ -2304,6 +2304,13 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Module::Runtime 0.014
+  Mooish-AttributeBuilder-0.001
+    pathname: B/BR/BRTASTIC/Mooish-AttributeBuilder-0.001.tar.gz
+    provides:
+      Mooish::AttributeBuilder 0.001
+    requirements:
+      ExtUtils::MakeMaker 0
+      perl 5.010
   Moose-2.2201
     pathname: E/ET/ETHER/Moose-2.2201.tar.gz
     provides:
