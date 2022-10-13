@@ -1,3 +1,4 @@
+use lib 'local/lib/perl5';
 use lib 'lib-base';
 use lib 'lib';
 use Game::Mechanics::Check::Map;
