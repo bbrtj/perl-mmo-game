@@ -5,9 +5,9 @@ use Mojo::IOLoop;
 use Mojo::JSON qw(to_json from_json);
 use Server::Config;
 
-use Exception::Network::InvalidAction;
-use Exception::Network::CorruptedInput;
-use Exception::Network::InvalidState;
+use X::Network::InvalidAction;
+use X::Network::CorruptedInput;
+use X::Network::InvalidState;
 
 use header;
 
@@ -50,7 +50,7 @@ sub _get_action_inlined ($self)
 	);
 
 	return sub ($type) {
-		Exception::Network::InvalidAction->throw(msg => "Got $type")
+		X::Network::InvalidAction->throw(msg => "Got $type")
 			unless defined $map{$type};
 
 		return $map{$type};
@@ -62,14 +62,14 @@ sub handle_message ($self, $session, $req_id, $type, $data = undef)
 {
 	state $actions = $self->_get_action_inlined;
 
-	Exception::Network::CorruptedInput->throw(msg => 'no id or no type')
+	X::Network::CorruptedInput->throw(msg => 'no id or no type')
 		if !$req_id || !$type;
 
 	# $action may be either an action or a command
 	# (both are really the same thing but differ in where they should be passed)
 	my $action = $actions->($type);
 
-	Exception::Network::InvalidState->throw(msg => sprintf "Currently %s, needs %s", $session->state, $action->required_state)
+	X::Network::InvalidState->throw(msg => sprintf "Currently %s, needs %s", $session->state, $action->required_state)
 		unless $session->state eq $action->required_state;
 
 	# validate may return an object that was created from $data
@@ -77,7 +77,7 @@ sub handle_message ($self, $session, $req_id, $type, $data = undef)
 		$data = $action->validate($action->deserializes && $data ? from_json($data) : $data);
 	}
 	catch ($e) {
-		Exception::Network::CorruptedInput->throw(msg => "$e");
+		X::Network::CorruptedInput->throw(msg => "$e");
 	}
 
 	if ($action->isa('Server::Action')) {
@@ -128,7 +128,7 @@ sub connection ($self, $loop, $stream, $id)
 				if DEBUG;
 
 			# check the length of $bytes to avoid getting attacked
-			Exception::Network::CorruptedInput->throw
+			X::Network::CorruptedInput->throw
 				if length $bytes > Server::Config::PROTOCOL_MAX_LENGTH;
 
 			$self->handle_message(

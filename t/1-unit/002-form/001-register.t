@@ -1,6 +1,6 @@
 use Web::Form::Register;
 use Model::User;
-use Exception::RecordDoesNotExist;
+use X::RecordDoesNotExist;
 
 use testheader;
 
@@ -55,7 +55,7 @@ my $mock = MockObject->new;
 my $load_mock = $mock->add_method('load')
 	->should_call(
 		sub ($resultset, $params) {
-			Exception::RecordDoesNotExist->throw unless $params->{email} eq $tested_mail;
+			X::RecordDoesNotExist->throw unless $params->{email} eq $tested_mail;
 			return $mock_model;
 		}
 	);

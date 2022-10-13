@@ -1,10 +1,10 @@
-package Exception::Network::InvalidState;
+package X::Network::InvalidState;
 
 use My::Moose;
 
 use header;
 
-extends 'Exception::Network';
+extends 'X::Network';
 
 __END__
 

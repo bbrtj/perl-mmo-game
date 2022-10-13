@@ -2,7 +2,7 @@ package Repository::Cache;
 
 use My::Moose;
 use Model;
-use Exception::RecordDoesNotExist;
+use X::RecordDoesNotExist;
 
 use header;
 
@@ -35,7 +35,7 @@ sub remove ($self, $model)
 sub load ($self, $type, $id)
 {
 	my $cache = $self->redis->db->hget($type, $id);
-	Exception::RecordDoesNotExist->throw
+	X::RecordDoesNotExist->throw
 		unless defined $cache;
 
 	return Model->from_cache(

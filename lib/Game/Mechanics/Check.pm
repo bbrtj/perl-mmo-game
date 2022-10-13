@@ -1,7 +1,7 @@
 package Game::Mechanics::Check;
 
 use My::Moose;
-use Exception::CheckFailed;
+use X::CheckFailed;
 
 use header;
 
@@ -54,7 +54,7 @@ sub result ($self)
 sub assert_valid ($self)
 {
 	if ($self->has_error) {
-		Exception::CheckFailed->throw(message => $self->error);
+		X::CheckFailed->throw(msg => $self->error);
 	}
 
 	return;
