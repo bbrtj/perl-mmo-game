@@ -22,7 +22,7 @@ elsif ($arg eq 'prod') {
 	system('hypnotoad script/web');
 }
 elsif ($arg eq 'dev') {
-	my @watched = qw(lib templates);
+	my @watched = qw(lib-base lib templates);
 	system("morbo script/web -w @watched");
 }
 else {
