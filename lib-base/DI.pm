@@ -3,6 +3,8 @@ package DI;
 use v5.36;
 
 use Beam::Wire;
+use Mooish::AttributeBuilder;
+use Types::Standard qw(InstanceOf);
 
 my $wire = Beam::Wire->new(file => 'wire.yml');
 
@@ -27,6 +29,16 @@ sub forget ($class, $name)
 		delete $wire->services->{$name};
 	}
 	return;
+}
+
+sub inject ($class, $name)
+{
+	my $config = $wire->get_config($name);
+
+	return field $name => (
+		isa => InstanceOf[$config->{class}],
+		default => sub { $class->get($name) },
+	);
 }
 
 sub has ($class, $name)
