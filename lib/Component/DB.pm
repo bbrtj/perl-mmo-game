@@ -8,11 +8,9 @@ use header;
 
 with 'Component::Role::HasEnv';
 
-has 'dbh' => (
-	is => 'ro',
+has param 'dbh' => (
 	isa => Types::InstanceOf ['DBI::db'],
-	lazy => 1,
-	default => sub ($self) {
+	lazy => sub ($self) {
 		my $dbh = DBI->connect(
 			$self->env->getenv('DB_CONNECTION'),
 			$self->env->getenv('DB_USER'),
@@ -26,11 +24,9 @@ has 'dbh' => (
 	},
 );
 
-has 'dbc' => (
-	is => 'ro',
+has param 'dbc' => (
 	isa => Types::InstanceOf ['Schema'],
-	lazy => 1,
-	default => sub ($self) {
+	lazy => sub ($self) {
 		return Schema->connect(sub { $self->dbh });
 	},
 );

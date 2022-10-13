@@ -4,9 +4,7 @@ use My::Moose::Role;
 
 use header;
 
-has 'env' => (
-	is => 'ro',
+has param 'env' => (
 	isa => Types::InstanceOf ['Component::Env'],
-	required => 1,
 );
 

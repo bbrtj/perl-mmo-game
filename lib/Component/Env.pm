@@ -10,8 +10,7 @@ my %defaults = (
 	APP_MODE => 'development',
 );
 
-has 'rawenv' => (
-	is => 'ro',
+has param 'rawenv' => (
 	isa => Types::HashRef,
 	default => sub {
 		return {%defaults};

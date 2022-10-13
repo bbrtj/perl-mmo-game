@@ -7,11 +7,9 @@ use header;
 
 with 'Component::Role::HasEnv';
 
-has 'redis' => (
-	is => 'ro',
+has param 'redis' => (
 	isa => Types::InstanceOf ['Mojo::Redis'],
-	lazy => 1,
-	default => sub ($self) {
+	lazy => sub ($self) {
 		Mojo::Redis->new($self->env->getenv('REDIS_CONNECTION'));
 	},
 	handles => [qw(db pubsub)],

@@ -8,22 +8,20 @@ use header;
 
 with 'Component::Role::HasEnv';
 
-has 'logger' => (
-	is => 'ro',
+has param 'logger' => (
 	isa => Types::InstanceOf ['Log::Dispatch'],
-	lazy => 1,
-	default => sub ($self) {
+	lazy => sub ($self) {
 		Log::Dispatch->new(outputs => $self->build_config);
 	},
 	handles => [qw(debug info warning error critical emergency)],
 );
 
-has 'filename' => (
+has param 'filename' => (
 	is => 'rw',
 	isa => Types::Str,
 );
 
-has 'system_name' => (
+has option 'system_name' => (
 	is => 'rw',
 	isa => Types::Str,
 );
