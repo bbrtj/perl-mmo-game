@@ -8,29 +8,22 @@ extends 'Model';
 
 with 'Model::Role::Stored';
 
-has 'user_id' => (
-	is => 'ro',
+has param 'user_id' => (
 	isa => Types::Ulid,
-	required => 1,
 );
 
-has 'online' => (
-	is => 'ro',
+has param 'online' => (
 	isa => Types::Bool,
 	default => sub { 0 },
 );
 
-has 'last_online' => (
-	is => 'ro',
-	isa => Types::Maybe [Types::DateTime],
-	coerce => 1,
+has param 'last_online' => (
+	coerce => Types::Maybe [Types::DateTime],
 	default => sub { undef },
 );
 
-has 'created_at' => (
-	is => 'ro',
-	isa => Types::DateTime,
-	coerce => 1,
+has param 'created_at' => (
+	coerce => Types::DateTime,
 	default => sub { time },
 );
 

@@ -13,32 +13,29 @@ with 'Model::Role::Stored';
 use constant BCRYPT_SUBTYPE => '2b';
 use constant BCRYPT_COST => '10';
 
-has 'email' => (
-	is => 'ro',
+has param 'email' => (
 	isa => Types::EmailAddress,
 	trigger => sub ($self, $value, @) {
-		$self->{email} = lc $value;
+		my $original = $value;
+		$value = lc $value;
+		if ($original ne $value) {
+			$self->set_email($value);
+		}
 	},
-	required => 1,
 );
 
-has 'password' => (
-	is => 'ro',
+has param 'password' => (
 	isa => Types::NonEmptySimpleStr->where(q{ length $_ <= 60 }),
-	writer => '_set_password',
-	required => 1,
+	writer => -hidden,
 );
 
-has 'status' => (
-	is => 'ro',
+has param 'status' => (
 	isa => Types::PositiveInt,
 	default => sub { 1 },
 );
 
-has 'created_at' => (
-	is => 'ro',
-	isa => Types::DateTime,
-	coerce => 1,
+has param 'created_at' => (
+	coerce => Types::DateTime,
 	default => sub { time },
 );
 

@@ -8,41 +8,25 @@ extends 'Model';
 
 with 'Model::Role::Stored';
 
-has 'experience' => (
-	is => 'ro',
+has param 'experience' => (
 	isa => Types::PositiveOrZeroInt,
-	required => 0,
 	default => sub { 0 },
 );
 
-has 'location_id' => (
-	is => 'ro',
+has param 'location_id' => (
 	isa => Types::LoreId,
-	required => 1,
 );
 
-has 'pos_x' => (
-	is => 'ro',
+has param ['pos_x', 'pos_y'] => (
 	isa => Types::Num,
-	required => 1,
 );
 
-has 'pos_y' => (
-	is => 'ro',
+has param 'health' => (
 	isa => Types::Num,
-	required => 1,
 );
 
-has 'health' => (
-	is => 'ro',
+has param 'energy' => (
 	isa => Types::Num,
-	required => 1,
-);
-
-has 'energy' => (
-	is => 'ro',
-	isa => Types::Num,
-	required => 1,
 );
 
 __PACKAGE__->_register;

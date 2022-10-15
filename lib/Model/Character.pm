@@ -8,34 +8,26 @@ extends 'Model';
 
 with 'Model::Role::Stored';
 
-has 'player_id' => (
-	is => 'ro',
+has param 'player_id' => (
 	isa => Types::Maybe [Types::Ulid],
 	default => sub { undef },
 );
 
-has 'npc_id' => (
-	is => 'ro',
+has param 'npc_id' => (
 	isa => Types::Maybe [Types::LoreId],
 	default => sub { undef },
 );
 
-has 'class_id' => (
-	is => 'ro',
+has param 'class_id' => (
 	isa => Types::LoreId,
-	required => 1,
 );
 
-has 'name' => (
-	is => 'ro',
+has param 'name' => (
 	isa => Types::NonEmptySimpleStr->where(q{ length $_ <= 32 }),
-	required => 1,
 );
 
-has 'base_stats' => (
-	is => 'ro',
+has param 'base_stats' => (
 	isa => Types::Str,
-	required => 1,
 );
 
 sub is_player ($self)

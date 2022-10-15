@@ -4,10 +4,8 @@ use My::Moose::Role;
 
 use header;
 
-has 'id' => (
-	is => 'ro',
-	isa => Types::Ulid,
-	coerce => 1,
+has param 'id' => (
+	coerce => Types::Ulid,
 	default => sub { undef },
 );
 

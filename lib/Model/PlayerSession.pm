@@ -15,21 +15,18 @@ extends 'Model';
 
 with 'Model::Role::Identified';
 
-has 'user_id' => (
-	is => 'ro',
+has param 'user_id' => (
 	isa => Types::Ulid,
-	clearer => 'clear_user_id',
+	clearer => 1,
 );
 
-has 'state' => (
-	is => 'ro',
+has param 'state' => (
 	isa => Types::Enum [STATE_NEW, STATE_LOGGED_IN, STATE_PLAYING],
 	default => sub { STATE_NEW },
 );
 
 # in-game location
-has 'location' => (
-	is => 'ro',
+has param 'location' => (
 	isa => Types::LoreId,
 );
 
