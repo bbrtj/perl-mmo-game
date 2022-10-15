@@ -12,10 +12,11 @@ use header;
 sub create_actor ($self)
 {
 	my $user = Model::User->new(
+		-dummy,
 		email => 'test@test.pl',
 	);
 	$user->set_password('asdfasdf');
-	$user->check;
+	$user->promote;
 
 	my $player = Model::Player->new(
 		user_id => $user->id,

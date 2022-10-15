@@ -7,6 +7,8 @@ my $data = {
 	location_id => "TEST",
 	health => 100,
 	energy => 30,
+	pos_x => 0,
+	pos_y => 0,
 };
 
 my $vars = Model::CharacterVariables->new($data);

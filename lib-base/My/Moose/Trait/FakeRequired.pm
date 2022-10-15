@@ -2,38 +2,64 @@ package My::Moose::Trait::FakeRequired;
 
 use v5.36;
 use My::Moose::Role;
+use Carp qw(croak);
 
-has 'required_attributes' => (
-	is => 'ro',
-	lazy => 1,
-	default => sub { [] },
+has field 'required_attributes' => (
+	lazy => sub { [] },
 );
 
-after initialize => sub {
-	my ($self, $class, @args) = @_;
-
-	my $promote_method = sub {
-		my ($instance) = @_;
+after initialize => sub ($self, $class, @args) {
+	my $promote_method = sub ($instance) {
 		my $meta = $instance->meta;
 
 		for my $attr_name ($meta->required_attributes->@*) {
 			my $attr = $meta->get_attribute($attr_name);
-			die "No value for $attr_name in " . ref $instance
+			croak "No value for $attr_name in " . (ref $instance) . ' (fake required)'
 				unless $attr->has_value($instance);
 		}
 
 		return;
 	};
 
-	# check method is for checking whether the model is complete
+	# promote method is for checking whether the model is complete
 	# if the data comes from a source that is not trustworthy
-	$class->meta->add_method(check => $promote_method);
+	$class->meta->add_method(promote => $promote_method);
+
+	my $buildargs_method = sub ($orig, $self, @args) {
+		my $has_dummy;
+
+		if (@args && $args[0] eq -dummy) {
+			$has_dummy = 1;
+			shift @args;
+		}
+
+		my %hash_args = @args == 1 ? $args[0]->%* : @args;
+		$hash_args{__dummy} = $has_dummy;
+
+		return $self->$orig(%hash_args);
+	};
+
+	$class->meta->add_around_method_modifier(BUILDARGS => $buildargs_method);
+
+	my $build_method = sub ($self, $args) {
+		unless ($args->{__dummy}) {
+			$self->promote;
+		}
+
+		return;
+	};
+
+	if ($class->meta->has_method('BUILD')) {
+		$class->meta->add_around_method_modifier(BUILD => $build_method);
+	}
+	else {
+		$class->meta->add_method(BUILD => $build_method);
+	}
 
 	return;
 };
 
-around add_attribute => sub {
-	my ($orig, $self, $name, @args) = @_;
+around add_attribute => sub ($orig, $self, $name, @args) {
 	my %params = @args == 1 ? $args[0]->%* : @args;
 
 	if ($name !~ /^[_+]/ && $params{required}) {

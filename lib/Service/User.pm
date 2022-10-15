@@ -11,10 +11,10 @@ has 'repo' => (
 
 sub register_user ($self, $user_data)
 {
-	my $user = Model::User->new($user_data);
+	my $user = Model::User->new(-dummy, $user_data);
 	$user->set_password($user_data->{password});
 
-	$user->check;
+	$user->promote;
 	$self->repo->save($user);
 
 	# TODO: send an email

@@ -14,7 +14,7 @@ test_data
 Utils->bootstrap_lore;
 
 my $mock = MockObject->new;
-my $mock_user = Model::User->new;
+my $mock_user = Model::User->new(-dummy);
 $mock->add_method('save');
 $mock->add_method('load');
 

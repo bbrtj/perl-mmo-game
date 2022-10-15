@@ -2,13 +2,13 @@ use Model::User;
 
 use testheader;
 
-my $dummy = Model::User->new;
+my $dummy = Model::User->new(-dummy);
 
 my $password = 'aoeuaoeu1';
 $dummy->set_email('a@gmail.com');
 $dummy->set_password($password);
 
-$dummy->check;
+$dummy->promote;
 $dummy->set_email('brtastic.dev@gmail.com');
 
 isa_ok $dummy, 'Model::User';

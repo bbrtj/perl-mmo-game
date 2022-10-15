@@ -7,6 +7,7 @@ use testheader;
 database_test {
 	### test Repository::Models
 	my $user = Model::User->new(
+		-dummy,
 		email => 'brtastic.dev@gmail.com',
 	);
 
@@ -14,7 +15,7 @@ database_test {
 	my $models = DI->get('models');
 	ok $models, 'schema repo resolve ok';
 
-	$user->check;
+	$user->promote;
 	ok lives { $models->save($user) }, 'Models can be saved';
 
 	my $fetched = $models->load(User => $user->id);

@@ -58,9 +58,13 @@ test_data
 
 Utils->bootstrap_lore;
 my $tested_mail = 'test@test.com';
-my $mock_model = Model::User->new(email => $tested_mail);
+my $mock_model = Model::User->new(
+	-dummy,
+	email => $tested_mail
+);
+
 $mock_model->set_password('abcdefg1');
-$mock_model->check;
+$mock_model->promote;
 
 my $mock = MockObject->new(context => 'load');
 $mock->add_method('load')->should_call(

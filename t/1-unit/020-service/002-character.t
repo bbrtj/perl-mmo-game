@@ -32,7 +32,7 @@ before_each {
 };
 
 test should_create_player => sub ($data) {
-	my $user = Model::User->new;
+	my $user = Model::User->new(-dummy);
 	my $player = $service->create_player($user, $data);
 
 	isa_ok $player, 'Model::Player';
