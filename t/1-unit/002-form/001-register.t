@@ -55,7 +55,7 @@ my $mock_model = Model::User->new(
 $mock_model->set_password('abcdefg1');
 $mock_model->promote;
 
-my $mock = MockObject->new(context => 'load');
+my $mock = Test::Spy->new(context => 'load');
 $mock->add_method('load')->should_call(
 	sub ($self, $resultset, $params) {
 		X::RecordDoesNotExist->throw unless $params->{email} eq $tested_mail;
@@ -66,7 +66,7 @@ $mock->add_method('load')->should_call(
 DI->set('models', $mock->object, 1);
 
 before_each {
-	$mock->m->clear;
+	$mock->clear;
 };
 
 test registration_should_succeed => sub ($data) {
@@ -74,8 +74,8 @@ test registration_should_succeed => sub ($data) {
 	$form->set_input($data);
 	ok $form->valid, "form valid $_";
 
-	ok $mock->m->was_called_once, "mock called once $_";
-	is $mock->m->called_with, [User => {email => $data->{email}}], "mock called parameters $_";
+	ok $mock->was_called_once, "mock called once $_";
+	is $mock->called_with, [User => {email => $data->{email}}], "mock called parameters $_";
 };
 
 test registration_should_fail => sub ($data, $errors) {
@@ -85,8 +85,8 @@ test registration_should_fail => sub ($data, $errors) {
 	is $form->errors_hash, $errors, "errors hash $_";
 
 	# mock might not get called because db is queried in form cleaner
-	if ($mock->m->was_called) {
-		is $mock->m->called_with, [User => {email => $data->{email}}], "mock called parameters $_";
+	if ($mock->was_called) {
+		is $mock->called_with, [User => {email => $data->{email}}], "mock called parameters $_";
 	}
 };
 

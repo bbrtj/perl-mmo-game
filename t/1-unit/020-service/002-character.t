@@ -12,14 +12,14 @@ test_data
 		[{name => 'testPlayer2', class => lore_class('Assassin')}],
 	];
 
-my $dbmock = MockObject->new;
+my $dbmock = Test::Spy->new(context => 'transaction');
 $dbmock->add_method('transaction')->should_call(
 	sub ($self, $code) {
 		return $code->();
 	}
 );
 
-my $mock = MockObject->new;
+my $mock = Test::Spy->new;
 $mock->add_method('save', 1);
 $mock->add_method('db', $dbmock->object);
 
@@ -27,8 +27,8 @@ DI->set('models', $mock->object, 1);
 my $service = DI->get('character_service');
 
 before_each {
-	$mock->m('save')->clear;
-	$dbmock->m('transaction')->clear;
+	$mock->method('save')->clear;
+	$dbmock->clear;
 };
 
 test should_create_player => sub ($data) {
@@ -38,11 +38,12 @@ test should_create_player => sub ($data) {
 	isa_ok $player, 'Model::Player';
 	is $player->user_id, $user->id, "player user id set in $_";
 
-	ok $dbmock->m('transaction')->was_called_once, "mocked database transaction single call $_";
+	ok $dbmock->was_called_once, "mocked database transaction single call $_";
 
 	# 3 save calls - player, character and variables
-	is $mock->m('save')->called_times, 3, "mocked database save call $_";
-	is $mock->m('save')->first_called_with, [exact_ref($player)], "mocked database save params $_";
+	$mock->set_context('save');
+	is $mock->called_times, 3, "mocked database save call $_";
+	is $mock->first_called_with, [exact_ref($player)], "mocked database save params $_";
 };
 
 done_testing;

@@ -1,14 +1,10 @@
-package MockObject;
+package Test::Spy;
 
 use My::Moose;
 use Util::H2O;
-use MockObject::Method;
+use Test::Spy::Method;
 
 use header;
-
-has option 'context' => (
-	writer => 1,
-);
 
 has field 'mocked_subs' => (
 	default => sub { {} },
@@ -18,6 +14,13 @@ has field 'object' => (
 	lazy => 'setup',
 	clearer => -hidden
 );
+
+with qw(Test::Spy::Facade);
+
+sub _no_method ($self, $method_name)
+{
+	croak "method $method_name was not mocked!";
+}
 
 sub setup ($self)
 {
@@ -37,7 +40,7 @@ sub setup ($self)
 sub add_method ($self, $method_name, @returns)
 {
 	$self->_clear_object;
-	my $method = $self->mocked_subs->{$method_name} = MockObject::Method->new;
+	my $method = $self->mocked_subs->{$method_name} = Test::Spy::Method->new(method_name => $method_name);
 
 	if (@returns) {
 		$method->should_return(@returns);
@@ -49,14 +52,13 @@ sub add_method ($self, $method_name, @returns)
 sub method ($self, $method_name)
 {
 	return $self->mocked_subs->{$method_name}
-		// croak "Method $method_name was not mocked!";
+		// $self->_no_method($method_name);
 }
 
-sub m ($self, $method_name = $self->context)
-{
-	croak 'No context was set'
-		unless defined $method_name || $self->has_context;
+around _get_context => sub ($orig, $self, @args) {
+	my $context_method = $self->$orig(@args);
 
-	return $self->method($method_name);
-}
+	return $self->mocked_subs->{$context_method}
+		// $self->_no_method($context_method);
+};
 

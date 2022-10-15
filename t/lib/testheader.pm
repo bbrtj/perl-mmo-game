@@ -1,7 +1,7 @@
 package testheader;
 
 use header;
-use MockObject;
+use Test::Spy;
 
 require Test2::V0;
 require Test2::Tools::Provider;

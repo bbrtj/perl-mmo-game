@@ -1,8 +1,10 @@
-package MockObject::Method;
+package Test::Spy::Method;
 
 use My::Moose;
 
 use header;
+
+has param 'method_name';
 
 has field 'called_times' => (
 	writer => -hidden,
@@ -13,6 +15,12 @@ has field 'called_times' => (
 has field 'call_history' => (
 	clearer => -hidden,
 	lazy => sub { [] },
+);
+
+has field '_call_iterator' => (
+	writer => 1,
+	clearer => 1,
+	lazy => sub { 0 },
 );
 
 has field '_throws' => (
@@ -35,41 +43,51 @@ has field '_returns_list' => (
 	clearer => 1,
 );
 
+with qw(Test::Spy::Interface);
+
+sub _increment_call_iterator ($self, $count = 1) {
+	my $new = $self->_call_iterator + $count;
+
+	croak 'call stack for ' . $self->method_name . ' exhausted!'
+		if $new >= $self->called_times;
+
+	$self->_set_call_iterator($new);
+
+	return $new;
+}
 
 sub called_with ($self)
-{
-	return $self->last_called_with;
-}
-
-sub first_called_with ($self)
-{
-	return $self->call_history->[0];
-}
-
-sub last_called_with ($self)
 {
 	return $self->call_history->[-1];
 }
 
-sub was_called ($self)
+sub first_called_with ($self)
 {
+	$self->_set_call_iterator(0);
+	return $self->call_history->[0];
+}
+
+sub next_called_with ($self)
+{
+	return $self->call_history->[$self->_increment_call_iterator];
+}
+
+sub was_called ($self, $times = undef)
+{
+	return $self->called_times == $times if $times;
 	return $self->called_times > 0;
 }
 
 sub was_called_once ($self)
 {
-	return $self->was_called_times(1);
-}
-
-sub was_called_times ($self, $times)
-{
-	return $self->called_times == $times;
+	return $self->was_called(1);
 }
 
 sub clear ($self)
 {
 	$self->_clear_called_times;
 	$self->_clear_call_history;
+	$self->_clear_call_iterator;
 
 	return $self;
 }
