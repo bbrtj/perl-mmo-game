@@ -8,7 +8,6 @@ use My::Moose -traits => [
 	)
 ];
 
-use Carp;
 use Mojo::Loader qw(load_classes);
 use Schema;
 
@@ -27,7 +26,7 @@ sub _register ($class)
 	croak "$class needs to mix Model::Role::Stored"
 		unless $class->DOES('Model::Role::Stored');
 
-	croak "cannot register $class"
+	croak "cannot register $class: not a model"
 		unless $class =~ /Model::(.+)/;
 
 	my $resultset = "Schema::Result::$1";
@@ -78,7 +77,7 @@ sub get_result_class ($self)
 {
 	my $class = blessed $self // $self;
 
-	croak 'invalid argument for get_result_class'
+	croak "invalid argument for get_result_class (got $class)"
 		unless exists $orm_mapping{$class};
 
 	return $orm_mapping{$class};
@@ -88,7 +87,7 @@ sub get_cache_name ($self)
 {
 	my $class = blessed $self // $self;
 
-	croak 'invalid argument for get_cache_name'
+	croak "invalid argument for get_cache_name (got $class)"
 		unless exists $cache_mapping{$class};
 
 	return $cache_mapping{$class};
