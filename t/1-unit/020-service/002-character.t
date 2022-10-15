@@ -43,7 +43,14 @@ test should_create_player => sub ($data) {
 	# 3 save calls - player, character and variables
 	$mock->set_context('save');
 	is $mock->called_times, 3, "mocked database save call $_";
-	is $mock->first_called_with, [exact_ref($player)], "mocked database save params $_";
+	is $mock->first_called_with, [exact_ref($player)], "mocked database Player save params $_";
+
+	is $mock->next_called_with, [check_isa('Model::Character')], "mocked database Character save params $_";
+	is $mock->called_with->[0]->name, ucfirst lc $data->{name}, "mocked database character name $_";
+
+	is $mock->next_called_with, [check_isa('Model::CharacterVariables')], "mocked database CharacterVariables save params $_";
+	is $mock->called_with->[0]->pos_x, Game::Config->config->{starting_location_x}, "mocked database pos_x $_";
+	is $mock->called_with->[0]->pos_y, Game::Config->config->{starting_location_y}, "mocked database pos_y $_";
 };
 
 done_testing;

@@ -6,12 +6,6 @@ use header;
 
 has param 'method_name';
 
-has field 'called_times' => (
-	writer => -hidden,
-	clearer => -hidden,
-	lazy => sub { 0 },
-);
-
 has field 'call_history' => (
 	clearer => -hidden,
 	lazy => sub { [] },
@@ -53,23 +47,35 @@ sub _increment_call_iterator ($self, $count = 1) {
 
 	$self->_set_call_iterator($new);
 
-	return $new;
+	return;
+}
+
+sub called_times ($self)
+{
+	return scalar $self->call_history->@*;
 }
 
 sub called_with ($self)
 {
-	return $self->call_history->[-1];
+	return $self->call_history->[$self->_call_iterator];
 }
 
 sub first_called_with ($self)
 {
 	$self->_set_call_iterator(0);
-	return $self->call_history->[0];
+	return $self->called_with;
 }
 
 sub next_called_with ($self)
 {
-	return $self->call_history->[$self->_increment_call_iterator];
+	$self->_increment_call_iterator;
+	return $self->called_with;
+}
+
+sub last_called_with ($self)
+{
+	$self->_set_call_iterator($self->called_times - 1);
+	return $self->called_with;
 }
 
 sub was_called ($self, $times = undef)
@@ -85,7 +91,6 @@ sub was_called_once ($self)
 
 sub clear ($self)
 {
-	$self->_clear_called_times;
 	$self->_clear_call_history;
 	$self->_clear_call_iterator;
 
@@ -139,7 +144,6 @@ sub should_throw ($self, $exception)
 
 sub _called ($self, $inner_self, @params)
 {
-	$self->_set_called_times($self->called_times + 1);
 	push $self->call_history->@*, [@params];
 
 	die $self->_throws

@@ -43,6 +43,11 @@ sub next_called_with ($self, @args)
 	return $self->_get_context->next_called_with(@args);
 }
 
+sub last_called_with ($self, @args)
+{
+	return $self->_get_context->next_called_with(@args);
+}
+
 sub was_called ($self, @args)
 {
 	return $self->_get_context->was_called(@args);
