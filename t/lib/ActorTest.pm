@@ -11,8 +11,7 @@ use header;
 
 sub create_actor ($self)
 {
-	my $user = Model::User->new(
-		-dummy,
+	my $user = Model::User->dummy(
 		email => 'test@test.pl',
 	);
 	$user->set_password('asdfasdf');

@@ -2,7 +2,7 @@ use Model::User;
 
 use testheader;
 
-my $dummy = Model::User->new(-dummy);
+my $dummy = Model::User->dummy;
 
 my $password = 'aoeuaoeu1';
 $dummy->set_email('a@gmail.com');

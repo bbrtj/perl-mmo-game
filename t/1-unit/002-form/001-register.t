@@ -47,8 +47,7 @@ test_data
 	];
 
 my $tested_mail = 'test2@test.com';
-my $mock_model = Model::User->new(
-	-dummy,
+my $mock_model = Model::User->dummy(
 	email => $tested_mail
 );
 

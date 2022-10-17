@@ -6,8 +6,7 @@ use testheader;
 
 database_test {
 	### test Repository::Models
-	my $user = Model::User->new(
-		-dummy,
+	my $user = Model::User->dummy(
 		email => 'brtastic.dev@gmail.com',
 	);
 
