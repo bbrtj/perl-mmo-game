@@ -49,6 +49,7 @@ on 'test' => sub {
 	requires 'Test::DB';
 	requires 'Test2::Harness';
 	requires 'Test2::V0';
+	requires 'Test::Spy';
 };
 
 # vim: ft=perl

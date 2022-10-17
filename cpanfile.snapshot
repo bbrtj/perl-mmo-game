@@ -1530,11 +1530,11 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
-  Exporter-Tiny-1.004003
-    pathname: T/TO/TOBYINK/Exporter-Tiny-1.004003.tar.gz
+  Exporter-Tiny-1.004004
+    pathname: T/TO/TOBYINK/Exporter-Tiny-1.004004.tar.gz
     provides:
-      Exporter::Shiny 1.004003
-      Exporter::Tiny 1.004003
+      Exporter::Shiny 1.004004
+      Exporter::Tiny 1.004004
     requirements:
       ExtUtils::MakeMaker 6.17
       perl 5.006001
@@ -2151,8 +2151,8 @@ DISTRIBUTIONS
       perl 5.010
       strict 0
       warnings 0
-  Mojolicious-9.27
-    pathname: S/SR/SRI/Mojolicious-9.27.tar.gz
+  Mojolicious-9.28
+    pathname: S/SR/SRI/Mojolicious-9.28.tar.gz
     provides:
       Mojo undef
       Mojo::Asset undef
@@ -2220,7 +2220,7 @@ DISTRIBUTIONS
       Mojo::UserAgent::Transactor undef
       Mojo::Util undef
       Mojo::WebSocket undef
-      Mojolicious 9.27
+      Mojolicious 9.28
       Mojolicious::Command undef
       Mojolicious::Command::Author::cpanify undef
       Mojolicious::Command::Author::generate undef
@@ -2304,10 +2304,10 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Module::Runtime 0.014
-  Mooish-AttributeBuilder-0.001
-    pathname: B/BR/BRTASTIC/Mooish-AttributeBuilder-0.001.tar.gz
+  Mooish-AttributeBuilder-1.000
+    pathname: B/BR/BRTASTIC/Mooish-AttributeBuilder-1.000.tar.gz
     provides:
-      Mooish::AttributeBuilder 0.001
+      Mooish::AttributeBuilder 1.000
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.010
@@ -3890,6 +3890,18 @@ DISTRIBUTIONS
       Test::Builder::Module 0
       Test::More 0.47
       perl 5.006
+  Test-Spy-0.002
+    pathname: B/BR/BRTASTIC/Test-Spy-0.002.tar.gz
+    provides:
+      Test::Spy 0.002
+      Test::Spy::Interface 0.002
+      Test::Spy::Method 0.002
+    requirements:
+      ExtUtils::MakeMaker 0
+      Moo 2.003004
+      Mooish::AttributeBuilder 0
+      Util::H2O 0
+      perl 5.010
   Test-Warn-0.37
     pathname: B/BI/BIGJ/Test-Warn-0.37.tar.gz
     provides:
