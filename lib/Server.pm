@@ -4,6 +4,7 @@ use My::Moose;
 use Mojo::IOLoop;
 use Mojo::JSON qw(to_json from_json);
 use Server::Config;
+use Server::Worker;
 
 use X::Network::InvalidAction;
 use X::Network::CorruptedInput;
@@ -19,25 +20,21 @@ with qw(
 	Server::Forked
 );
 
-has 'worker' => (
-	is => 'ro',
-);
+has DI->injected('cache');
+has DI->injected('channel' => 'channel_service');
 
-has 'channel' => (
-	is => 'ro',
-);
-
-has 'cache' => (
-	is => 'ro',
-);
-
-has 'port' => (
-	is => 'ro',
+has param 'port' => (
+	isa => Types::PositiveInt,
 	default => sub { Server::Config::GAME_SERVER_PORT },
 );
 
-has 'connections' => (
-	is => 'ro',
+has field 'worker' => (
+	isa => Types::InstanceOf['Server::Worker'],
+	default => sub { Server::Worker->new },
+);
+
+has field 'connections' => (
+	isa => Types::HashRef [Types::CodeRef],
 	default => sub { {} },
 );
 

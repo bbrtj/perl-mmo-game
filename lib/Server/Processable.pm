@@ -4,15 +4,8 @@ use My::Moose::Role;
 
 use header;
 
-has 'cache' => (
-	is => 'ro',
-	default => sub { DI->get('cache') },
-);
-
-has 'channel' => (
-	is => 'ro',
-	default => sub { DI->get('channel_service') },
-);
+has DI->injected('cache');
+has DI->injected('channel' => 'channel_service');
 
 sub name { ... }
 sub handle { ... }

@@ -10,8 +10,7 @@ use constant LOCK_KEY => 'job_locks';
 
 # a cache for worker commands / jobs
 # (merge two hashrefs so we just need to look once)
-has 'commands' => (
-	is => 'ro',
+has field 'commands' => (
 	default => sub ($self) {
 		return {
 			$self->worker->commands->%*,

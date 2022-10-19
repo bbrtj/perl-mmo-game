@@ -31,11 +31,11 @@ sub forget ($class, $name)
 	return;
 }
 
-sub inject ($class, $name)
+sub injected ($class, $as, $name = $as)
 {
 	my $config = $wire->get_config($name);
 
-	return field $name => (
+	return param $as => (
 		isa => InstanceOf[$config->{class}],
 		default => sub { $class->get($name) },
 	);

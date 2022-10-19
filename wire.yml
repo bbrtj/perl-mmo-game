@@ -86,26 +86,3 @@ character_service:
         repo:
             $ref: models
 
-# Others
-worker:
-    class: Server::Worker
-    args:
-        log:
-            $ref: log
-        channel:
-            $ref: worker_channel_service
-        cache:
-            $ref: cache
-
-server:
-    class: Server
-    args:
-        log:
-            $ref: log
-        worker:
-            $ref: worker
-        channel:
-            $ref: channel_service
-        cache:
-            $ref: cache
-

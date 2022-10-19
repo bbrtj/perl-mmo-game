@@ -7,14 +7,11 @@ use header;
 
 extends 'Server::Worker::Process';
 
-has 'location_data' => (
-	is => 'ro',
-	isa => (Types::InstanceOf ['Unit::Location'])
+has param 'location_data' => (
+	coerce => (Types::InstanceOf ['Unit::Location'])
 		->plus_coercions(
 			Types::InstanceOf ['Game::Lore::Location'], q{ DI->get('units')->load_location($_->id) }
 		),
-	coerce => 1,
-	required => 1,
 );
 
 # TODO: remote signals (to synchronize locations: who enters it? who exits?)

@@ -17,51 +17,36 @@ with qw(
 	Server::Forked
 );
 
-has 'channel' => (
-	is => 'ro',
-);
+has DI->injected('channel' => 'channel_service');
+
+# helper for attributes
+my sub load_enabled ($namespace)
+{
+	return {
+		map {
+			$_->name => $_->new
+		} grep { !$_->disabled } load_classes($namespace)
+	};
+}
+
 
 # Jobs are internal only and ran in intervals
 # (basically an advanced cron)
-has 'jobs' => (
-	is => 'ro',
+has field 'jobs' => (
 	isa => Types::HashRef [Types::InstanceOf ['Server::Job']],
-	default => sub ($self) {
-		return {
-			map {
-				$_->name => $_->new
-			} grep { !$_->disabled } load_classes('Server::Job')
-		};
-	},
-	init_arg => undef,
+	default => sub { load_enabled('Server::Job') },
 );
 
 # Commands are events that need handling
-has 'commands' => (
-	is => 'ro',
+has field 'commands' => (
 	isa => Types::HashRef [Types::InstanceOf ['Server::Command']],
-	default => sub ($self) {
-		return {
-			map {
-				$_->name => $_->new
-			} grep { !$_->disabled } load_classes('Server::Command')
-		};
-	},
-	init_arg => undef,
+	default => sub { load_enabled('Server::Command') },
 );
 
 # Actions are what players call to play the game
-has 'actions' => (
-	is => 'ro',
+has field 'actions' => (
 	isa => Types::HashRef [Types::InstanceOf ['Server::Action']],
-	default => sub ($self) {
-		return {
-			map {
-				$_->name => $_->new
-			} grep { !$_->disabled } load_classes('Server::Action')
-		};
-	},
-	init_arg => undef,
+	default => sub { load_enabled('Server::Action') },
 );
 
 # keeps the worker alive in case of no specified commands

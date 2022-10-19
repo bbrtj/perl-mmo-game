@@ -10,13 +10,11 @@ requires qw(
 	start
 );
 
-has 'forked' => (
-	is => 'rw',
-	default => sub { 0 },
-);
+has DI->injected('log');
 
-has 'log' => (
-	is => 'ro',
+has field 'forked' => (
+	writer => 1,
+	default => sub { 0 },
 );
 
 sub setup ($self)
@@ -50,7 +48,7 @@ sub create_forks ($self, $prefix, $processes, $worker_code, $parent_code = sub {
 		my $pid = fork;
 		if (defined $pid) {
 			if ($pid) {
-				$self->forked(1);
+				$self->set_forked(1);
 				local $0 = "perl $classname worker $process_id";
 				$self->log->system_name("${classname}/${process_id}");
 

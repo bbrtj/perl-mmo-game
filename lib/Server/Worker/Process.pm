@@ -4,17 +4,13 @@ use My::Moose;
 
 use header;
 
-has 'worker' => (
-	is => 'ro',
+has param 'worker' => (
 	isa => Types::InstanceOf ['Server::Worker'],
 	weak_ref => 1,
-	required => 1,
 );
 
-has 'process_id' => (
-	is => 'ro',
+has param 'process_id' => (
 	isa => Types::SimpleStr,
-	required => 1,
 );
 
 sub do_work ($self)
