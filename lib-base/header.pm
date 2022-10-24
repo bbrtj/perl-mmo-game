@@ -20,8 +20,10 @@ sub import ($me, @args)
 {
 	my $pkg = caller;
 
-	feature->import::into($pkg, ':5.36', qw(try refaliasing declared_refs defer));
-	feature->unimport::out_of($pkg, 'indirect');
+	strict->import::into($pkg);
+	warnings->import::into($pkg);
+	feature->unimport::out_of($pkg, ':all');
+	feature->import::into($pkg, qw(:5.36 try refaliasing declared_refs defer));
 	utf8->import::into($pkg);
 	Carp->import::into($pkg, qw(croak));
 	Scalar::Util->import::into($pkg, qw(blessed));

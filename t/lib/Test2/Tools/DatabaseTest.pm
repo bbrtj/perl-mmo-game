@@ -8,9 +8,12 @@ use Component::DB;
 
 use header;
 
-our @EXPORT = qw(database_test);
+our @EXPORT = qw(
+	manual_database_test
+	database_test
+);
 
-sub database_test : prototype(&) ($sub)
+sub manual_database_test ()
 {
 	my $env = DI->get('env');
 	my $testdb = Test::DB->new;
@@ -26,12 +29,26 @@ sub database_test : prototype(&) ($sub)
 
 	die 'database clone error' unless defined $cloned;
 
+	DI->forget('db');
+
+	my $db = Component::DB->new(env => $env, dbh => $cloned->dbh);
+	DI->set('db', $db);
+
+	return sub {
+		DI->get('db')->dbh->disconnect;
+		$cloned->destroy;
+	};
+}
+
+sub database_test : prototype(&) ($sub)
+{
+	my $cleanup = manual_database_test;
+
+	defer {
+		$cleanup->();
+	}
+
 	try {
-		DI->forget('db');
-
-		my $db = Component::DB->new(env => $env, dbh => $cloned->dbh);
-		DI->set('db', $db);
-
 		$sub->();
 	}
 	catch ($e) {
@@ -40,9 +57,6 @@ sub database_test : prototype(&) ($sub)
 		$ctx->release;
 	}
 
-	# finally
-	DI->get('db')->dbh->disconnect;
-	$cloned->destroy;
 	return;
 }
 

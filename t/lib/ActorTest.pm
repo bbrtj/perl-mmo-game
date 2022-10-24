@@ -9,6 +9,20 @@ use Game::Helpers;
 
 use header;
 
+sub save_actor ($self)
+{
+	my ($actor, %related_models) = $self->create_actor;
+
+	foreach my $model (@related_models{qw(user player character)}) {
+		DI->get('models')->save($model);
+	}
+
+	# insert, not update
+	DI->get('units')->save($actor, 0);
+
+	return ($actor, %related_models);
+}
+
 sub create_actor ($self)
 {
 	my $user = Model::User->dummy(

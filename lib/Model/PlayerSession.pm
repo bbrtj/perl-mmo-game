@@ -15,7 +15,7 @@ extends 'Model';
 
 with 'Model::Role::Identified';
 
-has param 'user_id' => (
+has option 'user_id' => (
 	isa => Types::Ulid,
 	clearer => 1,
 );
@@ -26,7 +26,7 @@ has param 'state' => (
 );
 
 # in-game location
-has param 'location' => (
+has option 'location' => (
 	isa => Types::LoreId,
 );
 

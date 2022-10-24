@@ -11,13 +11,11 @@ use List::Util qw(shuffle);
 
 use header;
 
-use constant PUBSUB_KEY => 'server_jobs';
-
 with qw(
 	Server::Forked
 );
 
-has DI->injected('channel' => 'channel_service');
+has DI->injected('channel' => 'worker_channel_service');
 
 # helper for attributes
 my sub load_enabled ($namespace)

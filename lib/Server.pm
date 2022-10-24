@@ -120,7 +120,11 @@ sub connection ($self, $loop, $stream, $id)
 		read => sub ($, $bytes) {
 			$bytes =~ s/\r?\n?\Z//;
 
-			return if $bytes eq 'ping';
+			if ($bytes eq 'ping') {
+				$stream->write('ping');
+				return;
+			}
+
 			$self->log->debug("TCP message: '$bytes'")
 				if DEBUG;
 
@@ -190,16 +194,14 @@ sub start ($self)
 
 sub start_listening ($self, $processes = 4)
 {
-	$self->create_forks(
+	$self->create_forks_with_parent(
 		'tcp',
-		$processes - 1,
+		$processes,
 		sub ($process_id) {
 			$self->start;
-		}
+		},
 	);
 
-	# main process will be a server as well
-	$self->start;
 	return;
 }
 

@@ -2,6 +2,7 @@ requires 'Moose' => 0;
 requires 'Mouse' => 0;
 requires 'Util::H2O' => 0;
 requires 'Mooish::AttributeBuilder' => 0;
+requires 'Sub::HandlesVia' => 0;
 requires 'Hook::AfterRuntime' => 0;
 
 requires 'Beam::Wire' => 0;

@@ -7,13 +7,7 @@ use testheader;
 Utils->bootstrap_lore;
 
 database_test {
-	my ($actor, %related_models) = ActorTest->create_actor;
-	foreach my $model (@related_models{qw(user player character)}) {
-		DI->get('models')->save($model);
-	}
-
-	# insert, not update
-	DI->get('units')->save($actor, 0);
+	my ($actor, %related_models) = ActorTest->save_actor;
 
 	subtest 'stores character variables', sub {
 		$related_models{variables}->set_experience(1500);

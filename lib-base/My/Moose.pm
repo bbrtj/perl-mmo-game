@@ -4,6 +4,7 @@ use v5.36;
 
 # use Hook::AfterRuntime;
 use Import::Into;
+use My::Sub::HandlesVia::Toolkit::Mouse::PackageTrait;
 
 require Mouse;    ## no critic 'Community::PreferredAlternatives'
 require namespace::autoclean;
@@ -24,6 +25,8 @@ sub import ($self, @args)
 	else {
 		%args = @args;
 	}
+
+	push @{$args{-traits}}, 'My::Sub::HandlesVia::Toolkit::Mouse::PackageTrait';
 
 	Mouse->import::into($caller, %args);
 	namespace::autoclean->import(-cleanee => $caller);

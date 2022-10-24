@@ -3406,6 +3406,15 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
+  Role-Hooks-0.008
+    pathname: T/TO/TOBYINK/Role-Hooks-0.008.tar.gz
+    provides:
+      Role::Hooks 0.008
+    requirements:
+      Class::Method::Modifiers 0
+      ExtUtils::MakeMaker 6.17
+      List::Util 1.45
+      perl 5.008001
   Role-Tiny-2.002004
     pathname: H/HA/HAARG/Role-Tiny-2.002004.tar.gz
     provides:
@@ -3634,6 +3643,43 @@ DISTRIBUTIONS
       Sub::Exporter::Progressive 0.001013
     requirements:
       ExtUtils::MakeMaker 0
+  Sub-HandlesVia-0.038
+    pathname: T/TO/TOBYINK/Sub-HandlesVia-0.038.tar.gz
+    provides:
+      Sub::HandlesVia 0.038
+      Sub::HandlesVia::CodeGenerator 0.038
+      Sub::HandlesVia::Handler 0.038
+      Sub::HandlesVia::Handler::CodeRef 0.038
+      Sub::HandlesVia::Handler::Traditional 0.038
+      Sub::HandlesVia::HandlerLibrary 0.038
+      Sub::HandlesVia::HandlerLibrary::Array 0.038
+      Sub::HandlesVia::HandlerLibrary::Bool 0.038
+      Sub::HandlesVia::HandlerLibrary::Code 0.038
+      Sub::HandlesVia::HandlerLibrary::Counter 0.038
+      Sub::HandlesVia::HandlerLibrary::Hash 0.038
+      Sub::HandlesVia::HandlerLibrary::Number 0.038
+      Sub::HandlesVia::HandlerLibrary::Scalar 0.038
+      Sub::HandlesVia::HandlerLibrary::String 0.038
+      Sub::HandlesVia::Mite undef
+      Sub::HandlesVia::Toolkit 0.038
+      Sub::HandlesVia::Toolkit::Mite 0.038
+      Sub::HandlesVia::Toolkit::Moo 0.038
+      Sub::HandlesVia::Toolkit::Moose 0.038
+      Sub::HandlesVia::Toolkit::Moose::PackageTrait 0.038
+      Sub::HandlesVia::Toolkit::Moose::RoleTrait 0.038
+      Sub::HandlesVia::Toolkit::Mouse 0.038
+      Sub::HandlesVia::Toolkit::Mouse::PackageTrait 0.038
+      Sub::HandlesVia::Toolkit::Mouse::RoleTrait 0.038
+      Sub::HandlesVia::Toolkit::Plain 0.038
+    requirements:
+      Class::Method::Modifiers 0
+      Exporter::Shiny 0
+      ExtUtils::MakeMaker 6.17
+      List::Util 1.54
+      Role::Hooks 0.008
+      Role::Tiny 0
+      Type::Tiny 1.004
+      perl 5.008001
   Sub-Identify-0.14
     pathname: R/RG/RGARCIA/Sub-Identify-0.14.tar.gz
     provides:
@@ -3890,17 +3936,18 @@ DISTRIBUTIONS
       Test::Builder::Module 0
       Test::More 0.47
       perl 5.006
-  Test-Spy-0.002
-    pathname: B/BR/BRTASTIC/Test-Spy-0.002.tar.gz
+  Test-Spy-0.003
+    pathname: B/BR/BRTASTIC/Test-Spy-0.003.tar.gz
     provides:
-      Test::Spy 0.002
-      Test::Spy::Interface 0.002
-      Test::Spy::Method 0.002
+      Test::Spy 0.003
+      Test::Spy::Interface 0.003
+      Test::Spy::Method 0.003
+      Test::Spy::Object 0.003
+      Test::Spy::Observer 0.003
     requirements:
       ExtUtils::MakeMaker 0
       Moo 2.003004
       Mooish::AttributeBuilder 0
-      Util::H2O 0
       perl 5.010
   Test-Warn-0.37
     pathname: B/BI/BIGJ/Test-Warn-0.37.tar.gz
