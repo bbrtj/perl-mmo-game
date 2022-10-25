@@ -6,7 +6,7 @@ use Type::Libraries;
 use Type::Tiny;
 use Types::Standard qw(Num Undef);
 use Types::Common::String qw(NonEmptySimpleStr StrLength);
-use Types::DateTime qw(DateTime Format);
+use Types::DateTime qw(Format);
 use Data::ULID;
 
 Type::Libraries->setup_class(
@@ -31,7 +31,7 @@ my $LoreId = Type::Tiny->new(
 
 my $DateTime = Type::Tiny->new(
 	name => 'DateTime',
-	parent => DateTime,
+	parent => Types::DateTime::DateTime,
 );
 
 my $ULID = Type::Tiny->new(

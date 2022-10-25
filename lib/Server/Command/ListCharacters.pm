@@ -11,7 +11,7 @@ extends 'Server::Command';
 use constant name => 'list_characters';
 use constant required_state => Model::PlayerSession->STATE_LOGGED_IN;
 
-sub handle ($self, $session_id, $id, $data)
+sub handle ($self, $session_id, $id, $)
 {
 	state $repo = DI->get('units');
 

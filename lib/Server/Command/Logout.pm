@@ -12,7 +12,7 @@ use constant required_state => Model::PlayerSession->STATE_LOGGED_IN;
 
 # NOTE: this logs out of the character selection screen, not of the game
 
-sub handle ($self, $session_id, $id, $data)
+sub handle ($self, $session_id, $id, $)
 {
 	my $session = $self->cache->load(PlayerSession => $session_id);
 
