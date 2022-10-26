@@ -53,7 +53,7 @@ sub _tph (@args)
 sub _lt ($message, @args)
 {
 	my $t = _t $message, @args;
-	$t->lore(1);
+	$t->set_lore(1);
 
 	return $t;
 }

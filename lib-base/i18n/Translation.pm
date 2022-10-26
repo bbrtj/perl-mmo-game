@@ -5,36 +5,33 @@ use v5.36;
 use My::Moose;
 use Mojo::File qw(curfile);
 use Data::Localize;
-use Types::Standard qw(Str ArrayRef Bool);
+use Types;
 use Carp qw(croak);
 use Data::Localize::Format::Maketext;
+use DI;
 
 use overload
 	q{""} => "translate",
 	bool => sub { 1 },
 	fallback => 1;
 
-has 'id' => (
-	is => 'rw',
-	isa => Bool,
+has param 'id' => (
+	isa => Types::Bool,
 	default => sub { 1 },
 );
 
-has 'lore' => (
-	is => 'rw',
-	isa => Bool,
+has param 'lore' => (
+	isa => Types::Bool,
+	writer => 1,
 	default => sub { 0 },
 );
 
-has 'message' => (
-	is => 'ro',
-	isa => Str,
-	required => 1,
+has param 'message' => (
+	isa => Types::Str,
 );
 
-has 'args' => (
-	is => 'ro',
-	isa => ArrayRef,
+has param 'args' => (
+	isa => Types::ArrayRef,
 	default => sub { [] },
 );
 
@@ -81,7 +78,6 @@ sub translate_gettext ($self, $lang)
 
 sub translate_lore ($self, $lang)
 {
-	require DI;    # lazy load to avoid circularity
 	state $repo = DI->get('lore_data');
 
 	my $translation = $repo->load($self->message)->data->translations->{lc $lang}{$self->args->[0]};
