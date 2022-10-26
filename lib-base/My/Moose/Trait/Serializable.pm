@@ -3,20 +3,14 @@ package My::Moose::Trait::Serializable;
 use v5.36;
 use My::Moose::Role;
 
-has 'serialized_attributes' => (
-	is => 'ro',
-	lazy => 1,
-	default => sub {
-		return [grep { $_->name !~ /^_/ } shift->get_all_attributes];
+has field 'serialized_attributes' => (
+	lazy => sub ($self) {
+		return [grep { $_->name !~ /^_/ } $self->get_all_attributes];
 	},
 );
 
-after initialize => sub {
-	my ($self, $class, @args) = @_;
-
-	my $serialize_method = sub {
-		my ($instance) = @_;
-
+after initialize => sub ($self, $class, @args) {
+	my $serialize_method = sub ($instance) {
 		return {
 			map {
 				$_->name => $_->get_value($instance)

@@ -5,12 +5,11 @@ use My::Moose::Role;
 
 use Scalar::Util qw(refaddr);
 
+# keeps extra data for instances that we want to keep very private
 my %dirty;
 
-sub _dirty
+sub _dirty ($self, $field = undef)
 {
-	my ($self, $field) = @_;
-
 	my $selfaddr = refaddr $self;
 	if (defined $field) {
 		$dirty{$selfaddr}{$field} = 1;
@@ -21,17 +20,15 @@ sub _dirty
 	}
 }
 
-sub _clear_dirty
+sub _clear_dirty ($self)
 {
-	my $self = shift;
 	$dirty{refaddr $self} = {};
 
 	return;
 }
 
-sub DEMOLISH
+sub DEMOLISH ($self, $global_destruction)
 {
-	my $self = shift;
 	delete $dirty{refaddr $self};
 
 	return;

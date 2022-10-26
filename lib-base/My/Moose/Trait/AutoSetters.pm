@@ -3,8 +3,7 @@ package My::Moose::Trait::AutoSetters;
 use v5.36;
 use My::Moose::Role;
 
-around add_attribute => sub {
-	my ($orig, $self, $name, @args) = @_;
+around add_attribute => sub ($orig, $self, $name, @args) {
 	my %params = @args == 1 ? $args[0]->%* : @args;
 
 	if (exists $params{writer} && !$params{writer}) {
@@ -24,8 +23,7 @@ around add_attribute => sub {
 	if ($self->does_role('My::Moose::Role::TracksDirty')) {
 		$self->add_after_method_modifier(
 			$attribute->get_write_method,
-			sub {
-				my ($instance) = @_;
+			sub ($instance, $new_value) {
 				$instance->_dirty($attribute->name);
 			}
 		);

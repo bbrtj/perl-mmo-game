@@ -3,8 +3,7 @@ package My::Moose::Trait::LazyByDefault;
 use v5.36;
 use My::Moose::Role;
 
-around add_attribute => sub {
-	my ($orig, $self, $name, @args) = @_;
+around add_attribute => sub ($orig, $self, $name, @args) {
 	my %params = @args == 1 ? $args[0]->%* : @args;
 
 	# exit early if it's not something we can alter
