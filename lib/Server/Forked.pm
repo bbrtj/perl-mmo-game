@@ -3,6 +3,7 @@ package Server::Forked;
 use My::Moose::Role;
 use POSIX ();
 use Mojo::IOLoop;
+use Sub::HandlesVia;
 
 use header;
 

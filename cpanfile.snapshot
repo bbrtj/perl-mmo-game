@@ -3643,34 +3643,34 @@ DISTRIBUTIONS
       Sub::Exporter::Progressive 0.001013
     requirements:
       ExtUtils::MakeMaker 0
-  Sub-HandlesVia-0.038
-    pathname: T/TO/TOBYINK/Sub-HandlesVia-0.038.tar.gz
+  Sub-HandlesVia-0.040
+    pathname: T/TO/TOBYINK/Sub-HandlesVia-0.040.tar.gz
     provides:
-      Sub::HandlesVia 0.038
-      Sub::HandlesVia::CodeGenerator 0.038
-      Sub::HandlesVia::Handler 0.038
-      Sub::HandlesVia::Handler::CodeRef 0.038
-      Sub::HandlesVia::Handler::Traditional 0.038
-      Sub::HandlesVia::HandlerLibrary 0.038
-      Sub::HandlesVia::HandlerLibrary::Array 0.038
-      Sub::HandlesVia::HandlerLibrary::Bool 0.038
-      Sub::HandlesVia::HandlerLibrary::Code 0.038
-      Sub::HandlesVia::HandlerLibrary::Counter 0.038
-      Sub::HandlesVia::HandlerLibrary::Hash 0.038
-      Sub::HandlesVia::HandlerLibrary::Number 0.038
-      Sub::HandlesVia::HandlerLibrary::Scalar 0.038
-      Sub::HandlesVia::HandlerLibrary::String 0.038
+      Sub::HandlesVia 0.040
+      Sub::HandlesVia::CodeGenerator 0.040
+      Sub::HandlesVia::Handler 0.040
+      Sub::HandlesVia::Handler::CodeRef 0.040
+      Sub::HandlesVia::Handler::Traditional 0.040
+      Sub::HandlesVia::HandlerLibrary 0.040
+      Sub::HandlesVia::HandlerLibrary::Array 0.040
+      Sub::HandlesVia::HandlerLibrary::Bool 0.040
+      Sub::HandlesVia::HandlerLibrary::Code 0.040
+      Sub::HandlesVia::HandlerLibrary::Counter 0.040
+      Sub::HandlesVia::HandlerLibrary::Hash 0.040
+      Sub::HandlesVia::HandlerLibrary::Number 0.040
+      Sub::HandlesVia::HandlerLibrary::Scalar 0.040
+      Sub::HandlesVia::HandlerLibrary::String 0.040
       Sub::HandlesVia::Mite undef
-      Sub::HandlesVia::Toolkit 0.038
-      Sub::HandlesVia::Toolkit::Mite 0.038
-      Sub::HandlesVia::Toolkit::Moo 0.038
-      Sub::HandlesVia::Toolkit::Moose 0.038
-      Sub::HandlesVia::Toolkit::Moose::PackageTrait 0.038
-      Sub::HandlesVia::Toolkit::Moose::RoleTrait 0.038
-      Sub::HandlesVia::Toolkit::Mouse 0.038
-      Sub::HandlesVia::Toolkit::Mouse::PackageTrait 0.038
-      Sub::HandlesVia::Toolkit::Mouse::RoleTrait 0.038
-      Sub::HandlesVia::Toolkit::Plain 0.038
+      Sub::HandlesVia::Toolkit 0.040
+      Sub::HandlesVia::Toolkit::Mite 0.040
+      Sub::HandlesVia::Toolkit::Moo 0.040
+      Sub::HandlesVia::Toolkit::Moose 0.040
+      Sub::HandlesVia::Toolkit::Moose::PackageTrait 0.040
+      Sub::HandlesVia::Toolkit::Moose::RoleTrait 0.040
+      Sub::HandlesVia::Toolkit::Mouse 0.040
+      Sub::HandlesVia::Toolkit::Mouse::PackageTrait 0.040
+      Sub::HandlesVia::Toolkit::Mouse::RoleTrait 0.040
+      Sub::HandlesVia::Toolkit::Plain 0.040
     requirements:
       Class::Method::Modifiers 0
       Exporter::Shiny 0
