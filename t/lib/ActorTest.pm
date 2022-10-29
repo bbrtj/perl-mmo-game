@@ -9,9 +9,9 @@ use Game::Helpers;
 
 use header;
 
-sub save_actor ($self)
+sub save_actor ($self, @params)
 {
-	my ($actor, %related_models) = $self->create_actor;
+	my ($actor, %related_models) = $self->create_actor(@params);
 
 	foreach my $model (@related_models{qw(user player character)}) {
 		DI->get('models')->save($model);
@@ -23,12 +23,12 @@ sub save_actor ($self)
 	return ($actor, %related_models);
 }
 
-sub create_actor ($self)
+sub create_actor ($self, $password = 'asdfasdf')
 {
 	my $user = Model::User->dummy(
 		email => 'test@test.pl',
 	);
-	$user->set_password('asdfasdf');
+	$user->set_password($password);
 	$user->promote;
 
 	my $player = Model::Player->new(

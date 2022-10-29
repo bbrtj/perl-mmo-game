@@ -14,10 +14,11 @@ use testheader;
 Utils->bootstrap_lore;
 
 e2e_test sub ($server_port) {
-	my ($actor, %related_models) = ActorTest->save_actor;
+	my $password = 'Testpassword123#';
+	my ($actor, %related_models) = ActorTest->save_actor($password);
 
 	my @send_queue = (
-		'1;login;' . to_json({email => $related_models{user}->email, password => 'asdfasdf'}),
+		'1;login;' . to_json({email => $related_models{user}->email, password => $password}),
 		'2;list_characters',
 	);
 
