@@ -40,7 +40,7 @@ sub from_string ($self, $map_str)
 	my @map_size = (length $map_lines[0], scalar @map_lines);
 	my @map;
 
-	for my $line (@map_lines) {
+	foreach my $line (@map_lines) {
 		my @bools = map { CHARACTERS->{$_} // die "Invalid map character $_" } split '', $line;
 
 		die "invalid map size on line ($line)"
@@ -87,11 +87,11 @@ sub to_string_and_mark ($self, @positions)
 	my %characters_rev = map { CHARACTERS->{$_} => $_ } keys CHARACTERS->%*;
 	my $coordinates = dclone $self->coordinates;
 
-	for my $pos (@positions) {
+	foreach my $pos (@positions) {
 		$coordinates->[$pos->[1]][$pos->[0]] = 'mark';
 	}
 
-	for my $coords ($coordinates->@*) {
+	foreach my $coords ($coordinates->@*) {
 		push @lines, join '', map { $characters_rev{$_} // '@' } $coords->@*;
 	}
 

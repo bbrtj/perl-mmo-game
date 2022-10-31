@@ -46,7 +46,7 @@ sub get_helpers ($self)
 	state $repo = DI->get('lore_data');
 	my %subs;
 
-	for my $type (TYPES->@*) {
+	foreach my $type (TYPES->@*) {
 		my $class = 'Game::Lore::' . $self->transform_name($type);
 
 		$subs{"lore_$type"} = sub : prototype($) ($name) {
@@ -79,7 +79,7 @@ sub _configure ($self, $context, $field, @values)
 		}
 
 		my %kv_values = @values;
-		for my $key (keys %kv_values) {
+		foreach my $key (keys %kv_values) {
 			reporter "replacing $key for $field in %s"
 				if defined $storage->{$key};
 
@@ -92,7 +92,7 @@ sub _configure ($self, $context, $field, @values)
 	}
 
 	elsif (is_arrayref $storage) {
-		for my $value (@values) {
+		foreach my $value (@values) {
 			$value = $value->create
 				if $value isa 'Game::LoreLoader::LoreDummy';
 
@@ -156,7 +156,7 @@ sub get_dsl ($self, $caller)
 			return unless -e $json_file;
 			my $coordinates = decode_json $json_file->slurp;
 
-			for my $item ($coordinates->{$from_key}->@*) {
+			foreach my $item ($coordinates->{$from_key}->@*) {
 				my ($lore_id, $x, $y) = $item->@{qw(LoreId PosX PosY)};
 				my $lore_item = $repo->load($lore_id);
 				$lore_item->data->set_pos_x($x);
@@ -167,7 +167,7 @@ sub get_dsl ($self, $caller)
 		},
 	);
 
-	for my $type (TYPES->@*) {
+	foreach my $type (TYPES->@*) {
 		my $class = 'Game::Lore::' . $self->transform_name($type);
 
 		$dsl{$type} = sub : prototype($) ($name) {
@@ -178,7 +178,7 @@ sub get_dsl ($self, $caller)
 		};
 	}
 
-	for my $config (CONFIGS->@*) {
+	foreach my $config (CONFIGS->@*) {
 		$dsl{$config} = sub (@values) {
 			my $context = $items[-1] // 'Game::Config';
 			$self->_configure($context, $config, @values);
@@ -194,7 +194,7 @@ sub import ($self, @args)
 	my $want_helpers = (grep { $_ eq -helpers } @args) > 0;
 	my %subs = $want_helpers ? $self->get_helpers : $self->get_dsl($package);
 
-	for my $name (keys %subs) {
+	foreach my $name (keys %subs) {
 		no strict 'refs';    ## no critic 'TestingAndDebugging::ProhibitNoStrict'
 
 		set_subname $name, $subs{$name};

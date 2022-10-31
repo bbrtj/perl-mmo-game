@@ -36,7 +36,7 @@ sub can_see ($self, $location, $position1, $position2)
 			? $from + 1 .. $to
 			: $to + 1 .. $from;
 
-		for my $current (@loop_list) {
+		foreach my $current (@loop_list) {
 			return 0 if !$run_func->($current);
 		}
 

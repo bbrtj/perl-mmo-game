@@ -130,7 +130,7 @@ sub start ($self, $processes = 2)
 		);
 	};
 
-	for my $job (values $self->jobs->%*) {
+	foreach my $job (values $self->jobs->%*) {
 		$setup_job->($job)
 			if $job->interval;
 	}

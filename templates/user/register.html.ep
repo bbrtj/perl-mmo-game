@@ -22,7 +22,7 @@
 	<form method='POST' action=''>
 		<div class="row g-3">
 
-			% for my $field ($form->diva->generate->@*) {
+			% foreach my $field ($form->diva->generate->@*) {
 				%== $field->{label}
 				<div class="col-sm-12">
 					%== $field->{input}

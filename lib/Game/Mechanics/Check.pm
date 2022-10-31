@@ -23,7 +23,7 @@ sub gather ($self, $message, @checks)
 {
 	croak "no checks for $message" if @checks == 0;
 
-	for my $check (@checks) {
+	foreach my $check (@checks) {
 		if (is_coderef $check) {
 			$check = $check->();
 		}

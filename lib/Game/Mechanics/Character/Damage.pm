@@ -4,7 +4,7 @@ use header;
 
 sub deal_damage ($self, $attribute, $damage, $targets)
 {
-	for my $target (@$targets) {
+	foreach my $target (@$targets) {
 		my $target_damage = $damage;
 
 		# TODO dodge chance

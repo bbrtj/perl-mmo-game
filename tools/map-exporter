@@ -33,7 +33,7 @@ die 'No areas found. Is this file finished?'
 	unless @keys > 0;
 
 my @markers;
-for my $location ($areas{$keys[0]}->data->children->@*) {
+foreach my $location ($areas{$keys[0]}->data->children->@*) {
 	push @markers, {
 		LoreId => $location->id,
 		PosX => $location->data->pos_x // rand,

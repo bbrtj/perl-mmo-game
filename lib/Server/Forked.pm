@@ -30,7 +30,7 @@ has field '_children' => (
 
 sub setup ($self)
 {
-	for my $sig (qw(INT TERM)) {
+	foreach my $sig (qw(INT TERM)) {
 		## no critic
 		$SIG{$sig} = sub {
 			kill $sig, $self->children;
@@ -50,7 +50,7 @@ after start => sub ($self, @) {
 
 sub _spawn ($self, $prefix, $processes, $parent_code)
 {
-	for my $pnum (1 .. $processes) {
+	foreach my $pnum (1 .. $processes) {
 		my $process_id = "${prefix}${pnum}";
 
 		my $pid = fork;

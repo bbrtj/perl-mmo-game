@@ -49,10 +49,10 @@ sub _calculate_differences ($self)
 	my @masks = map { 1 << $_ } keys @translations;
 	my %found;
 
-	for my $key (keys @translations) {
+	foreach my $key (keys @translations) {
 		my ($trans, $mask) = ($translations[$key], $masks[$key]);
 
-		for my $el ($trans->elements->list) {
+		foreach my $el ($trans->elements->list) {
 			$found{$el->id} //= 0;
 			$found{$el->id} |= $mask
 				unless length $el->msgstr == 0;
@@ -60,11 +60,11 @@ sub _calculate_differences ($self)
 	}
 
 	my @diffs;
-	for my $key (keys %found) {
+	foreach my $key (keys %found) {
 		my $value = $found{$key};
 
 		my @gathered_langs;
-		for my $mask_key (keys @masks) {
+		foreach my $mask_key (keys @masks) {
 			push @gathered_langs, $translations[$mask_key]->language
 				if $value & $masks[$mask_key];
 		}
@@ -83,7 +83,7 @@ sub _find_name_suggestions ($self, $trans, $key, $max_distance = 3)
 	my @min_matches;
 
 	my $search = [split '', $key];
-	for my $el ($trans->elements->list) {
+	foreach my $el ($trans->elements->list) {
 		my $id = $el->id;
 		my $distance = $LS->distance($search, [split '', $id]);
 
@@ -112,8 +112,8 @@ sub _print_name_suggestions ($self, $trans, $key, $max_distance = 3)
 sub _find_by_id ($self, $key)
 {
 	my @found;
-	for my $trans ($self->translations->@*) {
-		for my $el ($trans->elements->list) {
+	foreach my $trans ($self->translations->@*) {
+		foreach my $el ($trans->elements->list) {
 			next unless $el->id eq $key;
 			push @found, [$trans, $el];
 		}
@@ -124,7 +124,7 @@ sub _find_by_id ($self, $key)
 
 sub run_translate ($self, $key)
 {
-	for my $trans ($self->translations->@*) {
+	foreach my $trans ($self->translations->@*) {
 		say "Translating for " . $trans->language;
 
 		my $found = first { $_->id eq $key } $trans->elements->list;
@@ -150,7 +150,7 @@ sub run_translate ($self, $key)
 		}
 	}
 
-	for my $trans ($self->translations->@*) {
+	foreach my $trans ($self->translations->@*) {
 		$trans->sync;
 	}
 
@@ -162,8 +162,8 @@ sub run_rename ($self, $key_from, $key_to)
 	my @found = $self->_find_by_id($key_from);
 	my @found_to = $self->_find_by_id($key_to);
 
-	for my $data (@found) {
-		for my $data_to (@found_to) {
+	foreach my $data (@found) {
+		foreach my $data_to (@found_to) {
 			die "key $key_to already exists!"
 				if $data->[0] eq $data_to->[0];
 		}
@@ -173,7 +173,7 @@ sub run_rename ($self, $key_from, $key_to)
 		$self->_print_name_suggestions($self->translations->[0], $key_from, 4);
 	}
 	else {
-		for my $data (@found) {
+		foreach my $data (@found) {
 			my ($trans, $el) = @$data;
 			$trans->add_element(
 				{
@@ -195,7 +195,7 @@ sub run_rename ($self, $key_from, $key_to)
 sub run_fix ($self)
 {
 	my @diffs = $self->_calculate_differences;
-	for my $arr (sort { $a->[0] cmp $b->[0] } @diffs) {
+	foreach my $arr (sort { $a->[0] cmp $b->[0] } @diffs) {
 		my ($id, @langs) = $arr->@*;
 
 		say "$id - present in " . join ', ', @langs;
@@ -233,7 +233,7 @@ sub run_show ($self, $key)
 		$self->_print_name_suggestions($self->translations->[0], $key, 4);
 	}
 	else {
-		for my $data (sort { $a->[0]->language cmp $b->[0]->language } @found) {
+		foreach my $data (sort { $a->[0]->language cmp $b->[0]->language } @found) {
 			my ($trans, $el) = @$data;
 
 			my $lang = $trans->language;
@@ -251,14 +251,14 @@ sub run_search ($self, $query)
 	my $re = qr/$query/i;
 
 	my %found;
-	for my $trans ($self->translations->@*) {
-		for my $el ($trans->elements->list) {
+	foreach my $trans ($self->translations->@*) {
+		foreach my $el ($trans->elements->list) {
 			next unless $el->id =~ $re;
 			$found{$el->id} = 1;
 		}
 	}
 
-	for my $id (keys %found) {
+	foreach my $id (keys %found) {
 		say $id;
 	}
 

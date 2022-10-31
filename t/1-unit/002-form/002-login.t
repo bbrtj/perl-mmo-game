@@ -79,7 +79,7 @@ before_each {
 	$mock->clear;
 };
 
-for my $prefix ('', 'web') {
+foreach my $prefix ('', 'web') {
 	my $class = join '::', grep { $_ } (ucfirst $prefix, "Form::Login");
 	my $test_prefix = $prefix ? $prefix . '_' : '';
 

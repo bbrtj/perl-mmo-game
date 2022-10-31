@@ -14,7 +14,7 @@ sub run ($self, @args)
 	my $user_service = DI->get('user_service');
 	my $faker = DI->get('faker_service');
 
-	for my $email (qw(test test2 test3)) {
+	foreach my $email (qw(test test2 test3)) {
 		my $user = $user_service->register_user({email => $email . '@test.com', password => 'test'});
 		$faker->fake_player($user);
 	}

@@ -15,7 +15,7 @@ sub find_aoe ($self, $battle, $ability, $pos)
 	return unless defined $ability->aoe;
 
 	my @found;
-	for my $actor ($battle->contestants) {
+	foreach my $actor ($battle->contestants->@*) {
 		my $pos2 = [$actor->contestant->pos_x, $actor->contestant->pos_y];
 		push @found, $actor
 			if $self->is_in_range($pos, $pos2, $ability->aoe);
@@ -23,3 +23,4 @@ sub find_aoe ($self, $battle, $ability, $pos)
 
 	return \@found;
 }
+

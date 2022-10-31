@@ -22,7 +22,7 @@ sub run ($self, $language = undef)
 	my %lores = $repo->load_all()->%*;
 
 	my @items;
-	for my $key (keys %lores) {
+	foreach my $key (keys %lores) {
 		my $item = $lores{$key};
 		push @items, {
 			LoreId => $item->id,

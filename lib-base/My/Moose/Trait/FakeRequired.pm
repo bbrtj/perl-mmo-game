@@ -12,7 +12,7 @@ after initialize => sub ($self, $class, @args) {
 	my $promote_method = sub ($instance) {
 		my $meta = $instance->meta;
 
-		for my $attr_name ($meta->required_attributes->@*) {
+		foreach my $attr_name ($meta->required_attributes->@*) {
 			my $attr = $meta->get_attribute($attr_name);
 			croak "No value for $attr_name in " . (ref $instance) . ' (fake required)'
 				unless $attr->has_value($instance);

@@ -11,7 +11,7 @@ use header;
 BEGIN {
 	my @factories = load_classes('Factory');
 
-	for my $class (@factories) {
+	foreach my $class (@factories) {
 		my $factory_name = lc((split /::/, $class)[-1]);
 
 		my $instance = $class->new;

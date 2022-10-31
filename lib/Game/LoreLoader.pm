@@ -49,7 +49,7 @@ sub load ($self, $name)
 
 sub load_all ($self)
 {
-	for my $file (DIRECTORY->list_tree->each) {
+	foreach my $file (DIRECTORY->list_tree->each) {
 		next unless $file->extname eq EXTENSION;
 		$self->load($file->to_rel(DIRECTORY));
 	}

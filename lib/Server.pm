@@ -169,7 +169,7 @@ sub start ($self)
 	my $cb = $self->channel->listen(
 		undef,
 		sub {
-			for my $connection_cb (values $self->connections->%*) {
+			foreach my $connection_cb (values $self->connections->%*) {
 				$connection_cb->(@_);
 			}
 		}

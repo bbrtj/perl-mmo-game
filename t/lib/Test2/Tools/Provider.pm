@@ -22,7 +22,7 @@ sub get_sub ($desc, @cases)
 	return sub ($tester) {
 		subtest_buffered $desc, sub {
 			my $num = 0;
-			for my $case (@cases) {
+			foreach my $case (@cases) {
 				$before->($num)
 					if defined $before;
 
@@ -36,7 +36,7 @@ sub get_sub ($desc, @cases)
 
 sub test_data (%cases)
 {
-	for my $desc (keys %cases) {
+	foreach my $desc (keys %cases) {
 		croak "invalid test name $desc"
 			unless $desc =~ m/[a-z0-9 _]/;
 
