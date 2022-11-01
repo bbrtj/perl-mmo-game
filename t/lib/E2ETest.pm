@@ -48,6 +48,9 @@ sub e2e_test ($tester)
 
 	defer { $cleanup->() }
 
+	# give server / worker some time to boot
+	sleep 1;
+
 	$tester->($server_port);
 
 	kill 'INT', @child_ids;

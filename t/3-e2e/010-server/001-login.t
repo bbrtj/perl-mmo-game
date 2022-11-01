@@ -29,6 +29,8 @@ e2e_test sub ($server_port) {
 
 	my $client = Mojo::IOLoop->client({address => '127.0.0.1', port => $server_port} =>
 		sub ($loop, $err, $stream) {
+			die "error connecting: $err" if ($err);
+
 			$stream->on(read => sub ($stream, $bytes) {
 				chomp $bytes;
 
