@@ -20,8 +20,8 @@ with qw(
 	Server::Forked
 );
 
-has DI->injected('cache');
-has DI->injected('channel' => 'channel_service');
+has injected 'cache';
+has injected 'channel' => as => 'channel_service';
 
 has param 'port' => (
 	isa => Types::PositiveInt,

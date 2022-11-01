@@ -15,7 +15,7 @@ with qw(
 	Server::Forked
 );
 
-has DI->injected('channel' => 'worker_channel_service');
+has injected 'channel' => as => 'worker_channel_service';
 
 # helper for attributes
 my sub load_enabled ($namespace)

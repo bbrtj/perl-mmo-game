@@ -1,7 +1,7 @@
 requires 'Moose' => 0;
 requires 'Mouse' => 0;
 requires 'Util::H2O' => 0;
-requires 'Mooish::AttributeBuilder' => 0;
+requires 'Mooish::AttributeBuilder' => '1.001';
 requires 'Sub::HandlesVia' => 0;
 requires 'Hook::AfterRuntime' => 0;
 
@@ -50,7 +50,7 @@ on 'test' => sub {
 	requires 'Test::DB';
 	requires 'Test2::Harness';
 	requires 'Test2::V0';
-	requires 'Test::Spy';
+	requires 'Test::Spy' => '0.004';
 };
 
 # vim: ft=perl

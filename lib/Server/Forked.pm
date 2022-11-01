@@ -11,7 +11,7 @@ requires qw(
 	start
 );
 
-has DI->injected('log');
+has injected 'log';
 
 has field 'forked' => (
 	writer => 1,
@@ -21,8 +21,7 @@ has field 'forked' => (
 has field '_children' => (
 	isa => Types::ArrayRef,
 	default => sub { [] },
-	handles_via => 'Array',
-	handles => {
+	'handles[]' => {
 		children => 'all',
 		add_child => 'push',
 	}

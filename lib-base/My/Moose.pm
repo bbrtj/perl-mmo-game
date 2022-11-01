@@ -7,7 +7,7 @@ use Import::Into;
 
 require Mouse;    ## no critic 'Community::PreferredAlternatives'
 require namespace::autoclean;
-require Mooish::AttributeBuilder;
+require My::Mooish::AttributeBuilder;
 
 sub import ($self, @args)
 {
@@ -27,7 +27,7 @@ sub import ($self, @args)
 
 	Mouse->import::into($caller, %args);
 	namespace::autoclean->import(-cleanee => $caller);
-	Mooish::AttributeBuilder->import::into($caller);
+	My::Mooish::AttributeBuilder->import::into($caller);
 
 	# after_runtime { $caller->meta->make_immutable(@immutable_args) };
 
