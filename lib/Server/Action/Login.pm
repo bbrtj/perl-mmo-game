@@ -1,4 +1,4 @@
-package Server::Command::Login;
+package Server::Action::Login;
 
 use My::Moose;
 use Form::Login;
@@ -6,7 +6,7 @@ use Model;
 
 use header;
 
-extends 'Server::Command';
+extends 'Server::Action';
 
 use constant name => 'login';
 use constant required_state => Model::PlayerSession->STATE_NEW;

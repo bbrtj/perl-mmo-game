@@ -4,16 +4,11 @@ use My::Moose;
 
 use header;
 
-has 'store' => (
-	is => 'ro',
-);
+has injected 'store' => as => 'redis';
+has injected 'encoder';
 
-has 'encoder' => (
-	is => 'ro',
-);
-
-has 'key' => (
-	is => 'ro',
+has param 'key' => (
+	isa => Types::SimpleStr
 );
 
 sub get_key ($self, $id)

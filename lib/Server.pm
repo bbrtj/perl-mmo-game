@@ -28,7 +28,7 @@ has param 'port' => (
 	default => sub { Server::Config::GAME_SERVER_PORT },
 );
 
-has field 'worker' => (
+has param 'worker' => (
 	isa => Types::InstanceOf['Server::Worker'],
 	default => sub { Server::Worker->new },
 );
@@ -38,33 +38,18 @@ has field 'connections' => (
 	default => sub { {} },
 );
 
-# return inlined sub that will quickly search for a matching action
-sub _get_action_inlined ($self)
-{
-	my %map = (
-		$self->worker->commands->%*,
-		$self->worker->actions->%*,
-	);
-
-	return sub ($type) {
-		X::Network::InvalidAction->throw(msg => "Got $type")
-			unless defined $map{$type};
-
-		return $map{$type};
-	};
-}
-
 # NOTE: this function needs to do the bare minimum to ensure low latency
 sub handle_message ($self, $session, $req_id, $type, $data = undef)
 {
-	state $actions = $self->_get_action_inlined;
-
 	X::Network::CorruptedInput->throw(msg => 'no id or no type')
 		if !$req_id || !$type;
 
-	# $action may be either an action or a command
+	# $action may be either a normal or ingame action
 	# (both are really the same thing but differ in where they should be passed)
-	my $action = $actions->($type);
+	my $action = $self->worker->get_action($type);
+
+	X::Network::InvalidAction->throw(msg => "Got $type")
+		unless defined $action;
 
 	X::Network::InvalidState->throw(msg => sprintf "Currently %s, needs %s", $session->state, $action->required_state)
 		unless $session->state eq $action->required_state;
@@ -77,12 +62,7 @@ sub handle_message ($self, $session, $req_id, $type, $data = undef)
 		X::Network::CorruptedInput->throw(msg => "$e");
 	}
 
-	if ($action->isa('Server::Action')) {
-		$self->worker->broadcast_action($session->location, $type, $session->id, $req_id, $data);
-	}
-	else {
-		$self->worker->broadcast($type, $session->id, $req_id, $data);
-	}
+	$self->worker->broadcast_processable($action, $session, ($req_id, $data));
 
 	return;
 }

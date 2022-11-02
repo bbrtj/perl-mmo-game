@@ -3,6 +3,7 @@ package My::Mooish::AttributeBuilder;
 use v5.36;
 
 use parent 'Mooish::AttributeBuilder';
+use Types::Standard qw(InstanceOf);
 
 sub attribute_types ($self)
 {
@@ -30,6 +31,21 @@ Mooish::AttributeBuilder::add_shortcut(sub ($name, %args) {
 });
 
 Mooish::AttributeBuilder::add_shortcut(sub ($name, %args) {
+	if (my $constructed = delete $args{constructed}) {
+		my ($class, @args) = $constructed->@*;
+
+		eval "require $class; 1;" or die $@;
+
+		Mooish::AttributeBuilder::check_and_set(\%args, $name,
+			isa => InstanceOf[$class],
+			default => sub { $class->new(@args) },
+		);
+	}
+
+	return %args;
+});
+
+Mooish::AttributeBuilder::add_shortcut(sub ($name, %args) {
 	state $map = {
 		'[]' => 'Array',
 		'{}' => 'Hash',
@@ -38,6 +54,7 @@ Mooish::AttributeBuilder::add_shortcut(sub ($name, %args) {
 		'..' => 'Counter',
 		'!!' => 'Bool',
 		'++' => 'Number',
+		'->' => 'Blessed',
 	};
 
 	for my $suffix (keys $map->%*) {
@@ -49,7 +66,8 @@ Mooish::AttributeBuilder::add_shortcut(sub ($name, %args) {
 		$args{handles} = {
 			%{$args{handles} // {}},
 			map {
-				$_ => ($handles->{$_} =~ s/(\w)/${type}->$1/r)
+				my $value = $handles->{$_};
+				$_ => (ref $value ? $value : $value =~ s/(\w)/${type}->$1/r)
 			} keys $handles->%*
 		};
 	}

@@ -5,9 +5,9 @@ use Server::Worker::Process::Game;
 use Server::Worker::Process::Jobs;
 use Data::ULID qw(ulid);
 use Mojo::IOLoop;
-use Mojo::Loader qw(load_classes);
 use POSIX qw(ceil);
 use List::Util qw(shuffle);
+use Sub::HandlesVia;
 
 use header;
 
@@ -17,34 +17,16 @@ with qw(
 
 has injected 'channel' => as => 'worker_channel_service';
 
-# helper for attributes
-my sub load_enabled ($namespace)
-{
-	return {
-		map {
-			$_->name => $_->new
-		} grep { !$_->disabled } load_classes($namespace)
-	};
-}
-
-
-# Jobs are internal only and ran in intervals
-# (basically an advanced cron)
-has field 'jobs' => (
-	isa => Types::HashRef [Types::InstanceOf ['Server::Job']],
-	default => sub { load_enabled('Server::Job') },
-);
-
-# Commands are events that need handling
-has field 'commands' => (
-	isa => Types::HashRef [Types::InstanceOf ['Server::Command']],
-	default => sub { load_enabled('Server::Command') },
-);
-
-# Actions are what players call to play the game
-has field 'actions' => (
-	isa => Types::HashRef [Types::InstanceOf ['Server::Action']],
-	default => sub { load_enabled('Server::Action') },
+# All registered processables
+has field 'processable' => (
+	constructed => ['Server::ProcessableList'],
+	'handles->' => {
+		'get_processable' => 'get_by_name',
+		'get_action' => [ 'get_by_type_and_name', 'Server::Action' ],
+		'list_actions' => [ 'get_by_type', 'Server::Action' ],
+		'get_job' => [ 'get_by_type_and_name', 'Server::Job' ],
+		'list_jobs' => [ 'get_by_type', 'Server::Job' ],
+	},
 );
 
 # keeps the worker alive in case of no specified commands
@@ -130,7 +112,7 @@ sub start ($self, $processes = 2)
 		);
 	};
 
-	foreach my $job (values $self->jobs->%*) {
+	foreach my $job ($self->list_jobs) {
 		$setup_job->($job)
 			if $job->interval;
 	}
@@ -146,11 +128,21 @@ sub broadcast ($self, $name, @args)
 	return;
 }
 
-sub broadcast_action ($self, $location, $name, @args)
+sub game_broadcast ($self, $location, $name, @args)
 {
 	$self->channel->broadcast($location, [$name, @args]);
 
 	return;
+}
+
+sub broadcast_processable ($self, $processable, $session, @args)
+{
+	if ($processable isa 'Server::GameAction') {
+		$self->game_broadcast($session->location, $processable->name, ($session->id, @args));
+	}
+	else {
+		$self->broadcast($processable->name, ($session->id, @args));
+	}
 }
 
 __END__
@@ -158,8 +150,8 @@ __END__
 =pod
 
 Worker is basically an internal server synchronizer and cron job scheduler. It
-spawns processes, and then broadcasts jobs, commands and actions to them. The
-first child process to store a redis key with job / command ULID gets to
+spawns processes, and then broadcasts jobs and actions to them. The
+first child process to store a redis key with job / non-game action ULID gets to
 process it. In case of actions, only one action at once will be listening to
 certain location events.
 

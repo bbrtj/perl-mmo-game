@@ -2,10 +2,13 @@ package Server::Worker::Process::Game;
 
 use My::Moose;
 use Data::Dumper;
+use Sub::HandlesVia;
 
 use header;
 
 extends 'Server::Worker::Process';
+
+has injected 'data_bus' => as => 'data_channel_service';
 
 has param 'location_data' => (
 	coerce => (Types::InstanceOf ['Unit::Location'])
@@ -14,13 +17,23 @@ has param 'location_data' => (
 		),
 );
 
-# TODO: remote signals (to synchronize locations: who enters it? who exits?)
+has field '_callbacks' => (
+	isa => Types::ArrayRef [Types::CodeRef],
+	default => sub { [] },
+	'handles[]' => {
+		'_add_callback' => sub ($callbacks, $channel, $id, $handler) {
+			my $wrapped = $channel->listen($id, $handler);
+			push $callbacks->@*, sub { $channel->unlisten($id, $wrapped) };
+		},
+		'_all_callbacks' => 'all',
+	},
+);
 
-sub handle ($self, $data)
+sub handle_action ($self, $data)
 {
 	my ($name, @args) = $data->@*;
 
-	my $instance = $self->worker->actions->{$name};
+	my $instance = $self->worker->get_action($name);
 
 	if (!defined $instance) {
 		$self->worker->log->error("Unknown game handler name $name");
@@ -40,12 +53,26 @@ sub handle ($self, $data)
 	return;
 }
 
+sub handle_data ($self, $data)
+{
+	# TODO: run event
+}
+
 sub do_work ($self)
 {
-	$self->{_cb} = $self->worker->channel->listen(
+	$self->_add_callback(
+		$self->worker->channel,
 		$self->location_data->location->id,
 		sub ($data) {
-			$self->handle($data);
+			$self->handle_action($data);
+		}
+	);
+
+	$self->_add_callback(
+		$self->data_bus,
+		$self->location_data->location->id,
+		sub ($data) {
+			$self->handle_data($data);
 		}
 	);
 
@@ -66,7 +93,8 @@ sub finish_work ($self)
 {
 	# Save location data here! Otherwise we leak it
 	$self->save_work;
-	$self->worker->channel->unlisten($self->location_data->location->id, $self->{_cb});
+
+	$_->() foreach $self->_all_callbacks;
 
 	return;
 }

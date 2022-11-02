@@ -1,4 +1,4 @@
-package Server::Command::EnterGame;
+package Server::Action::EnterGame;
 
 use My::Moose;
 use Model;
@@ -6,7 +6,10 @@ use Resource::MapData;
 
 use header;
 
-extends 'Server::Command';
+extends 'Server::Action';
+
+has injected 'units';
+has injected 'lore_data';
 
 use constant name => 'enter_game';
 use constant required_state => Model::PlayerSession->STATE_LOGGED_IN;
@@ -20,33 +23,35 @@ sub validate ($self, $data)
 
 sub handle ($self, $session_id, $id, $data)
 {
-	state $repo = DI->get('units');
-	state $lore_data = DI->get('lore_data');
-
 	my $session = $self->cache->load(PlayerSession => $session_id);
 	my $success = 1;
 	my $actor;
+	my $player;
 
 	try {
-		$actor = $repo->load_actor('player.id' => $data);
+		$actor = $self->units->load_actor('player.id' => $data);
+		$player = $actor->player;
 
-		# double check if that player belongs to the user in question
-		$success = $actor->player->user_id eq $session->user_id;
+		# check if that player belongs to the user in question
+		$success = $player->user_id eq $session->user_id;
 	}
 	catch ($e) {
 		$success = 0;
 	}
 
 	if ($success) {
+		# TODO: check if any other session is logged in?
+		# TODO: player might not be able to enter game if character is locked
 
 		# TODO: start sending location data to the player
-		# TODO: switch player online status in the DB
 		# TODO: let game process know that it should add the player to its data
-		# TODO: player might not be able to enter game if character is locked
 		$session->set_state($session->STATE_PLAYING);
 		$session->set_location($actor->variables->location_id);
+		$player->set_online(1);
 
+		$self->models->save($player);
 		$self->cache->save($session);
+
 	}
 
 	return $self->send_to(

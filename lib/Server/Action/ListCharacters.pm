@@ -1,4 +1,4 @@
-package Server::Command::ListCharacters;
+package Server::Action::ListCharacters;
 
 use My::Moose;
 use Resource::CharacterList;
@@ -6,7 +6,7 @@ use Model::PlayerSession;
 
 use header;
 
-extends 'Server::Command';
+extends 'Server::Action';
 
 use constant name => 'list_characters';
 use constant required_state => Model::PlayerSession->STATE_LOGGED_IN;

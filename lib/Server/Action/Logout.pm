@@ -1,11 +1,11 @@
-package Server::Command::Logout;
+package Server::Action::Logout;
 
 use My::Moose;
 use Model;
 
 use header;
 
-extends 'Server::Command';
+extends 'Server::Action';
 
 use constant name => 'logout';
 use constant required_state => Model::PlayerSession->STATE_LOGGED_IN;

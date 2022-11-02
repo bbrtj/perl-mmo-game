@@ -8,17 +8,6 @@ use header;
 
 use constant LOCK_KEY => 'job_locks';
 
-# a cache for worker commands / jobs
-# (merge two hashrefs so we just need to look once)
-has field 'commands' => (
-	default => sub ($self) {
-		return {
-			$self->worker->commands->%*,
-			$self->worker->jobs->%*,
-		};
-	},
-);
-
 extends 'Server::Worker::Process';
 
 sub _lock ($self, $ulid)
@@ -33,9 +22,9 @@ sub handle ($self, $data)
 
 	return if !$self->_lock($ulid);
 
-	my $instance = $self->commands->{$name};
+	my $instance = $self->worker->get_processable($name);
 
-	if (!defined $instance) {
+	if (!defined $instance || $instance isa Server::GameAction) {
 		$self->worker->log->error("Unknown job name $name");
 		return;
 	}

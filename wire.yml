@@ -59,20 +59,17 @@ user_service:
 channel_service:
     class: Service::Channel
     args:
-        store:
-            $ref: redis
-        encoder:
-            $ref: encoder
         key: server_feedback
 
 worker_channel_service:
     class: Service::Channel
     args:
-        store:
-            $ref: redis
-        encoder:
-            $ref: encoder
         key: server_jobs
+
+data_channel_service:
+    class: Service::Channel
+    args:
+        key: server_data_bus
 
 faker_service:
     class: Service::Faker
