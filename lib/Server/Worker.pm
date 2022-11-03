@@ -1,24 +1,23 @@
 package Server::Worker;
 
 use My::Moose;
-use Server::Worker::Process::Game;
-use Server::Worker::Process::Jobs;
-use Data::ULID qw(ulid);
+use Server::Process::Game;
+use Server::Process::Jobs;
 use Mojo::IOLoop;
 use POSIX qw(ceil);
 use List::Util qw(shuffle);
-use Sub::HandlesVia;
+# use Sub::HandlesVia;
 
 use header;
 
 with qw(
-	Server::Forked
+	Server::Role::Forked
 );
 
-has injected 'channel' => as => 'worker_channel_service';
+has injected 'data_bus';
 
 # All registered processables
-has field 'processable' => (
+has field 'processables' => (
 	constructed => ['Server::ProcessableList'],
 	'handles->' => {
 		'get_processable' => 'get_by_name',
@@ -26,6 +25,8 @@ has field 'processable' => (
 		'list_actions' => [ 'get_by_type', 'Server::Action' ],
 		'get_job' => [ 'get_by_type_and_name', 'Server::Job' ],
 		'list_jobs' => [ 'get_by_type', 'Server::Job' ],
+		'get_event' => [ 'get_by_type_and_name', 'Server::Event' ],
+		'list_events' => [ 'get_by_type', 'Server::Event' ],
 	},
 );
 
@@ -70,7 +71,7 @@ sub start ($self, $processes = 2)
 		'job',
 		$jobs_processes,
 		sub ($process_id) {
-			Server::Worker::Process::Jobs->new(
+			Server::Process::Jobs->new(
 				worker => $self,
 				process_id => $process_id
 			)->do_work;
@@ -84,7 +85,7 @@ sub start ($self, $processes = 2)
 		$game_processes,
 		sub ($process_id) {
 			my @processes = map {
-				Server::Worker::Process::Game->new(
+				Server::Process::Game->new(
 					worker => $self,
 					process_id => $process_id,
 					location_data => $_,
@@ -119,30 +120,6 @@ sub start ($self, $processes = 2)
 
 	$self->cleanup;
 	return;
-}
-
-sub broadcast ($self, $name, @args)
-{
-	$self->channel->broadcast(undef, [ulid, $name, @args]);
-
-	return;
-}
-
-sub game_broadcast ($self, $location, $name, @args)
-{
-	$self->channel->broadcast($location, [$name, @args]);
-
-	return;
-}
-
-sub broadcast_processable ($self, $processable, $session, @args)
-{
-	if ($processable isa 'Server::GameAction') {
-		$self->game_broadcast($session->location, $processable->name, ($session->id, @args));
-	}
-	else {
-		$self->broadcast($processable->name, ($session->id, @args));
-	}
 }
 
 __END__

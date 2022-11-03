@@ -2,10 +2,14 @@ package My::Moose;
 
 use v5.36;
 
-# use Hook::AfterRuntime;
+use Hook::AfterRuntime;
 use Import::Into;
 
-require Mouse;    ## no critic 'Community::PreferredAlternatives'
+use constant TOOLKIT => 'Mouse';
+
+eval 'require ' . TOOLKIT;
+eval 'require Sub::HandlesVia::Toolkit::' . TOOLKIT;
+
 require namespace::autoclean;
 require My::Mooish::AttributeBuilder;
 
@@ -25,11 +29,15 @@ sub import ($self, @args)
 		%args = @args;
 	}
 
-	Mouse->import::into($caller, %args);
+	push @{$args{-traits}}, 'Sub::HandlesVia::Toolkit::' . TOOLKIT . '::PackageTrait';
+
+	TOOLKIT()->import::into($caller, %args);
 	namespace::autoclean->import(-cleanee => $caller);
 	My::Mooish::AttributeBuilder->import::into($caller);
 
-	# after_runtime { $caller->meta->make_immutable(@immutable_args) };
+	if (TOOLKIT eq 'Moose') {
+		after_runtime { $caller->meta->make_immutable(@immutable_args) };
+	}
 
 	return;
 }

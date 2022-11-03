@@ -4,20 +4,21 @@ use My::Moose;
 use Model;
 use Unit::Actor;
 use Game::Helpers;
+# use Sub::HandlesVia;
 
 use header;
 
 extends 'Unit';
 
-has 'actors' => (
-	is => 'rw',
+has param 'actors' => (
 	isa => Types::ArrayRef [Types::InstanceOf ['Unit::Actor']],
+	'handles[]' => {
+		'add_actor' => 'push',
+	}
 );
 
-has 'location' => (
-	is => 'ro',
+has param 'location' => (
 	isa => Types::InstanceOf ['Game::Lore::Location'],
-	required => 1,
 );
 
 sub models ($self)

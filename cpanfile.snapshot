@@ -2304,10 +2304,10 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Module::Runtime 0.014
-  Mooish-AttributeBuilder-1.001
-    pathname: B/BR/BRTASTIC/Mooish-AttributeBuilder-1.001.tar.gz
+  Mooish-AttributeBuilder-1.002
+    pathname: B/BR/BRTASTIC/Mooish-AttributeBuilder-1.002.tar.gz
     provides:
-      Mooish::AttributeBuilder 1.001
+      Mooish::AttributeBuilder 1.002
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.010

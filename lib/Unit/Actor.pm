@@ -43,5 +43,5 @@ __END__
 
 Actor is an unit that is used in all mechanics checks and so on. Because of
 that, we do not intend to save player or character data, as it should not be
-changed in this unit. Use other units for that instead.
+changed in this unit. Use other units or plain models for that instead.
 

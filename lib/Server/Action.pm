@@ -5,7 +5,7 @@ use My::Moose;
 use header;
 
 with qw(
-	Server::Processable
+	Server::Role::Processable
 );
 
 # stuff will be json-decoded if this is set to true

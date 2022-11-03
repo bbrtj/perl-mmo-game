@@ -5,8 +5,6 @@ use Mojo::Loader qw(load_classes);
 
 use header;
 
-load_classes('Game::Lore');
-
 has 'id' => (
 	is => 'ro',
 	required => 1,
@@ -26,6 +24,8 @@ around BUILDARGS => sub ($orig, $self, %args) {
 		if $args{id};
 	return $self->$orig(%args);
 };
+
+load_classes('Game::Lore');
 
 sub BUILD ($self, @)
 {

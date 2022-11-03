@@ -1,4 +1,4 @@
-package Server::Worker::Process;
+package Server::Process;
 
 use My::Moose;
 

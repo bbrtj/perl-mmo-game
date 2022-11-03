@@ -28,7 +28,7 @@ sub e2e_test ($tester)
 	}
 
 	DI->set('channel_service', DI->get('channel_service', key => '_test_server_feedback'), 1);
-	DI->set('worker_channel_service', DI->get('worker_channel_service', key => '_test_server_jobs'), 1);
+	DI->set('data_bus', DI->get('data_bus', key => '_test_data_bus'), 1);
 
 	my $server_port = Server::Config->GAME_SERVER_PORT + 1;
 

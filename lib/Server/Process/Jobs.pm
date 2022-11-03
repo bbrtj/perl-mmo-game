@@ -1,14 +1,19 @@
-package Server::Worker::Process::Jobs;
+package Server::Process::Jobs;
 
 use My::Moose;
 use Mojo::IOLoop;
 use Data::Dumper;
+use Server::Config;
 
 use header;
 
 use constant LOCK_KEY => 'job_locks';
 
-extends 'Server::Worker::Process';
+extends 'Server::Process';
+
+with qw(
+	Server::Role::Listening
+);
 
 sub _lock ($self, $ulid)
 {
@@ -22,9 +27,12 @@ sub handle ($self, $data)
 
 	return if !$self->_lock($ulid);
 
+	$self->worker->log->debug("Got a job: $name")
+		if Server::Config::DEBUG;
+
 	my $instance = $self->worker->get_processable($name);
 
-	if (!defined $instance || $instance isa Server::GameAction) {
+	if (!defined $instance || $instance->does('Server::Role::WithGameProcess')) {
 		$self->worker->log->error("Unknown job name $name");
 		return;
 	}
@@ -43,7 +51,8 @@ sub handle ($self, $data)
 
 sub do_work ($self)
 {
-	my $cb = $self->worker->channel->listen(
+	$self->_listen(
+		$self->worker->data_bus,
 		undef,
 		sub ($data) {
 			$self->handle($data);
@@ -52,7 +61,7 @@ sub do_work ($self)
 
 	Mojo::IOLoop->start;
 
-	$self->worker->channel->unlisten(undef, $cb);
+	$self->_unlisten;
 	return;
 }
 

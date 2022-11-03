@@ -5,6 +5,7 @@ use Mojo::IOLoop;
 use Mojo::JSON qw(to_json from_json);
 use Server::Config;
 use Server::Worker;
+# use Sub::HandlesVia;
 
 use X::Network::InvalidAction;
 use X::Network::CorruptedInput;
@@ -12,13 +13,7 @@ use X::Network::InvalidState;
 
 use header;
 
-use constant DEBUG => DI->get('env')->getenv('DEBUG');
-
 # TODO kqueue
-
-with qw(
-	Server::Forked
-);
 
 has injected 'cache';
 has injected 'channel' => as => 'channel_service';
@@ -29,13 +24,17 @@ has param 'port' => (
 );
 
 has param 'worker' => (
-	isa => Types::InstanceOf['Server::Worker'],
-	default => sub { Server::Worker->new },
+	constructed => [ 'Server::Worker' ],
 );
 
 has field 'connections' => (
 	isa => Types::HashRef [Types::CodeRef],
 	default => sub { {} },
+);
+
+with qw(
+	Server::Role::Forked
+	Server::Role::Listening
 );
 
 # NOTE: this function needs to do the bare minimum to ensure low latency
@@ -62,14 +61,15 @@ sub handle_message ($self, $session, $req_id, $type, $data = undef)
 		X::Network::CorruptedInput->throw(msg => "$e");
 	}
 
-	$self->worker->broadcast_processable($action, $session, ($req_id, $data));
+	$self->worker->data_bus->emit($action, $session, ($req_id, $data));
 
 	return;
 }
 
 sub connection ($self, $loop, $stream, $id)
 {
-	$self->log->debug('New TCP connection from ' . $stream->handle->peerhost);
+	$self->log->debug('New TCP connection from ' . $stream->handle->peerhost)
+		if Server::Config::DEBUG;
 
 	# TODO: check if a player session exists, if yes then hook onto it
 	# However, make sure we don't have two clients connected at once
@@ -106,7 +106,7 @@ sub connection ($self, $loop, $stream, $id)
 			}
 
 			$self->log->debug("TCP message: '$bytes'")
-				if DEBUG;
+				if Server::Config::DEBUG;
 
 			# check the length of $bytes to avoid getting attacked
 			X::Network::CorruptedInput->throw
@@ -146,7 +146,8 @@ sub start ($self)
 {
 	# listen to data that should be transmitted to all the players at once
 	# (global events, announcements, server messages)
-	my $cb = $self->channel->listen(
+	$self->_listen(
+		$self->channel,
 		undef,
 		sub {
 			foreach my $connection_cb (values $self->connections->%*) {
@@ -167,7 +168,7 @@ sub start ($self)
 		}
 	);
 
-	$self->channel->unlisten(undef, $cb);
+	$self->_unlisten;
 
 	return;
 }

@@ -1,14 +1,11 @@
-package Server::Worker::Process::Game;
+package Server::Process::Game;
 
 use My::Moose;
 use Data::Dumper;
-use Sub::HandlesVia;
 
 use header;
 
-extends 'Server::Worker::Process';
-
-has injected 'data_bus' => as => 'data_channel_service';
+extends 'Server::Process';
 
 has param 'location_data' => (
 	coerce => (Types::InstanceOf ['Unit::Location'])
@@ -17,33 +14,32 @@ has param 'location_data' => (
 		),
 );
 
-has field '_callbacks' => (
-	isa => Types::ArrayRef [Types::CodeRef],
-	default => sub { [] },
-	'handles[]' => {
-		'_add_callback' => sub ($callbacks, $channel, $id, $handler) {
-			my $wrapped = $channel->listen($id, $handler);
-			push $callbacks->@*, sub { $channel->unlisten($id, $wrapped) };
-		},
-		'_all_callbacks' => 'all',
-	},
+with qw(
+	Server::Role::Listening
 );
 
-sub handle_action ($self, $data)
+sub handle ($self, $data)
 {
 	my ($name, @args) = $data->@*;
 
-	my $instance = $self->worker->get_action($name);
+	$self->worker->log->debug("Got an action / event: $name")
+		if Server::Config::DEBUG;
 
-	if (!defined $instance) {
+	my $instance =
+		$self->worker->get_action($name)
+		// $self->worker->get_event($name)
+		;
+
+
+	if (!defined $instance || !$instance->does('Server::Role::WithGameProcess')) {
 		$self->worker->log->error("Unknown game handler name $name");
 		return;
 	}
 
 	$self->worker->log->debug('Game process for location ' . $self->location_data->location->id . ": processing $name");
 	try {
-		# pass location data to the handler as the last argument
-		$instance->handle(@args, $self->location_data);
+		$instance->set_game_process($self);
+		$instance->handle(@args);
 	}
 	catch ($e) {
 		$self->worker->log->error("Processing game handler $name failed: $e");
@@ -53,26 +49,13 @@ sub handle_action ($self, $data)
 	return;
 }
 
-sub handle_data ($self, $data)
-{
-	# TODO: run event
-}
-
 sub do_work ($self)
 {
-	$self->_add_callback(
-		$self->worker->channel,
+	$self->_listen(
+		$self->worker->data_bus,
 		$self->location_data->location->id,
 		sub ($data) {
-			$self->handle_action($data);
-		}
-	);
-
-	$self->_add_callback(
-		$self->data_bus,
-		$self->location_data->location->id,
-		sub ($data) {
-			$self->handle_data($data);
+			$self->handle($data);
 		}
 	);
 
@@ -94,7 +77,7 @@ sub finish_work ($self)
 	# Save location data here! Otherwise we leak it
 	$self->save_work;
 
-	$_->() foreach $self->_all_callbacks;
+	$self->_unlisten;
 
 	return;
 }

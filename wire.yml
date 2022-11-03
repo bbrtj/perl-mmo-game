@@ -61,15 +61,10 @@ channel_service:
     args:
         key: server_feedback
 
-worker_channel_service:
-    class: Service::Channel
+data_bus:
+    class: Service::DataBus
     args:
-        key: server_jobs
-
-data_channel_service:
-    class: Service::Channel
-    args:
-        key: server_data_bus
+        key: data_bus
 
 faker_service:
     class: Service::Faker

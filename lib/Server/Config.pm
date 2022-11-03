@@ -8,5 +8,7 @@ use constant {
 
 	PROTOCOL_CONTROL_CHARACTER => ';',
 	PROTOCOL_MAX_LENGTH => 4 * 2**10,
+
+	DEBUG => DI->get('env')->getenv('DEBUG'),
 };
 
