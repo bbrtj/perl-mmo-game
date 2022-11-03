@@ -6,6 +6,7 @@ use Server::Process::Jobs;
 use Mojo::IOLoop;
 use POSIX qw(ceil);
 use List::Util qw(shuffle);
+
 # use Sub::HandlesVia;
 
 use header;
@@ -21,12 +22,12 @@ has field 'processables' => (
 	constructed => ['Server::ProcessableList'],
 	'handles->' => {
 		'get_processable' => 'get_by_name',
-		'get_action' => [ 'get_by_type_and_name', 'Server::Action' ],
-		'list_actions' => [ 'get_by_type', 'Server::Action' ],
-		'get_job' => [ 'get_by_type_and_name', 'Server::Job' ],
-		'list_jobs' => [ 'get_by_type', 'Server::Job' ],
-		'get_event' => [ 'get_by_type_and_name', 'Server::Event' ],
-		'list_events' => [ 'get_by_type', 'Server::Event' ],
+		'get_action' => ['get_by_type_and_name', 'Server::Action'],
+		'list_actions' => ['get_by_type', 'Server::Action'],
+		'get_job' => ['get_by_type_and_name', 'Server::Job'],
+		'list_jobs' => ['get_by_type', 'Server::Job'],
+		'get_event' => ['get_by_type_and_name', 'Server::Event'],
+		'list_events' => ['get_by_type', 'Server::Event'],
 	},
 );
 

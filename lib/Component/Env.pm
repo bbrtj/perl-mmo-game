@@ -24,9 +24,9 @@ sub getenv ($self, $name)
 	my $value = exists $rawenv->{$name}
 		? $rawenv->{$name}
 		: exists $ENV{$name}
-			? $ENV{$name}
-			: croak "unknown environmental variable $name"
-	;
+		? $ENV{$name}
+		: croak "unknown environmental variable $name"
+		;
 
 	return $value;
 }

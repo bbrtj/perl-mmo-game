@@ -5,6 +5,7 @@ use Mojo::IOLoop;
 use Mojo::JSON qw(to_json from_json);
 use Server::Config;
 use Server::Worker;
+
 # use Sub::HandlesVia;
 
 use X::Network::InvalidAction;
@@ -24,7 +25,7 @@ has param 'port' => (
 );
 
 has param 'worker' => (
-	constructed => [ 'Server::Worker' ],
+	constructed => ['Server::Worker'],
 );
 
 has field 'connections' => (
@@ -83,9 +84,10 @@ sub connection ($self, $loop, $stream, $id)
 			$stream->write(
 				($data{id} // '')
 				. Server::Config::PROTOCOL_CONTROL_CHARACTER
-				. (ref $data{echo} eq '' ? $data{echo} : to_json($data{echo}))
-				# NOTE: this newline is essential for the client to get this data
-				. "\n"
+					. (ref $data{echo} eq '' ? $data{echo} : to_json($data{echo}))
+
+					# NOTE: this newline is essential for the client to get this data
+					. "\n"
 			);
 		}
 

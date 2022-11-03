@@ -10,7 +10,7 @@ has injected 'units';
 
 use constant name => 'player_has_entered_location';
 
-sub update_session($self, $session)
+sub update_session ($self, $session)
 {
 	$session->set_location($self->game_process->location_data->location->id);
 
@@ -20,6 +20,7 @@ sub update_session($self, $session)
 sub update_actor ($self, $actor)
 {
 	$actor->variables->set_location($self->game_process->location_data->location->id);
+
 	# TODO: set x/y
 }
 

@@ -27,31 +27,34 @@ e2e_test sub ($server_port) {
 		['2', Resource::CharacterList->new(DI->get('units')->load_user($related_models{user}->id))->serialize],
 	);
 
-	my $client = Mojo::IOLoop->client({address => '127.0.0.1', port => $server_port} =>
+	my $client = Mojo::IOLoop->client(
+		{address => '127.0.0.1', port => $server_port},
 		sub ($loop, $err, $stream) {
 			die "error connecting: $err" if ($err);
 
-			$stream->on(read => sub ($stream, $bytes) {
-				chomp $bytes;
+			$stream->on(
+				read => sub ($stream, $bytes) {
+					chomp $bytes;
 
-				die "unexpected data: $bytes"
-					unless @receive_queue;
+					die "unexpected data: $bytes"
+						unless @receive_queue;
 
-				my @parts = split ';', $bytes;
-				my @wanted = @{shift @receive_queue};
+					my @parts = split ';', $bytes;
+					my @wanted = @{shift @receive_queue};
 
-				if (ref $wanted[1]) {
-					$parts[1] = from_json $parts[1];
+					if (ref $wanted[1]) {
+						$parts[1] = from_json $parts[1];
+					}
+
+					is \@parts, \@wanted, 'data received ok';
+
+					Mojo::IOLoop->stop
+						if !@receive_queue;
+
+					$stream->write(shift @send_queue)
+						if @send_queue;
 				}
-
-				is \@parts, \@wanted, 'data received ok';
-
-				Mojo::IOLoop->stop
-					if !@receive_queue;
-
-				$stream->write(shift @send_queue)
-					if @send_queue;
-			});
+			);
 
 			$stream->write(shift @send_queue);
 		}

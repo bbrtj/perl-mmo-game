@@ -1,6 +1,7 @@
 package Server::Role::Listening;
 
 use My::Moose::Role;
+
 # use Sub::HandlesVia;
 
 use header;
@@ -13,7 +14,8 @@ has field '_callbacks' => (
 	},
 );
 
-sub _listen ($self, $channel, $id, $handler) {
+sub _listen ($self, $channel, $id, $handler)
+{
 	my $wrapped = $channel->listen($id, $handler);
 	push $self->_callbacks->@*, sub { $channel->unlisten($id, $wrapped) };
 }

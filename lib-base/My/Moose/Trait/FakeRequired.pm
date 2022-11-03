@@ -24,9 +24,11 @@ after initialize => sub ($self, $class, @args) {
 	# promote method is for checking whether the model is complete
 	# if the data comes from a source that is not trustworthy
 	$class->meta->add_method(promote => $promote_method);
-	$class->meta->add_method(dummy => sub ($self, @args) {
-		return $self->new(-dummy, @args);
-	});
+	$class->meta->add_method(
+		dummy => sub ($self, @args) {
+			return $self->new(-dummy, @args);
+		}
+	);
 
 	my $buildargs_method = sub ($orig, $self, @args) {
 		my $has_dummy;

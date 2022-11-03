@@ -35,7 +35,7 @@ sub injected ($class, $name)
 	my $config = $wire->get_config($name);
 
 	return (
-		isa => InstanceOf[$config->{class}],
+		isa => InstanceOf [$config->{class}],
 		default => sub { $class->get($name) },
 	);
 }

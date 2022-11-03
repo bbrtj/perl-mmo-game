@@ -30,7 +30,6 @@ sub handle ($self, $data)
 		// $self->worker->get_event($name)
 		;
 
-
 	if (!defined $instance || !$instance->does('Server::Role::WithGameProcess')) {
 		$self->worker->log->error("Unknown game handler name $name");
 		return;

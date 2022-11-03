@@ -48,7 +48,8 @@ test should_create_player => sub ($data) {
 	is $mock->next_called_with, [check_isa('Model::Character')], "mocked database Character save params $_";
 	is $mock->called_with->[0]->name, ucfirst lc $data->{name}, "mocked database character name $_";
 
-	is $mock->next_called_with, [check_isa('Model::CharacterVariables')], "mocked database CharacterVariables save params $_";
+	is $mock->next_called_with, [check_isa('Model::CharacterVariables')],
+		"mocked database CharacterVariables save params $_";
 	is $mock->called_with->[0]->pos_x, Game::Config->config->{starting_location_x}, "mocked database pos_x $_";
 	is $mock->called_with->[0]->pos_y, Game::Config->config->{starting_location_y}, "mocked database pos_y $_";
 };

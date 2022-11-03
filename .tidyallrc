@@ -9,5 +9,6 @@ select = t/**/*.{t}
 only_modes = critic_tests
 
 [PerlCritic]
-select = {t,lib}/**/*.{pl,pm}
+select = {t,lib,lib-base}/**/*.{pl,pm}
 only_modes = critic
+
