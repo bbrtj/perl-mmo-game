@@ -1,18 +1,13 @@
 color = 1
 verbose = 3
 severity = 2
+verbose = 8
 theme = community + bugs + security + performance + tests
-exclude = Subroutines::ProhibitSubroutinePrototypes Subroutines::ProhibitNestedSubs Modules::RequireEndWithOne ValuesAndExpressions::ProhibitConstantPragma Modules::ProhibitAutomaticExportation Modules::RequireExplicitPackage Subroutines::ProhibitExplicitReturnUndef
-
-[TestingAndDebugging::RequireUseStrict]
-equivalent_modules = header testheader
-
-[TestingAndDebugging::RequireUseWarnings]
-equivalent_modules = header testheader
+exclude = Subroutines::ProhibitSubroutinePrototypes Subroutines::ProhibitNestedSubs Modules::RequireEndWithOne ValuesAndExpressions::ProhibitConstantPragma Modules::ProhibitAutomaticExportation Modules::RequireExplicitPackage Subroutines::ProhibitExplicitReturnUndef TestingAndDebugging::RequireUseStrict TestingAndDebugging::RequireUseWarnings
 
 [Community::Prototypes]
-signature_enablers = header testheader
+signature_enablers = header testheader v5.36
 
 [Community::StrictWarnings]
-extra_importers = header testheader
+extra_importers = header testheader v5.36
 

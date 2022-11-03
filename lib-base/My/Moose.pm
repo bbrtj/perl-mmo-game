@@ -4,14 +4,22 @@ use v5.36;
 
 use Hook::AfterRuntime;
 use Import::Into;
+use Module::Load qw(load);
 
 use constant TOOLKIT => 'Mouse';
 
-eval 'require ' . TOOLKIT;
-eval 'require Sub::HandlesVia::Toolkit::' . TOOLKIT;
+load TOOLKIT;
+load 'Sub::HandlesVia::Toolkit::' . TOOLKIT;
 
 require namespace::autoclean;
 require My::Mooish::AttributeBuilder;
+
+sub common_traits ()
+{
+	return (
+		'Sub::HandlesVia::Toolkit::' . TOOLKIT . '::PackageTrait'
+	);
+}
 
 sub import ($self, @args)
 {
@@ -29,12 +37,13 @@ sub import ($self, @args)
 		%args = @args;
 	}
 
-	push @{$args{-traits}}, 'Sub::HandlesVia::Toolkit::' . TOOLKIT . '::PackageTrait';
+	push @{$args{-traits}}, common_traits;
 
 	TOOLKIT()->import::into($caller, %args);
 	namespace::autoclean->import(-cleanee => $caller);
 	My::Mooish::AttributeBuilder->import::into($caller);
 
+	# for Moose, make immutable
 	if (TOOLKIT eq 'Moose') {
 		after_runtime { $caller->meta->make_immutable(@immutable_args) };
 	}

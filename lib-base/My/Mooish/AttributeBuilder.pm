@@ -4,6 +4,7 @@ use v5.36;
 
 use parent 'Mooish::AttributeBuilder';
 use Types::Standard qw(InstanceOf);
+use Module::Load qw(load);
 
 sub attribute_types ($self)
 {
@@ -37,7 +38,7 @@ Mooish::AttributeBuilder::add_shortcut(
 		if (my $constructed = delete $args{constructed}) {
 			my ($class, @args) = $constructed->@*;
 
-			eval "require $class; 1;" or die $@;
+			load $class;
 
 			Mooish::AttributeBuilder::check_and_set(
 				\%args, $name,

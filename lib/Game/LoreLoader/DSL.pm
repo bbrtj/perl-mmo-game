@@ -7,6 +7,7 @@ use Game::Config;
 use Sub::Util qw(set_subname);
 use Mojo::File qw(path);
 use Mojo::JSON qw(decode_json);
+use Module::Load qw(load);
 
 use header;
 
@@ -123,8 +124,7 @@ sub get_dsl ($self, $caller)
 	my %dsl = (
 		lore => sub ($id, $el) {
 			my $class = $el->class;
-			eval "require $class; 1"    ## no critic 'BuiltinFunctions::ProhibitStringyEval'
-				|| die "Could not load $class";
+			load $class;
 
 			push @items, $class->new(
 				id => $id,

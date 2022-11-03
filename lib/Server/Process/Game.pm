@@ -2,6 +2,7 @@ package Server::Process::Game;
 
 use My::Moose;
 use Data::Dumper;
+use Server::Config;
 
 use header;
 

@@ -29,6 +29,8 @@ sub emit ($self, $processable, $session, @args)
 	else {
 		$self->broadcast($processable->name, ($session->id, @args));
 	}
+
+	return;
 }
 
 =pod

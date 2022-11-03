@@ -22,6 +22,7 @@ sub update_actor ($self, $actor)
 	$actor->variables->set_location($self->game_process->location_data->location->id);
 
 	# TODO: set x/y
+	return;
 }
 
 sub handle ($self, $session_id, $player_id)
