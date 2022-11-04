@@ -5,16 +5,12 @@ use Game::Lore;
 
 use header;
 
-has 'name' => (
-	is => 'ro',
+has param 'name' => (
 	isa => Types::Str,
-	required => 1,
 );
 
-has 'class' => (
-	is => 'ro',
+has param 'class' => (
 	isa => Types::Str,
-	required => 1,
 );
 
 sub create ($self)

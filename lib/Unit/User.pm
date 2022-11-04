@@ -8,13 +8,11 @@ use header;
 
 extends 'Unit';
 
-has 'user' => (
-	is => 'rw',
+has param 'user' => (
 	isa => Types::InstanceOf ['Model::User'],
 );
 
-has 'players' => (
-	is => 'rw',
+has param 'players' => (
 	isa => Types::ArrayRef [Types::InstanceOf ['Unit::Nested::Player']],
 );
 

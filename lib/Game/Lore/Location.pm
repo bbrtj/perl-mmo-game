@@ -18,31 +18,27 @@ package Game::Lore::LocationData {
 
 	extends 'Game::LoreData';
 
-	has 'pos_x' => (
-		is => 'ro',
-		writer => 'set_pos_x',
+	has option 'pos_x' => (
+		writer => 1,
 		isa => Types::Num,
 	);
 
-	has 'pos_y' => (
-		is => 'ro',
-		writer => 'set_pos_y',
+	has option 'pos_y' => (
+		writer => 1,
 		isa => Types::Num,
 	);
 
-	has 'map' => (
-		is => 'ro',
-		writer => '_set_map',
+	has option 'map' => (
+		writer => -hidden,
 		isa => Types::InstanceOf ['Game::Object::Map'],
 	);
 
-	has 'connections' => (
-		is => 'ro',
-		default => sub { [] },
+	has param 'connections' => (
 		isa => Types::ArrayRef [Types::InstanceOf ['Game::Lore::Location']],
+		default => sub { [] },
 	);
 
-	has '+parent' => (
+	has extended 'parent' => (
 		isa => Types::InstanceOf ['Game::Lore::Area'],
 	);
 

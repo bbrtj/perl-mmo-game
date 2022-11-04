@@ -9,14 +9,11 @@ use header;
 
 extends 'Factory';
 
-has 'lore' => (
-	is => 'ro',
-	default => sub { DI->get('lore_data') }
-);
+has injected 'lore_data';
 
 sub fetch ($self, $location_id)
 {
-	my $location = $self->lore->load($location_id);
+	my $location = $self->lore_data->load($location_id);
 
 	my $rs = $self->dbc->resultset('Character')->search(
 		{'player.online' => 1, 'variables.location_id' => $location_id},

@@ -1,14 +1,13 @@
 package Form::Login;
 
-use Form::Tiny;
+use My::Moose;
+use My::Form::Tiny;
 
 use header;
 
-has 'user' => (
-	is => 'ro',
-	writer => 'set_user',
+has field 'user' => (
+	writer => 1,
 	isa => Types::InstanceOf ['Model::User'],
-	init_arg => undef,
 );
 
 form_field 'email' => (

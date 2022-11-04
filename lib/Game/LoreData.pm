@@ -4,39 +4,33 @@ use My::Moose;
 
 use header;
 
-has 'main_obj' => (
-	is => 'ro',
+has param 'main_obj' => (
 	isa => Types::InstanceOf ['Game::Lore'],
 	weak_ref => 1,
 );
 
-has 'translations' => (
-	is => 'ro',
+has param 'translations' => (
 	isa => Types::HashRef,
 	default => sub { {} },
 );
 
-has 'define' => (
-	is => 'ro',
+has param 'define' => (
 	isa => Types::HashRef,
 	default => sub { {} },
 );
 
-has 'uses' => (
-	is => 'ro',
+has param 'uses' => (
 	isa => Types::ArrayRef,
 	default => sub { [] },
 );
 
-has 'children' => (
-	is => 'ro',
+has param 'children' => (
 	isa => Types::ArrayRef [Types::InstanceOf ['Game::Lore']],
 	default => sub { [] },
 );
 
-has 'parent' => (
-	is => 'ro',
-	writer => '_set_parent',
+has option 'parent' => (
+	writer => -hidden,
 	isa => Types::InstanceOf ['Game::Lore'],
 	weak_ref => 1,
 );

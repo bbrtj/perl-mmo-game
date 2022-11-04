@@ -1,13 +1,10 @@
 package Resource;
 
 use My::Moose;
-use Mojo::JSON qw(to_json);
 
 use header;
 
-has 'subject' => (
-	is => 'ro',
-);
+has param 'subject';
 
 around BUILDARGS => sub ($orig, $class, @args) {
 	return {

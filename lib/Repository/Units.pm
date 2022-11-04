@@ -8,6 +8,8 @@ use header;
 
 extends 'Repository';
 
+has injected 'models';
+
 # load all factories
 # introduce methods like: load_location, load_actor
 BEGIN {
@@ -30,14 +32,16 @@ BEGIN {
 	}
 }
 
-has injected 'models';
-
 sub save ($self, $unit, $update = 1)
 {
 	state $check = Types::InstanceOf ['Unit'];
 	$check->assert_valid($unit);
 
-	$self->models->save($_, $update) for $unit->models->@*;
+	$self->models->db->transaction(
+		sub {
+			$self->models->save($_, $update) for $unit->models->@*;
+		}
+	);
 	return;
 }
 

@@ -3932,18 +3932,18 @@ DISTRIBUTIONS
       Test::Builder::Module 0
       Test::More 0.47
       perl 5.006
-  Test-Spy-0.004
-    pathname: B/BR/BRTASTIC/Test-Spy-0.004.tar.gz
+  Test-Spy-0.005
+    pathname: B/BR/BRTASTIC/Test-Spy-0.005.tar.gz
     provides:
-      Test::Spy 0.004
-      Test::Spy::Interface 0.004
-      Test::Spy::Method 0.004
-      Test::Spy::Object 0.004
-      Test::Spy::Observer 0.004
+      Test::Spy 0.005
+      Test::Spy::Interface 0.005
+      Test::Spy::Method 0.005
+      Test::Spy::Object 0.005
+      Test::Spy::Observer 0.005
     requirements:
       ExtUtils::MakeMaker 0
       Moo 2.003004
-      Mooish::AttributeBuilder 1.001
+      Mooish::AttributeBuilder 1.002
       perl 5.010
   Test-Warn-0.37
     pathname: B/BI/BIGJ/Test-Warn-0.37.tar.gz

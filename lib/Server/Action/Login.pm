@@ -21,7 +21,8 @@ sub validate ($self, $data)
 
 sub handle ($self, $session_id, $id, $data)
 {
-	my $form = Form::Login->new(input => $data);
+	my $form = Form::Login->new;
+	$form->set_input($data);
 	my $success = $form->valid;
 
 	if ($success) {
@@ -35,7 +36,7 @@ sub handle ($self, $session_id, $id, $data)
 
 	return $self->send_to(
 		$session_id,
-		$success,
+		$success || 0,
 		id => $id,
 		refresh => $success
 	);

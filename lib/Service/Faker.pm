@@ -6,9 +6,7 @@ use Game::Helpers;
 
 use header;
 
-has 'character_service' => (
-	is => 'ro',
-);
+has injected 'character_service';
 
 sub fake_player ($self, $user)
 {

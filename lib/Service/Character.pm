@@ -6,9 +6,7 @@ use Game::Config;
 
 use header;
 
-has 'repo' => (
-	is => 'ro',
-);
+has injected 'repo' => as => 'models';
 
 # $player_data should be validated (Form::CreatePlayer)
 sub create_player ($self, $user, $player_data)
@@ -20,7 +18,7 @@ sub create_player ($self, $user, $player_data)
 		player_id => $player->id,
 		class_id => $class->id,
 		name => ucfirst lc $player_data->{name},
-		base_stats => '',
+		base_stats => '', # TODO
 	);
 
 	my $character_variables = Model::CharacterVariables->new(

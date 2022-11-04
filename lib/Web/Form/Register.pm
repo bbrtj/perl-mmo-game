@@ -1,6 +1,7 @@
 package Web::Form::Register;
 
-use Form::Tiny -filtered, plugins => ['+Web::HTMLFormPlugin'];
+use My::Moose;
+use My::Form::Tiny -filtered, plugins => ['+Web::HTMLFormPlugin'];
 
 use header;
 

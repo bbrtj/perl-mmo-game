@@ -65,7 +65,7 @@ my $mock_model = Model::User->dummy(
 $mock_model->set_password('abcdefg1');
 $mock_model->promote;
 
-my $mock = Test::Spy->new(context => 'load');
+my $mock = Test::Spy->new(imitates => 'Repository::Models', context => 'load');
 $mock->add_method('load')->should_call(
 	sub ($self, $resultset, $params) {
 		X::RecordDoesNotExist->throw unless $params->{email} eq $tested_mail;

@@ -4,9 +4,10 @@ use My::Moose;
 
 use header;
 
-has 'dbc' => (
-	is => 'ro',
-	default => sub { DI->get('db')->dbc },
+has injected 'db' => (
+	handles => [qw(
+		dbc
+	)]
 );
 
 # free to use fields

@@ -5,9 +5,7 @@ use Model;
 
 use header;
 
-has 'repo' => (
-	is => 'ro',
-);
+has injected 'repo' => as => 'models';
 
 sub register_user ($self, $user_data)
 {

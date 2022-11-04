@@ -5,15 +5,11 @@ use Mojo::Loader qw(load_classes);
 
 use header;
 
-has 'id' => (
-	is => 'ro',
-	required => 1,
+has param 'id' => (
 	isa => Types::Str,
 );
 
-has 'name' => (
-	is => 'ro',
-	required => 1,
+has param 'name' => (
 	isa => Types::Str,
 );
 

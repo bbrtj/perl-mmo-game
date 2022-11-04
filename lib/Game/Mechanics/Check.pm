@@ -5,10 +5,7 @@ use X::CheckFailed;
 
 use header;
 
-has 'error' => (
-	is => 'ro',
-	predicate => 'has_error',
-);
+has option 'error';
 
 # easy checking of a boolean value
 sub check ($self, $message, $check)

@@ -7,26 +7,21 @@ use header;
 
 extends 'Unit';
 
-has 'player' => (
-	is => 'rw',
+has option 'player' => (
 	isa => Types::Maybe [Types::InstanceOf ['Model::Player']],
 	predicate => 'is_player',
 );
 
-has 'npc' => (
-	is => 'rw',
-
+has option 'npc' => (
 	# isa => Types::Maybe[Types::InstanceOf['Model::Npc']],
 	predicate => 'is_npc',
 );
 
-has 'character' => (
-	is => 'rw',
+has param 'character' => (
 	isa => Types::InstanceOf ['Model::Character'],
 );
 
-has 'variables' => (
-	is => 'rw',
+has param 'variables' => (
 	isa => Types::InstanceOf ['Model::CharacterVariables'],
 );
 

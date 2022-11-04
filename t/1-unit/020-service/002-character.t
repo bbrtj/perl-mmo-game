@@ -12,14 +12,14 @@ test_data
 		[{name => 'testPlayer2', class => lore_class('Assassin')}],
 	];
 
-my $dbmock = Test::Spy->new(context => 'transaction');
+my $dbmock = Test::Spy->new(imitates => 'Component::DB', context => 'transaction');
 $dbmock->add_method('transaction')->should_call(
 	sub ($self, $code) {
 		return $code->();
 	}
 );
 
-my $mock = Test::Spy->new;
+my $mock = Test::Spy->new(imitates => 'Repository::Models');
 $mock->add_method('save', 1);
 $mock->add_method('db', $dbmock->object);
 

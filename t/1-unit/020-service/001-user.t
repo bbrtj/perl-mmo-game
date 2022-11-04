@@ -13,7 +13,7 @@ test_data
 
 Utils->bootstrap_lore;
 
-my $mock = Test::Spy->new;
+my $mock = Test::Spy->new(imitates => 'Repository::Models');
 my $mock_user = Model::User->dummy;
 $mock->add_method('save', 1);
 $mock->add_method('load', $mock_user);

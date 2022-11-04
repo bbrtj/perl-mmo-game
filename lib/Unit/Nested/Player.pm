@@ -7,13 +7,11 @@ use header;
 
 extends 'Unit';
 
-has 'player' => (
-	is => 'rw',
+has param 'player' => (
 	isa => Types::InstanceOf ['Model::Player'],
 );
 
-has 'character' => (
-	is => 'rw',
+has param 'character' => (
 	isa => Types::InstanceOf ['Model::Character'],
 );
 

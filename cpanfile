@@ -49,7 +49,7 @@ requires 'Text::Levenshtein::BV' => 0;
 on 'test' => sub {
 	requires 'Test::DB';
 	requires 'Test2::V0';
-	requires 'Test::Spy' => '0.004';
+	requires 'Test::Spy' => '0.005';
 };
 
 # vim: ft=perl

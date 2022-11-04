@@ -16,22 +16,16 @@ use constant CHARACTERS => {
 	'X' => INACCESSIBLE,
 };
 
-has 'coordinates' => (
-	is => 'ro',
+has param 'coordinates' => (
 	isa => Types::ArrayRef [Types::ArrayRef [Types::Int]],
-	required => 1,
 );
 
-has 'size_x' => (
-	is => 'ro',
+has param 'size_x' => (
 	isa => Types::PositiveInt,
-	required => 1,
 );
 
-has 'size_y' => (
-	is => 'ro',
+has param 'size_y' => (
 	isa => Types::PositiveInt,
-	required => 1,
 );
 
 sub from_string ($self, $map_str)

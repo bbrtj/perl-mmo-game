@@ -17,7 +17,7 @@ package Game::Lore::AttributeData {
 
 	extends 'Game::LoreData';
 
-	has '+parent' => (
+	has extended 'parent' => (
 		isa => Types::InstanceOf ['Game::Lore::Attribute'],
 	);
 }

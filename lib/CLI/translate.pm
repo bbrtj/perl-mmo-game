@@ -12,10 +12,8 @@ extends 'Mojolicious::Command';
 use constant description => 'translate text for the application';
 sub usage ($self) { return $self->extract_usage }
 
-has 'translations' => (
-	is => 'ro',
-	lazy => 1,
-	default => sub ($self) {
+has field 'translations' => (
+	lazy => sub ($self) {
 		return [
 			map {
 				my $obj = Text::PO->new;

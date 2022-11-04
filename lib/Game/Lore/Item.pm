@@ -17,9 +17,8 @@ package Game::Lore::ItemData {
 
 	extends 'Game::LoreData';
 
-	has 'type' => (
-		is => 'ro',
-		writer => 'set_type',
+	has param 'type' => (
+		writer => 1,
 		isa => Types::Enum [qw(weapon armor consumable other)],
 		default => sub { 'other' }
 	);

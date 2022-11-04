@@ -1,16 +1,14 @@
 package Form::CreatePlayer;
 
-use Form::Tiny;
+use My::Moose;
+use My::Form::Tiny;
 
 use header;
 
 use constant NAME_MIN_LENGTH => 3;
 use constant NAME_MAX_LENGTH => 20;
 
-has 'lore_data' => (
-	is => 'ro',
-	default => sub { DI->get('lore_data') },
-);
+has injected 'lore_data';
 
 form_field 'name' => (
 	type => Types::SimpleStr,
