@@ -1,7 +1,7 @@
 package Repository::Cache;
 
 use My::Moose;
-use Model;
+use all 'Model';
 
 use header;
 

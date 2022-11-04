@@ -1,8 +1,7 @@
 package Factory::User;
 
 use My::Moose;
-use Unit::User;
-use Unit::Nested::Player;
+use all 'Unit';
 use Schema::Utils qw(fetch_single);
 
 use header;

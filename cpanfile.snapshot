@@ -4461,6 +4461,14 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  all-0.5101
+    pathname: D/DE/DEXTER/all-0.5101.tar.gz
+    provides:
+      all 0.5101
+    requirements:
+      File::Find 0
+      File::Spec 0
+      perl 5.006
   common-sense-3.75
     pathname: M/ML/MLEHMANN/common-sense-3.75.tar.gz
     provides:

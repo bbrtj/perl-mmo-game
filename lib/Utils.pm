@@ -1,8 +1,5 @@
 package Utils;
 
-use Model;
-use Game::Lore;
-
 use MojoX::Log::Dispatch::Simple;
 use Mojo::IOLoop;
 use Game::LoreLoader;

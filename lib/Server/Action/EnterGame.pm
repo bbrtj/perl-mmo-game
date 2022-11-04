@@ -1,7 +1,7 @@
 package Server::Action::EnterGame;
 
 use My::Moose;
-use Model;
+use all 'Model';
 
 use header;
 

@@ -1,7 +1,7 @@
 package Service::User;
 
 use My::Moose;
-use Model;
+use all 'Model';
 
 use header;
 

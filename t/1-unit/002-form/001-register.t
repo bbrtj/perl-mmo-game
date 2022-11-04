@@ -1,6 +1,5 @@
 use Web::Form::Register;
-use Model::User;
-use X::RecordDoesNotExist;
+use all 'Model', 'X';
 
 use testheader;
 

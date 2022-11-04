@@ -1,4 +1,4 @@
-use Model::CharacterVariables;
+use all 'Model';
 
 use testheader;
 

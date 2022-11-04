@@ -4,11 +4,9 @@ use E2ETest;
 use Mojo::IOLoop;
 use Mojo::JSON qw(from_json to_json);
 
-use Model;
+use all 'Resource';
 use ActorTest;
 use Utils;
-use Resource::CharacterList;
-use Resource::LocationData;
 
 use testheader;
 

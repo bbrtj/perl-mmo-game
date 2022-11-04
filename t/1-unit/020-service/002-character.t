@@ -1,4 +1,4 @@
-use Model;
+use all 'Model';
 use Utils;
 use Game::Helpers;
 

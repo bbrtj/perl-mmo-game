@@ -1,7 +1,7 @@
 package Service::Faker;
 
 use My::Moose;
-use Model;
+use all 'Model';
 use Game::Helpers;
 
 use header;

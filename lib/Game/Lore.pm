@@ -1,7 +1,6 @@
 package Game::Lore;
 
 use My::Moose;
-use Mojo::Loader qw(load_classes);
 
 use header;
 
@@ -20,8 +19,6 @@ around BUILDARGS => sub ($orig, $self, %args) {
 		if $args{id};
 	return $self->$orig(%args);
 };
-
-load_classes('Game::Lore');
 
 sub BUILD ($self, @)
 {

@@ -1,8 +1,6 @@
 package Unit::Location;
 
 use My::Moose;
-use Model;
-use Unit::Actor;
 use Game::Helpers;
 
 # use Sub::HandlesVia;

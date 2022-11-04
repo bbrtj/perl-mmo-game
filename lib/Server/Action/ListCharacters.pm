@@ -2,7 +2,7 @@ package Server::Action::ListCharacters;
 
 use My::Moose;
 use Resource::CharacterList;
-use Model::PlayerSession;
+use all 'Model';
 
 use header;
 

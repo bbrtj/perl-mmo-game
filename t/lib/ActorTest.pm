@@ -1,12 +1,9 @@
 package ActorTest;
 
-use Unit::Actor;
-use Model::Character;
-use Model::CharacterVariables;
-use Model::Player;
-use Model::User;
 use Game::Helpers;
 use Game::Config;
+
+use all 'Model', 'Unit';
 
 use header;
 

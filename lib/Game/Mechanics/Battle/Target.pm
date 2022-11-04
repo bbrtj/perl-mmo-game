@@ -1,6 +1,6 @@
 package Game::Mechanics::Battle::Target;
 
-use X::InvalidTarget;
+use all 'X';
 
 use header;
 

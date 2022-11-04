@@ -1,7 +1,7 @@
 package Game::Mechanics::Check;
 
 use My::Moose;
-use X::CheckFailed;
+use all 'X';
 
 use header;
 

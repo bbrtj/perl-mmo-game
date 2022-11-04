@@ -1,8 +1,6 @@
 package Unit::User;
 
 use My::Moose;
-use Model;
-use Unit::Nested::Player;
 
 use header;
 

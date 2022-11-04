@@ -1,7 +1,7 @@
 package Factory::Actor;
 
 use My::Moose;
-use Unit::Actor;
+use all 'Unit';
 use Schema::Utils qw(fetch_single);
 
 use header;

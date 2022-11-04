@@ -1,7 +1,7 @@
 package Component::Cache;
 
 use My::Moose;
-use X::RecordDoesNotExist;
+use all 'X';
 
 use header;
 

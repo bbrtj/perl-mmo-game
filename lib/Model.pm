@@ -8,8 +8,7 @@ use My::Moose -traits => [
 	)
 ];
 
-use Mojo::Loader qw(load_classes);
-use Schema;
+require Schema;
 
 use header;
 
@@ -18,8 +17,6 @@ my %orm_mapping_reverse;
 
 my %cache_mapping;
 my %cache_mapping_reverse;
-
-load_classes('Model');
 
 sub _register ($class)
 {

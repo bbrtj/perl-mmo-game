@@ -1,7 +1,7 @@
 package Server::GameAction;
 
 use My::Moose;
-use Model::PlayerSession;
+use all 'Model';
 
 use header;
 

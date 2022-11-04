@@ -1,7 +1,7 @@
 package Service::Character;
 
 use My::Moose;
-use Model;
+use all 'Model';
 use Game::Config;
 
 use header;

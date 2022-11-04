@@ -1,7 +1,8 @@
 package Repository::LoreData;
 
 use My::Moose;
-use X::LoreNotFound;
+
+use all 'X';
 
 use header;
 

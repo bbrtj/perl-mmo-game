@@ -1,8 +1,8 @@
 package Schema::Utils;
 
 use Exporter qw(import);
-use X::RecordDoesNotExist;
-use X::SearchCriteriaTooVague;
+
+use all 'X';
 
 use header;
 

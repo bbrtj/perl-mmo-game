@@ -2,7 +2,7 @@ package Server::Action::Login;
 
 use My::Moose;
 use Form::Login;
-use Model;
+use all 'Model';
 
 use header;
 

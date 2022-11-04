@@ -1,4 +1,4 @@
-use Model::User;
+use all 'Model';
 use Test2::Tools::DatabaseTest;
 use Utils;
 

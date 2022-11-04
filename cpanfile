@@ -28,6 +28,7 @@ requires 'DateTime::Format::Pg' => 0;
 requires 'Import::Into' => 0;
 requires 'namespace::autoclean' => 0;
 requires 'true' => 0;
+requires 'all' => 0;
 
 requires 'Log::Dispatch' => 0;
 requires 'MojoX::Log::Dispatch::Simple' => 0;

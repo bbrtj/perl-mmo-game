@@ -8,9 +8,7 @@ use Server::Worker;
 
 # use Sub::HandlesVia;
 
-use X::Network::InvalidAction;
-use X::Network::CorruptedInput;
-use X::Network::InvalidState;
+use all 'Model', 'X';
 
 use header;
 

@@ -1,7 +1,6 @@
 use Web::Form::Login;
 use Form::Login;
-use Model::User;
-use X::RecordDoesNotExist;
+use all 'Model', 'X';
 use Utils;
 
 use testheader;
