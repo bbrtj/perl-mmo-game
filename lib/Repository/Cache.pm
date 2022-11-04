@@ -2,40 +2,35 @@ package Repository::Cache;
 
 use My::Moose;
 use Model;
-use X::RecordDoesNotExist;
 
 use header;
 
 extends 'Repository';
 
-has injected 'redis';
+has injected 'cache';
+
 has injected 'encoder';
 
 sub save ($self, $model)
 {
-	my $type = $model->get_cache_name;
-	$self->redis->db->hset($type, $model->id, $self->encoder->encode($model->serialize));
-
-	return 1;
+	$self->cache->set_cache_name($model->get_cache_name);
+	return $self->cache->save($model->id, $self->encoder->encode($model->serialize));
 }
 
 sub remove ($self, $model)
 {
-	my $type = $model->get_cache_name;
-	$self->redis->db->hdel($type, $model->id);
-
-	return 1;
+	$self->cache->set_cache_name($model->get_cache_name);
+	return $self->cache->remove($model->id);
 }
 
 sub load ($self, $type, $id)
 {
-	my $cache = $self->redis->db->hget($type, $id);
-	X::RecordDoesNotExist->throw
-		unless defined $cache;
+	$self->cache->set_cache_name($type);
+	my $cache = $self->cache->load($id);
 
 	return Model->from_cache(
 		$type,
-		$cache ? $self->encoder->decode($cache) : {}
+		$self->encoder->decode($cache)
 	);
 }
 

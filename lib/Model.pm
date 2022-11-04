@@ -68,7 +68,6 @@ sub from_cache ($class, $name, $hash)
 	croak "invalid argument to from_cache"
 		unless defined $name && $cache_mapping_reverse{$name};
 
-	# NOTE: in case of performance problems, this can be just a bless
 	my $real_class = $cache_mapping_reverse{$name};
 	return $real_class->new($hash);
 }

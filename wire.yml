@@ -23,6 +23,9 @@ log:
 encoder:
     class: Component::Encoder
 
+cache:
+    class: Component::Cache
+
 # Repositories
 
 models_repo:
@@ -34,8 +37,8 @@ models_repo:
 cache_repo:
     class: Repository::Cache
     args:
-        redis:
-            $ref: redis
+        cache:
+            $ref: cache
         encoder:
             $ref: encoder
 
