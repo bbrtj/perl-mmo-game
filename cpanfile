@@ -48,7 +48,6 @@ requires 'Text::Levenshtein::BV' => 0;
 
 on 'test' => sub {
 	requires 'Test::DB';
-	requires 'Test2::Harness';
 	requires 'Test2::V0';
 	requires 'Test::Spy' => '0.004';
 };

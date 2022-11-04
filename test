@@ -1,0 +1,11 @@
+#!/usr/bin/env perl
+
+use v5.36;
+
+use App::Yath::Util qw/find_yath/;
+
+use Env qw(@PERL5LIB);
+unshift @PERL5LIB, "local/lib/perl5";
+
+exec($^X, find_yath(), @ARGV);
+

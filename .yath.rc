@@ -1,6 +1,5 @@
--D lib-base
--D t/lib
-
 [test]
+--include lib-base
+--tlib
 --jobs 4
 
