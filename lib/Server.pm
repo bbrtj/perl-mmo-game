@@ -17,7 +17,7 @@ use header;
 # TODO kqueue
 
 has injected 'cache_repo';
-has injected 'channel' => as => 'channel_service';
+has injected 'channel_service';
 
 has param 'port' => (
 	isa => Types::PositiveInt,
@@ -123,13 +123,13 @@ sub connection ($self, $loop, $stream, $id)
 	);
 
 	$self->connections->{$id} = $handle_feedback;
-	my $cb = $self->channel->listen($session->id, $handle_feedback);
+	my $cb = $self->channel_service->listen($session->id, $handle_feedback);
 
 	$stream->on(
 		close => sub {
 
 			# TODO: log out from the world
-			$self->channel->unlisten($session->id, $cb);
+			$self->channel_service->unlisten($session->id, $cb);
 			delete $self->connections->{$id};
 			$self->cache_repo->remove($session);
 		}
@@ -150,7 +150,7 @@ sub start ($self)
 	# listen to data that should be transmitted to all the players at once
 	# (global events, announcements, server messages)
 	$self->_listen(
-		$self->channel,
+		$self->channel_service,
 		undef,
 		sub {
 			foreach my $connection_cb (values $self->connections->%*) {

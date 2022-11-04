@@ -17,6 +17,7 @@ has param 'location_data' => (
 
 with qw(
 	Server::Role::Listening
+	Server::Role::CanSendData
 );
 
 sub handle ($self, $data)
