@@ -11,7 +11,7 @@ extends 'Server::Process';
 has param 'location_data' => (
 	coerce => (Types::InstanceOf ['Unit::Location'])
 		->plus_coercions(
-			Types::InstanceOf ['Game::Lore::Location'], q{ DI->get('units')->load_location($_->id) }
+			Types::InstanceOf ['Game::Lore::Location'], q{ DI->get('units_repo')->load_location($_->id) }
 		),
 );
 
@@ -66,7 +66,7 @@ sub do_work ($self)
 # TODO: run periodically
 sub save_work ($self)
 {
-	DI->get('units')->save($self->location_data);
+	DI->get('units_repo')->save($self->location_data);
 	$self->worker->log->info('Game data for ' . $self->location_data->location->id . ' saved');
 
 	return;

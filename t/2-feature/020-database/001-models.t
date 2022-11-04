@@ -11,7 +11,7 @@ database_test {
 	);
 
 	$user->set_password('test');
-	my $models = DI->get('models');
+	my $models = DI->get('models_repo');
 	ok $models, 'schema repo resolve ok';
 
 	$user->promote;

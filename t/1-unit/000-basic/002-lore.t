@@ -6,7 +6,7 @@ use Game::Helpers;
 
 Utils->bootstrap_lore;
 
-my $repo = DI->get('lore_data');
+my $repo = DI->get('lore_data_repo');
 
 ### test basic lore fetching
 my $assassin = $repo->load_named('Game::Lore::Class', 'Assassin');

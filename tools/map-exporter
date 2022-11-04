@@ -22,7 +22,7 @@ die 'you must specify a file path relative to game-data directory'
 
 Game::LoreLoader->load(path($file)->to_rel(Game::LoreLoader->DIRECTORY));
 
-my $repo = DI->get('lore_data');
+my $repo = DI->get('lore_data_repo');
 my %areas = $repo->load_all_named('Game::Lore::Area')->%*;
 
 my @keys = keys %areas;

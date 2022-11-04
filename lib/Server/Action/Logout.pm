@@ -14,11 +14,11 @@ use constant required_state => Model::PlayerSession->STATE_LOGGED_IN;
 
 sub handle ($self, $session_id, $id, $)
 {
-	my $session = $self->cache->load(PlayerSession => $session_id);
+	my $session = $self->cache_repo->load(PlayerSession => $session_id);
 
 	$session->clear_user_id;
 	$session->set_state($session->STATE_NEW);
-	$self->cache->save($session);
+	$self->cache_repo->save($session);
 
 	return $self->send_to(
 		$session_id,

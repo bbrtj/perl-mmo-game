@@ -8,7 +8,7 @@ use header;
 
 extends 'Repository';
 
-has injected 'models';
+has injected 'models_repo';
 
 # load all factories
 # introduce methods like: load_location, load_actor
@@ -37,9 +37,10 @@ sub save ($self, $unit, $update = 1)
 	state $check = Types::InstanceOf ['Unit'];
 	$check->assert_valid($unit);
 
-	$self->models->db->transaction(
+	my $models = $self->models_repo;
+	$models->db->transaction(
 		sub {
-			$self->models->save($_, $update) for $unit->models->@*;
+			$models->save($_, $update) for $unit->models->@*;
 		}
 	);
 	return;

@@ -15,7 +15,7 @@ has param 'class' => (
 
 sub create ($self)
 {
-	state $repo = DI->get('lore_data');
+	state $repo = DI->get('lore_data_repo');
 	my $stored = $repo->load_named($self->class, $self->name);
 
 	return $stored;

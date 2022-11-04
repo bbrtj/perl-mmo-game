@@ -6,7 +6,7 @@ use Game::Helpers;
 
 Utils->bootstrap_lore;
 
-my $repo = DI->get('lore_data');
+my $repo = DI->get('lore_data_repo');
 
 ### test basic lore fetching
 my $harbor = $repo->load_named('Game::Lore::Location', 'Cape Peril - Harbor');

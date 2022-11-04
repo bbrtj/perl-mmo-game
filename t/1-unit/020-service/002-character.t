@@ -23,7 +23,7 @@ my $mock = Test::Spy->new(imitates => 'Repository::Models');
 $mock->add_method('save', 1);
 $mock->add_method('db', $dbmock->object);
 
-DI->set('models', $mock->object, 1);
+DI->set('models_repo', $mock->object, 1);
 my $service = DI->get('character_service');
 
 before_each {

@@ -44,7 +44,7 @@ sub transform_name ($self, $name)
 
 sub get_helpers ($self)
 {
-	state $repo = DI->get('lore_data');
+	state $repo = DI->get('lore_data_repo');
 	my %subs;
 
 	foreach my $type (TYPES->@*) {
@@ -118,7 +118,7 @@ sub _configure ($self, $context, $field, @values)
 
 sub get_dsl ($self, $caller)
 {
-	state $repo = DI->get('lore_data');
+	state $repo = DI->get('lore_data_repo');
 	my @items;
 
 	my %dsl = (

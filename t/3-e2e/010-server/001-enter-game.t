@@ -28,9 +28,9 @@ e2e_test sub ($server_port) {
 
 	my @receive_queue = (
 		['1', '1'],
-		['2', Resource::CharacterList->new(DI->get('units')->load_user($related_models{user}->id))->serialize],
+		['2', Resource::CharacterList->new(DI->get('units_repo')->load_user($related_models{user}->id))->serialize],
 		['3', '1'],
-		['', Resource::LocationData->new(DI->get('lore_data')->load($related_models{variables}->location_id))->serialize],
+		['', Resource::LocationData->new(DI->get('lore_data_repo')->load($related_models{variables}->location_id))->serialize],
 	);
 
 	my $test = 1;

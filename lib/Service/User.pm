@@ -5,7 +5,7 @@ use Model;
 
 use header;
 
-has injected 'repo' => as => 'models';
+has injected 'models_repo';
 
 sub register_user ($self, $user_data)
 {
@@ -13,7 +13,7 @@ sub register_user ($self, $user_data)
 	$user->set_password($user_data->{password});
 
 	$user->promote;
-	$self->repo->save($user);
+	$self->models_repo->save($user);
 
 	# TODO: send an email
 
@@ -22,6 +22,6 @@ sub register_user ($self, $user_data)
 
 sub find_user_by_email ($self, $email)
 {
-	return $self->repo->load(User => {email => lc $email});
+	return $self->models_repo->load(User => {email => lc $email});
 }
 

@@ -16,7 +16,7 @@ use header;
 
 # TODO kqueue
 
-has injected 'cache';
+has injected 'cache_repo';
 has injected 'channel' => as => 'channel_service';
 
 has param 'port' => (
@@ -75,7 +75,7 @@ sub connection ($self, $loop, $stream, $id)
 	# TODO: check if a player session exists, if yes then hook onto it
 	# However, make sure we don't have two clients connected at once
 	my $session = Model::PlayerSession->new;
-	$self->cache->save($session);
+	$self->cache_repo->save($session);
 
 	my $handle_feedback = sub ($data_href) {
 		my %data = $data_href->%*;
@@ -93,7 +93,7 @@ sub connection ($self, $loop, $stream, $id)
 		}
 
 		if ($data{refresh}) {
-			$session = $self->cache->load(PlayerSession => $session->id);
+			$session = $self->cache_repo->load(PlayerSession => $session->id);
 		}
 	};
 
@@ -131,7 +131,7 @@ sub connection ($self, $loop, $stream, $id)
 			# TODO: log out from the world
 			$self->channel->unlisten($session->id, $cb);
 			delete $self->connections->{$id};
-			$self->cache->remove($session);
+			$self->cache_repo->remove($session);
 		}
 	);
 

@@ -25,7 +25,7 @@ load_classes('Game::Lore');
 
 sub BUILD ($self, @)
 {
-	state $repo = DI->get('lore_data');
+	state $repo = DI->get('lore_data_repo');
 	$repo->save($self);
 	return;
 }

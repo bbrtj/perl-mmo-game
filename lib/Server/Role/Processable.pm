@@ -4,8 +4,8 @@ use My::Moose::Role;
 
 use header;
 
-has injected 'models';
-has injected 'cache';
+has injected 'models_repo';
+has injected 'cache_repo';
 has injected 'channel' => as => 'channel_service';
 has injected 'data_bus';
 

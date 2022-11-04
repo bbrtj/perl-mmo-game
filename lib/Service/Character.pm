@@ -6,7 +6,7 @@ use Game::Config;
 
 use header;
 
-has injected 'repo' => as => 'models';
+has injected 'models_repo';
 
 # $player_data should be validated (Form::CreatePlayer)
 sub create_player ($self, $user, $player_data)
@@ -30,11 +30,11 @@ sub create_player ($self, $user, $player_data)
 		energy => $class->data->define->{base_energy},
 	);
 
-	$self->repo->db->transaction(
+	$self->models_repo->db->transaction(
 		sub {
-			$self->repo->save($player);
-			$self->repo->save($character);
-			$self->repo->save($character_variables);
+			$self->models_repo->save($player);
+			$self->models_repo->save($character);
+			$self->models_repo->save($character_variables);
 		}
 	);
 

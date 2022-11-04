@@ -7,7 +7,7 @@ use header;
 
 extends 'Server::Event';
 
-has injected 'units';
+has injected 'units_repo';
 
 use constant name => 'player_has_entered_location';
 
@@ -29,13 +29,13 @@ sub update_actor ($self, $actor)
 
 sub handle ($self, $session_id, $player_id)
 {
-	my $session = $self->cache->load(PlayerSession => $session_id);
+	my $session = $self->cache_repo->load(PlayerSession => $session_id);
 	$self->update_session($session);
-	$self->cache->save($session);
+	$self->cache_repo->save($session);
 
-	my $actor = $self->units->load_actor('player.id' => $player_id);
+	my $actor = $self->units_repo->load_actor('player.id' => $player_id);
 	$self->update_actor($actor);
-	$self->units->update($actor);
+	$self->units_repo->update($actor);
 
 	$self->game_process->location_data->add_actor($actor);
 

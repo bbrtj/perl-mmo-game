@@ -73,7 +73,7 @@ $mock->add_method('load')->should_call(
 	}
 );
 
-DI->set('models', $mock->object, 1);
+DI->set('models_repo', $mock->object, 1);
 
 before_each {
 	$mock->clear;

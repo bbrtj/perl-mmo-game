@@ -6,6 +6,8 @@ use header;
 
 extends 'Mojolicious::Controller';
 
+has injected 'models_repo';
+
 sub unauthorized ($self)
 {
 	$self->redirect_to('/user/login');
@@ -24,7 +26,7 @@ sub prepare_request ($self)
 	my $user_id = $self->session->{user};
 	my $user;
 
-	$user = DI->get('models')->load(User => $user_id)
+	$user = $self->models_repo->load(User => $user_id)
 		if $user_id;
 	$self->stash(user => $user);
 

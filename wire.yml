@@ -25,13 +25,13 @@ encoder:
 
 # Repositories
 
-models:
+models_repo:
     class: Repository::Models
     args:
         db:
             $ref: db
 
-cache:
+cache_repo:
     class: Repository::Cache
     args:
         redis:
@@ -39,14 +39,14 @@ cache:
         encoder:
             $ref: encoder
 
-lore_data:
+lore_data_repo:
     class: Repository::LoreData
 
-units:
+units_repo:
     class: Repository::Units
     args:
         repo:
-            $ref: models
+            $ref: models_repo
 
 # Services
 
@@ -54,7 +54,7 @@ user_service:
     class: Service::User
     args:
         repo:
-            $ref: models
+            $ref: models_repo
 
 channel_service:
     class: Service::Channel
@@ -76,5 +76,5 @@ character_service:
     class: Service::Character
     args:
         repo:
-            $ref: models
+            $ref: models_repo
 

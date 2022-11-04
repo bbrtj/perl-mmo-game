@@ -15,11 +15,11 @@ sub save_actor ($self, @params)
 	my ($actor, %related_models) = $self->create_actor(@params);
 
 	foreach my $model (@related_models{qw(user player character)}) {
-		DI->get('models')->save($model);
+		DI->get('models_repo')->save($model);
 	}
 
 	# insert, not update
-	DI->get('units')->save($actor, 0);
+	DI->get('units_repo')->save($actor, 0);
 
 	return ($actor, %related_models);
 }

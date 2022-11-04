@@ -78,7 +78,7 @@ sub translate_gettext ($self, $lang)
 
 sub translate_lore ($self, $lang)
 {
-	state $repo = DI->get('lore_data');
+	state $repo = DI->get('lore_data_repo');
 
 	my $translation = $repo->load($self->message)->data->translations->{lc $lang}{$self->args->[0]};
 

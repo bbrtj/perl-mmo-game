@@ -8,18 +8,19 @@ Utils->bootstrap_lore;
 
 database_test {
 	my ($actor, %related_models) = ActorTest->save_actor;
+	my $units = DI->get('units_repo');
 
 	subtest 'stores character variables', sub {
 		$related_models{variables}->set_experience(1500);
-		DI->get('units')->save($actor);
-		my $loaded = DI->get('units')->load_actor($actor->character->id);
+		$units->save($actor);
+		my $loaded = $units->load_actor($actor->character->id);
 		is $loaded, $actor, 'repository stored actor data ok';
 	};
 
 	subtest 'does not store character data', sub {
 		$related_models{character}->set_name('Priesty');
-		DI->get('units')->save($actor);
-		my $loaded = DI->get('units')->load_actor($actor->character->id);
+		$units->save($actor);
+		my $loaded = $units->load_actor($actor->character->id);
 		isnt $loaded, $actor, 'repository did not store actor data ok';
 	};
 };

@@ -43,7 +43,7 @@ sub cleanup ($self)
 
 sub _location_dispenser ($self, $game_processes)
 {
-	my $locations_href = DI->get('lore_data')->load_all_named('Game::Lore::Location');
+	my $locations_href = DI->get('lore_data_repo')->load_all_named('Game::Lore::Location');
 	my @locations = shuffle values $locations_href->%*;
 	my $processes_left = $game_processes;
 
