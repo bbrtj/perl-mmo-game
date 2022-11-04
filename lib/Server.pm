@@ -99,7 +99,7 @@ sub connection ($self, $loop, $stream, $id)
 	# TODO: should exceptions be caught?
 	$stream->on(
 		read => sub ($, $bytes) {
-			$bytes =~ s/\r?\n?\Z//;
+			chomp $bytes;
 
 			if ($bytes eq 'ping') {
 				$stream->write('ping');
