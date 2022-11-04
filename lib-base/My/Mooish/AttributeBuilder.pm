@@ -22,10 +22,10 @@ Mooish::AttributeBuilder::add_shortcut(
 		if ($args{_type} eq 'injected') {
 			require DI;
 
-			my $as = (delete $args{as}) // $name;
+			my $aliasing = (delete $args{aliasing}) // $name;
 			%args = (
 				%args,
-				DI->injected($as)
+				DI->injected($aliasing)
 			);
 		}
 

@@ -4,7 +4,7 @@ use My::Moose;
 
 use header;
 
-has injected 'store' => as => 'redis';
+has injected 'store' => aliasing => 'redis';
 has injected 'encoder';
 
 has param 'key' => (
