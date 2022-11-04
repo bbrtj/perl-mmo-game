@@ -6,6 +6,8 @@ use Sub::Util qw(set_subname);
 
 use header;
 
+extends 'Repository';
+
 # load all factories
 # introduce methods like: load_location, load_actor
 BEGIN {
@@ -28,16 +30,19 @@ BEGIN {
 	}
 }
 
-has 'repo' => (
-	is => 'ro',
-);
+has injected 'models';
 
 sub save ($self, $unit, $update = 1)
 {
 	state $check = Types::InstanceOf ['Unit'];
 	$check->assert_valid($unit);
 
-	$self->repo->save($_, $update) for $unit->models->@*;
+	$self->models->save($_, $update) for $unit->models->@*;
 	return;
+}
+
+sub update ($self, $unit)
+{
+	return $self->save($unit, 1);
 }
 

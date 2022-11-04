@@ -78,3 +78,7 @@ Game backend related infrastructure. TCP servers, workers, game processes and me
 
 Website-related stuff. May be moved away to other repository in the future.
 
+## Tips and Tricks
+
+- better stack traces during debugging: `./run -MCarp::Always`
+

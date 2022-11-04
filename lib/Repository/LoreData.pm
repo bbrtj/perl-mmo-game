@@ -5,7 +5,7 @@ use X::LoreNotFound;
 
 use header;
 
-with 'Repository::Role::Resource';
+extends 'Repository';
 
 my %named_collection;
 my %collection;

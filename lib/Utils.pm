@@ -33,7 +33,13 @@ sub bootstrap_lore ($class)
 sub bootstrap_mojo ($class)
 {
 	my $config = DI->get('env');
+	$class->handle_errors;
 
+	return;
+}
+
+sub handle_errors ($class)
+{
 	my $reactor = Mojo::IOLoop->singleton->reactor;
 
 	$reactor->unsubscribe('error');
@@ -42,7 +48,5 @@ sub bootstrap_mojo ($class)
 			DI->get('log')->critical($err);
 		}
 	);
-
-	return;
 }
 

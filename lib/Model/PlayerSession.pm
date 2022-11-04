@@ -26,7 +26,7 @@ has param 'state' => (
 );
 
 # in-game location
-has option 'location' => (
+has option 'location_id' => (
 	isa => Types::LoreId,
 );
 

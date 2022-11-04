@@ -1,4 +1,4 @@
-package Resource::MapData;
+package Resource::LocationData;
 
 use My::Moose;
 
@@ -6,7 +6,7 @@ use header;
 
 extends 'Resource';
 
-has '+subject' => (
+has extended 'subject' => (
 	isa => Types::InstanceOf ['Game::Lore::Location'],
 );
 

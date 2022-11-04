@@ -6,7 +6,7 @@ use header;
 
 extends 'Resource';
 
-has '+subject' => (
+has extended 'subject' => (
 	isa => Types::InstanceOf ['Unit::User'],
 );
 

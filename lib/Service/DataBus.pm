@@ -24,7 +24,7 @@ sub dispatch ($self, $location, $name, @args)
 sub emit ($self, $processable, $session, @args)
 {
 	if ($processable->does('Server::Role::WithGameProcess')) {
-		$self->dispatch($session->location, $processable->name, ($session->id, @args));
+		$self->dispatch($session->location_id, $processable->name, ($session->id, @args));
 	}
 	else {
 		$self->broadcast($processable->name, ($session->id, @args));

@@ -6,6 +6,7 @@ use Model::CharacterVariables;
 use Model::Player;
 use Model::User;
 use Game::Helpers;
+use Game::Config;
 
 use header;
 
@@ -45,7 +46,7 @@ sub create_actor ($self, $password = 'asdfasdf')
 	my $variables = Model::CharacterVariables->new(
 		id => $character->id,
 		experience => 1234,
-		location_id => 'LOC_GMDUNG',
+		location_id => Game::Config->config->{starting_location}->id,
 		pos_x => 2.2,
 		pos_y => 5.3,
 		health => 100.3,

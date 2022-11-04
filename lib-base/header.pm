@@ -27,7 +27,7 @@ sub import ($me, @args)
 	utf8->import::into($pkg);
 	Carp->import::into($pkg, qw(croak));
 	Scalar::Util->import::into($pkg, qw(blessed));
-	Ref::Util->import::into($pkg, qw(is_arrayref is_hashref is_coderef));
+	Ref::Util->import::into($pkg, qw(is_ref is_arrayref is_hashref is_coderef));
 	List::Util->import::into($pkg, qw(first any mesh));
 	i18n->import::into($pkg);
 

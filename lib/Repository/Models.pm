@@ -7,11 +7,9 @@ use header;
 
 ### Schema is the most basic way to save / load models
 
-with 'Repository::Role::Resource';
+extends 'Repository';
 
-has 'db' => (
-	is => 'ro',
-);
+has injected 'db';
 
 sub save ($self, $model, $update = 0)
 {

@@ -6,15 +6,10 @@ use X::RecordDoesNotExist;
 
 use header;
 
-with 'Repository::Role::Resource';
+extends 'Repository';
 
-has 'redis' => (
-	is => 'ro',
-);
-
-has 'encoder' => (
-	is => 'ro',
-);
+has injected 'redis';
+has injected 'encoder';
 
 sub save ($self, $model)
 {

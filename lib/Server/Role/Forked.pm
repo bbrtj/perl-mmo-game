@@ -2,6 +2,7 @@ package Server::Role::Forked;
 
 use My::Moose::Role;
 use Mojo::IOLoop;
+use Utils;
 
 # use Sub::HandlesVia;
 
@@ -41,6 +42,7 @@ sub setup ($self)
 }
 
 after start => sub ($self, @) {
+	Utils->handle_errors;
 	Mojo::IOLoop->start;
 
 	$self->log->info("Shutting down...");

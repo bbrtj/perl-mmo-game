@@ -2,7 +2,6 @@ package Server::Action::EnterGame;
 
 use My::Moose;
 use Model;
-use Resource::MapData;
 
 use header;
 
