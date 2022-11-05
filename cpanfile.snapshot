@@ -15,6 +15,20 @@ DISTRIBUTIONS
       Algorithm::Diff::_impl 1.201
     requirements:
       ExtUtils::MakeMaker 0
+  Algorithm-QuadTree-0.3
+    pathname: B/BR/BRTASTIC/Algorithm-QuadTree-0.3.tar.gz
+    provides:
+      Algorithm::QuadTree 0.3
+      Algorithm::QuadTree::PP 0.3
+    requirements:
+      ExtUtils::MakeMaker 0
+  Algorithm-QuadTree-XS-0.03
+    pathname: B/BR/BRTASTIC/Algorithm-QuadTree-XS-0.03.tar.gz
+    provides:
+      Algorithm::QuadTree::XS 0.03
+    requirements:
+      Algorithm::QuadTree 0.3
+      ExtUtils::MakeMaker 0
   B-Hooks-EndOfScope-0.26
     pathname: E/ET/ETHER/B-Hooks-EndOfScope-0.26.tar.gz
     provides:

@@ -40,6 +40,19 @@ translations pl => {
 	desc => "Wąskie, kręte uliczki w połowie zastawione są stoiskami oferującymi wszelakie produkty. Wszechobecny tłok i gwar skutecznie ukrywają toczone tutaj czarne interesy przed skorumpowaną milicją."
 };
 
+specify map => <<MAP;
+..........
+.OOOOO....
+.OOOOOO...
+.OOOOOOO..
+.OOOOOOOOO
+.OOOOOOOOO
+.OOOOOOO..
+.OOOOOO...
+.OOOOO....
+..........
+MAP
+
 ### LOCATION
 
 lore CP_GATE => location 'Cape Peril - Gate';
@@ -50,6 +63,19 @@ translations pl => {
 	name => "Brama",
 	desc => "Brama w palisadzie wyznacza koniec obszaru objętego ochroną milicyjną. Patrole ograniczają się tylko do sprawdzania stanu ogrodzenia oraz bezpośredniego sąsiedztwa bramy. Głucha cisza na zewnątrz mocno kontrastuje z hałasem dobiegającym ze środka."
 };
+
+specify map => <<MAP;
+..........
+.OOOOO....
+.OOOOOO...
+.OOOOOOO..
+.OOOOOOOOO
+.OOOOOOOOO
+.OOOOOOO..
+.OOOOOO...
+.OOOOO....
+..........
+MAP
 
 ### LOCATION
 
@@ -62,6 +88,19 @@ translations pl => {
 	desc => "Biorąc pod uwagę czas trwania rejsu nie powinno dziwić, że jest to pierwsze miejsce, do którego udają się nowo przybyli. Mimo oczywistej pokusy widać tu niewielu marynarzy, którzy często wolą nie opuszczać okrętów poza koniecznością."
 };
 
+specify map => <<MAP;
+..........
+.OOOOO....
+.OOOOOO...
+.OOOOOOO..
+.OOOOOOOOO
+.OOOOOOOOO
+.OOOOOOO..
+.OOOOOO...
+.OOOOO....
+..........
+MAP
+
 ### LOCATION
 
 lore CP_DEPO => location 'Cape Peril - Depository';
@@ -72,6 +111,19 @@ translations pl => {
 	name => "Depozytorium",
 	desc => "Prawdopodobnie najbardziej chroniony budynek w całym porcie. Zaufana instytucja odpłatnie przetrzymująca towary oraz kosztowności od każdego, kto zapłaci."
 };
+
+specify map => <<MAP;
+..........
+.OOOOO....
+.OOOOOO...
+.OOOOOOO..
+.OOOOOOOOO
+.OOOOOOOOO
+.OOOOOOO..
+.OOOOOO...
+.OOOOO....
+..........
+MAP
 
 ### CONNECTIONS AND METADATA
 
