@@ -27,29 +27,29 @@ sub handle ($self, $data)
 
 	return if !$self->_lock($ulid);
 
-	$self->worker->log->debug("Got a job: $name")
+	$self->log->debug("Got a job: $name")
 		if Server::Config::DEBUG;
 
 	my $instance = $self->worker->get_processable($name);
 
 	if (!defined $instance || $instance->does('Server::Role::WithGameProcess')) {
-		$self->worker->log->error("Unknown job name $name");
+		$self->log->error("Unknown job name $name");
 		return;
 	}
 
-	$self->worker->log->debug('Process ' . $self->process_id . ": processing $name");
+	$self->log->debug('Process ' . $self->process_id . ": processing $name");
 	try {
 		$instance->handle(@args);
 	}
 	catch ($e) {
-		$self->worker->log->error("Processing job $name failed: $e");
-		$self->worker->log->debug("Error was: " . Dumper($e));
+		$self->log->error("Processing job $name failed: $e");
+		$self->log->debug("Error was: " . Dumper($e));
 	}
 
 	return;
 }
 
-sub do_work ($self)
+sub do_work ($self, $loop)
 {
 	$self->_listen(
 		$self->worker->data_bus,
@@ -59,7 +59,7 @@ sub do_work ($self)
 		}
 	);
 
-	Mojo::IOLoop->start;
+	$loop->start;
 
 	$self->_unlisten;
 	return;

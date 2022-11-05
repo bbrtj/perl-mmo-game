@@ -3,6 +3,8 @@ package Server::Process::Game;
 use My::Moose;
 use Data::Dumper;
 use Server::Config;
+use Game::Server;
+use Time::HiRes qw(time);
 
 use header;
 
@@ -38,7 +40,7 @@ sub handle ($self, $data)
 {
 	my ($name, @args) = $data->@*;
 
-	$self->worker->log->debug("Got an action / event: $name")
+	$self->log->debug("Got an action / event: $name")
 		if Server::Config::DEBUG;
 
 	my $instance =
@@ -47,24 +49,24 @@ sub handle ($self, $data)
 		;
 
 	if (!defined $instance || !$instance->does('Server::Role::WithGameProcess')) {
-		$self->worker->log->error("Unknown game handler name $name");
+		$self->log->error("Unknown game handler name $name");
 		return;
 	}
 
-	$self->worker->log->debug('Game process for location ' . $self->location_data->location->id . ": processing $name");
+	$self->log->debug('Game process for location ' . $self->location_data->location->id . ": processing $name");
 	try {
 		$instance->set_game_process($self);
 		$instance->handle(@args);
 	}
 	catch ($e) {
-		$self->worker->log->error("Processing game handler $name failed: $e");
-		$self->worker->log->debug("Error was: " . Dumper($e));
+		$self->log->error("Processing game handler $name failed: $e");
+		$self->log->debug("Error was: " . Dumper($e));
 	}
 
 	return;
 }
 
-sub do_work ($self)
+sub do_work ($self, $loop)
 {
 	$self->_listen(
 		$self->worker->data_bus,
@@ -74,7 +76,38 @@ sub do_work ($self)
 		}
 	);
 
-	$self->worker->log->info('Game process for ' . $self->location_data->location->id . ' started');
+	my $game_server = Game::Server->new(process => $self);
+	my $tick = Server::Config::SERVER_TICK;
+	my $elapsed = 0;
+	my $start;
+
+	my $tick_sref;
+	my sub next_tick_setup () {
+		my $after = $tick + $elapsed - (time() - $start);
+
+		if (Server::Config::DEBUG) {
+			my $processing_time = abs($after - $tick);
+			my $alert = $processing_time > $tick / 2 ? ' [!!]' : '';
+			$self->log->debug($self->location_data->location->id . ": last processing took $processing_time$alert");
+		}
+
+		$after = 0 if $after < 0;
+		$loop->timer($after => $tick_sref);
+	}
+
+	$tick_sref = sub {
+		$elapsed += $tick;
+		$game_server->tick($elapsed);
+		next_tick_setup();
+	};
+
+
+	$loop->next_tick(sub ($) {
+		$start = time;
+		next_tick_setup();
+	});
+
+	$self->log->info('Game process for ' . $self->location_data->location->id . ' started');
 	return;
 }
 
@@ -82,7 +115,7 @@ sub do_work ($self)
 sub save_work ($self)
 {
 	DI->get('units_repo')->save($self->location_data);
-	$self->worker->log->info('Game data for ' . $self->location_data->location->id . ' saved');
+	$self->log->info('Game data for ' . $self->location_data->location->id . ' saved');
 
 	return;
 }

@@ -67,6 +67,8 @@ sub start ($self, $processes = 2)
 	my $jobs_processes = (int $processes / 4) || 1;
 	my $game_processes = $processes - $jobs_processes;
 
+	my $loop = Mojo::IOLoop->singleton;
+
 	# create processes for shared jobs
 	$self->create_forks(
 		'job',
@@ -75,7 +77,7 @@ sub start ($self, $processes = 2)
 			Server::Process::Jobs->new(
 				worker => $self,
 				process_id => $process_id
-			)->do_work;
+			)->do_work($loop);
 		}
 	);
 
@@ -93,9 +95,9 @@ sub start ($self, $processes = 2)
 				)
 			} $get_locations->();
 
-			$_->do_work for @processes;
+			$_->do_work($loop) for @processes;
 
-			Mojo::IOLoop->start;
+			$loop->start;
 
 			$_->finish_work for @processes;
 		},
@@ -105,7 +107,7 @@ sub start ($self, $processes = 2)
 	# setup crons
 	my $setup_job;
 	$setup_job = sub ($job) {
-		Mojo::IOLoop->timer(
+		$loop->timer(
 			$job->interval,
 			sub {
 				$self->broadcast($job->name);
