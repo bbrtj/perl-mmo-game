@@ -91,7 +91,7 @@ sub start ($self, $processes = 2)
 				Server::Process::Game->new(
 					worker => $self,
 					process_id => $process_id,
-					location_data => $_,
+					location_id => $_->id,
 				)
 			} $get_locations->();
 

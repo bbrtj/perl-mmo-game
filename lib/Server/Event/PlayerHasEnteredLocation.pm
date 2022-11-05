@@ -13,14 +13,14 @@ use constant name => 'player_has_entered_location';
 
 sub update_session ($self, $session, $actor)
 {
-	$session->set_location_id($self->game_process->location_data->location->id);
+	$session->set_location_id($self->game_process->location_id);
 
 	return;
 }
 
 sub update_actor ($self, $session, $actor)
 {
-	$actor->variables->set_location_id($self->game_process->location_data->location->id);
+	$actor->variables->set_location_id($self->game_process->location_id);
 
 	# TODO: set x/y
 	return;
@@ -37,14 +37,11 @@ sub handle ($self, $session_id, $player_id)
 	$self->units_repo->update($actor);
 	$self->cache_repo->save($session);
 
-	$self->game_process->location_data->add_actor($actor);
-
-	# TODO: how to treat session?
-	# TODO: handle player / session
+	$self->server->location_data->add_actor($actor);
 
 	return $self->send_to(
 		$session_id,
-		Resource::LocationData->new($self->game_process->location_data->location),
+		Resource::LocationData->new($self->server->location_data->location),
 		refresh => 1
 	);
 }

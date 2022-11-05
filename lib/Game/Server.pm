@@ -9,9 +9,12 @@ has param 'process' => (
 	weak_ref => 1,
 	'handles->' => {
 		'send_to' => 'send_to',
-		'location_data' => 'location_data',
 		'log' => 'log',
 	},
+);
+
+has param 'location_data' => (
+	isa => Types::InstanceOf ['Unit::Location'],
 );
 
 sub tick ($self, $elapsed)

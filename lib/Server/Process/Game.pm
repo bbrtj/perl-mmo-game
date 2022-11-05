@@ -18,11 +18,18 @@ has injected 'sessions_cache' => (
 	}
 );
 
-has param 'location_data' => (
-	coerce => (Types::InstanceOf ['Unit::Location'])
-		->plus_coercions(
-			Types::InstanceOf ['Game::Lore::Location'], q{ DI->get('units_repo')->load_location($_->id) }
-		),
+has param 'location_id' => (
+	isa => Types::LoreId,
+);
+
+has field 'server' => (
+	isa => Types::InstanceOf['Game::Server'],
+	default => sub ($self) {
+		return Game::Server->new(
+			process => $self,
+			location_data => DI->get('units_repo')->load_location($self->location_id)
+		);
+	},
 );
 
 with qw(
@@ -53,7 +60,7 @@ sub handle ($self, $data)
 		return;
 	}
 
-	$self->log->debug('Game process for location ' . $self->location_data->location->id . ": processing $name");
+	$self->log->debug('Game process for location ' . $self->location_id . ": processing $name");
 	try {
 		$instance->set_game_process($self);
 		$instance->handle(@args);
@@ -70,13 +77,12 @@ sub do_work ($self, $loop)
 {
 	$self->_listen(
 		$self->worker->data_bus,
-		$self->location_data->location->id,
+		$self->location_id,
 		sub ($data) {
 			$self->handle($data);
 		}
 	);
 
-	my $game_server = Game::Server->new(process => $self);
 	my $tick = Server::Config::SERVER_TICK;
 	my $elapsed = 0;
 	my $start;
@@ -88,7 +94,7 @@ sub do_work ($self, $loop)
 		if (Server::Config::DEBUG) {
 			my $processing_time = abs($after - $tick);
 			my $alert = $processing_time > $tick / 2 ? ' [!!]' : '';
-			$self->log->debug($self->location_data->location->id . ": last processing took $processing_time$alert");
+			$self->log->debug($self->location_id . ": last processing took $processing_time$alert");
 		}
 
 		$after = 0 if $after < 0;
@@ -97,7 +103,7 @@ sub do_work ($self, $loop)
 
 	$tick_sref = sub {
 		$elapsed += $tick;
-		$game_server->tick($elapsed);
+		$self->server->tick($elapsed);
 		next_tick_setup();
 	};
 
@@ -107,15 +113,15 @@ sub do_work ($self, $loop)
 		next_tick_setup();
 	});
 
-	$self->log->info('Game process for ' . $self->location_data->location->id . ' started');
+	$self->log->info('Game process for ' . $self->location_id . ' started');
 	return;
 }
 
 # TODO: run periodically
 sub save_work ($self)
 {
-	DI->get('units_repo')->save($self->location_data);
-	$self->log->info('Game data for ' . $self->location_data->location->id . ' saved');
+	DI->get('units_repo')->save($self->server->location_data);
+	$self->log->info('Game data for ' . $self->location_id . ' saved');
 
 	return;
 }
