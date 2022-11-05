@@ -8,15 +8,15 @@ extends 'Server::Event::PlayerHasEnteredLocation';
 
 use constant name => 'player_has_entered_game';
 
-sub update_session ($self, $session)
+sub update_session ($self, $session, $actor)
 {
-	$self->SUPER::update_session($session);
-	$session->set_state($session->STATE_PLAYING);
+	$session->set_playing($actor);
+	$self->game_process->save_session($actor->player->id, $session->id);
 
 	return;
 }
 
-sub update_actor ($self, $actor)
+sub update_actor ($self, $session, $actor)
 {
 	$actor->variables->set_location_id($self->game_process->location_data->location->id);
 	$actor->player->set_online(1);

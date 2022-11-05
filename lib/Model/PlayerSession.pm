@@ -25,10 +25,32 @@ has param 'state' => (
 	default => sub { STATE_NEW },
 );
 
+has option 'player_id' => (
+	isa => Types::Ulid,
+	clearer => 1,
+);
+
 # in-game location
 has option 'location_id' => (
 	isa => Types::LoreId,
 );
+
+sub set_logged_in ($self, $user_id)
+{
+	$self->set_user_id($user_id);
+	$self->set_state(STATE_LOGGED_IN);
+
+	return;
+}
+
+sub set_playing ($self, $actor)
+{
+	$self->set_player_id($actor->player->id);
+	$self->set_location_id($actor->variables->location_id);
+	$self->set_state(STATE_PLAYING);
+
+	return;
+}
 
 __PACKAGE__->_register_cache;
 

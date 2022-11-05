@@ -25,6 +25,12 @@ encoder:
 
 cache:
     class: Component::Cache
+    # no cache_name: must be set before using
+
+sessions_cache:
+    class: Component::Cache
+    args:
+        cache_name: sessions_cache
 
 # Repositories
 

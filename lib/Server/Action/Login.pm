@@ -28,8 +28,7 @@ sub handle ($self, $session_id, $id, $data)
 	if ($success) {
 		my $session = $self->cache_repo->load(PlayerSession => $session_id);
 
-		$session->set_user_id($form->user->id);
-		$session->set_state($session->STATE_LOGGED_IN);
+		$session->set_logged_in($form->user->id);
 
 		$self->cache_repo->save($session);
 	}

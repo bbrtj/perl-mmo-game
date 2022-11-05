@@ -8,6 +8,14 @@ use header;
 
 extends 'Server::Process';
 
+has injected 'sessions_cache' => (
+	'handles->' => {
+		'save_session' => 'save',
+		'load_session' => 'load',
+		'remove_session' => 'remove',
+	}
+);
+
 has param 'location_data' => (
 	coerce => (Types::InstanceOf ['Unit::Location'])
 		->plus_coercions(
@@ -19,6 +27,12 @@ with qw(
 	Server::Role::Listening
 	Server::Role::CanSendData
 );
+
+around send_to => sub ($orig, $self, $player_id, $data, @more) {
+	my $session_id = $self->load_session($player_id);
+
+	return $self->$orig($session_id, $data, @more);
+};
 
 sub handle ($self, $data)
 {
