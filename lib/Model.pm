@@ -4,7 +4,6 @@ use My::Moose -traits => [
 	qw(
 		My::Moose::Trait::AutoSetters
 		My::Moose::Trait::Serializable
-		My::Moose::Trait::FakeRequired
 	)
 ];
 
@@ -87,5 +86,10 @@ sub get_cache_name ($self)
 		unless exists $cache_mapping{$class};
 
 	return $cache_mapping{$class};
+}
+
+sub dummy ($self, %args)
+{
+	return bless { %args }, $self;
 }
 

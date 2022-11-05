@@ -41,6 +41,14 @@ has param 'created_at' => (
 	default => sub { time },
 );
 
+around BUILDARGS => sub ($orig, $self, %args) {
+	if ($args{plaintext_password}) {
+		$args{password} = $self->_make_password(delete $args{plaintext_password});
+	}
+
+	return $self->$orig(%args);
+};
+
 sub _make_password ($self, $plaintext_password)
 {
 	return bcrypt($plaintext_password, BCRYPT_SUBTYPE, BCRYPT_COST, random_bytes(16));

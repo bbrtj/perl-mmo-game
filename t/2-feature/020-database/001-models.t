@@ -6,22 +6,21 @@ use testheader;
 
 database_test {
 	### test Repository::Models
-	my $user = Model::User->dummy(
+	my $user = Model::User->new(
+		plaintext_password => 'test',
 		email => 'brtastic.dev@gmail.com',
 	);
 
-	$user->set_password('test');
 	my $models = DI->get('models_repo');
 	ok $models, 'schema repo resolve ok';
 
-	$user->promote;
-	ok lives { $models->save($user) }, 'Models can be saved';
+	$models->save($user);
 
 	my $fetched = $models->load(User => $user->id);
 	is $fetched->serialize, $user->serialize, 'after save ok';
 
 	$user->set_password('test2');
-	ok lives { $models->save($user, 1) }, 'update ok';
+	$models->save($user, 1);
 	$fetched = $models->load(User => $user->id);
 	is $fetched->serialize, $user->serialize, 'after update ok';
 };

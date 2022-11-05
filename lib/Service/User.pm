@@ -9,10 +9,11 @@ has injected 'models_repo';
 
 sub register_user ($self, $user_data)
 {
-	my $user = Model::User->dummy($user_data);
-	$user->set_password($user_data->{password});
+	my $user = Model::User->dummy(
+		plaintext_password => $user_data->{password},
+		$user_data->%*
+	);
 
-	$user->promote;
 	$self->models_repo->save($user);
 
 	# TODO: send an email

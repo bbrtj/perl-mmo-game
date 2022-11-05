@@ -23,11 +23,10 @@ sub save_actor ($self, @params)
 
 sub create_actor ($self, $password = 'asdfasdf')
 {
-	my $user = Model::User->dummy(
+	my $user = Model::User->new(
+		plaintext_password => $password,
 		email => 'test@test.pl',
 	);
-	$user->set_password($password);
-	$user->promote;
 
 	my $player = Model::Player->new(
 		user_id => $user->id,

@@ -46,12 +46,10 @@ test_data
 	];
 
 my $tested_mail = 'test2@test.com';
-my $mock_model = Model::User->dummy(
+my $mock_model = Model::User->new(
+	plaintext_password => 'abcdefg1',
 	email => $tested_mail
 );
-
-$mock_model->set_password('abcdefg1');
-$mock_model->promote;
 
 my $mock = Test::Spy->new(imitates => 'Repository::Models', context => 'load');
 $mock->add_method('load')->should_call(
