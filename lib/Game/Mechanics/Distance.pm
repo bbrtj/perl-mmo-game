@@ -6,21 +6,13 @@ sub is_in_range ($self, $pos1, $pos2, $range)
 {
 	my ($sx, $sy, $ex, $ey) = (@$pos1, @$pos2);
 
-	# TODO: vectors
 	return sqrt(($sx - $ex)**2 + ($sy - $ey)**2) <= $range;
 }
 
-sub find_aoe ($self, $battle, $ability, $pos)
+sub find_actors_in_range ($self, $server, $actor, $range)
 {
-	return unless defined $ability->aoe;
-
-	my @found;
-	foreach my $actor ($battle->contestants->@*) {
-		my $pos2 = [$actor->contestant->pos_x, $actor->contestant->pos_y];
-		push @found, $actor
-			if $self->is_in_range($pos, $pos2, $ability->aoe);
-	}
-
-	return \@found;
+	my $variables = $actor->variables;
+	my @found = $server->find_in_radius($variables->pos_x, $variables->pos_y, $range)->@*;
+	return [grep { $_ ne $actor } @found];
 }
 

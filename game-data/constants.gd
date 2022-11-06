@@ -7,6 +7,7 @@ define {
 	max_level => $max_level,
 
 	base_radius => 0.1,
+	discover_radius => 10,
 
 	zero_stats => 8,
 	starting_stats_floating => 5,

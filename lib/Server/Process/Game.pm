@@ -37,8 +37,8 @@ with qw(
 	Server::Role::CanSendData
 );
 
-around send_to => sub ($orig, $self, $player_id, $data, @more) {
-	my $session_id = $self->load_session($player_id);
+around send_to => sub ($orig, $self, $actor, $data, @more) {
+	my $session_id = $self->load_session($actor->player->id);
 
 	return $self->$orig($session_id, $data, @more);
 };

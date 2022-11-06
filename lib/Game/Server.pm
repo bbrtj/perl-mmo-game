@@ -32,6 +32,7 @@ has cache '_compiled_action' => (
 
 with qw(
 	Game::Server::Role::QuadTree
+	Game::Server::Role::Discovery
 );
 
 sub _add_action ($self, $every, $handler)

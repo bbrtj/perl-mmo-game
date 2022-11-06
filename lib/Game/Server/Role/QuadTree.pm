@@ -9,6 +9,7 @@ requires qw(
 	location_data
 );
 
+sub find_in_radius;
 has field '_quad_tree' => (
 	isa => Types::InstanceOf ['Algorithm::QuadTree'],
 	builder => 1,
@@ -38,7 +39,7 @@ sub _reload_coordinates ($self, $elapsed_time)
 	$qt->clear;
 
 	state $radius = Game::Config->config->{base_radius};
-	for my $actor ($self->location_data->actors->@*) {
+	foreach my $actor ($self->location_data->actors->@*) {
 		my $variables = $actor->variables;
 		$qt->add($actor, $variables->pos_x, $variables->pos_y, $radius);
 	}
