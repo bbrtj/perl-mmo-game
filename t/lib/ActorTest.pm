@@ -23,31 +23,12 @@ sub save_actor ($self, @params)
 
 sub create_actor ($self, $password = 'asdfasdf')
 {
-	my $user = Model::User->new(
-		plaintext_password => $password,
-		email => 'test@test.pl',
-	);
+	my $faker = DI->get('faker_service');
 
-	my $player = Model::Player->new(
-		user_id => $user->id,
-	);
-
-	my $character = Model::Character->new(
-		player_id => $player->id,
-		class_id => lore_class('Witchhunter')->id,
-		name => 'Whx',
-		base_stats => '',
-	);
-
-	my $variables = Model::CharacterVariables->new(
-		id => $character->id,
-		experience => 1234,
-		location_id => Game::Config->config->{starting_location}->id,
-		pos_x => 2.2,
-		pos_y => 5.3,
-		health => 100.3,
-		energy => 120.6,
-	);
+	my $user = $faker->fake_user($password);
+	my $player = $faker->fake_player($user->id);
+	my $character = $faker->fake_character($player->id);
+	my $variables = $faker->fake_variables($character->id);
 
 	return (
 		Unit::Actor->new(
