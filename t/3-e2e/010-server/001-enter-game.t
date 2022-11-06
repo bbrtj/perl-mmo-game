@@ -12,9 +12,7 @@ use testheader;
 
 Utils->bootstrap_lore;
 
-plan 4;
-
-e2e_test sub ($server_port) {
+e2e_test {
 	my $password = 'Testpassword123#';
 	my ($actor, %related_models) = ActorTest->save_actor($password);
 
@@ -31,39 +29,27 @@ e2e_test sub ($server_port) {
 		['', Resource::LocationData->new(DI->get('lore_data_repo')->load($related_models{variables}->location_id))->serialize],
 	);
 
-	my $test = 1;
-	my $client = Mojo::IOLoop->client(
-		{address => '127.0.0.1', port => $server_port},
-		sub ($loop, $err, $stream) {
-			die "error connecting: $err" if ($err);
+	e2e_client(shift @send_queue, sub ($stream, $bytes, $receive_no) {
+		die "unexpected data: $bytes"
+			unless @receive_queue;
 
-			$stream->on(
-				read => sub ($stream, $bytes) {
-					chomp $bytes;
+		my @parts = split ';', $bytes;
+		my @wanted = @{shift @receive_queue};
 
-					die "unexpected data: $bytes"
-						unless @receive_queue;
-
-					my @parts = split ';', $bytes;
-					my @wanted = @{shift @receive_queue};
-
-					if (is_ref $wanted[1]) {
-						$parts[1] = from_json $parts[1];
-					}
-
-					is \@parts, \@wanted, 'data received ok for test ' . $test++;
-
-					Mojo::IOLoop->stop
-						if !@receive_queue;
-
-					$stream->write(shift @send_queue)
-						if @send_queue;
-				}
-			);
-
-			$stream->write(shift @send_queue);
+		if (is_ref $wanted[1]) {
+			$parts[1] = from_json $parts[1];
 		}
-	);
+
+		is \@parts, \@wanted, 'data received ok for test ' . $receive_no;
+
+		$stream->write(shift @send_queue)
+			if @send_queue;
+	});
+
+	Mojo::IOLoop->recurring(1 => sub {
+		Mojo::IOLoop->stop
+			if !@receive_queue;
+	});
 
 	Mojo::IOLoop->start unless Mojo::IOLoop->is_running;
 };
