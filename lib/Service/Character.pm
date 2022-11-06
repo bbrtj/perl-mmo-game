@@ -7,17 +7,18 @@ use Game::Config;
 use header;
 
 has injected 'models_repo';
+has injected 'lore_data_repo';
 
-# $player_data should be validated (Form::CreatePlayer)
-sub create_player ($self, $user, $player_data)
+# $character_data should be validated
+sub create_character ($self, $user, $character_data)
 {
 	my $player = Model::Player->new(user_id => $user->id);
 
-	my $class = $player_data->{class};
+	my $class = $self->lore_data_repo->load($character_data->{class_id});
 	my $character = Model::Character->new(
 		player_id => $player->id,
 		class_id => $class->id,
-		name => ucfirst lc $player_data->{name},
+		name => ucfirst lc $character_data->{name},
 		base_stats => '', # TODO
 	);
 

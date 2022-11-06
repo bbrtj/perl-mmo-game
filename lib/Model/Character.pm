@@ -28,6 +28,7 @@ has param 'name' => (
 
 has param 'base_stats' => (
 	isa => Types::Str,
+	default => sub { '' },
 );
 
 sub is_player ($self)

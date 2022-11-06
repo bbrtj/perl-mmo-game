@@ -7,9 +7,9 @@ use testheader;
 Utils->bootstrap_lore;
 
 test_data
-	'should create player' => [
-		[{name => 'testPlayer', class => lore_class('Trapper')}],
-		[{name => 'testPlayer2', class => lore_class('Assassin')}],
+	'should create character' => [
+		[{name => 'testPlayer', class_id => lore_class('Trapper')->id}],
+		[{name => 'testPlayer2', class_id => lore_class('Assassin')->id}],
 	];
 
 my $dbmock = Test::Spy->new(imitates => 'Component::DB', context => 'transaction');
@@ -31,9 +31,9 @@ before_each {
 	$dbmock->clear;
 };
 
-test should_create_player => sub ($data) {
+test should_create_character => sub ($data) {
 	my $user = Model::User->dummy;
-	my $player = $service->create_player($user, $data);
+	my $player = $service->create_character($user, $data);
 
 	isa_ok $player, 'Model::Player';
 	is $player->user_id, $user->id, "player user id set in $_";
