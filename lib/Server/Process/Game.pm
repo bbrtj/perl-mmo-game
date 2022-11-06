@@ -102,6 +102,8 @@ sub do_work ($self, $loop)
 		# NOTE: $min_tick instead of 0 not to hijack entire event loop
 		$after = $min_tick if $after < $min_tick;
 		$loop->timer($after => $tick_sref);
+
+		return;
 	}
 
 	$tick_sref = sub {

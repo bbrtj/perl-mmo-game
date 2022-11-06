@@ -60,5 +60,7 @@ sub load_all ($self)
 sub import ($self)
 {
 	$self->load_all;
+
+	return;
 }
 

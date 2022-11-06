@@ -10,6 +10,8 @@ sub import ($self, @args)
 	my $pkg = caller;
 
 	Form::Tiny->import::into($pkg, -nomoo, @args);
+
+	return;
 }
 
 1;

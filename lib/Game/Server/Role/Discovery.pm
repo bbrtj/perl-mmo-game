@@ -70,6 +70,8 @@ sub _discover ($self, $elapsed_time)
 
 		$self->send_to($actor, $resource) if $should_send;
 	}
+
+	return;
 }
 
 after BUILD => sub ($self, @) {
