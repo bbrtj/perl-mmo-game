@@ -3,6 +3,7 @@ package Game::Server;
 use My::Moose;
 use Algorithm::QuadTree;
 use Game::Config;
+use Sub::Quote qw(quote_sub quotify);
 
 use header;
 
@@ -19,46 +20,65 @@ has param 'location_data' => (
 	isa => Types::InstanceOf ['Unit::Location'],
 );
 
-has field '_quad_tree' => (
-	isa => Types::InstanceOf ['Algorithm::QuadTree'],
-	builder => 1,
-	'handles->' => {
-		'find_in_radius' => 'getEnclosedObjects',
-	},
+has field '_actions' => (
+	isa => Types::HashRef [Types::ArrayRef],
+	default => sub { {} },
 );
 
-sub _build_quad_tree ($self)
+has cache '_compiled_action' => (
+	isa => Types::CodeRef,
+	lazy => 1,
+);
+
+with qw(
+	Game::Server::Role::QuadTree
+);
+
+sub _add_action ($self, $every, $handler)
 {
-	my $location = $self->location_data->location;
-	croak 'no map for location ' . $location->id
-		unless $location->data->has_map;
+	croak "$handler is not a proper method name in " . __PACKAGE__
+		unless $self->can($handler);
 
-	return Algorithm::QuadTree->new(
-		-depth => Game::Config->config->{quadtree_depth},
-		-xmin => 0,
-		-ymin => 0,
-		-xmax => $location->data->map->size_x,
-		-ymax => $location->data->map->size_y,
-	);
-}
-
-sub reload_coordinates ($self)
-{
-	my $qt = $self->_quad_tree;
-	$qt->clear;
-
-	my $radius = Game::Config->config->{base_radius};
-	for my $actor ($self->location_data->actors->@*) {
-		my $variables = $actor->variables;
-		$qt->add($actor, $variables->pos_x, $variables->pos_y, $radius);
-	}
-
+	push $self->_actions->{$every}->@*, $handler;
 	return;
 }
 
-sub tick ($self, $elapsed)
+sub _build_compiled_action ($self)
 {
-	# TODO: process moves
-	$self->reload_coordinates;
+	my %actions = $self->_actions->%*;
+	my @sorted =
+		map { $_ => $actions{$_} }
+		sort { $b <=> $a }
+		keys %actions;
+
+	my @actions_lines = (q[my ($elapsed, $elapsed_time) = @_;]);
+
+	foreach my ($every, $handlers) (@sorted) {
+		$every = quotify $every;
+		push @actions_lines,
+			qq[if (\$elapsed % $every == 0) {],
+			(map { qq[ \$self->$_(\$elapsed_time);] } $handlers->@*),
+			qq[}];
+	}
+
+	my $compiled = join "\n", @actions_lines;
+
+	$self->log->debug("Compiled action: \n$compiled");
+
+	return quote_sub $compiled, {
+		'$self' => \$self,
+	}, {
+		no_defer => 1,
+	};
+}
+
+sub BUILD ($self, $args)
+{
+	# no BUILD actions by default. See roles for "after" hooks
+}
+
+sub tick ($self, $elapsed, $elapsed_time)
+{
+	$self->_compiled_action->($elapsed, $elapsed_time);
 }
 

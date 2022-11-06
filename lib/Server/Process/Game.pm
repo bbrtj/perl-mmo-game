@@ -84,12 +84,13 @@ sub do_work ($self, $loop)
 	);
 
 	my $tick = Server::Config::SERVER_TICK;
+	my $min_tick = $tick / 10;
 	my $elapsed = 0;
 	my $start;
 
 	my $tick_sref;
 	my sub next_tick_setup () {
-		my $after = $tick + $elapsed - (time() - $start);
+		my $after = ($elapsed + 1) * $tick - (time() - $start);
 
 		if (Server::Config::DEBUG) {
 			my $processing_time = abs($after - $tick);
@@ -97,13 +98,13 @@ sub do_work ($self, $loop)
 			$self->log->debug($self->location_id . ": last processing took $processing_time$alert");
 		}
 
-		$after = 0 if $after < 0;
+		# NOTE: $min_tick instead of 0 not to hijack entire event loop
+		$after = $min_tick if $after < $min_tick;
 		$loop->timer($after => $tick_sref);
 	}
 
 	$tick_sref = sub {
-		$elapsed += $tick;
-		$self->server->tick($elapsed);
+		$self->server->tick(++$elapsed, $elapsed * $tick);
 		next_tick_setup();
 	};
 
