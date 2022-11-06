@@ -1,6 +1,5 @@
 package Game::LoreLoader::DSL;
 
-use Game::LoreLoader;
 use Game::LoreLoader::LoreDummy;
 use Game::Config;
 
@@ -8,6 +7,8 @@ use Sub::Util qw(set_subname);
 use Mojo::File qw(path);
 use Mojo::JSON qw(decode_json);
 use Module::Load qw(load);
+
+require Game::LoreLoader;
 
 use header;
 

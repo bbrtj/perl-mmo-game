@@ -18,7 +18,6 @@ GetOptions(
 
 DI->get('log')->filename('logs/worker.log');
 
-Utils->bootstrap_lore;
 Utils->bootstrap_mojo;
 
 my $worker = Server::Worker->new;

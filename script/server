@@ -18,7 +18,6 @@ GetOptions(
 
 DI->get('log')->filename('logs/server.log');
 
-Utils->bootstrap_lore;
 Utils->bootstrap_mojo;
 
 my $server = Server->new;

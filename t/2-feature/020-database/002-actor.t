@@ -4,8 +4,6 @@ use Utils;
 
 use testheader;
 
-Utils->bootstrap_lore;
-
 database_test {
 	my ($actor, %related_models) = ActorTest->save_actor;
 	my $units = DI->get('units_repo');

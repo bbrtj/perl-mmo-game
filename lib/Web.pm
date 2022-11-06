@@ -11,7 +11,6 @@ extends 'Mojolicious';
 sub startup ($self)
 {
 	my $env = Utils->bootstrap($self);
-	Utils->bootstrap_lore;
 
 	load_config($self, $env);
 	load_routes($self, $env);

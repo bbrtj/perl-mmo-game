@@ -11,8 +11,6 @@ test_data
 		['test@test.com'],
 	];
 
-Utils->bootstrap_lore;
-
 my $mock = Test::Spy->new(imitates => 'Repository::Models');
 my $mock_user = Model::User->dummy;
 $mock->add_method('save', 1);

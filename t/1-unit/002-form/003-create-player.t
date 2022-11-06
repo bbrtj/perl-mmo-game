@@ -4,8 +4,6 @@ use Game::Helpers;
 
 use testheader;
 
-Utils->bootstrap_lore;
-
 test_data
 	'validation should succeed' => [
 		[{name => 'test', class => lore_class('Witchhunter')->id}],

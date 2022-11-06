@@ -10,8 +10,6 @@ use Utils;
 
 use testheader;
 
-Utils->bootstrap_lore;
-
 e2e_test {
 	my $password = 'Testpassword123#';
 	my ($actor, %related_models) = ActorTest->save_actor($password);

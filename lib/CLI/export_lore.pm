@@ -16,8 +16,6 @@ sub run ($self, $language = undef)
 {
 	die 'need a language' unless defined $language;
 
-	Utils->bootstrap_lore;
-
 	my $repo = DI->get('lore_data_repo');
 	my %lores = $repo->load_all()->%*;
 

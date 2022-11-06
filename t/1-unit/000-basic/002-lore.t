@@ -4,8 +4,6 @@ use Utils;
 use Game::Config;
 use Game::Helpers;
 
-Utils->bootstrap_lore;
-
 my $repo = DI->get('lore_data_repo');
 
 ### test basic lore fetching

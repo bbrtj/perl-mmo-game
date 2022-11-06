@@ -20,13 +20,6 @@ sub bootstrap ($class, $app)
 	return $config;
 }
 
-sub bootstrap_lore ($class)
-{
-	Game::LoreLoader->load_all;
-
-	return;
-}
-
 sub bootstrap_mojo ($class)
 {
 	my $config = DI->get('env');

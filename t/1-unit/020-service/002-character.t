@@ -4,8 +4,6 @@ use Game::Helpers;
 
 use testheader;
 
-Utils->bootstrap_lore;
-
 test_data
 	'should create character' => [
 		[{name => 'testPlayer', class_id => lore_class('Trapper')->id}],

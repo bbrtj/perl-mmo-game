@@ -55,7 +55,6 @@ test_data
 		],
 	];
 
-Utils->bootstrap_lore;
 my $tested_mail = 'test@test.com';
 my $mock_model = Model::User->new(
 	plaintext_password => 'abcdefg1',
