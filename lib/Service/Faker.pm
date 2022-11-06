@@ -41,7 +41,7 @@ sub fake_character ($self, $player_id = ulid)
 
 sub fake_npc ($self, $npc_id = ulid)
 {
-	...
+	...;
 }
 
 sub fake_variables ($self, $character_id = ulid)

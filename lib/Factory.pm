@@ -5,9 +5,11 @@ use My::Moose;
 use header;
 
 has injected 'db' => (
-	handles => [qw(
-		dbc
-	)]
+	handles => [
+		qw(
+			dbc
+		)
+	]
 );
 
 # free to use fields

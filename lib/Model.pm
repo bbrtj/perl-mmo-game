@@ -90,6 +90,6 @@ sub get_cache_name ($self)
 
 sub dummy ($self, %args)
 {
-	return bless { %args }, $self;
+	return bless {%args}, $self;
 }
 

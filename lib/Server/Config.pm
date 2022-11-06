@@ -3,6 +3,7 @@ package Server::Config;
 use header;
 
 use constant {
+
 	# the minimum amount of time the server understands
 	SERVER_TICK => 0.5,
 

@@ -19,7 +19,7 @@ has cache '_discovered_actors' => (
 
 sub _discover_players ($self, $actor, $found_objects, $resource)
 {
-	my %found_prev = %{ $self->_discovered_actors->{$actor} // {} };
+	my %found_prev = %{$self->_discovered_actors->{$actor} // {}};
 	my %not_found = %found_prev;
 
 	my @new;

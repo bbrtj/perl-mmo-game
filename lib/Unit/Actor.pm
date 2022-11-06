@@ -13,6 +13,7 @@ has option 'player' => (
 );
 
 has option 'npc' => (
+
 	# isa => Types::Maybe[Types::InstanceOf['Model::Npc']],
 	predicate => 'is_npc',
 );

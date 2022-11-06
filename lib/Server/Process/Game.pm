@@ -23,7 +23,7 @@ has param 'location_id' => (
 );
 
 has field 'server' => (
-	isa => Types::InstanceOf['Game::Server'],
+	isa => Types::InstanceOf ['Game::Server'],
 	default => sub ($self) {
 		return Game::Server->new(
 			process => $self,
@@ -89,7 +89,8 @@ sub do_work ($self, $loop)
 	my $start;
 
 	my $tick_sref;
-	my sub next_tick_setup () {
+	my sub next_tick_setup ()
+	{
 		my $after = ($elapsed + 1) * $tick - (time() - $start);
 
 		if (Server::Config::DEBUG) {
@@ -108,11 +109,13 @@ sub do_work ($self, $loop)
 		next_tick_setup();
 	};
 
+	$loop->next_tick(
 
-	$loop->next_tick(sub ($) {
-		$start = time;
-		next_tick_setup();
-	});
+		sub ($) {
+			$start = time;
+			next_tick_setup();
+		}
+	);
 
 	$self->log->info('Game process for ' . $self->location_id . ' started');
 	return;

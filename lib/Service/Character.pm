@@ -19,7 +19,7 @@ sub create_character ($self, $user, $character_data)
 		player_id => $player->id,
 		class_id => $class->id,
 		name => ucfirst lc $character_data->{name},
-		base_stats => '', # TODO
+		base_stats => '',    # TODO
 	);
 
 	my $character_variables = Model::CharacterVariables->new(

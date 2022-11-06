@@ -24,30 +24,39 @@ e2e_test {
 		['1', '1'],
 		['2', Resource::CharacterList->new(DI->get('units_repo')->load_user($related_models{user}->id))->serialize],
 		['3', '1'],
-		['', Resource::LocationData->new(DI->get('lore_data_repo')->load($related_models{variables}->location_id))->serialize],
+		[
+			'',
+			Resource::LocationData->new(DI->get('lore_data_repo')->load($related_models{variables}->location_id))
+				->serialize
+		],
 	);
 
-	e2e_client(shift @send_queue, sub ($stream, $bytes, $receive_no) {
-		die "unexpected data: $bytes"
-			unless @receive_queue;
+	e2e_client(
+		shift @send_queue,
+		sub ($stream, $bytes, $receive_no) {
+			die "unexpected data: $bytes"
+				unless @receive_queue;
 
-		my @parts = split ';', $bytes;
-		my @wanted = @{shift @receive_queue};
+			my @parts = split ';', $bytes;
+			my @wanted = @{shift @receive_queue};
 
-		if (is_ref $wanted[1]) {
-			$parts[1] = from_json $parts[1];
+			if (is_ref $wanted[1]) {
+				$parts[1] = from_json $parts[1];
+			}
+
+			is \@parts, \@wanted, 'data received ok for test ' . $receive_no;
+
+			$stream->write(shift @send_queue)
+				if @send_queue;
 		}
+	);
 
-		is \@parts, \@wanted, 'data received ok for test ' . $receive_no;
-
-		$stream->write(shift @send_queue)
-			if @send_queue;
-	});
-
-	Mojo::IOLoop->recurring(1 => sub {
-		Mojo::IOLoop->stop
-			if !@receive_queue;
-	});
+	Mojo::IOLoop->recurring(
+		1 => sub {
+			Mojo::IOLoop->stop
+				if !@receive_queue;
+		}
+	);
 
 	Mojo::IOLoop->start unless Mojo::IOLoop->is_running;
 };

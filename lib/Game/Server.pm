@@ -8,7 +8,7 @@ use Sub::Quote qw(quote_sub quotify);
 use header;
 
 has param 'process' => (
-	isa => Types::InstanceOf['Server::Process::Game'],
+	isa => Types::InstanceOf ['Server::Process::Game'],
 	weak_ref => 1,
 	'handles->' => {
 		'send_to' => 'send_to',
@@ -54,23 +54,23 @@ sub _build_compiled_action ($self)
 
 	my @actions_lines = (q[my ($elapsed, $elapsed_time) = @_;]);
 
-	foreach my ($every, $handlers) (@sorted) {
+	foreach my ($every, $handlers) (@sorted){
 		$every = quotify $every;
 		push @actions_lines,
-			qq[if (\$elapsed % $every == 0) {],
-			(map { qq[ \$self->$_(\$elapsed_time);] } $handlers->@*),
-			qq[}];
-	}
+		qq[if (\$elapsed % $every == 0) {],
+		(map { qq[ \$self->$_(\$elapsed_time);] } $handlers->@*),
+		qq[}];
+		}
 
-	my $compiled = join "\n", @actions_lines;
+		my $compiled = join "\n", @actions_lines;
 
 	$self->log->debug("Compiled action: \n$compiled");
 
 	return quote_sub $compiled, {
 		'$self' => \$self,
-	}, {
-		no_defer => 1,
-	};
+		}, {
+			no_defer => 1,
+		};
 }
 
 sub BUILD ($self, $args)

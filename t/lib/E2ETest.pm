@@ -12,7 +12,7 @@ use header;
 our @EXPORT = qw(e2e_test e2e_client);
 our $SERVER_PORT;
 
-sub e2e_test :prototype(&) ($tester)
+sub e2e_test : prototype(&) ($tester)
 {
 	my @child_ids;
 
