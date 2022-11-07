@@ -16,6 +16,12 @@ sub e2e_test : prototype(&) ($tester)
 {
 	my @child_ids;
 
+	my sub finished ()
+	{
+		kill 'INT', @child_ids;
+		1 while wait != -1;
+	}
+
 	my sub do_fork ()
 	{
 		my $pid = fork;
@@ -47,15 +53,15 @@ sub e2e_test : prototype(&) ($tester)
 		exit;
 	}
 
-	defer { $cleanup->() }
+	defer {
+		$cleanup->();
+		finished();
+	}
 
 	# give server / worker some time to boot
 	sleep 1;
 
 	$tester->();
-
-	kill 'INT', @child_ids;
-	1 while wait != -1;
 
 	return;
 }
