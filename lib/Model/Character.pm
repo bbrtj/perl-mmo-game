@@ -9,7 +9,7 @@ extends 'Model';
 with 'Model::Role::Stored';
 
 has param 'player_id' => (
-	isa => Types::Maybe [Types::Ulid],
+	isa => Types::Maybe [Types::ULID],
 	default => sub { undef },
 );
 

@@ -6,7 +6,7 @@ use Data::ULID qw(ulid);
 use header;
 
 has param 'id' => (
-	coerce => Types::Ulid,
+	coerce => Types::ULID,
 	default => sub { undef },
 );
 

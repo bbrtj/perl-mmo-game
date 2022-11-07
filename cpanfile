@@ -16,6 +16,7 @@ requires 'Type::Tiny' => 0;
 requires 'Type::Libraries' => 0;
 requires 'Types::DateTime' => 0;
 requires 'Type::EmailAddress' => 0;
+requires 'Types::ULID' => 0;
 
 requires 'Mojolicious' => 0;
 

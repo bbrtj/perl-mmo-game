@@ -4484,6 +4484,15 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       common::sense 0
+  Types-ULID-0.001
+    pathname: B/BR/BRTASTIC/Types-ULID-0.001.tar.gz
+    provides:
+      Types::ULID 0.001
+    requirements:
+      Data::ULID 0
+      ExtUtils::MakeMaker 0
+      Type::Tiny 0
+      perl 5.010
   URI-5.16
     pathname: O/OA/OALDERS/URI-5.16.tar.gz
     provides:

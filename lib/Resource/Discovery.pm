@@ -9,7 +9,7 @@ extends 'Resource';
 # TODO: Sub::HandlesVia bug
 has field '_subject' => (
 	isa => Types::HashRef [
-		Types::ArrayRef [Types::Ulid]
+		Types::ArrayRef [Types::ULID]
 	],
 
 	default => sub { {} },

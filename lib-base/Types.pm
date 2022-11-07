@@ -4,10 +4,9 @@ use v5.36;
 
 use Type::Libraries;
 use Type::Tiny;
-use Types::Standard qw(Num Undef);
-use Types::Common::String qw(NonEmptySimpleStr StrLength);
+use Types::Standard qw(Num);
+use Types::Common::String qw(NonEmptySimpleStr);
 use Types::DateTime qw(Format);
-use Data::ULID;
 
 Type::Libraries->setup_class(
 	__PACKAGE__,
@@ -16,6 +15,7 @@ Type::Libraries->setup_class(
 		Types::Common::Numeric
 		Types::Common::String
 		Type::EmailAddress
+		Types::ULID
 	),
 );
 
@@ -32,28 +32,15 @@ my $LoreId = Type::Tiny->new(
 my $DateTime = Type::Tiny->new(
 	name => 'DateTime',
 	parent => Types::DateTime::DateTime,
-);
 
-my $ULID = Type::Tiny->new(
-	name => 'Ulid',
-	parent => StrLength [26],
-	constraint => q{ /\A[0-9a-zA-Z]+\z/ },
-	inlined => sub {
-		my $varname = pop;
-		return (undef, "$varname =~ /\\A[0-9a-zA-Z]+\\z/");
-	},
+	coercion => [
+		Num, q{ Types::DateTime::DateTime->coerce($_) },
+		Format ['Pg'],
+	]
 );
 
 __PACKAGE__->add_type($LoreId);
+__PACKAGE__->add_type($DateTime);
 
-__PACKAGE__->add_type($DateTime)->coercion->add_type_coercions(
-	Num, q{ Types::DateTime::DateTime->coerce($_) },
-	Format ['Pg'],
-)->freeze;
-
-__PACKAGE__->add_type($ULID)->coercion->add_type_coercions(
-	Undef, q{ Data::ULID::ulid() },
-)->freeze;
-
-1;
+__PACKAGE__->make_immutable;
 

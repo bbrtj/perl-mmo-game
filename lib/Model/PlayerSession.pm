@@ -16,7 +16,7 @@ extends 'Model';
 with 'Model::Role::Identified';
 
 has option 'user_id' => (
-	isa => Types::Ulid,
+	isa => Types::ULID,
 	clearer => 1,
 );
 
@@ -26,7 +26,7 @@ has param 'state' => (
 );
 
 has option 'player_id' => (
-	isa => Types::Ulid,
+	isa => Types::ULID,
 	clearer => 1,
 );
 

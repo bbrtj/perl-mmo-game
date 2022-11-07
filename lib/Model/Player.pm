@@ -9,7 +9,7 @@ extends 'Model';
 with 'Model::Role::Stored';
 
 has param 'user_id' => (
-	isa => Types::Ulid,
+	isa => Types::ULID,
 );
 
 has param 'online' => (
