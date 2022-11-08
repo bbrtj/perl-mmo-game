@@ -9,7 +9,7 @@ has injected 'models_repo';
 
 sub register_user ($self, $user_data)
 {
-	my $user = Model::User->dummy(
+	my $user = Model::User->new(
 		plaintext_password => $user_data->{password},
 		$user_data->%*
 	);
