@@ -12,7 +12,7 @@ sub usage ($self) { return $self->extract_usage }
 sub run ($self, @args)
 {
 	my $user_service = DI->get('user_service');
-	my $character_service = DI->get('user_service');
+	my $character_service = DI->get('character_service');
 	my $faker = DI->get('faker_service');
 
 	foreach (1 .. 3) {
