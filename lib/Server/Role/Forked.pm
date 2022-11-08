@@ -54,7 +54,7 @@ sub _spawn ($self, $prefix, $processes, $parent_code)
 	foreach my $pnum (1 .. $processes) {
 		my $process_id = "${prefix}${pnum}";
 
-		my $pid = fork;
+		my $pid = Utils->safe_fork;
 		if (defined $pid) {
 			my $is_parent = $pid > 0;
 

@@ -2,6 +2,7 @@ package E2ETest;
 
 use Exporter qw(import);
 use Test2::Tools::DatabaseTest;
+use Utils;
 
 use Server;
 use Server::Worker;
@@ -24,7 +25,7 @@ sub e2e_test : prototype(&) ($tester)
 
 	my sub do_fork ()
 	{
-		my $pid = fork;
+		my $pid = Utils->safe_fork;
 		die 'error forking'
 			unless defined $pid;
 
@@ -54,8 +55,8 @@ sub e2e_test : prototype(&) ($tester)
 	}
 
 	defer {
-		$cleanup->();
 		finished();
+		$cleanup->();
 	}
 
 	# give server / worker some time to boot

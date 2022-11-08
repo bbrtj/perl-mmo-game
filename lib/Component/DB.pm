@@ -15,13 +15,14 @@ has param 'dbh' => (
 			$self->env->getenv('DB_CONNECTION'),
 			$self->env->getenv('DB_USER'),
 			$self->env->getenv('DB_PASS'),
-			{RaiseError => 1},
+			{RaiseError => 1, AutoInactiveDestroy => 1},
 		);
 
 		return $dbh if $dbh;
 
 		croak $DBI::errstr;
 	},
+	clearer => 1,
 );
 
 has param 'dbc' => (
@@ -29,6 +30,7 @@ has param 'dbc' => (
 	lazy => sub ($self) {
 		return Schema->connect(sub { $self->dbh });
 	},
+	clearer => 1,
 );
 
 sub transaction ($self, $code)

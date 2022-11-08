@@ -29,10 +29,8 @@ sub manual_database_test ()
 
 	die 'database clone error' unless defined $cloned;
 
+	$env->setenv('DB_CONNECTION', $cloned->dsn);
 	DI->forget('db');
-
-	my $db = Component::DB->new(env => $env, dbh => $cloned->dbh);
-	DI->set('db', $db);
 
 	return sub {
 		DI->get('db')->dbh->disconnect;

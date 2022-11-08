@@ -17,6 +17,13 @@ has param 'rawenv' => (
 	},
 );
 
+sub setenv ($self, $name, $value)
+{
+	$self->rawenv->{$name} = $value;
+
+	return;
+}
+
 sub getenv ($self, $name)
 {
 	my $rawenv = $self->rawenv;
