@@ -49,7 +49,7 @@ sub _build_compiled_action ($self)
 	my %actions = $self->_actions->%*;
 	my @sorted =
 		map { $_ => $actions{$_} }
-		sort { $b <=> $a }
+		sort { $a <=> $b }
 		keys %actions;
 
 	my @actions_lines = (q[my ($elapsed, $elapsed_time) = @_;]);
