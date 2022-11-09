@@ -2,6 +2,7 @@ package Game::Server::Role::QuadTree;
 
 use My::Moose::Role;
 use Game::Config;
+use POSIX qw(ceil);
 
 use header;
 
@@ -24,12 +25,18 @@ sub _build_quad_tree ($self)
 	croak 'no map for location ' . $location->id
 		unless $location->data->has_map;
 
+	my $map = $location->data->map;
+
+	my $size = [ sort { $b <=> $a } ($map->size_x, $map->size_y) ]->[0];
+	my $required_precision = $size / Game::Config->config->{base_radius};
+	my $required_depth = ceil(log($required_precision) / log(2));
+
 	return Algorithm::QuadTree->new(
-		-depth => Game::Config->config->{quadtree_depth},
+		-depth => $required_depth,
 		-xmin => 0,
 		-ymin => 0,
-		-xmax => $location->data->map->size_x,
-		-ymax => $location->data->map->size_y,
+		-xmax => $map->size_x,
+		-ymax => $map->size_y,
 	);
 }
 

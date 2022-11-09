@@ -3,10 +3,9 @@ requires 'maps/cape_peril';
 my $max_level = 30;
 
 define {
-	quadtree_depth => 5,
 	max_level => $max_level,
 
-	base_radius => 0.1,
+	base_radius => 0.5,
 	discover_radius => 10,
 
 	zero_stats => 8,
