@@ -8,6 +8,14 @@ use header;
 
 use Benchmark qw(cmpthese);
 
+my $aqt_predeclared = Algorithm::QuadTree->new(
+	-depth => 8,
+	-xmin => 0,
+	-ymin => 0,
+	-xmax => 100,
+	-ymax => 100,
+);
+
 # depth = 8 will divide each dimension by 2^8 (256), so this quadtree will be
 # accurate to 100 / 256 = at least 0.5 unit
 my $aqt_big = Algorithm::QuadTree->new(
@@ -29,7 +37,11 @@ my $aqt_small = Algorithm::QuadTree->new(
 	-ymax => 30,
 );
 
-my $obj = ['obj'];
+my $obj = 'obj';
+
+foreach my $i (1 .. 1000) {
+	$aqt_predeclared->add($obj, rand 100, rand 100, 0.5);
+}
 
 cmpthese -5, {
 	'big clear + insert 1000' => sub {
@@ -43,6 +55,9 @@ cmpthese -5, {
 		foreach my $i (1 .. 50) {
 			$aqt_small->add($obj, $i / 4, $i / 4, 0.5);
 		}
+	},
+	'get enclosed' => sub {
+		$aqt_predeclared->getEnclosedObjects(50, 50, 10);
 	},
 };
 
