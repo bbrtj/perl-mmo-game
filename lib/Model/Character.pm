@@ -23,7 +23,7 @@ has param 'class_id' => (
 );
 
 has param 'name' => (
-	isa => Types::NonEmptySimpleStr->where(q{ length $_ <= 32 }),
+	isa => Types::ShortStr,
 );
 
 has param 'base_stats' => (

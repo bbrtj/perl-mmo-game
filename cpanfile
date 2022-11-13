@@ -13,6 +13,7 @@ requires 'Form::Tiny' => '2.06';
 requires 'Form::Tiny::Plugin::Diva' => 0;
 
 requires 'Type::Tiny' => 0;
+requires 'Type::Tiny::XS' => 0;
 requires 'Type::Libraries' => 0;
 requires 'Types::DateTime' => 0;
 requires 'Type::EmailAddress' => 0;

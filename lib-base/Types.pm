@@ -5,7 +5,7 @@ use v5.36;
 use Type::Libraries;
 use Type::Tiny;
 use Types::Standard qw(Num);
-use Types::Common::String qw(NonEmptySimpleStr);
+use Types::Common::String qw(StrLength);
 use Types::DateTime qw(Format);
 
 Type::Libraries->setup_class(
@@ -19,14 +19,14 @@ Type::Libraries->setup_class(
 	),
 );
 
+my $ShortStr = Type::Tiny->new(
+	name => 'ShortStr',
+	parent => StrLength[1, 32],
+);
+
 my $LoreId = Type::Tiny->new(
 	name => 'LoreId',
-	parent => NonEmptySimpleStr,
-	constraint => q{ length $_ <= 32 },
-	inlined => sub {
-		my $varname = pop;
-		return (undef, "length $varname <= 32");
-	},
+	parent => $ShortStr,
 );
 
 my $DateTime = Type::Tiny->new(
@@ -39,6 +39,7 @@ my $DateTime = Type::Tiny->new(
 	]
 );
 
+__PACKAGE__->add_type($ShortStr);
 __PACKAGE__->add_type($LoreId);
 __PACKAGE__->add_type($DateTime);
 
