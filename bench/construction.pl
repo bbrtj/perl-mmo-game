@@ -12,7 +12,7 @@ use Benchmark qw(cmpthese);
 
 my $ulid = ulid;
 
-cmpthese -2, {
+cmpthese - 2, {
 	'DateTime' => sub {
 		DateTime->from_epoch(time);
 	},

@@ -38,6 +38,8 @@ sub handle_errors ($class)
 			DI->get('log')->critical($err);
 		}
 	);
+
+	return;
 }
 
 sub safe_fork ($class)

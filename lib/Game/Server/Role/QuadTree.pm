@@ -27,7 +27,7 @@ sub _build_quad_tree ($self)
 
 	my $map = $location->data->map;
 
-	my $size = [ sort { $b <=> $a } ($map->size_x, $map->size_y) ]->[0];
+	my $size = (sort { $b <=> $a } ($map->size_x, $map->size_y))[0];
 	my $required_precision = $size / Game::Config->config->{base_radius};
 	my $required_depth = ceil(log($required_precision) / log(2));
 

@@ -21,7 +21,7 @@ Type::Libraries->setup_class(
 
 my $ShortStr = Type::Tiny->new(
 	name => 'ShortStr',
-	parent => StrLength[1, 32],
+	parent => StrLength [1, 32],
 );
 
 my $LoreId = Type::Tiny->new(

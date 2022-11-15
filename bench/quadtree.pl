@@ -43,7 +43,7 @@ foreach my $i (1 .. 1000) {
 	$aqt_predeclared->add($obj, rand 100, rand 100, 0.5);
 }
 
-cmpthese -5, {
+cmpthese - 5, {
 	'big clear + insert 1000' => sub {
 		$aqt_big->clear;
 		foreach my $i (1 .. 1000) {

@@ -56,6 +56,7 @@ sub raise ($self, $error, $warn = !!0)
 	}
 
 	warn $str;
+	return;
 }
 
 sub run ($self, $loop = Mojo::IOLoop->singleton)
@@ -122,7 +123,7 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 				return;
 			}
 
-			my $act = compare_received_data ($bytes);
+			my $act = compare_received_data($bytes);
 			if ($act->should_send) {
 				try {
 					$stream->write(get_send_data);
@@ -133,5 +134,7 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 			}
 		}
 	);
+
+	return;
 }
 

@@ -22,6 +22,7 @@ sub e2e_test : prototype(&) ($tester)
 	{
 		kill 'INT', @child_ids;
 		1 while wait != -1;
+		return;
 	}
 
 	my sub do_fork ()
