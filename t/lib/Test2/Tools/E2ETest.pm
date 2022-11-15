@@ -1,7 +1,8 @@
-package E2ETest;
+package Test2::Tools::E2ETest;
 
 use Exporter qw(import);
 use Test2::Tools::DatabaseTest;
+use Test2::API qw(context);
 use Utils;
 
 use Server;
@@ -62,15 +63,22 @@ sub e2e_test : prototype(&) ($tester)
 	# give server / worker some time to boot
 	sleep 1;
 
-	$tester->();
+	try {
+		$tester->();
+	}
+	catch ($e) {
+		my $ctx = context;
+		$ctx->fail("fatal error during e2e testing: $e");
+		$ctx->release;
+	}
 
 	return;
 }
 
-sub e2e_client ($first_message, $on_receive)
+sub e2e_client ($loop, $first_message, $on_receive)
 {
 	my $receive_no = 0;
-	return Mojo::IOLoop->client(
+	return $loop->client(
 		{address => '127.0.0.1', port => $SERVER_PORT},
 		sub ($loop, $err, $stream) {
 			die "error connecting: $err" if $err;

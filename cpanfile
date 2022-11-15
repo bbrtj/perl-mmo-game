@@ -57,6 +57,7 @@ on 'test' => sub {
 	requires 'Test::DB';
 	requires 'Test2::V0';
 	requires 'Test::Spy' => '0.005';
+	requires 'Data::Compare';
 };
 
 # vim: ft=perl

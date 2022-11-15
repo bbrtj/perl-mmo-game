@@ -45,25 +45,3 @@ sub create_actor ($self, $password = 'asdfasdf')
 	);
 }
 
-sub actor_server_login_data ($self, $actor, $user, $password)
-{
-	my @send_queue = (
-		'1;login;' . to_json({email => $user->email, password => $password}),
-		'2;list_characters',
-		'3;enter_game;' . $actor->player->id,
-	);
-
-	my @receive_queue = (
-		['1', '1'],
-		['2', Resource::CharacterList->new(DI->get('units_repo')->load_user($user->id))->serialize],
-		['3', '1'],
-		[
-			'',
-			Resource::LocationData->new(DI->get('lore_data_repo')->load($actor->variables->location_id))
-				->serialize
-		],
-	);
-
-	return (\@send_queue, \@receive_queue);
-}
-
