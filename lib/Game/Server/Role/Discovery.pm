@@ -12,7 +12,7 @@ requires qw(
 	send_to
 );
 
-has cache '_discovered_actors' => (
+has cached '_discovered_actors' => (
 	isa => Types::HashRef [Types::HashRef],
 	default => sub { {} },
 );

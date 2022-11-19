@@ -14,7 +14,7 @@ sub attribute_types ($self)
 		injected => {
 			is => 'ro',
 		},
-		cache => $std->{field},
+		cached => $std->{field},
 	};
 }
 

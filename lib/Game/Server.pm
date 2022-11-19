@@ -25,7 +25,7 @@ has field '_actions' => (
 	default => sub { {} },
 );
 
-has cache '_compiled_action' => (
+has cached '_compiled_action' => (
 	isa => Types::CodeRef,
 	lazy => 1,
 );
