@@ -1,4 +1,5 @@
 [test]
+-PMoose
 --include lib-base
 --tlib
 --jobs 4
