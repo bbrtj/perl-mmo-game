@@ -4,6 +4,7 @@ requires 'Util::H2O' => 0;
 requires 'Mooish::AttributeBuilder' => '1.001';
 requires 'Sub::HandlesVia' => 0;
 requires 'Hook::AfterRuntime' => 0;
+requires 'MooseX::XSAccessor' => 0;
 
 requires 'Beam::Wire' => 0;
 requires 'Dotenv' => 0;
@@ -47,6 +48,7 @@ requires 'Quantum::Superpositions::Lazy' => 0;
 requires 'Crypt::Bcrypt' => 0;
 requires 'Algorithm::QuadTree::XS' => 0;
 requires 'Sub::Quote' => 0;
+requires 'Game::TileMap' => 0;
 
 requires 'Faker' => 0;
 

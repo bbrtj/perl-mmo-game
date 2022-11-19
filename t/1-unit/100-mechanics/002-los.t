@@ -18,18 +18,18 @@ test_data
 		[[1.9, 9.06], [5.9, 6.1]],
 	];
 
-my $map = Game::Object::Map->from_string(<<MAP);
+my $map = Game::Object::Map->new(map => <<MAP);
 ............
-.OOOO..OOOO.
-.OOOO..OOOO.
-.O..OO...OO.
-.O..OOOOOOO.
-.OO..OOOOOO.
-.O...OO.....
-...OOOOOO...
-..OOOOOOOO..
-.OOO....OOO.
 .OO......OO.
+.OOO....OOO.
+..OOOOOOOO..
+...OOOOOO...
+.O...OO.....
+.OO..OOOOOO.
+.O..OOOOOOO.
+.O..OO...OO.
+.OOOO..OOOO.
+.OOOO..OOOO.
 ............
 MAP
 

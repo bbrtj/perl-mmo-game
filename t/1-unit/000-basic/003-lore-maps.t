@@ -13,19 +13,7 @@ is $harbor->id, 'L.LOC.CP_HARBOR', 'location loaded ok';
 is $harbor->data->map->size_x, 10, 'size x ok';
 is $harbor->data->map->size_y, 10, 'size y ok';
 
-is $harbor->data->map->coordinates, [
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	[0, 1, 1, 1, 1, 1, 0, 0, 0, 0],
-	[0, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-	[0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-	[0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-	[0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-	[0, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-	[0, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-	[0, 1, 1, 1, 1, 1, 0, 0, 0, 0],
-	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-	],
-	'map loaded ok';
+isa_ok $harbor->data->map->coordinates->[0][0], 'Game::TileMap::Tile';
 
 done_testing;
 

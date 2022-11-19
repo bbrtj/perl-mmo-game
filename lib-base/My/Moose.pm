@@ -6,13 +6,15 @@ use Hook::AfterRuntime;
 use Import::Into;
 use Module::Load qw(load);
 
-use constant TOOLKIT => 'Mouse';
+# Moose or mouse
+use constant TOOLKIT => 'Moose';
 
 load TOOLKIT;
 load 'Sub::HandlesVia::Toolkit::' . TOOLKIT;
 
 require namespace::autoclean;
 require My::Mooish::AttributeBuilder;
+require MooseX::XSAccessor;
 
 sub common_traits ()
 {
@@ -45,6 +47,7 @@ sub import ($self, @args)
 
 	# for Moose, make immutable
 	if (TOOLKIT eq 'Moose') {
+		MooseX::XSAccessor->import::into($caller);
 		after_runtime { $caller->meta->make_immutable(@immutable_args) };
 	}
 

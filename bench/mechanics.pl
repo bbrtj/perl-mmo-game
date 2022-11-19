@@ -10,7 +10,7 @@ use header;
 
 use Benchmark qw(cmpthese);
 
-my $map = Game::Object::Map->from_string(<<MAP);
+my $map = Game::Object::Map->new(map => <<MAP);
 ............
 .OOOO..OOOO.
 .OOOO..OOOO.
@@ -27,9 +27,9 @@ MAP
 
 my $location = h2o {map => $map};
 
-cmpthese - 2, {
+cmpthese - 1, {
 	line_of_sight => sub {
-		Game::Mechanics::Check::Map->can_see($location, [7.5, 4.6], [1.7, 10.3]);
+		die unless Game::Mechanics::Check::Map->can_see($location, [4.9, 4.8], [10.9, 9.3])->result;
 	},
 };
 

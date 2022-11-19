@@ -13,7 +13,7 @@ has extended 'subject' => (
 sub serialize ($self)
 {
 	return {
-		coordinates => $self->subject->data->map->coordinates,
+		location => $self->subject->name,
 	};
 }
 

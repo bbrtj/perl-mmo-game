@@ -18,6 +18,8 @@ package Game::Lore::LocationData {
 
 	extends 'Game::LoreData';
 
+	# pos_x / pos_y ON THE AREA MAP
+
 	has option 'pos_x' => (
 		writer => 1,
 		isa => Types::Num,
@@ -44,8 +46,9 @@ package Game::Lore::LocationData {
 
 	sub set_map ($self, $map_str)
 	{
-		$self->_set_map(Game::Object::Map->from_string($map_str));
+		$self->_set_map(Game::Object::Map->new(map => $map_str));
 		return;
 	}
+
 }
 

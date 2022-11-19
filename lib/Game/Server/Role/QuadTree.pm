@@ -13,7 +13,7 @@ requires qw(
 sub find_in_radius;
 has field '_quad_tree' => (
 	isa => Types::InstanceOf ['Algorithm::QuadTree'],
-	builder => 1,
+	lazy => 1,
 	'handles->' => {
 		'find_in_radius' => 'getEnclosedObjects',
 	},
