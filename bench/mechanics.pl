@@ -27,7 +27,7 @@ MAP
 
 my $location = h2o {map => $map};
 
-cmpthese - 1, {
+cmpthese - 2, {
 	line_of_sight => sub {
 		die unless Game::Mechanics::Check::Map->can_see($location, [4.9, 4.8], [10.9, 9.3])->result;
 	},

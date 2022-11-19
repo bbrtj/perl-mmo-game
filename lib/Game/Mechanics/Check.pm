@@ -7,12 +7,15 @@ use header;
 
 has option 'error';
 
+my $success = __PACKAGE__->new;
+
 # easy checking of a boolean value
 sub check ($self, $message, $check)
 {
-	return Game::Mechanics::Check->new(
-		$check ? () : (error => $message),
-	);
+	return $check
+		? $success
+		: $self->new(error => $message)
+		;
 }
 
 # complex checking of nested checks and coderefs
@@ -33,14 +36,12 @@ sub gather ($self, $message, @checks)
 				if $check->has_error;
 		}
 		elsif (!$check) {
-			return Game::Mechanics::Check->new(
-				error => $message,
-			);
+			return $self->new(error => $message);
 		}
 
 	}
 
-	return Game::Mechanics::Check->new;
+	return $success;
 }
 
 sub result ($self)
