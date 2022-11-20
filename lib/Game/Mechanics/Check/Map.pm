@@ -28,18 +28,24 @@ sub can_see ($self, $location, $position1, $position2)
 {
 	my $map = $location->map;
 	my $coeff_x = ($position2->[1] - $position1->[1]) / ($position2->[0] - $position1->[0]);
-	my $partial_pos_y = $position1->[1] - $position1->[0] * $coeff_x;
 
-	my @coords = ($position1, $position2);
-	for my $pos_x ($self->_get_tile_sides($position1->[0], $position2->[0])) {
-		my $pos_y = $partial_pos_y + $pos_x * $coeff_x;
-		push @coords,
-			[$pos_x, $pos_y],
-			[$pos_x - 1, $pos_y],
-			;
-	}
+	my $checks_for_x = sub ($pos_x) {
+		state $partial = $position1->[1] - $position1->[0] * $coeff_x;
+		my $pos_y = $partial + $pos_x * $coeff_x;
+		return ([$pos_x, $pos_y], [$pos_x - 1, $pos_y]);
+	};
 
-	# NOTE: optimization: @coords can be calculated in C
+	my $checks_for_y = sub ($pos_y) {
+		state $partial = $position1->[0] - $position1->[1] / $coeff_x;
+		my $pos_x = $partial + $pos_y / $coeff_x;
+		return ([$pos_x, $pos_y], [$pos_x, $pos_y - 1]);
+	};
+
+	# NOTE OPTIMIZATION: @coords can be calculated in C
+	my @coords = (
+		(map { $checks_for_x->($_) } $self->_get_tile_sides($position1->[0], $position2->[0])),
+		(map { $checks_for_y->($_) } $self->_get_tile_sides($position1->[1], $position2->[1]))
+	);
 
 	return Game::Mechanics::Check->check(
 		'err.not_in_los',
