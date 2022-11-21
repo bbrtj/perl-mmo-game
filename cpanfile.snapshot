@@ -1868,15 +1868,15 @@ DISTRIBUTIONS
       perl 5.014000
       strict 0
       warnings 0
-  Game-TileMap-0.001
-    pathname: B/BR/BRTASTIC/Game-TileMap-0.001.tar.gz
+  Game-TileMap-0.002
+    pathname: B/BR/BRTASTIC/Game-TileMap-0.002.tar.gz
     provides:
-      Game::TileMap 0.001
-      Game::TileMap::Legend 0.001
-      Game::TileMap::Role::Checks 0.001
-      Game::TileMap::Role::Helpers 0.001
-      Game::TileMap::Tile 0.001
-      Game::TileMap::_Utils 0.001
+      Game::TileMap 0.002
+      Game::TileMap::Legend 0.002
+      Game::TileMap::Role::Checks 0.002
+      Game::TileMap::Role::Helpers 0.002
+      Game::TileMap::Tile 0.002
+      Game::TileMap::_Utils 0.002
     requirements:
       ExtUtils::MakeMaker 0
       Moo 2
