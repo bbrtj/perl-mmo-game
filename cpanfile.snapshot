@@ -1413,19 +1413,6 @@ DISTRIBUTIONS
       perl 5.008004
       strict 0
       warnings 0
-  Devel-CheckCompiler-0.07
-    pathname: S/SY/SYOHEX/Devel-CheckCompiler-0.07.tar.gz
-    provides:
-      Devel::AssertC99 undef
-      Devel::CheckCompiler 0.07
-    requirements:
-      Exporter 0
-      ExtUtils::CBuilder 0
-      File::Temp 0
-      Module::Build::Tiny 0.035
-      Test::More 0.98
-      parent 0
-      perl 5.008001
   Devel-GlobalDestruction-0.14
     pathname: H/HA/HAARG/Devel-GlobalDestruction-0.14.tar.gz
     provides:
@@ -2170,21 +2157,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Module-Build-XSUtil-0.19
-    pathname: H/HI/HIDEAKIO/Module-Build-XSUtil-0.19.tar.gz
-    provides:
-      Module::Build::XSUtil 0.19
-    requirements:
-      Devel::CheckCompiler 0
-      Devel::PPPort 0
-      Exporter 0
-      ExtUtils::CBuilder 0
-      File::Basename 0
-      File::Path 0
-      Module::Build 0.4005
-      XSLoader 0
-      parent 0
-      perl 5.008001
   Module-Find-0.16
     pathname: C/CR/CRENZ/Module-Find-0.16.tar.gz
     provides:
@@ -2983,44 +2955,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.17
       Moose 2.0600
       perl 5.008
-  Mouse-v2.5.10
-    pathname: S/SK/SKAJI/Mouse-v2.5.10.tar.gz
-    provides:
-      Mouse v2.5.10
-      Mouse::Exporter undef
-      Mouse::Meta::Attribute undef
-      Mouse::Meta::Class undef
-      Mouse::Meta::Method undef
-      Mouse::Meta::Method::Accessor undef
-      Mouse::Meta::Method::Constructor undef
-      Mouse::Meta::Method::Delegation undef
-      Mouse::Meta::Method::Destructor undef
-      Mouse::Meta::Module undef
-      Mouse::Meta::Role undef
-      Mouse::Meta::Role::Application undef
-      Mouse::Meta::Role::Application::RoleSummation undef
-      Mouse::Meta::Role::Composite undef
-      Mouse::Meta::Role::Method undef
-      Mouse::Meta::TypeConstraint undef
-      Mouse::Object undef
-      Mouse::PurePerl undef
-      Mouse::Role v2.5.10
-      Mouse::Spec v2.5.10
-      Mouse::TypeRegistry undef
-      Mouse::Util v2.5.10
-      Mouse::Util::MetaRole undef
-      Mouse::Util::TypeConstraints undef
-      Squirrel undef
-      Squirrel::Role undef
-      Test::Mouse undef
-      ouse undef
-    requirements:
-      ExtUtils::CBuilder 0
-      Module::Build 0.4005
-      Module::Build::XSUtil 0.19
-      Scalar::Util 1.14
-      XSLoader 0.02
-      perl 5.008005
   Net-DNS-1.35
     pathname: N/NL/NLNETLABS/Net-DNS-1.35.tar.gz
     provides:

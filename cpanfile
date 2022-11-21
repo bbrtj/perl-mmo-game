@@ -1,5 +1,4 @@
 requires 'Moose' => 0;
-requires 'Mouse' => 0;
 requires 'Util::H2O' => 0;
 requires 'Mooish::AttributeBuilder' => '1.001';
 requires 'Sub::HandlesVia' => 0;
