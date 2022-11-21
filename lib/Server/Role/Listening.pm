@@ -2,8 +2,6 @@ package Server::Role::Listening;
 
 use My::Moose::Role;
 
-# use Sub::HandlesVia;
-
 use header;
 
 has field '_callbacks' => (

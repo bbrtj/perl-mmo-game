@@ -6,8 +6,6 @@ use Mojo::JSON qw(to_json from_json);
 use Server::Config;
 use Server::Worker;
 
-# use Sub::HandlesVia;
-
 use all 'Model', 'X';
 
 use header;

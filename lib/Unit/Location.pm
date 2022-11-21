@@ -3,8 +3,6 @@ package Unit::Location;
 use My::Moose;
 use Game::Helpers;
 
-# use Sub::HandlesVia;
-
 use header;
 
 extends 'Unit';

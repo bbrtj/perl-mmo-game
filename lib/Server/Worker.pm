@@ -7,8 +7,6 @@ use Mojo::IOLoop;
 use POSIX qw(ceil);
 use List::Util qw(shuffle);
 
-# use Sub::HandlesVia;
-
 use header;
 
 with qw(

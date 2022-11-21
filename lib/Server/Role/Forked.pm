@@ -4,8 +4,6 @@ use My::Moose::Role;
 use Mojo::IOLoop;
 use Utils;
 
-# use Sub::HandlesVia;
-
 use header;
 
 requires qw(
