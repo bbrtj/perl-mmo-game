@@ -43,8 +43,8 @@ sub finished ($self)
 
 sub should_send ($self)
 {
-	return !!1 if $self->sequential && $self->state->{send}->@*;
-	return !!1 if !$self->state->{receive}->@*;
+	return !!0 unless $self->state->{send}->@*;
+	return !!1 if $self->sequential || !$self->state->{receive}->@*;
 	return !!0;
 }
 

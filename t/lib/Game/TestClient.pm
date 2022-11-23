@@ -105,13 +105,13 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 		}
 
 		if ($parts[0]) {
-			say "Server response #$last_sent_id ok";
+			say "$action: Server response #$last_sent_id ok";
 		}
 		else {
-			say "Server feed ok";
+			say "$action: Server feed ok";
 		}
 
-		return $action;
+		return;
 	}
 
 	e2e_client(
@@ -123,8 +123,8 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 				return;
 			}
 
-			my $act = compare_received_data($bytes);
-			if ($act->should_send) {
+			compare_received_data($bytes);
+			if (grab_action->should_send) {
 				try {
 					$stream->write(get_send_data);
 				}

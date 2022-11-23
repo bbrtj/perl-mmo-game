@@ -15,6 +15,11 @@ has field 'clients' => (
 	}
 );
 
+has field 'timeout' => (
+	isa => Types::PositiveInt,
+	default => sub { 10 },
+);
+
 sub run ($self, $loop = Mojo::IOLoop->singleton)
 {
 	my @clients = $self->clients->@*;
@@ -37,6 +42,16 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 					@clients = grep { !$_->finished } @clients;
 				}
 			}
+		}
+	);
+
+	$loop->timer(
+		$self->timeout => sub {
+			my $ctx = context;
+			$ctx->fail('testing timed out');
+			$ctx->release;
+
+			$loop->stop;
 		}
 	);
 
