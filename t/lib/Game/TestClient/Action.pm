@@ -62,7 +62,7 @@ sub find_and_compare ($self, $data)
 			if $expected isa 'Resource';
 
 		my $cmp_data = $data;
-		$cmp_data = from_json($cmp_data)
+		$cmp_data = $self->decode($cmp_data)
 			if is_ref $expected;
 
 		my $ok = Compare($cmp_data, $expected);

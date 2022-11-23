@@ -44,8 +44,8 @@ sub _discover_players ($self, $actor, $found_objects, $resource)
 	}
 
 	if (@new || @old) {
-		$resource->new_players(@new);
-		$resource->old_players(@old);
+		$resource->new_players(@new) if @new;
+		$resource->old_players(@old) if @old;
 		$self->_discovered_actors->{$actor} = \%found_prev;
 		return !!1;
 	}

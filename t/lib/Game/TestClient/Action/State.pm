@@ -7,7 +7,7 @@ use header;
 
 extends 'Game::TestClient::Action';
 
-has param 'state' => (
+has param 'received' => (
 	isa => Types::HashRef,
 	writer => 1,
 );
@@ -27,7 +27,7 @@ sub receive_queue ($self)
 
 sub finished ($self)
 {
-	return !$self->state->%*;
+	return !$self->received->%*;
 }
 
 sub should_send ($self)
@@ -78,8 +78,8 @@ sub _diff ($self, $left, $right)
 	my $ref_left = ref $left;
 	my $ref_right = ref $right;
 	return $left if $ref_left ne $ref_right;
-	return _diff_array if $ref_left eq 'ARRAY';
-	return _diff_hash if $ref_left eq 'HASH';
+	return $self->_diff_array($left, $right) if $ref_left eq 'ARRAY';
+	return $self->_diff_hash($left, $right) if $ref_left eq 'HASH';
 
 	croak "cannot compare references to $ref_left"
 		if length $ref_left;
@@ -99,22 +99,24 @@ sub diff ($self, $left, $right, $out)
 		return !!0;
 	}
 	else {
-		\$out = $diff;
+		$$out = $diff;
 		return !!1;
 	}
 }
 
 sub find_and_compare ($self, $data)
 {
+	$data = $self->decode($data);
+
 	my $diff;
-	if ($self->diff($data, $self->state, \$diff)) {
+	if ($self->diff($data, $self->received, \$diff)) {
 		return !!0;
 	}
-	elsif ($self->diff($self->state, $data, \$diff)) {
-		$self->set_state($diff);
+	elsif ($self->diff($self->received, $data, \$diff)) {
+		$self->set_received($diff);
 	}
 	else {
-		$self->set_state({});
+		$self->set_received({});
 	}
 
 	return !!1;
@@ -122,6 +124,6 @@ sub find_and_compare ($self, $data)
 
 sub get_expected_data ($self)
 {
-	return Dumper($self->state);
+	return Dumper($self->received);
 }
 
