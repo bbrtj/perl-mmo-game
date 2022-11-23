@@ -123,14 +123,14 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 				return;
 			}
 
-			compare_received_data($bytes);
-			if (grab_action->should_send) {
-				try {
-					$stream->write(get_send_data);
+			try {
+				compare_received_data($bytes);
+				if (grab_action->should_send) {
+						$stream->write(get_send_data);
 				}
-				catch ($e) {
-					$self->raise($e) unless $self->finished;
-				}
+			}
+			catch ($e) {
+				$self->raise($e) unless $self->finished;
 			}
 		}
 	);
