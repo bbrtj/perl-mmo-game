@@ -9,7 +9,7 @@ use header;
 requires qw(
 	location_data
 	find_in_radius
-	send_to
+	send_to_actor
 );
 
 has cached '_discovered_actors' => (
@@ -68,7 +68,7 @@ sub _discover ($self, $elapsed_time)
 			$should_send = $self->$method($actor, $found_objects, $resource) || $should_send;
 		}
 
-		$self->send_to($actor, $resource) if $should_send;
+		$self->send_to_actor($actor, $resource) if $should_send;
 	}
 
 	return;

@@ -11,7 +11,7 @@ has param 'process' => (
 	isa => Types::InstanceOf ['Server::Process::Game'],
 	weak_ref => 1,
 	'handles->' => {
-		'send_to' => 'send_to',
+		'send_to_actor' => 'send_to_actor',
 		'log' => 'log',
 	},
 );
