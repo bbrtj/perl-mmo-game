@@ -15,7 +15,7 @@ has field '_subject' => (
 	default => sub { {} },
 
 	'handles{}' => {
-		'_add' => 'store',
+		'_add' => 'set',
 	},
 );
 
