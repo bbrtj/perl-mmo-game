@@ -4571,6 +4571,13 @@ DISTRIBUTIONS
       Hash::Util 0.06
       Symbol 0
       perl 5.006000
+  Value-Diff-0.001
+    pathname: B/BR/BRTASTIC/Value-Diff-0.001.tar.gz
+    provides:
+      Value::Diff 0.001
+    requirements:
+      ExtUtils::MakeMaker 0
+      perl 5.010
   Variable-Magic-0.63
     pathname: V/VP/VPIT/Variable-Magic-0.63.tar.gz
     provides:
