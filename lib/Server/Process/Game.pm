@@ -108,13 +108,18 @@ sub do_work ($self, $loop)
 	}
 
 	$tick_sref = sub {
-		$self->server->tick(++$elapsed, $elapsed * $tick);
+		try {
+			$self->server->tick(++$elapsed, $elapsed * $tick);
+		}
+		catch ($e) {
+			$self->log->error("Error occured in server processing loop: $e");
+		}
+
 		next_tick_setup();
 	};
 
 	$loop->next_tick(
-
-		sub ($) {
+		sub {
 			$start = time;
 			next_tick_setup();
 		}
