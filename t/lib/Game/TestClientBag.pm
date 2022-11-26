@@ -17,7 +17,7 @@ has field 'clients' => (
 
 has field 'timeout' => (
 	isa => Types::PositiveInt,
-	default => sub { 10 },
+	default => 10,
 );
 
 sub run ($self, $loop = Mojo::IOLoop->singleton)

@@ -10,12 +10,12 @@ with 'Model::Role::Stored';
 
 has param 'player_id' => (
 	isa => Types::Maybe [Types::ULID],
-	default => sub { undef },
+	default => undef,
 );
 
 has param 'npc_id' => (
 	isa => Types::Maybe [Types::LoreId],
-	default => sub { undef },
+	default => undef,
 );
 
 has param 'class_id' => (
@@ -28,7 +28,7 @@ has param 'name' => (
 
 has param 'base_stats' => (
 	isa => Types::Str,
-	default => sub { '' },
+	default => '',
 );
 
 sub is_player ($self)

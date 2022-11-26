@@ -3,9 +3,9 @@ package ActorTest;
 use Game::Helpers;
 use Game::Config;
 use Mojo::JSON qw(from_json to_json);
-use all 'Resource';
+use Test2::Tools::PrepareModels;
 
-use all 'Model', 'Unit';
+use all 'Resource', 'Model', 'Unit';
 
 use header;
 
@@ -32,16 +32,23 @@ sub create_actor ($self, $password = 'asdfasdf')
 	my $character = $faker->fake_character($player->id);
 	my $variables = $faker->fake_variables($character->id);
 
+	my %models = (
+		user => $user,
+		player => $player,
+		character => $character,
+		variables => $variables,
+	);
+
+	# prepare models for comparing with 'is'
+	prepare_model($_) for values %models;
+
 	return (
 		Unit::Actor->new(
 			player => $player,
 			character => $character,
 			variables => $variables,
 		),
-		user => $user,
-		player => $player,
-		character => $character,
-		variables => $variables,
+		%models
 	);
 }
 

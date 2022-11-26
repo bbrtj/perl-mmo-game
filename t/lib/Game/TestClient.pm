@@ -23,7 +23,7 @@ has field 'actions' => (
 
 has field 'finished' => (
 	isa => Types::Bool,
-	default => sub { !!0 },
+	default => !!0,
 	'handles!!' => {
 		'_set_finished' => 'set',
 		'_reset_finished' => 'reset',
@@ -32,7 +32,7 @@ has field 'finished' => (
 
 has field 'success' => (
 	isa => Types::Bool,
-	default => sub { !!1 },
+	default => !!1,
 	'handles!!' => {
 		'_set_failed' => 'unset',
 	}
@@ -126,7 +126,7 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 			try {
 				compare_received_data($bytes);
 				if (grab_action->should_send) {
-						$stream->write(get_send_data);
+					$stream->write(get_send_data);
 				}
 			}
 			catch ($e) {

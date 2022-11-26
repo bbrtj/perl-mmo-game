@@ -22,7 +22,7 @@ has option 'user_id' => (
 
 has param 'state' => (
 	isa => Types::Enum [STATE_NEW, STATE_LOGGED_IN, STATE_PLAYING],
-	default => sub { STATE_NEW },
+	default => STATE_NEW,
 );
 
 has option 'player_id' => (

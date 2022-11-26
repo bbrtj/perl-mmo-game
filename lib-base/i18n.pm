@@ -35,7 +35,7 @@ sub _tt ($message, @args)
 	return i18n::Translation->new(
 		message => $message,
 		args => \@args,
-		id => 0,
+		id => !!0,
 	);
 }
 

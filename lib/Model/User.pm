@@ -33,7 +33,7 @@ has param 'password' => (
 
 has param 'status' => (
 	isa => Types::PositiveInt,
-	default => sub { 1 },
+	default => 1,
 );
 
 has param 'created_at' => (

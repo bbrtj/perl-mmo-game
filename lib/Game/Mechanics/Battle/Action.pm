@@ -10,9 +10,9 @@ sub ends_turn ($self, $actor, %action)
 	elsif (exists $action{movement}) {
 
 		# TODO: calculate movement and check if it should end turn
-		return 1;
+		return !!1;
 	}
 
-	return 0;
+	return !!0;
 }
 

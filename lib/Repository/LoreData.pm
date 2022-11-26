@@ -21,8 +21,8 @@ sub save ($self, $obj)
 
 sub check ($self, $id, $type = undef)
 {
-	return 0 unless defined $collection{$id};
-	return 1 unless defined $type;
+	return !!0 unless defined $collection{$id};
+	return !!1 unless defined $type;
 	return $collection{$id} isa 'Game::Lore::' . ucfirst $type;
 }
 

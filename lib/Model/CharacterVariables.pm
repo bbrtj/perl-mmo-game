@@ -10,7 +10,7 @@ with 'Model::Role::Stored';
 
 has param 'experience' => (
 	isa => Types::PositiveOrZeroInt,
-	default => sub { 0 },
+	default => 0,
 );
 
 has param 'location_id' => (

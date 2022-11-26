@@ -14,12 +14,12 @@ has param 'user_id' => (
 
 has param 'online' => (
 	isa => Types::Bool,
-	default => sub { 0 },
+	default => !!0,
 );
 
 has param 'last_online' => (
 	coerce => Types::Maybe [Types::DateTime],
-	default => sub { undef },
+	default => undef,
 );
 
 has param 'created_at' => (

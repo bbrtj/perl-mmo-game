@@ -15,7 +15,7 @@ translations pl => {
 
 define {
 	damage => [3, 5],
-	both_hands => 0,
+	both_hands => !!0,
 };
 
 # Base accuracy

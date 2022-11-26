@@ -1,11 +1,6 @@
 package Model;
 
-use My::Moose -traits => [
-	qw(
-		My::Moose::Trait::AutoSetters
-		My::Moose::Trait::Serializable
-	)
-];
+use My::Moose -traits => [qw(Trait::Model)];
 
 require Schema;
 
@@ -29,7 +24,7 @@ sub _register ($class)
 	$orm_mapping{$class} = $resultset;
 	$orm_mapping_reverse{$resultset} = $class;
 
-	$resultset->add_columns(map { $_->name } $class->meta->serialized_attributes->@*);
+	$class->meta->add_columns_to_resultset($resultset);
 	Schema->register_class($1, $resultset);
 
 	return;

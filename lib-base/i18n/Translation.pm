@@ -17,13 +17,13 @@ use overload
 
 has param 'id' => (
 	isa => Types::Bool,
-	default => sub { 1 },
+	default => !!1,
 );
 
 has param 'lore' => (
 	isa => Types::Bool,
 	writer => 1,
-	default => sub { 0 },
+	default => !!0,
 );
 
 has param 'message' => (

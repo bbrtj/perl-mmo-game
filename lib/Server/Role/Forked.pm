@@ -14,7 +14,7 @@ has injected 'log';
 
 has field 'forked' => (
 	writer => 1,
-	default => sub { 0 },
+	default => !!0,
 );
 
 has field '_children' => (
