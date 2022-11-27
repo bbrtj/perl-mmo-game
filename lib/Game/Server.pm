@@ -4,6 +4,7 @@ use My::Moose;
 use Algorithm::QuadTree;
 use Game::Config;
 use Sub::Quote qw(quote_sub quotify);
+use Time::HiRes qw(time);
 
 use header;
 
@@ -18,6 +19,14 @@ has param 'process' => (
 
 has param 'location_data' => (
 	isa => Types::InstanceOf ['Unit::Location'],
+);
+
+has param 'start_time' => (
+	isa => Types::PositiveNum,
+	default => sub { time },
+	'handles++' => {
+		get_time => sub { time - shift },
+	},
 );
 
 has field '_actions' => (
@@ -52,13 +61,13 @@ sub _build_compiled_action ($self)
 		sort { $a <=> $b }
 		keys %actions;
 
-	my @actions_lines = (q[my ($elapsed, $elapsed_time) = @_;]);
+	my @actions_lines = (q[my ($elapsed) = @_;]);
 
 	foreach my ($every, $handlers) (@sorted) {
 		$every = quotify $every;
 		push @actions_lines,
 			qq[if (\$elapsed % $every == 0) {],
-			(map { qq[ \$self->$_(\$elapsed_time);] } $handlers->@*),
+			(map { qq[ \$self->$_();] } $handlers->@*),
 			qq[}];
 	}
 
@@ -78,8 +87,8 @@ sub BUILD ($self, $args)
 	# no BUILD actions by default. See roles for "after" hooks
 }
 
-sub tick ($self, $elapsed, $elapsed_time)
+sub tick ($self, $elapsed)
 {
-	$self->_compiled_action->($elapsed, $elapsed_time);
+	$self->_compiled_action->($elapsed);
 }
 

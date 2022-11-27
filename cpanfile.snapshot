@@ -264,6 +264,16 @@ DISTRIBUTIONS
       Time::HiRes 0
       XSLoader 0
       perl 5.008
+  Class-XSConstructor-0.009
+    pathname: T/TO/TOBYINK/Class-XSConstructor-0.009.tar.gz
+    provides:
+      Class::XSConstructor 0.009
+    requirements:
+      Exporter::Tiny 1.000000
+      ExtUtils::MakeMaker 6.17
+      List::Util 1.45
+      Ref::Util 0.100
+      perl 5.008008
   Clone-0.45
     pathname: A/AT/ATOOMIC/Clone-0.45.tar.gz
     provides:

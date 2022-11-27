@@ -40,7 +40,7 @@ sub _build_quad_tree ($self)
 	);
 }
 
-sub _reload_coordinates ($self, $elapsed_time)
+sub _reload_coordinates ($self)
 {
 	my $qt = $self->_quad_tree;
 	$qt->clear;

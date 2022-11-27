@@ -13,7 +13,7 @@ requires qw(
 );
 
 has cached '_discovered_actors' => (
-	isa => Types::HashRef [Types::HashRef],
+	isa => Types::HashRef [Types::HashRef [Types::InstanceOf ['Unit::Actor']]],
 	default => sub { {} },
 );
 
@@ -53,7 +53,7 @@ sub _discover_players ($self, $actor, $found_objects, $resource)
 	return !!0;
 }
 
-sub _discover ($self, $elapsed_time)
+sub _discover ($self)
 {
 	state $radius = Game::Config->config->{discover_radius};
 

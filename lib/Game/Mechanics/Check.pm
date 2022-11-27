@@ -46,7 +46,7 @@ sub gather ($self, $message, @checks)
 
 sub result ($self)
 {
-	return !$self->has_error;
+	return !$self->error;
 }
 
 sub assert_valid ($self)

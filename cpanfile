@@ -4,6 +4,7 @@ requires 'Mooish::AttributeBuilder' => '1.001';
 requires 'Sub::HandlesVia' => 0;
 requires 'Hook::AfterRuntime' => 0;
 requires 'MooseX::XSAccessor' => 0;
+requires 'Class::XSConstructor' => 0;
 
 requires 'Beam::Wire' => 0;
 requires 'Dotenv' => 0;
