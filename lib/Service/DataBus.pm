@@ -1,7 +1,6 @@
 package Service::DataBus;
 
 use My::Moose;
-use Data::ULID::XS qw(ulid);
 
 use header;
 
@@ -9,7 +8,7 @@ extends 'Service::Channel';
 
 sub broadcast ($self, $name, @args)
 {
-	$self->SUPER::broadcast(undef, [ulid, $name, @args]);
+	$self->SUPER::broadcast(undef, [Types::ULID::ulid, $name, @args]);
 
 	return;
 }

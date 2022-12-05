@@ -5,7 +5,6 @@ use all 'Model';
 use Game::Helpers;
 use Game::Config;
 use Faker;
-use Data::ULID::XS qw(ulid);
 
 use header;
 
@@ -23,14 +22,14 @@ sub fake_user ($self, $plaintext_password = $self->faker->user_password)
 	);
 }
 
-sub fake_player ($self, $user_id = ulid)
+sub fake_player ($self, $user_id = Types::ULID::ulid)
 {
 	return Model::Player->new(
 		user_id => $user_id,
 	);
 }
 
-sub fake_character ($self, $player_id = ulid)
+sub fake_character ($self, $player_id = Types::ULID::ulid)
 {
 	return Model::Character->new(
 		player_id => $player_id,
@@ -39,12 +38,12 @@ sub fake_character ($self, $player_id = ulid)
 	);
 }
 
-sub fake_npc ($self, $npc_id = ulid)
+sub fake_npc ($self, $npc_id = Types::ULID::ulid)
 {
 	...;
 }
 
-sub fake_variables ($self, $character_id = ulid)
+sub fake_variables ($self, $character_id = Types::ULID::ulid)
 {
 	return Model::CharacterVariables->new(
 		id => $character_id,

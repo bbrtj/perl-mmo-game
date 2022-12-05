@@ -6,7 +6,6 @@ use all 'Model', 'X', 'Unit';
 use Game::Object::Movement;
 use Model::PlayerSession;
 use DateTime;
-use Data::ULID::XS qw(ulid);
 use Time::HiRes qw(time);
 use Utils;
 
@@ -14,7 +13,7 @@ use header;
 
 use Benchmark qw(cmpthese);
 
-my $ulid = ulid;
+my $ulid = Types::ULID::ulid;
 my $character = DI->get('faker_service')->fake_character;
 my $variables = DI->get('faker_service')->fake_variables;
 my $actor = Unit::Actor->new(character => $character, variables => $variables);
