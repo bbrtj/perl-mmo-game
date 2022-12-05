@@ -5,6 +5,8 @@ use Game::Config;
 use Game::Object::Movement;
 use Game::Mechanics::Movement;
 
+use all 'X';
+
 use header;
 
 requires qw(
