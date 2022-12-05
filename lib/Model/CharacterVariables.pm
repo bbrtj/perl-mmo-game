@@ -29,5 +29,10 @@ has param 'energy' => (
 	isa => Types::Num,
 );
 
+sub xy ($self)
+{
+	return [$self->pos_x, $self->pos_y];
+}
+
 __PACKAGE__->_register;
 

@@ -89,6 +89,7 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 	{
 		my @data = grab_action->get_data->@*;
 		unshift @data, ++$last_sent_id;
+		push @data, join Server::Config::PROTOCOL_SEPARATOR, splice @data, 2;
 
 		return join Server::Config::PROTOCOL_CONTROL_CHARACTER, @data;
 	}
@@ -130,7 +131,7 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 				}
 			}
 			catch ($e) {
-				$self->raise($e) unless $self->finished;
+				$self->raise($e) unless $self->finished && $self->success;
 			}
 		}
 	);

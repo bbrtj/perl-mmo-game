@@ -43,7 +43,7 @@ requires 'Sereal::Encoder' => 0;
 requires 'Sereal::Decoder' => 0;
 
 requires 'Data::Entropy' => 0;
-requires 'Data::ULID' => 0;
+requires 'Data::ULID::XS' => '0.002';
 requires 'Quantum::Superpositions::Lazy' => 0;
 requires 'Crypt::Bcrypt' => 0;
 requires 'Algorithm::QuadTree::XS' => 0;

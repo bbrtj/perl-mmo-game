@@ -27,7 +27,7 @@ has field 'server' => (
 	default => sub ($self) {
 		return Game::Server->new(
 			process => $self,
-			location_data => DI->get('units_repo')->load_location($self->location_id)
+			location => DI->get('units_repo')->load_location($self->location_id)
 		);
 	},
 );
@@ -37,9 +37,9 @@ with qw(
 	Server::Role::CanSendData
 );
 
-sub send_to_actor ($self, $actor, $data, @more)
+sub send_to_player ($self, $player_id, $data, @more)
 {
-	my $session_id = $self->load_session($actor->player->id);
+	my $session_id = $self->load_session($player_id);
 
 	return $self->send_to($session_id, $data, @more);
 }
@@ -132,7 +132,7 @@ sub do_work ($self, $loop)
 # TODO: run periodically
 sub save_work ($self)
 {
-	DI->get('units_repo')->save($self->server->location_data);
+	DI->get('units_repo')->save($self->server->location);
 	$self->log->info('Game data for ' . $self->location_id . ' saved');
 
 	return;

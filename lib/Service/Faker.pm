@@ -5,7 +5,7 @@ use all 'Model';
 use Game::Helpers;
 use Game::Config;
 use Faker;
-use Data::ULID qw(ulid);
+use Data::ULID::XS qw(ulid);
 
 use header;
 

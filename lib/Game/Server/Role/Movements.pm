@@ -2,60 +2,69 @@ package Game::Server::Role::Movements;
 
 use My::Moose::Role;
 use Game::Config;
-use Game::Server::Movement;
+use Game::Object::Movement;
 use Game::Mechanics::Movement;
 
 use header;
 
 requires qw(
-	location_data
+	location
 	find_in_radius
-	send_to_actor
+	send_to_player
 );
 
 has cached '_movements' => (
-	isa => Types::HashRef [Types::InstanceOf ['Game::Server::Movement']],
+	isa => Types::HashRef [Types::InstanceOf ['Game::Object::Movement']],
 	default => sub { {} },
 );
 
-sub set_movement ($self, $actor, $x, $y)
+sub set_movement ($self, $actor_id, $x, $y)
 {
-	$self->cancel_movement($actor);
-	$self->_movements->{$actor} = Game::Server::Movement->new_with_coeffs(
-		actor => $actor,
+	X::InvalidCoordinate->throw(msg => "$x;$y")
+		unless $self->map->check_can_be_accessed($x, $y);
+
+	my $variables = $self->location->get_actor($actor_id)->variables;
+	my $speed = Game::Config->config->{base_speed}; # TODO
+
+	my $movement = Game::Object::Movement->new(
+		variables => $variables,
 		x => $x,
 		y => $y,
-		speed => Game::Config->config->{base_speed}, # TODO
+		speed => $speed,
 		time => $self->get_time,
-		map => $self->location_data->location->data->map,
 	);
 
-	return;
+	$self->_process_movement(delete $self->_movements->{$actor_id});
+	$self->_movements->{$actor_id} = $movement;
+
+	# TODO: notify other players in range
+	return $movement;
 }
 
-sub cancel_movement ($self, $actor)
+sub cancel_movement ($self, $actor_id)
 {
-	return unless exists $self->_movements->{$actor};
-	$self->_process_movement(delete $self->_movements->{$actor}, $self->get_time);
+	my $movement = delete $self->_movements->{$actor_id};
+	$self->_process_movement($movement);
 
-	return;
+	# TODO: notify other players in range
+	return $movement;
 }
 
-sub _process_movement ($self, $movement, $elapsed)
+sub _process_movement ($self, $movement, $elapsed = $self->get_time, $map = $self->map)
 {
-	Game::Mechanics::Movement->move($movement, $elapsed);
-
-	return;
+	return !!1 unless $movement;
+	return Game::Mechanics::Movement->move($movement, $elapsed, $map);
 }
 
 sub _process_movements ($self)
 {
 	my $elapsed = $self->get_time;
-	foreach my $movement (values $self->_movements->%*) {
-		if (!$self->_process_movement($movement, $elapsed)) {
-			delete $self->_movements->{$movement->actor};
+	my $map = $self->map;
+
+	foreach my ($actor_id, $movement) ($self->_movements->%*) {
+		if (!$self->_process_movement($movement, $elapsed, $map)) {
+			delete $self->_movements->{$actor_id};
 			# TODO: notify the client to stop moving
-			# TODO: error to the client
 		}
 	}
 

@@ -2,51 +2,40 @@ package Server::Action::Move;
 
 use My::Moose;
 use all 'Model';
+use Server::Config;
+use Game::Mechanics::Check::Map;
 
 use header;
 
-extends 'Server::Action';
+extends 'Server::GameAction';
 
 has injected 'units_repo';
 
-use constant name => 'enter_game';
-use constant required_state => Model::PlayerSession->STATE_LOGGED_IN;
+use constant name => 'move';
+use constant required_state => Model::PlayerSession->STATE_PLAYING;
 
 sub validate ($self, $data)
 {
-	Types::ULID->assert_valid($data);
-	return $data;
+	state $type = Types::Tuple[Types::PositiveNum, Types::PositiveNum];
+	my $parts = [split quotemeta Server::Config::PROTOCOL_SEPARATOR, $data];
+
+	$type->assert_valid($parts);
+
+	return $parts;
 }
 
-sub handle ($self, $session_id, $id, $player_id)
+sub checks ($self, $player_id, $position)
 {
-	my $session = $self->cache_repo->load(PlayerSession => $session_id);
-	my $success = 1;
-	my $actor;
-	my $player;
+	return Game::Mechanics::Check::Map->can_move_to($self->map, $self->game_process->get_player($player_id)->variables->xy, $position);
+}
 
-	try {
-		$actor = $self->units_repo->load_actor('player.id' => $player_id);
-		$player = $actor->player;
+sub handle ($self, $player_id, $id, $position)
+{
+	my $movement = $self->game_process->server->set_movement($player_id, $position->@*);
 
-		# check if that player belongs to the user in question
-		$success = $player->user_id eq $session->user_id;
-
-		# TODO: check if any other session is logged in?
-		# TODO: player might not be able to enter game if character is locked
-
-	}
-	catch ($e) {
-		$success = 0;
-	}
-
-	if ($success) {
-		$self->data_bus->dispatch($actor->variables->location_id, 'player_has_entered_game', $session->id, $player->id);
-	}
-
-	return $self->send_to(
-		$session_id,
-		$success,
+	return $self->send_to_player(
+		$player_id,
+		Resource::Movement->new($movement),
 		id => $id,
 	);
 }

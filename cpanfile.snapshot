@@ -931,6 +931,15 @@ DISTRIBUTIONS
       CryptX 0
       ExtUtils::MakeMaker 0
       Time::HiRes 0
+  Data-ULID-XS-0.004
+    pathname: B/BR/BRTASTIC/Data-ULID-XS-0.004.tar.gz
+    provides:
+      Data::ULID::XS 0.004
+    requirements:
+      CryptX 0
+      Data::ULID 0
+      ExtUtils::MakeMaker 0
+      Time::HiRes 0
   Data-UUID-1.226
     pathname: R/RJ/RJBS/Data-UUID-1.226.tar.gz
     provides:
@@ -4496,14 +4505,14 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       common::sense 0
-  Types-ULID-0.001
-    pathname: B/BR/BRTASTIC/Types-ULID-0.001.tar.gz
+  Types-ULID-0.003
+    pathname: B/BR/BRTASTIC/Types-ULID-0.003.tar.gz
     provides:
-      Types::ULID 0.001
+      Types::ULID 0.003
     requirements:
       Data::ULID 0
       ExtUtils::MakeMaker 0
-      Type::Tiny 0
+      Type::Tiny 1.004000
       perl 5.010
   URI-5.16
     pathname: O/OA/OALDERS/URI-5.16.tar.gz

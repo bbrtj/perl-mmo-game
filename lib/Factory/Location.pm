@@ -28,8 +28,9 @@ sub fetch ($self, $location_id)
 sub create ($self, $results)
 {
 	return Unit::Location->new(
-		location => $results->{location},
-		actors => [map { Factory::Actor->create($_) } $results->{characters}->@*],
+		lore => $results->{location},
+		# TODO: this should probably not load any players, since they are added later?
+		# actors => [map { Factory::Actor->create($_) } $results->{characters}->@*],
 	);
 }
 

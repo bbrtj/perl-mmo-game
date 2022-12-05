@@ -114,7 +114,7 @@ sub BUILD ($self, @)
 		delete $requirements{$class};
 	}
 
-	croak 'Test requirements not satisfied. Missing actions: ' . keys %requirements
+	croak 'Test requirements not satisfied. Missing actions: ' . join ', ', keys %requirements
 		if %requirements;
 
 	return;

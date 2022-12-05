@@ -1,7 +1,7 @@
 package Service::DataBus;
 
 use My::Moose;
-use Data::ULID qw(ulid);
+use Data::ULID::XS qw(ulid);
 
 use header;
 
@@ -24,7 +24,7 @@ sub dispatch ($self, $location, $name, @args)
 sub emit ($self, $processable, $session, @args)
 {
 	if ($processable->does('Server::Role::WithGameProcess')) {
-		$self->dispatch($session->location_id, $processable->name, ($session->id, @args));
+		$self->dispatch($session->location_id, $processable->name, ($session->player_id, @args));
 	}
 	else {
 		$self->broadcast($processable->name, ($session->id, @args));

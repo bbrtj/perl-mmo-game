@@ -4,12 +4,11 @@ use Game::Mechanics::Check;
 
 use header;
 
-sub can_move_to ($self, $location, $position1, $position2)
+sub can_move_to ($self, $map, $position1, $position2)
 {
-	return Game::Mechanics::Check->gather(
+	return Game::Mechanics::Check->check(
 		'err.cannot_move',
-		$location->map->check_can_be_accessed(@$position1),
-		$location->map->check_can_be_accessed(@$position2),
+		all { $map->check_can_be_accessed(@$_) } $position1, $position2
 	);
 }
 

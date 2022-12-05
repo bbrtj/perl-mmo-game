@@ -37,11 +37,11 @@ sub handle ($self, $session_id, $player_id)
 	$self->units_repo->update($actor);
 	$self->cache_repo->save($session);
 
-	$self->server->location_data->add_actor($actor);
+	$self->server->location->add_actor($actor);
 
 	return $self->send_to(
 		$session_id,
-		Resource::LocationData->new($self->server->location_data->location),
+		Resource::LocationData->new($self->server->location->lore),
 		refresh => 1
 	);
 }

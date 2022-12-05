@@ -1,7 +1,7 @@
 package Model::Role::Identified;
 
 use My::Moose::Role;
-use Data::ULID qw(ulid);
+use Data::ULID::XS qw(ulid);
 
 use header;
 

@@ -26,6 +26,12 @@ has param 'variables' => (
 	isa => Types::InstanceOf ['Model::CharacterVariables'],
 );
 
+sub BUILD ($self, $args)
+{
+	$self->_set_id($self->player->id)
+		if $self->is_player;
+}
+
 sub models ($self)
 {
 	return [

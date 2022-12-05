@@ -8,20 +8,47 @@ use header;
 extends 'Unit';
 
 has param 'actors' => (
-	isa => Types::ArrayRef [Types::InstanceOf ['Unit::Actor']],
-	'handles[]' => {
-		'add_actor' => 'push',
-	}
+	isa => Types::HashRef [Types::InstanceOf ['Unit::Actor']],
+	'handles{}' => {
+		'get_actor' => 'get',
+		'get_actors' => 'values',
+	},
+	default => sub { {} },
 );
 
-has param 'location' => (
+has param 'lore' => (
 	isa => Types::InstanceOf ['Game::Lore::Location'],
 );
+
+sub get_player ($self, $actor_id)
+{
+	my $actor = $self->get_actor($actor_id);
+	return $actor->is_player ? $actor : undef;
+}
+
+sub get_players ($self)
+{
+	return grep { $_->is_player } $self->get_actors;
+}
+
+sub add_actor ($self, $actor)
+{
+	$self->actors->{$actor->id} = $actor;
+
+	return;
+}
+
+sub remove_actor ($self, $actor)
+{
+	delete $self->actors->{$actor->id};
+
+	return;
+}
 
 sub models ($self)
 {
 	return [
-		map { $_->models->@* } $self->actors->@*,
+		map { $_->models->@* } grep { $_->is_player } $self->get_actors,
 	];
 }
 

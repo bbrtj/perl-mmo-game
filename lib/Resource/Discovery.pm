@@ -19,14 +19,14 @@ has field '_subject' => (
 	},
 );
 
-sub new_players ($self, @list)
+sub new_actors ($self, @list)
 {
-	return $self->_add('+players', \@list);
+	return $self->_add('+actors', \@list);
 }
 
-sub old_players ($self, @list)
+sub old_actors ($self, @list)
 {
-	return $self->_add('-players', \@list);
+	return $self->_add('-actors', \@list);
 }
 
 sub serialize ($self)

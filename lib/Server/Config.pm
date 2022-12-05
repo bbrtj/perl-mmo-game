@@ -11,6 +11,7 @@ use constant {
 	GAME_SERVER_TIMEOUT => 30,
 
 	PROTOCOL_CONTROL_CHARACTER => ';',
+	PROTOCOL_SEPARATOR => '~',
 	PROTOCOL_MAX_LENGTH => 4 * 2**10,
 
 	DEBUG => DI->get('env')->getenv('DEBUG'),

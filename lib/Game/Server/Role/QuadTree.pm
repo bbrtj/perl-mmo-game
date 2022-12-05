@@ -7,7 +7,7 @@ use POSIX qw(ceil);
 use header;
 
 requires qw(
-	location_data
+	location
 );
 
 sub find_in_radius;
@@ -21,13 +21,7 @@ has field '_quad_tree' => (
 
 sub _build_quad_tree ($self)
 {
-	my $location = $self->location_data->location;
-	croak 'no map for location ' . $location->id
-		unless $location->data->has_map;
-
-	my $map = $location->data->map;
-
-	my $size = (sort { $b <=> $a } ($map->size_x, $map->size_y))[0];
+	my $size = (sort { $b <=> $a } ($self->map->size_x, $self->map->size_y))[0];
 	my $required_precision = $size / Game::Config->config->{base_radius};
 	my $required_depth = ceil(log($required_precision) / log(2));
 
@@ -35,8 +29,8 @@ sub _build_quad_tree ($self)
 		-depth => $required_depth,
 		-xmin => 0,
 		-ymin => 0,
-		-xmax => $map->size_x,
-		-ymax => $map->size_y,
+		-xmax => $self->map->size_x,
+		-ymax => $self->map->size_y,
 	);
 }
 
@@ -45,10 +39,9 @@ sub _reload_coordinates ($self)
 	my $qt = $self->_quad_tree;
 	$qt->clear;
 
-	state $radius = Game::Config->config->{base_radius};
-	foreach my $actor ($self->location_data->actors->@*) {
-		my $variables = $actor->variables;
-		$qt->add($actor, $variables->pos_x, $variables->pos_y, $radius);
+	my $radius = Game::Config->config->{base_radius};
+	foreach my $actor ($self->location->get_actors) {
+		$qt->add($actor->id, $actor->variables->pos_x, $actor->variables->pos_y, $radius);
 	}
 
 	return;

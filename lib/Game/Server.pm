@@ -12,13 +12,23 @@ has param 'process' => (
 	isa => Types::InstanceOf ['Server::Process::Game'],
 	weak_ref => 1,
 	'handles->' => {
-		'send_to_actor' => 'send_to_actor',
+		'send_to_player' => 'send_to_player',
 		'log' => 'log',
 	},
 );
 
-has param 'location_data' => (
+has param 'location' => (
 	isa => Types::InstanceOf ['Unit::Location'],
+);
+
+has field 'map' => (
+	lazy => sub ($self) {
+		my $location = $self->location->lore;
+		croak 'no map for location ' . $location->id
+			unless $location->data->has_map;
+
+		return $location->data->map;
+	}
 );
 
 has param 'start_time' => (
@@ -42,6 +52,7 @@ has cached '_compiled_action' => (
 with qw(
 	Game::Server::Role::QuadTree
 	Game::Server::Role::Discovery
+	Game::Server::Role::Movements
 );
 
 sub _add_action ($self, $every, $handler)

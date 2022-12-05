@@ -8,6 +8,7 @@ require My::Moose;
 require Moose::Role;
 require namespace::autoclean;
 require My::Mooish::AttributeBuilder;
+require MooseX::XSAccessor;
 
 sub import ($me, %args)
 {
@@ -17,6 +18,7 @@ sub import ($me, %args)
 
 	My::Mooish::AttributeBuilder->import::into($caller);
 	Moose::Role->import::into($caller, %args);
+	MooseX::XSAccessor->import::into($caller);
 
 	# clean up the role so that unwanted stuff will not be composed
 	namespace::autoclean->import(-cleanee => $caller);

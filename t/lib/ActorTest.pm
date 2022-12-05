@@ -3,7 +3,7 @@ package ActorTest;
 use Game::Helpers;
 use Game::Config;
 use Mojo::JSON qw(from_json to_json);
-use Test2::Tools::PrepareModels;
+use Test2::Tools::PrepareObjects;
 
 use all 'Resource', 'Model', 'Unit';
 
@@ -40,7 +40,7 @@ sub create_actor ($self, $password = 'asdfasdf')
 	);
 
 	# prepare models for comparing with 'is'
-	prepare_model($_) for values %models;
+	prepare($_) for values %models;
 
 	return (
 		Unit::Actor->new(
