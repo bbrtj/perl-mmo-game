@@ -1,4 +1,4 @@
-package Resource::FailedCheck;
+package Resource::X;
 
 use My::Moose;
 
@@ -7,13 +7,13 @@ use header;
 extends 'Resource';
 
 has extended 'subject' => (
-	isa => Types::InstanceOf ['Game::Mechanics::Check'],
+	isa => Types::InstanceOf ['X::Pub'],
 );
 
 sub serialize ($self)
 {
 	return {
-		error => $self->subject->error,
+		error => '' . $self->subject,
 	};
 }
 
