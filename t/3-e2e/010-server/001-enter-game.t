@@ -11,7 +11,7 @@ use testheader;
 e2e_test {
 
 	my $password = 'Testpassword123#';
-	my ($actor, %related_models) = ActorTest->save_actor($password);
+	my ($actor, %related_models) = ActorTest->save_actor(password => $password);
 
 	my $bag = Game::TestClientBag->new;
 	$bag->add_client(

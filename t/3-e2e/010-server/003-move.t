@@ -11,7 +11,16 @@ use testheader;
 e2e_test {
 
 	my $password = 'Testpassword123#';
-	my ($actor, %related_models) = ActorTest->save_actor($password);
+	my ($actor, %related_models) = ActorTest->save_actor(
+		password => $password,
+		variables_params => {
+			location_id => 'L.LOC.CP_HARBOR',
+			pos_x => 1.3,
+			pos_y => 1.2,
+		}
+	);
+
+	DI->get('models_repo')->update($related_models{variables});
 
 	my $bag = Game::TestClientBag->new;
 	$bag->add_client(

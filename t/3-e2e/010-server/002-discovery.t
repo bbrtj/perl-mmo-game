@@ -18,7 +18,7 @@ e2e_test {
 	my @player_ids;
 	foreach my $client_n (1 .. CLIENTS_COUNT) {
 		my $password = 'Testpassword123#';
-		my ($actor, %related_models) = ActorTest->save_actor($password);
+		my ($actor, %related_models) = ActorTest->save_actor(password => $password);
 		push @player_ids, $related_models{player}->id;
 
 		$bag->add_client(
