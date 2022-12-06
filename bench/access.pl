@@ -20,6 +20,9 @@ cmpthese - 2, {
 	'serialize' => sub {
 		$actor eq $actor;
 	},
+	'isa' => sub {
+		$actor isa 'Unit::Actor';
+	},
 	'id' => sub {
 		$actor->id eq $actor->id;
 	},
