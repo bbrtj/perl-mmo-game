@@ -6,6 +6,8 @@ use Server::Config;
 use Game::Server;
 use Time::HiRes qw(time);
 
+use all 'X';
+
 use header;
 
 extends 'Server::Process';
@@ -39,14 +41,12 @@ with qw(
 
 sub send_to_player ($self, $player_id, $data, @more)
 {
-	my $session_id = $self->load_session($player_id);
-
-	return $self->send_to($session_id, $data, @more);
+	return $self->send_to($self->load_session($player_id), $data, @more);
 }
 
 sub handle ($self, $data)
 {
-	my ($name, @args) = $data->@*;
+	my ($name, $player_id, $id, @args) = $data->@*;
 
 	$self->log->debug("Got an action / event: $name")
 		if Server::Config::DEBUG;
@@ -61,14 +61,26 @@ sub handle ($self, $data)
 		return;
 	}
 
-	$self->log->debug('Game process for location ' . $self->location_id . ": processing $name");
+	$self->log->debug('Game process for location ' . $self->location_id . ": processing $name (for $player_id)")
+		if Server::Config::DEBUG;
+
 	try {
 		$instance->set_game_process($self);
-		$instance->handle(@args);
+		$instance->handle($player_id, $id, @args);
 	}
 	catch ($e) {
-		$self->log->error("Processing game handler $name failed: $e");
-		$self->log->debug("Error was: " . Dumper($e));
+		if ($e isa 'X::Pub') {
+			$self->send_to_player(
+				$player_id,
+				Resource::X->new($e),
+				id => $id,
+			);
+		}
+		else {
+			$self->log->error("Processing game handler $name failed: $e");
+			$self->log->debug("Error was: " . Dumper($e))
+				if Server::Config::DEBUG;
+		}
 	}
 
 	return;

@@ -1,8 +1,7 @@
 package Server::GameAction;
 
 use My::Moose;
-use all 'Model';
-use Resource::FailedCheck;
+use all 'Model', 'Resource';
 
 use header;
 
@@ -14,22 +13,18 @@ with qw(
 
 use constant required_state => Model::PlayerSession->STATE_PLAYING;
 
-around handle => sub ($orig, $self, $player_id, $id, @params) {
-	if ($self->can('checks')) {
-		my $check = $self->checks($player_id, @params);
+before handle => sub ($self, $player_id, $id, @params) {
+	try {
+		$self->can('checks') && $self->checks($player_id, @params);
+	} catch ($e) {
+		$self->send_to_player(
+			$player_id,
+			Resource::X->new($e),
+			id => $id,
+		) if $e isa 'X::CheckFailed';
 
-		if (!$check->result) {
-			return $self->send_to_player(
-				$player_id,
-				Resource::FailedCheck->new($check),
-				id => $id,
-			);
-
-			return;
-		}
+		die $e;
 	}
-
-	return $self->$orig($player_id, $id, @params);
 };
 
 sub send_to_player ($self, @params)
