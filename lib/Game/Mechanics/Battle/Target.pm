@@ -15,7 +15,7 @@ sub get_position ($self, $battle, $target)
 		if ref $target eq ref [] && @$target == 2;
 
 	my $actor = $self->get_actor($battle, $target);
-	X::InvalidTarget->throw unless defined $actor;
+	X::Pub::InvalidTarget->throw unless defined $actor;
 
 	return [$actor->contestant->pos_x, $actor->contestant->pos_y];
 }

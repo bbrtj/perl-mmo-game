@@ -113,3 +113,6 @@ msgstr "Imię musi mieć co najwyżej [_1] znaków"
 msgid "err.element_invalid"
 msgstr "Element nie jest poprawny"
 
+msgid "err"
+msgstr "Wystąpił błąd"
+

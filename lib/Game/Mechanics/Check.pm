@@ -52,7 +52,7 @@ sub result ($self)
 sub assert_valid ($self)
 {
 	if ($self->has_error) {
-		X::CheckFailed->throw(msg => $self->error);
+		X::Pub::CheckFailed->throw($self->error);
 	}
 
 	return;

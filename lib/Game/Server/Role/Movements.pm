@@ -22,7 +22,7 @@ has cached '_movements' => (
 
 sub set_movement ($self, $actor_id, $x, $y)
 {
-	X::InvalidCoordinate->throw(msg => "$x;$y")
+	X::Pub::InvalidCoordinate->throw
 		unless $self->map->check_can_be_accessed($x, $y);
 
 	my $variables = $self->location->get_actor($actor_id)->variables;

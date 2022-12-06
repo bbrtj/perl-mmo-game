@@ -37,17 +37,17 @@ with qw(
 # NOTE: this function needs to do the bare minimum to ensure low latency
 sub handle_message ($self, $session, $req_id, $type, $data = undef)
 {
-	X::Network::CorruptedInput->throw(msg => 'no id or no type')
+	X::Network::CorruptedInput->throw('no id or no type')
 		if !$req_id || !$type;
 
 	# $action may be either a normal or ingame action
 	# (both are really the same thing but differ in where they should be passed)
 	my $action = $self->worker->get_action($type);
 
-	X::Network::InvalidAction->throw(msg => "Got $type")
+	X::Network::InvalidAction->throw("Got $type")
 		unless defined $action;
 
-	X::Network::InvalidState->throw(msg => sprintf "Currently %s, needs %s", $session->state, $action->required_state)
+	X::Network::InvalidState->throw(sprintf "Currently %s, needs %s", $session->state, $action->required_state)
 		unless $session->state eq $action->required_state;
 
 	# validate may return an object that was created from $data
@@ -55,7 +55,7 @@ sub handle_message ($self, $session, $req_id, $type, $data = undef)
 		$data = $action->validate($action->deserializes && $data ? from_json($data) : $data);
 	}
 	catch ($e) {
-		X::Network::CorruptedInput->throw(msg => "$e");
+		X::Network::CorruptedInput->throw("$e");
 	}
 
 	$self->worker->data_bus->emit($action, $session, ($req_id, $data));

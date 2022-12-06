@@ -13,10 +13,12 @@ has option 'msg' => (
 	isa => Types::Standard::Str,
 );
 
-sub throw ($self, @args)
+sub throw ($self, $msg = undef, %args)
 {
 	die $self if ref $self;
-	die $self->new(@args);
+
+	$args{msg} = $msg if $msg;
+	die $self->new(%args);
 }
 
 sub stringify ($self, @)

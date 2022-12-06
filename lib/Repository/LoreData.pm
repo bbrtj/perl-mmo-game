@@ -30,7 +30,7 @@ sub load ($self, $id)
 {
 	my $found = $collection{$id};
 
-	X::LoreNotFound->throw(msg => "no lore for $id identifier")
+	X::LoreNotFound->throw("no lore for $id identifier")
 		unless defined $found;
 
 	return $found;
@@ -40,7 +40,7 @@ sub load_named ($self, $class, $name)
 {
 	my $found = $named_collection{$class}{$name};
 
-	X::LoreNotFound->throw(msg => "no lore for class $class and name $name")
+	X::LoreNotFound->throw("no lore for class $class and name $name")
 		unless defined $found;
 
 	return $found;
@@ -55,7 +55,7 @@ sub load_all_named ($self, $class)
 {
 	my $found = $named_collection{$class};
 
-	X::LoreNotFound->throw(msg => "no lore collection for class $class")
+	X::LoreNotFound->throw("no lore collection for class $class")
 		unless defined $found;
 
 	return $found;

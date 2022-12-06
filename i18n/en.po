@@ -71,6 +71,9 @@ msgstr "invalid coordinate"
 msgid "err.invalid_target"
 msgstr "invalid target"
 
+msgid "err"
+msgstr "An error occured"
+
 msgid "character_selection"
 msgstr "Character selection"
 
