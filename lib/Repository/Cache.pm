@@ -14,7 +14,7 @@ has injected 'encoder';
 sub save ($self, $model)
 {
 	$self->cache->set_cache_name($model->get_cache_name);
-	return $self->cache->save($model->id, $self->encoder->encode($model->serialize));
+	return $self->cache->save($model->id, $self->encoder->encode($model));
 }
 
 sub remove ($self, $model)
@@ -26,11 +26,6 @@ sub remove ($self, $model)
 sub load ($self, $type, $id)
 {
 	$self->cache->set_cache_name($type);
-	my $cache = $self->cache->load($id);
-
-	return Model->from_cache(
-		$type,
-		$self->encoder->decode($cache)
-	);
+	return $self->encoder->decode($self->cache->load($id));
 }
 

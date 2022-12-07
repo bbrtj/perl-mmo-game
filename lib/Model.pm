@@ -10,7 +10,6 @@ my %orm_mapping;
 my %orm_mapping_reverse;
 
 my %cache_mapping;
-my %cache_mapping_reverse;
 
 sub _register ($class)
 {
@@ -39,7 +38,6 @@ sub _register_cache ($class)
 		unless $class =~ /Model::(.+)/;
 
 	$cache_mapping{$class} = $1;
-	$cache_mapping_reverse{$1} = $class;
 	return;
 }
 
@@ -52,15 +50,6 @@ sub from_result ($class, $row)
 	# NOTE: in case of performance problems, this can be just a bless
 	my $real_class = $orm_mapping_reverse{$resultset};
 	return $real_class->new($row->get_columns);
-}
-
-sub from_cache ($class, $name, $hash)
-{
-	croak "invalid argument to from_cache"
-		unless defined $name && $cache_mapping_reverse{$name};
-
-	my $real_class = $cache_mapping_reverse{$name};
-	return $real_class->new($hash);
 }
 
 sub get_result_class ($self)
