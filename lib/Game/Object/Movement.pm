@@ -6,24 +6,29 @@ use Game::Mechanics::Generic;
 use header;
 
 has param 'variables' => (
+
 	# isa => Types::InstanceOf ['Model::CharacterVariables'],
 );
 
 has param 'speed' => (
+
 	# isa => Types::PositiveNum,
 );
 
 has param 'time' => (
+
 	# isa => Types::PositiveNum,
 	writer => 1,
 );
 
 has field 'eta' => (
+
 	# isa => Types::PositiveNum,
 	writer => 1,
 );
 
 has field 'coeffs' => (
+
 	# isa => Types::Tuple [Types::Num, Types::Num],
 	writer => 1,
 );

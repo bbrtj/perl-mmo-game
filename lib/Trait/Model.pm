@@ -26,6 +26,8 @@ sub add_columns_to_resultset ($self, $resultset)
 			);
 		}
 	}
+
+	return;
 }
 
 sub boolean_attrs ($self)

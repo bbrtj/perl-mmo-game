@@ -23,6 +23,8 @@ sub save_actor_models ($self, %models)
 	foreach my $model (@models{qw(user player character variables)}) {
 		DI->get('models_repo')->save($model);
 	}
+
+	return;
 }
 
 sub create_actor ($self, %params)

@@ -17,6 +17,7 @@ sub move ($self, $movement, $elapsed, $map)
 	my $new_y = $variables->pos_y + $coeffs->[1] * $distance;
 
 	if (!$map->check_can_be_accessed($new_x, $new_y) && $movement->time < $elapsed) {
+
 		# try to find position closer to the wall / ledge. It's okay to be slow and precise here
 		$self->move($movement, $elapsed - Game::Config->config->{map_precision} / $movement->speed, $map);
 		return !!0;

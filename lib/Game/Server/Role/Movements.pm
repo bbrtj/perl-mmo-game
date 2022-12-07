@@ -26,7 +26,7 @@ sub set_movement ($self, $actor_id, $x, $y)
 		unless $self->map->check_can_be_accessed($x, $y);
 
 	my $variables = $self->location->get_actor($actor_id)->variables;
-	my $speed = Game::Config->config->{base_speed}; # TODO
+	my $speed = Game::Config->config->{base_speed};    # TODO
 
 	my $movement = Game::Object::Movement->new(
 		variables => $variables,
@@ -66,6 +66,7 @@ sub _process_movements ($self)
 	foreach my ($actor_id, $movement) ($self->_movements->%*) {
 		if (!$self->_process_movement($movement, $elapsed, $map)) {
 			delete $self->_movements->{$actor_id};
+
 			# TODO: notify the client to stop moving
 		}
 	}

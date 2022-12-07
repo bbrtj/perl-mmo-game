@@ -16,7 +16,8 @@ use constant required_state => Model::PlayerSession->STATE_PLAYING;
 before handle => sub ($self, $player_id, $id, @params) {
 	try {
 		$self->can('checks') && $self->checks($player_id, @params);
-	} catch ($e) {
+	}
+	catch ($e) {
 		$self->send_to_player(
 			$player_id,
 			Resource::X->new($e),

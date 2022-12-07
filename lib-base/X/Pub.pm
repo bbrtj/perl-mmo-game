@@ -10,7 +10,10 @@ has extended 'msg' => (
 	builder => 1,
 );
 
-sub build_msg { 'err' }
+sub build_msg
+{
+	return 'err';
+}
 
 sub stringify ($self, @)
 {

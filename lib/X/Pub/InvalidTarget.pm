@@ -6,5 +6,8 @@ use header;
 
 extends 'X';
 
-sub build_msg { 'err.invalid_target' }
+sub build_msg
+{
+	return 'err.invalid_target';
+}
 

@@ -29,6 +29,7 @@ sub create ($self, $results)
 {
 	return Unit::Location->new(
 		lore => $results->{location},
+
 		# TODO: this should probably not load any players, since they are added later?
 		# actors => [map { Factory::Actor->create($_) } $results->{characters}->@*],
 	);

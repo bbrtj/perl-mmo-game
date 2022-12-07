@@ -39,6 +39,7 @@ my $location = h2o {map => $map};
 my $actor = h2o {variables => $variables};
 
 my $movement;
+
 # my $base = $movement->time;
 # my $elapsed = $base + 0.5;
 
