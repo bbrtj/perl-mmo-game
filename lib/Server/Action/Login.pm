@@ -33,11 +33,13 @@ sub handle ($self, $session_id, $id, $data)
 		$self->cache_repo->save($session);
 	}
 
-	return $self->send_to(
+	$self->send_to(
 		$session_id,
 		$success || 0,
 		id => $id,
 		refresh => $success
 	);
+
+	return;
 }
 

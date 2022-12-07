@@ -39,10 +39,12 @@ sub handle ($self, $session_id, $player_id)
 
 	$self->server->location->add_actor($actor);
 
-	return $self->send_to(
+	$self->send_to(
 		$session_id,
 		Resource::LocationData->new($self->server->location->lore),
 		refresh => 1
 	);
+
+	return;
 }
 

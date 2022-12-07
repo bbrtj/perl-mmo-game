@@ -20,10 +20,12 @@ sub handle ($self, $session_id, $id, $)
 	$session->set_state($session->STATE_NEW);
 	$self->cache_repo->save($session);
 
-	return $self->send_to(
+	$self->send_to(
 		$session_id,
 		undef,
 		refresh => 1,
 	);
+
+	return;
 }
 

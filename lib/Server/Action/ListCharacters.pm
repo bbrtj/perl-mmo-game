@@ -18,10 +18,12 @@ sub handle ($self, $session_id, $id, $)
 	my $session = $self->cache_repo->load(PlayerSession => $session_id);
 	my $unit = $repo->load_user($session->user_id);
 
-	return $self->send_to(
+	$self->send_to(
 		$session_id,
 		Resource::CharacterList->new($unit),
 		id => $id
 	);
+
+	return;
 }
 

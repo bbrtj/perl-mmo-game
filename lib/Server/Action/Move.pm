@@ -36,10 +36,12 @@ sub handle ($self, $player_id, $id, $position)
 {
 	my $movement = $self->game_process->server->set_movement($player_id, $position->@*);
 
-	return $self->send_to_player(
+	$self->send_to_player(
 		$player_id,
 		Resource::Movement->new($movement),
 		id => $id,
 	);
+
+	return;
 }
 

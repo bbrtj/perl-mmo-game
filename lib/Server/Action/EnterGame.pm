@@ -44,10 +44,12 @@ sub handle ($self, $session_id, $id, $player_id)
 		$self->data_bus->dispatch($actor->variables->location_id, 'player_has_entered_game', $session->id, $player->id);
 	}
 
-	return $self->send_to(
+	$self->send_to(
 		$session_id,
 		$success,
 		id => $id,
 	);
+
+	return;
 }
 
