@@ -5,7 +5,8 @@ use header;
 use constant {
 
 	# the minimum amount of time the server understands
-	SERVER_TICK => 0.5,
+	# (as BPM: 60 / BPM)
+	SERVER_TICK => 60 / 80,
 
 	GAME_SERVER_PORT => 14832,
 	GAME_SERVER_TIMEOUT => 30,
