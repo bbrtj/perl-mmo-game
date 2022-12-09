@@ -72,7 +72,7 @@ sub handle ($self, $data)
 		if ($e isa 'X::Pub') {
 			$self->send_to_player(
 				$player_id,
-				Resource::X->new($e),
+				Resource::X->new(subject => $e),
 				id => $id,
 			);
 		}

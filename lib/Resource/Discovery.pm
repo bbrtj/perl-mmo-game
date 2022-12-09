@@ -7,7 +7,7 @@ use header;
 extends 'Resource';
 
 # TODO: Sub::HandlesVia bug
-has field '_subject' => (
+has extended 'subject' => (
 	isa => Types::HashRef [
 		Types::ArrayRef [Types::ULID]
 	],
@@ -19,18 +19,18 @@ has field '_subject' => (
 	},
 );
 
-sub new_actors ($self, @list)
+sub new_actors ($self, $list)
 {
-	return $self->_add('+actors', \@list);
+	return $self->_add('+actors', $list);
 }
 
-sub old_actors ($self, @list)
+sub old_actors ($self, $list)
 {
-	return $self->_add('-actors', \@list);
+	return $self->_add('-actors', $list);
 }
 
-sub serialize ($self)
+sub _serialize ($self)
 {
-	return {discovery => $self->_subject};
+	return {discovery => $self->subject};
 }
 

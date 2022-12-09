@@ -10,7 +10,7 @@ has extended 'subject' => (
 	isa => Types::InstanceOf ['Unit::User'],
 );
 
-sub serialize ($self)
+sub _serialize ($self)
 {
 	my @characters = map {
 		{

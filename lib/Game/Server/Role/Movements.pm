@@ -11,8 +11,8 @@ use header;
 
 requires qw(
 	location
-	find_in_radius
 	send_to_player
+	get_discovered_by
 );
 
 has cached '_movements' => (
@@ -25,11 +25,11 @@ sub set_movement ($self, $actor_id, $x, $y)
 	X::Pub::InvalidCoordinate->throw
 		unless $self->map->check_can_be_accessed($x, $y);
 
-	my $variables = $self->location->get_actor($actor_id)->variables;
+	my $actor = $self->location->get_actor($actor_id);
 	my $speed = Game::Config->config->{base_speed};    # TODO
 
 	my $movement = Game::Object::Movement->new(
-		variables => $variables,
+		variables => $actor->variables,
 		x => $x,
 		y => $y,
 		speed => $speed,
@@ -39,8 +39,16 @@ sub set_movement ($self, $actor_id, $x, $y)
 	$self->_process_movement(delete $self->_movements->{$actor_id});
 	$self->_movements->{$actor_id} = $movement;
 
-	# TODO: notify other players in range
-	return $movement;
+	my $resource = Resource::ActorState->new(
+		subject => $actor,
+		movement => $movement
+	);
+
+	foreach my $id ($actor_id, $self->get_discovered_by($actor_id)) {
+		$self->send_to_player($id, $resource);
+	}
+
+	return;
 }
 
 sub cancel_movement ($self, $actor_id)
@@ -75,6 +83,6 @@ sub _process_movements ($self)
 }
 
 after BUILD => sub ($self, @) {
-	$self->_add_action(1 => '_process_movements');
+	$self->_add_action(1 => '_process_movements', 'high');
 };
 

@@ -22,7 +22,9 @@ sub receive_queue ($self)
 {
 	return (
 		'1',
-		Resource::LocationData->new($self->lore_data_repo->load($self->client->actor->variables->location_id))
+		Resource::LocationData->new(
+			subject => $self->lore_data_repo->load($self->client->actor->variables->location_id)
+		)
 	);
 }
 

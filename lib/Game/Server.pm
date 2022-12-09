@@ -53,17 +53,23 @@ has cached '_compiled_action' => (
 );
 
 with qw(
-	Game::Server::Role::Movements
 	Game::Server::Role::QuadTree
 	Game::Server::Role::Discovery
+	Game::Server::Role::Movements
 );
 
-sub _add_action ($self, $every, $handler)
+sub _add_action ($self, $every, $handler, $priority = 'normal')
 {
 	croak "$handler is not a proper method name in " . __PACKAGE__
 		unless $self->can($handler);
 
-	push $self->_actions->{$every}->@*, $handler;
+	if ($priority eq 'high') {
+		unshift $self->_actions->{$every}->@*, $handler;
+	}
+	else {
+		push $self->_actions->{$every}->@*, $handler;
+	}
+
 	return;
 }
 

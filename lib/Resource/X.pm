@@ -10,7 +10,7 @@ has extended 'subject' => (
 	isa => Types::InstanceOf ['X::Pub'],
 );
 
-sub serialize ($self)
+sub _serialize ($self)
 {
 	return {
 		error => '' . $self->subject,

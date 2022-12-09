@@ -6,11 +6,9 @@ use header;
 
 has param 'subject';
 
-around BUILDARGS => sub ($orig, $class, @args) {
-	return {
-		subject => shift @args,
-	};
-};
+has field 'serialized' => (
+	lazy => '_serialize'
+);
 
-sub serialize ($self) { ... }
+sub _serialize ($self) { ... }
 

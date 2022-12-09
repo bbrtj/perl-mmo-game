@@ -41,7 +41,7 @@ sub handle ($self, $session_id, $player_id)
 
 	$self->send_to(
 		$session_id,
-		Resource::LocationData->new($self->server->location->lore),
+		Resource::LocationData->new(subject => $self->server->location->lore),
 		refresh => 1
 	);
 

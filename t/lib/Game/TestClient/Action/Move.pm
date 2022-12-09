@@ -33,7 +33,7 @@ sub receive_queue ($self)
 	);
 
 	return (
-		Resource::Movement->new($movement),
+		Resource::ActorState->new(subject => $self->client->actor, movement => $movement),
 	);
 }
 

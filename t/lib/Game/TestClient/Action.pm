@@ -58,7 +58,7 @@ sub find_and_compare ($self, $data)
 	my @rec_q = $self->state->{receive}->@*;
 	foreach my $i (keys @rec_q) {
 		my $expected = $rec_q[$i];
-		$expected = $expected->serialize
+		$expected = $expected->serialized
 			if $expected isa 'Resource';
 
 		my $cmp_data = $data;
@@ -88,7 +88,7 @@ sub get_expected_data ($self)
 		if !$self->sequential && @rec_q > 1;
 
 	my $expected = $rec_q[0];
-	$expected = $expected->serialize
+	$expected = $expected->serialized
 		if $expected isa 'Resource';
 
 	return Dumper($expected);

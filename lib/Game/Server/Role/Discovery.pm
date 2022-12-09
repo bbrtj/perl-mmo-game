@@ -19,6 +19,17 @@ has cached '_discovered_actors' => (
 	default => sub { {} },
 );
 
+has cached '_discovered_by' => (
+	writer => 1,
+	isa => Types::HashRef [Types::ArrayRef [Types::InstanceOf ['Unit::Actor']]],
+	default => sub { {} },
+);
+
+sub get_discovered_by ($self, $key)
+{
+	return ($self->_discovered_by->{$key} // [])->@*;
+}
+
 sub _discover_actors ($self, $actor, $found_objects, $resource)
 {
 	my $actor_id = $actor->id;
@@ -28,9 +39,14 @@ sub _discover_actors ($self, $actor, $found_objects, $resource)
 	my @new;
 	my @old;
 
+	my $discovered_by = $self->_discovered_by;
 	my $location = $self->location;
+
 	foreach my $found_id ($found_objects->@*) {
 		next if $found_id eq $actor_id || !(my $found = $location->get_actor($found_id));
+
+		push $discovered_by->{$found_id}->@*, $actor_id
+			if $found->is_player;
 
 		if ($found_prev{$found_id}) {
 			delete $not_found{$found_id};
@@ -47,8 +63,8 @@ sub _discover_actors ($self, $actor, $found_objects, $resource)
 	}
 
 	if (@new || @old) {
-		$resource->new_actors(@new) if @new;
-		$resource->old_actors(@old) if @old;
+		$resource->new_actors(\@new) if @new;
+		$resource->old_actors(\@old) if @old;
 		$self->_discovered_actors->{$actor_id} = \%found_prev;
 		return !!1;
 	}
@@ -59,10 +75,11 @@ sub _discover_actors ($self, $actor, $found_objects, $resource)
 sub _discover ($self)
 {
 	state $radius = Game::Config->config->{discover_radius};
+	$self->_set_discovered_by({});
 
 	foreach my $actor ($self->location->get_players) {
 
-		my $resource = Resource::Discovery->new({});
+		my $resource = Resource::Discovery->new;
 		my $variables = $actor->variables;
 		my $should_send = 0;
 

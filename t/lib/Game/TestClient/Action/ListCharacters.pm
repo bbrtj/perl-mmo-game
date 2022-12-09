@@ -21,7 +21,9 @@ sub send_queue ($self)
 sub receive_queue ($self)
 {
 	return (
-		Resource::CharacterList->new($self->units_repo->load_user($self->client->actor->player->user_id)),
+		Resource::CharacterList->new(
+			subject => $self->units_repo->load_user($self->client->actor->player->user_id)
+		),
 	);
 }
 

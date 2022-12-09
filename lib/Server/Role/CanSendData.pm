@@ -12,7 +12,7 @@ sub send_to ($self, $session_id, $echo, %more)
 		%more,
 		(
 			defined $echo
-			? (echo => ($echo isa 'Resource' ? $echo->serialize : $echo))
+			? (echo => ($echo isa 'Resource' ? $echo->serialized : $echo))
 			: ()
 		)
 	};

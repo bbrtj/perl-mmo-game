@@ -20,7 +20,7 @@ sub handle ($self, $session_id, $id, $)
 
 	$self->send_to(
 		$session_id,
-		Resource::CharacterList->new($unit),
+		Resource::CharacterList->new(subject => $unit),
 		id => $id
 	);
 

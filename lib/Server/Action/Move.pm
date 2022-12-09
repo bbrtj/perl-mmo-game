@@ -34,13 +34,7 @@ before handle => sub ($self, $player_id, $id, $position) {
 
 sub handle ($self, $player_id, $id, $position)
 {
-	my $movement = $self->game_process->server->set_movement($player_id, $position->@*);
-
-	$self->send_to_player(
-		$player_id,
-		Resource::Movement->new($movement),
-		id => $id,
-	);
+	$self->game_process->server->set_movement($player_id, $position->@*);
 
 	return;
 }
