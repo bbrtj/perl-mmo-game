@@ -130,6 +130,9 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 				compare_received_data($bytes);
 				if (grab_action->should_send) {
 					$stream->write(get_send_data);
+
+					# try to get next action. Will stop the loop if there are no more actions
+					grab_action;
 				}
 			}
 			catch ($e) {

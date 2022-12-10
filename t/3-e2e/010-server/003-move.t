@@ -28,6 +28,8 @@ e2e_test {
 			->add_action('Login', user => $related_models{user}, password => $password)
 			->add_action('EnterGame')
 			->add_action('Move', x => 5.3, y => 2.2)
+			->add_action('Stop')
+			->add_action('Stop', was_moving => !!0)
 	);
 
 	$bag->run;

@@ -30,7 +30,7 @@ sub old_actors ($self, $list)
 	return $self->_add('-actors', $list);
 }
 
-sub _serialize ($self)
+sub generate ($self)
 {
 	return $self->subject;
 }

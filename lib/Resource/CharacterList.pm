@@ -12,7 +12,7 @@ has extended 'subject' => (
 
 use constant type => 'character_list';
 
-sub _serialize ($self)
+sub generate ($self)
 {
 	my @characters = map {
 		{

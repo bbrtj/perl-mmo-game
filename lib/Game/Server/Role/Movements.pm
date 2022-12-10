@@ -53,11 +53,20 @@ sub set_movement ($self, $actor_id, $x, $y)
 
 sub cancel_movement ($self, $actor_id)
 {
-	my $movement = delete $self->_movements->{$actor_id};
-	$self->_process_movement($movement);
+	if (exists $self->_movements->{$actor_id}) {
+		$self->_process_movement(delete $self->_movements->{$actor_id});
 
-	# TODO: notify other players in range
-	return $movement;
+		my $resource = Resource::ActorState->new(
+			subject => $self->location->get_actor($actor_id),
+			stopped => 1
+		);
+
+		foreach my $id ($actor_id, $self->get_discovered_by($actor_id)) {
+			$self->send_to_player($id, $resource);
+		}
+	}
+
+	return;
 }
 
 sub _process_movement ($self, $movement, $elapsed = $self->get_time, $map = $self->map)

@@ -12,7 +12,7 @@ has extended 'subject' => (
 
 use constant type => 'error';
 
-sub _serialize ($self)
+sub generate ($self)
 {
 	return $self->subject;
 }

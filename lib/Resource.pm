@@ -7,10 +7,10 @@ use header;
 has param 'subject';
 
 has field 'serialized' => (
-	lazy => '_serialize'
+	lazy => sub { $_[0]->generate },
 );
 
 sub type { ... }
 
-sub _serialize ($self) { ... }
+sub generate ($self) { ... }
 

@@ -62,7 +62,7 @@ sub find_and_compare ($self, $type, $data)
 
 		if ($expected isa 'Resource') {
 			$expected_type = $expected->type;
-			$expected = $expected->serialized;
+			$expected = $expected->generate;
 		}
 
 		my $cmp_data = $data;
@@ -110,7 +110,7 @@ sub get_expected_data ($self)
 		if !$self->sequential && @rec_q > 1;
 
 	my $expected = $rec_q[0];
-	$expected = $expected->serialized
+	$expected = $expected->generate
 		if $expected isa 'Resource';
 
 	return My::Dumper->dd($expected);

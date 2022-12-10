@@ -12,7 +12,7 @@ has extended 'subject' => (
 
 use constant type => 'location_data';
 
-sub _serialize ($self)
+sub generate ($self)
 {
 	return {
 		id => $self->subject->id,
