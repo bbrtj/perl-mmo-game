@@ -6,7 +6,6 @@ use header;
 
 extends 'Resource';
 
-# TODO: Sub::HandlesVia bug
 has extended 'subject' => (
 	isa => Types::HashRef [
 		Types::ArrayRef [Types::ULID]
