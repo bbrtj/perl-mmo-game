@@ -42,7 +42,7 @@ sub should_send ($self)
 
 sub find_and_compare ($self, $type, $data)
 {
-	$data = $self->decode($data);
+	$data = __deserialize($data);
 
 	if (diff($data, $self->received)) {
 		return !!0;

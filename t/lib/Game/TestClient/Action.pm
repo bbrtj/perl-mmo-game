@@ -1,9 +1,7 @@
 package Game::TestClient::Action;
 
 use My::Moose;
-use Mojo::JSON qw(from_json to_json);
 use Data::Compare;
-use My::Dumper;
 
 use header;
 
@@ -66,7 +64,7 @@ sub find_and_compare ($self, $type, $data)
 		}
 
 		my $cmp_data = $data;
-		$cmp_data = $self->decode($cmp_data)
+		$cmp_data = __deserialize($cmp_data)
 			if is_ref $expected;
 
 		my $ok = $type eq $expected_type && Compare($cmp_data, $expected);
@@ -114,16 +112,6 @@ sub get_expected_data ($self)
 		if $expected isa 'Resource';
 
 	return My::Dumper->dd($expected);
-}
-
-sub encode ($self, $data)
-{
-	return to_json($data);
-}
-
-sub decode ($self, $data)
-{
-	return from_json($data);
 }
 
 sub BUILD ($self, @)

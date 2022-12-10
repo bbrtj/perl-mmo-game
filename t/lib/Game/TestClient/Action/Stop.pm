@@ -39,7 +39,7 @@ sub find_and_compare ($self, $type, $data) {
 	my $result = $self->SUPER::find_and_compare($type, $data);
 
 	if (!$result) {
-		my $actual_data = $self->decode($data);
+		my $actual_data = __deserialize($data);
 		my $actor_variables = $self->client->actor->variables;
 		$actor_variables->set_pos_x($actual_data->{x});
 		$actor_variables->set_pos_y($actual_data->{y});

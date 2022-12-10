@@ -2,7 +2,6 @@ package ActorTest;
 
 use Game::Helpers;
 use Game::Config;
-use Mojo::JSON qw(from_json to_json);
 use Test2::Tools::PrepareObjects;
 
 use all 'Resource', 'Model', 'Unit';

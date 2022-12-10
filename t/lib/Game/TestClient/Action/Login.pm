@@ -17,7 +17,7 @@ has param 'password' => (
 sub send_queue ($self)
 {
 	return (
-		['login', $self->encode({email => $self->user->email, password => $self->password})],
+		['login', __serialize({email => $self->user->email, password => $self->password})],
 	);
 }
 

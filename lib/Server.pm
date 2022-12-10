@@ -2,7 +2,6 @@ package Server;
 
 use My::Moose;
 use Mojo::IOLoop;
-use Mojo::JSON qw(to_json from_json);
 use Server::Config;
 use Server::Worker;
 
@@ -52,7 +51,7 @@ sub handle_message ($self, $session, $req_id, $type, $data = undef)
 
 	# validate may return an object that was created from $data
 	try {
-		$data = $action->validate($action->deserializes && $data ? from_json($data) : $data);
+		$data = $action->validate($action->deserializes && $data ? __deserialize($data) : $data);
 	}
 	catch ($e) {
 		X::Network::CorruptedInput->throw("$e");
@@ -82,7 +81,7 @@ sub connection ($self, $loop, $stream, $id)
 					Server::Config::PROTOCOL_CONTROL_CHARACTER,
 					($data{id} // ''),
 					($data{echo_type} // ''),
-					(is_ref $data{echo} ? to_json($data{echo}) : $data{echo}),
+					(is_ref $data{echo} ? __serialize($data{echo}) : $data{echo}),
 				)
 
 				# NOTE: this newline is essential for the client to get this data

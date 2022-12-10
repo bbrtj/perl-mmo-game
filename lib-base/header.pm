@@ -12,6 +12,7 @@ require Carp;
 require Scalar::Util;
 require Ref::Util;
 require List::Util;
+require My::Serializer;
 
 use DI;
 use Types;
@@ -31,6 +32,7 @@ sub import ($me, @args)
 	Ref::Util->import::into($pkg, qw(is_ref is_arrayref is_hashref is_coderef is_scalarref));
 	List::Util->import::into($pkg, qw(first any all mesh));
 	i18n->import::into($pkg);
+	My::Serializer->import::into($pkg);
 
 	true->import::into($pkg);
 
