@@ -14,6 +14,8 @@ has option 'movement' => (
 	isa => Types::InstanceOf ['Game::Object::Movement'],
 );
 
+use constant type => 'actor_state';
+
 sub _serialize ($self)
 {
 	my $actor = $self->subject;

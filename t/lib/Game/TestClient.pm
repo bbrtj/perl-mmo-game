@@ -96,13 +96,15 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 
 	my sub compare_received_data ($data)
 	{
-		my @parts = split quotemeta(Server::Config::PROTOCOL_CONTROL_CHARACTER), $data, 2;
+		my @parts = split quotemeta(Server::Config::PROTOCOL_CONTROL_CHARACTER), $data, 3;
 		$self->raise("$action: unexpected id from server communication: \nGot: $parts[0] \nExpected: $last_sent_id")
 			unless !length $parts[0] || $parts[0] == $last_sent_id;
 
-		unless (grab_action->find_and_compare($parts[1])) {
+		unless (grab_action->find_and_compare(@parts[1, 2])) {
+			my $type = $action->get_expected_type;
 			my $expected = $action->get_expected_data;
-			$self->raise("$action: unexpected data from server communication: \nGot: $parts[1] \nExpected: $expected");
+
+			$self->raise("$action: unexpected type/data from server communication: \nGot: $parts[1]/$parts[2] \nExpected: $type/$expected");
 		}
 
 		if ($parts[0]) {

@@ -3,7 +3,7 @@ package Game::TestClient::Action;
 use My::Moose;
 use Mojo::JSON qw(from_json to_json);
 use Data::Compare;
-use Data::Dumper;
+use My::Dumper;
 
 use header;
 
@@ -53,19 +53,23 @@ sub get_data ($self)
 	return shift $self->state->{send}->@*;
 }
 
-sub find_and_compare ($self, $data)
+sub find_and_compare ($self, $type, $data)
 {
 	my @rec_q = $self->state->{receive}->@*;
 	foreach my $i (keys @rec_q) {
 		my $expected = $rec_q[$i];
-		$expected = $expected->serialized
-			if $expected isa 'Resource';
+		my $expected_type = '';
+
+		if ($expected isa 'Resource') {
+			$expected_type = $expected->type;
+			$expected = $expected->serialized;
+		}
 
 		my $cmp_data = $data;
 		$cmp_data = $self->decode($cmp_data)
 			if is_ref $expected;
 
-		my $ok = Compare($cmp_data, $expected);
+		my $ok = $type eq $expected_type && Compare($cmp_data, $expected);
 		if ($ok) {
 			splice $self->state->{receive}->@*, $i, 1;
 			return !!1;
@@ -75,6 +79,24 @@ sub find_and_compare ($self, $data)
 	}
 
 	return !!0;
+}
+
+sub get_expected_type ($self)
+{
+	my @rec_q = $self->state->{receive}->@*;
+
+	return 'none (queue is empty)'
+		unless @rec_q;
+
+	return 'one of many (queue is not sequential)'
+		if !$self->sequential && @rec_q > 1;
+
+	my $expected = $rec_q[0];
+
+	return $expected->type
+		if $expected isa 'Resource';
+
+	return '';
 }
 
 sub get_expected_data ($self)
@@ -91,7 +113,7 @@ sub get_expected_data ($self)
 	$expected = $expected->serialized
 		if $expected isa 'Resource';
 
-	return Dumper($expected);
+	return My::Dumper->dd($expected);
 }
 
 sub encode ($self, $data)

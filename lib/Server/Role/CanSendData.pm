@@ -6,18 +6,19 @@ use header;
 
 has injected 'channel_service';
 
-sub send_to ($self, $session_id, $echo, %more)
+sub send_to ($self, $session_id, $echo, %data)
 {
-	my $data = {
-		%more,
-		(
-			defined $echo
-			? (echo => ($echo isa 'Resource' ? $echo->serialized : $echo))
-			: ()
-		)
-	};
+	if (defined $echo) {
+		if ($echo isa 'Resource') {
+			$data{echo} = $echo->serialized;
+			$data{echo_type} = $echo->type;
+		}
+		else {
+			$data{echo} = $echo;
+		}
+	}
 
-	$self->channel_service->broadcast($session_id, $data);
+	$self->channel_service->broadcast($session_id, \%data);
 	return;
 }
 

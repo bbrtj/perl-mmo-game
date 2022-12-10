@@ -2,7 +2,6 @@ package Server::Process::Jobs;
 
 use My::Moose;
 use Mojo::IOLoop;
-use Data::Dumper;
 use Server::Config;
 
 use header;
@@ -43,7 +42,7 @@ sub handle ($self, $data)
 	}
 	catch ($e) {
 		$self->log->error("Processing job $name failed: $e");
-		$self->log->debug("Error was: " . Dumper($e));
+		$self->log->debug("Error was: " . My::Dumper->dd($e));
 	}
 
 	return;

@@ -10,6 +10,8 @@ has extended 'subject' => (
 	isa => Types::InstanceOf ['Unit::User'],
 );
 
+use constant type => 'character_list';
+
 sub _serialize ($self)
 {
 	my @characters = map {
@@ -21,6 +23,6 @@ sub _serialize ($self)
 		}
 	} $self->subject->players->@*;
 
-	return {characters => \@characters};
+	return \@characters;
 }
 

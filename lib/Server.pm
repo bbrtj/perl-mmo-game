@@ -78,13 +78,15 @@ sub connection ($self, $loop, $stream, $id)
 
 		if (defined $data{echo}) {
 			$stream->write(
-				join '',
-				($data{id} // ''),
-				Server::Config::PROTOCOL_CONTROL_CHARACTER,
-				(is_ref $data{echo} ? to_json($data{echo}) : $data{echo}),
+				join(
+					Server::Config::PROTOCOL_CONTROL_CHARACTER,
+					($data{id} // ''),
+					($data{echo_type} // ''),
+					(is_ref $data{echo} ? to_json($data{echo}) : $data{echo}),
+				)
 
 				# NOTE: this newline is essential for the client to get this data
-				"\n",
+				. "\n",
 			);
 		}
 

@@ -32,7 +32,10 @@ e2e_test {
 		my @ids = @player_ids;
 		splice @ids, $key, 1;
 
-		$bag->clients->[$key]->add_action('State', received => {discovery => {'+actors' => \@ids}});
+		$bag->clients->[$key]->add_action('State',
+			received => {'+actors' => \@ids},
+			types => ['discovery'],
+		);
 	}
 
 	$bag->run;

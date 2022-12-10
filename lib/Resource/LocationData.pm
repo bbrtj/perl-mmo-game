@@ -10,10 +10,13 @@ has extended 'subject' => (
 	isa => Types::InstanceOf ['Game::Lore::Location'],
 );
 
+use constant type => 'location_data';
+
 sub _serialize ($self)
 {
 	return {
-		location => $self->subject->name,
+		id => $self->subject->id,
+		name => $self->subject->name,
 	};
 }
 

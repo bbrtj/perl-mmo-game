@@ -10,5 +10,7 @@ has field 'serialized' => (
 	lazy => '_serialize'
 );
 
+sub type { ... }
+
 sub _serialize ($self) { ... }
 

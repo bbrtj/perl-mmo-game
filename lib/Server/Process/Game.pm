@@ -1,7 +1,6 @@
 package Server::Process::Game;
 
 use My::Moose;
-use Data::Dumper;
 use Server::Config;
 use Game::Server;
 use Time::HiRes qw(time);
@@ -78,7 +77,7 @@ sub handle ($self, $data)
 		}
 		else {
 			$self->log->error("Processing game handler $name failed: $e");
-			$self->log->debug("Error was: " . Dumper($e))
+			$self->log->debug("Error was: " . My::Dumper->dd($e))
 				if Server::Config::DEBUG;
 		}
 	}

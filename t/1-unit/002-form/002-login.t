@@ -89,7 +89,7 @@ foreach my $prefix ('', 'web') {
 		ok $valid, "form valid $_";
 
 		if (!$valid) {
-			diag Dumper($form->errors_hash);
+			diag My::Dumper->dd($form->errors_hash);
 		}
 		else {
 			is $form->user, exact_ref($mock_model), 'fetched model ok';

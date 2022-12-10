@@ -15,6 +15,7 @@ require List::Util;
 
 use DI;
 use Types;
+use My::Dumper;
 
 sub import ($me, @args)
 {
