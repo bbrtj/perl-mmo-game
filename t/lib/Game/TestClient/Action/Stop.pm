@@ -35,7 +35,8 @@ sub receive_queue ($self)
 	}
 }
 
-sub find_and_compare ($self, $type, $data) {
+sub find_and_compare ($self, $type, $data)
+{
 	my $result = $self->SUPER::find_and_compare($type, $data);
 
 	if (!$result) {
@@ -48,5 +49,5 @@ sub find_and_compare ($self, $type, $data) {
 	}
 
 	return $result;
-};
+}
 

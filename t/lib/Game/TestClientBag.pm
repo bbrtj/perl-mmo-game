@@ -29,6 +29,7 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 	$loop->recurring(
 		1 => sub {
 			if (!@clients && $finished_for++ == 2) {
+
 				# stop the loop after waiting 2 secs to check if there is any
 				# trailing data
 				$loop->stop;

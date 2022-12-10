@@ -104,7 +104,9 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 			my $type = $action->get_expected_type;
 			my $expected = $action->get_expected_data;
 
-			$self->raise("$action: unexpected type/data from server communication: \nGot: $parts[1]/$parts[2] \nExpected: $type/$expected");
+			$self->raise(
+				"$action: unexpected type/data from server communication: \nGot: $parts[1]/$parts[2] \nExpected: $type/$expected"
+			);
 		}
 
 		if ($parts[0]) {

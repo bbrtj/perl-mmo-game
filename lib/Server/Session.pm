@@ -8,7 +8,7 @@ use all 'X', 'Model';
 use header;
 
 has param 'server' => (
-	isa => Types::InstanceOf['Server'],
+	isa => Types::InstanceOf ['Server'],
 	'handles->' => {
 		'cache_repo' => 'cache_repo',
 		'channel_service' => 'channel_service',
@@ -30,7 +30,7 @@ has param 'on_dropped' => (
 has field 'session' => (
 	writer => 1,
 	default => sub {
-		Model::PlayerSession->new
+		Model::PlayerSession->new;
 	},
 );
 
@@ -42,9 +42,13 @@ sub BUILD ($self, $)
 {
 	my $session = $self->session;
 	$self->cache_repo->save($session);
-	$self->_listen($self->channel_service, $session->id, sub {
-		$self->handle_feedback(@_);
-	});
+	$self->_listen(
+		$self->channel_service,
+		$session->id,
+		sub {
+			$self->handle_feedback(@_);
+		}
+	);
 
 	# react to tcp events
 	my $stream = $self->stream;
@@ -132,10 +136,10 @@ sub handle_feedback ($self, $data_href)
 				($data{id} // ''),
 				($data{echo_type} // ''),
 				(is_ref $data{echo} ? __serialize($data{echo}) : $data{echo}),
-			)
+				)
 
-			# NOTE: this newline is essential for the client to get this data
-			. "\n",
+				# NOTE: this newline is essential for the client to get this data
+				. "\n",
 		);
 	}
 

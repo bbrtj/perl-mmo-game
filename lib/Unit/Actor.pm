@@ -30,6 +30,8 @@ sub BUILD ($self, $args)
 {
 	$self->_set_id($self->player->id)
 		if $self->is_player;
+
+	return;
 }
 
 sub models ($self)
