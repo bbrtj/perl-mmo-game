@@ -23,7 +23,7 @@ sub get_sub ($desc, @cases)
 		subtest_buffered $desc, sub {
 			my $num = 0;
 			foreach my $case (@cases) {
-				$before->($num)
+				$before->($case->@*)
 					if defined $before;
 
 				local $_ = "case $num ok";
