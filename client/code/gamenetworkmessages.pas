@@ -8,12 +8,14 @@ uses FGL, SysUtils,
 type
 	TMessage = class
 	const
-		SEPARATOR = ';';
+		// TODO: make this configurable in an xml
+		cSeparator = ';';
 
 	protected
 
 		FId: Integer;
 		FData: String;
+		FType: String;
 
 		procedure SetBody(vBody: String); virtual;
 		function GetBody(): String; virtual;
@@ -21,40 +23,29 @@ type
 	public
 		property Id: Integer read FId write FId;
 		property Data: String read FData write FData;
+		property Typ: String read FType write FType;
 		property Body: String read GetBody write SetBody;
 	end;
 
-
-	TOutMessage = class(TMessage)
-	protected
-		FType: String;
-
-		procedure SetBody(vBody: String); override;
-		function GetBody(): String; override;
-
-	public
-		property Typ: String read FType write FType;
-
-	end;
-
+	TOutMessage = class(TMessage);
 
 	TMessageType = class
 	public
 		MessageType: String;
 		MessageModel: TModelClass;
+		MessageCallbackType: String;
 		MessageCallbackModel: TModelClass;
 
 		constructor Create(const vType: String; const vModel: TModelClass);
-		constructor Create(const vType: String; const vModel: TModelClass; vCallbackModel: TModelClass);
+		constructor Create(const vType: String; const vModel: TModelClass; const vCallbackModel: TModelClass);
 	end;
-
 
 	TMessageTypes = specialize TFPGObjectList<TMessageType>;
 
-	var
-		MessageTypesMap: TMessageTypes;
+var
+	MessageTypesMap: TMessageTypes;
 
-	function FindMessageType(const vName: String): TMessageType;
+function FindMessageType(const vName: String): TMessageType;
 
 implementation
 
@@ -74,38 +65,19 @@ end;
 {}
 procedure TMessage.SetBody(vBody: String);
 var
-	parts: TStringArray;
+	vParts: TStringArray;
 begin
 	// TODO: handle non-existing parts of this split
-	parts := vBody.Split([SEPARATOR], 2);
-	FId := StrToInt(parts[0]);
-	FData := parts[1];
+	vParts := vBody.Split([cSeparator], 3);
+	FId := StrToInt(vParts[0]);
+	FType := vParts[1];
+	FData := vParts[2];
 end;
 
 {}
 function TMessage.GetBody(): String;
 begin
-	result := FId.ToString() + SEPARATOR + FData;
-end;
-
-{}
-procedure TOutMessage.SetBody(vBody: String);
-var
-	parts: TStringArray;
-begin
-	inherited;
-	// TODO: handle non-existing parts of this split
-	parts := FData.Split([SEPARATOR], 2);
-	FType := parts[0];
-	FData := parts[1];
-end;
-
-{}
-function TOutMessage.GetBody(): String;
-begin
-	result := FId.ToString() + SEPARATOR + FType;
-	if FData <> '' then
-		result += SEPARATOR + FData;
+	result := FId.ToString() + cSeparator + FType + cSeparator + FData;
 end;
 
 {}
@@ -116,10 +88,11 @@ begin
 end;
 
 {}
-constructor TMessageType.Create(const vType: String; const vModel: TModelClass; vCallbackModel: TModelClass);
+constructor TMessageType.Create(const vType: String; const vModel: TModelClass; const vCallbackModel: TModelClass);
 begin
 	MessageType := vType;
 	MessageModel := vModel;
+	MessageCallbackType := vCallbackModel.MessageType;
 	MessageCallbackModel := vCallbackModel;
 end;
 

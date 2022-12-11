@@ -22,8 +22,10 @@ type
 
 	end;
 
+type
 	TLoreItems = specialize TFPGObjectList<TLoreItem>;
 
+type
 	TLoreStore = class
 	private
 
@@ -41,8 +43,8 @@ type
 		property Items: TLoreItems read FItems write FItems;
 	end;
 
-	var
-		LoreCollection: TLoreStore;
+var
+	LoreCollection: TLoreStore;
 
 implementation
 

@@ -6,7 +6,10 @@ uses SysUtils, Serialization;
 
 type
 
-	TModelBase = class abstract(TSerialized);
+	TModelBase = class abstract(TSerialized)
+	public
+		class function MessageType(): String; virtual;
+	end;
 
 	TModelClass = class of TModelBase;
 
@@ -20,7 +23,6 @@ type
 		property Value: Variant read FValue write FValue;
 
 	end;
-
 
 	TModelSerializationBase = class abstract
 	public
@@ -40,10 +42,16 @@ type
 		function DeSerialize(const vSerialized: String; const vModelClass: TModelClass): TModelBase; override;
 	end;
 
-	var
-		DummyModel: TEmptyModel;
+var
+	DummyModel: TEmptyModel;
 
 implementation
+
+{ this should be reimplemented for more complex models}
+class function TModelBase.MessageType(): String;
+begin
+	result := '';
+end;
 
 {}
 constructor TJSONModelSerialization.Create();

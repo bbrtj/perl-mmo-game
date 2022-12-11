@@ -7,9 +7,7 @@ uses FGL,
 	Serialization;
 
 type
-
 	TSuccessResultMessage = class(TPlaintextModel);
-
 
 	TLoginMessage = class(TModelBase)
 	private
@@ -21,7 +19,6 @@ type
 		property password: String read FPassword write FPassword;
 
 	end;
-
 
 	TCharacterResultMessage = class(TModelBase)
 	private
