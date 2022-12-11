@@ -35,10 +35,10 @@ sub create_actor ($self, %params)
 
 	my $faker = DI->get('faker_service');
 
-	my $user = $faker->fake_user($params{password});
-	my $player = $faker->fake_player($user->id);
-	my $character = $faker->fake_character($player->id);
-	my $variables = $faker->fake_variables($character->id, %{$params{variables_params} // {}});
+	my $user = $faker->fake_user(plaintext_password => $params{password});
+	my $player = $faker->fake_player(user_id => $user->id);
+	my $character = $faker->fake_character(player_id => $player->id);
+	my $variables = $faker->fake_variables(id => $character->id, %{$params{variables_params} // {}});
 
 	my %models = (
 		user => $user,

@@ -14,42 +14,42 @@ has field 'faker' => (
 	constructed => ['Faker', 'en-us'],
 );
 
-sub fake_user ($self, $plaintext_password = $self->faker->user_password, %params)
+sub fake_user ($self, %params)
 {
 	return Model::User->new(
 		email => $self->faker->internet_email_address,
-		plaintext_password => $plaintext_password,
+		plaintext_password => $self->faker->user_password,
 		%params
 	);
 }
 
-sub fake_player ($self, $user_id = Types::ULID::ulid, %params)
+sub fake_player ($self, %params)
 {
 	return Model::Player->new(
-		user_id => $user_id,
+		user_id => Types::ULID::ulid,
 		%params
 	);
 }
 
-sub fake_character ($self, $player_id = Types::ULID::ulid, %params)
+sub fake_character ($self, %params)
 {
 	return Model::Character->new(
-		player_id => $player_id,
+		player_id => Types::ULID::ulid,
 		class_id => lore_class('Assassin')->id,
 		name => $self->faker->person_first_name,
 		%params
 	);
 }
 
-sub fake_npc ($self, $npc_id = Types::ULID::ulid)
+sub fake_npc ($self, %params)
 {
 	...;
 }
 
-sub fake_variables ($self, $character_id = Types::ULID::ulid, %params)
+sub fake_variables ($self, %params)
 {
 	return Model::CharacterVariables->new(
-		id => $character_id,
+		id => Types::ULID::ulid,
 		experience => int(rand(10000)),
 		location_id => Game::Config->config->{starting_location}->id,
 		pos_x => rand(10),

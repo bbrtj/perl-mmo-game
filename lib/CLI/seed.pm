@@ -15,8 +15,12 @@ sub run ($self, @args)
 	my $character_service = DI->get('character_service');
 	my $faker = DI->get('faker_service');
 
+	my $email = 'test%s@test.com';
 	foreach (1 .. 3) {
-		my $user = $user_service->register_user($faker->fake_user('password')->serialize);
+		my $user = $user_service->register_user({
+			$faker->fake_user(email => sprintf($email, $_))->serialize->%*,
+			plaintext_password => 'password'
+		});
 		my $player = $character_service->create_character($user, $faker->fake_character->serialize);
 	}
 	return;
