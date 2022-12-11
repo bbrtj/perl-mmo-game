@@ -107,8 +107,15 @@ sub do_work ($self, $loop)
 
 		if (Server::Config::DEBUG) {
 			my $processing_time = abs($after - $tick);
-			my $alert = $processing_time > $tick / 2 ? ' [!!]' : '';
-			$self->log->debug($self->location_id . ": last processing took $processing_time$alert");
+
+			my $alert = '';
+			for (1.5, 2, 3, 5, 10) {
+				$alert .= '!' if $processing_time > $tick / $_;
+			}
+
+			if ($alert) {
+				$self->log->debug($self->location_id . ": last processing took $processing_time [$alert]");
+			}
 		}
 
 		# NOTE: $min_tick instead of 0 not to hijack entire event loop
