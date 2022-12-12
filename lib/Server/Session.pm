@@ -75,7 +75,9 @@ sub dropped ($self)
 
 sub unpack_message ($self, $bytes)
 {
-	chomp $bytes;
+	# chop CRLF
+	chop $bytes;
+	chop $bytes;
 
 	if ($bytes eq 'ping') {
 		$self->send('ping');
@@ -138,8 +140,8 @@ sub handle_feedback ($self, $data_href)
 				(is_ref $data{echo} ? __serialize($data{echo}) : $data{echo}),
 				)
 
-				# NOTE: this newline is essential for the client to get this data
-				. "\n",
+				# NOTE: this CRLF is essential for the client to get this data
+				. "\r\n",
 		);
 	}
 
