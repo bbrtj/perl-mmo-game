@@ -134,7 +134,7 @@ var
 	vSelection: TCharacterSelection;
 	vInner: TCastleUserInterface;
 begin
-	for vCharacter in (vCharacterList as TCharacterListResultMessage).characters do begin
+	for vCharacter in (vCharacterList as TCharacterListResultMessage).list do begin
 		vSelection := TCharacterSelection.Create(FCharacterList);
 		FCharacterList.InsertFront(vSelection);
 		vSelection.URL := 'castle-data:/componentcharacterbutton.castle-user-interface';

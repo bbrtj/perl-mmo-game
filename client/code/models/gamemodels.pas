@@ -2,7 +2,7 @@ unit GameModels;
 
 interface
 
-uses SysUtils, Serialization;
+uses SysUtils, FPJSON, Serialization;
 
 type
 
@@ -31,7 +31,11 @@ type
 	end;
 
 	TJSONModelSerialization = class (TModelSerializationBase)
+	const
+		cWrapKey = 'list';
+
 	private
+
 		FStreamer: TGameStreamer;
 
 	public
@@ -79,13 +83,30 @@ end;
 
 {}
 function TJSONModelSerialization.DeSerialize(const vSerialized: String; const vModelClass: TModelClass): TModelBase;
+
+	function WrappedJson(): String;
+	var
+		vJsonMaybeArray: TJSONData;
+		vNewObject: TJSONObject;
+	begin
+		result := vSerialized;
+		vJsonMaybeArray := GetJSON(vSerialized);
+
+		if vJsonMaybeArray.JsonType = jtArray then begin
+			vNewObject := TJSONObject.Create;
+			vNewObject.Add(cWrapKey, vJsonMaybeArray);
+
+			result := vNewObject.AsJson;
+		end;
+	end;
+
 begin
 	result := vModelClass.Create;
 
 	if vModelClass.InheritsFrom(TPlaintextModel) then
 		(result as TPlaintextModel).Value := vSerialized
 	else
-		FStreamer.DeStreamer.JSONToObject(vSerialized, result);
+		FStreamer.DeStreamer.JSONToObject(WrappedJson(), result);
 end;
 
 { implementation end }

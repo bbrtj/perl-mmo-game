@@ -46,7 +46,7 @@ type
 		destructor Destroy; override;
 
 	published
-		property characters: TCharacterResultMessageList read FCharacters write FCharacters;
+		property list: TCharacterResultMessageList read FCharacters write FCharacters;
 	end;
 
 implementation

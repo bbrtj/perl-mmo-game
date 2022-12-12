@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <General>
       <Flags>
         <MainUnitHasUsesSectionForAllUnits Value="False"/>
         <MainUnitHasCreateFormStatements Value="False"/>
         <MainUnitHasTitleStatement Value="False"/>
         <MainUnitHasScaledStatement Value="False"/>
+        <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
       <Title Value="client"/>
     </General>
     <BuildModes Count="1">
@@ -33,7 +33,7 @@
         <PackageName Value="castle_base"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="15">
       <Unit0>
         <Filename Value="client_standalone.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -43,7 +43,7 @@
         <IsPartOfProject Value="True"/>
       </Unit1>
       <Unit2>
-        <Filename Value="code/gamestatelogin.pas"/>
+        <Filename Value="code/states/gamestatelogin.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="GameStateLogin"/>
       </Unit2>
@@ -54,7 +54,49 @@
       <Unit4>
         <Filename Value="code/gamenetwork.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="GameNetwork"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="code/gamelore.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="GameLore"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="code/gamenetworkmessages.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="code/gametranslations.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="code/gametypes.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="code/states/gamestatecharacterlist.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="code/states/gamestateloading.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="code/models/gamemodels.general.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="code/models/gamemodels.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="../sharedpas/serialization.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="components/gameuicomponents.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit14>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -63,8 +105,8 @@
       <Filename Value="client"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="code"/>
-      <OtherUnitFiles Value="code"/>
+      <IncludeFiles Value="code;$(ProjOutDir)"/>
+      <OtherUnitFiles Value="code;code/states;code/models;../sharedpas;components"/>
       <UnitOutputDirectory Value="castle-engine-output/standalone/lazarus-lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
