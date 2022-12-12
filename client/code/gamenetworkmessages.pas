@@ -69,7 +69,12 @@ var
 begin
 	// TODO: handle non-existing parts of this split
 	vParts := vBody.Split([cSeparator], 3);
-	FId := StrToInt(vParts[0]);
+
+	if length(vParts[0]) > 0 then
+		FId := StrToInt(vParts[0])
+	else
+		FId := -1;
+
 	FType := vParts[1];
 	FData := vParts[2];
 end;
