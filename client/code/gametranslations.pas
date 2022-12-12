@@ -44,8 +44,13 @@ end;
 
 {}
 procedure TGameMOFile.TranslateCallback(const vSender: TCastleComponent; const vPropertyName: String; var vPropertyValue: String);
+var
+	vOrigValue: String;
 begin
-	vPropertyValue := Translate(vPropertyValue);
+	vOrigValue := vPropertyValue;
+	vPropertyValue := Translate(vOrigValue);
+	if vPropertyValue = '' then
+		vPropertyValue := vOrigValue + ' [!!]';
 end;
 
 { implementation end }
