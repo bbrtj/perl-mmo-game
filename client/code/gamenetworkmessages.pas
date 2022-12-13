@@ -90,6 +90,8 @@ constructor TMessageType.Create(const vType: String; const vModel: TModelClass);
 begin
 	MessageType := vType;
 	MessageModel := vModel;
+	MessageCallbackType := '';
+	MessageCallbackModel := nil;
 end;
 
 {}

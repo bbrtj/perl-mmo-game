@@ -45,6 +45,8 @@ type
 		constructor Create(); override;
 		destructor Destroy; override;
 
+		class function MessageType(): String; override;
+
 	published
 		property list: TCharacterResultMessageList read FCharacters write FCharacters;
 	end;
@@ -61,6 +63,12 @@ end;
 destructor TCharacterListResultMessage.Destroy;
 begin
 	FCharacters.Free;
+end;
+
+{}
+class function TCharacterListResultMessage.MessageType(): String;
+begin
+	result := 'character_list';
 end;
 
 { implementation end }

@@ -51,7 +51,7 @@ var
 
 implementation
 
-{ this should be reimplemented for more complex models}
+{ this should be reimplemented for more complex models }
 class function TModelBase.MessageType(): String;
 begin
 	result := '';

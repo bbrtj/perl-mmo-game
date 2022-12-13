@@ -128,7 +128,7 @@ begin
 	vMessage.Body := vReceived;
 
 	for vCallback in FCallbacks do begin
-		if vCallback.Id = vMessage.Id then begin
+		if (vCallback.Id = vMessage.Id) and (vCallback.MessageType.MessageCallbackType = vMessage.Typ) then begin
 			vModel := FModelSerializer.DeSerialize(vMessage.Data, vCallback.MessageType.MessageCallbackModel);
 
 			vCallback.callback(vModel);
