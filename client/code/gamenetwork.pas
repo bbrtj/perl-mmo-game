@@ -58,7 +58,6 @@ var
 
 implementation
 
-{}
 constructor TCallbackItem.Create(const vId: Integer; const vCallback: TNetworkMessageCallback; const vType: TMessageType);
 begin
 	Id := vId;
@@ -66,7 +65,6 @@ begin
 	MessageType := vType;
 end;
 
-{}
 constructor TNetwork.Create();
 begin
 	FClient := TCastleTCPClient.Create;
@@ -74,7 +72,6 @@ begin
 	FModelSerializer := TJSONModelSerialization.Create;
 end;
 
-{}
 destructor TNetwork.Destroy;
 begin
 	FClient.Free;
@@ -83,7 +80,6 @@ begin
 	inherited;
 end;
 
-{}
 procedure TNetwork.Connect(const vHost: String; const vPort: Word; const vCallback: TNetworkCallback);
 begin
 	if FClient.IsConnected then begin
@@ -101,7 +97,6 @@ begin
 	FClient.Connect;
 end;
 
-{}
 procedure TNetwork.Disconnect();
 begin
 	if FClient.IsConnected then begin
@@ -111,14 +106,12 @@ begin
 	end;
 end;
 
-{}
 procedure TNetwork.OnDisconnected;
 begin
 	writeln('disconnected');
 	// TODO: we should try to reconnect with a timeout
 end;
 
-{}
 procedure TNetwork.OnMessageReceived (const vReceived: String);
 var
 	vMessage: TMessage;
@@ -147,7 +140,6 @@ begin
 	vMessage.Free;
 end;
 
-{}
 function TNetwork.AssignId(): Integer;
 var
 	vInd: Integer;
@@ -163,7 +155,6 @@ begin
 	result += 1;
 end;
 
-{}
 function TNetwork.DoSend(const vType: TMessageType; const vData: TModelBase): Integer;
 var
 	vToSend: TOutMessage;
@@ -181,7 +172,6 @@ begin
 	vToSend.Free;
 end;
 
-{}
 procedure TNetwork.Send(const vType: TMessageType; const vData: TModelBase; const vCallback: TNetworkMessageCallback);
 begin
 	if not vType.HasCallback then
@@ -190,13 +180,11 @@ begin
 	FCallbacks.Add(TCallbackItem.Create(DoSend(vType, vData), vCallback, vType));
 end;
 
-{}
 procedure TNetwork.Send(const vType: TMessageType; const vData: TModelBase);
 begin
 	DoSend(vType, vData);
 end;
 
-{}
 procedure TNetwork.Await(const vType: TMessageType; const vCallback: TNetworkMessageCallback);
 begin
 end;

@@ -60,7 +60,6 @@ begin
 	DesignUrl := 'castle-data:/gamestatecharacterlist.castle-user-interface';
 end;
 
-{}
 procedure TStateCharacterList.Start;
 begin
 	inherited;
@@ -72,13 +71,11 @@ begin
 	DoLoadCharacterList;
 end;
 
-{}
 procedure TStateCharacterList.Update(const SecondsPassed: Single; var HandleInput: Boolean);
 begin
 	inherited;
 end;
 
-{}
 function TStateCharacterList.Press(const Event: TInputPressRelease): Boolean;
 begin
 	Result := inherited;
@@ -104,7 +101,6 @@ begin
 	}
 end;
 
-{}
 procedure TStateCharacterList.DoLogout(vSender: TObject);
 begin
 	GlobalClient.Send(
@@ -115,7 +111,6 @@ begin
 	TUIState.Current := StateLogin;
 end;
 
-{}
 procedure TStateCharacterList.DoLoadCharacterList();
 begin
 	// TODO: notify of loading
@@ -127,7 +122,6 @@ begin
 	);
 end;
 
-{}
 procedure TStateCharacterList.OnCharacterList(const vCharacterList: TModelBase);
 var
 	vCharacter: TMsgResCharacter;
@@ -155,7 +149,6 @@ begin
 	end;
 end;
 
-{}
 procedure TStateCharacterList.DoEnterGame(const vUi: TCastleUserInterface; const vEvent: TInputPressRelease; var vHandled: Boolean);
 var
 	vModel: TPlaintextModel;
@@ -177,7 +170,6 @@ begin
 	end;
 end;
 
-{}
 procedure TStateCharacterList.OnEnterGame(const vSuccess: TModelBase);
 begin
 	if (vSuccess as TMsgResSuccess).Value = '1' then begin

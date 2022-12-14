@@ -57,20 +57,17 @@ begin
 	result := '';
 end;
 
-{}
 constructor TJSONModelSerialization.Create();
 begin
 	FStreamer := TGameStreamer.Create;
 end;
 
-{}
 destructor TJSONModelSerialization.Destroy;
 begin
 	FStreamer.Free;
 	inherited;
 end;
 
-{}
 function TJSONModelSerialization.Serialize(const vModel: TModelBase): String;
 begin
 	if vModel is TEmptyModel then
@@ -81,7 +78,6 @@ begin
 		result := FStreamer.Streamer.ObjectToJSONString(vModel);
 end;
 
-{}
 function TJSONModelSerialization.DeSerialize(const vSerialized: String; const vModelClass: TModelClass): TModelBase;
 
 	function WrappedJson(): String;

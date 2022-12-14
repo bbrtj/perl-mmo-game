@@ -57,14 +57,12 @@ constructor TSerialized.Create();
 begin
 end;
 
-{}
 procedure TSerialized.OnObjectStreamed(vJson: TJSONObject);
 begin
 	// can be reimplemented
 end;
 
 
-{}
 constructor TSerializedList.Create(ltype: TSerializedListType; litemtype: TSerializedListItemType);
 begin
 	ListType := ltype;
@@ -89,7 +87,6 @@ begin
 	FDeStreamer.Free;
 end;
 
-{}
 procedure TGameStreamer.OnStreamProperty(sender: TObject; aObject: TObject; info: PPropInfo; var res: TJSONData);
 var
 	value: TObject;
@@ -103,7 +100,6 @@ begin
 	end;
 end;
 
-{}
 procedure TGameStreamer.OnRestoreProperty(sender: TObject; aObject: TObject; info: PPropInfo; aValue: TJSONData; var handled: Boolean);
 var
 	value: TObject;
@@ -120,7 +116,6 @@ begin
 	end;
 end;
 
-{}
 function TGameStreamer.StreamGenericList(const aList: TFPSList): TJSONArray;
 var
 	ind: Integer;
@@ -138,7 +133,6 @@ begin
 	end;
 end;
 
-{}
 procedure TGameStreamer.DeStreamGenericList(const aArray: TJSONArray; value: TObject; itemInfo: TSerializedList);
 var
 	ind: Integer;
@@ -152,7 +146,6 @@ begin
 	end;
 end;
 
-{}
 procedure TGameStreamer.OnObjectStreamed(sender: TObject; aObject: TObject; vJson: TJSONObject);
 begin
 	if aObject is TSerialized then

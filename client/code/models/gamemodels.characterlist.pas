@@ -46,25 +46,21 @@ type
 
 implementation
 
-{}
 class function TMsgCharacterList.MessageType(): String;
 begin
 	result := 'list_characters';
 end;
 
-{}
 constructor TMsgResCharacterList.Create();
 begin
 	FCharacters := TMsgResCharacter_List.Create;
 end;
 
-{}
 destructor TMsgResCharacterList.Destroy;
 begin
 	FCharacters.Free;
 end;
 
-{}
 class function TMsgResCharacterList.MessageType(): String;
 begin
 	result := 'character_list';

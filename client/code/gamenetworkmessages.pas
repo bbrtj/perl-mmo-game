@@ -59,7 +59,6 @@ function FindMessageType(const vType: TModelClass): TMessageType;
 
 implementation
 
-{}
 function FindMessageType(const vType: TModelClass): TMessageType;
 var
 	vMessageType: TMessageType;
@@ -72,7 +71,6 @@ begin
 	raise Exception.Create('No such network message type: ' + vType.MessageType);
 end;
 
-{}
 procedure TMessage.SetBody(vBody: String);
 var
 	vParts: TStringArray;
@@ -89,33 +87,28 @@ begin
 	FData := vParts[2];
 end;
 
-{}
 function TMessage.GetBody(): String;
 begin
 	result := FId.ToString() + cSeparator + FType + cSeparator + FData;
 end;
 
-{}
 constructor TMessageType.Create(const vModel: TModelClass);
 begin
 	FModel := vModel;
 	FCallbackModel := nil;
 end;
 
-{}
 constructor TMessageType.Create(const vModel: TModelClass; const vCallbackModel: TModelClass);
 begin
 	FModel := vModel;
 	FCallbackModel := vCallbackModel;
 end;
 
-{}
 function TMessageType.GetType(): String;
 begin
 	result := FModel.MessageType;
 end;
 
-{}
 function TMessageType.GetCallbackType(): String;
 begin
 	if self.HasCallback then
@@ -124,7 +117,6 @@ begin
 		result := '';
 end;
 
-{}
 function TMessageType.HasCallback(): Boolean;
 begin
 	result := FCallbackModel <> nil;

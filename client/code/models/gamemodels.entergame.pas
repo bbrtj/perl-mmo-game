@@ -13,7 +13,6 @@ type
 
 implementation
 
-{}
 class function TMsgEnterGame.MessageType(): String;
 begin
 	result := 'enter_game';

@@ -21,7 +21,6 @@ type
 
 implementation
 
-{}
 class function TMsgLogin.MessageType(): String;
 begin
 	result := 'login';

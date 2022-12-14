@@ -13,7 +13,6 @@ type
 
 implementation
 
-{}
 class function TMsgLogout.MessageType(): String;
 begin
 	result := 'logout';

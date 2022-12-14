@@ -30,19 +30,16 @@ begin
 	TranslateProperties(vComponent, @GlobalTranslations.TranslateCallback);
 end;
 
-{}
 procedure TranslateAllGameDesigns();
 begin
 	OnInternalTranslateDesign := @TranslateGameDesignCallback;
 end;
 
-{}
 constructor TGameMOFile.Create();
 begin
 	inherited Create(DesignUrl);
 end;
 
-{}
 procedure TGameMOFile.TranslateCallback(const vSender: TCastleComponent; const vPropertyName: String; var vPropertyValue: String);
 var
 	vOrigValue: String;

@@ -21,7 +21,6 @@ type
 
 implementation
 
-{}
 class function TMsgFeedLocationData.MessageType(): String;
 begin
 	result := 'location_data';

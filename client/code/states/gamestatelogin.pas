@@ -45,7 +45,6 @@ begin
 	DesignUrl := 'castle-data:/gamestatelogin.castle-user-interface';
 end;
 
-{}
 procedure TStateLogin.Start;
 begin
 	inherited;
@@ -59,13 +58,11 @@ begin
 	FLoginButton.onClick := @DoLogin;
 end;
 
-{}
 procedure TStateLogin.Update(const SecondsPassed: Single; var HandleInput: Boolean);
 begin
 	inherited;
 end;
 
-{}
 function TStateLogin.Press(const Event: TInputPressRelease): Boolean;
 begin
 	Result := inherited;
@@ -91,7 +88,6 @@ begin
 	}
 end;
 
-{}
 procedure TStateLogin.DoLogin(vSender: TObject);
 begin
 	FStatus.Caption := 'Connecting...';
@@ -104,7 +100,6 @@ begin
 	);
 end;
 
-{}
 procedure TStateLogin.onConnected();
 var
 	vData: TMsgLogin;
@@ -125,7 +120,6 @@ begin
 	vData.Free;
 end;
 
-{}
 procedure TStateLogin.onLogin(const vSuccess: TModelBase);
 begin
 	if (vSuccess as TMsgResSuccess).Value = '1' then begin

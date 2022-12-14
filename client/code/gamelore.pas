@@ -48,20 +48,17 @@ var
 
 implementation
 
-{}
 constructor TLoreStore.Create();
 begin
 	FItems := TLoreItems.Create;
 end;
 
-{}
 destructor TLoreStore.Destroy();
 begin
 	FItems.Free;
 	inherited;
 end;
 
-{}
 procedure TLoreStore.Initialize();
 var
 	vStreamer: TGameStreamer;
@@ -76,7 +73,6 @@ begin
 	vStreamer.Free;
 end;
 
-{}
 function TLoreStore.GetByName(const vName: TLoreId): TLoreItem;
 var
 	vItem: TLoreItem;
