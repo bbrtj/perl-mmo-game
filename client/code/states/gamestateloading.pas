@@ -3,7 +3,9 @@ unit GameStateLoading;
 interface
 
 uses Classes,
-	CastleVectors, CastleUIState, CastleUIControls, CastleControls, CastleKeysMouse;
+	CastleVectors, CastleUIState, CastleUIControls, CastleControls, CastleKeysMouse,
+	GameNetwork,
+	GameModels, GameModels.Location;
 
 type
 	TStateLoading = class(TUIState)

@@ -20,7 +20,7 @@ type
 		FValue: Variant;
 
 	published
-		property Value: Variant read FValue write FValue;
+		property value: Variant read FValue write FValue;
 
 	end;
 
@@ -32,7 +32,7 @@ type
 
 	TJSONModelSerialization = class (TModelSerializationBase)
 	const
-		cWrapKey = 'list';
+		cArrayWrapKey = 'list';
 
 	private
 
@@ -94,7 +94,7 @@ function TJSONModelSerialization.DeSerialize(const vSerialized: String; const vM
 
 		if vJsonMaybeArray.JsonType = jtArray then begin
 			vNewObject := TJSONObject.Create;
-			vNewObject.Add(cWrapKey, vJsonMaybeArray);
+			vNewObject.Add(cArrayWrapKey, vJsonMaybeArray);
 
 			result := vNewObject.AsJson;
 		end;

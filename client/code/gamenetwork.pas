@@ -3,10 +3,10 @@ unit GameNetwork;
 interface
 
 uses
-	FGL,
+	FGL, SysUtils,
 	CastleClientServer,
 	GameNetworkMessages,
-	GameModels, GameModels.General;
+	GameModels;
 
 type
 	TNetworkCallback = procedure() of object;
@@ -49,6 +49,8 @@ type
 
 		procedure Send(const vType: TMessageType; const vData: TModelBase);
 		procedure Send(const vType: TMessageType; const vData: TModelBase; const vCallback: TNetworkMessageCallback);
+
+		procedure Await(const vType: TMessageType; const vCallback: TNetworkMessageCallback);
 	end;
 
 var
@@ -128,8 +130,8 @@ begin
 	vMessage.Body := vReceived;
 
 	for vCallback in FCallbacks do begin
-		if (vCallback.Id = vMessage.Id) and (vCallback.MessageType.MessageCallbackType = vMessage.Typ) then begin
-			vModel := FModelSerializer.DeSerialize(vMessage.Data, vCallback.MessageType.MessageCallbackModel);
+		if (vCallback.Id = vMessage.Id) and (vCallback.MessageType.CallbackTyp = vMessage.Typ) then begin
+			vModel := FModelSerializer.DeSerialize(vMessage.Data, vCallback.MessageType.CallbackModel);
 
 			vCallback.callback(vModel);
 
@@ -169,7 +171,7 @@ begin
 	// TODO: make sure we are connected?
 	vToSend := TOutMessage.Create;
 	vToSend.Id := AssignId();
-	vToSend.Typ := vType.MessageType;
+	vToSend.Typ := vType.Typ;
 	vToSend.Data := FModelSerializer.Serialize(vData);
 
 	result := vToSend.Id;
@@ -182,6 +184,9 @@ end;
 {}
 procedure TNetwork.Send(const vType: TMessageType; const vData: TModelBase; const vCallback: TNetworkMessageCallback);
 begin
+	if not vType.HasCallback then
+		raise Exception.Create('Type ' + vType.Typ + ' does not have a callback');
+
 	FCallbacks.Add(TCallbackItem.Create(DoSend(vType, vData), vCallback, vType));
 end;
 
@@ -191,14 +196,19 @@ begin
 	DoSend(vType, vData);
 end;
 
+{}
+procedure TNetwork.Await(const vType: TMessageType; const vCallback: TNetworkMessageCallback);
+begin
+end;
+
+{ implementation end }
+
 initialization
 	GlobalClient := TNetwork.Create;
 
 finalization
 	// TODO: this hangs and throws access violation
 	// GlobalClient.Free;
-
-{ implementation end }
 
 end.
 

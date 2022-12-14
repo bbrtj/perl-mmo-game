@@ -3,7 +3,8 @@ unit GameNetworkMessages;
 interface
 
 uses FGL, SysUtils,
-	GameModels, GameModels.General;
+	GameModels, GameModels.General, GameModels.Login, GameModels.Logout,
+	GameModels.CharacterList, GameModels.EnterGame, GameModels.Location;
 
 type
 	TMessage = class
@@ -30,36 +31,45 @@ type
 	TOutMessage = class(TMessage);
 
 	TMessageType = class
-	public
-		MessageType: String;
-		MessageModel: TModelClass;
-		MessageCallbackType: String;
-		MessageCallbackModel: TModelClass;
+	private
+		FModel: TModelClass;
+		FCallbackModel: TModelClass;
 
-		constructor Create(const vType: String; const vModel: TModelClass);
-		constructor Create(const vType: String; const vModel: TModelClass; const vCallbackModel: TModelClass);
+		function GetType(): String;
+		function GetCallbackType(): String;
+	public
+		constructor Create(const vModel: TModelClass);
+		constructor Create(const vModel: TModelClass; const vCallbackModel: TModelClass);
+
+		function HasCallback(): Boolean;
+
+		property Model: TModelClass read FModel write FModel;
+		property CallbackModel: TModelClass read FCallbackModel write FCallbackModel;
+		property Typ: String read GetType;
+		property CallbackTyp: String read GetCallbackType;
 	end;
 
 	TMessageTypes = specialize TFPGObjectList<TMessageType>;
 
 var
 	MessageTypesMap: TMessageTypes;
+	FeedTypesMap: TMessageTypes;
 
-function FindMessageType(const vName: String): TMessageType;
+function FindMessageType(const vType: TModelClass): TMessageType;
 
 implementation
 
 {}
-function FindMessageType(const vName: String): TMessageType;
+function FindMessageType(const vType: TModelClass): TMessageType;
 var
 	vMessageType: TMessageType;
 begin
 	for vMessageType in MessageTypesMap do begin
-		if vMessageType.MessageType = vName then
+		if vMessageType.Model = vType then
 			exit(vMessageType);
 	end;
 
-	raise Exception.Create('No such network message type: ' + vName);
+	raise Exception.Create('No such network message type: ' + vType.MessageType);
 end;
 
 {}
@@ -86,32 +96,52 @@ begin
 end;
 
 {}
-constructor TMessageType.Create(const vType: String; const vModel: TModelClass);
+constructor TMessageType.Create(const vModel: TModelClass);
 begin
-	MessageType := vType;
-	MessageModel := vModel;
-	MessageCallbackType := '';
-	MessageCallbackModel := nil;
+	FModel := vModel;
+	FCallbackModel := nil;
 end;
 
 {}
-constructor TMessageType.Create(const vType: String; const vModel: TModelClass; const vCallbackModel: TModelClass);
+constructor TMessageType.Create(const vModel: TModelClass; const vCallbackModel: TModelClass);
 begin
-	MessageType := vType;
-	MessageModel := vModel;
-	MessageCallbackType := vCallbackModel.MessageType;
-	MessageCallbackModel := vCallbackModel;
+	FModel := vModel;
+	FCallbackModel := vCallbackModel;
+end;
+
+{}
+function TMessageType.GetType(): String;
+begin
+	result := FModel.MessageType;
+end;
+
+{}
+function TMessageType.GetCallbackType(): String;
+begin
+	if self.HasCallback then
+		result := FCallbackModel.MessageType
+	else
+		result := '';
+end;
+
+{}
+function TMessageType.HasCallback(): Boolean;
+begin
+	result := FCallbackModel <> nil;
 end;
 
 { implementation end }
 
 initialization
 	MessageTypesMap := TMessageTypes.Create;
+	FeedTypesMap := TMessageTypes.Create;
 
-	MessageTypesMap.Add(TMessageType.Create('login', TLoginMessage, TSuccessResultMessage));
-	MessageTypesMap.Add(TMessageType.Create('logout', TEmptyModel));
-	MessageTypesMap.Add(TMessageType.Create('list_characters', TEmptyModel, TCharacterListResultMessage));
-	MessageTypesMap.Add(TMessageType.Create('enter_game', TPlaintextModel, TSuccessResultMessage));
+	MessageTypesMap.Add(TMessageType.Create(TMsgLogin, TMsgResSuccess));
+	MessageTypesMap.Add(TMessageType.Create(TMsgLogout));
+	MessageTypesMap.Add(TMessageType.Create(TMsgCharacterList, TMsgResCharacterList));
+	MessageTypesMap.Add(TMessageType.Create(TMsgEnterGame, TMsgResSuccess));
+
+	FeedTypesMap.Add(TMessageType.Create(TMsgFeedLocationData));
 
 finalization
 	MessageTypesMap.Free;

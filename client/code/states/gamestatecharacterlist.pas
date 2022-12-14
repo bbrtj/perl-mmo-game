@@ -10,7 +10,7 @@ uses SysUtils, Classes,
 	GameUIComponents,
 	GameLore,
 	GameNetwork, GameNetworkMessages,
-	GameModels, GameModels.General;
+	GameModels, GameModels.General, GameModels.Logout, GameModels.CharacterList, GameModels.EnterGame;
 
 type
 
@@ -108,7 +108,7 @@ end;
 procedure TStateCharacterList.DoLogout(vSender: TObject);
 begin
 	GlobalClient.Send(
-		FindMessageType('logout'),
+		FindMessageType(TMsgLogout),
 		DummyModel
 	);
 
@@ -121,7 +121,7 @@ begin
 	// TODO: notify of loading
 
 	GlobalClient.Send(
-		FindMessageType('list_characters'),
+		FindMessageType(TMsgCharacterList),
 		DummyModel,
 		@OnCharacterList
 	);
@@ -130,11 +130,11 @@ end;
 {}
 procedure TStateCharacterList.OnCharacterList(const vCharacterList: TModelBase);
 var
-	vCharacter: TCharacterResultMessage;
+	vCharacter: TMsgResCharacter;
 	vSelection: TCharacterSelection;
 	vInner: TCastleUserInterface;
 begin
-	for vCharacter in (vCharacterList as TCharacterListResultMessage).list do begin
+	for vCharacter in (vCharacterList as TMsgResCharacterList).list do begin
 		vSelection := TCharacterSelection.Create(FCharacterList);
 		FCharacterList.InsertFront(vSelection);
 		vSelection.URL := 'castle-data:/componentcharacterbutton.castle-user-interface';
@@ -168,7 +168,7 @@ begin
 		vModel.Value := (vUi as TCharacterSelection).Id;
 
 		GlobalClient.Send(
-			FindMessageType('enter_game'),
+			FindMessageType(TMsgEnterGame),
 			vModel,
 			@OnEnterGame
 		);
@@ -180,7 +180,7 @@ end;
 {}
 procedure TStateCharacterList.OnEnterGame(const vSuccess: TModelBase);
 begin
-	if (vSuccess as TSuccessResultMessage).Value = '1' then begin
+	if (vSuccess as TMsgResSuccess).Value = '1' then begin
 		TUIState.Current := StateLoading;
 	end
 	else begin

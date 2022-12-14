@@ -8,7 +8,7 @@ uses SysUtils, Classes,
 	CastleFonts, CastleStringUtils, CastleUnicode,
 	GameUIComponents,
 	GameNetwork, GameNetworkMessages,
-	GameModels, GameModels.General;
+	GameModels, GameModels.General, GameModels.Login;
 
 type
 	TStateLogin = class(TUIState)
@@ -107,17 +107,17 @@ end;
 {}
 procedure TStateLogin.onConnected();
 var
-	vData: TLoginMessage;
+	vData: TMsgLogin;
 begin
 	FStatus.Caption := 'Logging in...';
 
-	vData := TLoginMessage.Create;
+	vData := TMsgLogin.Create;
 
 	vData.email := FUsernameField.Text;
 	vData.password := FPasswordField.Text;
 
 	GlobalClient.Send(
-		FindMessageType('login'),
+		FindMessageType(TMsgLogin),
 		vData,
 		@onLogin
 	);
@@ -128,7 +128,7 @@ end;
 {}
 procedure TStateLogin.onLogin(const vSuccess: TModelBase);
 begin
-	if (vSuccess as TSuccessResultMessage).Value = '1' then begin
+	if (vSuccess as TMsgResSuccess).Value = '1' then begin
 		TUIState.Current := StateCharacterList;
 	end
 	else begin
