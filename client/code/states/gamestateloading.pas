@@ -31,6 +31,7 @@ end;
 procedure TStateLoading.Start;
 begin
 	inherited;
+	GlobalClient.ContextChange;
 	{ Find components, by name, that we need to access from code }
 	// ButtonXxx := DesignedComponent('ButtonXxx') as TCastleButton;
 end;

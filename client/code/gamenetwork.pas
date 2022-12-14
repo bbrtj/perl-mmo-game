@@ -16,17 +16,27 @@ type
 	public
 		Id: Integer;
 		Callback: TNetworkMessageCallback;
-		MessageType: TMessageType;
+		CallbackModel: TModelClass;
 
-		constructor Create(const vId: Integer; const vCallback: TNetworkMessageCallback; const vType: TMessageType);
+		constructor Create(const vId: Integer; const vCallback: TNetworkMessageCallback; const vModel: TModelClass);
+	end;
+
+	TFeedItem = class
+	public
+		Callback: TNetworkMessageCallback;
+		CallbackModel: TModelClass;
+
+		constructor Create(const vCallback: TNetworkMessageCallback; const vModel: TModelClass);
 	end;
 
 	TCallbackItems = specialize TFPGObjectList<TCallbackItem>;
+	TFeedItems = specialize TFPGObjectList<TFeedItem>;
 
 	TNetwork = class sealed
 	private
 		FClient: TCastleTCPClient;
 		FCallbacks: TCallbackItems;
+		FFeeds: TFeedItems;
 		FModelSerializer: TModelSerializationBase;
 
 		procedure OnDisconnected;
@@ -47,10 +57,11 @@ type
 		procedure Connect(const vHost: String; const vPort: Word; const vCallback: TNetworkCallback);
 		procedure Disconnect();
 
-		procedure Send(const vType: TMessageType; const vData: TModelBase);
-		procedure Send(const vType: TMessageType; const vData: TModelBase; const vCallback: TNetworkMessageCallback);
+		procedure Send(const vModel: TModelClass; const vData: TModelBase);
+		procedure Send(const vModel: TModelClass; const vData: TModelBase; const vCallback: TNetworkMessageCallback);
 
-		procedure Await(const vType: TMessageType; const vCallback: TNetworkMessageCallback);
+		procedure Await(const vModel: TModelClass; const vCallback: TNetworkMessageCallback);
+		procedure ContextChange();
 	end;
 
 var
@@ -58,17 +69,24 @@ var
 
 implementation
 
-constructor TCallbackItem.Create(const vId: Integer; const vCallback: TNetworkMessageCallback; const vType: TMessageType);
+constructor TCallbackItem.Create(const vId: Integer; const vCallback: TNetworkMessageCallback; const vModel: TModelClass);
 begin
 	Id := vId;
 	Callback := vCallback;
-	MessageType := vType;
+	CallbackModel := vModel;
+end;
+
+constructor TFeedItem.Create(const vCallback: TNetworkMessageCallback; const vModel: TModelClass);
+begin
+	Callback := vCallback;
+	CallbackModel := vModel;
 end;
 
 constructor TNetwork.Create();
 begin
 	FClient := TCastleTCPClient.Create;
 	FCallbacks := TCallbackItems.Create;
+	FFeeds := TFeedItems.Create;
 	FModelSerializer := TJSONModelSerialization.Create;
 end;
 
@@ -76,6 +94,7 @@ destructor TNetwork.Destroy;
 begin
 	FClient.Free;
 	FCallbacks.Free;
+	FFeeds.Free;
 	FModelSerializer.Free;
 	inherited;
 end;
@@ -102,7 +121,7 @@ begin
 	if FClient.IsConnected then begin
 		FClient.OnDisconnected := nil;
 		FClient.Disconnect;
-		FCallbacks.Clear;
+		self.ContextChange;
 	end;
 end;
 
@@ -115,29 +134,60 @@ end;
 procedure TNetwork.OnMessageReceived (const vReceived: String);
 var
 	vMessage: TMessage;
-	vModel: TModelBase;
-	vCallback: TCallbackItem;
+	vHandled: Boolean;
+
+	{ nested procedure }
+	procedure HandleCallbacks;
+	var
+		vCallback: TCallbackItem;
+		vModel: TModelBase;
+	begin
+		for vCallback in FCallbacks do begin
+			if not (vCallback.Id = vMessage.Id) then continue;
+			if not (vCallback.CallbackModel.MessageType = vMessage.Typ) then continue;
+
+			vModel := FModelSerializer.DeSerialize(vMessage.Data, vCallback.CallbackModel);
+			vCallback.Callback(vModel);
+
+			FCallbacks.Remove(vCallback);
+			vModel.Free;
+
+			vHandled := true;
+			break;
+		end;
+	end;
+
+	procedure HandleFeeds;
+	var
+		vFeed: TFeedItem;
+		vModel: TModelBase;
+	begin
+		for vFeed in FFeeds do begin
+			if not (vFeed.CallbackModel.MessageType = vMessage.Typ) then continue;
+
+			vModel := FModelSerializer.DeSerialize(vMessage.Data, vFeed.CallbackModel);
+			vFeed.Callback(vModel);
+
+			vModel.Free;
+			vHandled := true;
+		end;
+	end;
+
 begin
 	writeln('got: ' + vReceived);
 	vMessage := TMessage.Create;
 	vMessage.Body := vReceived;
+	vHandled := false;
 
-	for vCallback in FCallbacks do begin
-		if (vCallback.Id = vMessage.Id) and (vCallback.MessageType.CallbackTyp = vMessage.Typ) then begin
-			vModel := FModelSerializer.DeSerialize(vMessage.Data, vCallback.MessageType.CallbackModel);
+	if vMessage.HasId() then
+		HandleCallbacks()
+	else
+		HandleFeeds();
 
-			vCallback.callback(vModel);
-
-			FCallbacks.Remove(vCallback);
-			vMessage.Free;
-			vModel.Free;
-			exit;
-		end;
-	end;
-
-	// TODO: handle something that we were not waiting for
-	writeln('not handled');
 	vMessage.Free;
+
+	if not vHandled then
+		writeln('message was not handled');
 end;
 
 function TNetwork.AssignId(): Integer;
@@ -162,7 +212,7 @@ begin
 	// TODO: make sure we are connected?
 	vToSend := TOutMessage.Create;
 	vToSend.Id := AssignId();
-	vToSend.Typ := vType.Typ;
+	vToSend.Typ := vType.GetType;
 	vToSend.Data := FModelSerializer.Serialize(vData);
 
 	result := vToSend.Id;
@@ -172,21 +222,44 @@ begin
 	vToSend.Free;
 end;
 
-procedure TNetwork.Send(const vType: TMessageType; const vData: TModelBase; const vCallback: TNetworkMessageCallback);
+procedure TNetwork.Send(const vModel: TModelClass; const vData: TModelBase; const vCallback: TNetworkMessageCallback);
+var
+	vType: TMessageType;
 begin
-	if not vType.HasCallback then
-		raise Exception.Create('Type ' + vType.Typ + ' does not have a callback');
+	vType := FindMessageType(vModel);
 
-	FCallbacks.Add(TCallbackItem.Create(DoSend(vType, vData), vCallback, vType));
+	if not vType.HasCallback then
+		raise Exception.Create('Type ' + vType.GetType + ' does not have a callback');
+
+	FCallbacks.Add(TCallbackItem.Create(DoSend(vType, vData), vCallback, vType.CallbackModel));
 end;
 
-procedure TNetwork.Send(const vType: TMessageType; const vData: TModelBase);
+procedure TNetwork.Send(const vModel: TModelClass; const vData: TModelBase);
+var
+	vType: TMessageType;
 begin
+	vType := FindMessageType(vModel);
+
+	if vType.HasCallback then
+		raise Exception.Create('Type ' + vType.GetType + ' has a callback, but no callback passed');
+
 	DoSend(vType, vData);
 end;
 
-procedure TNetwork.Await(const vType: TMessageType; const vCallback: TNetworkMessageCallback);
+procedure TNetwork.Await(const vModel: TModelClass; const vCallback: TNetworkMessageCallback);
+var
+	vType: TMessageType;
 begin
+	vType := FindFeedType(vModel);
+
+	FFeeds.Add(TFeedItem.Create(vCallback, vType.Model));
+end;
+
+procedure TNetwork.ContextChange();
+begin
+	// during a context change, we no longer wait for unresolved callbacks / feeds
+	FCallbacks.Clear;
+	FFeeds.Clear;
 end;
 
 { implementation end }

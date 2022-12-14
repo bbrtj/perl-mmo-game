@@ -9,7 +9,7 @@ uses SysUtils, Classes,
 	GameTypes,
 	GameUIComponents,
 	GameLore,
-	GameNetwork, GameNetworkMessages,
+	GameNetwork,
 	GameModels, GameModels.General, GameModels.Logout, GameModels.CharacterList, GameModels.EnterGame;
 
 type
@@ -63,6 +63,7 @@ end;
 procedure TStateCharacterList.Start;
 begin
 	inherited;
+	GlobalClient.ContextChange;
 
 	FCharacterList := DesignedComponent('CharacterList') as TCastleVerticalGroup;
 	FLogoutButton := DesignedComponent('LogoutButton') as TGameButton;
@@ -103,10 +104,7 @@ end;
 
 procedure TStateCharacterList.DoLogout(vSender: TObject);
 begin
-	GlobalClient.Send(
-		FindMessageType(TMsgLogout),
-		DummyModel
-	);
+	GlobalClient.Send(TMsgLogout, DummyModel);
 
 	TUIState.Current := StateLogin;
 end;
@@ -115,11 +113,7 @@ procedure TStateCharacterList.DoLoadCharacterList();
 begin
 	// TODO: notify of loading
 
-	GlobalClient.Send(
-		FindMessageType(TMsgCharacterList),
-		DummyModel,
-		@OnCharacterList
-	);
+	GlobalClient.Send(TMsgCharacterList, DummyModel, @OnCharacterList);
 end;
 
 procedure TStateCharacterList.OnCharacterList(const vCharacterList: TModelBase);
@@ -160,11 +154,7 @@ begin
 		vModel := TPlaintextModel.Create;
 		vModel.Value := (vUi as TCharacterSelection).Id;
 
-		GlobalClient.Send(
-			FindMessageType(TMsgEnterGame),
-			vModel,
-			@OnEnterGame
-		);
+		GlobalClient.Send(TMsgEnterGame, vModel, @OnEnterGame);
 
 		vModel.Free;
 	end;

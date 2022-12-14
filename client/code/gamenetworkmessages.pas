@@ -26,6 +26,8 @@ type
 		property Data: String read FData write FData;
 		property Typ: String read FType write FType;
 		property Body: String read GetBody write SetBody;
+
+		function HasId(): Boolean;
 	end;
 
 	TOutMessage = class(TMessage);
@@ -35,18 +37,15 @@ type
 		FModel: TModelClass;
 		FCallbackModel: TModelClass;
 
-		function GetType(): String;
-		function GetCallbackType(): String;
 	public
 		constructor Create(const vModel: TModelClass);
 		constructor Create(const vModel: TModelClass; const vCallbackModel: TModelClass);
 
 		function HasCallback(): Boolean;
+		function GetType(): String;
 
 		property Model: TModelClass read FModel write FModel;
 		property CallbackModel: TModelClass read FCallbackModel write FCallbackModel;
-		property Typ: String read GetType;
-		property CallbackTyp: String read GetCallbackType;
 	end;
 
 	TMessageTypes = specialize TFPGObjectList<TMessageType>;
@@ -56,6 +55,7 @@ var
 	FeedTypesMap: TMessageTypes;
 
 function FindMessageType(const vType: TModelClass): TMessageType;
+function FindFeedType(const vType: TModelClass): TMessageType;
 
 implementation
 
@@ -69,6 +69,18 @@ begin
 	end;
 
 	raise Exception.Create('No such network message type: ' + vType.MessageType);
+end;
+
+function FindFeedType(const vType: TModelClass): TMessageType;
+var
+	vFeedType: TMessageType;
+begin
+	for vFeedType in FeedTypesMap do begin
+		if vFeedType.Model = vType then
+			exit(vFeedType);
+	end;
+
+	raise Exception.Create('No such network feed type: ' + vType.MessageType);
 end;
 
 procedure TMessage.SetBody(vBody: String);
@@ -92,6 +104,11 @@ begin
 	result := FId.ToString() + cSeparator + FType + cSeparator + FData;
 end;
 
+function TMessage.HasId(): Boolean;
+begin
+	result := FId >= 0;
+end;
+
 constructor TMessageType.Create(const vModel: TModelClass);
 begin
 	FModel := vModel;
@@ -107,14 +124,6 @@ end;
 function TMessageType.GetType(): String;
 begin
 	result := FModel.MessageType;
-end;
-
-function TMessageType.GetCallbackType(): String;
-begin
-	if self.HasCallback then
-		result := FCallbackModel.MessageType
-	else
-		result := '';
 end;
 
 function TMessageType.HasCallback(): Boolean;

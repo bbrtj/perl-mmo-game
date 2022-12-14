@@ -7,7 +7,7 @@ uses SysUtils, Classes,
 	CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleFonts, CastleStringUtils, CastleUnicode,
 	GameUIComponents,
-	GameNetwork, GameNetworkMessages,
+	GameNetwork,
 	GameModels, GameModels.General, GameModels.Login;
 
 type
@@ -48,6 +48,7 @@ end;
 procedure TStateLogin.Start;
 begin
 	inherited;
+	GlobalClient.ContextChange;
 
 	{ Find components, by name, that we need to access from code }
 	FUsernameField := DesignedComponent('UsernameField') as TCastleEdit;
@@ -111,11 +112,7 @@ begin
 	vData.email := FUsernameField.Text;
 	vData.password := FPasswordField.Text;
 
-	GlobalClient.Send(
-		FindMessageType(TMsgLogin),
-		vData,
-		@onLogin
-	);
+	GlobalClient.Send(TMsgLogin, vData, @onLogin);
 
 	vData.Free;
 end;

@@ -28,11 +28,11 @@ type
 
 	end;
 
-	TMsgResCharacter_List = specialize TFPGObjectList<TMsgResCharacter>;
+	TMsgResCharacters = specialize TFPGObjectList<TMsgResCharacter>;
 
 	TMsgResCharacterList = class(TModelBase)
 	private
-		FCharacters: TMsgResCharacter_List;
+		FCharacters: TMsgResCharacters;
 
 	public
 		constructor Create(); override;
@@ -41,7 +41,7 @@ type
 		class function MessageType(): String; override;
 
 	published
-		property list: TMsgResCharacter_List read FCharacters write FCharacters;
+		property list: TMsgResCharacters read FCharacters write FCharacters;
 	end;
 
 implementation
@@ -53,7 +53,7 @@ end;
 
 constructor TMsgResCharacterList.Create();
 begin
-	FCharacters := TMsgResCharacter_List.Create;
+	FCharacters := TMsgResCharacters.Create;
 end;
 
 destructor TMsgResCharacterList.Destroy;
@@ -69,7 +69,7 @@ end;
 { implementation end }
 
 initialization
-	ListSerializationMap.Add(TSerializedList.Create(TMsgResCharacter_List, TMsgResCharacter));
+	ListSerializationMap.Add(TSerializedList.Create(TMsgResCharacters, TMsgResCharacter));
 
 end.
 
