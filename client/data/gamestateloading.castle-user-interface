@@ -37,11 +37,57 @@
       "FontSize" : 5.5000000000000000E+001,
       "HorizontalAnchorParent" : "hpMiddle",
       "HorizontalAnchorSelf" : "hpMiddle",
-      "Name" : "Label1",
+      "Name" : "LoadingStatus",
       "Text" : [
-        "Loading..."
+        "loading"
       ],
-      "VerticalAnchorDelta" : 1.0000000000000000E+002
+      "VerticalAnchorParent" : "vpMiddle",
+      "VerticalAnchorSelf" : "vpMiddle"
+    },
+    {
+      "$$ClassName" : "TCastleLabel",
+      "CaptionTranslate" : false,
+      "ColorPersistent" : {
+        "$$ClassName" : "TCastleColorPersistent",
+        "Blue" : 1.0000000000000000E+000,
+        "Green" : 1.0000000000000000E+000,
+        "Red" : 1.0000000000000000E+000
+      },
+      "FontSize" : 4.5000000000000000E+001,
+      "HorizontalAnchorParent" : "hpMiddle",
+      "HorizontalAnchorSelf" : "hpMiddle",
+      "Name" : "HintText1",
+      "Text" : [
+        "(hint)"
+      ],
+      "TranslationPersistent" : {
+        "$$ClassName" : "TCastleVector2Persistent",
+        "Y" : 2.4000000000000000E+002
+      }
+    },
+    {
+      "$$ClassName" : "TCastleLabel",
+      "Alignment" : "hpMiddle",
+      "CaptionTranslate" : false,
+      "ColorPersistent" : {
+        "$$ClassName" : "TCastleColorPersistent",
+        "Blue" : 1.0000000000000000E+000,
+        "Green" : 1.0000000000000000E+000,
+        "Red" : 1.0000000000000000E+000
+      },
+      "FontSize" : 3.5000000000000000E+001,
+      "HorizontalAnchorParent" : "hpMiddle",
+      "HorizontalAnchorSelf" : "hpMiddle",
+      "MaxWidth" : 8.0000000000000000E+002,
+      "Name" : "HintText2",
+      "Text" : [
+        "(hint)"
+      ],
+      "TranslationPersistent" : {
+        "$$ClassName" : "TCastleVector2Persistent",
+        "Y" : 2.0000000000000000E+002
+      },
+      "VerticalAnchorSelf" : "vpTop"
     }
   ]
 }

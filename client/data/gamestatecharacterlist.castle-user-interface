@@ -23,9 +23,12 @@
             "Red" : 0.0000000000000000E+000
           },
           "FullSize" : true,
-          "HorizontalAnchorDelta" : 5.8100000000000000E+002,
           "Name" : "RectangleControl1",
-          "VerticalAnchorDelta" : 1.0638048095703125E+003
+          "TranslationPersistent" : {
+            "$$ClassName" : "TCastleVector2Persistent",
+            "X" : 5.8100000000000000E+002,
+            "Y" : 1.0638048095703125E+003
+          }
         }
       ]
     },
@@ -49,9 +52,12 @@
       "Name" : "Label2",
       "Padding" : 5.0000000000000000E+000,
       "Text" : [
-        "Select your character"
+        "msg.select_character"
       ],
-      "VerticalAnchorDelta" : -9.0000000000000000E+001,
+      "TranslationPersistent" : {
+        "$$ClassName" : "TCastleVector2Persistent",
+        "Y" : -9.0000000000000000E+001
+      },
       "VerticalAnchorParent" : "vpTop"
     },
     {
@@ -95,23 +101,29 @@
         "Red" : 1.0000000000000000E+000
       },
       "FontSize" : 3.0000000000000000E+001,
-      "HorizontalAnchorDelta" : -3.0000000000000000E+001,
       "HorizontalAnchorParent" : "hpRight",
       "HorizontalAnchorSelf" : "hpRight",
       "Image" : {
         "$$ClassName" : "TCastleImagePersistent"
       },
       "Name" : "LogoutButton",
-      "VerticalAnchorDelta" : 3.0000000000000000E+001
+      "TranslationPersistent" : {
+        "$$ClassName" : "TCastleVector2Persistent",
+        "X" : -3.0000000000000000E+001,
+        "Y" : 3.0000000000000000E+001
+      }
     },
     {
       "$$ClassName" : "TCastleVerticalGroup",
       "AutoSizeHeight" : false,
       "AutoSizeToChildren" : true,
       "AutoSizeWidth" : false,
-      "HorizontalAnchorDelta" : 3.0000000000000000E+001,
       "Name" : "CharacterList",
-      "VerticalAnchorDelta" : -1.2000000000000000E+002,
+      "TranslationPersistent" : {
+        "$$ClassName" : "TCastleVector2Persistent",
+        "X" : 3.0000000000000000E+001,
+        "Y" : -1.2000000000000000E+002
+      },
       "VerticalAnchorParent" : "vpTop",
       "VerticalAnchorSelf" : "vpTop",
       "Width" : 3.6000000000000000E+002

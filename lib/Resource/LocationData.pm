@@ -16,7 +16,6 @@ sub generate ($self)
 {
 	return {
 		id => $self->subject->id,
-		name => $self->subject->name,
 	};
 }
 

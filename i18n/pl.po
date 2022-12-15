@@ -116,3 +116,9 @@ msgstr "Element nie jest poprawny"
 msgid "err"
 msgstr "Wystąpił błąd"
 
+msgid "loading"
+msgstr "Ładowanie..."
+
+msgid "msg.select_character"
+msgstr "Wybierz swoją postać"
+

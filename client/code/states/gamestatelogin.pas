@@ -26,8 +26,8 @@ type
 
 		procedure DoLogin(vSender: TObject);
 
-		procedure onConnected();
-		procedure onLogin(const vSuccess: TModelBase);
+		procedure OnConnected();
+		procedure OnLogin(const vSuccess: TModelBase);
 	end;
 
 var
@@ -101,7 +101,7 @@ begin
 	);
 end;
 
-procedure TStateLogin.onConnected();
+procedure TStateLogin.OnConnected();
 var
 	vData: TMsgLogin;
 begin
@@ -117,7 +117,7 @@ begin
 	vData.Free;
 end;
 
-procedure TStateLogin.onLogin(const vSuccess: TModelBase);
+procedure TStateLogin.OnLogin(const vSuccess: TModelBase);
 begin
 	if (vSuccess as TMsgResSuccess).Value = '1' then begin
 		TUIState.Current := StateCharacterList;

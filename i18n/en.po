@@ -116,3 +116,9 @@ msgstr "Name must have at most [_1] letters"
 msgid "err.element_invalid"
 msgstr "Element is not valid"
 
+msgid "loading"
+msgstr "Loading..."
+
+msgid "msg.select_character"
+msgstr "Select your character"
+

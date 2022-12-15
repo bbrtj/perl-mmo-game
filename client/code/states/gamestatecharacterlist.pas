@@ -134,7 +134,7 @@ begin
 		(vSelection.FindRequiredComponent('CharacterName') as TCastleLabel)
 			.Caption := vCharacter.name;
 		(vSelection.FindRequiredComponent('CharacterClass') as TCastleLabel)
-			.Caption := LoreCollection.GetByName(vCharacter.&class).LoreName;
+			.Caption := LoreCollection.GetById(vCharacter.&class).LoreName;
 
 		vSelection.Id := vCharacter.id;
 

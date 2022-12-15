@@ -9,26 +9,21 @@ uses FGL, Classes, SysUtils,
 type
 	TLoreItem = class (TSerialized)
 	private
-
 		FLoreId: TLoreId;
 		FLoreName: String;
-		FLoreDescription: Variant;
+		FLoreDescription: String;
 
 	published
-
 		property LoreId: TLoreId read FLoreId write FLoreId;
 		property LoreName: String read FLoreName write FLoreName;
-		property LoreDescription: Variant read FLoreDescription write FLoreDescription;
+		property LoreDescription: String read FLoreDescription write FLoreDescription;
 
 	end;
 
-type
 	TLoreItems = specialize TFPGObjectList<TLoreItem>;
 
-type
 	TLoreStore = class
 	private
-
 		FItems: TLoreItems;
 
 	public
@@ -36,7 +31,7 @@ type
 		destructor Destroy(); override;
 
 		procedure Initialize();
-		function GetByName(const vName: TLoreId): TLoreItem;
+		function GetById(const vId: TLoreId): TLoreItem;
 
 	published
 
@@ -73,18 +68,18 @@ begin
 	vStreamer.Free;
 end;
 
-function TLoreStore.GetByName(const vName: TLoreId): TLoreItem;
+function TLoreStore.GetById(const vId: TLoreId): TLoreItem;
 var
 	vItem: TLoreItem;
 begin
 	result := nil;
 	for vItem in FItems do begin
-		if vItem.LoreId = vName then
+		if vItem.LoreId = vId then
 			result := vItem;
 	end;
 
 	if result = nil then
-		raise Exception.Create('Lore item with id ' + vName + ' does not exist');
+		raise Exception.Create('Lore item with id ' + vId + ' does not exist');
 end;
 
 { implementation end }

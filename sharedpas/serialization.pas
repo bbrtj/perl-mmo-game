@@ -113,6 +113,12 @@ begin
 			handled := true;
 			DeStreamGenericList(aValue as TJSONArray, value, listInfo);
 		end;
+	end
+	else if (info^.PropType^.Kind in [tkSString, tkLString, tkAString, tkWString, tkUString])
+		and (aValue.JSONType = jtNull)
+		then begin
+		handled := true;
+		SetStrProp(aObject, info, '');
 	end;
 end;
 

@@ -4,17 +4,24 @@ interface
 
 uses Classes,
 	CastleVectors, CastleUIState, CastleUIControls, CastleControls, CastleKeysMouse,
-	GameNetwork,
+	GameTypes, GameNetwork, GameLore,
 	GameModels, GameModels.Location;
 
 type
 	TStateLoading = class(TUIState)
 	private
 		{ Components designed using CGE editor, loaded from the castle-user-interface file. }
-		// ButtonXxx: TCastleButton;
+		HintText1: TCastleLabel;
+		HintText2: TCastleLabel;
+
+		FLocationId: TLoreId;
+
+		procedure RefreshLocationHints();
 	public
 		constructor Create(AOwner: TComponent); override;
 		procedure Start; override;
+
+		procedure OnLocationData(const vData: TModelBase);
 	end;
 
 var
@@ -28,13 +35,36 @@ begin
 	DesignUrl := 'castle-data:/gamestateloading.castle-user-interface';
 end;
 
+procedure TStateLoading.RefreshLocationHints();
+var
+	vLore: TLoreItem;
+begin
+	vLore := LoreCollection.GetById(FLocationId);
+	HintText1.Caption := vLore.LoreName;
+	HintText2.Caption := vLore.LoreDescription;
+end;
+
 procedure TStateLoading.Start;
 begin
 	inherited;
 	GlobalClient.ContextChange;
-	{ Find components, by name, that we need to access from code }
-	// ButtonXxx := DesignedComponent('ButtonXxx') as TCastleButton;
+
+	HintText1 := DesignedComponent('HintText1') as TCastleLabel;
+	HintText2 := DesignedComponent('HintText2') as TCastleLabel;
+
+	GlobalClient.Await(TMsgFeedLocationData, @OnLocationData);
 end;
+
+procedure TStateLoading.OnLocationData(const vData: TModelBase);
+var
+	vModel: TMsgFeedLocationData;
+begin
+	vModel := vData as TMsgFeedLocationData;
+	FLocationId := vModel.id;
+	RefreshLocationHints;
+end;
+
+{ implementation end }
 
 end.
 
