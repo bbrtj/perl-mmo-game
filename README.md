@@ -1,11 +1,17 @@
 # MMORPG Game (name tbd)
 
-## Prerequisites
+## Prerequisites (Server)
 
 - Perl 5.36 (preferably from perlbrew)
 - Postgresql client library with headers
 - Postgresql server
+- Redis server
 - GNU make
+
+## Prerequisites (Client compilation)
+
+- FPC 3.2.2
+- latest Castle Game Engine
 
 ## Setup
 
@@ -35,6 +41,19 @@ Not required, but can help:
 mkdir -p .git/hooks
 cp tools/git-hook-precommit .git/hooks/pre-commit
 ```
+
+## Client setup
+
+### Exporting translations
+
+Export lore: `script/cli export-lore en`
+
+Export translations: `script/cli export-mo en`
+
+### Compiling
+
+Done with CGE build tool: `cd client && castle-engine compile`
+
 
 ## Running servers
 
