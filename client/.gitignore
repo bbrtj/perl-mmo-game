@@ -14,6 +14,7 @@ client.exe
 AndroidAntProperties.txt
 
 # other stuff
-data/lore.*.json
+data/lore.json
 data/translations.mo
+code/backup
 
