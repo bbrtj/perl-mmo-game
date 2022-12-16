@@ -7,6 +7,7 @@ uses SysUtils, Classes,
 	CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleFonts, CastleStringUtils, CastleUnicode,
 	GameUIComponents,
+	GameTranslations,
 	GameNetwork,
 	GameModels, GameModels.General, GameModels.Login;
 
@@ -91,7 +92,7 @@ end;
 
 procedure TStateLogin.DoLogin(vSender: TObject);
 begin
-	FStatus.Caption := 'Connecting...';
+	FStatus.Caption := _('msg.connecting');
 	FStatus.Exists := true;
 
 	GlobalClient.Connect(
@@ -105,7 +106,7 @@ procedure TStateLogin.OnConnected();
 var
 	vData: TMsgLogin;
 begin
-	FStatus.Caption := 'Logging in...';
+	FStatus.Caption := _('msg.logging_in');
 
 	vData := TMsgLogin.Create;
 
@@ -123,7 +124,7 @@ begin
 		TUIState.Current := StateCharacterList;
 	end
 	else begin
-		FStatus.Caption := 'Login has failed';
+		FStatus.Caption := _('msg.login_failed');
 		GlobalClient.Disconnect;
 	end;
 end;

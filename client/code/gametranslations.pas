@@ -21,6 +21,7 @@ var
 	GlobalTranslations: TGameMOFile;
 
 procedure TranslateAllGameDesigns();
+function _(const vString: String): String;
 
 implementation
 
@@ -45,9 +46,14 @@ var
 	vOrigValue: String;
 begin
 	vOrigValue := vPropertyValue;
-	vPropertyValue := Translate(vOrigValue);
+	vPropertyValue := self.Translate(vOrigValue);
 	if vPropertyValue = '' then
 		vPropertyValue := vOrigValue + ' [!!]';
+end;
+
+function _(const vString: String): String;
+begin
+	result := GlobalTranslations.Translate(vString);
 end;
 
 { implementation end }

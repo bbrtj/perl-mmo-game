@@ -132,12 +132,6 @@ DISTRIBUTIONS
       Types::Standard 0
       YAML 0
       perl 5.010
-  Canary-Stability-2013
-    pathname: M/ML/MLEHMANN/Canary-Stability-2013.tar.gz
-    provides:
-      Canary::Stability 2013
-    requirements:
-      ExtUtils::MakeMaker 0
   Capture-Tiny-0.48
     pathname: D/DA/DAGOLDEN/Capture-Tiny-0.48.tar.gz
     provides:
@@ -743,20 +737,6 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
-  Data-Dump-1.25
-    pathname: G/GA/GARU/Data-Dump-1.25.tar.gz
-    provides:
-      Data::Dump 1.25
-      Data::Dump::FilterContext undef
-      Data::Dump::Filtered undef
-      Data::Dump::Trace 0.02
-      Data::Dump::Trace::Call 0.02
-      Data::Dump::Trace::Wrapper 0.02
-    requirements:
-      ExtUtils::MakeMaker 0
-      Symbol 0
-      Test 0
-      perl 5.006
   Data-Dumper-Concise-2.023
     pathname: E/ET/ETHER/Data-Dumper-Concise-2.023.tar.gz
     provides:
@@ -940,13 +920,6 @@ DISTRIBUTIONS
       Data::ULID 0
       ExtUtils::MakeMaker 0
       Time::HiRes 0
-  Data-UUID-1.226
-    pathname: R/RJ/RJBS/Data-UUID-1.226.tar.gz
-    provides:
-      Data::UUID 1.226
-    requirements:
-      Digest::MD5 0
-      ExtUtils::MakeMaker 0
   DateTime-1.59
     pathname: D/DR/DROLSKY/DateTime-1.59.tar.gz
     provides:
@@ -1428,24 +1401,6 @@ DISTRIBUTIONS
       perl 5.008004
       strict 0
       warnings 0
-  DateTime-TimeZone-Alias-0.06
-    pathname: J/JH/JHOBLITT/DateTime-TimeZone-Alias-0.06.tar.gz
-    provides:
-      DateTime::TimeZone::Alias 0.06
-    requirements:
-      DateTime 0
-      DateTime::TimeZone::Catalog 0
-  DateTime-TimeZone-Catalog-Extend-v0.3.0
-    pathname: J/JD/JDEGUEST/DateTime-TimeZone-Catalog-Extend-v0.3.0.tar.gz
-    provides:
-      DateTime::TimeZone::Catalog::Extend 0.003000
-    requirements:
-      DateTime::TimeZone::Alias 0.06
-      ExtUtils::MakeMaker 0
-      Nice::Try v1.3.1
-      perl 5.026001
-      strict 0
-      warnings 0
   Devel-GlobalDestruction-0.14
     pathname: H/HA/HAARG/Devel-GlobalDestruction-0.14.tar.gz
     provides:
@@ -1796,15 +1751,6 @@ DISTRIBUTIONS
       Number::Compare 0
       Test::More 0
       Text::Glob 0.07
-  File-MMagic-XS-0.09008
-    pathname: D/DM/DMAKI/File-MMagic-XS-0.09008.tar.gz
-    provides:
-      File::MMagic::XS 0.09008
-    requirements:
-      Devel::PPPort 3.19
-      ExtUtils::MakeMaker 6.36
-      ExtUtils::ParseXS 3.18
-      XSLoader 0.02
   File-ShareDir-1.118
     pathname: R/RE/REHSACK/File-ShareDir-1.118.tar.gz
     provides:
@@ -1945,30 +1891,6 @@ DISTRIBUTIONS
       Module::Build 0
       Test::More 0.88
       perl 5.006
-  IO-Stringy-2.113
-    pathname: C/CA/CAPOEIRAB/IO-Stringy-2.113.tar.gz
-    provides:
-      IO::AtomicFile 2.113
-      IO::InnerFile 2.113
-      IO::Lines 2.113
-      IO::Scalar 2.113
-      IO::ScalarArray 2.113
-      IO::Stringy 2.113
-      IO::Wrap 2.113
-      IO::WrapTie 2.113
-    requirements:
-      Carp 0
-      Exporter 5.57
-      ExtUtils::MakeMaker 0
-      File::Spec 0
-      FileHandle 0
-      IO::File 0
-      IO::Handle 0
-      Symbol 0
-      overload 0
-      parent 0
-      strict 0
-      warnings 0
   Import-Into-1.002005
     pathname: H/HA/HAARG/Import-Into-1.002005.tar.gz
     provides:
@@ -2003,23 +1925,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Iterator 0.01
       Test::Simple 0.40
-  JSON-4.10
-    pathname: I/IS/ISHIGAKI/JSON-4.10.tar.gz
-    provides:
-      JSON 4.10
-      JSON::Backend::PP 4.10
-    requirements:
-      ExtUtils::MakeMaker 0
-      Test::More 0
-  JSON-XS-4.03
-    pathname: M/ML/MLEHMANN/JSON-XS-4.03.tar.gz
-    provides:
-      JSON::XS 4.03
-    requirements:
-      Canary::Stability 0
-      ExtUtils::MakeMaker 6.52
-      Types::Serialiser 0
-      common::sense 0
   Log-Dispatch-2.70
     pathname: D/DR/DROLSKY/Log-Dispatch-2.70.tar.gz
     provides:
@@ -2199,84 +2104,6 @@ DISTRIBUTIONS
       File::Spec 0
       Test::More 0
       perl 5.008001
-  Module-Generic-v0.29.2
-    pathname: J/JD/JDEGUEST/Module-Generic-v0.29.2.tar.gz
-    provides:
-      Module::Generic 0.029002
-      Module::Generic::Array 2.000000
-      Module::Generic::Boolean 1.001001
-      Module::Generic::DateTime 0.004003
-      Module::Generic::DateTime::Interval 0.004003
-      Module::Generic::Dynamic 1.002002
-      Module::Generic::Exception 1.002001
-      Module::Generic::File 0.005005
-      Module::Generic::File::Cache 0.002006
-      Module::Generic::File::IO 0.001003
-      Module::Generic::File::Mmap 0.001002
-      Module::Generic::Finfo 0.003002
-      Module::Generic::Hash 1.002003
-      Module::Generic::HeaderValue 0.004002
-      Module::Generic::Infinity 2.000001
-      Module::Generic::Iterator 1.001001
-      Module::Generic::Iterator::Element 1.001001
-      Module::Generic::Nan 2.000001
-      Module::Generic::Null 1.001001
-      Module::Generic::Number 2.000001
-      Module::Generic::NumberSpecial 2.000001
-      Module::Generic::Scalar 1.003003
-      Module::Generic::Scalar::IO 0.002001
-      Module::Generic::SharedMem 0.003006
-      Module::Generic::SharedMemXS 0.001003
-      Module::Generic::Tie 1.001000
-      Module::Generic::TieHash 1.001001
-    requirements:
-      Class::Load 0.25
-      Clone 0.43
-      Config 0
-      Data::Dump 1.23
-      Data::UUID 1.226
-      DateTime 1.57
-      DateTime::Format::Strptime 1.79
-      DateTime::TimeZone 2.51
-      DateTime::TimeZone::Catalog::Extend v0.3.0
-      Devel::StackTrace 0
-      Encode 0
-      Exporter 5.70
-      ExtUtils::MakeMaker 0
-      Fcntl 0
-      File::Basename 2.85
-      File::Copy 0
-      File::DosGlob 0
-      File::Glob 0
-      File::MMagic::XS 0.09008
-      File::Spec 3.73
-      IO::Dir 1.41
-      IO::File 1.41
-      IO::Scalar 2.113
-      IPC::SysV 2.09
-      JSON 4.03
-      JSON::XS 4.03
-      List::Util 1.56
-      Module::Metadata 1.000037
-      Nice::Try v1.2.0
-      POSIX 1.53_01
-      Regexp::Common 2017060201
-      Scalar::Util 1.50
-      Storable::Improved v0.1.3
-      Sub::Util 1.54
-      Tie::Hash 1.05
-      URI::Escape 5.09
-      URI::file 5.09
-      Want 0.29
-      common::sense 0
-      overload 0
-      overloading 0
-      parent 0
-      perl 5.026001
-      strict 0
-      utf8 0
-      version 0
-      warnings 0
   Module-Implementation-0.09
     pathname: D/DR/DROLSKY/Module-Implementation-0.09.tar.gz
     provides:
@@ -3111,22 +2938,6 @@ DISTRIBUTIONS
       Scalar::Util 1.19
       Time::Local 1.19
       perl 5.008009
-  Nice-Try-v1.3.1
-    pathname: J/JD/JDEGUEST/Nice-Try-v1.3.1.tar.gz
-    provides:
-      Nice::Try 1.003001
-    requirements:
-      Exporter 5.73
-      ExtUtils::MakeMaker 0
-      Filter::Util::Call 1.59
-      List::Util 1.33
-      PPI 1.274
-      PPI::XS 0.910
-      Scalar::Util 1.50
-      Want 0.29
-      perl 5.016000
-      strict 0
-      warnings 0
   Number-Compare-0.03
     pathname: R/RC/RCLAMP/Number-Compare-0.03.tar.gz
     provides:
@@ -3134,128 +2945,6 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0
-  PPI-1.276
-    pathname: O/OA/OALDERS/PPI-1.276.tar.gz
-    provides:
-      PPI 1.276
-      PPI::Cache 1.276
-      PPI::Document 1.276
-      PPI::Document::File 1.276
-      PPI::Document::Fragment 1.276
-      PPI::Document::Normalized 1.276
-      PPI::Dumper 1.276
-      PPI::Element 1.276
-      PPI::Exception 1.276
-      PPI::Exception::ParserRejection 1.276
-      PPI::Find 1.276
-      PPI::Lexer 1.276
-      PPI::Node 1.276
-      PPI::Normal 1.276
-      PPI::Normal::Standard 1.276
-      PPI::Singletons 1.276
-      PPI::Statement 1.276
-      PPI::Statement::Break 1.276
-      PPI::Statement::Compound 1.276
-      PPI::Statement::Data 1.276
-      PPI::Statement::End 1.276
-      PPI::Statement::Expression 1.276
-      PPI::Statement::Given 1.276
-      PPI::Statement::Include 1.276
-      PPI::Statement::Include::Perl6 1.276
-      PPI::Statement::Null 1.276
-      PPI::Statement::Package 1.276
-      PPI::Statement::Scheduled 1.276
-      PPI::Statement::Sub 1.276
-      PPI::Statement::Unknown 1.276
-      PPI::Statement::UnmatchedBrace 1.276
-      PPI::Statement::Variable 1.276
-      PPI::Statement::When 1.276
-      PPI::Structure 1.276
-      PPI::Structure::Block 1.276
-      PPI::Structure::Condition 1.276
-      PPI::Structure::Constructor 1.276
-      PPI::Structure::For 1.276
-      PPI::Structure::Given 1.276
-      PPI::Structure::List 1.276
-      PPI::Structure::Subscript 1.276
-      PPI::Structure::Unknown 1.276
-      PPI::Structure::When 1.276
-      PPI::Token 1.276
-      PPI::Token::ArrayIndex 1.276
-      PPI::Token::Attribute 1.276
-      PPI::Token::BOM 1.276
-      PPI::Token::Cast 1.276
-      PPI::Token::Comment 1.276
-      PPI::Token::DashedWord 1.276
-      PPI::Token::Data 1.276
-      PPI::Token::End 1.276
-      PPI::Token::HereDoc 1.276
-      PPI::Token::Label 1.276
-      PPI::Token::Magic 1.276
-      PPI::Token::Number 1.276
-      PPI::Token::Number::Binary 1.276
-      PPI::Token::Number::Exp 1.276
-      PPI::Token::Number::Float 1.276
-      PPI::Token::Number::Hex 1.276
-      PPI::Token::Number::Octal 1.276
-      PPI::Token::Number::Version 1.276
-      PPI::Token::Operator 1.276
-      PPI::Token::Pod 1.276
-      PPI::Token::Prototype 1.276
-      PPI::Token::Quote 1.276
-      PPI::Token::Quote::Double 1.276
-      PPI::Token::Quote::Interpolate 1.276
-      PPI::Token::Quote::Literal 1.276
-      PPI::Token::Quote::Single 1.276
-      PPI::Token::QuoteLike 1.276
-      PPI::Token::QuoteLike::Backtick 1.276
-      PPI::Token::QuoteLike::Command 1.276
-      PPI::Token::QuoteLike::Readline 1.276
-      PPI::Token::QuoteLike::Regexp 1.276
-      PPI::Token::QuoteLike::Words 1.276
-      PPI::Token::Regexp 1.276
-      PPI::Token::Regexp::Match 1.276
-      PPI::Token::Regexp::Substitute 1.276
-      PPI::Token::Regexp::Transliterate 1.276
-      PPI::Token::Separator 1.276
-      PPI::Token::Structure 1.276
-      PPI::Token::Symbol 1.276
-      PPI::Token::Unknown 1.276
-      PPI::Token::Whitespace 1.276
-      PPI::Token::Word 1.276
-      PPI::Tokenizer 1.276
-      PPI::Transform 1.276
-      PPI::Transform::UpdateCopyright 1.276
-      PPI::Util 1.276
-      PPI::XSAccessor 1.276
-    requirements:
-      Carp 0
-      Clone 0.30
-      Digest::MD5 2.35
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      File::Path 0
-      File::Spec 0.84
-      List::Util 1.33
-      Params::Util 1.00
-      Scalar::Util 0
-      Storable 2.17
-      Task::Weaken 0
-      constant 0
-      if 0
-      overload 0
-      perl 5.006
-      strict 0
-  PPI-XS-0.910
-    pathname: E/ET/ETHER/PPI-XS-0.910.tar.gz
-    provides:
-      PPI::XS 0.910
-    requirements:
-      ExtUtils::MakeMaker 0
-      PPI 1.000
-      XSLoader 0
-      perl 5.006
-      strict 0
   Package-DeprecationManager-0.17
     pathname: D/DR/DROLSKY/Package-DeprecationManager-0.17.tar.gz
     provides:
@@ -3534,50 +3223,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       XSLoader 0
       perl 5.006
-  Regexp-Common-2017060201
-    pathname: A/AB/ABIGAIL/Regexp-Common-2017060201.tar.gz
-    provides:
-      Regexp::Common 2017060201
-      Regexp::Common::CC 2017060201
-      Regexp::Common::Entry 2017060201
-      Regexp::Common::SEN 2017060201
-      Regexp::Common::URI 2017060201
-      Regexp::Common::URI::RFC1035 2017060201
-      Regexp::Common::URI::RFC1738 2017060201
-      Regexp::Common::URI::RFC1808 2017060201
-      Regexp::Common::URI::RFC2384 2017060201
-      Regexp::Common::URI::RFC2396 2017060201
-      Regexp::Common::URI::RFC2806 2017060201
-      Regexp::Common::URI::fax 2017060201
-      Regexp::Common::URI::file 2017060201
-      Regexp::Common::URI::ftp 2017060201
-      Regexp::Common::URI::gopher 2017060201
-      Regexp::Common::URI::http 2017060201
-      Regexp::Common::URI::news 2017060201
-      Regexp::Common::URI::pop 2017060201
-      Regexp::Common::URI::prospero 2017060201
-      Regexp::Common::URI::tel 2017060201
-      Regexp::Common::URI::telnet 2017060201
-      Regexp::Common::URI::tv 2017060201
-      Regexp::Common::URI::wais 2017060201
-      Regexp::Common::_support 2017060201
-      Regexp::Common::balanced 2017060201
-      Regexp::Common::comment 2017060201
-      Regexp::Common::delimited 2017060201
-      Regexp::Common::lingua 2017060201
-      Regexp::Common::list 2017060201
-      Regexp::Common::net 2017060201
-      Regexp::Common::number 2017060201
-      Regexp::Common::profanity 2017060201
-      Regexp::Common::whitespace 2017060201
-      Regexp::Common::zip 2017060201
-    requirements:
-      Config 0
-      ExtUtils::MakeMaker 0
-      perl 5.010
-      strict 0
-      vars 0
-      warnings 0
   Role-Hooks-0.008
     pathname: T/TO/TOBYINK/Role-Hooks-0.008.tar.gz
     provides:
@@ -3783,18 +3428,6 @@ DISTRIBUTIONS
       strict 0
       version 0.83
       warnings 0
-  Storable-Improved-v0.1.3
-    pathname: J/JD/JDEGUEST/Storable-Improved-v0.1.3.tar.gz
-    provides:
-      Storable::Improved 0.001003
-    requirements:
-      ExtUtils::MakeMaker 0
-      Scalar::Util 1.50
-      Storable 3.25
-      parent 0
-      perl 5.026001
-      strict 0
-      warnings 0
   Sub-Exporter-0.988
     pathname: R/RJ/RJBS/Sub-Exporter-0.988.tar.gz
     provides:
@@ -3914,17 +3547,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Task-Weaken-1.06
-    pathname: E/ET/ETHER/Task-Weaken-1.06.tar.gz
-    provides:
-      Task::Weaken 1.06
-    requirements:
-      Config 0
-      ExtUtils::MakeMaker 0
-      File::Spec 0
-      Scalar::Util 1.14
-      perl 5.006
-      strict 0
   Term-Table-0.016
     pathname: E/EX/EXODIST/Term-Table-0.016.tar.gz
     provides:
@@ -4300,36 +3922,6 @@ DISTRIBUTIONS
     requirements:
       Module::Build::Tiny 0.034
       perl 5.010001
-  Text-PO-v0.2.4
-    pathname: J/JD/JDEGUEST/Text-PO-v0.2.4.tar.gz
-    provides:
-      Text::PO 0.002004
-      Text::PO::Element 0.002000
-      Text::PO::Gettext 0.002001
-      Text::PO::MO 0.002000
-    requirements:
-      Class::Struct 0.65
-      DateTime 1.58
-      DateTime::TimeZone 2.52
-      Encode 3.08
-      ExtUtils::MakeMaker 0
-      Fcntl 1.13
-      I18N::Langinfo 0.19
-      IO::File 1.41
-      JSON 4.07
-      JSON::XS 4.03
-      Module::Generic v0.29.1
-      Nice::Try v1.3.1
-      POSIX 1.53_01
-      Scalar::Util 1.50
-      Text::Wrap 2021.0814
-      open 1.11
-      overload 1.30
-      parent 0
-      perl 5.014000
-      strict 0.238
-      vars 0
-      warnings 1.44
   Throwable-1.000
     pathname: R/RJ/RJBS/Throwable-1.000.tar.gz
     provides:
@@ -4501,16 +4093,6 @@ DISTRIBUTIONS
       Module::Runtime 0
       Type::Tiny 0.041
       perl 5.008
-  Types-Serialiser-1.01
-    pathname: M/ML/MLEHMANN/Types-Serialiser-1.01.tar.gz
-    provides:
-      JSON::PP::Boolean 1.01
-      Types::Serialiser 1.01
-      Types::Serialiser::BooleanBase 1.01
-      Types::Serialiser::Error 1.01
-    requirements:
-      ExtUtils::MakeMaker 0
-      common::sense 0
   Types-ULID-0.004
     pathname: B/BR/BRTASTIC/Types-ULID-0.004.tar.gz
     provides:
@@ -4520,71 +4102,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Type::Tiny 1.004000
       perl 5.010
-  URI-5.17
-    pathname: O/OA/OALDERS/URI-5.17.tar.gz
-    provides:
-      URI 5.17
-      URI::Escape 5.17
-      URI::Heuristic 5.17
-      URI::IRI 5.17
-      URI::QueryParam 5.17
-      URI::Split 5.17
-      URI::URL 5.17
-      URI::WithBase 5.17
-      URI::data 5.17
-      URI::file 5.17
-      URI::file::Base 5.17
-      URI::file::FAT 5.17
-      URI::file::Mac 5.17
-      URI::file::OS2 5.17
-      URI::file::QNX 5.17
-      URI::file::Unix 5.17
-      URI::file::Win32 5.17
-      URI::ftp 5.17
-      URI::gopher 5.17
-      URI::http 5.17
-      URI::https 5.17
-      URI::ldap 5.17
-      URI::ldapi 5.17
-      URI::ldaps 5.17
-      URI::mailto 5.17
-      URI::mms 5.17
-      URI::news 5.17
-      URI::nntp 5.17
-      URI::nntps 5.17
-      URI::pop 5.17
-      URI::rlogin 5.17
-      URI::rsync 5.17
-      URI::rtsp 5.17
-      URI::rtspu 5.17
-      URI::sftp 5.17
-      URI::sip 5.17
-      URI::sips 5.17
-      URI::snews 5.17
-      URI::ssh 5.17
-      URI::telnet 5.17
-      URI::tn3270 5.17
-      URI::urn 5.17
-      URI::urn::isbn 5.17
-      URI::urn::oid 5.17
-    requirements:
-      Carp 0
-      Cwd 0
-      Data::Dumper 0
-      Encode 0
-      Exporter 5.57
-      ExtUtils::MakeMaker 0
-      MIME::Base64 2
-      Net::Domain 0
-      Scalar::Util 0
-      constant 0
-      integer 0
-      overload 0
-      parent 0
-      perl 5.008001
-      strict 0
-      utf8 0
-      warnings 0
   Util-H2O-0.18
     pathname: H/HA/HAUKEX/Util-H2O-0.18.tar.gz
     provides:
@@ -4705,12 +4222,6 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.018
-  Want-0.29
-    pathname: R/RO/ROBIN/Want-0.29.tar.gz
-    provides:
-      Want 0.29
-    requirements:
-      ExtUtils::MakeMaker 0
   XString-0.005
     pathname: A/AT/ATOOMIC/XString-0.005.tar.gz
     provides:
@@ -4746,6 +4257,20 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.008001
+  YAML-Tiny-1.73
+    pathname: E/ET/ETHER/YAML-Tiny-1.73.tar.gz
+    provides:
+      YAML::Tiny 1.73
+    requirements:
+      B 0
+      Carp 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      Fcntl 0
+      Scalar::Util 0
+      perl 5.008001
+      strict 0
+      warnings 0
   aliased-0.34
     pathname: E/ET/ETHER/aliased-0.34.tar.gz
     provides:
@@ -4765,12 +4290,6 @@ DISTRIBUTIONS
       File::Find 0
       File::Spec 0
       perl 5.006
-  common-sense-3.75
-    pathname: M/ML/MLEHMANN/common-sense-3.75.tar.gz
-    provides:
-      common::sense 3.75
-    requirements:
-      ExtUtils::MakeMaker 0
   namespace-autoclean-0.29
     pathname: E/ET/ETHER/namespace-autoclean-0.29.tar.gz
     provides:

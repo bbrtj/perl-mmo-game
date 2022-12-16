@@ -56,7 +56,7 @@ on 'runtime' => sub {
 };
 
 on 'develop' => sub {
-	requires 'Text::PO' => 0;
+	requires 'YAML::Tiny' => 0;
 	requires 'Text::Levenshtein::BV' => 0;
 };
 

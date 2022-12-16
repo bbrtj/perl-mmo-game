@@ -1,0 +1,126 @@
+---
+id: character.class
+str: Class
+---
+id: character.last_online
+str: 'Last online'
+---
+id: character.name
+str: Name
+---
+id: character_selection
+str: 'Character selection'
+---
+id: email_address
+str: 'Email address'
+---
+id: english
+str: English
+---
+id: err
+str: 'An error occured'
+---
+id: err.cannot_move
+str: 'cannot move there'
+---
+id: err.element_invalid
+str: 'Element is not valid'
+---
+id: err.email_taken
+str: 'That email is already taken'
+---
+id: err.invalid_coordinate
+str: 'invalid coordinate'
+---
+id: err.invalid_credentials
+str: 'Invalid email or password'
+---
+id: err.invalid_target
+str: 'invalid target'
+---
+id: err.name_must_consist_of_letters
+str: 'Name must only consist of latin letters'
+---
+id: err.name_too_long[]
+str: 'Name must have at most [_1] letters'
+---
+id: err.name_too_short[]
+str: 'Name must have at least [_1] letters'
+---
+id: err.not_in_los
+str: 'target is not in line of sight'
+---
+id: err.out_of_range
+str: 'target is out of range'
+---
+id: err.password_must_have_digit
+str: 'Password must contain a digit'
+---
+id: err.password_too_short[]
+str: 'Password must have at least [_1] characters'
+---
+id: err.passwords_mismatch
+str: 'Passwords do not match'
+---
+id: 'field is required'
+str: 'Field is required'
+---
+id: map
+str: Map
+---
+id: msg.connecting
+str: Connecting...
+---
+id: msg.loading
+str: Loading...
+---
+id: msg.log_in
+str: 'You may now log in'
+---
+id: msg.logging_in
+str: 'Logging in...'
+---
+id: msg.login_failed
+str: 'Login has failed'
+---
+id: msg.registration_successful
+str: 'Registration was successful'
+---
+id: msg.select_character
+str: 'Select your character'
+---
+id: navigation.back
+str: Back
+---
+id: navigation.login
+str: Login
+---
+id: navigation.logout
+str: Logout
+---
+id: navigation.play
+str: Play
+---
+id: navigation.register
+str: Register
+---
+id: navigation.send
+str: Send
+---
+id: password
+str: Password
+---
+id: polish
+str: Polish
+---
+id: registration
+str: Registration
+---
+id: remember_me
+str: 'Remember me'
+---
+id: repeat_password
+str: 'Repeat password'
+---
+id: signing_in
+str: 'Signing in'

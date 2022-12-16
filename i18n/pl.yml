@@ -1,0 +1,126 @@
+---
+id: character.class
+str: Klasa
+---
+id: character.last_online
+str: 'Ostatnio online'
+---
+id: character.name
+str: Imię
+---
+id: character_selection
+str: 'Komnata postaci'
+---
+id: email_address
+str: 'Adres email'
+---
+id: english
+str: Angielski
+---
+id: err
+str: 'Wystąpił błąd'
+---
+id: err.cannot_move
+str: 'nie można się tam poruszyć'
+---
+id: err.element_invalid
+str: 'Element nie jest poprawny'
+---
+id: err.email_taken
+str: 'Ten email jest już zajęty'
+---
+id: err.invalid_coordinate
+str: 'niewłaściwa współrzędna'
+---
+id: err.invalid_credentials
+str: 'Niepoprawny email lub hasło'
+---
+id: err.invalid_target
+str: 'niepoprawny cel'
+---
+id: err.name_must_consist_of_letters
+str: 'Imię musi składać się tylko z liter łacińskich'
+---
+id: err.name_too_long[]
+str: 'Imię musi mieć co najwyżej [_1] znaków'
+---
+id: err.name_too_short[]
+str: 'Imię musi mieć co najmniej [_1] znaków'
+---
+id: err.not_in_los
+str: 'cel nie jest w zasięgu wzroku'
+---
+id: err.out_of_range
+str: 'cel znajduje się poza zasięgiem'
+---
+id: err.password_must_have_digit
+str: 'Hasło musi zawierać cyfrę'
+---
+id: err.password_too_short[]
+str: 'Hasło musi mieć co najmniej [_1] znaków'
+---
+id: err.passwords_mismatch
+str: 'Hasła nie są takie same'
+---
+id: 'field is required'
+str: 'Pole jest wymagane'
+---
+id: map
+str: Mapa
+---
+id: msg.connecting
+str: Łączenie...
+---
+id: msg.loading
+str: Ładowanie...
+---
+id: msg.log_in
+str: 'Możesz się już zalogować'
+---
+id: msg.logging_in
+str: Logowanie...
+---
+id: msg.login_failed
+str: 'Logowanie nie powiodło się'
+---
+id: msg.registration_successful
+str: 'Rejestracja zakończona pomyślnie'
+---
+id: msg.select_character
+str: 'Wybierz swoją postać'
+---
+id: navigation.back
+str: Powrót
+---
+id: navigation.login
+str: 'Zaloguj się'
+---
+id: navigation.logout
+str: 'Wyloguj się'
+---
+id: navigation.play
+str: Graj
+---
+id: navigation.register
+str: 'Zarejestruj się'
+---
+id: navigation.send
+str: Wyślij
+---
+id: password
+str: Hasło
+---
+id: polish
+str: Polski
+---
+id: registration
+str: Rejestracja
+---
+id: remember_me
+str: 'Zapamiętaj mnie'
+---
+id: repeat_password
+str: 'Powtórz hasło'
+---
+id: signing_in
+str: Logowanie

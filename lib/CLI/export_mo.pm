@@ -2,6 +2,7 @@ package CLI::export_mo;
 
 use My::Moose -constr;
 use Mojo::File qw(path);
+use autodie;
 
 use header;
 
@@ -12,16 +13,62 @@ sub usage ($self) { return $self->extract_usage }
 
 sub run ($self, $language = undef)
 {
-	die 'need a language' unless defined $language;
+	unless (defined $language) {
+		$self->help;
+		return;
+	}
 
-	my $translation = path->child('i18n')->child("$language.po");
+	my $translation = path->child('i18n')->child("$language.yml");
 	my $output = path->child('client')->child('data')->child('translations.mo');
-	`msgfmt $translation -o $output`;
+
+	{
+		open my $fh, '|-:encoding(UTF-8)', "msgfmt - -o $output";
+		print {$fh} SimplePO->new(filename => $translation->to_string)->export;
+	}
 
 	say "done, generated in $output";
 
 	return;
 }
+
+package SimplePO {
+	use My::Moose;
+	use YAML::Tiny;
+
+	use header;
+
+	has param 'filename' => (
+		isa => Types::Str,
+	);
+
+	sub export ($self)
+	{
+		my @translations = YAML::Tiny->read($self->filename)->@*;
+		my ($lang) = $self->filename =~ m{(?: / | ^ ) (.+) \.ya?ml$}x;
+
+		my $content = <<~PO;
+		msgid ""
+		msgstr ""
+		"Language: $lang\\n"
+		"Content-Type: text/plain; charset=UTF-8\\n"
+
+		PO
+
+		for my $translation (@translations) {
+			# TODO: escape double quotes?
+
+			$content .= <<~PO;
+			msgid "$translation->{id}"
+			msgstr "$translation->{str}"
+
+			PO
+		}
+
+		return $content;
+	}
+
+}
+
 
 __END__
 

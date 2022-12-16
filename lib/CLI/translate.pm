@@ -4,6 +4,8 @@ use My::Moose -constr;
 use Getopt::Long qw(GetOptionsFromArray);
 use Mojo::File qw(path);
 use Text::Levenshtein::BV;
+use YAML::Tiny;
+use CLI::export_mo;
 
 use header;
 
@@ -12,22 +14,37 @@ extends 'Mojolicious::Command';
 use constant description => 'translate text for the application';
 sub usage ($self) { return $self->extract_usage }
 
-has field 'translations' => (
-	lazy => sub ($self) {
-		return [
-			map {
-				my $obj = Text::PO->new;
-				$obj->parse($_);
-				$obj
-			} $self->_get_translation_files
-		];
-	},
+has field 'languages' => (
+	default => sub { {} },
 );
+
+has field 'translations' => (
+	lazy => 1,
+);
+
+binmode STDOUT, ':encoding(UTF-8)';
+binmode STDIN, ':encoding(UTF-8)';
+
+sub _build_translations ($self)
+{
+	my @files = $self->_get_translation_files;
+	my @langs = map { /(..)\.ya?ml$/ } @files;
+
+	return [
+		map {
+			my $arr = YAML::Tiny->read($_);
+			$self->languages->{$arr} = shift @langs;
+			$arr;
+		} @files
+	];
+}
 
 sub _prompt ($self, $text = undef)
 {
 	if ($text) {
-		print "$text: ";
+		print $text;
+		print ':' unless $text =~ /[:>?]$/;
+		print ' ';
 	}
 
 	my $answer = readline STDIN;
@@ -36,9 +53,23 @@ sub _prompt ($self, $text = undef)
 	return $answer;
 }
 
+sub _sync ($self)
+{
+	for my $trans ($self->translations->@*) {
+		my $language = $self->languages->{$trans};
+		my $filename = path->child('i18n')->child("$language.yml");
+
+		$trans->@* = sort { $a->{id} cmp $b->{id} } $trans->@*;
+
+		$trans->write($filename);
+	}
+
+	return;
+}
+
 sub _get_translation_files ($self)
 {
-	return glob path->child('i18n')->child('*.po');
+	return glob path->child('i18n')->child('*.yml');
 }
 
 sub _calculate_differences ($self)
@@ -50,10 +81,10 @@ sub _calculate_differences ($self)
 	foreach my $key (keys @translations) {
 		my ($trans, $mask) = ($translations[$key], $masks[$key]);
 
-		foreach my $el ($trans->elements->list) {
-			$found{$el->id} //= 0;
-			$found{$el->id} |= $mask
-				unless length $el->msgstr == 0;
+		foreach my $el ($trans->@*) {
+			$found{$el->{id}} //= 0;
+			$found{$el->{id}} |= $mask
+				unless length $el->{str} == 0;
 		}
 	}
 
@@ -63,7 +94,7 @@ sub _calculate_differences ($self)
 
 		my @gathered_langs;
 		foreach my $mask_key (keys @masks) {
-			push @gathered_langs, $translations[$mask_key]->language
+			push @gathered_langs, $self->languages->{$translations[$mask_key]}
 				if $value & $masks[$mask_key];
 		}
 
@@ -81,8 +112,8 @@ sub _find_name_suggestions ($self, $trans, $key, $max_distance = 3)
 	my @min_matches;
 
 	my $search = [split '', $key];
-	foreach my $el ($trans->elements->list) {
-		my $id = $el->id;
+	foreach my $el ($trans->@*) {
+		my $id = $el->{id};
 		my $distance = $LS->distance($search, [split '', $id]);
 
 		if ($distance <= $min_distance) {
@@ -111,8 +142,8 @@ sub _find_by_id ($self, $key)
 {
 	my @found;
 	foreach my $trans ($self->translations->@*) {
-		foreach my $el ($trans->elements->list) {
-			next unless $el->id eq $key;
+		foreach my $el (keys $trans->@*) {
+			next unless $trans->[$el]{id} eq $key;
 			push @found, [$trans, $el];
 		}
 	}
@@ -123,11 +154,11 @@ sub _find_by_id ($self, $key)
 sub run_translate ($self, $key)
 {
 	foreach my $trans ($self->translations->@*) {
-		say "Translating for " . $trans->language;
+		say "Translating for " . $self->languages->{$trans};
 
-		my $found = first { $_->id eq $key } $trans->elements->list;
+		my $found = first { $_->{id} eq $key } $trans->@*;
 		if ($found) {
-			say "It now says: " . $found->msgstr;
+			say "It now says: " . $found->{str};
 			say "(Leave empty to keep it)";
 		}
 
@@ -137,20 +168,18 @@ sub run_translate ($self, $key)
 			if !length $new && !$found;
 
 		if ($found) {
-			$found->msgstr($new)
+			$found->{str} = $new
 				if length $new;
 		}
 		else {
-			$trans->add_element(
-				msgid => $key,
-				msgstr => $new
-			);
+			push $trans->@*, {
+				id => $key,
+				str => $new
+			};
 		}
 	}
 
-	foreach my $trans ($self->translations->@*) {
-		$trans->sync;
-	}
+	$self->_sync;
 
 	return;
 }
@@ -173,17 +202,16 @@ sub run_rename ($self, $key_from, $key_to)
 	else {
 		foreach my $data (@found) {
 			my ($trans, $el) = @$data;
-			$trans->add_element(
-				{
-					msgid => $key_to,
-					msgstr => $el->msgstr,
-				}
-			);
+			push $trans->@*, {
+				id => $key_to,
+				str => $trans->[$el]{str},
+			};
 
-			$trans->remove_element($el);
-			$trans->sync;
+			splice $trans->@*, $el, 1;
 		}
 	}
+
+	$self->_sync;
 
 	say 'Renamed elements: ' . scalar @found;
 
@@ -193,31 +221,40 @@ sub run_rename ($self, $key_from, $key_to)
 sub run_fix ($self)
 {
 	my @diffs = $self->_calculate_differences;
-	foreach my $arr (sort { $a->[0] cmp $b->[0] } @diffs) {
-		my ($id, @langs) = $arr->@*;
 
-		say "$id - present in " . join ', ', @langs;
-		say "Options:";
-		say "1. Translate this string";
-		say "2. Rename this string";
-		say "3. Do nothing";
+	while (@diffs) {
+		my @new_diffs;
+		foreach my $arr (sort { $a->[0] cmp $b->[0] } @diffs) {
+			my ($id, @langs) = $arr->@*;
 
-		my $choice = $self->_prompt('Choice');
-		if ($choice eq '1') {
-			$self->run_translate($id);
-		}
-		elsif ($choice eq '2') {
-			my $to = $self->_prompt('New key');
-			$self->run_rename($id, $to);
-		}
-		elsif ($choice eq '3') {
+			say "$id - present in " . join ', ', @langs;
+			say "Options:";
+			say "t. Translate this string";
+			say "r. Rename this string";
+			say "s. Do nothing";
+			say "o. Do nothing yet, show others";
 
-			# do nothing
+			my $choice = $self->_prompt('Choice');
+			if ($choice eq 't') {
+				$self->run_translate($id);
+			}
+			elsif ($choice eq 'r') {
+				my $to = $self->_prompt('New key');
+				$self->run_rename($id, $to);
+			}
+			elsif ($choice eq 's') {
+
+				# do nothing
+			}
+			elsif ($choice eq 'o') {
+				push @new_diffs, $arr;
+			}
+			else {
+				say "Unknown option - lets start again";
+				redo;
+			}
 		}
-		else {
-			say "Unknown option - lets start again";
-			redo;
-		}
+		@diffs = @new_diffs;
 	}
 
 	return;
@@ -231,11 +268,11 @@ sub run_show ($self, $key)
 		$self->_print_name_suggestions($self->translations->[0], $key, 4);
 	}
 	else {
-		foreach my $data (sort { $a->[0]->language cmp $b->[0]->language } @found) {
+		foreach my $data (sort { $self->languages->{$a->[0]} cmp $self->languages->{$b->[0]} } @found) {
 			my ($trans, $el) = @$data;
 
-			my $lang = $trans->language;
-			my $str = $el->msgstr;
+			my $lang = $self->languages->{$trans};
+			my $str = $trans->[$el]{str};
 			say "$lang: $str";
 		}
 	}
@@ -250,9 +287,9 @@ sub run_search ($self, $query)
 
 	my %found;
 	foreach my $trans ($self->translations->@*) {
-		foreach my $el ($trans->elements->list) {
-			next unless $el->id =~ $re;
-			$found{$el->id} = 1;
+		foreach my $el ($trans->@*) {
+			next unless $el->{id} =~ $re;
+			$found{$el->{id}} = 1;
 		}
 	}
 
@@ -263,36 +300,52 @@ sub run_search ($self, $query)
 	return;
 }
 
+sub keep_running ($self)
+{
+	say 'Entering translations loop, q or C-C to exit';
+
+	while (-loop) {
+		my @args = split /\s+/, $self->_prompt('trans>');
+
+		last if @args == 1 && $args[0] eq 'q';
+		$self->run(@args);
+	}
+
+	return;
+}
+
 sub run ($self, @args)
 {
-	# Workaround for current bugs
-	require Text::PO;
-	@Text::PO::META = qw(Language Content-Type);
+	if (@args == 1 && $args[0] eq 'loop') {
+		$self->keep_running;
+		return;
+	}
 
 	my $show = undef;
 	my $search = undef;
 	my $translate = undef;
 	my $rename = undef;
-	my $to = undef;
 	my $fix = 0;
+	my $export = undef;
 
 	GetOptionsFromArray(
 		\@args,
 		'show|s=s' => \$show,
 		'list|l=s' => \$search,
 		'translate|t=s' => \$translate,
-		'rename=s' => \$rename,
-		'to=s' => \$to,
-		fix => \$fix,
+		'rename|r=s' => \$rename,
+		'fix|f' => \$fix,
+		'export|e=s' => \$export,
 	);
 
-	if ($translate) {
+	if ($rename && $translate) {
+		$self->run_rename($rename, $translate);
+	}
+
+	elsif ($translate) {
 		$self->run_translate($translate);
 	}
 
-	elsif ($rename && $to) {
-		$self->run_rename($rename, $to);
-	}
 
 	elsif ($fix) {
 		$self->run_fix();
@@ -306,9 +359,12 @@ sub run ($self, @args)
 		$self->run_search($search);
 	}
 
+	elsif ($export) {
+		CLI::export_mo->new->run($export);
+	}
+
 	else {
-		# TODO: print a summary?
-		say $self->help;
+		$self->help;
 	}
 
 	return;
@@ -318,11 +374,12 @@ __END__
 
 =head1 SYNOPSIS
 
-	Usage: APPLICATION translate [OPTIONS]
+	Usage: APPLICATION translate [loop or OPTIONS]
 	Options:
 		-s=[ID], --show [ID]  shows message strings for key ID
 		-l=[QUERY], --list [QUERY]  Searches for given QUERY (substring of ID)
 		-t=[ID], --translate [ID]  add or replace existing key
-		--rename [ID] --to [ID]  rename translation to a different key
-		--fix  prompts the user to fix all the missing translations
+		-r=[ID] -t=[ID], --rename [ID] --translate [ID]  rename translation
+		-f, --fix  prompts the user to fix all the missing translations
+		-e=[LANG], --export [LANG]  exports mo out for the client
 

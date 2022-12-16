@@ -14,7 +14,10 @@ sub usage ($self) { return $self->extract_usage }
 
 sub run ($self, $language = undef)
 {
-	die 'need a language' unless defined $language;
+	unless (defined $language) {
+		$self->help;
+		return;
+	}
 
 	my $repo = DI->get('lore_data_repo');
 	my %lores = $repo->load_all()->%*;

@@ -39,7 +39,7 @@
       "HorizontalAnchorSelf" : "hpMiddle",
       "Name" : "LoadingStatus",
       "Text" : [
-        "loading"
+        "msg.loading"
       ],
       "VerticalAnchorParent" : "vpMiddle",
       "VerticalAnchorSelf" : "vpMiddle"
