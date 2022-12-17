@@ -39,8 +39,8 @@ my $localizer = do {
 	my $loc = Data::Localize->new();
 
 	$loc->add_localizer(
-		class => 'Gettext',
-		path => curfile->dirname->dirname->sibling('i18n')->child('*.po')->to_string,
+		class => 'YAML',
+		path => curfile->dirname->dirname->sibling('i18n')->child('*.yml')->to_string,
 		formatter => Data::Localize::Format::Maketext->new,
 	);
 	$loc;

@@ -824,6 +824,16 @@ DISTRIBUTIONS
       Test::More 0.94
       Test::Requires 0
       perl 5.008
+  Data-Localize-YAML-0.001
+    pathname: B/BR/BRTASTIC/Data-Localize-YAML-0.001.tar.gz
+    provides:
+      Data::Localize::YAML 0.001
+    requirements:
+      Data::Localize 0
+      ExtUtils::MakeMaker 0
+      Moo 2
+      YAML::Tiny 0
+      perl 5.010
   Data-Object-Attributes-0.06
     pathname: A/AW/AWNCORP/Data-Object-Attributes-0.06.tar.gz
     provides:
