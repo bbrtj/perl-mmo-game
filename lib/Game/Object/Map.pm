@@ -6,10 +6,10 @@ use header;
 
 extends 'Game::TileMap';
 
-my $legend = __PACKAGE__->new_legend
-	->add_wall('.')
-	->add_void('X')
-	->add_terrain('O' => 'map')
+my $legend = __PACKAGE__->new_legend(characters_per_tile => 2)
+	->add_wall('##')
+	->add_void('@@')
+	->add_terrain('__' => 'level_terrain')
 	;
 
 has extended 'legend' => (

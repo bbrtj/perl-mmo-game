@@ -51,7 +51,7 @@ on 'runtime' => sub {
 	requires 'Crypt::Bcrypt' => 0;
 	requires 'Algorithm::QuadTree::XS' => 0;
 	requires 'Sub::Quote' => 0;
-	requires 'Game::TileMap' => 0;
+	requires 'Game::TileMap' => '1.000';
 	requires 'Value::Diff' => 0;
 
 	requires 'Faker' => 0;

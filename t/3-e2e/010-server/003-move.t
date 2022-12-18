@@ -15,8 +15,8 @@ e2e_test {
 		password => $password,
 		variables_params => {
 			location_id => 'L.LOC.CP_HARBOR',
-			pos_x => 1.3,
-			pos_y => 1.2,
+			pos_x => 10.3,
+			pos_y => 10.2,
 		}
 	);
 
@@ -27,7 +27,7 @@ e2e_test {
 		Game::TestClient->new(actor => $actor)
 			->add_action('Login', user => $related_models{user}, password => $password)
 			->add_action('EnterGame')
-			->add_action('Move', x => 5.3, y => 2.2)
+			->add_action('Move', x => 15.3, y => 12.2)
 			->add_action('Stop')
 			->add_action('Stop', was_moving => !!0)
 	);

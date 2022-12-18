@@ -86,7 +86,9 @@ sub e2e_client ($loop, $first_message, $on_receive)
 
 			$stream->on(
 				read => sub ($stream, $bytes) {
-					chomp $bytes;
+					# chop CRLF
+					chop $bytes;
+					chop $bytes;
 
 					$on_receive->($stream, $bytes, ++$receive_no);
 				}

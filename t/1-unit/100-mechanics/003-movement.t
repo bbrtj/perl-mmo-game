@@ -9,9 +9,9 @@ use Model::CharacterVariables;
 use Utils;
 
 my $map = Game::Object::Map->new(map => <<MAP);
-OOOOX
-OOOOX
-OOOOX
+________@@
+________@@
+________@@
 MAP
 
 my $variables = Model::CharacterVariables->new(

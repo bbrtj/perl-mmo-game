@@ -91,7 +91,7 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 		unshift @data, ++$last_sent_id;
 		push @data, join Server::Config::PROTOCOL_SEPARATOR, splice @data, 2;
 
-		return join Server::Config::PROTOCOL_CONTROL_CHARACTER, @data;
+		return join(Server::Config::PROTOCOL_CONTROL_CHARACTER, @data) . "\r\n";
 	}
 
 	my sub compare_received_data ($data)
