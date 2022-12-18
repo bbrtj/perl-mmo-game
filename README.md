@@ -44,11 +44,13 @@ cp tools/git-hook-precommit .git/hooks/pre-commit
 
 ## Client setup
 
-### Exporting translations
+### Exporting data
 
 Export lore: `script/cli export-lore en`
 
 Export translations: `script/cli export-mo en`
+
+Export maps: `script/cli export-maps`
 
 ### Compiling
 
