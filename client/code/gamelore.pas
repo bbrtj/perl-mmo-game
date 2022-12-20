@@ -66,6 +66,7 @@ begin
 	vStreamer.DeStreamer.JSONToObject(vLines.Text, self);
 
 	vStreamer.Free;
+	vLines.Free;
 end;
 
 function TLoreStore.GetById(const vId: TLoreId): TLoreItem;

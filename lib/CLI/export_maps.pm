@@ -62,7 +62,7 @@ sub run ($self, $language = undef)
 	} @locations;
 
 	my $output = path->child('client')->child('data')->child('mapindex.json');
-	$output->spurt(encode_json \@locations_mapped);
+	$output->spurt(encode_json {index => \@locations_mapped});
 
 	my $path = path->child('client')->child('data')->child('maps');
 	$path->remove_tree->make_path;

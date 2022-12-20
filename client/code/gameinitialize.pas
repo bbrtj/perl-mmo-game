@@ -13,7 +13,7 @@ implementation
 
 uses SysUtils,
 	CastleWindow, CastleLog, CastleUIState,
-	GameLore, GameTranslations
+	GameLore, GameMaps, GameTranslations
 	{$region 'Castle Initialization Uses'}
 	// The content here may be automatically updated by CGE editor.
 	, GameStateLogin, GameStateCharacterList
@@ -30,6 +30,7 @@ begin
 	Window.Container.LoadSettings('castle-data:/CastleSettings.xml');
 
 	LoreCollection.Initialize;
+	MapIndex.Initialize;
 
 	GlobalTranslations := TGameMOFile.Create;
 	TranslateAllGameDesigns;

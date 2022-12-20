@@ -88,6 +88,25 @@
         "Y" : 2.0000000000000000E+002
       },
       "VerticalAnchorSelf" : "vpTop"
+    },
+    {
+      "$$ClassName" : "TCastleImageControl",
+      "Content" : {
+        "$$ClassName" : "TCastleImagePersistent",
+        "URL" : "castle-data:/loader.png"
+      },
+      "Height" : 4.0000000000000000E+001,
+      "HorizontalAnchorParent" : "hpRight",
+      "HorizontalAnchorSelf" : "hpRight",
+      "Name" : "Loader",
+      "ProportionalScaling" : "psEnclose",
+      "Stretch" : true,
+      "TranslationPersistent" : {
+        "$$ClassName" : "TCastleVector2Persistent",
+        "X" : -1.0000000000000000E+001,
+        "Y" : 1.0000000000000000E+001
+      },
+      "Width" : 4.0000000000000000E+001
     }
   ]
 }
