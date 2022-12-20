@@ -21,7 +21,7 @@ type
 		procedure RefreshLocationHints(const vLocationId: TLoreId);
 
 	public
-		constructor Create(AOwner: TComponent); override;
+		constructor Create(vOwner: TComponent); override;
 		procedure Start; override;
 		procedure Update(const vSecondsPassed: Single; var vHandleInput: Boolean); override;
 
@@ -34,7 +34,7 @@ var
 
 implementation
 
-constructor TStateLoading.Create(AOwner: TComponent);
+constructor TStateLoading.Create(vOwner: TComponent);
 begin
 	inherited;
 	DesignUrl := 'castle-data:/gamestateloading.castle-user-interface';

@@ -20,10 +20,10 @@ type
 		FStatus: TCastleLabel;
 
 	public
-		constructor Create(AOwner: TComponent); override;
+		constructor Create(vOwner: TComponent); override;
 		procedure Start; override;
-		procedure Update(const SecondsPassed: Single; var HandleInput: Boolean); override;
-		function Press(const Event: TInputPressRelease): Boolean; override;
+		procedure Update(const vSecondsPassed: Single; var vHandleInput: Boolean); override;
+		function Press(const vEvent: TInputPressRelease): Boolean; override;
 
 		procedure DoLogin(vSender: TObject);
 
@@ -40,7 +40,7 @@ uses GameStateCharacterList;
 
 { TStateLogin ----------------------------------------------------------------- }
 
-constructor TStateLogin.Create(AOwner: TComponent);
+constructor TStateLogin.Create(vOwner: TComponent);
 begin
 	inherited;
 	DesignUrl := 'castle-data:/gamestatelogin.castle-user-interface';
@@ -60,12 +60,12 @@ begin
 	FLoginButton.onClick := @DoLogin;
 end;
 
-procedure TStateLogin.Update(const SecondsPassed: Single; var HandleInput: Boolean);
+procedure TStateLogin.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
 begin
 	inherited;
 end;
 
-function TStateLogin.Press(const Event: TInputPressRelease): Boolean;
+function TStateLogin.Press(const vEvent: TInputPressRelease): Boolean;
 begin
 	Result := inherited;
 	if Result then Exit; // allow the ancestor to handle keys
