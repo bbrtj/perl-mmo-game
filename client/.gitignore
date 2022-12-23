@@ -17,6 +17,6 @@ AndroidAntProperties.txt
 data/lore.json
 data/translations.mo
 data/mapindex.json
-data/maps
+data/maps/meta
 code/backup
 

@@ -23,9 +23,9 @@ type
 		constructor Create(); override;
 
 	published
-		property &type: String read FType write FType;
-		property contents: String read GetContents write FContents;
-		property terrain: String read GetTerrain write FTerrain;
+		property TileType: String read FType write FType;
+		property TileContents: String read GetContents write FContents;
+		property TileTerrain: String read GetTerrain write FTerrain;
 
 	end;
 
@@ -33,7 +33,7 @@ type
 
 	TMap = class(TSerialized)
 	private
-		FCoordinates: TMapCoordinates;
+		FCoords: TMapCoordinates;
 		FSizeX: Cardinal;
 		FSizeY: Cardinal;
 
@@ -42,9 +42,9 @@ type
 		destructor Destroy; override;
 
 	published
-		property coordinates: TMapCoordinates read FCoordinates write FCoordinates;
-		property size_x: Cardinal read FSizeX write FSizeX;
-		property size_y: Cardinal read FSizeY write FSizeY;
+		property Coords: TMapCoordinates read FCoords write FCoords;
+		property SizeX: Cardinal read FSizeX write FSizeX;
+		property SizeY: Cardinal read FSizeY write FSizeY;
 
 	end;
 
@@ -65,12 +65,12 @@ type
 		property Lore: TLoreItem read GetLore;
 
 	published
-		property id: TLoreId read FId write FId;
-		property area: TLoreId read FArea write FArea;
-		property pos_x: Single read FPosX write FPosX;
-		property pos_y: Single read FPosY write FPosY;
-		property map: TMap read FMap write FMap;
-		property connected_to: TLoreIds read FConnectedTo write FConnectedTo;
+		property Id: TLoreId read FId write FId;
+		property Area: TLoreId read FArea write FArea;
+		property PosX: Single read FPosX write FPosX;
+		property PosY: Single read FPosY write FPosY;
+		property Map: TMap read FMap write FMap;
+		property ConnectedTo: TLoreIds read FConnectedTo write FConnectedTo;
 
 	end;
 
@@ -132,24 +132,26 @@ end;
 constructor TMap.Create();
 begin
 	inherited;
-	FCoordinates := TMapCoordinates.Create;
+	FCoords := TMapCoordinates.Create;
 end;
 
 destructor TMap.Destroy;
 begin
 	inherited;
-	FCoordinates.Free;
+	FCoords.Free;
 end;
 
 constructor TMapData.Create();
 begin
 	inherited;
+	FMap := TMap.Create;
 	FConnectedTo := TLoreIds.Create;
 end;
 
 destructor TMapData.Destroy;
 begin
 	inherited;
+	FMap.Free;
 	FConnectedTo.Free;
 end;
 
@@ -210,6 +212,7 @@ end;
 
 initialization
 	ListSerializationMap.Add(TSerializedList.Create(TMapIndexEntries, TMapIndexEntry));
+	ListSerializationMap.Add(TSerializedList.Create(TMapCoordinates, TMapCoordinate));
 	MapIndex := TMapIndex.Create();
 
 finalization

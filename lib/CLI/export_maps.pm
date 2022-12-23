@@ -29,14 +29,14 @@ sub run ($self, $language = undef)
 		my $data = $loc->data;
 
 		my %map = (
-			size_x => $data->map->size_x,
-			size_y => $data->map->size_y,
-			coordinates => [
+			SizeX => $data->map->size_x,
+			SizeY => $data->map->size_y,
+			Coords => [
 				map {
 					{
-						$_->type ne $_->contents ? (contents => $_->contents) : (),
-						!$data->map->is_terrain($_) ? (terrain => $data->map->guess_terrain($_)) : (),
-						type => $_->type,
+						$_->type ne $_->contents ? (TileContents => $_->contents) : (),
+						!$data->map->is_terrain($_) ? (TileTerrain => $data->map->guess_terrain($_)) : (),
+						TileType => $_->type,
 
 					}
 				} map {
@@ -46,28 +46,28 @@ sub run ($self, $language = undef)
 		);
 
 		push @locations, {
-			id => $loc->id,
-			pos_x => $data->pos_x,
-			pos_y => $data->pos_y,
-			area => $data->parent->id,
-			connected_to => [
+			Id => $loc->id,
+			PosX => $data->pos_x,
+			PosY => $data->pos_y,
+			Area => $data->parent->id,
+			ConnectedTo => [
 				map { $_->id } $data->connections->@*
 			],
-			map => \%map,
+			Map => \%map,
 		};
 	}
 
 	my @locations_mapped = map {
-		{ file => $self->id_to_file($_->{id}), id => $_->{id} }
+		{ file => $self->id_to_file($_->{Id}), id => $_->{Id} }
 	} @locations;
 
 	my $output = path->child('client')->child('data')->child('mapindex.json');
 	$output->spurt(encode_json {index => \@locations_mapped});
 
-	my $path = path->child('client')->child('data')->child('maps');
+	my $path = path->child('client')->child('data')->child('maps')->child('meta');
 	$path->remove_tree->make_path;
 	foreach my $item (@locations) {
-		my $fliename = $self->id_to_file($item->{id});
+		my $fliename = $self->id_to_file($item->{Id});
 		my $map = $path->child("$fliename.json");
 		$map->spurt(encode_json $item);
 	}
