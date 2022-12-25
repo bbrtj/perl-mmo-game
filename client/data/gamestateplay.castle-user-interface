@@ -1,0 +1,125 @@
+{
+  "$$ClassName" : "TCastleUserInterface",
+  "FullSize" : true,
+  "Name" : "RootGroup",
+  "$Children" : [
+    {
+      "$$ClassName" : "TCastleViewport",
+      "Background" : "Background1",
+      "Camera" : "PlayerCamera",
+      "FullSize" : true,
+      "Items" : {
+        "$$ClassName" : "TCastleRootTransform",
+        "PhysicsProperties" : {
+          "$$ClassName" : "TPhysicsProperties"
+        },
+        "$Children" : [
+          {
+            "$$ClassName" : "TCastleCamera",
+            "Name" : "PlayerCamera",
+            "Orthographic" : {
+              "$$ClassName" : "TCastleOrthographic"
+            },
+            "Perspective" : {
+              "$$ClassName" : "TCastlePerspective"
+            },
+            "RotationPersistent" : {
+              "$$ClassName" : "TCastleVector4RotationPersistent",
+              "W" : 3.1411697864532471E+000,
+              "X" : -2.1146197104826570E-004,
+              "Y" : -7.0710670948028564E-001,
+              "Z" : -7.0710670948028564E-001
+            },
+            "TranslationPersistent" : {
+              "$$ClassName" : "TCastleVector3Persistent",
+              "Y" : 1.0000000000000000E+001
+            }
+          },
+          {
+            "$$ClassName" : "TCastlePlane",
+            "CastShadows" : false,
+            "DoubleSided" : true,
+            "Name" : "Board",
+            "RenderOptions" : {
+              "$$ClassName" : "TCastleScene.TSceneRenderOptions"
+            },
+            "RotationPersistent" : {
+              "$$ClassName" : "TCastleVector4RotationPersistent",
+              "W" : 3.1414999961853027E+000,
+              "Z" : 1.0000000000000000E+000
+            },
+            "SizePersistent" : {
+              "$$ClassName" : "TCastleVector2Persistent",
+              "X" : 1.0000000000000000E+001,
+              "Y" : 1.0000000000000000E+001
+            },
+            "Texture" : "castle-data:/maps/l__loc__cp_harbor.png"
+          },
+          {
+            "$$ClassName" : "TCastleDirectionalLight",
+            "Name" : "AmbientLight",
+            "RotationPersistent" : {
+              "$$ClassName" : "TCastleVector4RotationPersistent",
+              "W" : 1.5700000524520874E+000,
+              "X" : -1.0000000000000000E+000
+            },
+            "TranslationPersistent" : {
+              "$$ClassName" : "TCastleVector3Persistent",
+              "Y" : 3.4559321403503418E+000,
+              "Z" : -8.0721158981323242E+000
+            }
+          }
+        ]
+      },
+      "Name" : "Viewport1",
+      "$NonVisualComponents" : [
+        {
+          "$$ClassName" : "TCastleBackground",
+          "Name" : "Background1"
+        }
+      ],
+      "InternalDesignCamera" : {
+        "$$ClassName" : "TCastleCamera",
+        "Name" : "",
+        "Orthographic" : {
+          "$$ClassName" : "TCastleOrthographic"
+        },
+        "Perspective" : {
+          "$$ClassName" : "TCastlePerspective"
+        },
+        "RotationPersistent" : {
+          "$$ClassName" : "TCastleVector4RotationPersistent",
+          "W" : 3.2609457969665527E+000,
+          "X" : 2.3922072723507881E-002,
+          "Y" : 9.2818069458007813E-001,
+          "Z" : 3.7136006355285645E-001
+        },
+        "ScalePersistent" : {
+          "$$ClassName" : "TCastleVector3Persistent",
+          "X" : 9.9999994039535522E-001,
+          "Y" : 1.0000001192092896E+000
+        },
+        "TranslationPersistent" : {
+          "$$ClassName" : "TCastleVector3Persistent",
+          "X" : 1.9741026163101196E+000,
+          "Y" : 7.3549137115478516E+000,
+          "Z" : -8.7981233596801758E+000
+        }
+      },
+      "InternalDesignNavigations[dnFly]" : {
+        "$$ClassName" : "TCastleWalkNavigationDesign",
+        "Name" : ""
+      },
+      "InternalDesignNavigations[dnExamine]" : {
+        "$$ClassName" : "TCastleExamineNavigationDesign",
+        "Exists" : false,
+        "Name" : ""
+      },
+      "InternalDesignNavigations[dn2D]" : {
+        "$$ClassName" : "TCastle2DNavigationDesign",
+        "Exists" : false,
+        "Name" : ""
+      }
+    }
+  ]
+}

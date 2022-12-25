@@ -64,6 +64,9 @@ sub BUILD ($self, $)
 
 sub dropped ($self)
 {
+	$self->log->debug("Connection dropped")
+		if Server::Config::DEBUG;
+
 	$self->cache_repo->remove($self->session);
 	$self->_unlisten;
 

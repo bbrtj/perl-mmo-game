@@ -97,6 +97,7 @@ type
 
 		procedure Initialize();
 		function GetMapData(const vId: String): TMapData;
+		function GetMapImagePath(const vId: String): String;
 
 	published
 		property &index: TMapIndexEntries read FIndex write FIndex;
@@ -198,7 +199,7 @@ begin
 	for vEntry in FIndex do begin
 		if vEntry.id = vId then begin
 			result := TMapData.Create;
-			vLines.LoadFromStream(Download('castle-data:/maps/' + vEntry.&file + '.json'));
+			vLines.LoadFromStream(Download('castle-data:/maps/meta/' + vEntry.&file + '.json'));
 			vStreamer.DeStreamer.JSONToObject(vLines.Text, result);
 			break;
 		end;
@@ -206,6 +207,18 @@ begin
 
 	vStreamer.Free;
 	vLines.Free;
+end;
+
+function TMapIndex.GetMapImagePath(const vId: String): String;
+var
+	vEntry: TMapIndexEntry;
+begin
+	for vEntry in FIndex do begin
+		if vEntry.id = vId then begin
+			result := 'castle-data:/maps/' + vEntry.&file + '.png';
+			break;
+		end;
+	end;
 end;
 
 { implementation end }

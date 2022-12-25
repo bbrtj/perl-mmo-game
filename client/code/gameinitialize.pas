@@ -18,6 +18,7 @@ uses SysUtils,
 	// The content here may be automatically updated by CGE editor.
 	, GameStateLogin, GameStateCharacterList
 	, GameStateLoading
+	, GameStatePlay
 	{$endregion 'Castle Initialization Uses'};
 
 var
@@ -45,6 +46,7 @@ begin
 	StateLogin := TStateLogin.Create(Application);
 	StateCharacterList := TStateCharacterList.Create(Application);
 	StateLoading := TStateLoading.Create(Application);
+	StatePlay := TStatePlay.Create(Application);
 	{$endregion 'Castle State Creation'}
 
 	TUIState.Current := StateLogin;
