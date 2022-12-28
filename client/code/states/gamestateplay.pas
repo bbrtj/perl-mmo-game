@@ -44,12 +44,11 @@ begin
 	PlayerCamera := DesignedComponent('PlayerCamera') as TCastleCamera;
 	AmbientLight := DesignedComponent('AmbientLight') as TCastleDirectionalLight;
 
-	// NOTE: X coord is reversed (goes to left), since direction is -1
 	Board.Size := Vector2(FMapData.Map.SizeX, FMapData.Map.SizeY);
-	Board.Translation := Vector3(-1 * FMapData.Map.SizeX / 2, 0, FMapData.Map.SizeY / 2);
+	Board.Translation := Vector3(FMapData.Map.SizeX / 2, FMapData.Map.SizeY / 2, 0);
 	Board.Texture := FMapImagePath;
 
-	PlayerCamera.Translation := Vector3(0, 10, 0);
+	PlayerCamera.Translation := Vector3(0, 0, 10);
 end;
 
 end.
