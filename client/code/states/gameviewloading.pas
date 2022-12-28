@@ -1,14 +1,14 @@
-unit GameStateLoading;
+unit GameViewLoading;
 
 interface
 
 uses Classes,
-	CastleVectors, CastleUIState, CastleUIControls, CastleControls, CastleKeysMouse,
+	CastleVectors, CastleUIControls, CastleControls, CastleKeysMouse,
 	GameTypes, GameNetwork, GameLore, GameMaps,
 	GameModels, GameModels.Location;
 
 type
-	TStateLoading = class(TUIState)
+	TViewLoading = class(TCastleView)
 	private
 		{ Components designed using CGE editor, loaded from the castle-user-interface file. }
 		HintText1: TCastleLabel;
@@ -33,19 +33,19 @@ type
 	end;
 
 var
-	StateLoading: TStateLoading;
+	ViewLoading: TViewLoading;
 
 implementation
 
-uses GameStatePlay;
+uses GameViewPlay;
 
-constructor TStateLoading.Create(vOwner: TComponent);
+constructor TViewLoading.Create(vOwner: TComponent);
 begin
 	inherited;
-	DesignUrl := 'castle-data:/gamestateloading.castle-user-interface';
+	DesignUrl := 'castle-data:/gameviewloading.castle-user-interface';
 end;
 
-procedure TStateLoading.RefreshLocationHints();
+procedure TViewLoading.RefreshLocationHints();
 var
 	vLore: TLoreItem;
 begin
@@ -54,19 +54,19 @@ begin
 	HintText2.Caption := vLore.LoreDescription;
 end;
 
-procedure TStateLoading.DoLoad();
+procedure TViewLoading.DoLoad();
 begin
-	StatePlay.MapData := MapIndex.GetMapData(FMapId);
-	StatePlay.MapImagePath := MapIndex.GetMapImagePath(FMapId);
+	ViewPlay.MapData := MapIndex.GetMapData(FMapId);
+	ViewPlay.MapImagePath := MapIndex.GetMapImagePath(FMapId);
 	FLoaded := true;
 end;
 
-procedure TStateLoading.OnLoaded();
+procedure TViewLoading.OnLoaded();
 begin
-	TUIState.Current := StatePlay;
+	Container.View := ViewPlay;
 end;
 
-procedure TStateLoading.Start;
+procedure TViewLoading.Start;
 begin
 	inherited;
 	GlobalClient.ContextChange;
@@ -81,7 +81,7 @@ begin
 	FFading := true;
 end;
 
-procedure TStateLoading.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
+procedure TViewLoading.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
 const
 	cRotationSpeed = 0.05;
 	cFadeSpeed = 0.02;
@@ -100,7 +100,7 @@ begin
 	end;
 end;
 
-procedure TStateLoading.OnLocationData(const vData: TModelBase);
+procedure TViewLoading.OnLocationData(const vData: TModelBase);
 var
 	vModel: TMsgFeedLocationData;
 begin

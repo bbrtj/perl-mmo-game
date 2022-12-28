@@ -1,9 +1,9 @@
-unit GameStateLogin;
+unit GameViewLogin;
 
 interface
 
 uses SysUtils, Classes,
-	CastleVectors, CastleUIState, CastleComponentSerialize,
+	CastleVectors, CastleComponentSerialize,
 	CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleFonts, CastleStringUtils, CastleUnicode,
 	GameUIComponents,
@@ -12,7 +12,7 @@ uses SysUtils, Classes,
 	GameModels, GameModels.General, GameModels.Login;
 
 type
-	TStateLogin = class(TUIState)
+	TViewLogin = class(TCastleView)
 	private
 		FUsernameField: TCastleEdit;
 		FPasswordField: TCastleEdit;
@@ -32,21 +32,19 @@ type
 	end;
 
 var
-	StateLogin: TStateLogin;
+	ViewLogin: TViewLogin;
 
 implementation
 
-uses GameStateCharacterList;
+uses GameViewCharacterList;
 
-{ TStateLogin ----------------------------------------------------------------- }
-
-constructor TStateLogin.Create(vOwner: TComponent);
+constructor TViewLogin.Create(vOwner: TComponent);
 begin
 	inherited;
-	DesignUrl := 'castle-data:/gamestatelogin.castle-user-interface';
+	DesignUrl := 'castle-data:/gameviewlogin.castle-user-interface';
 end;
 
-procedure TStateLogin.Start;
+procedure TViewLogin.Start;
 begin
 	inherited;
 	GlobalClient.ContextChange;
@@ -60,12 +58,12 @@ begin
 	FLoginButton.onClick := @DoLogin;
 end;
 
-procedure TStateLogin.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
+procedure TViewLogin.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
 begin
 	inherited;
 end;
 
-function TStateLogin.Press(const vEvent: TInputPressRelease): Boolean;
+function TViewLogin.Press(const vEvent: TInputPressRelease): Boolean;
 begin
 	Result := inherited;
 	if Result then Exit; // allow the ancestor to handle keys
@@ -76,7 +74,7 @@ begin
 		Note that each UI control has also events like OnPress and OnClick.
 		These events can be used to handle the "press", if it should do something
 		specific when used in that UI control.
-		The TStateLogin.Press method should be used to handle keys
+		The TViewLogin.Press method should be used to handle keys
 		not handled in children controls.
 	}
 
@@ -90,7 +88,7 @@ begin
 	}
 end;
 
-procedure TStateLogin.DoLogin(vSender: TObject);
+procedure TViewLogin.DoLogin(vSender: TObject);
 begin
 	FStatus.Caption := _('msg.connecting');
 	FStatus.Exists := true;
@@ -102,7 +100,7 @@ begin
 	);
 end;
 
-procedure TStateLogin.OnConnected();
+procedure TViewLogin.OnConnected();
 var
 	vData: TMsgLogin;
 begin
@@ -118,10 +116,10 @@ begin
 	vData.Free;
 end;
 
-procedure TStateLogin.OnLogin(const vSuccess: TModelBase);
+procedure TViewLogin.OnLogin(const vSuccess: TModelBase);
 begin
 	if (vSuccess as TMsgResSuccess).Value = '1' then begin
-		TUIState.Current := StateCharacterList;
+		Container.View := ViewCharacterList;
 	end
 	else begin
 		FStatus.Caption := _('msg.login_failed');

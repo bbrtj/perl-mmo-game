@@ -1,13 +1,13 @@
-unit GameStatePlay;
+unit GameViewPlay;
 
 interface
 
 uses Classes,
-	CastleVectors, CastleUIState, CastleUIControls, CastleControls, CastleKeysMouse, CastleTransform, CastleScene,
+	CastleVectors, CastleUIControls, CastleControls, CastleKeysMouse, CastleTransform, CastleScene,
 	GameMaps;
 
 type
-	TStatePlay = class(TUIState)
+	TViewPlay = class(TCastleView)
 	private
 		Board: TCastlePlane;
 		PlayerCamera: TCastleCamera;
@@ -26,17 +26,17 @@ type
 	end;
 
 var
-	StatePlay: TStatePlay;
+	ViewPlay: TViewPlay;
 
 implementation
 
-constructor TStatePlay.Create(vOwner: TComponent);
+constructor TViewPlay.Create(vOwner: TComponent);
 begin
 	inherited;
-	DesignUrl := 'castle-data:/gamestateplay.castle-user-interface';
+	DesignUrl := 'castle-data:/gameviewplay.castle-user-interface';
 end;
 
-procedure TStatePlay.Start;
+procedure TViewPlay.Start;
 begin
 	inherited;
 

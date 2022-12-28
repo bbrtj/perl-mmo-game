@@ -45,8 +45,7 @@
               "$$ClassName" : "TCastleVector2Persistent",
               "X" : 1.0000000000000000E+001,
               "Y" : 1.0000000000000000E+001
-            },
-            "Texture" : "castle-data:/maps/l__loc__cp_harbor.png"
+            }
           },
           {
             "$$ClassName" : "TCastleDirectionalLight",
@@ -83,7 +82,7 @@
           "$$ClassName" : "TCastleVector3Persistent",
           "X" : 7.5580418109893799E-001,
           "Y" : 5.9599351882934570E-001,
-          "Z" : 1.9625524520874023E+001
+          "Z" : 1.3622326850891113E+001
         }
       },
       "InternalDesignNavigationType" : 2,

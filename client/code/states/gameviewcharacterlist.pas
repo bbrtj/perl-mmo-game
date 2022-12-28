@@ -1,9 +1,9 @@
-unit GameStateCharacterList;
+unit GameViewCharacterList;
 
 interface
 
 uses SysUtils, Classes,
-	CastleVectors, CastleUIState, CastleComponentSerialize,
+	CastleVectors, CastleComponentSerialize,
 	CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleFonts, CastleStringUtils, CastleUnicode,
 	GameTypes,
@@ -23,7 +23,7 @@ type
 	end;
 
 
-	TStateCharacterList = class(TUIState)
+	TViewCharacterList = class(TCastleView)
 	private
 		FCharacterList: TCastleVerticalGroup;
 		FLogoutButton: TGameButton;
@@ -45,22 +45,22 @@ type
 	end;
 
 var
-	StateCharacterList: TStateCharacterList;
+	ViewCharacterList: TViewCharacterList;
 
 implementation
 
-uses GameStateLogin,
-	GameStateLoading;
+uses GameViewLogin,
+	GameViewLoading;
 
-{ TStateCharacterList ----------------------------------------------------------------- }
+{ TViewCharacterList ----------------------------------------------------------------- }
 
-constructor TStateCharacterList.Create(vOwner: TComponent);
+constructor TViewCharacterList.Create(vOwner: TComponent);
 begin
 	inherited;
-	DesignUrl := 'castle-data:/gamestatecharacterlist.castle-user-interface';
+	DesignUrl := 'castle-data:/gameviewcharacterlist.castle-user-interface';
 end;
 
-procedure TStateCharacterList.Start;
+procedure TViewCharacterList.Start;
 begin
 	inherited;
 	GlobalClient.ContextChange;
@@ -72,12 +72,12 @@ begin
 	DoLoadCharacterList;
 end;
 
-procedure TStateCharacterList.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
+procedure TViewCharacterList.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
 begin
 	inherited;
 end;
 
-function TStateCharacterList.Press(const Event: TInputPressRelease): Boolean;
+function TViewCharacterList.Press(const Event: TInputPressRelease): Boolean;
 begin
 	Result := inherited;
 	if Result then Exit; // allow the ancestor to handle keys
@@ -88,7 +88,7 @@ begin
 		Note that each UI control has also events like OnPress and OnClick.
 		These events can be used to handle the "press", if it should do something
 		specific when used in that UI control.
-		The TStateCharacterList.Press method should be used to handle keys
+		The TViewCharacterList.Press method should be used to handle keys
 		not handled in children controls.
 	}
 
@@ -102,21 +102,21 @@ begin
 	}
 end;
 
-procedure TStateCharacterList.DoLogout(vSender: TObject);
+procedure TViewCharacterList.DoLogout(vSender: TObject);
 begin
 	GlobalClient.Send(TMsgLogout, DummyModel);
 
-	TUIState.Current := StateLogin;
+	Container.View := ViewLogin;
 end;
 
-procedure TStateCharacterList.DoLoadCharacterList();
+procedure TViewCharacterList.DoLoadCharacterList();
 begin
 	// TODO: notify of loading
 
 	GlobalClient.Send(TMsgCharacterList, DummyModel, @OnCharacterList);
 end;
 
-procedure TStateCharacterList.OnCharacterList(const vCharacterList: TModelBase);
+procedure TViewCharacterList.OnCharacterList(const vCharacterList: TModelBase);
 var
 	vCharacter: TMsgResCharacter;
 	vSelection: TCharacterSelection;
@@ -143,7 +143,7 @@ begin
 	end;
 end;
 
-procedure TStateCharacterList.DoEnterGame(const vUi: TCastleUserInterface; const vEvent: TInputPressRelease; var vHandled: Boolean);
+procedure TViewCharacterList.DoEnterGame(const vUi: TCastleUserInterface; const vEvent: TInputPressRelease; var vHandled: Boolean);
 var
 	vModel: TPlaintextModel;
 begin
@@ -160,10 +160,10 @@ begin
 	end;
 end;
 
-procedure TStateCharacterList.OnEnterGame(const vSuccess: TModelBase);
+procedure TViewCharacterList.OnEnterGame(const vSuccess: TModelBase);
 begin
 	if (vSuccess as TMsgResSuccess).Value = '1' then begin
-		TUIState.Current := StateLoading;
+		Container.View := ViewLoading;
 	end
 	else begin
 		writeln('failure!');

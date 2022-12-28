@@ -12,13 +12,13 @@ interface
 implementation
 
 uses SysUtils,
-	CastleWindow, CastleLog, CastleUIState,
+	CastleWindow, CastleLog,
 	GameLore, GameMaps, GameTranslations
 	{$region 'Castle Initialization Uses'}
 	// The content here may be automatically updated by CGE editor.
-	, GameStateLogin, GameStateCharacterList
-	, GameStateLoading
-	, GameStatePlay
+	, GameViewLogin, GameViewCharacterList
+	, GameViewLoading
+	, GameViewPlay
 	{$endregion 'Castle Initialization Uses'};
 
 var
@@ -36,20 +36,15 @@ begin
 	GlobalTranslations := TGameMOFile.Create;
 	TranslateAllGameDesigns;
 
-	{ Create TStateLogin that will handle "main" state of the game.
-		Larger games may use multiple states,
-		e.g. TStateMainMenu ("main menu state"),
-		TStatePlay ("playing the game state"),
-		TStateCredits ("showing the credits state") etc. }
 	{$region 'Castle State Creation'}
 	// The content here may be automatically updated by CGE editor.
-	StateLogin := TStateLogin.Create(Application);
-	StateCharacterList := TStateCharacterList.Create(Application);
-	StateLoading := TStateLoading.Create(Application);
-	StatePlay := TStatePlay.Create(Application);
+	ViewLogin := TViewLogin.Create(Application);
+	ViewCharacterList := TViewCharacterList.Create(Application);
+	ViewLoading := TViewLoading.Create(Application);
+	ViewPlay := TViewPlay.Create(Application);
 	{$endregion 'Castle State Creation'}
 
-	TUIState.Current := StateLogin;
+	Window.Container.View := ViewLogin;
 end;
 
 initialization
