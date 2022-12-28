@@ -20,8 +20,8 @@ type
 		constructor Create(vOwner: TComponent); override;
 		procedure Start; override;
 
-		property MapData: TMapData write FMapData;
-		property MapImagePath: String write FMapImagePath;
+		procedure SetMapData(vMapData: TMapData);
+		procedure SetMapImagePath(vMapImagePath: String);
 
 	end;
 
@@ -44,12 +44,25 @@ begin
 	PlayerCamera := DesignedComponent('PlayerCamera') as TCastleCamera;
 	AmbientLight := DesignedComponent('AmbientLight') as TCastleDirectionalLight;
 
-	Board.Size := Vector2(FMapData.Map.SizeX, FMapData.Map.SizeY);
-	Board.Translation := Vector3(FMapData.Map.SizeX / 2, FMapData.Map.SizeY / 2, 0);
-	Board.Texture := FMapImagePath;
-
 	PlayerCamera.Translation := Vector3(0, 0, 10);
 end;
+
+procedure TViewPlay.SetMapData(vMapData: TMapData);
+begin
+	FMapData := vMapData;
+
+	Board.Size := Vector2(FMapData.Map.SizeX, FMapData.Map.SizeY);
+	Board.Translation := Vector3(FMapData.Map.SizeX / 2, FMapData.Map.SizeY / 2, 0);
+end;
+
+procedure TViewPlay.SetMapImagePath(vMapImagePath: String);
+begin
+	FMapImagePath := vMapImagePath;
+
+	Board.Texture := FMapImagePath;
+end;
+
+{ implementation end }
 
 end.
 

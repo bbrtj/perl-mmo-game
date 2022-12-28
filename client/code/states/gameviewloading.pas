@@ -16,6 +16,7 @@ type
 		Loader: TCastleImageControl;
 
 		FFading: Boolean;
+		FLoadingDelay: Integer;
 		FLoaded: Boolean;
 		FMapId: TLoreId;
 
@@ -31,6 +32,8 @@ type
 		procedure OnLocationData(const vData: TModelBase);
 
 	end;
+
+procedure StartLoading(const vContainer: TCastleContainer);
 
 var
 	ViewLoading: TViewLoading;
@@ -56,14 +59,14 @@ end;
 
 procedure TViewLoading.DoLoad();
 begin
-	ViewPlay.MapData := MapIndex.GetMapData(FMapId);
-	ViewPlay.MapImagePath := MapIndex.GetMapImagePath(FMapId);
+	ViewPlay.SetMapData(MapIndex.GetMapData(FMapId));
+	ViewPlay.SetMapImagePath(MapIndex.GetMapImagePath(FMapId));
 	FLoaded := true;
 end;
 
 procedure TViewLoading.OnLoaded();
 begin
-	Container.View := ViewPlay;
+	Container.PopView(ViewLoading);
 end;
 
 procedure TViewLoading.Start;
@@ -77,19 +80,27 @@ begin
 
 	GlobalClient.Await(TMsgFeedLocationData, @OnLocationData);
 
-	FLoaded := false;
 	FFading := true;
+	FLoadingDelay := 0;
+	FLoaded := false;
 end;
 
 procedure TViewLoading.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
 const
 	cRotationSpeed = 0.05;
 	cFadeSpeed = 0.02;
+	cLoadingDelay = 10;
 begin
 	inherited;
 
-	if not FLoaded then
+	if not FLoaded then begin
+		if FLoadingDelay > cLoadingDelay then
+			DoLoad
+		else if FLoadingDelay > 0 then
+			FLoadingDelay += 1;
+
 		Loader.Rotation := Loader.Rotation - cRotationSpeed
+	end
 	else if FFading and (Loader.Color.W > 0) then begin
 		Loader.Rotation := Loader.Rotation - cRotationSpeed * 2;
 		Loader.Color := Loader.Color - Vector4(0, 0, 0, cFadeSpeed);
@@ -108,7 +119,13 @@ begin
 	FMapId := vModel.id;
 
 	RefreshLocationHints;
-	DoLoad;
+	FLoadingDelay := 1;
+end;
+
+procedure StartLoading(const vContainer: TCastleContainer);
+begin
+	vContainer.PushView(ViewPlay);
+	vContainer.PushView(ViewLoading);
 end;
 
 { implementation end }

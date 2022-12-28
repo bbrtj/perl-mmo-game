@@ -163,7 +163,7 @@ end;
 procedure TViewCharacterList.OnEnterGame(const vSuccess: TModelBase);
 begin
 	if (vSuccess as TMsgResSuccess).Value = '1' then begin
-		Container.View := ViewLoading;
+		StartLoading(Container);
 	end
 	else begin
 		writeln('failure!');
