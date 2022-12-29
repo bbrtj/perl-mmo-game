@@ -16,12 +16,11 @@ type
 		Loader: TCastleImageControl;
 
 		FFading: Boolean;
-		FLoadingDelay: Integer;
 		FLoaded: Boolean;
 		FMapId: TLoreId;
 
 		procedure RefreshLocationHints();
-		procedure DoLoad();
+		procedure DoLoad(vSender: TObject);
 		procedure OnLoaded();
 
 	public
@@ -57,7 +56,7 @@ begin
 	HintText2.Caption := vLore.LoreDescription;
 end;
 
-procedure TViewLoading.DoLoad();
+procedure TViewLoading.DoLoad(vSender: TObject);
 begin
 	ViewPlay.SetMapData(MapIndex.GetMapData(FMapId));
 	ViewPlay.SetMapImagePath(MapIndex.GetMapImagePath(FMapId));
@@ -81,7 +80,6 @@ begin
 	GlobalClient.Await(TMsgFeedLocationData, @OnLocationData);
 
 	FFading := true;
-	FLoadingDelay := 0;
 	FLoaded := false;
 end;
 
@@ -89,18 +87,11 @@ procedure TViewLoading.Update(const vSecondsPassed: Single; var vHandleInput: Bo
 const
 	cRotationSpeed = 0.05;
 	cFadeSpeed = 0.02;
-	cLoadingDelay = 10;
 begin
 	inherited;
 
-	if not FLoaded then begin
-		if FLoadingDelay > cLoadingDelay then
-			DoLoad
-		else if FLoadingDelay > 0 then
-			FLoadingDelay += 1;
-
+	if not FLoaded then
 		Loader.Rotation := Loader.Rotation - cRotationSpeed
-	end
 	else if FFading and (Loader.Color.W > 0) then begin
 		Loader.Rotation := Loader.Rotation - cRotationSpeed * 2;
 		Loader.Color := Loader.Color - Vector4(0, 0, 0, cFadeSpeed);
@@ -119,7 +110,7 @@ begin
 	FMapId := vModel.id;
 
 	RefreshLocationHints;
-	FLoadingDelay := 1;
+	WaitForRenderAndCall(@self.DoLoad);
 end;
 
 procedure StartLoading(const vContainer: TCastleContainer);
