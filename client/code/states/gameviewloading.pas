@@ -58,7 +58,7 @@ end;
 
 procedure TViewLoading.DoLoad(vSender: TObject);
 begin
-	ViewPlay.SetMapData(MapIndex.GetMapData(FMapId));
+	ViewPlay.GameState.SetMapData(MapIndex.GetMapData(FMapId));
 	ViewPlay.SetMapImagePath(MapIndex.GetMapImagePath(FMapId));
 	FLoaded := true;
 end;
@@ -117,6 +117,7 @@ end;
 
 procedure StartLoading(const vContainer: TCastleContainer);
 begin
+	vContainer.PopView();
 	vContainer.PushView(ViewPlay);
 	vContainer.PushView(ViewLoading);
 end;

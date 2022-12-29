@@ -4,7 +4,7 @@ interface
 
 uses Classes,
 	CastleVectors, CastleUIControls, CastleControls, CastleKeysMouse, CastleTransform, CastleScene,
-	GameMaps;
+	GameState;
 
 type
 	TViewPlay = class(TCastleView)
@@ -13,19 +13,20 @@ type
 		PlayerCamera: TCastleCamera;
 		AmbientLight: TCastleDirectionalLight;
 
-		FMapData: TMapData;
+		FGameState: TGameState;
 		FMapImagePath: String;
 		FPlaying: Boolean;
 
 	public
 		constructor Create(vOwner: TComponent); override;
 		procedure Start; override;
+		procedure Stop; override;
 
 		procedure Update(const vSecondsPassed: Single; var vHandleInput: Boolean); override;
 
-		procedure SetMapData(vMapData: TMapData);
 		procedure SetMapImagePath(vMapImagePath: String);
 
+		property GameState: TGameState read FGameState write FGameState;
 		property Playing: Boolean read FPlaying write FPlaying;
 
 	end;
@@ -50,7 +51,12 @@ begin
 	AmbientLight := DesignedComponent('AmbientLight') as TCastleDirectionalLight;
 	FPlaying := false;
 
-	PlayerCamera.Translation := Vector3(0, 0, 10);
+	FGameState := TGameState.Create(Board, PlayerCamera);
+end;
+
+procedure TViewPlay.Stop;
+begin
+	FGameState.Free;
 end;
 
 procedure TViewPlay.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
@@ -58,14 +64,7 @@ begin
 	inherited;
 
 	if not FPlaying then exit;
-end;
-
-procedure TViewPlay.SetMapData(vMapData: TMapData);
-begin
-	FMapData := vMapData;
-
-	Board.Size := Vector2(FMapData.Map.SizeX, FMapData.Map.SizeY);
-	Board.Translation := Vector3(FMapData.Map.SizeX / 2, FMapData.Map.SizeY / 2, 0);
+	FGameState.Update(vSecondsPassed);
 end;
 
 procedure TViewPlay.SetMapImagePath(vMapImagePath: String);
