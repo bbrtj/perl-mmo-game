@@ -65,7 +65,9 @@ end;
 
 procedure TViewLoading.OnLoaded();
 begin
+	GlobalClient.ContextChange;
 	Container.PopView(ViewLoading);
+	ViewPlay.Playing := true;
 end;
 
 procedure TViewLoading.Start;
