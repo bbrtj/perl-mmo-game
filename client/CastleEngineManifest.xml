@@ -10,7 +10,7 @@
 		<search_paths>
 			<path value="code/" />
 			<path value="code/models" />
-			<path value="code/states" />
+			<path value="code/views" />
 			<path value="components" />
 			<path value="../sharedpas" />
 			<path value="~/pascal-vendor/Indy10/Core" />

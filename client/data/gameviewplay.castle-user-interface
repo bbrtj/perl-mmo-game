@@ -80,9 +80,9 @@
         },
         "TranslationPersistent" : {
           "$$ClassName" : "TCastleVector3Persistent",
-          "X" : 7.5580418109893799E-001,
+          "X" : 7.5580406188964844E-001,
           "Y" : 5.9599351882934570E-001,
-          "Z" : 1.3622326850891113E+001
+          "Z" : 1.9112972259521484E+001
         }
       },
       "InternalDesignNavigationType" : 2,

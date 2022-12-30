@@ -28,6 +28,8 @@ type
 		FCharacterList: TCastleVerticalGroup;
 		FLogoutButton: TGameButton;
 
+		FPlayerId: TUlid;
+
 	public
 		constructor Create(vOwner: TComponent); override;
 		procedure Start; override;
@@ -151,8 +153,11 @@ begin
 
 	if vEvent.isMouseButton(buttonLeft) then begin
 		vHandled := true;
+
+		FPlayerId := (vUi as TCharacterSelection).Id;
+
 		vModel := TPlaintextModel.Create;
-		vModel.Value := (vUi as TCharacterSelection).Id;
+		vModel.Value := FPlayerId;
 
 		GlobalClient.Send(TMsgEnterGame, vModel, @OnEnterGame);
 
@@ -163,7 +168,7 @@ end;
 procedure TViewCharacterList.OnEnterGame(const vSuccess: TModelBase);
 begin
 	if (vSuccess as TMsgResSuccess).Value = '1' then begin
-		StartLoading(Container);
+		StartLoading(Container, FPlayerId);
 	end
 	else begin
 		writeln('failure!');

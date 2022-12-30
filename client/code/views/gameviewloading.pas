@@ -18,6 +18,7 @@ type
 		FFading: Boolean;
 		FLoaded: Boolean;
 		FMapId: TLoreId;
+		FPlayerId: TUlid;
 
 		procedure RefreshLocationHints();
 		procedure DoLoad(vSender: TObject);
@@ -30,9 +31,11 @@ type
 
 		procedure OnLocationData(const vData: TModelBase);
 
+		property PlayerId: TUlid write FPlayerId;
+
 	end;
 
-procedure StartLoading(const vContainer: TCastleContainer);
+procedure StartLoading(const vContainer: TCastleContainer; const vPlayerId: TUlid);
 
 var
 	ViewLoading: TViewLoading;
@@ -59,7 +62,10 @@ end;
 procedure TViewLoading.DoLoad(vSender: TObject);
 begin
 	ViewPlay.GameState.SetMapData(MapIndex.GetMapData(FMapId));
+	ViewPlay.GameState.CreatePlayer(FPlayerId);
+
 	ViewPlay.SetMapImagePath(MapIndex.GetMapImagePath(FMapId));
+
 	FLoaded := true;
 end;
 
@@ -92,15 +98,16 @@ const
 begin
 	inherited;
 
-	if not FLoaded then
-		Loader.Rotation := Loader.Rotation - cRotationSpeed
-	else if FFading and (Loader.Color.W > 0) then begin
-		Loader.Rotation := Loader.Rotation - cRotationSpeed * 2;
-		Loader.Color := Loader.Color - Vector4(0, 0, 0, cFadeSpeed);
-	end
-	else if FFading then begin
-		FFading := false;
-		OnLoaded;
+	Loader.Rotation := Loader.Rotation - cRotationSpeed;
+
+	if FLoaded then begin
+		if FFading and (Loader.Color.W > 0) then begin
+			Loader.Color := Loader.Color - Vector4(0, 0, 0, cFadeSpeed);
+		end
+		else if FFading then begin
+			FFading := false;
+			OnLoaded;
+		end;
 	end;
 end;
 
@@ -115,11 +122,13 @@ begin
 	WaitForRenderAndCall(@self.DoLoad);
 end;
 
-procedure StartLoading(const vContainer: TCastleContainer);
+procedure StartLoading(const vContainer: TCastleContainer; const vPlayerId: TUlid);
 begin
 	vContainer.PopView();
 	vContainer.PushView(ViewPlay);
 	vContainer.PushView(ViewLoading);
+
+	ViewLoading.PlayerId := vPlayerId;
 end;
 
 { implementation end }
