@@ -147,7 +147,7 @@ end;
 
 procedure TViewCharacterList.DoEnterGame(const vUi: TCastleUserInterface; const vEvent: TInputPressRelease; var vHandled: Boolean);
 var
-	vModel: TPlaintextModel;
+	vModel: TMsgEnterGame;
 begin
 	vHandled := false;
 
@@ -156,7 +156,7 @@ begin
 
 		FPlayerId := (vUi as TCharacterSelection).Id;
 
-		vModel := TPlaintextModel.Create;
+		vModel := TMsgEnterGame.Create;
 		vModel.Value := FPlayerId;
 
 		GlobalClient.Send(TMsgEnterGame, vModel, @OnEnterGame);

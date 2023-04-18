@@ -12,8 +12,14 @@ type
 	strict private
 		FModel: TGameModel;
 
+		FMovementVector: TVector3;
+		FMovementTime: Single;
 	public
 		constructor Create(const vModel: TGameModel);
+
+		procedure SetPosition(const vX, vY: Single);
+		function GetPosition(): TVector3;
+		procedure Move(const vX, vY, vSpeed: Single);
 
 		procedure Update(const secondsPassed: Single; var removeMe: TRemoveType); override;
 	end;
@@ -36,11 +42,15 @@ begin
 	FModel := vModel;
 	FModel.AddBehavior(self);
 
-	FModel.Translation := Vector3(0, 0, 0.01); // TODO
+	FModel.Translation := Vector3(0, 0, 0.05); // TODO
 end;
 
 procedure TGameActor.Update(const secondsPassed: Single; var removeMe: TRemoveType);
 begin
+	if FMovementTime > 0 then begin
+		FMovementTime -= secondsPassed;
+		FModel.Translation := FModel.Translation + FMovementVector * secondsPassed;
+	end;
 end;
 
 constructor TGameActorFactory.Create(const vBoard: TCastleTransform);
@@ -65,6 +75,26 @@ begin
 	// data
 
 	FBoard.Parent.Add(vModel);
+end;
+
+procedure TGameActor.SetPosition(const vX, vY: Single);
+begin
+	FModel.Translation := Vector3(vX, vY, FModel.Translation.Z);
+end;
+
+function TGameActor.GetPosition(): TVector3;
+begin
+	result := FModel.Translation;
+end;
+
+procedure TGameActor.Move(const vX, vY, vSpeed: Single);
+var
+	vLength: Single;
+begin
+	FMovementVector := Vector3(vX - FModel.Translation.X, vY - FModel.Translation.Y, 0);
+	vLength := sqrt(FMovementVector.X * FMovementVector.X + FMovementVector.Y * FMovementVector.Y);
+	FMovementTime := vLength / vSpeed;
+	FMovementVector /= FMovementTime;
 end;
 
 { implementation end }

@@ -4,7 +4,8 @@ interface
 
 uses FGL, SysUtils,
 	GameModels, GameModels.General, GameModels.Login, GameModels.Logout,
-	GameModels.CharacterList, GameModels.EnterGame, GameModels.Location;
+	GameModels.CharacterList, GameModels.EnterGame, GameModels.Location,
+	GameModels.Move;
 
 type
 	TMessage = class
@@ -141,8 +142,10 @@ initialization
 	MessageTypesMap.Add(TMessageType.Create(TMsgLogout));
 	MessageTypesMap.Add(TMessageType.Create(TMsgCharacterList, TMsgResCharacterList));
 	MessageTypesMap.Add(TMessageType.Create(TMsgEnterGame, TMsgResSuccess));
+	MessageTypesMap.Add(TMessageType.Create(TMsgMove));
 
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedLocationData));
+	FeedTypesMap.Add(TMessageType.Create(TMsgFeedActorMovement));
 
 finalization
 	MessageTypesMap.Free;

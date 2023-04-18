@@ -58,6 +58,7 @@
           "Name" : "UsernameField",
           "Padding" : 6.0000000000000000E+000,
           "Placeholder" : "email_address",
+          "Text" : "test1@test.com",
           "TextTranslate" : false,
           "TranslationPersistent" : {
             "$$ClassName" : "TCastleVector2Persistent",
@@ -83,6 +84,7 @@
           "Padding" : 6.0000000000000000E+000,
           "PasswordChar" : "*",
           "Placeholder" : "password",
+          "Text" : "password",
           "TextTranslate" : false,
           "TranslationPersistent" : {
             "$$ClassName" : "TCastleVector2Persistent",

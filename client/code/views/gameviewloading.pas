@@ -73,6 +73,7 @@ procedure TViewLoading.OnLoaded();
 begin
 	GlobalClient.ContextChange;
 	Container.PopView(ViewLoading);
+	ViewPlay.SetupFeeds;
 	ViewPlay.Playing := true;
 end;
 
