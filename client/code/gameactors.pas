@@ -50,6 +50,7 @@ begin
 	if FMovementTime > 0 then begin
 		FMovementTime -= secondsPassed;
 		FModel.Translation := FModel.Translation + FMovementVector * secondsPassed;
+		FModel.Up := FMovementVector;
 	end;
 end;
 
@@ -88,12 +89,9 @@ begin
 end;
 
 procedure TGameActor.Move(const vX, vY, vSpeed: Single);
-var
-	vLength: Single;
 begin
 	FMovementVector := Vector3(vX - FModel.Translation.X, vY - FModel.Translation.Y, 0);
-	vLength := sqrt(FMovementVector.X * FMovementVector.X + FMovementVector.Y * FMovementVector.Y);
-	FMovementTime := vLength / vSpeed;
+	FMovementTime := FMovementVector.Length / vSpeed;
 	FMovementVector /= FMovementTime;
 end;
 
