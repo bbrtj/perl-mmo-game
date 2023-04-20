@@ -10,6 +10,10 @@ type
 
 	TGameActor = class(TCastleBehavior)
 	strict private
+	const
+		cTurnSpeed = 0.25;
+
+	var
 		FModel: TGameModel;
 
 		FMovementVector: TVector3;
@@ -50,7 +54,8 @@ begin
 	if FMovementTime > 0 then begin
 		FMovementTime -= secondsPassed;
 		FModel.Translation := FModel.Translation + FMovementVector * secondsPassed;
-		FModel.Up := FMovementVector;
+		if not (FMovementVector - FModel.Up).IsZero then
+			FModel.Up := FModel.Up + FMovementVector * cTurnSpeed;
 	end;
 end;
 
