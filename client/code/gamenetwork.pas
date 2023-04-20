@@ -185,7 +185,6 @@ begin
 
 	if vReceived = 'ping' then begin
 		FPing := Time - FPingStart;
-		writeln('ping is: ', FPing);
 		exit;
 	end;
 
@@ -281,8 +280,8 @@ begin
 	FSecondsPassed += vPassed;
 
 	if (FSecondsPassed > 15) or (FPing = 0) then begin
-		FClient.Send('ping');
 		FPingStart := Time;
+		FClient.Send('ping');
 		FSecondsPassed := 0;
 	end;
 end;
