@@ -26,6 +26,8 @@ sub set_movement ($self, $actor_id, $x, $y)
 	X::Pub::InvalidCoordinate->throw
 		unless $self->map->check_can_be_accessed($x, $y);
 
+	$self->_process_movement(delete $self->_movements->{$actor_id});
+
 	my $actor = $self->location->get_actor($actor_id);
 	my $speed = Game::Config->config->{base_speed};    # TODO
 
@@ -37,7 +39,6 @@ sub set_movement ($self, $actor_id, $x, $y)
 		time => $self->get_time,
 	);
 
-	$self->_process_movement(delete $self->_movements->{$actor_id});
 	$self->_movements->{$actor_id} = $movement;
 
 	my $resource = Resource::ActorMovement->new(
@@ -71,7 +72,7 @@ sub cancel_movement ($self, $actor_id)
 
 sub _process_movement ($self, $movement, $elapsed = $self->get_time, $map = $self->map)
 {
-	return !!1 unless $movement;
+	return !!0 unless $movement;
 	return Game::Mechanics::Movement->move($movement, $elapsed, $map);
 }
 
