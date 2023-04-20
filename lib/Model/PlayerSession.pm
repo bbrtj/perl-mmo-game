@@ -52,5 +52,10 @@ sub set_playing ($self, $actor)
 	return;
 }
 
+sub is_playing ($self)
+{
+	return $self->state == STATE_PLAYING;
+}
+
 __PACKAGE__->_register_cache;
 

@@ -67,10 +67,13 @@ sub dropped ($self)
 	$self->log->debug("Connection dropped")
 		if Server::Config::DEBUG;
 
-	$self->cache_repo->remove($self->session);
-	$self->_unlisten;
+	my $session = $self->session;
+	if ($session->is_playing) {
+		$self->worker->data_bus->dispatch($session->location_id, 'player_has_left_game', $session->player_id);
+	}
 
-	# TODO: log out from the world
+	$self->cache_repo->remove($session);
+	$self->_unlisten;
 
 	$self->on_dropped->();
 	return;

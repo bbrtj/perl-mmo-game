@@ -26,7 +26,7 @@ sub update_actor ($self, $session, $actor)
 	return;
 }
 
-sub handle ($self, $session_id, $player_id)
+sub handle ($self, $player_id, $session_id)
 {
 	my $actor = $self->units_repo->load_actor('player.id' => $player_id);
 	my $session = $self->cache_repo->load(PlayerSession => $session_id);

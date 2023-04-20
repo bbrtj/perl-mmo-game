@@ -1,7 +1,6 @@
 package Game::Server;
 
 use My::Moose;
-use Algorithm::QuadTree;
 use Game::Config;
 use Sub::Quote qw(quote_sub quotify);
 use Time::HiRes qw(time);
@@ -110,5 +109,10 @@ sub BUILD ($self, $args)
 sub tick ($self, $elapsed)
 {
 	$self->_compiled_action->($elapsed);
+}
+
+sub player_left ($self, $actor)
+{
+	$self->location->remove_actor($actor);
 }
 

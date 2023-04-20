@@ -19,7 +19,7 @@ sub update_session ($self, $session, $actor)
 sub update_actor ($self, $session, $actor)
 {
 	$actor->variables->set_location_id($self->game_process->location_id);
-	$actor->player->set_online(1);
+	$actor->player->set_online(!!1);
 	$self->models_repo->update($actor->player);
 
 	return;

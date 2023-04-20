@@ -101,3 +101,7 @@ after BUILD => sub ($self, @) {
 	$self->_add_action(1 => '_process_movements', 'high');
 };
 
+after player_left => sub ($self, $actor) {
+	delete $self->_movements->{$actor->id};
+};
+

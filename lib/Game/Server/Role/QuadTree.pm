@@ -3,6 +3,7 @@ package Game::Server::Role::QuadTree;
 use My::Moose::Role;
 use Game::Config;
 use POSIX qw(ceil);
+use Algorithm::QuadTree;
 
 use header;
 

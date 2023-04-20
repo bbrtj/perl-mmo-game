@@ -41,7 +41,7 @@ sub handle ($self, $session_id, $id, $player_id)
 	}
 
 	if ($success) {
-		$self->data_bus->dispatch($actor->variables->location_id, 'player_has_entered_game', $session->id, $player->id);
+		$self->data_bus->dispatch($actor->variables->location_id, 'player_has_entered_game', $player->id, $session->id);
 	}
 
 	$self->send_to(

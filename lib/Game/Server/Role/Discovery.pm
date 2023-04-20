@@ -12,8 +12,6 @@ requires qw(
 	send_to_player
 );
 
-# TODO: clear this cache after actor leaves location;
-
 has cached '_discovered_actors' => (
 	isa => Types::HashRef [Types::HashRef [Types::InstanceOf ['Unit::Actor']]],
 	default => sub { {} },
@@ -21,7 +19,7 @@ has cached '_discovered_actors' => (
 
 has cached '_discovered_by' => (
 	writer => 1,
-	isa => Types::HashRef [Types::ArrayRef [Types::InstanceOf ['Unit::Actor']]],
+	isa => Types::HashRef [Types::ArrayRef [Types::ULID]],
 	default => sub { {} },
 );
 
@@ -97,5 +95,9 @@ sub _discover ($self)
 
 after BUILD => sub ($self, @) {
 	$self->_add_action(4 => '_discover');
+};
+
+after player_left => sub ($self, $actor) {
+	delete $self->_discovered_actors->{$actor->id};
 };
 
