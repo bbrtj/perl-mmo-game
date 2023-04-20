@@ -14,6 +14,12 @@ type
 
 	end;
 
+	TMsgStop = class(TPlaintextModel)
+	public
+		class function MessageType(): String; override;
+
+	end;
+
 
 	TMsgFeedActorMovement = class(TModelBase)
 	private
@@ -57,6 +63,11 @@ implementation
 class function TMsgMove.MessageType(): String;
 begin
 	result := 'move';
+end;
+
+class function TMsgStop.MessageType(): String;
+begin
+	result := 'stop';
 end;
 
 procedure TMsgMove.SetValue(const vX, vY: Single);

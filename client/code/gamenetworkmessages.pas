@@ -143,6 +143,7 @@ initialization
 	MessageTypesMap.Add(TMessageType.Create(TMsgCharacterList, TMsgResCharacterList));
 	MessageTypesMap.Add(TMessageType.Create(TMsgEnterGame, TMsgResSuccess));
 	MessageTypesMap.Add(TMessageType.Create(TMsgMove));
+	MessageTypesMap.Add(TMessageType.Create(TMsgStop));
 
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedLocationData));
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedActorMovement));

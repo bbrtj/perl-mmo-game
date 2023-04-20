@@ -116,6 +116,11 @@ begin
 	result := inherited;
 	if result then exit;
 
+	// TODO: configurable keybinds
+	if vEvent.IsKey(keyS) then begin
+		GlobalClient.Send(TMsgStop, TMsgStop.Create());
+		exit(true);
+	end;
 	if vEvent.IsMouseButton(buttonLeft) then begin
 		vMouseHit := MainViewport.MouseRayHit;
 		if vMouseHit <> nil then begin
