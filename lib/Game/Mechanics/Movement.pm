@@ -7,26 +7,30 @@ use Game::Config;
 sub move ($self, $movement, $elapsed, $map)
 {
 	my $variables = $movement->variables;
+	my $coeffs = $movement->coeffs;
 	$elapsed = $movement->eta
 		if $movement->eta < $elapsed;
 
-	my $distance = ($elapsed - $movement->time) * $movement->speed;
+	# was this result rounded?
+	my $rounded = !!0;
 
-	my $coeffs = $movement->coeffs;
-	my $new_x = $variables->pos_x + $coeffs->[0] * $distance;
-	my $new_y = $variables->pos_y + $coeffs->[1] * $distance;
+	my ($distance, $new_x, $new_y);
+	while (-inaccessible) {
+		$distance = ($elapsed - $movement->time) * $movement->speed;
+		$new_x = $variables->pos_x + $coeffs->[0] * $distance;
+		$new_y = $variables->pos_y + $coeffs->[1] * $distance;
 
-	if (!$map->check_can_be_accessed($new_x, $new_y) && $movement->time < $elapsed) {
-
-		# try to find position closer to the wall / ledge. It's okay to be slow and precise here
-		$self->move($movement, $elapsed - Game::Config->config->{map_precision} / $movement->speed, $map);
-		return !!0;
+		last if $map->check_can_be_accessed($new_x, $new_y);
+		# try to find position closer to the wall / ledge. It's okay to be slower but precise here
+		$elapsed -= Game::Config->config->{map_precision} * $movement->speed;
+		$rounded = !!1;
 	}
 
 	$variables->set_pos_x($new_x);
 	$variables->set_pos_y($new_y);
 	$movement->set_time($elapsed);
 
-	return $distance > 0;
+
+	return $distance > 0 && !$rounded;
 }
 

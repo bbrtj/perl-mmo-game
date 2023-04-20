@@ -23,9 +23,6 @@ has cached '_movements' => (
 
 sub set_movement ($self, $actor_id, $x, $y)
 {
-	X::Pub::InvalidCoordinate->throw
-		unless $self->map->check_can_be_accessed($x, $y);
-
 	$self->_process_movement(delete $self->_movements->{$actor_id});
 
 	my $actor = $self->location->get_actor($actor_id);
@@ -85,7 +82,15 @@ sub _process_movements ($self)
 		if (!$self->_process_movement($movement, $elapsed, $map)) {
 			delete $self->_movements->{$actor_id};
 
-			# TODO: notify the client to stop moving
+			if (!$movement->finished) {
+				my $resource = Resource::ActorMovementStopped->new(
+					subject => $self->location->get_actor($actor_id),
+				);
+
+				foreach my $id ($actor_id, $self->get_discovered_by($actor_id)) {
+					$self->send_to_player($id, $resource);
+				}
+			}
 		}
 	}
 

@@ -14,6 +14,7 @@ type
 
 	end;
 
+
 	TMsgFeedActorMovement = class(TModelBase)
 	private
 		FId: TUlid;
@@ -35,6 +36,22 @@ type
 		property to_y: Single read FToY write FToY;
 	end;
 
+
+	TMsgFeedActorMovementStopped = class(TModelBase)
+	private
+		FId: TUlid;
+		FPosX: Single;
+		FPosY: Single;
+
+	public
+		class function MessageType(): String; override;
+
+	published
+		property id: TUlid read FId write FId;
+		property x: Single read FPosX write FPosX;
+		property y: Single read FPosY write FPosY;
+	end;
+
 implementation
 
 class function TMsgMove.MessageType(): String;
@@ -51,6 +68,11 @@ end;
 class function TMsgFeedActorMovement.MessageType(): String;
 begin
 	result := 'actor_movement';
+end;
+
+class function TMsgFeedActorMovementStopped.MessageType(): String;
+begin
+	result := 'actor_movement_stopped';
 end;
 
 { implementation end }

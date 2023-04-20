@@ -146,6 +146,7 @@ initialization
 
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedLocationData));
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedActorMovement));
+	FeedTypesMap.Add(TMessageType.Create(TMsgFeedActorMovementStopped));
 
 finalization
 	MessageTypesMap.Free;

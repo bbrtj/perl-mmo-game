@@ -37,6 +37,7 @@ type
 
 		procedure CreatePlayer(const vId: TUlid);
 		procedure ProcessMovement(const vMovement: TMsgFeedActorMovement);
+		procedure ProcessMovementStopped(const vStop: TMsgFeedActorMovementStopped);
 	end;
 
 implementation
@@ -95,6 +96,15 @@ begin
 	vActor := FindActor(vMovement.id);
 	vActor.SetPosition(vMovement.x, vMovement.y); // TODO: take latency into account? This is from the past
 	vActor.Move(vMovement.to_x, vMovement.to_y, vMovement.speed);
+end;
+
+procedure TGameState.ProcessMovementStopped(const vStop: TMsgFeedActorMovementStopped);
+var
+	vActor: TGameActor;
+begin
+	vActor := FindActor(vStop.id);
+	vActor.SetPosition(vStop.x, vStop.y); // TODO: take latency into account? This is from the past
+	vActor.Stop();
 end;
 
 { implementation end }

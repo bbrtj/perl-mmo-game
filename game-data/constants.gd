@@ -30,6 +30,6 @@ define {
 	starting_location_x => 3,
 	starting_location_y => 3,
 
-	map_precision => 0.05, # how precise is the map movement?
+	map_precision => 0.1, # how precise is the map movement?
 };
 

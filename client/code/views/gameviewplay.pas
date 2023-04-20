@@ -35,6 +35,7 @@ type
 
 		procedure SetMapImagePath(vMapImagePath: String);
 		procedure OnActorMovement(const vData: TModelBase);
+		procedure OnActorMovementStopped(const vData: TModelBase);
 
 		property GameState: TGameState read FGameState write FGameState;
 		property Playing: Boolean read FPlaying write FPlaying;
@@ -70,6 +71,7 @@ procedure TViewPlay.SetupFeeds;
 begin
 	// have this alongside start, because loading changes the context and resets the feeds
 	GlobalClient.Await(TMsgFeedActorMovement, @OnActorMovement);
+	GlobalClient.Await(TMsgFeedActorMovementStopped, @OnActorMovementStopped);
 end;
 
 procedure TViewPlay.Stop;
@@ -135,6 +137,16 @@ begin
 	vModel := vData as TMsgFeedActorMovement;
 
 	FGameState.ProcessMovement(vModel);
+end;
+
+procedure TViewPlay.OnActorMovementStopped(const vData: TModelBase);
+var
+	vModel: TMsgFeedActorMovementStopped;
+begin
+	vModel := vData as TMsgFeedActorMovementStopped;
+
+	// TODO: movement stopped should be detected on clientside as well for smooth stop animation
+	FGameState.ProcessMovementStopped(vModel);
 end;
 
 { implementation end }

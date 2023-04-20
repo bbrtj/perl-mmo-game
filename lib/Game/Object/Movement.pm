@@ -50,3 +50,8 @@ sub BUILD ($self, $)
 	return;
 }
 
+sub finished ($self)
+{
+	return $self->eta == $self->time;
+}
+

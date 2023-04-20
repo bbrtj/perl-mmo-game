@@ -24,6 +24,7 @@ type
 		procedure SetPosition(const vX, vY: Single);
 		function GetPosition(): TVector3;
 		procedure Move(const vX, vY, vSpeed: Single);
+		procedure Stop();
 
 		procedure Update(const secondsPassed: Single; var removeMe: TRemoveType); override;
 	end;
@@ -98,6 +99,11 @@ begin
 	FMovementVector := Vector3(vX - FModel.Translation.X, vY - FModel.Translation.Y, 0);
 	FMovementTime := FMovementVector.Length / vSpeed;
 	FMovementVector /= FMovementTime;
+end;
+
+procedure TGameActor.Stop();
+begin
+	FMovementTime := 0;
 end;
 
 { implementation end }
