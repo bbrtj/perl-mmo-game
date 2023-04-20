@@ -38,6 +38,9 @@ type
 		FCallbacks: TCallbackItems;
 		FFeeds: TFeedItems;
 		FModelSerializer: TModelSerializationBase;
+		FSecondsPassed: Single;
+		FPingStart: Double;
+		FPing: Single;
 
 		procedure OnDisconnected;
 		procedure OnMessageReceived(const vReceived: String);
@@ -62,6 +65,10 @@ type
 
 		procedure Await(const vModel: TModelClass; const vCallback: TNetworkMessageCallback);
 		procedure ContextChange();
+
+		procedure Heartbeat(const vPassed: Single);
+
+		property Ping: Single read FPing;
 	end;
 
 var
@@ -175,6 +182,13 @@ var
 
 begin
 	writeln('got: ' + vReceived);
+
+	if vReceived = 'ping' then begin
+		FPing := Time - FPingStart;
+		writeln('ping is: ', FPing);
+		exit;
+	end;
+
 	vMessage := TMessage.Create;
 	vMessage.Body := vReceived;
 	vHandled := false;
@@ -260,6 +274,17 @@ begin
 	// during a context change, we no longer wait for unresolved callbacks / feeds
 	FCallbacks.Clear;
 	FFeeds.Clear;
+end;
+
+procedure TNetwork.Heartbeat(const vPassed: Single);
+begin
+	FSecondsPassed += vPassed;
+
+	if (FSecondsPassed > 15) or (FPing = 0) then begin
+		FClient.Send('ping');
+		FPingStart := Time;
+		FSecondsPassed := 0;
+	end;
 end;
 
 { implementation end }

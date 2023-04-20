@@ -2,7 +2,7 @@ unit GameViewPlay;
 
 interface
 
-uses Classes,
+uses Classes, SysUtils,
 	CastleVectors, CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleTransform, CastleScene, CastleViewport,
 	GameState,
@@ -16,6 +16,7 @@ type
 		Board: TCastlePlane;
 		PlayerCamera: TCastleCamera;
 		AmbientLight: TCastleDirectionalLight;
+		PingDisplay: TCastleLabel;
 
 		FGameState: TGameState;
 		FMapImagePath: String;
@@ -59,6 +60,7 @@ begin
 	Board := DesignedComponent('Board') as TCastlePlane;
 	PlayerCamera := DesignedComponent('PlayerCamera') as TCastleCamera;
 	AmbientLight := DesignedComponent('AmbientLight') as TCastleDirectionalLight;
+	PingDisplay := DesignedComponent('PingDisplay') as TCastleLabel;
 	FPlaying := false;
 
 	FGameState := TGameState.Create(Board, PlayerCamera);
@@ -89,6 +91,9 @@ begin
 
 	if not FPlaying then exit;
 	FGameState.Update(vSecondsPassed);
+	GlobalClient.Heartbeat(vSecondsPassed);
+
+	PingDisplay.Caption := FloatToStr(round(GlobalClient.Ping * 100000) / 100) + ' ms';
 
 end;
 

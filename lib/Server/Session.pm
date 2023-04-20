@@ -83,7 +83,7 @@ sub unpack_message ($self, $bytes)
 	chop $bytes;
 
 	if ($bytes eq 'ping') {
-		$self->send('ping');
+		$self->send("ping\r\n");
 		return;
 	}
 
