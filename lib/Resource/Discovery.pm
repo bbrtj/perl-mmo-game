@@ -22,12 +22,12 @@ use constant type => 'discovery';
 
 sub new_actors ($self, $list)
 {
-	return $self->_add('+actors', $list);
+	return $self->_add('new_actors', $list);
 }
 
 sub old_actors ($self, $list)
 {
-	return $self->_add('-actors', $list);
+	return $self->_add('old_actors', $list);
 }
 
 sub generate ($self)

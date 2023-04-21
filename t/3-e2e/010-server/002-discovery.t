@@ -34,7 +34,7 @@ e2e_test {
 
 		$bag->clients->[$key]->add_action(
 			'State',
-			received => {'+actors' => \@ids},
+			received => {'new_actors' => \@ids},
 			types => ['discovery'],
 		);
 	}
