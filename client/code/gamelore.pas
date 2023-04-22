@@ -58,15 +58,18 @@ procedure TLoreStore.Initialize();
 var
 	vStreamer: TGameStreamer;
 	vLines: TStringList;
+	vStream: TStream;
 begin
 	vStreamer := TGameStreamer.Create;
 	vLines := TStringList.Create;
 
-	vLines.LoadFromStream(Download('castle-data:/lore.json'));
+	vStream := Download('castle-data:/lore.json');
+	vLines.LoadFromStream(vStream);
 	vStreamer.DeStreamer.JSONToObject(vLines.Text, self);
 
 	vStreamer.Free;
 	vLines.Free;
+	vStream.Free;
 end;
 
 function TLoreStore.GetById(const vId: TLoreId): TLoreItem;

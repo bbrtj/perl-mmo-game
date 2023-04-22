@@ -175,15 +175,18 @@ procedure TMapIndex.Initialize();
 var
 	vStreamer: TGameStreamer;
 	vLines: TStringList;
+	vStream: TStream;
 begin
 	vStreamer := TGameStreamer.Create;
 	vLines := TStringList.Create;
 
-	vLines.LoadFromStream(Download('castle-data:/mapindex.json'));
+	vStream := Download('castle-data:/mapindex.json');
+	vLines.LoadFromStream(vStream);
 	vStreamer.DeStreamer.JSONToObject(vLines.Text, self);
 
 	vStreamer.Free;
 	vLines.Free;
+	vStream.Free;
 end;
 
 function TMapIndex.GetMapData(const vId: String): TMapData;
@@ -191,6 +194,7 @@ var
 	vEntry: TMapIndexEntry;
 	vStreamer: TGameStreamer;
 	vLines: TStringList;
+	vStream: TStream;
 begin
 	vStreamer := TGameStreamer.Create;
 	vLines := TStringList.Create;
@@ -199,8 +203,12 @@ begin
 	for vEntry in FIndex do begin
 		if vEntry.id = vId then begin
 			result := TMapData.Create;
-			vLines.LoadFromStream(Download('castle-data:/maps/meta/' + vEntry.&file + '.json'));
+
+			vStream := Download('castle-data:/maps/meta/' + vEntry.&file + '.json');
+			vLines.LoadFromStream(vStream);
 			vStreamer.DeStreamer.JSONToObject(vLines.Text, result);
+
+			vStream.Free;
 			break;
 		end;
 	end;
