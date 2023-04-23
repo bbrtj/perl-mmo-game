@@ -48,7 +48,8 @@ sub add_action ($self, $name, @args)
 
 sub raise ($self, $error, $warn = !!0)
 {
-	my $str = "TestClient error: $error";
+	my $type = $warn ? 'warning' : 'error';
+	my $str = "TestClient $type: $error";
 	if (!$warn) {
 		$self->_set_finished;
 		$self->_set_failed;
@@ -97,16 +98,26 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 	my sub compare_received_data ($data)
 	{
 		my @parts = split quotemeta(Server::Config::PROTOCOL_CONTROL_CHARACTER), $data, 3;
-		$self->raise("$action: unexpected id from server communication: \nGot: $parts[0] \nExpected: $last_sent_id")
-			unless !length $parts[0] || $parts[0] == $last_sent_id;
+
+		unless (!length $parts[0] || $parts[0] == $last_sent_id) {
+			$self->raise(
+				"$action: unexpected id from server communication: \nGot: $parts[0] \nExpected: $last_sent_id",
+				'warn'
+			);
+
+			return !!0;
+		}
 
 		unless (grab_action->find_and_compare(@parts[1, 2])) {
 			my $type = $action->get_expected_type;
 			my $expected = $action->get_expected_data;
 
 			$self->raise(
-				"$action: unexpected type/data from server communication: \nGot: $parts[1]/$parts[2] \nExpected: $type/$expected"
+				"$action: unexpected type/data from server communication: \nGot: $parts[1]/$parts[2] \nExpected: $type/$expected",
+				'warn'
 			);
+
+			return !!0;
 		}
 
 		if ($parts[0]) {
@@ -116,7 +127,7 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 			say "$action: Server feed ok";
 		}
 
-		return;
+		return !!1;
 	}
 
 	e2e_client(
@@ -129,8 +140,7 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 			}
 
 			try {
-				compare_received_data($bytes);
-				if (grab_action->should_send) {
+				if (compare_received_data($bytes) && grab_action->should_send) {
 					$stream->write(get_send_data);
 
 					# try to get next action. Will stop the loop if there are no more actions
