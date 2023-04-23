@@ -58,7 +58,7 @@
           "Name" : "UsernameField",
           "Padding" : 6.0000000000000000E+000,
           "Placeholder" : "email_address",
-          "Text" : "test1@test.com",
+          "Text" : "test@test.com1",
           "TextTranslate" : false,
           "TranslationPersistent" : {
             "$$ClassName" : "TCastleVector2Persistent",
