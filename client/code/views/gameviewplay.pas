@@ -7,7 +7,7 @@ uses Classes, SysUtils,
 	CastleTransform, CastleScene, CastleViewport,
 	GameState,
 	GameNetwork,
-	GameModels, GameModels.Move;
+	GameModels, GameModels.Move, GameModels.Discovery;
 
 type
 	TViewPlay = class(TCastleView)
@@ -27,13 +27,14 @@ type
 	public
 		constructor Create(vOwner: TComponent); override;
 		procedure Start; override;
-		procedure SetupFeeds;
 		procedure Stop; override;
 
 		procedure Update(const vSecondsPassed: Single; var vHandleInput: Boolean); override;
 		function Press(const vEvent: TInputPressRelease): Boolean; override;
 
 		procedure SetMapImagePath(vMapImagePath: String);
+
+		procedure OnDiscovery(const vData: TModelBase);
 		procedure OnActorMovement(const vData: TModelBase);
 		procedure OnActorMovementStopped(const vData: TModelBase);
 
@@ -65,11 +66,8 @@ begin
 	FPlaying := false;
 
 	FGameState := TGameState.Create(Board, PlayerCamera);
-end;
 
-procedure TViewPlay.SetupFeeds;
-begin
-	// have this alongside start, because loading changes the context and resets the feeds
+	GlobalClient.Await(TMsgFeedDiscovery, @OnDiscovery);
 	GlobalClient.Await(TMsgFeedActorMovement, @OnActorMovement);
 	GlobalClient.Await(TMsgFeedActorMovementStopped, @OnActorMovementStopped);
 end;
@@ -133,6 +131,20 @@ begin
 			exit(true);
 		end;
 	end;
+end;
+
+procedure TViewPlay.OnDiscovery(const vData: TModelBase);
+var
+	vModel: TMsgFeedDiscovery;
+	vId: String;
+begin
+	vModel := vData as TMsgFeedDiscovery;
+
+	for vId in vModel.new_actors do
+		FGameState.AddActor(vId);
+
+	for vId in vModel.old_actors do
+		FGameState.RemoveActor(vId);
 end;
 
 procedure TViewPlay.OnActorMovement(const vData: TModelBase);

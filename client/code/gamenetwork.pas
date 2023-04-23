@@ -64,6 +64,7 @@ type
 		procedure Send(const vModel: TModelClass; const vData: TModelBase; const vCallback: TNetworkMessageCallback);
 
 		procedure Await(const vModel: TModelClass; const vCallback: TNetworkMessageCallback);
+		procedure StopWaiting(const vModel: TModelClass);
 		procedure ContextChange();
 
 		procedure Heartbeat(const vPassed: Single);
@@ -266,6 +267,18 @@ begin
 	vType := FindFeedType(vModel);
 
 	FFeeds.Add(TFeedItem.Create(vCallback, vType.Model));
+end;
+
+procedure TNetwork.StopWaiting(const vModel: TModelClass);
+var
+	vFeed: TFeedItem;
+begin
+	for vFeed in FFeeds do begin
+		if vFeed.CallbackModel = vModel then begin
+			FFeeds.Remove(vFeed);
+			break;
+		end;
+	end;
 end;
 
 procedure TNetwork.ContextChange();

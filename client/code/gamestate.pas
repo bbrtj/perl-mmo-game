@@ -9,7 +9,7 @@ uses Classes, FGL,
 	GameModels.Move;
 
 type
-	TActorMap = specialize TFPGMapObject<TUlid, TGameActor>;
+	TActorMap = specialize TFPGMap<TUlid, TGameActor>;
 
 	TGameState = class
 	private
@@ -36,6 +36,8 @@ type
 		procedure SetMapData(const vMapData: TMapData);
 
 		procedure CreatePlayer(const vId: TUlid);
+		procedure AddActor(const vId: TUlid);
+		procedure RemoveActor(const vId: TUlid);
 		procedure ProcessMovement(const vMovement: TMsgFeedActorMovement);
 		procedure ProcessMovementStopped(const vStop: TMsgFeedActorMovementStopped);
 	end;
@@ -80,7 +82,23 @@ end;
 procedure TGameState.CreatePlayer(const vId: TUlid);
 begin
 	FThisPlayer := vId;
+	AddActor(vId);
+end;
+
+procedure TGameState.AddActor(const vId: TUlid);
+begin
 	FActors.Add(vId, FActorFactory.CreateActor(vId));
+end;
+
+procedure TGameState.RemoveActor(const vId: TUlid);
+var
+	vActor: TGameActor;
+begin
+	vActor := FindActor(vId);
+	if vActor <> nil then begin
+		FActors.Remove(vId);
+		FActorFactory.RemoveActor(vActor);
+	end;
 end;
 
 function TGameState.FindActor(const vId: TUlid): TGameActor;
@@ -94,8 +112,13 @@ var
 	vActor: TGameActor;
 begin
 	vActor := FindActor(vMovement.id);
-	vActor.SetPosition(vMovement.x, vMovement.y); // TODO: take latency into account? This is from the past
-	vActor.Move(vMovement.to_x, vMovement.to_y, vMovement.speed);
+	if vActor <> nil then begin
+		vActor.SetPosition(vMovement.x, vMovement.y); // TODO: take latency into account? This is from the past
+		vActor.Move(vMovement.to_x, vMovement.to_y, vMovement.speed);
+	end
+	else
+	// TODO: actor was not found - what should we do?
+		writeln('actor not found: ' + vMovement.id);
 end;
 
 procedure TGameState.ProcessMovementStopped(const vStop: TMsgFeedActorMovementStopped);
@@ -103,8 +126,12 @@ var
 	vActor: TGameActor;
 begin
 	vActor := FindActor(vStop.id);
-	vActor.SetPosition(vStop.x, vStop.y); // TODO: take latency into account? This is from the past
-	vActor.Stop();
+	if vActor <> nil then begin
+		vActor.SetPosition(vStop.x, vStop.y); // TODO: take latency into account? This is from the past
+		vActor.Stop();
+	end
+	else
+		writeln('actor not found: ' + vStop.id);
 end;
 
 { implementation end }

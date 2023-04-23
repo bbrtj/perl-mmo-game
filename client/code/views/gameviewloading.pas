@@ -71,16 +71,13 @@ end;
 
 procedure TViewLoading.OnLoaded();
 begin
-	GlobalClient.ContextChange;
 	Container.PopView(ViewLoading);
-	ViewPlay.SetupFeeds;
 	ViewPlay.Playing := true;
 end;
 
 procedure TViewLoading.Start;
 begin
 	inherited;
-	GlobalClient.ContextChange;
 
 	HintText1 := DesignedComponent('HintText1') as TCastleLabel;
 	HintText2 := DesignedComponent('HintText2') as TCastleLabel;
@@ -116,6 +113,8 @@ procedure TViewLoading.OnLocationData(const vData: TModelBase);
 var
 	vModel: TMsgFeedLocationData;
 begin
+	GlobalClient.StopWaiting(TMsgFeedLocationData);
+
 	vModel := vData as TMsgFeedLocationData;
 	FMapId := vModel.id;
 
@@ -125,6 +124,8 @@ end;
 
 procedure StartLoading(const vContainer: TCastleContainer; const vPlayerId: TUlid);
 begin
+	GlobalClient.ContextChange;
+
 	vContainer.PopView();
 	vContainer.PushView(ViewPlay);
 	vContainer.PushView(ViewLoading);
