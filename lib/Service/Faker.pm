@@ -52,8 +52,8 @@ sub fake_variables ($self, %params)
 		id => Types::ULID::ulid,
 		experience => int(rand(10000)),
 		location_id => Game::Config->config->{starting_location}->id,
-		pos_x => rand(10),
-		pos_y => rand(10),
+		pos_x => rand(Game::Config->config->{discover_radius}),
+		pos_y => rand(Game::Config->config->{discover_radius}),
 		health => rand(200),
 		energy => rand(200),
 		%params
