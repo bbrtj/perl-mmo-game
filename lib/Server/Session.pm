@@ -52,7 +52,7 @@ sub BUILD ($self, $)
 
 	# react to tcp events
 	my $stream = $self->stream;
-	$stream->on(read => sub ($, $bytes) { $self->unpack_message($bytes) });
+	$stream->on(read => sub ($, $bytes) { $self->unpack_message($_) for split /\r\n/, $bytes; });
 	$stream->on(close => sub { $self->dropped });
 	$stream->on(error => sub ($, $err) { $self->log->error("TCP Error: $err") });
 	$stream->timeout(Server::Config::GAME_SERVER_TIMEOUT);
@@ -81,10 +81,6 @@ sub dropped ($self)
 
 sub unpack_message ($self, $bytes)
 {
-	# chop CRLF
-	chop $bytes;
-	chop $bytes;
-
 	if ($bytes eq 'ping') {
 		$self->send("ping\r\n");
 		return;
