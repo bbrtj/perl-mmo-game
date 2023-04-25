@@ -10,7 +10,7 @@ uses SysUtils, Classes,
 	GameUIComponents,
 	GameLore,
 	GameNetwork,
-	GameModels, GameModels.General, GameModels.Logout, GameModels.CharacterList, GameModels.EnterGame;
+	GameModels, GameModels.General, GameModels.CharacterList, GameModels.EnterGame;
 
 type
 
@@ -106,7 +106,7 @@ end;
 
 procedure TViewCharacterList.DoLogout(vSender: TObject);
 begin
-	GlobalClient.Send(TMsgLogout, DummyModel);
+	GlobalClient.Disconnect;
 
 	Container.View := ViewLogin;
 end;
