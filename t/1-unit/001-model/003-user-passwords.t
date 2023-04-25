@@ -9,7 +9,7 @@ my $model = Model::User->new(
 	plaintext_password => $password
 );
 
-ok $model->verify_password($password), 'password verified ok';
+ok $model->verify_password(hash_password($password)), 'password verified ok';
 
 done_testing;
 

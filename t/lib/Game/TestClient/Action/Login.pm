@@ -1,6 +1,7 @@
 package Game::TestClient::Action::Login;
 
 use My::Moose;
+use TestHelpers;
 
 use header;
 
@@ -17,7 +18,7 @@ has param 'password' => (
 sub send_queue ($self)
 {
 	return (
-		['login', __serialize({email => $self->user->email, password => $self->password})],
+		['login', __serialize({email => $self->user->email, password => hash_password($self->password)})],
 	);
 }
 

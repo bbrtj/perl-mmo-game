@@ -3,6 +3,7 @@ package Model::User;
 use My::Moose;
 use Crypt::PRNG qw(random_bytes);
 use Crypt::Bcrypt qw(bcrypt bcrypt_check);
+use Digest::MD5 qw(md5_hex);
 
 use header;
 
@@ -51,7 +52,7 @@ around BUILDARGS => sub ($orig, $self, %args) {
 
 sub _make_password ($self, $plaintext_password)
 {
-	return bcrypt($plaintext_password, BCRYPT_SUBTYPE, BCRYPT_COST, random_bytes(16));
+	return bcrypt(md5_hex($plaintext_password), BCRYPT_SUBTYPE, BCRYPT_COST, random_bytes(16));
 }
 
 sub set_password ($self, $plaintext_password)
@@ -60,9 +61,9 @@ sub set_password ($self, $plaintext_password)
 	return;
 }
 
-sub verify_password ($self, $plaintext_password)
+sub verify_password ($self, $hashed_password)
 {
-	return bcrypt_check($plaintext_password, $self->password);
+	return bcrypt_check($hashed_password, $self->password);
 }
 
 __PACKAGE__->_register;

@@ -5,6 +5,7 @@ use Test::Spy;
 
 require Test2::V0;
 require Test2::Tools::Provider;
+require TestHelpers;
 
 sub import ($class)
 {
@@ -12,6 +13,7 @@ sub import ($class)
 
 	Test2::V0->import::into($pkg);
 	Test2::Tools::Provider->import::into($pkg);
+	TestHelpers->import::into($pkg);
 
 	header->import::into($pkg);
 
