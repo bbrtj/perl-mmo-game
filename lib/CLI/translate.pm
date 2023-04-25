@@ -346,7 +346,6 @@ sub run ($self, @args)
 		$self->run_translate($translate);
 	}
 
-
 	elsif ($fix) {
 		$self->run_fix();
 	}

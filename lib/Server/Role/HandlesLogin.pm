@@ -28,6 +28,7 @@ sub login ($self, $session_id, $user_id)
 		);
 	}
 	catch ($e) {
+
 		# No other sessions? Great!
 		die $e unless $e isa 'X::RecordDoesNotExist';
 	}

@@ -56,6 +56,7 @@ package SimplePO {
 		PO
 
 		for my $translation (@translations) {
+
 			# FIXME: escape double quotes?
 
 			$content .= <<~PO;
@@ -69,7 +70,6 @@ package SimplePO {
 	}
 
 }
-
 
 __END__
 

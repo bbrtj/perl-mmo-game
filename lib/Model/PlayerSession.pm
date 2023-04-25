@@ -6,7 +6,7 @@ use Game::Config;
 use header;
 
 use constant {
-	STATE_DISABLED => -1, # special state for things that are disabled
+	STATE_DISABLED => -1,    # special state for things that are disabled
 	STATE_NEW => 0,
 	STATE_LOGGED_IN => 1,
 	STATE_PLAYING => 2,

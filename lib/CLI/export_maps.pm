@@ -33,7 +33,7 @@ sub run ($self, $language = undef)
 			SizeY => $data->map->size_y,
 			Coords => [
 				map {
-					{
+					+{
 						$_->type ne $_->contents ? (TileContents => $_->contents) : (),
 						!$data->map->is_terrain($_) ? (TileTerrain => $data->map->guess_terrain($_)) : (),
 						TileType => $_->type,
@@ -58,7 +58,7 @@ sub run ($self, $language = undef)
 	}
 
 	my @locations_mapped = map {
-		{ file => $self->id_to_file($_->{Id}), id => $_->{Id} }
+		{file => $self->id_to_file($_->{Id}), id => $_->{Id}}
 	} @locations;
 
 	my $output = path->child('client')->child('data')->child('mapindex.json');

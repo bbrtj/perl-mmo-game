@@ -17,10 +17,12 @@ sub run ($self, @args)
 
 	my $email = 'test@test.com%s';
 	foreach (1 .. 5) {
-		my $user = $user_service->register_user({
-			$faker->fake_user(email => sprintf($email, $_))->serialize->%*,
-			plaintext_password => 'password'
-		});
+		my $user = $user_service->register_user(
+			{
+				$faker->fake_user(email => sprintf($email, $_))->serialize->%*,
+				plaintext_password => 'password'
+			}
+		);
 		my $player = $character_service->create_character($user, $faker->fake_character->serialize);
 	}
 	return;
