@@ -6,6 +6,7 @@ use Game::Config;
 use header;
 
 use constant {
+	STATE_DISABLED => -1, # special state for things that are disabled
 	STATE_NEW => 0,
 	STATE_LOGGED_IN => 1,
 	STATE_PLAYING => 2,
@@ -50,6 +51,12 @@ sub set_playing ($self, $actor)
 	$self->set_state(STATE_PLAYING);
 
 	return;
+}
+
+sub is_logged_in ($self)
+{
+	my $state = $self->state;
+	return any { $state == $_ } STATE_LOGGED_IN, STATE_PLAYING;
 }
 
 sub is_playing ($self)

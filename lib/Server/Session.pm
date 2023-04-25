@@ -67,12 +67,7 @@ sub dropped ($self)
 	$self->log->debug("Connection dropped")
 		if Server::Config::DEBUG;
 
-	my $session = $self->session;
-	if ($session->is_playing) {
-		$self->worker->data_bus->dispatch($session->location_id, 'player_has_left_game', $session->player_id);
-	}
-
-	$self->cache_repo->remove($session);
+	$self->worker->data_bus->broadcast('logout', $self->session->id);
 	$self->_unlisten;
 
 	$self->on_dropped->();
@@ -114,7 +109,7 @@ sub handle_message ($self, $req_id, $type, $data = undef)
 		unless defined $action;
 
 	X::Network::InvalidState->throw(sprintf "Currently %s, needs %s", $self->session->state, $action->required_state)
-		unless $self->session->state eq $action->required_state;
+		unless $self->session->state == $action->required_state;
 
 	# validate may return an object that was created from $data
 	try {
@@ -149,6 +144,9 @@ sub handle_feedback ($self, $data_href)
 
 	$self->set_session($self->cache_repo->load(PlayerSession => $self->session->id))
 		if $data{refresh};
+
+	$self->stream->close
+		if $data{drop};
 
 	return;
 }

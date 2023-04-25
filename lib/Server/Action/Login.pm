@@ -8,6 +8,8 @@ use header;
 
 extends 'Server::Action';
 
+with qw(Server::Role::HandlesLogin);
+
 use constant name => 'login';
 use constant required_state => Model::PlayerSession->STATE_NEW;
 use constant deserializes => 1;
@@ -26,11 +28,7 @@ sub handle ($self, $session_id, $id, $data)
 	my $success = $form->valid;
 
 	if ($success) {
-		my $session = $self->cache_repo->load(PlayerSession => $session_id);
-
-		$session->set_logged_in($form->user->id);
-
-		$self->cache_repo->save($session);
+		$self->login($session_id, $form->user->id);
 	}
 
 	$self->send_to(
