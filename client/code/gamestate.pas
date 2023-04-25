@@ -39,7 +39,7 @@ type
 		procedure AddActor(const vId: TUlid);
 		procedure RemoveActor(const vId: TUlid);
 		procedure ProcessMovement(const vMovement: TMsgFeedActorMovement);
-		procedure ProcessMovementStopped(const vStop: TMsgFeedActorMovementStopped);
+		procedure ProcessPosition(const vStop: TMsgFeedActorPosition);
 	end;
 
 implementation
@@ -116,12 +116,9 @@ begin
 		vActor.SetPosition(vMovement.x, vMovement.y); // TODO: take latency into account? This is from the past
 		vActor.Move(vMovement.to_x, vMovement.to_y, vMovement.speed);
 	end
-	else
-	// TODO: actor was not found - what should we do?
-		writeln('actor not found: ' + vMovement.id);
 end;
 
-procedure TGameState.ProcessMovementStopped(const vStop: TMsgFeedActorMovementStopped);
+procedure TGameState.ProcessPosition(const vStop: TMsgFeedActorPosition);
 var
 	vActor: TGameActor;
 begin
@@ -130,8 +127,6 @@ begin
 		vActor.SetPosition(vStop.x, vStop.y); // TODO: take latency into account? This is from the past
 		vActor.Stop();
 	end
-	else
-		writeln('actor not found: ' + vStop.id);
 end;
 
 { implementation end }

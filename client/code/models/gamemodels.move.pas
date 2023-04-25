@@ -43,7 +43,7 @@ type
 	end;
 
 
-	TMsgFeedActorMovementStopped = class(TModelBase)
+	TMsgFeedActorPosition = class(TModelBase)
 	private
 		FId: TUlid;
 		FPosX: Single;
@@ -81,9 +81,9 @@ begin
 	result := 'actor_movement';
 end;
 
-class function TMsgFeedActorMovementStopped.MessageType(): String;
+class function TMsgFeedActorPosition.MessageType(): String;
 begin
-	result := 'actor_movement_stopped';
+	result := 'actor_position';
 end;
 
 { implementation end }

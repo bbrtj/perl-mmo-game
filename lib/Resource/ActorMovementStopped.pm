@@ -1,4 +1,4 @@
-package Resource::ActorMovementStopped;
+package Resource::ActorPosition;
 
 use My::Moose;
 
@@ -10,7 +10,7 @@ has extended 'subject' => (
 	isa => Types::InstanceOf ['Unit::Actor'],
 );
 
-use constant type => 'actor_movement_stopped';
+use constant type => 'actor_position';
 
 sub generate ($self)
 {

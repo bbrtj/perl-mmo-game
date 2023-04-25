@@ -36,7 +36,7 @@ type
 
 		procedure OnDiscovery(const vData: TModelBase);
 		procedure OnActorMovement(const vData: TModelBase);
-		procedure OnActorMovementStopped(const vData: TModelBase);
+		procedure OnActorPosition(const vData: TModelBase);
 
 		property GameState: TGameState read FGameState write FGameState;
 		property Playing: Boolean read FPlaying write FPlaying;
@@ -69,7 +69,7 @@ begin
 
 	GlobalClient.Await(TMsgFeedDiscovery, @OnDiscovery);
 	GlobalClient.Await(TMsgFeedActorMovement, @OnActorMovement);
-	GlobalClient.Await(TMsgFeedActorMovementStopped, @OnActorMovementStopped);
+	GlobalClient.Await(TMsgFeedActorPosition, @OnActorPosition);
 end;
 
 procedure TViewPlay.Stop;
@@ -156,14 +156,14 @@ begin
 	FGameState.ProcessMovement(vModel);
 end;
 
-procedure TViewPlay.OnActorMovementStopped(const vData: TModelBase);
+procedure TViewPlay.OnActorPosition(const vData: TModelBase);
 var
-	vModel: TMsgFeedActorMovementStopped;
+	vModel: TMsgFeedActorPosition;
 begin
-	vModel := vData as TMsgFeedActorMovementStopped;
+	vModel := vData as TMsgFeedActorPosition;
 
 	// TODO: movement stopped should be detected on clientside as well for smooth stop animation
-	FGameState.ProcessMovementStopped(vModel);
+	FGameState.ProcessPosition(vModel);
 end;
 
 { implementation end }

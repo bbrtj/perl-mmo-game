@@ -67,6 +67,7 @@ begin
 	ViewPlay.SetMapImagePath(MapIndex.GetMapImagePath(FMapId));
 
 	FLoaded := true;
+	GlobalClient.Pooling := False;
 end;
 
 procedure TViewLoading.OnLoaded();
@@ -114,6 +115,7 @@ var
 	vModel: TMsgFeedLocationData;
 begin
 	GlobalClient.StopWaiting(TMsgFeedLocationData);
+	GlobalClient.Pooling := True;
 
 	vModel := vData as TMsgFeedLocationData;
 	FMapId := vModel.id;

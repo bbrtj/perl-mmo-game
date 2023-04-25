@@ -52,6 +52,7 @@ sub _discover_actors ($self, $actor, $found_objects, $resource)
 		else {
 			$found_prev{$found_id} = $found;
 			push @new, $found_id;
+			$self->queue('signal_actor_appeared', $actor, $found);
 		}
 	}
 
@@ -63,6 +64,7 @@ sub _discover_actors ($self, $actor, $found_objects, $resource)
 	if (@new || @old) {
 		$resource->new_actors(\@new) if @new;
 		$resource->old_actors(\@old) if @old;
+
 		$self->_discovered_actors->{$actor_id} = \%found_prev;
 		return !!1;
 	}
@@ -90,6 +92,8 @@ sub _discover ($self)
 		$self->send_to_player($actor->id, $resource) if $should_send;
 	}
 
+	$self->resolve_queue;
+
 	return;
 }
 
@@ -97,7 +101,7 @@ after BUILD => sub ($self, @) {
 	$self->_add_action(4 => '_discover');
 };
 
-after player_left => sub ($self, $actor) {
+after signal_player_left => sub ($self, $actor) {
 	delete $self->_discovered_actors->{$actor->id};
 };
 

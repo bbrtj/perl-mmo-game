@@ -55,7 +55,7 @@ sub cancel_movement ($self, $actor_id)
 	if (exists $self->_movements->{$actor_id}) {
 		$self->_process_movement(delete $self->_movements->{$actor_id});
 
-		my $resource = Resource::ActorMovementStopped->new(
+		my $resource = Resource::ActorPosition->new(
 			subject => $self->location->get_actor($actor_id),
 		);
 
@@ -83,7 +83,7 @@ sub _process_movements ($self)
 			delete $self->_movements->{$actor_id};
 
 			if (!$movement->finished) {
-				my $resource = Resource::ActorMovementStopped->new(
+				my $resource = Resource::ActorPosition->new(
 					subject => $self->location->get_actor($actor_id),
 				);
 
@@ -101,7 +101,15 @@ after BUILD => sub ($self, @) {
 	$self->_add_action(1 => '_process_movements', 'high');
 };
 
-after player_left => sub ($self, $actor) {
+after signal_player_left => sub ($self, $actor) {
 	delete $self->_movements->{$actor->id};
+};
+
+after signal_actor_appeared => sub ($self, $for_actor, $actor) {
+	my $movement = $self->_movements->{$actor->id};
+
+	my $resource_class = $movement ? 'Resource::ActorMovement' : 'Resource::ActorPosition';
+	my $resource = $resource_class->new({subject => $actor, movement => $movement});
+	$self->send_to_player($for_actor->id, $resource);
 };
 

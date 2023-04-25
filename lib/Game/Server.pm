@@ -51,6 +51,14 @@ has cached '_compiled_action' => (
 	lazy => 1,
 );
 
+has field '_queue' => (
+	isa => Types::ArrayRef [Types::ArrayRef],
+	default => sub { [] },
+	'handles[]' => {
+		'_clear_queue' => 'clear',
+	},
+);
+
 with qw(
 	Game::Server::Role::QuadTree
 	Game::Server::Role::Discovery
@@ -109,10 +117,44 @@ sub BUILD ($self, $args)
 sub tick ($self, $elapsed)
 {
 	$self->_compiled_action->($elapsed);
+
+	return;
 }
 
-sub player_left ($self, $actor)
+sub queue ($self, @data)
+{
+	push $self->_queue->@*, \@data;
+
+	return;
+}
+
+sub resolve_queue ($self)
+{
+	state $method_map = {};
+
+	foreach my $item ($self->_queue->@*) {
+		my ($name, @args) = $item->@*;
+		my $method = $method_map->{$name} // $self->can($name);
+
+		$self->$method(@args);
+	}
+
+	$self->_clear_queue;
+
+	return;
+}
+
+sub signal_player_left ($self, $actor)
 {
 	$self->location->remove_actor($actor);
+
+	return;
+}
+
+sub signal_actor_appeared ($self, $for_actor, $actor)
+{
+	$self->log->debug(sprintf "actor %s appeared for %s", $actor->id, $for_actor->id);
+
+	return;
 }
 

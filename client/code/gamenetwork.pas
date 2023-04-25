@@ -3,7 +3,7 @@ unit GameNetwork;
 interface
 
 uses
-	FGL, SysUtils,
+	Classes, FGL, SysUtils,
 	CastleClientServer,
 	GameNetworkMessages,
 	GameModels;
@@ -42,11 +42,16 @@ type
 		FPingStart: Double;
 		FPing: Single;
 
+		FPooling: Boolean;
+		FPool: TStringList;
+
 		procedure OnDisconnected;
 		procedure OnMessageReceived(const vReceived: String);
 
 		function DoSend(const vType: TMessageType; const vData: TModelBase): Integer;
 		function AssignId(): Integer;
+
+		procedure SetPooling(const vValue: Boolean);
 
 	public
 	const
@@ -70,6 +75,7 @@ type
 		procedure Heartbeat(const vPassed: Single);
 
 		property Ping: Single read FPing;
+		property Pooling: Boolean read FPooling write SetPooling;
 	end;
 
 var
@@ -96,6 +102,9 @@ begin
 	FCallbacks := TCallbackItems.Create;
 	FFeeds := TFeedItems.Create;
 	FModelSerializer := TJSONModelSerialization.Create;
+
+	FPooling := False;
+	FPool := TStringList.Create;
 end;
 
 destructor TNetwork.Destroy;
@@ -104,6 +113,7 @@ begin
 	FCallbacks.Free;
 	FFeeds.Free;
 	FModelSerializer.Free;
+	FPool.Free;
 	inherited;
 end;
 
@@ -139,7 +149,7 @@ begin
 	// TODO: we should try to reconnect with a timeout
 end;
 
-procedure TNetwork.OnMessageReceived (const vReceived: String);
+procedure TNetwork.OnMessageReceived(const vReceived: String);
 var
 	vMessage: TMessage;
 	vHandled: Boolean;
@@ -182,12 +192,18 @@ var
 	end;
 
 begin
-	writeln('got: ' + vReceived);
-
 	if vReceived = 'ping' then begin
 		FPing := Time - FPingStart;
 		exit;
 	end;
+
+	if FPooling then begin
+		FPool.Add(vReceived);
+		writeln('pooled: ' + vReceived);
+		exit;
+	end;
+
+	writeln('got: ' + vReceived);
 
 	vMessage := TMessage.Create;
 	vMessage.Body := vReceived;
@@ -296,6 +312,19 @@ begin
 		FPingStart := Time;
 		FClient.Send('ping');
 		FSecondsPassed := 0;
+	end;
+end;
+
+procedure TNetwork.SetPooling(const vValue: Boolean);
+var
+	vMessage: String;
+begin
+	FPooling := vValue;
+
+	if vValue = False then begin
+		for vMessage in FPool do
+			OnMessageReceived(vMessage);
+		FPool.Clear;
 	end;
 end;
 

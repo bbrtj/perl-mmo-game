@@ -27,7 +27,7 @@ sub receive_queue ($self)
 {
 	if ($self->was_moving) {
 		return (
-			Resource::ActorMovementStopped->new(subject => $self->client->actor),
+			Resource::ActorPosition->new(subject => $self->client->actor),
 		);
 	}
 	else {

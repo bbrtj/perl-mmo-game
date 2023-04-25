@@ -15,12 +15,12 @@ sub handle ($self, $player_id, $)
 {
 	my $actor = $self->server->get_player($player_id);
 
-	# TODO: only log out immediately if the player has no combat?
+	# TODO: log out later, ideally during server tick
 	$actor->player->set_offline;
 	$self->models_repo->update($actor->player);
 	$self->units_repo->update($actor);
 
-	$self->server->player_left($actor);
+	$self->server->signal_player_left($actor);
 	$self->server->log->debug("Logged out player $player_id");
 	return;
 }

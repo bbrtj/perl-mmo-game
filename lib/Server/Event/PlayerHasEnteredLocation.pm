@@ -45,6 +45,9 @@ sub handle ($self, $player_id, $session_id)
 		refresh => 1
 	);
 
+	# fun way to update actor on their own position
+	$self->server->signal_actor_appeared($actor, $actor);
+
 	return;
 }
 
