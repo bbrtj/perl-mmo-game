@@ -21,6 +21,7 @@ sub login ($self, $session_id, $user_id)
 
 	try {
 		my $other_session_id = $self->load_session($user_id);
+		$self->remove_session($user_id);
 		$self->send_to(
 			$other_session_id,
 			undef,
@@ -47,14 +48,16 @@ sub logout ($self, $session_id)
 	my $session = $self->cache_repo->load(PlayerSession => $session_id);
 	return unless $session->is_logged_in;
 
-	my $user_id = $session->user_id;
-
 	if ($session->is_playing) {
 		$self->data_bus->dispatch($session->location_id, 'player_has_left_game', $session->player_id);
 	}
 
 	$self->cache_repo->remove($session);
-	$self->remove_session($user_id);
+
+	# let this fall off automatically with logins
+	# (old sessions will not exist anyway)
+	# my $user_id = $session->user_id;
+	# $self->remove_session($user_id);
 
 	return;
 }

@@ -29,6 +29,7 @@ type
 
 		procedure OnConnected();
 		procedure OnLogin(const vSuccess: TModelBase);
+		procedure OnDisconnected();
 	end;
 
 var
@@ -48,6 +49,7 @@ procedure TViewLogin.Start;
 begin
 	inherited;
 	GlobalClient.ContextChange;
+	GlobalClient.OnDisconnected := @OnDisconnected;
 
 	{ Find components, by name, that we need to access from code }
 	FUsernameField := DesignedComponent('UsernameField') as TCastleEdit;
@@ -126,6 +128,15 @@ begin
 		GlobalClient.Disconnect;
 	end;
 end;
+
+procedure TViewLogin.OnDisconnected();
+begin
+	Container.View := self;
+	FStatus.Caption := _('msg.disconnected');
+	FStatus.Exists := True;
+end;
+
+{ implementation end }
 
 end.
 

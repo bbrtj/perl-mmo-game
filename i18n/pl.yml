@@ -71,6 +71,9 @@ str: Mapa
 id: msg.connecting
 str: Łączenie...
 ---
+id: msg.disconnected
+str: Rozłączono
+---
 id: msg.loading
 str: Ładowanie...
 ---

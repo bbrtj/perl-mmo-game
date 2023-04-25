@@ -71,6 +71,9 @@ str: Map
 id: msg.connecting
 str: Connecting...
 ---
+id: msg.disconnected
+str: Disconnected
+---
 id: msg.loading
 str: Loading...
 ---

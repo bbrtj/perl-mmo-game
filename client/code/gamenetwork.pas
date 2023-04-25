@@ -45,7 +45,9 @@ type
 		FPooling: Boolean;
 		FPool: TStringList;
 
-		procedure OnDisconnected;
+		FOnDisconnected: TNetworkCallback;
+
+		procedure OnDisconnectedInternal;
 		procedure OnMessageReceived(const vReceived: String);
 
 		function DoSend(const vType: TMessageType; const vData: TModelBase): Integer;
@@ -76,6 +78,7 @@ type
 
 		property Ping: Single read FPing;
 		property Pooling: Boolean read FPooling write SetPooling;
+		property OnDisconnected: TNetworkCallback write FOnDisconnected;
 	end;
 
 var
@@ -105,6 +108,8 @@ begin
 
 	FPooling := False;
 	FPool := TStringList.Create;
+
+	FOnDisconnected := nil;
 end;
 
 destructor TNetwork.Destroy;
@@ -128,7 +133,7 @@ begin
 	FClient.Port := vPort;
 
 	FClient.OnConnected := vCallback;
-	FClient.OnDisconnected := @OnDisconnected;
+	FClient.OnDisconnected := @OnDisconnectedInternal;
 	FClient.OnMessageReceived := @OnMessageReceived;
 
 	FClient.Connect;
@@ -143,10 +148,12 @@ begin
 	end;
 end;
 
-procedure TNetwork.OnDisconnected;
+procedure TNetwork.OnDisconnectedInternal;
 begin
 	writeln('disconnected');
-	// TODO: we should try to reconnect with a timeout
+
+	if FOnDisconnected <> nil then
+		FOnDisconnected();
 end;
 
 procedure TNetwork.OnMessageReceived(const vReceived: String);
