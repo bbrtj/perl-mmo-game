@@ -22,7 +22,7 @@ sub update_actor ($self, $session, $actor)
 {
 	$actor->variables->set_location_id($self->game_process->location_id);
 
-	# TODO: set x/y
+	# TODO: set x/y of the point in which actor has appeared (when they moved between locations)
 	return;
 }
 

@@ -334,7 +334,7 @@ initialization
 	GlobalClient := TNetwork.Create;
 
 finalization
-	// TODO: this hangs and throws access violation
+	// FIXME: this hangs and throws access violation
 	// GlobalClient.Free;
 
 end.

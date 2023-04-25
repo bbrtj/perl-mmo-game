@@ -57,8 +57,6 @@ sub BUILD ($self, $)
 	$stream->on(error => sub ($, $err) { $self->log->error("TCP Error: $err") });
 	$stream->timeout(Server::Config::GAME_SERVER_TIMEOUT);
 
-	# TODO: should exceptions be caught?
-
 	return;
 }
 

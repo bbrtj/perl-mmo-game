@@ -8,8 +8,6 @@ use Server::Session;
 
 use header;
 
-# TODO kqueue
-
 has injected 'cache_repo';
 has injected 'channel_service';
 
@@ -37,8 +35,6 @@ sub connection ($self, $stream, $id)
 	$self->log->debug('New TCP connection from ' . $stream->handle->peerhost)
 		if Server::Config::DEBUG;
 
-	# TODO: check if a player session exists, if yes then hook onto it
-	# However, make sure we don't have two clients connected at once
 	$self->connections->{$id} = Server::Session->new(
 		server => $self,
 		stream => $stream,

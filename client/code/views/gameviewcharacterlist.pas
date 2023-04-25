@@ -113,7 +113,7 @@ end;
 
 procedure TViewCharacterList.DoLoadCharacterList();
 begin
-	// TODO: notify of loading
+	// TODO: Show "loading" at the middle of the screen while character list is loaded
 
 	GlobalClient.Send(TMsgCharacterList, DummyModel, @OnCharacterList);
 end;
@@ -141,7 +141,6 @@ begin
 		vSelection.Id := vCharacter.id;
 
 		vSelection.OnRelease := @DoEnterGame;
-		// TODO: vDesign needs freeing?
 	end;
 end;
 

@@ -55,7 +55,7 @@ package SimplePO {
 		PO
 
 		for my $translation (@translations) {
-			# TODO: escape double quotes?
+			# FIXME: escape double quotes?
 
 			$content .= <<~PO;
 			msgid "$translation->{id}"

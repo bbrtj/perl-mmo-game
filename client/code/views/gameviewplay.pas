@@ -163,6 +163,7 @@ begin
 	vModel := vData as TMsgFeedActorPosition;
 
 	// TODO: movement stopped should be detected on clientside as well for smooth stop animation
+	// (for example, when hitting walls)
 	FGameState.ProcessPosition(vModel);
 end;
 

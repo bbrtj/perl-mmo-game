@@ -11,8 +11,6 @@ extends 'Model';
 
 with 'Model::Role::Stored';
 
-# TODO: SHA256 passwords before bcrypt?
-
 use constant BCRYPT_SUBTYPE => '2b';
 use constant BCRYPT_COST => '10';
 
