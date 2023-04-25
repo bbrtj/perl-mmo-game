@@ -36,6 +36,8 @@ sub login ($self, $session_id, $user_id)
 
 	$self->cache_repo->save($session);
 	$self->save_session($user_id => $session_id);
+
+	return;
 }
 
 # NOTE: this does not have to notify the TCP server, as it came after the server dropped the connection
@@ -52,5 +54,7 @@ sub logout ($self, $session_id)
 
 	$self->cache_repo->remove($session);
 	$self->remove_session($user_id);
+
+	return;
 }
 

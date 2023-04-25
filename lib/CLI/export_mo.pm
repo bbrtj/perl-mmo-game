@@ -31,6 +31,7 @@ sub run ($self, $language = undef)
 	return;
 }
 
+## no critic 'Modules::ProhibitMultiplePackages'
 package SimplePO {
 	use My::Moose;
 	use YAML::Tiny;

@@ -31,6 +31,8 @@ sub set_offline ($self)
 {
 	$self->set_online(!!0);
 	$self->set_last_online(time);
+
+	return;
 }
 
 __PACKAGE__->_register;
