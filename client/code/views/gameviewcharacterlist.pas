@@ -6,7 +6,7 @@ uses SysUtils, Classes,
 	CastleVectors, CastleComponentSerialize,
 	CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleFonts, CastleStringUtils, CastleUnicode,
-	GameTypes,
+	GameTypes, GameLog,
 	GameUIComponents,
 	GameLore,
 	GameNetwork,
@@ -167,7 +167,7 @@ begin
 		StartLoading(Container, FPlayerId);
 	end
 	else begin
-		writeln('failure!');
+		LogDebug('Failure while trying to enter the game');
 		// TODO: notify user something's wrong
 	end;
 end;

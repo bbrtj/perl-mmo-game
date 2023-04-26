@@ -5,6 +5,7 @@ interface
 uses
 	Classes, FGL, SysUtils,
 	CastleClientServer,
+	GameLog,
 	GameNetworkMessages,
 	GameModels;
 
@@ -152,7 +153,7 @@ end;
 
 procedure TNetwork.OnDisconnectedInternal;
 begin
-	writeln('disconnected');
+	LogDebug('Network: disconnected');
 
 	if FOnDisconnected <> nil then
 		FOnDisconnected();
@@ -208,11 +209,11 @@ begin
 
 	if FPooling then begin
 		FPool.Add(vReceived);
-		writeln('pooled: ' + vReceived);
+		LogDebug('Network: pooled ' + vReceived);
 		exit;
 	end;
 
-	writeln('got: ' + vReceived);
+	LogDebug('Network: got ' + vReceived);
 
 	vMessage := TMessage.Create;
 	vMessage.Body := vReceived;
@@ -226,7 +227,7 @@ begin
 	vMessage.Free;
 
 	if not vHandled then
-		writeln('message was not handled');
+		LogDebug('Network: message was not handled');
 end;
 
 function TNetwork.AssignId(): Integer;
@@ -256,7 +257,7 @@ begin
 
 	result := vToSend.Id;
 
-	writeln('Sending ' + vToSend.Body);
+	LogDebug('Network: sending ' + vToSend.Body);
 	FClient.Send(vToSend.Body);
 	vToSend.Free;
 end;
