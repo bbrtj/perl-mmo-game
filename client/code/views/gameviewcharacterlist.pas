@@ -51,8 +51,7 @@ var
 
 implementation
 
-uses GameViewLogin,
-	GameViewLoading;
+uses GameViewLoading;
 
 { TViewCharacterList ----------------------------------------------------------------- }
 
@@ -107,8 +106,6 @@ end;
 procedure TViewCharacterList.DoLogout(vSender: TObject);
 begin
 	GlobalClient.Disconnect;
-
-	Container.View := ViewLogin;
 end;
 
 procedure TViewCharacterList.DoLoadCharacterList();

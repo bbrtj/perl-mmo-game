@@ -65,7 +65,7 @@ type
 		destructor Destroy; override;
 
 		procedure Connect(const vHost: String; const vPort: Word; const vCallback: TNetworkCallback);
-		procedure Disconnect();
+		procedure Disconnect(const vRaiseEvent: Boolean = True);
 
 		procedure Send(const vModel: TModelClass; const vData: TModelBase);
 		procedure Send(const vModel: TModelClass; const vData: TModelBase; const vCallback: TNetworkMessageCallback);
@@ -110,6 +110,9 @@ begin
 	FPool := TStringList.Create;
 
 	FOnDisconnected := nil;
+
+	FClient.OnDisconnected := @OnDisconnectedInternal;
+	FClient.OnMessageReceived := @OnMessageReceived;
 end;
 
 destructor TNetwork.Destroy;
@@ -133,18 +136,17 @@ begin
 	FClient.Port := vPort;
 
 	FClient.OnConnected := vCallback;
-	FClient.OnDisconnected := @OnDisconnectedInternal;
-	FClient.OnMessageReceived := @OnMessageReceived;
-
 	FClient.Connect;
 end;
 
-procedure TNetwork.Disconnect();
+procedure TNetwork.Disconnect(const vRaiseEvent: Boolean = True);
 begin
 	if FClient.IsConnected then begin
-		FClient.OnDisconnected := nil;
 		FClient.Disconnect;
 		self.ContextChange;
+
+		if vRaiseEvent then
+			self.OnDisconnectedInternal;
 	end;
 end;
 

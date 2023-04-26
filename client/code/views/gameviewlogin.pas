@@ -125,7 +125,7 @@ begin
 	end
 	else begin
 		FStatus.Caption := _('msg.login_failed');
-		GlobalClient.Disconnect;
+		GlobalClient.Disconnect(False);
 	end;
 end;
 
