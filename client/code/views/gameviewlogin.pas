@@ -14,10 +14,10 @@ uses SysUtils, Classes,
 type
 	TViewLogin = class(TCastleView)
 	private
-		FUsernameField: TCastleEdit;
-		FPasswordField: TCastleEdit;
-		FLoginButton: TGameButton;
-		FStatus: TCastleLabel;
+		FUIUsernameField: TCastleEdit;
+		FUIPasswordField: TCastleEdit;
+		FUILoginButton: TGameButton;
+		FUIStatus: TCastleLabel;
 
 	public
 		constructor Create(vOwner: TComponent); override;
@@ -52,12 +52,12 @@ begin
 	GlobalClient.OnDisconnected := @OnDisconnected;
 
 	{ Find components, by name, that we need to access from code }
-	FUsernameField := DesignedComponent('UsernameField') as TCastleEdit;
-	FPasswordField := DesignedComponent('PasswordField') as TCastleEdit;
-	FLoginButton := DesignedComponent('LoginButton') as TGameButton;
-	FStatus := DesignedComponent('LoginStatus') as TCastleLabel;
+	FUIUsernameField := DesignedComponent('UsernameField') as TCastleEdit;
+	FUIPasswordField := DesignedComponent('PasswordField') as TCastleEdit;
+	FUILoginButton := DesignedComponent('LoginButton') as TGameButton;
+	FUIStatus := DesignedComponent('LoginStatus') as TCastleLabel;
 
-	FLoginButton.onClick := @DoLogin;
+	FUILoginButton.onClick := @DoLogin;
 end;
 
 procedure TViewLogin.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
@@ -92,8 +92,8 @@ end;
 
 procedure TViewLogin.DoLogin(vSender: TObject);
 begin
-	FStatus.Caption := _('msg.connecting');
-	FStatus.Exists := true;
+	FUIStatus.Caption := _('msg.connecting');
+	FUIStatus.Exists := true;
 
 	GlobalClient.Connect(
 		GlobalClient.cDefaultHost,
@@ -106,12 +106,12 @@ procedure TViewLogin.OnConnected();
 var
 	vData: TMsgLogin;
 begin
-	FStatus.Caption := _('msg.logging_in');
+	FUIStatus.Caption := _('msg.logging_in');
 
 	vData := TMsgLogin.Create;
 
-	vData.email := FUsernameField.Text;
-	vData.password := FPasswordField.Text;
+	vData.email := FUIUsernameField.Text;
+	vData.password := FUIPasswordField.Text;
 
 	GlobalClient.Send(TMsgLogin, vData, @onLogin);
 
@@ -124,7 +124,7 @@ begin
 		Container.View := ViewCharacterList;
 	end
 	else begin
-		FStatus.Caption := _('msg.login_failed');
+		FUIStatus.Caption := _('msg.login_failed');
 		GlobalClient.Disconnect(False);
 	end;
 end;
@@ -132,8 +132,8 @@ end;
 procedure TViewLogin.OnDisconnected();
 begin
 	Container.View := self;
-	FStatus.Caption := _('msg.disconnected');
-	FStatus.Exists := True;
+	FUIStatus.Caption := _('msg.disconnected');
+	FUIStatus.Exists := True;
 end;
 
 { implementation end }

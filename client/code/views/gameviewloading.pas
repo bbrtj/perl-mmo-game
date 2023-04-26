@@ -11,8 +11,8 @@ type
 	TViewLoading = class(TCastleView)
 	private
 		{ Components designed using CGE editor, loaded from the castle-user-interface file. }
-		HintText1: TCastleLabel;
-		HintText2: TCastleLabel;
+		FUIHintText1: TCastleLabel;
+		FUIHintText2: TCastleLabel;
 		Loader: TCastleImageControl;
 
 		FFading: Boolean;
@@ -55,8 +55,8 @@ var
 	vLore: TLoreItem;
 begin
 	vLore := LoreCollection.GetById(FMapId);
-	HintText1.Caption := vLore.LoreName;
-	HintText2.Caption := vLore.LoreDescription;
+	FUIHintText1.Caption := vLore.LoreName;
+	FUIHintText2.Caption := vLore.LoreDescription;
 end;
 
 procedure TViewLoading.DoLoad(vSender: TObject);
@@ -80,8 +80,8 @@ procedure TViewLoading.Start;
 begin
 	inherited;
 
-	HintText1 := DesignedComponent('HintText1') as TCastleLabel;
-	HintText2 := DesignedComponent('HintText2') as TCastleLabel;
+	FUIHintText1 := DesignedComponent('HintText1') as TCastleLabel;
+	FUIHintText2 := DesignedComponent('HintText2') as TCastleLabel;
 	Loader := DesignedComponent('Loader') as TCastleImageControl;
 
 	GlobalClient.Await(TMsgFeedLocationData, @OnLocationData);

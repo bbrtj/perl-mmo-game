@@ -25,8 +25,8 @@ type
 
 	TViewCharacterList = class(TCastleView)
 	private
-		FCharacterList: TCastleVerticalGroup;
-		FLogoutButton: TGameButton;
+		FUICharacterList: TCastleVerticalGroup;
+		FUILogoutButton: TGameButton;
 
 		FPlayerId: TUlid;
 
@@ -66,10 +66,10 @@ begin
 	inherited;
 	GlobalClient.ContextChange;
 
-	FCharacterList := DesignedComponent('CharacterList') as TCastleVerticalGroup;
-	FLogoutButton := DesignedComponent('LogoutButton') as TGameButton;
+	FUICharacterList := DesignedComponent('CharacterList') as TCastleVerticalGroup;
+	FUILogoutButton := DesignedComponent('LogoutButton') as TGameButton;
 
-	FLogoutButton.OnClick := @DoLogout;
+	FUILogoutButton.OnClick := @DoLogout;
 	DoLoadCharacterList;
 end;
 
@@ -122,8 +122,8 @@ var
 	vInner: TCastleUserInterface;
 begin
 	for vCharacter in (vCharacterList as TMsgResCharacterList).list do begin
-		vSelection := TCharacterSelection.Create(FCharacterList);
-		FCharacterList.InsertFront(vSelection);
+		vSelection := TCharacterSelection.Create(FUICharacterList);
+		FUICharacterList.InsertFront(vSelection);
 		vSelection.URL := 'castle-data:/componentcharacterbutton.castle-user-interface';
 
 		vInner := vSelection.FindRequiredComponent('CharacterButton') as TCastleUserInterface;

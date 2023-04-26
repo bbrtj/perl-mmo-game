@@ -28,7 +28,7 @@ type
 
 	TGameActorFactory = class
 	strict private
-		FBoard: TCastleTransform;
+		FUIBoard: TCastleTransform;
 
 	public
 		constructor Create(const vBoard: TCastleTransform);
@@ -51,12 +51,12 @@ end;
 
 constructor TGameActorFactory.Create(const vBoard: TCastleTransform);
 begin
-	FBoard := vBoard;
+	FUIBoard := vBoard;
 end;
 
 function TGameActorFactory.CreateActor(vId: TUlid): TGameActor;
 begin
-	result := TGameActor.Create(FBoard);
+	result := TGameActor.Create(FUIBoard);
 
 	// TODO: use vId to get info about the appearance of the actor from some other component
 	// (which will manage network in return, to get this data)
@@ -68,12 +68,12 @@ begin
 	// maybe use more automated means of updating them according to network
 	// data
 
-	FBoard.Parent.Add(result);
+	FUIBoard.Parent.Add(result);
 end;
 
 procedure TGameActorFactory.RemoveActor(const vActor: TGameActor);
 begin
-	FBoard.Parent.RemoveDelayed(vActor, True);
+	FUIBoard.Parent.RemoveDelayed(vActor, True);
 end;
 
 procedure TGameActor.SetPosition(const vX, vY: Single);

@@ -17,8 +17,8 @@ type
 		cCameraDistance = 10;
 
 	var
-		Board: TCastlePlane;
-		Camera: TCastleTransform;
+		FUIBoard: TCastlePlane;
+		FUICamera: TCastleTransform;
 
 		FActors: TActorMap;
 		FThisPlayer: TUlid;
@@ -46,11 +46,11 @@ implementation
 
 constructor TGameState.Create(const vBoard: TCastlePlane; const vCamera: TCastleTransform);
 begin
-	Board := vBoard;
-	Camera := vCamera;
-	FActorFactory := TGameActorFactory.Create(Board);
+	FUIBoard := vBoard;
+	FUICamera := vCamera;
+	FActorFactory := TGameActorFactory.Create(FUIBoard);
 
-	Camera.Translation := Vector3(0, 0, cCameraDistance);
+	FUICamera.Translation := Vector3(0, 0, cCameraDistance);
 	FActors := TActorMap.Create;
 end;
 
@@ -67,7 +67,7 @@ var
 begin
 	vPlayer := FindActor(FThisPlayer);
 	if vPlayer <> nil then begin
-		Camera.Translation := Vector3(vPlayer.GetPosition.X, vPlayer.GetPosition.Y, cCameraDistance);
+		FUICamera.Translation := Vector3(vPlayer.GetPosition.X, vPlayer.GetPosition.Y, cCameraDistance);
 	end;
 end;
 
@@ -75,8 +75,8 @@ procedure TGameState.SetMapData(const vMapData: TMapData);
 begin
 	FMapData := vMapData;
 
-	Board.Size := Vector2(FMapData.Map.SizeX, FMapData.Map.SizeY);
-	Board.Translation := Vector3(FMapData.Map.SizeX / 2, FMapData.Map.SizeY / 2, 0);
+	FUIBoard.Size := Vector2(FMapData.Map.SizeX, FMapData.Map.SizeY);
+	FUIBoard.Translation := Vector3(FMapData.Map.SizeX / 2, FMapData.Map.SizeY / 2, 0);
 end;
 
 procedure TGameState.CreatePlayer(const vId: TUlid);

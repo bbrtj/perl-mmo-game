@@ -12,11 +12,11 @@ uses Classes, SysUtils,
 type
 	TViewPlay = class(TCastleView)
 	private
-		MainViewport: TCastleViewport;
-		Board: TCastlePlane;
-		PlayerCamera: TCastleCamera;
-		AmbientLight: TCastleDirectionalLight;
-		PingDisplay: TCastleLabel;
+		FUIMainViewport: TCastleViewport;
+		FUIBoard: TCastlePlane;
+		FUIPlayerCamera: TCastleCamera;
+		FUIAmbientLight: TCastleDirectionalLight;
+		FUIPingDisplay: TCastleLabel;
 
 		FGameState: TGameState;
 		FMapImagePath: String;
@@ -58,14 +58,14 @@ procedure TViewPlay.Start;
 begin
 	inherited;
 
-	MainViewport := DesignedComponent('MainViewport') as TCastleViewport;
-	Board := DesignedComponent('Board') as TCastlePlane;
-	PlayerCamera := DesignedComponent('PlayerCamera') as TCastleCamera;
-	AmbientLight := DesignedComponent('AmbientLight') as TCastleDirectionalLight;
-	PingDisplay := DesignedComponent('PingDisplay') as TCastleLabel;
+	FUIMainViewport := DesignedComponent('MainViewport') as TCastleViewport;
+	FUIBoard := DesignedComponent('Board') as TCastlePlane;
+	FUIPlayerCamera := DesignedComponent('PlayerCamera') as TCastleCamera;
+	FUIAmbientLight := DesignedComponent('AmbientLight') as TCastleDirectionalLight;
+	FUIPingDisplay := DesignedComponent('PingDisplay') as TCastleLabel;
 	FPlaying := false;
 
-	FGameState := TGameState.Create(Board, PlayerCamera);
+	FGameState := TGameState.Create(FUIBoard, FUIPlayerCamera);
 
 	GlobalClient.Await(TMsgFeedDiscovery, @OnDiscovery);
 	GlobalClient.Await(TMsgFeedActorMovement, @OnActorMovement);
@@ -93,7 +93,7 @@ begin
 	FGameState.Update(vSecondsPassed);
 	GlobalClient.Heartbeat(vSecondsPassed);
 
-	PingDisplay.Caption := FloatToStr(round(GlobalClient.Ping * 100000) / 100) + ' ms';
+	FUIPingDisplay.Caption := FloatToStr(round(GlobalClient.Ping * 100000) / 100) + ' ms';
 
 end;
 
@@ -101,7 +101,7 @@ procedure TViewPlay.SetMapImagePath(vMapImagePath: String);
 begin
 	FMapImagePath := vMapImagePath;
 
-	Board.Texture := FMapImagePath;
+	FUIBoard.Texture := FMapImagePath;
 end;
 
 function TViewPlay.Press(const vEvent: TInputPressRelease): Boolean;
@@ -120,7 +120,7 @@ begin
 		exit(true);
 	end;
 	if vEvent.IsMouseButton(buttonLeft) then begin
-		vMouseHit := MainViewport.MouseRayHit;
+		vMouseHit := FUIMainViewport.MouseRayHit;
 		if vMouseHit <> nil then begin
 			vPosition := FindMapPosition(vMouseHit);
 
