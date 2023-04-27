@@ -57,6 +57,7 @@ end;
 function TGameActorFactory.CreateActor(vId: TUlid): TGameActor;
 begin
 	result := TGameActor.Create(FUIBoard);
+	result.Name := 'Actor_' + vId;
 
 	// TODO: use vId to get info about the appearance of the actor from some other component
 	// (which will manage network in return, to get this data)

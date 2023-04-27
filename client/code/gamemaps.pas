@@ -97,7 +97,7 @@ type
 
 		procedure Initialize();
 		function GetMapData(const vId: String): TMapData;
-		function GetMapImagePath(const vId: String): String;
+		function GetMapPath(const vId: String): String;
 
 	published
 		property &index: TMapIndexEntries read FIndex write FIndex;
@@ -217,13 +217,13 @@ begin
 	vLines.Free;
 end;
 
-function TMapIndex.GetMapImagePath(const vId: String): String;
+function TMapIndex.GetMapPath(const vId: String): String;
 var
 	vEntry: TMapIndexEntry;
 begin
 	for vEntry in FIndex do begin
 		if vEntry.id = vId then begin
-			result := 'castle-data:/maps/' + vEntry.&file + '.png';
+			result := 'castle-data:/maps/' + vEntry.&file + '.tmx';
 			break;
 		end;
 	end;

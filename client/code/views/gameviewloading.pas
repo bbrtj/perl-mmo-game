@@ -61,10 +61,9 @@ end;
 
 procedure TViewLoading.DoLoad(vSender: TObject);
 begin
+	ViewPlay.SetMapPath(MapIndex.GetMapPath(FMapId));
 	ViewPlay.GameState.SetMapData(MapIndex.GetMapData(FMapId));
 	ViewPlay.GameState.CreatePlayer(FPlayerId);
-
-	ViewPlay.SetMapImagePath(MapIndex.GetMapImagePath(FMapId));
 
 	FLoaded := true;
 	GlobalClient.Pooling := False;

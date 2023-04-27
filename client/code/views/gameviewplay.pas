@@ -4,7 +4,7 @@ interface
 
 uses Classes, SysUtils,
 	CastleVectors, CastleUIControls, CastleControls, CastleKeysMouse,
-	CastleTransform, CastleScene, CastleViewport,
+	CastleTransform, CastleScene, CastleViewport, CastleTiledMap,
 	GameState,
 	GameNetwork,
 	GameModels, GameModels.Move, GameModels.Discovery;
@@ -13,13 +13,12 @@ type
 	TViewPlay = class(TCastleView)
 	private
 		FUIMainViewport: TCastleViewport;
-		FUIBoard: TCastlePlane;
+		FUIBoard: TCastleTiledMap;
 		FUIPlayerCamera: TCastleCamera;
 		FUIAmbientLight: TCastleDirectionalLight;
 		FUIPingDisplay: TCastleLabel;
 
 		FGameState: TGameState;
-		FMapImagePath: String;
 		FPlaying: Boolean;
 
 		function FindMapPosition(vMouseHit: TRayCollision): TVector3;
@@ -32,7 +31,7 @@ type
 		procedure Update(const vSecondsPassed: Single; var vHandleInput: Boolean); override;
 		function Press(const vEvent: TInputPressRelease): Boolean; override;
 
-		procedure SetMapImagePath(vMapImagePath: String);
+		procedure SetMapPath(vMapPath: String);
 
 		procedure OnDiscovery(const vData: TModelBase);
 		procedure OnActorMovement(const vData: TModelBase);
@@ -59,7 +58,7 @@ begin
 	inherited;
 
 	FUIMainViewport := DesignedComponent('MainViewport') as TCastleViewport;
-	FUIBoard := DesignedComponent('Board') as TCastlePlane;
+	FUIBoard := DesignedComponent('Board') as TCastleTiledMap;
 	FUIPlayerCamera := DesignedComponent('PlayerCamera') as TCastleCamera;
 	FUIAmbientLight := DesignedComponent('AmbientLight') as TCastleDirectionalLight;
 	FUIPingDisplay := DesignedComponent('PingDisplay') as TCastleLabel;
@@ -81,6 +80,10 @@ function TViewPlay.FindMapPosition(vMouseHit: TRayCollision): TVector3;
 var
 	vNode: TRayCollisionNode;
 begin
+
+	for vNode in vMouseHit do begin
+		writeln('hit ', vNode.Item.Name, ' ', vNode.Item.ClassName, ' at ', vNode.Point.X, ':', vNode.Point.Y);
+	end;
 	vNode := vMouseHit[0];
 	result := vNode.Item.LocalToWorld(vNode.Point);
 end;
@@ -97,11 +100,9 @@ begin
 
 end;
 
-procedure TViewPlay.SetMapImagePath(vMapImagePath: String);
+procedure TViewPlay.SetMapPath(vMapPath: String);
 begin
-	FMapImagePath := vMapImagePath;
-
-	FUIBoard.Texture := FMapImagePath;
+	FUIBoard.URL := vMapPath;
 end;
 
 function TViewPlay.Press(const vEvent: TInputPressRelease): Boolean;
@@ -125,7 +126,7 @@ begin
 			vPosition := FindMapPosition(vMouseHit);
 
 			vModel := TMsgMove.Create;
-			vModel.SetValue(vPosition.X, vPosition.Y);
+			vModel.SetValue(vPosition.X * 100, vPosition.Y * 100);
 
 			GlobalClient.Send(TMsgMove, vModel);
 			exit(true);

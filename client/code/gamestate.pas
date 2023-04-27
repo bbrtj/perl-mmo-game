@@ -3,7 +3,7 @@ unit GameState;
 interface
 
 uses Classes, FGL,
-	CastleVectors, CastleTransform, CastleScene,
+	CastleVectors, CastleTransform, CastleScene, CastleTiledMap, CastleRectangles,
 	GameMaps, GameTypes, GameNetwork,
 	GameActors,
 	GameModels.Move;
@@ -17,8 +17,8 @@ type
 		cCameraDistance = 10;
 
 	var
-		FUIBoard: TCastlePlane;
-		FUICamera: TCastleTransform;
+		FUIBoard: TCastleTiledMap;
+		FUICamera: TCastleCamera;
 
 		FActors: TActorMap;
 		FThisPlayer: TUlid;
@@ -29,7 +29,7 @@ type
 		function FindActor(const vId: TUlid): TGameActor;
 
 	public
-		constructor Create(const vBoard: TCastlePlane; const vCamera: TCastleTransform);
+		constructor Create(const vBoard: TCastleTiledMap; const vCamera: TCastleCamera);
 		destructor Destroy; override;
 
 		procedure Update(const vSecondsPassed: Single);
@@ -44,13 +44,13 @@ type
 
 implementation
 
-constructor TGameState.Create(const vBoard: TCastlePlane; const vCamera: TCastleTransform);
+constructor TGameState.Create(const vBoard: TCastleTiledMap; const vCamera: TCastleCamera);
 begin
 	FUIBoard := vBoard;
 	FUICamera := vCamera;
 	FActorFactory := TGameActorFactory.Create(FUIBoard);
 
-	FUICamera.Translation := Vector3(0, 0, cCameraDistance);
+	// FUICamera.Translation := Vector3(0, 0, cCameraDistance);
 	FActors := TActorMap.Create;
 end;
 
@@ -64,19 +64,26 @@ end;
 procedure TGameState.Update(const vSecondsPassed: Single);
 var
 	vPlayer: TGameActor;
+	vRect: TFloatRectangle;
 begin
 	vPlayer := FindActor(FThisPlayer);
 	if vPlayer <> nil then begin
-		FUICamera.Translation := Vector3(vPlayer.GetPosition.X, vPlayer.GetPosition.Y, cCameraDistance);
+		vRect := FUICamera.Orthographic.EffectiveRect;
+		FUICamera.Translation := Vector3(vPlayer.GetPosition.X - vRect.Width / 2, vPlayer.GetPosition.Y - vRect.Height / 2, cCameraDistance);
 	end;
 end;
 
 procedure TGameState.SetMapData(const vMapData: TMapData);
+var
+	vProportionX: Single;
+	vProportionY: Single;
 begin
 	FMapData := vMapData;
 
-	FUIBoard.Size := Vector2(FMapData.Map.SizeX, FMapData.Map.SizeY);
-	FUIBoard.Translation := Vector3(FMapData.Map.SizeX / 2, FMapData.Map.SizeY / 2, 0);
+	vProportionX := FMapData.Map.SizeX / FUIBoard.Map.Width / FUIBoard.Map.TileWidth;
+	vProportionY := FMapData.Map.SizeY / FUIBoard.Map.Height / FUIBoard.Map.TileHeight;
+	FUIBoard.Scale := Vector3(vProportionX, vProportionY, 0);
+	// FUIBoard.Translation := Vector3(FMapData.Map.SizeX / 2, FMapData.Map.SizeY / 2, 0);
 end;
 
 procedure TGameState.CreatePlayer(const vId: TUlid);

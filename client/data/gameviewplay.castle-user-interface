@@ -19,38 +19,22 @@
             "$$ClassName" : "TCastleLayerNames"
           }
         },
+        "UseHeadlight" : "hlOff",
         "$Children" : [
           {
             "$$ClassName" : "TCastleCamera",
             "Name" : "PlayerCamera",
             "Orthographic" : {
-              "$$ClassName" : "TCastleOrthographic"
+              "$$ClassName" : "TCastleOrthographic",
+              "Height" : 5.0000000000000000E+000
             },
             "Perspective" : {
               "$$ClassName" : "TCastlePerspective"
             },
+            "ProjectionType" : "ptOrthographic",
             "TranslationPersistent" : {
               "$$ClassName" : "TCastleVector3Persistent",
-              "Z" : 5.0000000000000000E+000
-            }
-          },
-          {
-            "$$ClassName" : "TCastlePlane",
-            "CastShadows" : false,
-            "DoubleSided" : true,
-            "Name" : "Board",
-            "RenderOptions" : {
-              "$$ClassName" : "TCastleScene.TSceneRenderOptions"
-            },
-            "RotationPersistent" : {
-              "$$ClassName" : "TCastleVector4RotationPersistent",
-              "W" : -1.5700000524520874E+000,
-              "X" : 1.0000000000000000E+000
-            },
-            "SizePersistent" : {
-              "$$ClassName" : "TCastleVector2Persistent",
-              "X" : 1.0000000000000000E+001,
-              "Y" : 1.0000000000000000E+001
+              "Z" : 3.0000000000000000E+001
             }
           },
           {
@@ -61,6 +45,12 @@
               "Y" : 9.6890192031860352E+000,
               "Z" : 8.0749540328979492E+000
             }
+          },
+          {
+            "$$ClassName" : "TCastleTiledMap",
+            "ForceTilesetSpacing" : true,
+            "Name" : "Board",
+            "SmoothScaling" : true
           }
         ]
       },
@@ -118,12 +108,10 @@
         },
         "TranslationPersistent" : {
           "$$ClassName" : "TCastleVector3Persistent",
-          "X" : 7.5580406188964844E-001,
-          "Y" : 5.9599351882934570E-001,
-          "Z" : 1.0483380317687988E+001
+          "Z" : 3.3896484375000000E+001
         }
       },
-      "InternalDesignNavigationType" : 2,
+      "InternalDesignNavigationType" : 1,
       "InternalDesignNavigations[dnFly]" : {
         "$$ClassName" : "TCastleWalkNavigationDesign",
         "Exists" : false,
@@ -131,11 +119,11 @@
       },
       "InternalDesignNavigations[dnExamine]" : {
         "$$ClassName" : "TCastleExamineNavigationDesign",
-        "Exists" : false,
         "Name" : ""
       },
       "InternalDesignNavigations[dn2D]" : {
         "$$ClassName" : "TCastle2DNavigationDesign",
+        "Exists" : false,
         "Name" : ""
       }
     }

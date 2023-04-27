@@ -45,7 +45,7 @@ sub BUILD ($self, $)
 	my $distance = Game::Mechanics::Generic->calculate_distance($x1, $y1, $x2, $y2);
 
 	$self->set_eta($self->time + $distance / $self->speed);
-	$self->set_coeffs([($x2 - $x1) / $distance, ($y2 - $y1) / $distance]);
+	$self->set_coeffs($distance > 0 ? [($x2 - $x1) / $distance, ($y2 - $y1) / $distance] : [0, 0]);
 
 	return;
 }
