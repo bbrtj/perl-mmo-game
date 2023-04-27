@@ -16,7 +16,9 @@ type
 		FUIBoard: TCastleTiledMap;
 		FUIPlayerCamera: TCastleCamera;
 		FUIAmbientLight: TCastleDirectionalLight;
+
 		FUIPingDisplay: TCastleLabel;
+		FUIFpsDisplay: TCastleLabel;
 
 		FGameState: TGameState;
 		FPlaying: Boolean;
@@ -62,6 +64,7 @@ begin
 	FUIPlayerCamera := DesignedComponent('PlayerCamera') as TCastleCamera;
 	FUIAmbientLight := DesignedComponent('AmbientLight') as TCastleDirectionalLight;
 	FUIPingDisplay := DesignedComponent('PingDisplay') as TCastleLabel;
+	FUIFpsDisplay := DesignedComponent('FpsDisplay') as TCastleLabel;
 	FPlaying := false;
 
 	FGameState := TGameState.Create(FUIBoard, FUIPlayerCamera);
@@ -96,7 +99,8 @@ begin
 	FGameState.Update(vSecondsPassed);
 	GlobalClient.Heartbeat(vSecondsPassed);
 
-	FUIPingDisplay.Caption := FloatToStr(round(GlobalClient.Ping * 100000) / 100) + ' ms';
+	FUIPingDisplay.Caption := 'Latency: ' + FloatToStr(round(GlobalClient.Ping * 100000) / 100) + ' ms';
+	FUIFpsDisplay.Caption := 'FPS: ' + Container.Fps.ToString;
 
 end;
 
