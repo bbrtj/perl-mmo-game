@@ -44,9 +44,10 @@ begin
 	if FMovementTime > 0 then begin
 		FMovementTime -= secondsPassed;
 		self.Translation := self.Translation + FMovementVector * secondsPassed;
-		if not (FMovementVector - self.Up).IsZero then
-			self.Up := self.Up + FMovementVector * cTurnSpeed;
 	end;
+
+	if not (FMovementVector - self.Up).IsZero then
+		self.Up := self.Up + FMovementVector * cTurnSpeed;
 end;
 
 constructor TGameActorFactory.Create(const vBoard: TCastleTransform);
@@ -62,8 +63,8 @@ begin
 	// TODO: use vId to get info about the appearance of the actor from some other component
 	// (which will manage network in return, to get this data)
 	result.URL := 'castle-data:/images/player.png';
-	result.Scale := Vector3(0.01, 0.01, 0.01);
-	result.Translation := Vector3(0, 0, 0.05);
+	result.Scale := Vector3(0.0025, 0.0025, 0.0025); // TODO: scale properly
+	result.Translation := Vector3(0, 0, 0.05); // TODO: proper Z distance
 
 	// TODO: set up some properties of the actor, like position, health etc. Or
 	// maybe use more automated means of updating them according to network
