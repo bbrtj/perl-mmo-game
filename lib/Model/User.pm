@@ -12,7 +12,7 @@ extends 'Model';
 with 'Model::Role::Stored';
 
 use constant BCRYPT_SUBTYPE => '2b';
-use constant BCRYPT_COST => '10';
+use constant BCRYPT_COST => '9';
 
 has param 'email' => (
 	isa => Types::EmailAddress,
