@@ -40,12 +40,12 @@ has field 'coeffs' => (
 
 sub BUILD ($self, $)
 {
-	my ($x1, $y1) = ($self->variables->pos_x, $self->variables->pos_y);
-	my ($x2, $y2) = ($self->x, $self->y);
-	my $distance = Game::Mechanics::Generic->calculate_distance($x1, $y1, $x2, $y2);
+	my $x_dist = $self->x - $self->variables->pos_x;
+	my $y_dist = $self->y - $self->variables->pos_y;
+	my $distance = Game::Mechanics::Generic->calculate_diagonal($x_dist, $y_dist);
 
 	$self->set_eta($self->time + $distance / $self->speed);
-	$self->set_coeffs($distance > 0 ? [($x2 - $x1) / $distance, ($y2 - $y1) / $distance] : [0, 0]);
+	$self->set_coeffs($distance > 0 ? [$x_dist / $distance, $y_dist / $distance] : [0, 0]);
 
 	return;
 }

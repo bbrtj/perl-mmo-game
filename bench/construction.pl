@@ -19,9 +19,6 @@ my $variables = DI->get('faker_service')->fake_variables;
 my $actor = Unit::Actor->new(character => $character, variables => $variables);
 
 cmpthese - 2, {
-	'DateTime' => sub {
-		DateTime->from_epoch(time);
-	},
 	'Model::Player' => sub {
 		Model::Player->new(user_id => $ulid);
 	},
