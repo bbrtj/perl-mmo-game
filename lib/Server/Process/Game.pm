@@ -97,40 +97,37 @@ sub do_work ($self, $loop)
 	);
 
 	my $tick = Server::Config::SERVER_TICK;
-	my $min_tick = $tick / 2;
 	my $elapsed = 0;
 	my $start;
 
 	my $tick_sref;
-	my sub next_tick_setup ()
+	my sub next_tick_setup ($need_catching_up = 0)
 	{
-		my $after = ($elapsed + 1) * $tick - (time() - $start);
+		$loop->timer($tick => $tick_sref);
+		return;
+	}
+
+	$tick_sref = sub {
+		my $start = time;
+
+		try {
+			$self->server->tick(++$elapsed);
+		}
+		catch ($e) {
+			$self->log->error("Error occured in server processing loop: $e");
+		}
 
 		if (Server::Config::DEBUG) {
-			my $processing_time = abs($after - $tick);
+			my $processing_time = time - $start;
 
 			my $alert = '';
-			for (1.5, 2, 3, 5, 10) {
+			for (0.5, 1, 1.5) {
 				$alert .= '!' if $processing_time > $tick / $_;
 			}
 
 			if ($alert) {
 				$self->log->debug($self->location_id . ": last processing took $processing_time [$alert]");
 			}
-		}
-
-		# NOTE: $min_tick when $after is 0 not to hijack entire event loop
-		$loop->timer(max($min_tick, $after) => $tick_sref);
-
-		return;
-	}
-
-	$tick_sref = sub {
-		try {
-			$self->server->tick(++$elapsed);
-		}
-		catch ($e) {
-			$self->log->error("Error occured in server processing loop: $e");
 		}
 
 		next_tick_setup();
