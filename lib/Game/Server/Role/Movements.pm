@@ -107,9 +107,9 @@ after signal_player_left => sub ($self, $actor) {
 
 after signal_actor_appeared => sub ($self, $for_actor, $actor) {
 	my $movement = $self->_movements->{$actor->id};
+	return if !$movement;
 
-	my $resource_class = $movement ? 'Resource::ActorMovement' : 'Resource::ActorPosition';
-	my $resource = $resource_class->new({subject => $actor, movement => $movement});
+	my $resource = Resource::ActorMovement->new({subject => $actor, movement => $movement});
 	$self->send_to_player($for_actor->id, $resource);
 };
 

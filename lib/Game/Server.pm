@@ -153,7 +153,7 @@ sub signal_player_left ($self, $actor)
 
 sub signal_actor_appeared ($self, $for_actor, $actor)
 {
-	$self->log->debug(sprintf "actor %s appeared for %s", $actor->id, $for_actor->id);
+	# $self->log->debug(sprintf "actor %s appeared for %s", $actor->id, $for_actor->id);
 
 	return;
 }

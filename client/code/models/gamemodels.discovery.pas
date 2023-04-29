@@ -2,14 +2,19 @@ unit GameModels.Discovery;
 
 interface
 
-uses SysUtils, Classes,
-	GameModels, GameTypes;
+uses FGL, SysUtils, Classes,
+	GameModels, GameModels.Move,
+	GameTypes, Serialization;
 
 type
 
+	TMsgFeedNewObject = class(TMsgFeedActorPosition);
+
+	TMsgFeedNewObjects = specialize TFPGObjectList<TMsgFeedNewObject>;
+
 	TMsgFeedDiscovery = class(TModelBase)
 	private
-		FNewActors: TStringList;
+		FNewActors: TMsgFeedNewObjects;
 		FOldActors: TStringList;
 
 	public
@@ -19,7 +24,7 @@ type
 		destructor Destroy; override;
 
 	published
-		property new_actors: TStringList read FNewActors write FNewActors;
+		property new_actors: TMsgFeedNewObjects read FNewActors write FNewActors;
 		property old_actors: TStringList read FOldActors write FOldActors;
 	end;
 
@@ -32,7 +37,7 @@ end;
 
 constructor TMsgFeedDiscovery.Create();
 begin
-	FNewActors := TStringList.Create;
+	FNewActors := TMsgFeedNewObjects.Create;
 	FOldActors := TStringList.Create;
 end;
 
@@ -43,6 +48,9 @@ begin
 end;
 
 { implementation end }
+
+initialization
+	ListSerializationMap.Add(TSerializedList.Create(TMsgFeedNewObjects, TMsgFeedNewObject));
 
 end.
 

@@ -141,12 +141,13 @@ end;
 procedure TViewPlay.OnDiscovery(const vData: TModelBase);
 var
 	vModel: TMsgFeedDiscovery;
+	vObject: TMsgFeedNewObject;
 	vId: String;
 begin
 	vModel := vData as TMsgFeedDiscovery;
 
-	for vId in vModel.new_actors do
-		FGameState.AddActor(vId);
+	for vObject in vModel.new_actors do
+		FGameState.AddActor(vObject);
 
 	for vId in vModel.old_actors do
 		FGameState.RemoveActor(vId);

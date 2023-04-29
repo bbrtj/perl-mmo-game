@@ -17,8 +17,12 @@ type
 
 		FFading: Boolean;
 		FLoaded: Boolean;
-		FMapId: TLoreId;
+
 		FPlayerId: TUlid;
+
+		FMapId: TLoreId;
+		FPlayerX: Single;
+		FPlayerY: Single;
 
 		procedure RefreshLocationHints();
 		procedure DoLoad(vSender: TObject);
@@ -63,7 +67,7 @@ procedure TViewLoading.DoLoad(vSender: TObject);
 begin
 	ViewPlay.SetMapPath(MapIndex.GetMapPath(FMapId));
 	ViewPlay.GameState.SetMapData(MapIndex.GetMapData(FMapId));
-	ViewPlay.GameState.CreatePlayer(FPlayerId);
+	ViewPlay.GameState.CreatePlayer(FPlayerId, FPlayerX, FPlayerY);
 
 	FLoaded := true;
 	GlobalClient.Pooling := False;
@@ -117,7 +121,10 @@ begin
 	GlobalClient.Pooling := True;
 
 	vModel := vData as TMsgFeedLocationData;
+
 	FMapId := vModel.id;
+	FPlayerX := vModel.player_x;
+	FPlayerY := vModel.player_y;
 
 	RefreshLocationHints;
 	WaitForRenderAndCall(@self.DoLoad);

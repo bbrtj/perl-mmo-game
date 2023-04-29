@@ -6,7 +6,7 @@ uses Classes, FGL,
 	CastleVectors, CastleTransform, CastleScene, CastleTiledMap, CastleRectangles,
 	GameMaps, GameTypes, GameNetwork,
 	GameActors,
-	GameModels.Move;
+	GameModels.Discovery, GameModels.Move;
 
 type
 	TActorMap = specialize TFPGMap<TUlid, TGameActor>;
@@ -35,8 +35,8 @@ type
 		procedure Update(const vSecondsPassed: Single);
 		procedure SetMapData(const vMapData: TMapData);
 
-		procedure CreatePlayer(const vId: TUlid);
-		procedure AddActor(const vId: TUlid);
+		procedure CreatePlayer(const vId: TUlid; const vPosX, vPosY: Single);
+		procedure AddActor(const vObject: TMsgFeedNewObject);
 		procedure RemoveActor(const vId: TUlid);
 		procedure ProcessMovement(const vMovement: TMsgFeedActorMovement);
 		procedure ProcessPosition(const vStop: TMsgFeedActorPosition);
@@ -86,15 +86,26 @@ begin
 	// FUIBoard.Translation := Vector3(FMapData.Map.SizeX / 2, FMapData.Map.SizeY / 2, 0);
 end;
 
-procedure TGameState.CreatePlayer(const vId: TUlid);
+procedure TGameState.CreatePlayer(const vId: TUlid; const vPosX, vPosY: Single);
+var
+	vNewObject: TMsgFeedNewObject;
 begin
 	FThisPlayer := vId;
-	AddActor(vId);
+
+	// pretty artificial, but does the trick...
+	vNewObject := TMsgFeedNewObject.Create;
+	vNewObject.id := vId;
+	vNewObject.x := vPosX;
+	vNewObject.y := vPosY;
+
+	AddActor(vNewObject);
+	vNewObject.Free;
 end;
 
-procedure TGameState.AddActor(const vId: TUlid);
+procedure TGameState.AddActor(const vObject: TMsgFeedNewObject);
 begin
-	FActors.Add(vId, FActorFactory.CreateActor(vId));
+	FActors.Add(vObject.id, FActorFactory.CreateActor(vObject.id));
+	ProcessPosition(vObject);
 end;
 
 procedure TGameState.RemoveActor(const vId: TUlid);

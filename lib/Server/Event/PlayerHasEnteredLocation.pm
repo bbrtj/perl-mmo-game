@@ -41,12 +41,9 @@ sub handle ($self, $player_id, $session_id)
 
 	$self->send_to(
 		$session_id,
-		Resource::LocationData->new(subject => $self->server->location->lore),
+		Resource::LocationData->new(subject => $self->server->location->lore, actor => $actor),
 		refresh => 1
 	);
-
-	# fun way to update actor on their own position
-	$self->server->signal_actor_appeared($actor, $actor);
 
 	return;
 }

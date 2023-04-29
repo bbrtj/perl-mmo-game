@@ -51,7 +51,7 @@ sub _discover_actors ($self, $actor, $found_objects, $resource)
 		}
 		else {
 			$found_prev{$found_id} = $found;
-			push @new, $found_id;
+			push @new, $found;
 			$self->queue('signal_actor_appeared', $actor, $found);
 		}
 	}
