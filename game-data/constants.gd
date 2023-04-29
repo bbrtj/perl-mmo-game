@@ -5,7 +5,7 @@ my $max_level = 30;
 define {
 	max_level => $max_level,
 
-	base_radius => 0.5,
+	base_radius => 0.25,
 	discover_radius => 5,
 
 	zero_stats => 8,

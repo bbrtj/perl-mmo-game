@@ -98,7 +98,7 @@ sub _discover ($self)
 }
 
 after BUILD => sub ($self, @) {
-	$self->_add_action(4 => '_discover');
+	$self->_add_action(6 => '_discover');
 };
 
 after signal_player_left => sub ($self, $actor) {

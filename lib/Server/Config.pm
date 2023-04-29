@@ -6,7 +6,7 @@ use constant {
 
 	# the minimum amount of time the server understands
 	# (as BPM: 60 / BPM)
-	SERVER_TICK => 60 / 80,
+	SERVER_TICK => 60 / 180,
 
 	GAME_SERVER_PORT => 14832,
 	GAME_SERVER_TIMEOUT => 120,

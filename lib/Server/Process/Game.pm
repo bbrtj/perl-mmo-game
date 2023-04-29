@@ -4,6 +4,7 @@ use My::Moose;
 use Server::Config;
 use Game::Server;
 use Time::HiRes qw(time);
+use List::Util qw(max);
 
 use all 'X';
 
@@ -96,7 +97,7 @@ sub do_work ($self, $loop)
 	);
 
 	my $tick = Server::Config::SERVER_TICK;
-	my $min_tick = $tick / 10;
+	my $min_tick = $tick / 2;
 	my $elapsed = 0;
 	my $start;
 
@@ -118,9 +119,8 @@ sub do_work ($self, $loop)
 			}
 		}
 
-		# NOTE: $min_tick instead of 0 not to hijack entire event loop
-		$after = $min_tick if $after < $min_tick;
-		$loop->timer($after => $tick_sref);
+		# NOTE: $min_tick when $after is 0 not to hijack entire event loop
+		$loop->timer(max($min_tick, $after) => $tick_sref);
 
 		return;
 	}
