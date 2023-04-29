@@ -18,7 +18,8 @@ sub get_key ($self, $id)
 
 sub broadcast ($self, $id, $data)
 {
-	$self->store->pubsub->notify($self->get_key($id) => $self->encoder->encode($data));
+	# $self->store->pubsub->notify($self->get_key($id) => $self->encoder->encode($data));
+	$self->store->fast_publish($self->get_key($id), $self->encoder->encode($data));
 	return;
 }
 
