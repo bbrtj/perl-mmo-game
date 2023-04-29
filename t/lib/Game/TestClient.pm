@@ -21,6 +21,12 @@ has field 'actions' => (
 	}
 );
 
+has field 'action_index' => (
+	isa => Types::Int,
+	writer => 1,
+	default => -1,
+);
+
 has field 'finished' => (
 	isa => Types::Bool,
 	default => !!0,
@@ -64,21 +70,20 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 {
 	$self->_reset_finished;
 
-	my $action_index = 0;
 	my $action;
 
 	my sub grab_action ()
 	{
 		if (!$action || $action->finished) {
-			if ($action_index > $self->actions->$#*) {
+			$self->set_action_index($self->action_index + 1);
+			if ($self->action_index > $self->actions->$#*) {
 				$self->_set_finished;
 				die '[ finished ]';
 			}
 
-			$action = $self->actions->[$action_index];
+			$action = $self->actions->[$self->action_index];
 
 			$action->setup_state;
-			++$action_index;
 		}
 
 		return $action;
@@ -95,6 +100,7 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 		return join(Server::Config::PROTOCOL_CONTROL_CHARACTER, @data) . "\r\n";
 	}
 
+	my @data_backlog;
 	my sub compare_received_data ($data)
 	{
 		my @parts = split quotemeta(Server::Config::PROTOCOL_CONTROL_CHARACTER), $data, 3;
@@ -102,7 +108,6 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 		unless (!length $parts[0] || $parts[0] == $last_sent_id) {
 			$self->raise(
 				"$action: unexpected id from server communication: \nGot: $parts[0] \nExpected: $last_sent_id",
-				'warn'
 			);
 
 			return !!0;
@@ -112,10 +117,14 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 			my $type = $action->get_expected_type;
 			my $expected = $action->get_expected_data;
 
-			$self->raise(
-				"$action: unexpected type/data from server communication: \nGot: $parts[1]/$parts[2] \nExpected: $type/$expected",
-				'warn'
-			);
+			if ($action->sequential) {
+				$self->raise(
+					"$action: unexpected type/data from server communication: \nGot: $parts[1]/$parts[2] \nExpected: $type/$expected",
+				);
+			}
+			else {
+				push @data_backlog, $data;
+			}
 
 			return !!0;
 		}
@@ -130,22 +139,30 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 		return !!1;
 	}
 
+	my sub try_resolve_backlog ()
+	{
+		my @backlog_cpy = @data_backlog;
+		@data_backlog = ();
+		foreach my $data (@backlog_cpy) {
+			compare_received_data($data);
+		}
+	}
+
 	e2e_client(
 		$loop,
 		get_send_data,
 		sub ($stream, $bytes, $receive_no) {
 			if ($self->finished) {
-				$self->raise("trailing data: $bytes", 'warn');
+				# $self->raise("trailing data: $bytes", 'warn');
 				return;
 			}
 
 			try {
 				if (compare_received_data($bytes) && grab_action->should_send) {
 					$stream->write(get_send_data);
-
-					# try to get next action. Will stop the loop if there are no more actions
-					grab_action;
 				}
+				try_resolve_backlog;
+				grab_action;
 			}
 			catch ($e) {
 				$self->raise($e) unless $self->finished && $self->success;

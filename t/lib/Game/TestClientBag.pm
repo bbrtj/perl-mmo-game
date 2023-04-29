@@ -15,7 +15,7 @@ has field 'clients' => (
 	}
 );
 
-has field 'timeout' => (
+has param 'timeout' => (
 	isa => Types::PositiveInt,
 	default => 10,
 );
@@ -25,13 +25,9 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 	my @clients = $self->clients->@*;
 	$_->run for @clients;
 
-	my $finished_for = 0;
 	$loop->recurring(
-		1 => sub {
-			if (!@clients && $finished_for++ == 2) {
-
-				# stop the loop after waiting 2 secs to check if there is any
-				# trailing data
+		0.5 => sub {
+			if (!@clients) {
 				$loop->stop;
 			}
 			else {
@@ -52,9 +48,20 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 	$loop->timer(
 		$self->timeout => sub {
 			my $ctx = context;
-			$ctx->fail('testing timed out');
-			$ctx->release;
+			my $count = @clients;
 
+			if ($count) {
+				my $report = join "\n", map {
+					'client ' . $_->actor->id . ': <' . $_->actions->[$_->action_index] . '> ' . $_->actions->[$_->action_index]->get_expected_data
+				} @clients;
+
+				$ctx->fail("testing timed out with $count clients still running:\n$report");
+			}
+			else {
+				$ctx->ok('all testers finished');
+			}
+
+			$ctx->release;
 			$loop->stop;
 		}
 	);
