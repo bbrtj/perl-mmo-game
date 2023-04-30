@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="100" tileheight="100" infinite="0" nextlayerid="8" nextobjectid="1">
+<map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="100" tileheight="100" infinite="0" nextlayerid="9" nextobjectid="3">
  <tileset firstgid="1" source="game tiles.tsx"/>
  <layer id="1" name="Water" width="40" height="40">
+  <properties>
+   <property name="terrain_type" value="void"/>
+  </properties>
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -46,6 +49,9 @@
 </data>
  </layer>
  <layer id="3" name="Terrain" width="40" height="40">
+  <properties>
+   <property name="terrain_type" value="terrain"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,
 0,0,0,0,0,0,0,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,123,
@@ -266,6 +272,9 @@
 </data>
  </layer>
  <layer id="2" name="Walls" width="40" height="40">
+  <properties>
+   <property name="terrain_type" value="wall"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,181,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,183,184,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,204,
@@ -309,5 +318,12 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="8" name="Spawns">
+  <properties>
+   <property name="private" type="bool" value="true"/>
+  </properties>
+  <object id="1" name="monster" type="351" x="945.438" y="2229.07">
+   <point/>
+  </object>
+ </objectgroup>
 </map>
-

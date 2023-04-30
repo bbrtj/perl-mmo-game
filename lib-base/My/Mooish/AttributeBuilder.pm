@@ -41,10 +41,15 @@ Mooish::AttributeBuilder::add_shortcut(
 
 			load $class;
 
+			my $inner_default;
+			$inner_default = shift @args
+				if ref $args[0] eq 'CODE';
+			$inner_default //= sub { shift->new(@args) };
+
 			Mooish::AttributeBuilder::check_and_set(
 				\%args, $name,
 				isa => InstanceOf [$class],
-				default => sub { $class->new(@args) },
+				default => sub { $inner_default->($class, @_) },
 			);
 		}
 
