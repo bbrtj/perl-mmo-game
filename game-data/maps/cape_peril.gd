@@ -16,127 +16,31 @@ translations pl => {
 	desc => "Postawiony w okolicy przylądka Peril port to zazwyczaj pierwsze miejsce, w którym lądują nowo przybyli osadnicy, kupcy oraz poszukiwacze przygód."
 };
 
-specify map => <<'MAP';
-@w @w @w @w @w @w @w @w ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-@w @w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ ##
-@w @w @w @w @w __ __ @w @w @w @w __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ @w @w
-@w @w @w @w __ __ @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w __ __ __ __ @w @w @w @w @w @w @w
-@w @w __ __ n1 @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w
-@w __ __ __ __ @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w
-@w __ __ __ __ @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w
-@w __ __ __ @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w
-@w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w @w
-MAP
+specify map => 'locations/peril_harbor.tmx';
 
 ### LOCATION
 
-lore CP_MARKET => location 'Cape Peril - Market';
+# lore CP_MARKET => location 'Cape Peril - Market';
 
-parent area 'Cape Peril';
+# parent area 'Cape Peril';
 
-translations pl => {
-	name => "Rynek",
-	desc => "Wąskie, kręte uliczki w połowie zastawione są stoiskami oferującymi wszelakie produkty. Wszechobecny tłok i gwar skutecznie ukrywają toczone tutaj czarne interesy przed skorumpowaną milicją."
-};
+# translations pl => {
+# 	name => "Rynek",
+# 	desc => "Wąskie, kręte uliczki w połowie zastawione są stoiskami oferującymi wszelakie produkty. Wszechobecny tłok i gwar skutecznie ukrywają toczone tutaj czarne interesy przed skorumpowaną milicją."
+# };
 
-specify map => <<MAP;
-__@@
-MAP
-
-### LOCATION
-
-lore CP_GATE => location 'Cape Peril - Gate';
-
-parent area 'Cape Peril';
-
-translations pl => {
-	name => "Brama",
-	desc => "Brama w palisadzie wyznacza koniec obszaru objętego ochroną milicyjną. Patrole ograniczają się tylko do sprawdzania stanu ogrodzenia oraz bezpośredniego sąsiedztwa bramy. Głucha cisza na zewnątrz mocno kontrastuje z hałasem dobiegającym ze środka."
-};
-
-specify map => <<MAP;
-__@@
-MAP
-
-### LOCATION
-
-lore CP_INN => location 'Cape Peril - Inn';
-
-parent area 'Cape Peril';
-
-translations pl => {
-	name => "Karczma",
-	desc => "Biorąc pod uwagę czas trwania rejsu nie powinno dziwić, że jest to pierwsze miejsce, do którego udają się nowo przybyli. Mimo oczywistej pokusy widać tu niewielu marynarzy, którzy często wolą nie opuszczać okrętów poza koniecznością."
-};
-
-specify map => <<MAP;
-__@@
-MAP
-
-### LOCATION
-
-lore CP_DEPO => location 'Cape Peril - Depository';
-
-parent area 'Cape Peril';
-
-translations pl => {
-	name => "Depozytorium",
-	desc => "Prawdopodobnie najbardziej chroniony budynek w całym porcie. Zaufana instytucja odpłatnie przetrzymująca towary oraz kosztowności od każdego, kto zapłaci."
-};
-
-specify map => <<MAP;
-__@@
-MAP
+# specify map => 'peril_market.tmx';
 
 ### CONNECTIONS AND METADATA
 
-connection
-	location 'Cape Peril - Market',
-	location 'Cape Peril - Harbor';
-
-connection
-	location 'Cape Peril - Market',
-	location 'Cape Peril - Depository';
-
-connection
-	location 'Cape Peril - Market',
-	location 'Cape Peril - Gate';
-
-connection
-	location 'Cape Peril - Market',
-	location 'Cape Peril - Inn';
+# connection
+# 	location 'Cape Peril - Market',
+# 	location 'Cape Peril - Harbor';
 
 # load coordinates from cape_peril.json
 load_coordinates 'Markers';
+
+# desc => "Brama w palisadzie wyznacza koniec obszaru objętego ochroną milicyjną. Patrole ograniczają się tylko do sprawdzania stanu ogrodzenia oraz bezpośredniego sąsiedztwa bramy. Głucha cisza na zewnątrz mocno kontrastuje z hałasem dobiegającym ze środka."
+# desc => "Biorąc pod uwagę czas trwania rejsu nie powinno dziwić, że jest to pierwsze miejsce, do którego udają się nowo przybyli. Mimo oczywistej pokusy widać tu niewielu marynarzy, którzy często wolą nie opuszczać okrętów poza koniecznością."
+# desc => "Prawdopodobnie najbardziej chroniony budynek w całym porcie. Zaufana instytucja odpłatnie przetrzymująca towary oraz kosztowności od każdego, kto zapłaci."
 

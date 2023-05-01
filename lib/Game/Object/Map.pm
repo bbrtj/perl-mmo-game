@@ -1,48 +1,36 @@
 package Game::Object::Map;
 
 use My::Moose;
+use Tiled::Map;
+use Tiled::Parser;
 
 use header;
 
 extends 'Game::TileMap';
 
-my $legend = __PACKAGE__->new_legend(characters_per_tile => 2)
-	->add_wall('##')
-	->add_wall('#^' => 'building')
-	->add_void('@@')
-	->add_void('@w' => 'water')
-	->add_terrain('__' => 'level_terrain')
-	->add_object('npcs', 'n1' => 'npc1')
+my $legend = __PACKAGE__->new_legend(characters_per_tile => 1)
+	->add_wall(Tiled::Map::TILE_WALL)
+	->add_void(Tiled::Map::TILE_VOID)
+	->add_terrain(Tiled::Map::TILE_TERRAIN => 'terrain')
 	;
 
 has extended 'legend' => (
 	default => sub { $legend },
 );
 
-sub is_terrain ($self, $object)
+has field 'map_object' => (
+	isa => Types::InstanceOf['Tiled::Map'],
+	writer => -hidden,
+	'handles{}' => {
+		'objects' => 'objects',
+	},
+);
+
+sub from_string ($self, $file_path)
 {
-	return $self->get_class_of_object($object) eq 'terrain';
-}
+	state $parser = Tiled::Parser->new;
+	$self->_set_map_object($parser->parse_map($file_path));
 
-sub guess_terrain ($self, $object)
-{
-	my ($x, $y) = ($object->x, $object->y);
-
-	my %found;
-	foreach my $check_x (-1 .. 1) {
-		foreach my $check_y (-1 .. 1) {
-			my $tile = $self->coordinates->[$check_x][$check_y];
-			next if !$self->is_terrain($tile);
-			next if $tile->is_wall || $tile->is_void;
-			$found{$tile->type}++;
-		}
-	}
-
-	# die "unable to guess terrain at $x:$y"
-	return 'level_terrain'
-		if !%found;
-
-	my @sorted = sort { $found{$b} <=> $found{$a} } keys %found;
-	return $sorted[0];
+	return $self->SUPER::from_string($self->map_object->map);
 }
 

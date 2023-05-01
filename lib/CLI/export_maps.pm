@@ -18,6 +18,7 @@ sub id_to_file ($self, $lore_id)
 	return lc $lore_id;
 }
 
+# TODO: redo this to work with tiled maps
 sub run ($self, $language = undef)
 {
 	my $repo = DI->get('lore_data_repo');

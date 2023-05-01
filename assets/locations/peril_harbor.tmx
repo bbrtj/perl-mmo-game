@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.8" tiledversion="1.8.6" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="100" tileheight="100" infinite="0" nextlayerid="9" nextobjectid="3">
- <tileset firstgid="1" source="game tiles.tsx"/>
+ <tileset firstgid="1" source="../game tiles.tsx"/>
  <layer id="1" name="Water" width="40" height="40">
   <properties>
    <property name="terrain_type" value="void"/>
@@ -327,3 +327,4 @@
   </object>
  </objectgroup>
 </map>
+

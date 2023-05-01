@@ -40,6 +40,7 @@ sub _read_map_string ($self, $map_dom, $width, $height)
 		$data =~ s{ +}{}g;
 		$data =~ s{[1-9]\d*}{$tile}g;
 		$data =~ s{,}{}g;
+		$data =~ s{^\s}{}sg;
 
 		my $last = 0;
 		while ((my $nextpos = index $data, $tile, $last) >= 0) {
@@ -56,7 +57,7 @@ sub _read_map_string ($self, $map_dom, $width, $height)
 
 sub parse_map ($self, $path)
 {
-	my $contents = path($path)->slurp;
+	my $contents = path("assets/$path")->slurp;
 
 	my $dom = Mojo::DOM->new($contents);
 	my %args;
