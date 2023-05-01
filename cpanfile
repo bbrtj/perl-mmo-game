@@ -8,7 +8,7 @@ on 'runtime' => sub {
 	requires 'Class::XSConstructor' => 0;
 
 	requires 'Beam::Wire' => 0;
-	requires 'Dotenv' => 0;
+	requires 'Env::Dot' => 0;
 
 	requires 'Data::Localize' => 0;
 	requires 'Data::Localize::YAML' => 0;
