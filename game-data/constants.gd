@@ -12,7 +12,7 @@ define {
 	starting_stats_floating => 5,
 	stats_at_levels => [grep { $_ % 3 == 0 } 1 .. $max_level],
 
-	base_speed => 1, # per second
+	base_speed => 0.8, # per second
 
 	critical_damage => 1.5,
 
