@@ -16,7 +16,7 @@ translations pl => {
 	desc => "Postawiony w okolicy przylądka Peril port to zazwyczaj pierwsze miejsce, w którym lądują nowo przybyli osadnicy, kupcy oraz poszukiwacze przygód."
 };
 
-specify map => 'locations/peril_harbor.tmx';
+specify map => 'peril_harbor';
 
 ### LOCATION
 

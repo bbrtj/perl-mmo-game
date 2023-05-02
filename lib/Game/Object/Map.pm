@@ -26,8 +26,9 @@ has field 'map_object' => (
 	},
 );
 
-sub from_string ($self, $file_path)
+sub from_string ($self, $map_name)
 {
+	my $file_path = "locations/$map_name.tmx";
 	state $parser = Tiled::Parser->new;
 	$self->_set_map_object($parser->parse_map($file_path));
 

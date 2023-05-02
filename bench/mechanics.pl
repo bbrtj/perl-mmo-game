@@ -19,22 +19,9 @@ use header;
 
 use Benchmark qw(cmpthese);
 
-my $map = Game::Object::Map->new(map => <<MAP);
-########################
-##________####________##
-##________####________##
-##__####____######____##
-##__####______________##
-##____####____________##
-##__######____##########
-######____________######
-####________________####
-##______########______##
-##____############____##
-########################
-MAP
+my $map = Game::Object::Map->new(map => 'test_map');
 
-my $variables = h2o {pos_x => 3, pos_y => 3, set_pos_x => 3, set_pos_y => 3};
+my $variables = h2o {pos_x => 4, pos_y => 3, set_pos_x => 3, set_pos_y => 3};
 my $location = h2o {map => $map};
 my $actor = h2o {variables => $variables};
 
@@ -45,13 +32,13 @@ my $movement;
 
 cmpthese - 2, {
 	line_of_sight => sub {
-		die unless Game::Mechanics::Check::Map->can_see($location, [4.9, 4.8], [10.9, 9.3])->result;
+		die unless Game::Mechanics::Check::Map->can_see($location, [4.5, 3.8], [7.9, 8.3])->result;
 	},
 	movement => sub {
 		$movement //= Game::Object::Movement->new(
 			variables => $variables,
-			x => 5.3,
-			y => 6.5,
+			x => 7.3,
+			y => 8.5,
 			speed => 1,
 			time => time,
 		);
