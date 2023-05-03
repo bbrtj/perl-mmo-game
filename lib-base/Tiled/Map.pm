@@ -8,6 +8,10 @@ use constant TILE_VOID => 1;
 use constant TILE_WALL => 2;
 use constant TILE_TERRAIN => 3;
 
+has param 'path' => (
+	isa => Types::SimpleStr,
+);
+
 has param 'width' => (
 	isa => Types::PositiveInt,
 );

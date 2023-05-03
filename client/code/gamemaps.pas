@@ -10,30 +10,8 @@ uses FGL, Classes,
 
 type
 
-	TMapCoordinate = class(TSerialized)
-	private
-		FType: String;
-		FContents: String;
-		FTerrain: String;
-
-		function GetContents(): String;
-		function GetTerrain(): String;
-
-	public
-		constructor Create(); override;
-
-	published
-		property TileType: String read FType write FType;
-		property TileContents: String read GetContents write FContents;
-		property TileTerrain: String read GetTerrain write FTerrain;
-
-	end;
-
-	TMapCoordinates = specialize TFPGObjectList<TMapCoordinate>;
-
 	TMap = class(TSerialized)
 	private
-		FCoords: TMapCoordinates;
 		FSizeX: Cardinal;
 		FSizeY: Cardinal;
 
@@ -42,7 +20,6 @@ type
 		destructor Destroy; override;
 
 	published
-		property Coords: TMapCoordinates read FCoords write FCoords;
 		property SizeX: Cardinal read FSizeX write FSizeX;
 		property SizeY: Cardinal read FSizeY write FSizeY;
 
@@ -109,37 +86,14 @@ var
 
 implementation
 
-constructor TMapCoordinate.Create();
-begin
-	inherited;
-	FContents := '';
-	FTerrain := '';
-end;
-
-function TMapCoordinate.GetContents(): String;
-begin
-	result := FContents;
-	if result = '' then
-		result := FType;
-end;
-
-function TMapCoordinate.GetTerrain(): String;
-begin
-	result := FTerrain;
-	if result = '' then
-		result := FType;
-end;
-
 constructor TMap.Create();
 begin
 	inherited;
-	FCoords := TMapCoordinates.Create;
 end;
 
 destructor TMap.Destroy;
 begin
 	inherited;
-	FCoords.Free;
 end;
 
 constructor TMapData.Create();
@@ -180,7 +134,7 @@ begin
 	vStreamer := TGameStreamer.Create;
 	vLines := TStringList.Create;
 
-	vStream := Download('castle-data:/mapindex.json');
+	vStream := Download('castle-data:/maps/index.json');
 	vLines.LoadFromStream(vStream);
 	vStreamer.DeStreamer.JSONToObject(vLines.Text, self);
 
@@ -233,7 +187,6 @@ end;
 
 initialization
 	ListSerializationMap.Add(TSerializedList.Create(TMapIndexEntries, TMapIndexEntry));
-	ListSerializationMap.Add(TSerializedList.Create(TMapCoordinates, TMapCoordinate));
 	MapIndex := TMapIndex.Create();
 
 finalization

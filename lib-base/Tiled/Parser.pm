@@ -68,6 +68,7 @@ sub parse_map ($self, $path)
 			for qw(width height tilewidth tileheight);
 	}
 
+	$args{path} = $path;
 	$args{map} = $self->_read_map_string($map, $args{width}, $args{height});
 
 	my $map_object = Tiled::Map->new(%args);
@@ -75,7 +76,7 @@ sub parse_map ($self, $path)
 	foreach my $object_layer ($map->find('objectgroup')->each) {
 		my %properties = $self->_read_properties($object_layer);
 
-		next unless $properties{private} eq 'true';
+		next unless ($properties{private} // '') eq 'true';
 
 		my $type = $object_layer->attr->{name};
 		foreach my $object ($object_layer->find('object')->each) {
@@ -92,8 +93,25 @@ sub parse_map ($self, $path)
 
 sub groom_map ($self, $path)
 {
-	# TODO: Remove all private stuff from the map, return enough for client to render the map
-	# (want to use Tiled to set world data like npcs and spawns, but not leak it to the client for it to be data mined easily)
-	return;
+	my $contents = path("assets/$path")->slurp;
+
+	my $dom = Mojo::DOM->new($contents);
+	my %args;
+
+	my $map = $dom->at('map');
+
+	foreach my $layer ($map->find('layer')->each) {
+		$_->remove for $layer->find('properties')->each;
+	}
+
+	foreach my $object_layer ($map->find('objectgroup')->each) {
+		my %properties = $self->_read_properties($object_layer);
+		$_->remove for $object_layer->find('properties')->each;
+
+		next unless ($properties{private} // '') eq 'true';
+		$object_layer->remove;
+	}
+
+	return $dom->to_string;
 }
 
