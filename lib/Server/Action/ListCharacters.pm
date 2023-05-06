@@ -8,15 +8,15 @@ use header;
 
 extends 'Server::Action';
 
+has injected 'units_repo';
+
 use constant name => 'list_characters';
 use constant required_state => Model::PlayerSession->STATE_LOGGED_IN;
 
 sub handle ($self, $session_id, $id, $)
 {
-	state $repo = DI->get('units_repo');
-
 	my $session = $self->cache_repo->load(PlayerSession => $session_id);
-	my $unit = $repo->load_user($session->user_id);
+	my $unit = $self->units_repo->load_user($session->user_id);
 
 	$self->send_to(
 		$session_id,

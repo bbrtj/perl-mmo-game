@@ -9,8 +9,6 @@ use header;
 
 extends 'Server::GameAction';
 
-has injected 'units_repo';
-
 use constant name => 'stop';
 use constant required_state => Model::PlayerSession->STATE_PLAYING;
 
