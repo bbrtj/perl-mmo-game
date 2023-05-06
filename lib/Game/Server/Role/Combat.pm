@@ -19,8 +19,8 @@ sub use_ability ($self, $actor_id, %options)
 	# TODO: for now this oversimplified code hardcodes an auto attack
 	my $angle = $actor->temp->angle;
 	my ($x, $y) = ($actor->variables->pos_x, $actor->variables->pos_y);
-	my $radius = 0.5;
-	my $distance = 0.5;
+	my $radius = 0.25;
+	my $distance = 0.2;
 
 	my @found = grep { $_ != $actor } Game::Mechanics::Distance->find_actors_in_range(
 		$self,

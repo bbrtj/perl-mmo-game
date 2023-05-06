@@ -7,7 +7,7 @@ uses Classes, SysUtils,
 	CastleTransform, CastleScene, CastleViewport, CastleTiledMap,
 	GameState,
 	GameNetwork,
-	GameModels, GameModels.Move, GameModels.Discovery;
+	GameModels, GameModels.Move, GameModels.Discovery, GameModels.Ability;
 
 type
 	TViewPlay = class(TCastleView)
@@ -122,6 +122,10 @@ begin
 	// TODO: configurable keybinds
 	if vEvent.IsKey(keyS) then begin
 		GlobalClient.Send(TMsgStop, TMsgStop.Create());
+		exit(true);
+	end
+	else if vEvent.IsKey(keyA) then begin
+		GlobalClient.Send(TMsgUntargettedAbility, TMsgUntargettedAbility.Create());
 		exit(true);
 	end;
 	if vEvent.IsMouseButton(buttonLeft) then begin
