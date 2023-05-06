@@ -1,13 +1,14 @@
 package Game::Mechanics::Movement;
 
-use header;
 use Game::Config;
+use Game::Mechanics::Generic;
+
+use header;
 
 # $movement is Game::Object::Movement
 sub move ($self, $movement, $elapsed, $map)
 {
 	my $variables = $movement->variables;
-	my $coeffs = $movement->coeffs;
 	$elapsed = $movement->eta
 		if $movement->eta < $elapsed;
 
@@ -17,8 +18,12 @@ sub move ($self, $movement, $elapsed, $map)
 	my ($distance, $new_x, $new_y);
 	while (-inaccessible) {
 		$distance = ($elapsed - $movement->time) * $movement->speed;
-		$new_x = $variables->pos_x + $coeffs->[0] * $distance;
-		$new_y = $variables->pos_y + $coeffs->[1] * $distance;
+		($new_x, $new_y) = Game::Mechanics::Generic->find_frontal_point(
+			$variables->pos_x,
+			$variables->pos_y,
+			$movement->angle,
+			$distance
+		);
 
 		last if $map->check_can_be_accessed($new_x, $new_y);
 

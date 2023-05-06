@@ -37,7 +37,7 @@ sub set_movement ($self, $actor_id, $x, $y)
 	);
 
 	$self->_movements->{$actor_id} = $movement;
-	$actor->temp->set_angle($movement->get_angle);
+	$actor->temp->set_angle($movement->angle);
 
 	my $resource = Resource::ActorMovement->new(
 		subject => $actor,

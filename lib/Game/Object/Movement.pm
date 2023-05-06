@@ -32,27 +32,23 @@ has field 'eta' => (
 	writer => 1,
 );
 
-has field 'coeffs' => (
+has field 'angle' => (
+	# isa => Types::Num,
 
-	# isa => Types::Tuple [Types::Num, Types::Num],
 	writer => 1,
 );
 
 sub BUILD ($self, $)
 {
-	my $x_dist = $self->x - $self->variables->pos_x;
-	my $y_dist = $self->y - $self->variables->pos_y;
-	my $distance = Game::Mechanics::Generic->calculate_diagonal($x_dist, $y_dist);
+	my ($angle, $distance) = Game::Mechanics::Generic->calculate_angle_and_diagonal(
+		$self->variables->pos_x, $self->variables->pos_y,
+		$self->x, $self->y,
+	);
 
 	$self->set_eta($self->time + $distance / $self->speed);
-	$self->set_coeffs($distance > 0 ? [$x_dist / $distance, $y_dist / $distance] : [0, 0]);
+	$self->set_angle($angle);
 
 	return;
-}
-
-sub get_angle ($self)
-{
-	return Game::Mechanics::Generic->calculate_angle($self->coeffs->@*);
 }
 
 sub finished ($self)
