@@ -26,6 +26,10 @@ has param 'variables' => (
 	isa => Types::InstanceOf ['Model::CharacterVariables'],
 );
 
+has field 'temp' => (
+	constructed => ['Model::TempActor'],
+);
+
 sub BUILD ($self, $args)
 {
 	$self->_set_id($self->player->id)

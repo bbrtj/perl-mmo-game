@@ -50,6 +50,11 @@ sub BUILD ($self, $)
 	return;
 }
 
+sub get_angle ($self)
+{
+	return Game::Mechanics::Generic->calculate_angle($self->coeffs->@*);
+}
+
 sub finished ($self)
 {
 	return $self->eta == $self->time;
