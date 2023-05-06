@@ -2,9 +2,9 @@ package Game::Mechanics::Character::Damage;
 
 use header;
 
-sub deal_damage ($self, $attribute, $damage, $targets)
+sub deal_damage ($self, $attribute, $damage, @targets)
 {
-	foreach my $target (@$targets) {
+	foreach my $target (@targets) {
 		my $target_damage = $damage;
 
 		# TODO dodge chance

@@ -63,6 +63,8 @@ with qw(
 	Game::Server::Role::QuadTree
 	Game::Server::Role::Discovery
 	Game::Server::Role::Movements
+
+	Game::Server::Role::Combat
 );
 
 sub _add_action ($self, $every, $handler, $priority = 'normal')
