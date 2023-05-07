@@ -4,7 +4,7 @@ interface
 
 uses
 	Classes, FGL, SysUtils,
-	CastleClientServer,
+	CastleClientServer, CastleConfig,
 	GameLog,
 	GameNetworkMessages,
 	GameModels;
@@ -58,14 +58,10 @@ type
 
 	public
 	const
-		// TODO: configure at compile stage
-		cDefaultHost = 'localhost';
-		cDefaultPort = 14832;
-
 		constructor Create;
 		destructor Destroy; override;
 
-		procedure Connect(const vHost: String; const vPort: Word; const vCallback: TNetworkCallback);
+		procedure Connect(const vCallback: TNetworkCallback);
 		procedure Disconnect(const vRaiseEvent: Boolean = True);
 
 		procedure Send(const vModel: TModelClass; const vData: TModelBase);
@@ -126,15 +122,19 @@ begin
 	inherited;
 end;
 
-procedure TNetwork.Connect(const vHost: String; const vPort: Word; const vCallback: TNetworkCallback);
+procedure TNetwork.Connect(const vCallback: TNetworkCallback);
+const
+	cDefaultHost = 'localhost';
+	cDefaultPort = 14832;
+
 begin
 	if FClient.IsConnected then begin
 		vCallback();
 		exit;
 	end;
 
-	FClient.Hostname := vHost;
-	FClient.Port := vPort;
+	FClient.Hostname := UserConfig.GetValue('server_host', cDefaultHost);
+	FClient.Port := UserConfig.GetValue('server_port', cDefaultPort);
 
 	FClient.OnConnected := vCallback;
 	FClient.Connect;

@@ -13,7 +13,8 @@ implementation
 
 uses SysUtils,
 	CastleWindow, CastleLog,
-	GameLore, GameMaps, GameTranslations
+	GameLore, GameMaps, GameTranslations,
+	CastleConfig
 	{$region 'Castle Initialization Uses'}
 	// The content here may be automatically updated by CGE editor.
 	, GameViewLogin, GameViewCharacterList
@@ -29,6 +30,7 @@ procedure ApplicationInitialize;
 begin
 	{ Adjust container settings for a scalable UI (adjusts to any window size in a smart way). }
 	Window.Container.LoadSettings('castle-data:/CastleSettings.xml');
+	UserConfig.Load;
 
 	LoreCollection.Initialize;
 	MapIndex.Initialize;

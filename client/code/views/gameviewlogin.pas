@@ -95,11 +95,7 @@ begin
 	FUIStatus.Caption := _('msg.connecting');
 	FUIStatus.Exists := true;
 
-	GlobalClient.Connect(
-		GlobalClient.cDefaultHost,
-		GlobalClient.cDefaultPort,
-		@onConnected
-	);
+	GlobalClient.Connect(@onConnected);
 end;
 
 procedure TViewLogin.OnConnected();
