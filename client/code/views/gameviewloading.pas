@@ -9,12 +9,12 @@ uses Classes,
 
 type
 	TViewLoading = class(TCastleView)
-	private
-		{ Components designed using CGE editor, loaded from the castle-user-interface file. }
-		FUIHintText1: TCastleLabel;
-		FUIHintText2: TCastleLabel;
+	published
+		HintText1: TCastleLabel;
+		HintText2: TCastleLabel;
 		Loader: TCastleImageControl;
 
+	private
 		FFading: Boolean;
 		FLoaded: Boolean;
 
@@ -59,8 +59,8 @@ var
 	vLore: TLoreItem;
 begin
 	vLore := LoreCollection.GetById(FMapId);
-	FUIHintText1.Caption := vLore.LoreName;
-	FUIHintText2.Caption := vLore.LoreDescription;
+	HintText1.Caption := vLore.LoreName;
+	HintText2.Caption := vLore.LoreDescription;
 end;
 
 procedure TViewLoading.DoLoad(vSender: TObject);
@@ -82,10 +82,6 @@ end;
 procedure TViewLoading.Start;
 begin
 	inherited;
-
-	FUIHintText1 := DesignedComponent('HintText1') as TCastleLabel;
-	FUIHintText2 := DesignedComponent('HintText2') as TCastleLabel;
-	Loader := DesignedComponent('Loader') as TCastleImageControl;
 
 	GlobalClient.Await(TMsgFeedLocationData, @OnLocationData);
 

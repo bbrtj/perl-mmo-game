@@ -11,15 +11,16 @@ uses Classes, SysUtils,
 
 type
 	TViewPlay = class(TCastleView)
+	published
+		MainViewport: TCastleViewport;
+		Board: TCastleTiledMap;
+		PlayerCamera: TCastleCamera;
+		AmbientLight: TCastleDirectionalLight;
+
+		PingDisplay: TCastleLabel;
+		FpsDisplay: TCastleLabel;
+
 	private
-		FUIMainViewport: TCastleViewport;
-		FUIBoard: TCastleTiledMap;
-		FUIPlayerCamera: TCastleCamera;
-		FUIAmbientLight: TCastleDirectionalLight;
-
-		FUIPingDisplay: TCastleLabel;
-		FUIFpsDisplay: TCastleLabel;
-
 		FGameState: TGameState;
 		FPlaying: Boolean;
 
@@ -59,15 +60,8 @@ procedure TViewPlay.Start;
 begin
 	inherited;
 
-	FUIMainViewport := DesignedComponent('MainViewport') as TCastleViewport;
-	FUIBoard := DesignedComponent('Board') as TCastleTiledMap;
-	FUIPlayerCamera := DesignedComponent('PlayerCamera') as TCastleCamera;
-	FUIAmbientLight := DesignedComponent('AmbientLight') as TCastleDirectionalLight;
-	FUIPingDisplay := DesignedComponent('PingDisplay') as TCastleLabel;
-	FUIFpsDisplay := DesignedComponent('FpsDisplay') as TCastleLabel;
 	FPlaying := false;
-
-	FGameState := TGameState.Create(FUIBoard, FUIPlayerCamera);
+	FGameState := TGameState.Create(Board, PlayerCamera);
 
 	GlobalClient.Await(TMsgFeedDiscovery, @OnDiscovery);
 	GlobalClient.Await(TMsgFeedActorMovement, @OnActorMovement);
@@ -99,14 +93,14 @@ begin
 	FGameState.Update(vSecondsPassed);
 	GlobalClient.Heartbeat(vSecondsPassed);
 
-	FUIPingDisplay.Caption := 'Latency: ' + FloatToStr(round(GlobalClient.Ping * 100000) / 100) + ' ms';
-	FUIFpsDisplay.Caption := 'FPS: ' + Container.Fps.ToString;
+	PingDisplay.Caption := 'Latency: ' + FloatToStr(round(GlobalClient.Ping * 100000) / 100) + ' ms';
+	FpsDisplay.Caption := 'FPS: ' + Container.Fps.ToString;
 
 end;
 
 procedure TViewPlay.SetMapPath(vMapPath: String);
 begin
-	FUIBoard.URL := vMapPath;
+	Board.URL := vMapPath;
 end;
 
 function TViewPlay.Press(const vEvent: TInputPressRelease): Boolean;
@@ -129,7 +123,7 @@ begin
 		exit(true);
 	end;
 	if vEvent.IsMouseButton(buttonLeft) then begin
-		vMouseHit := FUIMainViewport.MouseRayHit;
+		vMouseHit := MainViewport.MouseRayHit;
 		if vMouseHit <> nil then begin
 			vPosition := FindMapPosition(vMouseHit);
 

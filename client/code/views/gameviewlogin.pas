@@ -13,11 +13,11 @@ uses SysUtils, Classes,
 
 type
 	TViewLogin = class(TCastleView)
-	private
-		FUIUsernameField: TCastleEdit;
-		FUIPasswordField: TCastleEdit;
-		FUILoginButton: TGameButton;
-		FUIStatus: TCastleLabel;
+	published
+		UsernameField: TCastleEdit;
+		PasswordField: TCastleEdit;
+		LoginButton: TGameButton;
+		LoginStatus: TCastleLabel;
 
 	public
 		constructor Create(vOwner: TComponent); override;
@@ -51,13 +51,7 @@ begin
 	GlobalClient.ContextChange;
 	GlobalClient.OnDisconnected := @OnDisconnected;
 
-	{ Find components, by name, that we need to access from code }
-	FUIUsernameField := DesignedComponent('UsernameField') as TCastleEdit;
-	FUIPasswordField := DesignedComponent('PasswordField') as TCastleEdit;
-	FUILoginButton := DesignedComponent('LoginButton') as TGameButton;
-	FUIStatus := DesignedComponent('LoginStatus') as TCastleLabel;
-
-	FUILoginButton.onClick := @DoLogin;
+	LoginButton.onClick := @DoLogin;
 end;
 
 procedure TViewLogin.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
@@ -92,8 +86,8 @@ end;
 
 procedure TViewLogin.DoLogin(vSender: TObject);
 begin
-	FUIStatus.Caption := _('msg.connecting');
-	FUIStatus.Exists := true;
+	LoginStatus.Caption := _('msg.connecting');
+	LoginStatus.Exists := true;
 
 	GlobalClient.Connect(@onConnected);
 end;
@@ -102,12 +96,12 @@ procedure TViewLogin.OnConnected();
 var
 	vData: TMsgLogin;
 begin
-	FUIStatus.Caption := _('msg.logging_in');
+	LoginStatus.Caption := _('msg.logging_in');
 
 	vData := TMsgLogin.Create;
 
-	vData.email := FUIUsernameField.Text;
-	vData.password := FUIPasswordField.Text;
+	vData.email := UsernameField.Text;
+	vData.password := PasswordField.Text;
 
 	GlobalClient.Send(TMsgLogin, vData, @onLogin);
 
@@ -120,7 +114,7 @@ begin
 		Container.View := ViewCharacterList;
 	end
 	else begin
-		FUIStatus.Caption := _('msg.login_failed');
+		LoginStatus.Caption := _('msg.login_failed');
 		GlobalClient.Disconnect(False);
 	end;
 end;
@@ -128,8 +122,8 @@ end;
 procedure TViewLogin.OnDisconnected();
 begin
 	Container.View := self;
-	FUIStatus.Caption := _('msg.disconnected');
-	FUIStatus.Exists := True;
+	LoginStatus.Caption := _('msg.disconnected');
+	LoginStatus.Exists := True;
 end;
 
 { implementation end }
