@@ -13,6 +13,7 @@ use header;
 requires qw(
 	location
 	send_to_player
+	send_to_players
 	get_discovered_by
 );
 
@@ -44,26 +45,22 @@ sub set_movement ($self, $actor_id, $x, $y)
 		movement => $movement
 	);
 
-	foreach my $id ($actor_id, $self->get_discovered_by($actor_id)) {
-		$self->send_to_player($id, $resource);
-	}
+	$self->send_to_players([$actor_id, $self->get_discovered_by($actor_id)], $resource);
 
 	return;
 }
 
 sub cancel_movement ($self, $actor_id)
 {
-	if (exists $self->_movements->{$actor_id}) {
-		$self->_process_movement(delete $self->_movements->{$actor_id});
+	return unless exists $self->_movements->{$actor_id};
 
-		my $resource = Resource::ActorPosition->new(
-			subject => $self->location->get_actor($actor_id),
-		);
+	$self->_process_movement(delete $self->_movements->{$actor_id});
 
-		foreach my $id ($actor_id, $self->get_discovered_by($actor_id)) {
-			$self->send_to_player($id, $resource);
-		}
-	}
+	my $resource = Resource::ActorPosition->new(
+		subject => $self->location->get_actor($actor_id),
+	);
+
+	$self->send_to_players([$actor_id, $self->get_discovered_by($actor_id)], $resource);
 
 	return;
 }
@@ -88,9 +85,7 @@ sub _process_movements ($self)
 					subject => $self->location->get_actor($actor_id),
 				);
 
-				foreach my $id ($actor_id, $self->get_discovered_by($actor_id)) {
-					$self->send_to_player($id, $resource);
-				}
+				$self->send_to_players([$actor_id, $self->get_discovered_by($actor_id)], $resource);
 			}
 		}
 	}

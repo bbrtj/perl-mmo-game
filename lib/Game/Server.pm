@@ -12,6 +12,7 @@ has param 'process' => (
 	weak_ref => 1,
 	'handles->' => {
 		'send_to_player' => 'send_to_player',
+		'send_to_players' => 'send_to_players',
 		'log' => 'log',
 	},
 );

@@ -44,6 +44,17 @@ sub send_to_player ($self, $player_id, $data, @more)
 	return $self->send_to($self->load_session($player_id), $data, @more);
 }
 
+sub send_to_players ($self, $player_ids, $data)
+{
+	my @ids = $player_ids->@*;
+	return if !@ids;
+
+	return $self->send_to_player($ids[0], $data)
+		if @ids == 1;
+
+	return $self->send_to_all($data, sessions => [map { $self->load_session($_) } @ids]);
+}
+
 sub handle ($self, $data)
 {
 	my ($name, $player_id, $id, @args) = $data->@*;

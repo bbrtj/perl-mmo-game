@@ -30,18 +30,55 @@ with qw(
 	Server::Role::Listening
 );
 
-sub connection ($self, $stream, $id)
+sub build_message ($self, $data_href)
+{
+	my $echo = $data_href->{echo};
+
+	return join(
+		Server::Config::PROTOCOL_CONTROL_CHARACTER,
+		($data_href->{id} // ''),
+		($data_href->{echo_type} // ''),
+		(is_ref $echo ? __serialize($echo) : $echo),
+		)
+
+		# NOTE: this CRLF is essential for the client to get this data
+		. "\r\n"
+		;
+}
+
+sub handle_global_feedback ($self, $data_href)
+{
+	my @recipients;
+
+	if ($data_href->{sessions}) {
+		@recipients = grep { defined } $self->connections->@{$data_href->{sessions}->@*};
+	}
+	else {
+		@recipients = values $self->connections->%*;
+	}
+
+	my $message = $self->build_message($data_href);
+	foreach my $session (@recipients) {
+		$session->send($message);
+	}
+}
+
+sub connection ($self, $stream)
 {
 	$self->log->debug('New TCP connection from ' . $stream->handle->peerhost)
 		if Server::Config::DEBUG;
 
-	$self->connections->{$id} = Server::Session->new(
+	my $id;
+	my $connection = Server::Session->new(
 		server => $self,
 		stream => $stream,
 		on_dropped => sub {
 			delete $self->connections->{$id};
 		}
 	);
+
+	$id = $connection->id;
+	$self->connections->{$id} = $connection;
 
 	return;
 }
@@ -54,9 +91,7 @@ sub start ($self)
 		$self->channel_service,
 		undef,
 		sub {
-			foreach my $session (values $self->connections->%*) {
-				$session->handle_feedback(@_);
-			}
+			$self->handle_global_feedback(@_);
 		}
 	);
 
@@ -64,14 +99,10 @@ sub start ($self)
 		{
 			port => $self->port,
 			reuse => 1,
-
-			# TODO: tls
-		} => sub ($, $stream, $id) {
-			$self->connection($stream, $id);
+		} => sub ($, $stream, $) {
+			$self->connection($stream);
 		}
 	);
-
-	$self->_unlisten;
 
 	return;
 }
@@ -83,6 +114,10 @@ sub start_listening ($self, $processes = 4)
 		$processes,
 		sub ($process_id) {
 			$self->start;
+
+			# FIXME: this has to be here for some reason, not in 'start' method
+			# (start method exits before server runs)
+			$self->_unlisten;
 		},
 	);
 

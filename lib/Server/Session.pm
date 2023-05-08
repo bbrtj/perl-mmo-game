@@ -9,11 +9,13 @@ use header;
 
 has param 'server' => (
 	isa => Types::InstanceOf ['Server'],
+	weak_ref => 1,
 	'handles->' => {
 		'cache_repo' => 'cache_repo',
 		'channel_service' => 'channel_service',
 		'worker' => 'worker',
 		'log' => 'log',
+		'build_message' => 'build_message',
 	}
 );
 
@@ -31,6 +33,9 @@ has field 'session' => (
 	writer => 1,
 	default => sub {
 		Model::PlayerSession->new;
+	},
+	'handles->' => {
+		'id' => 'id',
 	},
 );
 
@@ -65,7 +70,7 @@ sub dropped ($self)
 	$self->log->debug("Connection dropped")
 		if Server::Config::DEBUG;
 
-	$self->worker->data_bus->broadcast('logout', $self->session->id);
+	$self->worker->data_bus->broadcast('logout', $self->id);
 	$self->_unlisten;
 
 	$self->on_dropped->();
@@ -124,27 +129,14 @@ sub handle_message ($self, $req_id, $type, $data = undef)
 
 sub handle_feedback ($self, $data_href)
 {
-	my %data = $data_href->%*;
-
-	if (defined $data{echo}) {
-		$self->send(
-			join(
-				Server::Config::PROTOCOL_CONTROL_CHARACTER,
-				($data{id} // ''),
-				($data{echo_type} // ''),
-				(is_ref $data{echo} ? __serialize($data{echo}) : $data{echo}),
-				)
-
-				# NOTE: this CRLF is essential for the client to get this data
-				. "\r\n",
-		);
-	}
+	$self->send($self->build_message($data_href))
+		if defined $data_href->{echo};
 
 	$self->set_session($self->cache_repo->load(PlayerSession => $self->session->id))
-		if $data{refresh};
+		if $data_href->{refresh};
 
 	$self->stream->close
-		if $data{drop};
+		if $data_href->{drop};
 
 	return;
 }

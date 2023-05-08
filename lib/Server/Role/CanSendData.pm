@@ -22,3 +22,8 @@ sub send_to ($self, $session_id, $echo, %data)
 	return;
 }
 
+sub send_to_all ($self, $echo, %data)
+{
+	return $self->send_to(undef, $echo, %data);
+}
+
