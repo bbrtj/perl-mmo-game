@@ -1539,6 +1539,13 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 6.17
       perl 5.006001
+  ExtUtils-CChecker-0.11
+    pathname: P/PE/PEVANS/ExtUtils-CChecker-0.11.tar.gz
+    provides:
+      ExtUtils::CChecker 0.11
+    requirements:
+      ExtUtils::CBuilder 0
+      Module::Build 0.4004
   ExtUtils-Config-0.008
     pathname: L/LE/LEONT/ExtUtils-Config-0.008.tar.gz
     provides:
@@ -1929,6 +1936,16 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Iterator 0.01
       Test::Simple 0.40
+  List-Keywords-0.10
+    pathname: P/PE/PEVANS/List-Keywords-0.10.tar.gz
+    provides:
+      List::Keywords 0.10
+    requirements:
+      ExtUtils::CBuilder 0
+      Module::Build 0.4004
+      XS::Parse::Keyword 0.05
+      XS::Parse::Keyword::Builder 0.05
+      perl 5.014
   Log-Dispatch-2.70
     pathname: D/DR/DROLSKY/Log-Dispatch-2.70.tar.gz
     provides:
@@ -4156,6 +4173,19 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       perl 5.018
+  XS-Parse-Keyword-0.33
+    pathname: P/PE/PEVANS/XS-Parse-Keyword-0.33.tar.gz
+    provides:
+      XS::Parse::Infix 0.33
+      XS::Parse::Infix::Builder 0.33
+      XS::Parse::Keyword 0.33
+      XS::Parse::Keyword::Builder 0.33
+    requirements:
+      ExtUtils::CBuilder 0
+      ExtUtils::CChecker 0.11
+      ExtUtils::ParseXS 3.16
+      Module::Build 0.4004
+      perl 5.014
   XString-0.005
     pathname: A/AT/ATOOMIC/XString-0.005.tar.gz
     provides:

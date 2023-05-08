@@ -40,7 +40,7 @@ on 'runtime' => sub {
 	requires 'MojoX::Log::Dispatch::Simple' => 0;
 
 	requires 'Ref::Util' => 0;
-	requires 'List::Util' => 0;
+	requires 'List::Keywords' => 0;
 
 	requires 'Sereal::Encoder' => 0;
 	requires 'Sereal::Decoder' => 0;

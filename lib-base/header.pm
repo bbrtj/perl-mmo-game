@@ -12,6 +12,7 @@ require Carp;
 require Scalar::Util;
 require Ref::Util;
 require List::Util;
+require List::Keywords;
 require My::Serializer;
 
 use DI;
@@ -30,7 +31,8 @@ sub import ($me, @args)
 	Carp->import::into($pkg, qw(croak));
 	Scalar::Util->import::into($pkg, qw(blessed));
 	Ref::Util->import::into($pkg, qw(is_ref is_arrayref is_hashref is_coderef is_scalarref));
-	List::Util->import::into($pkg, qw(first any all mesh));
+	List::Keywords->import::into($pkg, qw(first any all));
+	List::Util->import::into($pkg, qw(mesh));
 	i18n->import::into($pkg);
 	My::Serializer->import::into($pkg);
 
