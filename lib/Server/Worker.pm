@@ -39,11 +39,11 @@ sub cleanup ($self)
 	return;
 }
 
-sub _location_dispenser ($self, $game_processes)
+sub _location_dispenser ($self, $game_processes_sref)
 {
 	my $locations_href = DI->get('lore_data_repo')->load_all_named('Game::Lore::Location');
 	my @locations = shuffle values $locations_href->%*;
-	my $processes_left = $game_processes;
+	$$game_processes_sref = my $processes_left = @locations;
 
 	return sub {
 		return () if !$processes_left;
@@ -56,14 +56,10 @@ sub _location_dispenser ($self, $game_processes)
 	};
 }
 
-sub start ($self, $processes = 2)
+sub start ($self, $jobs_processes = 1)
 {
-	die 'must have at least 2 processes'
-		unless $processes > 1;
-
-	# keep at least 75% of processes as game processes
-	my $jobs_processes = (int $processes / 4) || 1;
-	my $game_processes = $processes - $jobs_processes;
+	die 'must have at least one process'
+		unless $jobs_processes > 0;
 
 	my $loop = Mojo::IOLoop->singleton;
 
@@ -80,7 +76,8 @@ sub start ($self, $processes = 2)
 	);
 
 	# create processes for game servers
-	my $get_locations = $self->_location_dispenser($game_processes);
+	my $get_locations = $self->_location_dispenser(\my $game_processes);
+	$self->log->debug("Running $game_processes game processes...");
 	$self->create_forks(
 		'game',
 		$game_processes,

@@ -10,7 +10,7 @@ use Server::Worker;
 
 use header;
 
-my $processes = 6;
+my $processes = 2;
 
 GetOptions(
 	'processes|p=i', \$processes,
