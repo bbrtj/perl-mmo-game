@@ -6,6 +6,7 @@ use header;
 
 requires qw(cache_repo data_bus send_to);
 
+# used here for user_ids (normally used for player_ids, but they are distinct)
 has injected 'sessions_cache' => (
 	'handles->' => {
 		'save_session' => 'save',
