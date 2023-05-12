@@ -38,6 +38,7 @@ sub handle ($self, $player_id, $session_id)
 	$self->cache_repo->save($session);
 
 	$self->server->location->add_actor($actor);
+	$self->game_process->save_session($player_id, $session_id);
 
 	$self->send_to(
 		$session_id,

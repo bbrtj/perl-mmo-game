@@ -21,6 +21,7 @@ sub handle ($self, $player_id, $)
 	$self->units_repo->update($actor);
 
 	$self->server->signal_player_left($actor);
+	$self->game_process->remove_session($player_id);
 	$self->server->log->debug("Logged out player $player_id");
 	return;
 }

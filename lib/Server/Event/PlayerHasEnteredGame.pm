@@ -11,7 +11,6 @@ use constant name => 'player_has_entered_game';
 sub update_session ($self, $session, $actor)
 {
 	$session->set_playing($actor);
-	$self->game_process->save_session($actor->player->id, $session->id);
 
 	return;
 }

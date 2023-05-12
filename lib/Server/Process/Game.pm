@@ -12,14 +12,6 @@ use header;
 
 extends 'Server::Process';
 
-has injected 'sessions_cache' => (
-	'handles->' => {
-		'save_session' => 'save',
-		'load_session' => 'load',
-		'remove_session' => 'remove',
-	}
-);
-
 has param 'location_id' => (
 	isa => Types::LoreId,
 );
@@ -31,6 +23,15 @@ has field 'server' => (
 			process => $self,
 			location => DI->get('units_repo')->load_location($self->location_id)
 		);
+	},
+);
+
+has cached '_sessions' => (
+	default => sub { {} },
+	'handles{}' => {
+		'save_session' => 'set',
+		'load_session' => 'get',
+		'remove_session' => 'delete',
 	},
 );
 
