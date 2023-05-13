@@ -17,7 +17,7 @@ sub use_ability ($self, $actor_id, %options)
 	my $actor = $self->location->get_actor($actor_id);
 
 	# TODO: for now this oversimplified code hardcodes an auto attack
-	my $angle = $actor->temp->angle;
+	my $angle = $actor->stats->angle;
 	my ($x, $y) = ($actor->variables->pos_x, $actor->variables->pos_y);
 	my $radius = 0.25;
 	my $distance = 0.2;

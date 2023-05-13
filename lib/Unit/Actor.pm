@@ -26,8 +26,8 @@ has param 'variables' => (
 	isa => Types::InstanceOf ['Model::CharacterVariables'],
 );
 
-has field 'temp' => (
-	constructed => ['Model::TempActor'],
+has field 'stats' => (
+	constructed => ['Game::Object::Actor::Stats'],
 );
 
 sub BUILD ($self, $args)

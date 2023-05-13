@@ -17,58 +17,58 @@ requires qw(
 	get_discovered_by
 );
 
-has cached '_movements' => (
-	isa => Types::HashRef [Types::InstanceOf ['Game::Object::Movement']],
+has cached '_moving' => (
+	isa => Types::HashRef [Types::InstanceOf ['Unit::Actor']],
 	default => sub { {} },
 );
 
 sub set_movement ($self, $actor_id, $x, $y)
 {
-	$self->_process_movement(delete $self->_movements->{$actor_id});
-
 	my $actor = $self->location->get_actor($actor_id);
-	my $speed = Game::Config->config->{base_speed};    # TODO
+	$self->_process_movement($actor);
 
-	my $movement = Game::Object::Movement->new(
-		variables => $actor->variables,
-		x => $x,
-		y => $y,
-		speed => $speed,
-		time => $self->get_time,
+	$actor->stats->set_movement(
+		Game::Object::Movement->new(
+			variables => $actor->variables,
+			x => $x,
+			y => $y,
+			speed => $actor->stats->speed,
+			time => $self->get_time,
+		)
 	);
 
-	$self->_movements->{$actor_id} = $movement;
-	$actor->temp->set_angle($movement->angle);
+	$self->_moving->{$actor_id} = $actor;
 
-	my $resource = Resource::ActorMovement->new(
-		subject => $actor,
-		movement => $movement
+	$self->send_to_players(
+		[$actor_id, $self->get_discovered_by($actor_id)],
+		Resource::ActorMovement->new(subject => $actor)
 	);
-
-	$self->send_to_players([$actor_id, $self->get_discovered_by($actor_id)], $resource);
 
 	return;
 }
 
 sub cancel_movement ($self, $actor_id)
 {
-	return unless exists $self->_movements->{$actor_id};
+	return unless exists $self->_moving->{$actor_id};
+	my $actor = delete $self->_moving->{$actor_id};
 
-	$self->_process_movement(delete $self->_movements->{$actor_id});
+	$self->_process_movement($actor);
+	$actor->stats->clear_movement;
 
-	my $resource = Resource::ActorPosition->new(
-		subject => $self->location->get_actor($actor_id),
+	$self->send_to_players(
+		[$actor_id, $self->get_discovered_by($actor_id)],
+		Resource::ActorPosition->new(subject => $actor)
 	);
-
-	$self->send_to_players([$actor_id, $self->get_discovered_by($actor_id)], $resource);
 
 	return;
 }
 
-sub _process_movement ($self, $movement, $elapsed = $self->get_time, $map = $self->map)
+sub _process_movement ($self, $actor)
 {
+	my $movement = $actor->stats->movement;
+
 	return !!0 unless $movement;
-	return Game::Mechanics::Movement->move($movement, $elapsed, $map);
+	return Game::Mechanics::Movement->move($movement, $self->get_time, $self->map);
 }
 
 sub _process_movements ($self)
@@ -76,16 +76,19 @@ sub _process_movements ($self)
 	my $elapsed = $self->get_time;
 	my $map = $self->map;
 
-	foreach my ($actor_id, $movement) ($self->_movements->%*) {
-		if (!$self->_process_movement($movement, $elapsed, $map)) {
-			delete $self->_movements->{$actor_id};
+	foreach my $actor (values $self->_moving->%*) {
+		my $movement = $actor->stats->movement;
 
-			if (!$movement->finished) {
-				my $resource = Resource::ActorPosition->new(
-					subject => $self->location->get_actor($actor_id),
-				);
+		if (!($movement && Game::Mechanics::Movement->move($movement, $elapsed, $map))) {
+			delete $self->_moving->{$actor->id};
 
-				$self->send_to_players([$actor_id, $self->get_discovered_by($actor_id)], $resource);
+			if ($movement) {
+				$actor->stats->clear_movement;
+
+				$self->send_to_players(
+					[$actor->id, $self->get_discovered_by($actor->id)],
+					Resource::ActorPosition->new(subject => $actor)
+				) unless $movement->finished;
 			}
 		}
 	}
@@ -98,14 +101,12 @@ after BUILD => sub ($self, @) {
 };
 
 after signal_player_left => sub ($self, $actor) {
-	delete $self->_movements->{$actor->id};
+	delete $self->_moving->{$actor->id};
 };
 
 after signal_actor_appeared => sub ($self, $for_actor, $actor) {
-	my $movement = $self->_movements->{$actor->id};
-	return if !$movement;
+	return unless $actor->stats->movement;
 
-	my $resource = Resource::ActorMovement->new({subject => $actor, movement => $movement});
-	$self->send_to_player($for_actor->id, $resource);
+	$self->send_to_player($for_actor->id, Resource::ActorMovement->new(subject => $actor));
 };
 

@@ -10,16 +10,12 @@ has extended 'subject' => (
 	isa => Types::InstanceOf ['Unit::Actor'],
 );
 
-has param 'movement' => (
-	isa => Types::InstanceOf ['Game::Object::Movement'],
-);
-
 use constant type => 'actor_movement';
 
 sub generate ($self)
 {
 	my $actor = $self->subject;
-	my $movement = $self->movement;
+	my $movement = $actor->stats->movement;
 
 	return {
 		id => $actor->id,

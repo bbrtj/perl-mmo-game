@@ -26,14 +26,16 @@ sub receive_queue ($self)
 {
 	my $movement = Game::Object::Movement->new(
 		variables => $self->client->actor->variables,
-		speed => Game::Config->config->{base_speed},    # TODO: how to get this?
+		speed => $self->client->actor->stats->speed,
 		x => $self->x,
 		y => $self->y,
 		time => 1,    # don't care
 	);
 
+	$self->client->actor->stats->set_movement($movement);
+
 	return (
-		Resource::ActorMovement->new(subject => $self->client->actor, movement => $movement),
+		Resource::ActorMovement->new(subject => $self->client->actor),
 	);
 }
 
