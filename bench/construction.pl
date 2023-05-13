@@ -6,7 +6,6 @@ use all 'Model', 'X', 'Unit';
 use Game::Object::Movement;
 use Model::PlayerSession;
 use DateTime;
-use Time::HiRes qw(time);
 use Utils;
 
 use header;
@@ -37,7 +36,7 @@ cmpthese - 2, {
 			x => 5.3,
 			y => 6.5,
 			speed => 9,
-			time => time,
+			time => server_time,
 		);
 	},
 };

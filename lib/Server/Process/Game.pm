@@ -3,7 +3,6 @@ package Server::Process::Game;
 use My::Moose;
 use Server::Config;
 use Game::Server;
-use Time::HiRes qw(time);
 use List::Util qw(max);
 
 use all 'X';
@@ -110,17 +109,16 @@ sub do_work ($self, $loop)
 
 	my $tick = Server::Config::SERVER_TICK;
 	my $elapsed = 0;
-	my $start;
 
 	my $tick_sref;
-	my sub next_tick_setup ($need_catching_up = 0)
+	my sub next_tick_setup ()
 	{
 		$loop->timer($tick => $tick_sref);
 		return;
 	}
 
 	$tick_sref = sub {
-		my $start = time;
+		my $start = server_time;
 
 		try {
 			$self->server->tick(++$elapsed);
@@ -130,7 +128,7 @@ sub do_work ($self, $loop)
 		}
 
 		if (Server::Config::DEBUG) {
-			my $processing_time = time - $start;
+			my $processing_time = server_time - $start;
 
 			my $alert = '';
 			for (0.5, 1, 1.5) {
@@ -147,7 +145,6 @@ sub do_work ($self, $loop)
 
 	$loop->next_tick(
 		sub {
-			$start = $self->server->start_time;
 			next_tick_setup();
 		}
 	);

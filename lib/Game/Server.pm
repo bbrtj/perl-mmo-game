@@ -3,7 +3,6 @@ package Game::Server;
 use My::Moose;
 use Game::Config;
 use Sub::Quote qw(quote_sub quotify);
-use Time::HiRes qw(time);
 
 use header;
 
@@ -32,14 +31,6 @@ has field 'map' => (
 
 		return $location->data->map;
 	}
-);
-
-has param 'start_time' => (
-	isa => Types::PositiveNum,
-	default => sub { time },
-	'handles++' => {
-		get_time => sub { time - shift },
-	},
 );
 
 has field '_actions' => (

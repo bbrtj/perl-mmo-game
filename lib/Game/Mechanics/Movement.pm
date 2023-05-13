@@ -2,21 +2,21 @@ package Game::Mechanics::Movement;
 
 use Game::Config;
 use Game::Mechanics::Generic;
+use List::Util qw(min);
 
 use header;
 
 # $movement is Game::Object::Movement
-sub move ($self, $movement, $elapsed, $map)
+sub move ($self, $movement, $map, $elapsed = server_time)
 {
 	my $variables = $movement->variables;
-	$elapsed = $movement->eta
-		if $movement->eta < $elapsed;
+	$elapsed = min($elapsed, $movement->eta);
 
 	# was this result rounded?
 	my $rounded = !!0;
 
 	my ($distance, $new_x, $new_y);
-	while (-inaccessible) {
+	while ('inaccessible') {
 		$distance = ($elapsed - $movement->time) * $movement->speed;
 		($new_x, $new_y) = Game::Mechanics::Generic->find_frontal_point(
 			$variables->pos_x,

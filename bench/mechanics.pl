@@ -12,7 +12,6 @@ use Game::Object::Map;
 use Game::Mechanics::Movement;
 use Game::Object::Movement;
 use Util::H2O;
-use Time::HiRes qw(time);
 use Utils;
 
 use header;
@@ -25,26 +24,20 @@ my $variables = h2o {pos_x => 4, pos_y => 3, set_pos_x => 3, set_pos_y => 3};
 my $location = h2o {map => $map};
 my $actor = h2o {variables => $variables};
 
-my $movement;
-
-# my $base = $movement->time;
-# my $elapsed = $base + 0.5;
+my $movement = Game::Object::Movement->new(
+	variables => $variables,
+	x => 7.3,
+	y => 8.5,
+	speed => 0.1,
+	time => server_time,
+);
 
 cmpthese - 2, {
 	line_of_sight => sub {
 		die unless Game::Mechanics::Check::Map->can_see($location, [4.5, 3.8], [7.9, 8.3])->result;
 	},
 	movement => sub {
-		$movement //= Game::Object::Movement->new(
-			variables => $variables,
-			x => 7.3,
-			y => 8.5,
-			speed => 1,
-			time => time,
-		);
-
-		# note: this will start dying at 4 seconds benchmark
-		die unless Game::Mechanics::Movement->move($movement, time, $map);
+		die unless Game::Mechanics::Movement->move($movement, $map);
 	}
 };
 

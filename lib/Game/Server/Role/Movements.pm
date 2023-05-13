@@ -33,7 +33,7 @@ sub set_movement ($self, $actor_id, $x, $y)
 			x => $x,
 			y => $y,
 			speed => $actor->stats->speed,
-			time => $self->get_time,
+			time => server_time,
 		)
 	);
 
@@ -68,18 +68,18 @@ sub _process_movement ($self, $actor)
 	my $movement = $actor->stats->movement;
 
 	return !!0 unless $movement;
-	return Game::Mechanics::Movement->move($movement, $self->get_time, $self->map);
+	return Game::Mechanics::Movement->move($movement, $self->map);
 }
 
 sub _process_movements ($self)
 {
-	my $elapsed = $self->get_time;
 	my $map = $self->map;
+	my $elapsed = server_time;
 
 	foreach my $actor (values $self->_moving->%*) {
 		my $movement = $actor->stats->movement;
 
-		if (!($movement && Game::Mechanics::Movement->move($movement, $elapsed, $map))) {
+		if (!($movement && Game::Mechanics::Movement->move($movement, $map, $elapsed))) {
 			delete $self->_moving->{$actor->id};
 
 			if ($movement) {

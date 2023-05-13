@@ -38,23 +38,24 @@ my $movement_partial = Game::Object::Movement->new(
 
 test_data
 	'should process movement' => [
-		[$movement_full, $movement_full->time],
-		[$movement_partial, $movement_partial->time, sub { 10.5 < shift() < 11 }, sub { shift() < 3.9 }],
+		[$movement_full],
+		[$movement_partial, sub { 10.5 < shift() < 11 }, sub { shift() < 3.9 }],
 	];
 
-before_each sub ($mov, $start, @) {
-	$mov->set_time($start);
+before_each sub ($mov, @) {
+	$mov->set_time(0);
 	$mov->variables->set_pos_x(7.2);
 	$mov->variables->set_pos_y(0.3);
 };
 
-test should_process_movement => sub ($mov, $start, $x_comp = undef, $y_comp = undef) {
+test should_process_movement => sub ($mov, $x_comp = undef, $y_comp = undef) {
 	my $finished = 0;
+	my $start = 0;
 
 	note 'eta: ' . $mov->eta;
 	while (!$finished) {
 		$start += 0.5;
-		$finished = !Game::Mechanics::Movement->move($mov, $start, $map);
+		$finished = !Game::Mechanics::Movement->move($mov, $map, $start);
 
 		last if $finished || $start > 10;
 	}
