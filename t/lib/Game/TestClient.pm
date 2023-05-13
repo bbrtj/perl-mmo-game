@@ -4,7 +4,6 @@ use My::Moose;
 use Test2::Tools::E2ETest;
 use Mojo::IOLoop;
 use Server::Config;
-use Data::Compare;
 use all 'Unit', 'Game::TestClient';
 
 use header;

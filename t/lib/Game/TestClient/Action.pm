@@ -1,7 +1,7 @@
 package Game::TestClient::Action;
 
 use My::Moose;
-use Data::Compare;
+use Value::Diff;
 
 use header;
 
@@ -67,7 +67,7 @@ sub find_and_compare ($self, $type, $data)
 		$cmp_data = __deserialize($cmp_data)
 			if is_ref $expected;
 
-		my $ok = $type eq $expected_type && Compare($cmp_data, $expected);
+		my $ok = $type eq $expected_type && !diff($cmp_data, $expected) && !diff($expected, $cmp_data);
 		if ($ok) {
 			splice $self->state->{receive}->@*, $i, 1;
 			return !!1;

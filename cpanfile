@@ -52,7 +52,6 @@ on 'runtime' => sub {
 	requires 'Algorithm::QuadTree::XS' => 0;
 	requires 'Sub::Quote' => 0;
 	requires 'Game::TileMap' => '1.000';
-	requires 'Value::Diff' => 0;
 
 	requires 'Faker' => 0;
 };
@@ -66,7 +65,7 @@ on 'test' => sub {
 	requires 'Test::DB';
 	requires 'Test2::V0';
 	requires 'Test::Spy' => '0.005';
-	requires 'Data::Compare';
+	requires 'Value::Diff' => 0;
 };
 
 # vim: ft=perl

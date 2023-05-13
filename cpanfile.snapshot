@@ -268,12 +268,6 @@ DISTRIBUTIONS
       List::Util 1.45
       Ref::Util 0.100
       perl 5.008008
-  Clone-0.46
-    pathname: G/GA/GARU/Clone-0.46.tar.gz
-    provides:
-      Clone 0.46
-    requirements:
-      ExtUtils::MakeMaker 0
   Clone-Choose-0.010
     pathname: H/HE/HERMES/Clone-Choose-0.010.tar.gz
     provides:
@@ -697,18 +691,6 @@ DISTRIBUTIONS
       Try::Tiny 0.07
       namespace::clean 0.24
       perl 5.008001
-  Data-Compare-1.27
-    pathname: D/DC/DCANTRELL/Data-Compare-1.27.tar.gz
-    provides:
-      Data::Compare 1.27
-      Data::Compare::Plugins::Scalar::Properties 1.25
-    requirements:
-      Clone 0.43
-      ExtUtils::MakeMaker 6.48
-      File::Find::Rule 0.1
-      Scalar::Util 0
-      Test::More 0.88
-      perl 5.006
   Data-DPath-0.58
     pathname: S/SC/SCHWIGON/Data-DPath-0.58.tar.gz
     provides:
@@ -1751,18 +1733,6 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Venus 1.23
       perl 5.018
-  File-Find-Rule-0.34
-    pathname: R/RC/RCLAMP/File-Find-Rule-0.34.tar.gz
-    provides:
-      File::Find::Rule 0.34
-      File::Find::Rule::Test::ATeam undef
-    requirements:
-      ExtUtils::MakeMaker 0
-      File::Find 0
-      File::Spec 0
-      Number::Compare 0
-      Test::More 0
-      Text::Glob 0.07
   File-ShareDir-1.118
     pathname: R/RE/REHSACK/File-ShareDir-1.118.tar.gz
     provides:
@@ -2959,13 +2929,6 @@ DISTRIBUTIONS
       Scalar::Util 1.19
       Time::Local 1.19
       perl 5.008009
-  Number-Compare-0.03
-    pathname: R/RC/RCLAMP/Number-Compare-0.03.tar.gz
-    provides:
-      Number::Compare 0.03
-    requirements:
-      ExtUtils::MakeMaker 0
-      Test::More 0
   Package-DeprecationManager-0.17
     pathname: D/DR/DROLSKY/Package-DeprecationManager-0.17.tar.gz
     provides:
@@ -3857,15 +3820,6 @@ DISTRIBUTIONS
       Exporter 0
       ExtUtils::MakeMaker 0
       perl 5.006
-  Text-Glob-0.11
-    pathname: R/RC/RCLAMP/Text-Glob-0.11.tar.gz
-    provides:
-      Text::Glob 0.11
-    requirements:
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      constant 0
-      perl 5.005030
   Text-Levenshtein-BV-0.08
     pathname: W/WO/WOLLMERS/Text-Levenshtein-BV-0.08.tar.gz
     provides:
