@@ -27,7 +27,7 @@ has param 'variables' => (
 );
 
 has field 'stats' => (
-	constructed => ['Game::Object::Actor::Stats'],
+	constructed => ['Game::Object::Actor::Stats', sub { shift->new(parent => $_[0]) }],
 );
 
 sub BUILD ($self, $args)

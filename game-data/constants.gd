@@ -13,6 +13,7 @@ define {
 	stats_at_levels => [grep { $_ % 3 == 0 } 1 .. $max_level],
 
 	base_speed => 0.8, # per second
+	action_cooldown => 1, # how often can action be performed
 
 	critical_damage => 1.5,
 
