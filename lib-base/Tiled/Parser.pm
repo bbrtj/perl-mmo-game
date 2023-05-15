@@ -115,3 +115,34 @@ sub groom_map ($self, $path)
 	return $dom->to_string;
 }
 
+sub _groom_tileset ($self, $map_path, $path)
+{
+	my $contents = path("assets/$map_path")->dirname->child($path)->slurp;
+
+	my $dom = Mojo::DOM->new($contents);
+	my $tileset = $dom->at('tileset');
+	my $image = $tileset->at('image');
+	my $source = $image->attr->{source};
+	$source =~ s{\.\./client/data/}{}x;
+
+	$image->attr(source => $source);
+	return $dom->to_string;
+}
+
+sub groom_tilesets ($self, $path)
+{
+	my $contents = path("assets/$path")->slurp;
+
+	my $dom = Mojo::DOM->new($contents);
+	my $map = $dom->at('map');
+
+	my %tileset_contents;
+	foreach my $tileset ($map->find('tileset')->each) {
+		my $tileset_path = $tileset->attr->{source};
+
+		$tileset_contents{$tileset_path} = $self->_groom_tileset($path, $tileset_path);
+	}
+
+	return %tileset_contents;
+}
+

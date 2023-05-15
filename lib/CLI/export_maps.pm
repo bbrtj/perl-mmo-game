@@ -78,6 +78,26 @@ sub _groom_maps ($self, $locs)
 	return;
 }
 
+sub _copy_tilesets ($self, $locs)
+{
+	my $parser = Tiled::Parser->new;
+	$self->base_path->make_path;
+
+	foreach my $loc ($locs->@*) {
+		my $filename = $self->id_to_file($loc->id);
+		my $assets_path = $loc->data->map->map_object->path;
+
+		my %tilesets = Tiled::Parser->groom_tilesets($assets_path);
+		foreach my $tileset_path (keys %tilesets) {
+			my $content = $tilesets{$tileset_path};
+
+			$self->base_path->child($tileset_path)->spurt($content);
+		}
+	}
+
+	return;
+}
+
 sub run ($self)
 {
 	my $repo = DI->get('lore_data_repo');
@@ -88,6 +108,7 @@ sub run ($self)
 	$path->remove_tree;
 
 	$self->_groom_maps(\@locs);
+	$self->_copy_tilesets(\@locs);
 	$self->_generate_metadata(\@locs);
 
 	say "done, generated in $path";
