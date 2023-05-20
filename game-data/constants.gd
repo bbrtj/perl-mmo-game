@@ -7,6 +7,7 @@ define {
 
 	base_radius => 0.25,
 	discover_radius => 5,
+	yell_radius => 20,
 
 	zero_stats => 8,
 	starting_stats_floating => 5,

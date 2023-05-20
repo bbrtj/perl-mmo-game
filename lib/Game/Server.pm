@@ -56,6 +56,7 @@ with qw(
 	Game::Server::Role::Discovery
 	Game::Server::Role::Movements
 
+	Game::Server::Role::Chat
 	Game::Server::Role::Combat
 );
 
