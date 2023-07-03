@@ -1,6 +1,6 @@
 package My::Mooish::AttributeBuilder;
 
-use v5.36;
+use v5.38;
 
 use parent 'Mooish::AttributeBuilder';
 use Types::Standard qw(InstanceOf);
@@ -88,6 +88,4 @@ Mooish::AttributeBuilder::add_shortcut(
 		return %args;
 	}
 );
-
-1;
 

@@ -33,7 +33,6 @@ on 'runtime' => sub {
 
 	requires 'Import::Into' => 0;
 	requires 'namespace::autoclean' => 0;
-	requires 'true' => 0;
 	requires 'all' => 0;
 
 	requires 'Log::Dispatch' => 0;
@@ -64,6 +63,7 @@ on 'develop' => sub {
 on 'test' => sub {
 	requires 'Test::DB';
 	requires 'Test2::V0';
+	requires 'Test::Deep';
 	requires 'Test::Spy' => '0.005';
 	requires 'Value::Diff' => 0;
 };

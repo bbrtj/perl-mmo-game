@@ -1,6 +1,6 @@
 package i18n;
 
-use v5.36;
+use v5.38;
 
 use Exporter qw(import);
 use i18n::Translation;
@@ -57,6 +57,4 @@ sub _lt ($message, @args)
 
 	return $t;
 }
-
-1;
 

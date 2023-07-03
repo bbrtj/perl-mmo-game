@@ -1,6 +1,6 @@
 package i18n::Translation;
 
-use v5.36;
+use v5.38;
 
 use My::Moose;
 use Mojo::File qw(curfile);

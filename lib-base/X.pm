@@ -1,6 +1,6 @@
 package X;
 
-use v5.36;
+use v5.38;
 use My::Moose;
 use Types::Standard;
 
@@ -28,6 +28,4 @@ sub stringify ($self, @)
 
 	return "Exception $class$msg";
 }
-
-1;
 

@@ -1,6 +1,6 @@
 package My::Moose::Trait::LazyByDefault;
 
-use v5.36;
+use v5.38;
 use My::Moose::Role;
 
 around add_attribute => sub ($orig, $self, $name, @args) {
@@ -16,6 +16,4 @@ around add_attribute => sub ($orig, $self, $name, @args) {
 
 	return $self->$orig($name, %params);
 };
-
-1;
 

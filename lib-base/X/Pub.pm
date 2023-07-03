@@ -1,6 +1,6 @@
 package X::Pub;
 
-use v5.36;
+use v5.38;
 use My::Moose;
 
 extends 'X';
@@ -19,6 +19,4 @@ sub stringify ($self, @)
 {
 	return $self->msg;
 }
-
-1;
 

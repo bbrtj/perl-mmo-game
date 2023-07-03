@@ -1,6 +1,6 @@
 package My::Form::Tiny;
 
-use v5.36;
+use v5.38;
 
 use Import::Into;
 require Form::Tiny;
@@ -13,6 +13,4 @@ sub import ($self, @args)
 
 	return;
 }
-
-1;
 

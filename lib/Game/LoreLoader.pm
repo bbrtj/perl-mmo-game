@@ -26,7 +26,7 @@ sub load ($self, $name)
 
 	$contents = <<~PERL;
 		package $package;
-		use v5.36;
+		use v5.38;
 		use utf8;
 
 		use constant FILENAME => '$filename';

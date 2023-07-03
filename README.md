@@ -2,7 +2,7 @@
 
 ## Prerequisites (Server)
 
-- Perl 5.36 (preferably from perlbrew)
+- Perl 5.38 (preferably from perlbrew)
 - Postgresql client library with headers
 - Postgresql server
 - Redis server

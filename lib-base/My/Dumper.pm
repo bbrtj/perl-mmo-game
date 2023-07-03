@@ -1,6 +1,6 @@
 package My::Dumper;
 
-use v5.36;
+use v5.38;
 
 use Data::Dumper;
 
@@ -35,6 +35,4 @@ sub dd ($self, @data)
 	$dd->Varname('v');
 	return $dd->Dump;
 }
-
-1;
 

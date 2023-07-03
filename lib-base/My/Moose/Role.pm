@@ -1,6 +1,6 @@
 package My::Moose::Role;
 
-use v5.36;
+use v5.38;
 
 use Import::Into;
 require My::Moose;
@@ -25,6 +25,4 @@ sub import ($me, %args)
 
 	return;
 }
-
-1;
 

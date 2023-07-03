@@ -1,6 +1,6 @@
 package DI;
 
-use v5.36;
+use v5.38;
 
 use Beam::Wire;
 use Types::Standard qw(InstanceOf);
@@ -44,6 +44,4 @@ sub has ($class, $name)
 {
 	return exists $wire->services->{$name};
 }
-
-1;
 

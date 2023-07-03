@@ -1,6 +1,6 @@
 package My::Moose::Role::TracksDirty;
 
-use v5.36;
+use v5.38;
 use My::Moose::Role;
 
 use Scalar::Util qw(refaddr);
@@ -33,6 +33,4 @@ sub DEMOLISH ($self, $global_destruction)
 
 	return;
 }
-
-1;
 

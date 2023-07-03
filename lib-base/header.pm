@@ -1,11 +1,10 @@
 package header;
 
-use v5.36;
+use v5.38;
 use utf8;
 use Import::Into;
 
 require feature;
-use true;
 
 require i18n;
 require Carp;
@@ -27,7 +26,7 @@ sub import ($me, @args)
 	strict->import::into($pkg);
 	warnings->import::into($pkg);
 	feature->unimport::out_of($pkg, ':all');
-	feature->import::into($pkg, qw(:5.36 try refaliasing declared_refs defer));
+	feature->import::into($pkg, qw(:5.38 try refaliasing declared_refs defer));
 	utf8->import::into($pkg);
 	Carp->import::into($pkg, qw(croak));
 	Scalar::Util->import::into($pkg, qw(blessed));
@@ -37,8 +36,6 @@ sub import ($me, @args)
 	ServerTime->import::into($pkg, qw(server_time));
 	i18n->import::into($pkg);
 	My::Serializer->import::into($pkg);
-
-	true->import::into($pkg);
 
 	no_experimental_warnings($pkg);
 

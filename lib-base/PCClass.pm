@@ -5,7 +5,7 @@ package PCClass;
 # speed. Only base class features (constructor + accessors), no types or extra
 # behavior.
 
-use v5.36;
+use v5.38;
 
 use Import::Into;
 require Class::XSConstructor;
@@ -19,6 +19,4 @@ sub import ($self, @args)
 
 	return;
 }
-
-1;
 

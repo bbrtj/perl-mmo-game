@@ -1,6 +1,6 @@
 package My::Moose;
 
-use v5.36;
+use v5.38;
 
 use Hook::AfterRuntime;
 use Import::Into;
@@ -46,6 +46,4 @@ sub import ($self, @args)
 
 	return;
 }
-
-1;
 
