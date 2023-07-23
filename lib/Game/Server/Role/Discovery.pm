@@ -77,7 +77,7 @@ sub _discover ($self)
 	state $radius = Game::Config->config->{discover_radius};
 	$self->_set_discovered_by({});
 
-	foreach my $actor ($self->location->get_players) {
+	foreach my $actor ($self->location->get_players->@*) {
 
 		my $resource = Resource::Discovery->new;
 		my $variables = $actor->variables;

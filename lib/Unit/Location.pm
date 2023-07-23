@@ -11,7 +11,6 @@ has param 'actors' => (
 	isa => Types::HashRef [Types::InstanceOf ['Unit::Actor']],
 	'handles{}' => {
 		'get_actor' => 'get',
-		'get_actors' => 'values',
 	},
 	default => sub { {} },
 );
@@ -28,7 +27,7 @@ sub get_player ($self, $actor_id)
 
 sub get_players ($self)
 {
-	return grep { $_->is_player } $self->get_actors;
+	return [grep { $_->is_player } values $self->actors->%*];
 }
 
 sub add_actor ($self, $actor)
@@ -48,7 +47,7 @@ sub remove_actor ($self, $actor)
 sub models ($self)
 {
 	return [
-		map { $_->models->@* } grep { $_->is_player } $self->get_actors,
+		map { $_->models->@* } grep { $_->is_player } values $self->actors->%*,
 	];
 }
 

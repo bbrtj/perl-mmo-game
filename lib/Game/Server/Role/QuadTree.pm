@@ -41,7 +41,7 @@ sub _reload_coordinates ($self)
 	$qt->clear;
 
 	my $radius = Game::Config->config->{base_radius};
-	foreach my $actor ($self->location->get_actors) {
+	foreach my $actor (values $self->location->actors->%*) {
 		$qt->add($actor->id, $actor->variables->pos_x, $actor->variables->pos_y, $radius);
 	}
 
