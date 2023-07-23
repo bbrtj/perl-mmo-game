@@ -8,7 +8,7 @@ use lib 'lib-base';
 use lib 'lib';
 
 use Game::Mechanics::Check::Map;
-use Game::Object::Map;
+use Game::Lore::Location;
 use Game::Mechanics::Movement;
 use Game::Object::Movement;
 use Util::H2O;
@@ -18,10 +18,12 @@ use header;
 
 use Benchmark qw(cmpthese);
 
-my $map = Game::Object::Map->new(map => 'test_map');
+my $location = Game::Lore::Location->new(id => 'TEST', name => 'test');
+my $location_data = $location->data;
+$location_data->set_map('test_map');
+my $map = $location_data->map;
 
 my $variables = h2o {pos_x => 4, pos_y => 3, set_pos_x => 3, set_pos_y => 3};
-my $location = h2o {map => $map};
 my $actor = h2o {variables => $variables};
 
 my $movement = Game::Object::Movement->new(
@@ -34,7 +36,7 @@ my $movement = Game::Object::Movement->new(
 
 cmpthese - 2, {
 	line_of_sight => sub {
-		die unless Game::Mechanics::Check::Map->can_see($location, [4.5, 3.8], [7.9, 8.3])->result;
+		die unless Game::Mechanics::Check::Map->can_see($location_data, [4.5, 3.8], [7.9, 8.3])->result;
 	},
 	movement => sub {
 		die unless Game::Mechanics::Movement->move($movement, $map);
