@@ -57,7 +57,6 @@ type
 		procedure SetPooling(const vValue: Boolean);
 
 	public
-	const
 		constructor Create;
 		destructor Destroy; override;
 
