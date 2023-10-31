@@ -1,4 +1,12 @@
-# MMORPG Game (name tbd)
+# MMORPG Game proof of concept in Perl
+
+This was a project to see how well would Perl + Castle Game Engine work together to deliver multiplayer experience. The concept has changed a couple of times, starting from turn-based in the browser and ending with real-time in a native client.
+
+I developed it on and off for a couple of years until I lost interest. Currently it offers working login, character selection and moving around world (just one location). Players can see each other when they enter their discovery radius. Some work in progress code exists for combat and chat. Game data is periodically saved to a database for each game process. No special measures in case of dying processes are implemented, so the whole system is quite volatile.
+
+Perl spawns a couple of processes: one process for each game location, some processes for TCP and some processes for non-game tasks like logging in. IPC is done with Redis which works very fast. Mojolicious serves as TCP communication and event loop handler. Since it is Perl and each location is a single process, future performance remained a real concern.
+
+Development of this project caused a lot of CPAN distributions to be created or improved and a couple of CGE bugs to be reported. Was fun while it lasted. For me personally this repository is a good codebase of Perl/Pascal code I'd like to reuse in the future.
 
 ## Prerequisites (Server)
 
