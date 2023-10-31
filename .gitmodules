@@ -1,0 +1,3 @@
+[submodule "sharedpas/vendor/Indy"]
+	path = sharedpas/vendor/Indy
+	url = git@github.com:IndySockets/Indy.git
