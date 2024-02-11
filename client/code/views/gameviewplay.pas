@@ -93,7 +93,7 @@ begin
 	FGameState.Update(vSecondsPassed);
 	GlobalClient.Heartbeat(vSecondsPassed);
 
-	PingDisplay.Caption := 'Latency: ' + FloatToStr(round(GlobalClient.Ping * 100000) / 100) + ' ms';
+	PingDisplay.Caption := 'Latency: ' + IntToStr(GlobalClient.Ping) + ' ms';
 	FpsDisplay.Caption := 'FPS: ' + Container.Fps.ToString;
 
 end;

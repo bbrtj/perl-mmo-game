@@ -3,7 +3,7 @@ unit GameNetwork;
 interface
 
 uses
-	Classes, FGL, SysUtils,
+	Classes, FGL, SysUtils, DateUtils,
 	CastleClientServer, CastleConfig,
 	GameLog,
 	GameNetworkMessages,
@@ -40,8 +40,8 @@ type
 		FFeeds: TFeedItems;
 		FModelSerializer: TModelSerializationBase;
 		FSecondsPassed: Single;
-		FPingStart: Double;
-		FPing: Single;
+		FPingStart: TDateTime;
+		FPing: Int64;
 
 		FPooling: Boolean;
 		FPool: TStringList;
@@ -72,7 +72,7 @@ type
 
 		procedure Heartbeat(const vPassed: Single);
 
-		property Ping: Single read FPing;
+		property Ping: Int64 read FPing;
 		property Pooling: Boolean read FPooling write SetPooling;
 		property OnDisconnected: TNetworkCallback write FOnDisconnected;
 	end;
@@ -202,7 +202,7 @@ var
 
 begin
 	if vReceived = 'ping' then begin
-		FPing := Time - FPingStart;
+		FPing := MilliSecondsBetween(Now, FPingStart);
 		exit;
 	end;
 
@@ -318,7 +318,7 @@ begin
 	FSecondsPassed += vPassed;
 
 	if (FSecondsPassed > 15) or (FPing = 0) then begin
-		FPingStart := Time;
+		FPingStart := Now;
 		FClient.Send('ping');
 		FSecondsPassed := 0;
 	end;
