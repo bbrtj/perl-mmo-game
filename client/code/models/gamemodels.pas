@@ -93,7 +93,9 @@ function TJSONModelSerialization.DeSerialize(const vSerialized: String; const vM
 			vNewObject.Add(cArrayWrapKey, vJsonMaybeArray);
 
 			result := vNewObject.AsJson;
-		end;
+			FreeAndNil(vNewObject);
+		end else
+		    FreeAndNil(vJsonMaybeArray);
 	end;
 
 begin
