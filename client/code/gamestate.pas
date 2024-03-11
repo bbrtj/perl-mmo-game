@@ -82,7 +82,7 @@ begin
 
 	vProportionX := FMapData.Map.SizeX / FUIBoard.Map.Width / FUIBoard.Map.TileWidth;
 	vProportionY := FMapData.Map.SizeY / FUIBoard.Map.Height / FUIBoard.Map.TileHeight;
-	FUIBoard.Scale := Vector3(vProportionX, vProportionY, 0);
+	FUIBoard.Scale := Vector3(vProportionX, vProportionY, 1);
 	// FUIBoard.Translation := Vector3(FMapData.Map.SizeX / 2, FMapData.Map.SizeY / 2, 0);
 end;
 

@@ -24,7 +24,7 @@ type
 		FGameState: TGameState;
 		FPlaying: Boolean;
 
-		function FindMapPosition(vMouseHit: TRayCollision): TVector3;
+		function FindMapPosition(vMouseHit: TRayCollision; out Pos: TVector3): Boolean;
 
 	public
 		constructor Create(vOwner: TComponent); override;
@@ -73,16 +73,19 @@ begin
 	FGameState.Free;
 end;
 
-function TViewPlay.FindMapPosition(vMouseHit: TRayCollision): TVector3;
+function TViewPlay.FindMapPosition(vMouseHit: TRayCollision; out Pos: TVector3): Boolean;
 var
 	vNode: TRayCollisionNode;
 begin
-
-	for vNode in vMouseHit do begin
-		writeln('hit ', vNode.Item.Name, ' ', vNode.Item.ClassName, ' at ', vNode.Point.X, ':', vNode.Point.Y);
-	end;
-	vNode := vMouseHit[0];
-	result := vNode.Item.LocalToWorld(vNode.Point);
+	if vMouseHit.Info(vNode) and (vNode.Item is TCastleTiledMap) then
+	begin
+		writeln('hit map: ', vNode.Item.Name, ' ', vNode.Item.ClassName, ' at ',
+		  vNode.Point.X:1:2, ':',
+		  vNode.Point.Y:1:2);
+		Pos := vNode.Item.LocalToWorld(vNode.Point);
+		result := true;
+	end else
+		result := false;
 end;
 
 procedure TViewPlay.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
@@ -125,13 +128,14 @@ begin
 	if vEvent.IsMouseButton(buttonLeft) then begin
 		vMouseHit := MainViewport.MouseRayHit;
 		if vMouseHit <> nil then begin
-			vPosition := FindMapPosition(vMouseHit);
+			if FindMapPosition(vMouseHit, vPosition) then
+			begin
+				vModel := TMsgMove.Create;
+				vModel.SetValue(vPosition.X * 100, vPosition.Y * 100);
 
-			vModel := TMsgMove.Create;
-			vModel.SetValue(vPosition.X * 100, vPosition.Y * 100);
-
-			GlobalClient.Send(TMsgMove, vModel);
-			exit(true);
+				GlobalClient.Send(TMsgMove, vModel);
+				exit(true);
+			end;
 		end;
 	end;
 end;
