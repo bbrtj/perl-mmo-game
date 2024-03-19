@@ -41,7 +41,7 @@ type
 		procedure UpdateInfo(const actionText: String);
 		procedure MapChanged();
 
-		procedure LoadMap(const vMapFile: String);
+		procedure LoadMap(const MapFile: String);
 
 	end;
 
@@ -84,14 +84,14 @@ end;
 {}
 procedure TMapEditorForm.MenuSaveClick(Sender: TObject);
 var
-	vExported: TStrings;
+	LExported: TStrings;
 begin
 	if map <> Nil then begin
-		vExported := TStringList.Create;
-		vExported.Text := map.Export();
-		vExported.SaveToFile(map.MetaFileName);
+		LExported := TStringList.Create;
+		LExported.Text := map.Export();
+		LExported.SaveToFile(map.MetaFileName);
 
-		vExported.Free;
+		LExported.Free;
 
 		UpdateInfo('Save successful (' + map.MetaFileName + ')');
 	end
@@ -122,10 +122,10 @@ begin
 end;
 
 {}
-procedure TMapEditorForm.LoadMap(const vMapFile: String);
-	function FetchFileContent(const vFileName: String): String;
+procedure TMapEditorForm.LoadMap(const MapFile: String);
+	function FetchFileContent(const FileName: String): String;
 	begin
-		RunCommand('tools/map-exporter ' + vFileName, result);
+		RunCommand('tools/map-exporter ' + FileName, result);
 	end;
 
 begin
@@ -134,8 +134,8 @@ begin
 	map.Logger := @self.UpdateInfo;
 	map.OnChange := @self.MapChanged;
 
-	map.LoreFileName := vMapFile;
-	map.Initialize(MapView, Marker, FetchFileContent(vMapFile))
+	map.LoreFileName := MapFile;
+	map.Initialize(MapView, Marker, FetchFileContent(MapFile))
 end;
 
 { implementation end }

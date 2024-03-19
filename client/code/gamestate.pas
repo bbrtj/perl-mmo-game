@@ -26,28 +26,28 @@ type
 
 		FActorFactory: TGameActorFactory;
 
-		function FindActor(const vId: TUlid): TGameActor;
+		function FindActor(const Id: TUlid): TGameActor;
 
 	public
-		constructor Create(const vBoard: TCastleTiledMap; const vCamera: TCastleCamera);
+		constructor Create(const Board: TCastleTiledMap; const Camera: TCastleCamera);
 		destructor Destroy; override;
 
-		procedure Update(const vSecondsPassed: Single);
-		procedure SetMapData(const vMapData: TMapData);
+		procedure Update(const SecondsPassed: Single);
+		procedure SetMapData(const MapData: TMapData);
 
-		procedure CreatePlayer(const vId: TUlid; const vPosX, vPosY: Single);
-		procedure AddActor(const vObject: TMsgFeedNewObject);
-		procedure RemoveActor(const vId: TUlid);
-		procedure ProcessMovement(const vMovement: TMsgFeedActorMovement);
-		procedure ProcessPosition(const vStop: TMsgFeedActorPosition);
+		procedure CreatePlayer(const Id: TUlid; const PosX, PosY: Single);
+		procedure AddActor(const FeedObject: TMsgFeedNewObject);
+		procedure RemoveActor(const Id: TUlid);
+		procedure ProcessMovement(const Movement: TMsgFeedActorMovement);
+		procedure ProcessPosition(const Stop: TMsgFeedActorPosition);
 	end;
 
 implementation
 
-constructor TGameState.Create(const vBoard: TCastleTiledMap; const vCamera: TCastleCamera);
+constructor TGameState.Create(const Board: TCastleTiledMap; const Camera: TCastleCamera);
 begin
-	FUIBoard := vBoard;
-	FUICamera := vCamera;
+	FUIBoard := Board;
+	FUICamera := Camera;
 	FActorFactory := TGameActorFactory.Create(FUIBoard);
 
 	// FUICamera.Translation := Vector3(0, 0, cCameraDistance);
@@ -61,89 +61,89 @@ begin
 	FActors.Free;
 end;
 
-procedure TGameState.Update(const vSecondsPassed: Single);
+procedure TGameState.Update(const SecondsPassed: Single);
 var
-	vPlayer: TGameActor;
-	vRect: TFloatRectangle;
+	LPlayer: TGameActor;
+	LRect: TFloatRectangle;
 begin
-	vPlayer := FindActor(FThisPlayer);
-	if vPlayer <> nil then begin
-		vRect := FUICamera.Orthographic.EffectiveRect;
-		FUICamera.Translation := Vector3(vPlayer.GetPosition.X - vRect.Width / 2, vPlayer.GetPosition.Y - vRect.Height / 2, cCameraDistance);
+	LPlayer := FindActor(FThisPlayer);
+	if LPlayer <> nil then begin
+		LRect := FUICamera.Orthographic.EffectiveRect;
+		FUICamera.Translation := Vector3(LPlayer.GetPosition.X - LRect.Width / 2, LPlayer.GetPosition.Y - LRect.Height / 2, cCameraDistance);
 	end;
 end;
 
-procedure TGameState.SetMapData(const vMapData: TMapData);
+procedure TGameState.SetMapData(const MapData: TMapData);
 var
-	vProportionX: Single;
-	vProportionY: Single;
+	LProportionX: Single;
+	LProportionY: Single;
 begin
-	FMapData := vMapData;
+	FMapData := MapData;
 
-	vProportionX := FMapData.Map.SizeX / FUIBoard.Map.Width / FUIBoard.Map.TileWidth;
-	vProportionY := FMapData.Map.SizeY / FUIBoard.Map.Height / FUIBoard.Map.TileHeight;
-	FUIBoard.Scale := Vector3(vProportionX, vProportionY, 1);
+	LProportionX := FMapData.Map.SizeX / FUIBoard.Map.Width / FUIBoard.Map.TileWidth;
+	LProportionY := FMapData.Map.SizeY / FUIBoard.Map.Height / FUIBoard.Map.TileHeight;
+	FUIBoard.Scale := Vector3(LProportionX, LProportionY, 1);
 	// FUIBoard.Translation := Vector3(FMapData.Map.SizeX / 2, FMapData.Map.SizeY / 2, 0);
 end;
 
-procedure TGameState.CreatePlayer(const vId: TUlid; const vPosX, vPosY: Single);
+procedure TGameState.CreatePlayer(const Id: TUlid; const PosX, PosY: Single);
 var
-	vNewObject: TMsgFeedNewObject;
+	LNewObject: TMsgFeedNewObject;
 begin
-	FThisPlayer := vId;
+	FThisPlayer := Id;
 
 	// pretty artificial, but does the trick...
-	vNewObject := TMsgFeedNewObject.Create;
-	vNewObject.id := vId;
-	vNewObject.x := vPosX;
-	vNewObject.y := vPosY;
+	LNewObject := TMsgFeedNewObject.Create;
+	LNewObject.id := Id;
+	LNewObject.x := PosX;
+	LNewObject.y := PosY;
 
-	AddActor(vNewObject);
-	vNewObject.Free;
+	AddActor(LNewObject);
+	LNewObject.Free;
 end;
 
-procedure TGameState.AddActor(const vObject: TMsgFeedNewObject);
+procedure TGameState.AddActor(const FeedObject: TMsgFeedNewObject);
 begin
-	FActors.Add(vObject.id, FActorFactory.CreateActor(vObject.id));
-	ProcessPosition(vObject);
+	FActors.Add(FeedObject.id, FActorFactory.CreateActor(FeedObject.id));
+	ProcessPosition(FeedObject);
 end;
 
-procedure TGameState.RemoveActor(const vId: TUlid);
+procedure TGameState.RemoveActor(const Id: TUlid);
 var
-	vActor: TGameActor;
+	LActor: TGameActor;
 begin
-	vActor := FindActor(vId);
-	if vActor <> nil then begin
-		FActors.Remove(vId);
-		FActorFactory.RemoveActor(vActor);
+	LActor := FindActor(Id);
+	if LActor <> nil then begin
+		FActors.Remove(Id);
+		FActorFactory.RemoveActor(LActor);
 	end;
 end;
 
-function TGameState.FindActor(const vId: TUlid): TGameActor;
+function TGameState.FindActor(const Id: TUlid): TGameActor;
 begin
-	if not FActors.TryGetData(vId, result) then
+	if not FActors.TryGetData(Id, result) then
 		result := nil;
 end;
 
-procedure TGameState.ProcessMovement(const vMovement: TMsgFeedActorMovement);
+procedure TGameState.ProcessMovement(const Movement: TMsgFeedActorMovement);
 var
-	vActor: TGameActor;
+	LActor: TGameActor;
 begin
-	vActor := FindActor(vMovement.id);
-	if vActor <> nil then begin
-		vActor.SetPosition(vMovement.x, vMovement.y); // TODO: take latency into account? This is from the past
-		vActor.Move(vMovement.to_x, vMovement.to_y, vMovement.speed);
+	LActor := FindActor(Movement.id);
+	if LActor <> nil then begin
+		LActor.SetPosition(Movement.x, Movement.y); // TODO: take latency into account? This is from the past
+		LActor.Move(Movement.to_x, Movement.to_y, Movement.speed);
 	end
 end;
 
-procedure TGameState.ProcessPosition(const vStop: TMsgFeedActorPosition);
+procedure TGameState.ProcessPosition(const Stop: TMsgFeedActorPosition);
 var
-	vActor: TGameActor;
+	LActor: TGameActor;
 begin
-	vActor := FindActor(vStop.id);
-	if vActor <> nil then begin
-		vActor.SetPosition(vStop.x, vStop.y); // TODO: take latency into account? This is from the past
-		vActor.Stop();
+	LActor := FindActor(Stop.id);
+	if LActor <> nil then begin
+		LActor.SetPosition(Stop.x, Stop.y); // TODO: take latency into account? This is from the past
+		LActor.Stop();
 	end
 end;
 

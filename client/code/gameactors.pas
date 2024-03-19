@@ -20,7 +20,7 @@ type
 	public
 		procedure SetPosition(const vX, vY: Single);
 		function GetPosition(): TVector3;
-		procedure Move(const vX, vY, vSpeed: Single);
+		procedure Move(const vX, vY, Speed: Single);
 		procedure Stop();
 
 		procedure Update(const secondsPassed: Single; var removeMe: TRemoveType); override;
@@ -31,10 +31,10 @@ type
 		FUIBoard: TCastleTransform;
 
 	public
-		constructor Create(const vBoard: TCastleTransform);
+		constructor Create(const Board: TCastleTransform);
 
-		function CreateActor(vId: TUlid): TGameActor;
-		procedure RemoveActor(const vActor: TGameActor);
+		function CreateActor(Id: TUlid): TGameActor;
+		procedure RemoveActor(const Actor: TGameActor);
 	end;
 
 implementation
@@ -50,17 +50,17 @@ begin
 		self.Up := self.Up + FMovementVector * cTurnSpeed;
 end;
 
-constructor TGameActorFactory.Create(const vBoard: TCastleTransform);
+constructor TGameActorFactory.Create(const Board: TCastleTransform);
 begin
-	FUIBoard := vBoard;
+	FUIBoard := Board;
 end;
 
-function TGameActorFactory.CreateActor(vId: TUlid): TGameActor;
+function TGameActorFactory.CreateActor(Id: TUlid): TGameActor;
 begin
 	result := TGameActor.Create(FUIBoard);
-	result.Name := 'Actor_' + vId;
+	result.Name := 'Actor_' + Id;
 
-	// TODO: use vId to get info about the appearance of the actor from some other component
+	// TODO: use Id to get info about the appearance of the actor from some other component
 	// (which will manage network in return, to get this data)
 	result.URL := 'castle-data:/images/player.png';
 	result.Scale := Vector3(0.0025, 0.0025, 1); // TODO: scale properly
@@ -73,9 +73,9 @@ begin
 	FUIBoard.Parent.Add(result);
 end;
 
-procedure TGameActorFactory.RemoveActor(const vActor: TGameActor);
+procedure TGameActorFactory.RemoveActor(const Actor: TGameActor);
 begin
-	FUIBoard.Parent.RemoveDelayed(vActor, True);
+	FUIBoard.Parent.RemoveDelayed(Actor, True);
 end;
 
 procedure TGameActor.SetPosition(const vX, vY: Single);
@@ -88,10 +88,10 @@ begin
 	result := self.Translation;
 end;
 
-procedure TGameActor.Move(const vX, vY, vSpeed: Single);
+procedure TGameActor.Move(const vX, vY, Speed: Single);
 begin
 	FMovementVector := Vector3(vX - self.Translation.X, vY - self.Translation.Y, 0);
-	FMovementTime := FMovementVector.Length / vSpeed;
+	FMovementTime := FMovementVector.Length / Speed;
 	FMovementVector /= FMovementTime;
 end;
 

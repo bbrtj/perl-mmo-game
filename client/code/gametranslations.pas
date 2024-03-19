@@ -14,21 +14,21 @@ type
 	public
 		constructor Create();
 
-		procedure TranslateCallback(const vSender: TCastleComponent; const vPropertyName: String; var vPropertyValue: String);
+		procedure TranslateCallback(const Sender: TCastleComponent; const PropertyName: String; var PropertyValue: String);
 	end;
 
 var
 	GlobalTranslations: TGameMOFile;
 
 procedure TranslateAllGameDesigns();
-function _(const vString: String): String;
+function _(const TranslatedString: String): String;
 
 implementation
 
 { not exported }
-procedure TranslateGameDesignCallback(const vComponent: TComponent; const vGroupName: String);
+procedure TranslateGameDesignCallback(const Component: TComponent; const GroupName: String);
 begin
-	TranslateProperties(vComponent, @GlobalTranslations.TranslateCallback);
+	TranslateProperties(Component, @GlobalTranslations.TranslateCallback);
 end;
 
 procedure TranslateAllGameDesigns();
@@ -41,19 +41,19 @@ begin
 	inherited Create(DesignUrl);
 end;
 
-procedure TGameMOFile.TranslateCallback(const vSender: TCastleComponent; const vPropertyName: String; var vPropertyValue: String);
+procedure TGameMOFile.TranslateCallback(const Sender: TCastleComponent; const PropertyName: String; var PropertyValue: String);
 var
-	vOrigValue: String;
+	LOrigValue: String;
 begin
-	vOrigValue := vPropertyValue;
-	vPropertyValue := self.Translate(vOrigValue);
-	if vPropertyValue = '' then
-		vPropertyValue := vOrigValue + ' [!!]';
+	LOrigValue := PropertyValue;
+	PropertyValue := self.Translate(LOrigValue);
+	if PropertyValue = '' then
+		PropertyValue := LOrigValue + ' [!!]';
 end;
 
-function _(const vString: String): String;
+function _(const TranslatedString: String): String;
 begin
-	result := GlobalTranslations.Translate(vString);
+	result := GlobalTranslations.Translate(TranslatedString);
 end;
 
 { implementation end }

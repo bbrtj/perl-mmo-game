@@ -50,18 +50,18 @@ end;
 
 procedure TEditorModeForm.MapsListDblClick(Sender: TObject);
 var
-	vItem: String;
+	LItem: String;
 	mapEd: TMapEditorForm;
 begin
 	if MapsList.ItemIndex >= 0 then begin
-		vItem := MapsList.Items[MapsList.ItemIndex];
+		LItem := MapsList.Items[MapsList.ItemIndex];
 
 		Visible := False;
 		mapEd := TMapEditorForm.Create(self);
 		mapEd.OnClose := @FormClose;
 		mapEd.Show;
 
-		mapEd.LoadMap(vItem);
+		mapEd.LoadMap(LItem);
 	end;
 end;
 
@@ -85,25 +85,25 @@ end;
 {}
 procedure TEditorModeForm.UpdateMapList();
 var
-	vFile: String;
-	vSearchDir: String;
+	LFile: String;
+	LSearchDir: String;
 
-	vResult: Integer;
-	vMapInfo: TSearchRec;
+	LResult: Integer;
+	LMapInfo: TSearchRec;
 
 begin
 	MapsList.Clear;
-	vSearchDir := GetDataDirectory(ddtMap, '*.gd');
+	LSearchDir := GetDataDirectory(ddtMap, '*.gd');
 
-	vResult := findFirst(vSearchDir, faAnyFile, vMapInfo);
-	while vResult = 0 do begin
-		vFile := GetDataDirectory(ddtMap, vMapInfo.Name);
-		MapsList.Items.Add(vFile);
+	LResult := findFirst(LSearchDir, faAnyFile, LMapInfo);
+	while LResult = 0 do begin
+		LFile := GetDataDirectory(ddtMap, LMapInfo.Name);
+		MapsList.Items.Add(LFile);
 
-		vResult := findNext(vMapInfo);
+		LResult := findNext(LMapInfo);
 	end;
 
-	findClose(vMapInfo);
+	findClose(LMapInfo);
 end;
 
 { implementation end }

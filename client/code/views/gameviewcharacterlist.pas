@@ -32,18 +32,18 @@ type
 		FPlayerId: TUlid;
 
 	public
-		constructor Create(vOwner: TComponent); override;
+		constructor Create(aOwner: TComponent); override;
 		procedure Start; override;
-		procedure Update(const vSecondsPassed: Single; var vHandleInput: Boolean); override;
+		procedure Update(const SecondsPassed: Single; var HandleInput: Boolean); override;
 		function Press(const Event: TInputPressRelease): Boolean; override;
 
-		procedure DoLogout(vSender: TObject);
+		procedure DoLogout(Sender: TObject);
 
 		procedure DoLoadCharacterList();
-		procedure OnCharacterList(const vCharacterList: TModelBase);
+		procedure OnCharacterList(const aCharacterList: TModelBase);
 
-		procedure DoEnterGame(const vUi: TCastleUserInterface; const vEvent: TInputPressRelease; var vHandled: Boolean);
-		procedure OnEnterGame(const vSuccess: TModelBase);
+		procedure DoEnterGame(const Ui: TCastleUserInterface; const Event: TInputPressRelease; var Handled: Boolean);
+		procedure OnEnterGame(const Success: TModelBase);
 
 	end;
 
@@ -56,7 +56,7 @@ uses GameViewLoading;
 
 { TViewCharacterList ----------------------------------------------------------------- }
 
-constructor TViewCharacterList.Create(vOwner: TComponent);
+constructor TViewCharacterList.Create(aOwner: TComponent);
 begin
 	inherited;
 	DesignUrl := 'castle-data:/gameviewcharacterlist.castle-user-interface';
@@ -71,7 +71,7 @@ begin
 	DoLoadCharacterList;
 end;
 
-procedure TViewCharacterList.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
+procedure TViewCharacterList.Update(const SecondsPassed: Single; var HandleInput: Boolean);
 begin
 	inherited;
 end;
@@ -101,7 +101,7 @@ begin
 	}
 end;
 
-procedure TViewCharacterList.DoLogout(vSender: TObject);
+procedure TViewCharacterList.DoLogout(Sender: TObject);
 begin
 	GlobalClient.Disconnect;
 end;
@@ -113,55 +113,55 @@ begin
 	GlobalClient.Send(TMsgCharacterList, DummyModel, @OnCharacterList);
 end;
 
-procedure TViewCharacterList.OnCharacterList(const vCharacterList: TModelBase);
+procedure TViewCharacterList.OnCharacterList(const aCharacterList: TModelBase);
 var
-	vCharacter: TMsgResCharacter;
-	vSelection: TCharacterSelection;
-	vInner: TCastleUserInterface;
+	LCharacter: TMsgResCharacter;
+	LSelection: TCharacterSelection;
+	LInner: TCastleUserInterface;
 begin
-	for vCharacter in (vCharacterList as TMsgResCharacterList).list do begin
-		vSelection := TCharacterSelection.Create(CharacterList);
-		CharacterList.InsertFront(vSelection);
-		vSelection.URL := 'castle-data:/componentcharacterbutton.castle-user-interface';
+	for LCharacter in (aCharacterList as TMsgResCharacterList).list do begin
+		LSelection := TCharacterSelection.Create(CharacterList);
+		CharacterList.InsertFront(LSelection);
+		LSelection.URL := 'castle-data:/componentcharacterbutton.castle-user-interface';
 
-		vInner := vSelection.FindRequiredComponent('CharacterButton') as TCastleUserInterface;
-		vSelection.Width := vInner.Width;
-		vSelection.Height := vInner.Height;
+		LInner := LSelection.FindRequiredComponent('CharacterButton') as TCastleUserInterface;
+		LSelection.Width := LInner.Width;
+		LSelection.Height := LInner.Height;
 
-		(vSelection.FindRequiredComponent('CharacterName') as TCastleLabel)
-			.Caption := vCharacter.name;
-		(vSelection.FindRequiredComponent('CharacterClass') as TCastleLabel)
-			.Caption := LoreCollection.GetById(vCharacter.&class).LoreName;
+		(LSelection.FindRequiredComponent('CharacterName') as TCastleLabel)
+			.Caption := LCharacter.name;
+		(LSelection.FindRequiredComponent('CharacterClass') as TCastleLabel)
+			.Caption := LoreCollection.GetById(LCharacter.&class).LoreName;
 
-		vSelection.Id := vCharacter.id;
+		LSelection.Id := LCharacter.id;
 
-		vSelection.OnRelease := @DoEnterGame;
+		LSelection.OnRelease := @DoEnterGame;
 	end;
 end;
 
-procedure TViewCharacterList.DoEnterGame(const vUi: TCastleUserInterface; const vEvent: TInputPressRelease; var vHandled: Boolean);
+procedure TViewCharacterList.DoEnterGame(const Ui: TCastleUserInterface; const Event: TInputPressRelease; var Handled: Boolean);
 var
-	vModel: TMsgEnterGame;
+	LModel: TMsgEnterGame;
 begin
-	vHandled := false;
+	Handled := false;
 
-	if vEvent.isMouseButton(buttonLeft) then begin
-		vHandled := true;
+	if Event.isMouseButton(buttonLeft) then begin
+		Handled := true;
 
-		FPlayerId := (vUi as TCharacterSelection).Id;
+		FPlayerId := (Ui as TCharacterSelection).Id;
 
-		vModel := TMsgEnterGame.Create;
-		vModel.Value := FPlayerId;
+		LModel := TMsgEnterGame.Create;
+		LModel.Value := FPlayerId;
 
-		GlobalClient.Send(TMsgEnterGame, vModel, @OnEnterGame);
+		GlobalClient.Send(TMsgEnterGame, LModel, @OnEnterGame);
 
-		vModel.Free;
+		LModel.Free;
 	end;
 end;
 
-procedure TViewCharacterList.OnEnterGame(const vSuccess: TModelBase);
+procedure TViewCharacterList.OnEnterGame(const Success: TModelBase);
 begin
-	if (vSuccess as TMsgResSuccess).Value = '1' then begin
+	if (Success as TMsgResSuccess).Value = '1' then begin
 		StartLoading(Container, FPlayerId);
 	end
 	else begin

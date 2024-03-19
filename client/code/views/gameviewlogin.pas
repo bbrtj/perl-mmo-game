@@ -20,15 +20,15 @@ type
 		LoginStatus: TCastleLabel;
 
 	public
-		constructor Create(vOwner: TComponent); override;
+		constructor Create(aOwner: TComponent); override;
 		procedure Start; override;
-		procedure Update(const vSecondsPassed: Single; var vHandleInput: Boolean); override;
-		function Press(const vEvent: TInputPressRelease): Boolean; override;
+		procedure Update(const SecondsPassed: Single; var HandleInput: Boolean); override;
+		function Press(const Event: TInputPressRelease): Boolean; override;
 
-		procedure DoLogin(vSender: TObject);
+		procedure DoLogin(Sender: TObject);
 
 		procedure OnConnected();
-		procedure OnLogin(const vSuccess: TModelBase);
+		procedure OnLogin(const Success: TModelBase);
 		procedure OnDisconnected();
 	end;
 
@@ -39,7 +39,7 @@ implementation
 
 uses GameViewCharacterList;
 
-constructor TViewLogin.Create(vOwner: TComponent);
+constructor TViewLogin.Create(aOwner: TComponent);
 begin
 	inherited;
 	DesignUrl := 'castle-data:/gameviewlogin.castle-user-interface';
@@ -54,12 +54,12 @@ begin
 	LoginButton.onClick := @DoLogin;
 end;
 
-procedure TViewLogin.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
+procedure TViewLogin.Update(const SecondsPassed: Single; var HandleInput: Boolean);
 begin
 	inherited;
 end;
 
-function TViewLogin.Press(const vEvent: TInputPressRelease): Boolean;
+function TViewLogin.Press(const Event: TInputPressRelease): Boolean;
 begin
 	Result := inherited;
 	if Result then Exit; // allow the ancestor to handle keys
@@ -84,7 +84,7 @@ begin
 	}
 end;
 
-procedure TViewLogin.DoLogin(vSender: TObject);
+procedure TViewLogin.DoLogin(Sender: TObject);
 begin
 	LoginStatus.Caption := _('msg.connecting');
 	LoginStatus.Exists := true;
@@ -94,23 +94,23 @@ end;
 
 procedure TViewLogin.OnConnected();
 var
-	vData: TMsgLogin;
+	LData: TMsgLogin;
 begin
 	LoginStatus.Caption := _('msg.logging_in');
 
-	vData := TMsgLogin.Create;
+	LData := TMsgLogin.Create;
 
-	vData.email := UsernameField.Text;
-	vData.password := PasswordField.Text;
+	LData.email := UsernameField.Text;
+	LData.password := PasswordField.Text;
 
-	GlobalClient.Send(TMsgLogin, vData, @onLogin);
+	GlobalClient.Send(TMsgLogin, LData, @onLogin);
 
-	vData.Free;
+	LData.Free;
 end;
 
-procedure TViewLogin.OnLogin(const vSuccess: TModelBase);
+procedure TViewLogin.OnLogin(const Success: TModelBase);
 begin
-	if (vSuccess as TMsgResSuccess).Value = '1' then begin
+	if (Success as TMsgResSuccess).Value = '1' then begin
 		Container.View := ViewCharacterList;
 	end
 	else begin

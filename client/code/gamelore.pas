@@ -31,7 +31,7 @@ type
 		destructor Destroy(); override;
 
 		procedure Initialize();
-		function GetById(const vId: TLoreId): TLoreItem;
+		function GetById(const Id: TLoreId): TLoreItem;
 
 	published
 
@@ -56,34 +56,34 @@ end;
 
 procedure TLoreStore.Initialize();
 var
-	vStreamer: TGameStreamer;
-	vLines: TStringList;
-	vStream: TStream;
+	LStreamer: TGameStreamer;
+	LLines: TStringList;
+	LStream: TStream;
 begin
-	vStreamer := TGameStreamer.Create;
-	vLines := TStringList.Create;
+	LStreamer := TGameStreamer.Create;
+	LLines := TStringList.Create;
 
-	vStream := Download('castle-data:/lore.json');
-	vLines.LoadFromStream(vStream);
-	vStreamer.DeStreamer.JSONToObject(vLines.Text, self);
+	LStream := Download('castle-data:/lore.json');
+	LLines.LoadFromStream(LStream);
+	LStreamer.DeStreamer.JSONToObject(LLines.Text, self);
 
-	vStreamer.Free;
-	vLines.Free;
-	vStream.Free;
+	LStreamer.Free;
+	LLines.Free;
+	LStream.Free;
 end;
 
-function TLoreStore.GetById(const vId: TLoreId): TLoreItem;
+function TLoreStore.GetById(const Id: TLoreId): TLoreItem;
 var
-	vItem: TLoreItem;
+	LItem: TLoreItem;
 begin
 	result := nil;
-	for vItem in FItems do begin
-		if vItem.LoreId = vId then
-			result := vItem;
+	for LItem in FItems do begin
+		if LItem.LoreId = Id then
+			result := LItem;
 	end;
 
 	if result = nil then
-		raise Exception.Create('Lore item with id ' + vId + ' does not exist');
+		raise Exception.Create('Lore item with id ' + Id + ' does not exist');
 end;
 
 { implementation end }

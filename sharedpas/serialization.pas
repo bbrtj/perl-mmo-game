@@ -10,7 +10,7 @@ type
 	TSerialized = class(TPersistent)
 	public
 		constructor Create(); virtual;
-		procedure OnObjectStreamed(vJson: TJSONObject); virtual;
+		procedure OnObjectStreamed(Json: TJSONObject); virtual;
 	end;
 
 	TSerializedListType = class of TFPSList;
@@ -21,7 +21,7 @@ type
 		ListType: TSerializedListType;
 		ListItemType: TSerializedListItemType;
 
-		constructor Create(vType: TSerializedListType; vItemtype: TSerializedListItemType);
+		constructor Create(_ListType: TSerializedListType; Itemtype: TSerializedListItemType);
 	end;
 
 	TSerializedLists = specialize TFPGObjectList<TSerializedList>;
@@ -31,14 +31,14 @@ type
 		FStreamer: TJSONStreamer;
 		FDeStreamer: TJSONDeStreamer;
 
-		procedure OnStreamProperty(vSender: TObject; vObject: TObject; vInfo: PPropInfo; var res: TJSONData);
-		function StreamGenericList(const vList: TFPSList): TJSONArray;
+		procedure OnStreamProperty(Sender: TObject; ThisObject: TObject; Info: PPropInfo; var res: TJSONData);
+		function StreamGenericList(const List: TFPSList): TJSONArray;
 
-		procedure OnRestoreProperty(vSender: TObject; vObject: TObject; vInfo: PPropInfo; vValue: TJSONData; var vHandled: Boolean);
-		procedure DeStreamGenericList(const vArray: TJSONArray; vValue: TObject; vItemInfo: TSerializedList);
-		procedure DeStreamPerlBoolean(const vJson: TJSONData; vObject: TObject; vInfo: PPropInfo);
+		procedure OnRestoreProperty(Sender: TObject; ThisObject: TObject; Info: PPropInfo; Value: TJSONData; var Handled: Boolean);
+		procedure DeStreamGenericList(const StreamedArray: TJSONArray; Value: TObject; ItemInfo: TSerializedList);
+		procedure DeStreamPerlBoolean(const Json: TJSONData; ThisObject: TObject; Info: PPropInfo);
 
-		procedure OnObjectStreamed(vSender: TObject; vObject: TObject; vJson: TJSONObject);
+		procedure OnObjectStreamed(Sender: TObject; ThisObject: TObject; Json: TJSONObject);
 	public
 		constructor Create();
 		destructor Destroy(); override;
@@ -50,7 +50,7 @@ type
 var
 	ListSerializationMap: TSerializedLists;
 
-function IsListHandled(vValue: TObject; var vListInfo: TSerializedList): Boolean;
+function IsListHandled(Value: TObject; var ListInfo: TSerializedList): Boolean;
 
 implementation
 
@@ -58,16 +58,16 @@ constructor TSerialized.Create();
 begin
 end;
 
-procedure TSerialized.OnObjectStreamed(vJson: TJSONObject);
+procedure TSerialized.OnObjectStreamed(Json: TJSONObject);
 begin
 	// can be reimplemented
 end;
 
 
-constructor TSerializedList.Create(vType: TSerializedListType; vItemtype: TSerializedListItemType);
+constructor TSerializedList.Create(_ListType: TSerializedListType; Itemtype: TSerializedListItemType);
 begin
-	ListType := vType;
-	ListItemType := vItemtype;
+	ListType := _ListType;
+	ListItemType := Itemtype;
 end;
 
 { class TGameStreamer }
@@ -88,94 +88,94 @@ begin
 	FDeStreamer.Free;
 end;
 
-procedure TGameStreamer.OnStreamProperty(vSender: TObject; vObject: TObject; vInfo: PPropInfo; var res: TJSONData);
+procedure TGameStreamer.OnStreamProperty(Sender: TObject; ThisObject: TObject; Info: PPropInfo; var res: TJSONData);
 var
-	vValue: TObject;
+	LValue: TObject;
 begin
-	if vInfo^.PropType^.Kind = tkClass then begin
-		vValue := GetObjectProp(vObject, vInfo);
-		if vValue is TFPSList then begin
+	if Info^.PropType^.Kind = tkClass then begin
+		LValue := GetObjectProp(ThisObject, Info);
+		if LValue is TFPSList then begin
 			res.Free;
-			res := StreamGenericList(vValue as TFPSList);
+			res := StreamGenericList(LValue as TFPSList);
 		end;
 	end;
 end;
 
-procedure TGameStreamer.OnRestoreProperty(vSender: TObject; vObject: TObject; vInfo: PPropInfo; vValue: TJSONData; var vHandled: Boolean);
+procedure TGameStreamer.OnRestoreProperty(Sender: TObject; ThisObject: TObject; Info: PPropInfo; Value: TJSONData; var Handled: Boolean);
 var
-	vPropValue: TObject;
-	vListInfo: TSerializedList;
+	LPropValue: TObject;
+	LListInfo: TSerializedList;
 begin
-	vHandled := false;
+	Handled := false;
 
-	if vInfo^.PropType^.Kind = tkClass then begin
-		vPropValue := GetObjectProp(vObject, vInfo);
-		if IsListHandled(vPropValue, vListInfo) then begin
-			vHandled := true;
-			DeStreamGenericList(vValue as TJSONArray, vPropValue, vListInfo);
+	if Info^.PropType^.Kind = tkClass then begin
+		LPropValue := GetObjectProp(ThisObject, Info);
+		if IsListHandled(LPropValue, LListInfo) then begin
+			Handled := true;
+			DeStreamGenericList(Value as TJSONArray, LPropValue, LListInfo);
 		end;
 	end
-	else if (vInfo^.PropType^.Kind in [tkSString, tkLString, tkAString, tkWString, tkUString])
-		and (vValue.JSONType = jtNull)
+	else if (Info^.PropType^.Kind in [tkSString, tkLString, tkAString, tkWString, tkUString])
+		and (Value.JSONType = jtNull)
 		then begin
-		vHandled := true;
-		SetStrProp(vObject, vInfo, '');
+		Handled := true;
+		SetStrProp(ThisObject, Info, '');
 	end
-	else if (vInfo^.PropType^.Kind = tkBool)
-		and (vValue.JSONType <> jtBoolean)
+	else if (Info^.PropType^.Kind = tkBool)
+		and (Value.JSONType <> jtBoolean)
 		then begin
-		vHandled := true;
-		DeStreamPerlBoolean(vValue, vObject, vInfo);
+		Handled := true;
+		DeStreamPerlBoolean(Value, ThisObject, Info);
 	end;
 end;
 
-function TGameStreamer.StreamGenericList(const vList: TFPSList): TJSONArray;
+function TGameStreamer.StreamGenericList(const List: TFPSList): TJSONArray;
 var
 	ind: Integer;
 begin
-	if vList = nil then
+	if List = nil then
 		exit(nil);
 
 	result := TJSONArray.Create;
 	try
-		for ind := 0 to vList.Count - 1 do
-			result.Add(FStreamer.ObjectToJSON(TObject(vList.Items[ind]^)));
+		for ind := 0 to List.Count - 1 do
+			result.Add(FStreamer.ObjectToJSON(TObject(List.Items[ind]^)));
 	except
 		freeAndNil(result);
 		raise;
 	end;
 end;
 
-procedure TGameStreamer.DeStreamGenericList(const vArray: TJSONArray; vValue: TObject; vItemInfo: TSerializedList);
+procedure TGameStreamer.DeStreamGenericList(const StreamedArray: TJSONArray; Value: TObject; ItemInfo: TSerializedList);
 var
 	ind: Integer;
 	resultObject: TSerialized;
 begin
-	for ind := 0 to vArray.Count - 1 do begin
-		resultObject := vItemInfo.ListItemType.Create();
-		FDeStreamer.JSONToObject(vArray.Objects[ind], resultObject);
+	for ind := 0 to StreamedArray.Count - 1 do begin
+		resultObject := ItemInfo.ListItemType.Create();
+		FDeStreamer.JSONToObject(StreamedArray.Objects[ind], resultObject);
 		// This uses TFPSList .Add anyway, so take reference
-		(vValue as vItemInfo.ListType).Add(@resultObject);
+		(Value as ItemInfo.ListType).Add(@resultObject);
 	end;
 end;
 
-procedure TGameStreamer.DeStreamPerlBoolean(const vJson: TJSONData; vObject: TObject; vInfo: PPropInfo);
-	procedure SetBooleanProp(vBoolean: Boolean);
+procedure TGameStreamer.DeStreamPerlBoolean(const Json: TJSONData; ThisObject: TObject; Info: PPropInfo);
+	procedure SetBooleanProp(Boolean: Boolean);
 	var
-		vEnumValue: String;
+		LEnumValue: String;
 	begin
-		if vBoolean then vEnumValue := 'true'
-		else vEnumValue := 'false';
+		if Boolean then LEnumValue := 'true'
+		else LEnumValue := 'false';
 
-		SetEnumProp(vObject, vInfo, vEnumValue);
+		SetEnumProp(ThisObject, Info, LEnumValue);
 	end;
 
 begin
-	case (vJson.JsonType) of
+	case (Json.JsonType) of
 		jtNumber:
-			SetBooleanProp(vJson.AsInteger <> 0);
+			SetBooleanProp(Json.AsInteger <> 0);
 		jtString:
-			SetBooleanProp((vJson.AsString <> '') and (vJson.AsString <> '0'));
+			SetBooleanProp((Json.AsString <> '') and (Json.AsString <> '0'));
 		jtNull:
 			SetBooleanProp(false)
 		else
@@ -183,28 +183,28 @@ begin
 	end;
 end;
 
-procedure TGameStreamer.OnObjectStreamed(vSender: TObject; vObject: TObject; vJson: TJSONObject);
+procedure TGameStreamer.OnObjectStreamed(Sender: TObject; ThisObject: TObject; Json: TJSONObject);
 begin
-	if vObject is TSerialized then
-		(vObject as TSerialized).OnObjectStreamed(vJson);
+	if ThisObject is TSerialized then
+		(ThisObject as TSerialized).OnObjectStreamed(Json);
 end;
 
 { implementation end }
 
 { Free functions }
 
-function IsListHandled(vValue: TObject; var vListInfo: TSerializedList): Boolean;
+function IsListHandled(Value: TObject; var ListInfo: TSerializedList): Boolean;
 var
-	vLoopItem: TSerializedList;
+	LLoopItem: TSerializedList;
 begin
 	result := false;
-	if not(vValue is TFPSList) then
+	if not(Value is TFPSList) then
 		exit;
 
-	for vLoopItem in ListSerializationMap do begin
-		if vValue is vLoopItem.ListType then begin
+	for LLoopItem in ListSerializationMap do begin
+		if Value is LLoopItem.ListType then begin
 			result := true;
-			vListInfo := vLoopItem;
+			ListInfo := LLoopItem;
 			break;
 		end;
 	end;

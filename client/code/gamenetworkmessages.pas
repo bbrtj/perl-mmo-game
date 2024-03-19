@@ -19,7 +19,7 @@ type
 		FData: String;
 		FType: String;
 
-		procedure SetBody(vBody: String); virtual;
+		procedure SetBody(Body: String); virtual;
 		function GetBody(): String; virtual;
 
 	public
@@ -39,8 +39,8 @@ type
 		FCallbackModel: TModelClass;
 
 	public
-		constructor Create(const vModel: TModelClass);
-		constructor Create(const vModel: TModelClass; const vCallbackModel: TModelClass);
+		constructor Create(const Model: TModelClass);
+		constructor Create(const Model: TModelClass; const CallbackModel: TModelClass);
 
 		function HasCallback(): Boolean;
 		function GetType(): String;
@@ -55,49 +55,49 @@ var
 	MessageTypesMap: TMessageTypes;
 	FeedTypesMap: TMessageTypes;
 
-function FindMessageType(const vType: TModelClass): TMessageType;
-function FindFeedType(const vType: TModelClass): TMessageType;
+function FindMessageType(const MessageType: TModelClass): TMessageType;
+function FindFeedType(const MessageType: TModelClass): TMessageType;
 
 implementation
 
-function FindMessageType(const vType: TModelClass): TMessageType;
+function FindMessageType(const MessageType: TModelClass): TMessageType;
 var
-	vMessageType: TMessageType;
+	LMessageType: TMessageType;
 begin
-	for vMessageType in MessageTypesMap do begin
-		if vMessageType.Model = vType then
-			exit(vMessageType);
+	for LMessageType in MessageTypesMap do begin
+		if LMessageType.Model = MessageType then
+			exit(LMessageType);
 	end;
 
-	raise Exception.Create('No such network message type: ' + vType.MessageType);
+	raise Exception.Create('No such network message type: ' + MessageType.MessageType);
 end;
 
-function FindFeedType(const vType: TModelClass): TMessageType;
+function FindFeedType(const MessageType: TModelClass): TMessageType;
 var
-	vFeedType: TMessageType;
+	LFeedType: TMessageType;
 begin
-	for vFeedType in FeedTypesMap do begin
-		if vFeedType.Model = vType then
-			exit(vFeedType);
+	for LFeedType in FeedTypesMap do begin
+		if LFeedType.Model = MessageType then
+			exit(LFeedType);
 	end;
 
-	raise Exception.Create('No such network feed type: ' + vType.MessageType);
+	raise Exception.Create('No such network feed type: ' + MessageType.MessageType);
 end;
 
-procedure TMessage.SetBody(vBody: String);
+procedure TMessage.SetBody(Body: String);
 var
-	vParts: TStringArray;
+	LParts: TStringArray;
 begin
 	// TODO: handle non-existing parts of this split
-	vParts := vBody.Split([cSeparator], 3);
+	LParts := Body.Split([cSeparator], 3);
 
-	if length(vParts[0]) > 0 then
-		FId := StrToInt(vParts[0])
+	if length(LParts[0]) > 0 then
+		FId := StrToInt(LParts[0])
 	else
 		FId := -1;
 
-	FType := vParts[1];
-	FData := vParts[2];
+	FType := LParts[1];
+	FData := LParts[2];
 end;
 
 function TMessage.GetBody(): String;
@@ -110,16 +110,16 @@ begin
 	result := FId >= 0;
 end;
 
-constructor TMessageType.Create(const vModel: TModelClass);
+constructor TMessageType.Create(const Model: TModelClass);
 begin
-	FModel := vModel;
+	FModel := Model;
 	FCallbackModel := nil;
 end;
 
-constructor TMessageType.Create(const vModel: TModelClass; const vCallbackModel: TModelClass);
+constructor TMessageType.Create(const Model: TModelClass; const CallbackModel: TModelClass);
 begin
-	FModel := vModel;
-	FCallbackModel := vCallbackModel;
+	FModel := Model;
+	FCallbackModel := CallbackModel;
 end;
 
 function TMessageType.GetType(): String;

@@ -73,8 +73,8 @@ type
 		destructor Destroy; override;
 
 		procedure Initialize();
-		function GetMapData(const vId: String): TMapData;
-		function GetMapPath(const vId: String): String;
+		function GetMapData(const Id: String): TMapData;
+		function GetMapPath(const Id: String): String;
 
 	published
 		property &index: TMapIndexEntries read FIndex write FIndex;
@@ -127,57 +127,57 @@ end;
 
 procedure TMapIndex.Initialize();
 var
-	vStreamer: TGameStreamer;
-	vLines: TStringList;
-	vStream: TStream;
+	LStreamer: TGameStreamer;
+	LLines: TStringList;
+	LStream: TStream;
 begin
-	vStreamer := TGameStreamer.Create;
-	vLines := TStringList.Create;
+	LStreamer := TGameStreamer.Create;
+	LLines := TStringList.Create;
 
-	vStream := Download('castle-data:/maps/index.json');
-	vLines.LoadFromStream(vStream);
-	vStreamer.DeStreamer.JSONToObject(vLines.Text, self);
+	LStream := Download('castle-data:/maps/index.json');
+	LLines.LoadFromStream(LStream);
+	LStreamer.DeStreamer.JSONToObject(LLines.Text, self);
 
-	vStreamer.Free;
-	vLines.Free;
-	vStream.Free;
+	LStreamer.Free;
+	LLines.Free;
+	LStream.Free;
 end;
 
-function TMapIndex.GetMapData(const vId: String): TMapData;
+function TMapIndex.GetMapData(const Id: String): TMapData;
 var
-	vEntry: TMapIndexEntry;
-	vStreamer: TGameStreamer;
-	vLines: TStringList;
-	vStream: TStream;
+	LEntry: TMapIndexEntry;
+	LStreamer: TGameStreamer;
+	LLines: TStringList;
+	LStream: TStream;
 begin
-	vStreamer := TGameStreamer.Create;
-	vLines := TStringList.Create;
+	LStreamer := TGameStreamer.Create;
+	LLines := TStringList.Create;
 	result := nil;
 
-	for vEntry in FIndex do begin
-		if vEntry.id = vId then begin
+	for LEntry in FIndex do begin
+		if LEntry.id = Id then begin
 			result := TMapData.Create;
 
-			vStream := Download('castle-data:/maps/meta/' + vEntry.&file + '.json');
-			vLines.LoadFromStream(vStream);
-			vStreamer.DeStreamer.JSONToObject(vLines.Text, result);
+			LStream := Download('castle-data:/maps/meta/' + LEntry.&file + '.json');
+			LLines.LoadFromStream(LStream);
+			LStreamer.DeStreamer.JSONToObject(LLines.Text, result);
 
-			vStream.Free;
+			LStream.Free;
 			break;
 		end;
 	end;
 
-	vStreamer.Free;
-	vLines.Free;
+	LStreamer.Free;
+	LLines.Free;
 end;
 
-function TMapIndex.GetMapPath(const vId: String): String;
+function TMapIndex.GetMapPath(const Id: String): String;
 var
-	vEntry: TMapIndexEntry;
+	LEntry: TMapIndexEntry;
 begin
-	for vEntry in FIndex do begin
-		if vEntry.id = vId then begin
-			result := 'castle-data:/maps/' + vEntry.&file + '.tmx';
+	for LEntry in FIndex do begin
+		if LEntry.id = Id then begin
+			result := 'castle-data:/maps/' + LEntry.&file + '.tmx';
 			break;
 		end;
 	end;

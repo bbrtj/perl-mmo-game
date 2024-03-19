@@ -11,7 +11,7 @@ type
 		FEmail: String;
 		FPassword: String;
 
-		procedure SetPassword(const vPassword: String);
+		procedure SetPassword(const Password: String);
 
 	public
 		class function MessageType(): String; override;
@@ -29,9 +29,9 @@ begin
 	result := 'login';
 end;
 
-procedure TMsgLogin.SetPassword(const vPassword: String);
+procedure TMsgLogin.SetPassword(const Password: String);
 begin
-	FPassword := MD5Print(MD5String(vPassword));
+	FPassword := MD5Print(MD5String(Password));
 end;
 
 { implementation end }

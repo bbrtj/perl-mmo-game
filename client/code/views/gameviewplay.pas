@@ -24,21 +24,21 @@ type
 		FGameState: TGameState;
 		FPlaying: Boolean;
 
-		function FindMapPosition(vMouseHit: TRayCollision; out Pos: TVector3): Boolean;
+		function FindMapPosition(MouseHit: TRayCollision; out Pos: TVector3): Boolean;
 
 	public
-		constructor Create(vOwner: TComponent); override;
+		constructor Create(aOwner: TComponent); override;
 		procedure Start; override;
 		procedure Stop; override;
 
-		procedure Update(const vSecondsPassed: Single; var vHandleInput: Boolean); override;
-		function Press(const vEvent: TInputPressRelease): Boolean; override;
+		procedure Update(const SecondsPassed: Single; var HandleInput: Boolean); override;
+		function Press(const Event: TInputPressRelease): Boolean; override;
 
-		procedure SetMapPath(vMapPath: String);
+		procedure SetMapPath(MapPath: String);
 
-		procedure OnDiscovery(const vData: TModelBase);
-		procedure OnActorMovement(const vData: TModelBase);
-		procedure OnActorPosition(const vData: TModelBase);
+		procedure OnDiscovery(const Data: TModelBase);
+		procedure OnActorMovement(const Data: TModelBase);
+		procedure OnActorPosition(const Data: TModelBase);
 
 		property GameState: TGameState read FGameState write FGameState;
 		property Playing: Boolean read FPlaying write FPlaying;
@@ -50,7 +50,7 @@ var
 
 implementation
 
-constructor TViewPlay.Create(vOwner: TComponent);
+constructor TViewPlay.Create(aOwner: TComponent);
 begin
 	inherited;
 	DesignUrl := 'castle-data:/gameviewplay.castle-user-interface';
@@ -73,106 +73,106 @@ begin
 	FGameState.Free;
 end;
 
-function TViewPlay.FindMapPosition(vMouseHit: TRayCollision; out Pos: TVector3): Boolean;
+function TViewPlay.FindMapPosition(MouseHit: TRayCollision; out Pos: TVector3): Boolean;
 var
-	vNode: TRayCollisionNode;
+	LNode: TRayCollisionNode;
 begin
-	if vMouseHit.Info(vNode) and (vNode.Item is TCastleTiledMap) then
+	if MouseHit.Info(LNode) and (LNode.Item is TCastleTiledMap) then
 	begin
-		writeln('hit map: ', vNode.Item.Name, ' ', vNode.Item.ClassName, ' at ',
-		  vNode.Point.X:1:2, ':',
-		  vNode.Point.Y:1:2);
-		Pos := vNode.Item.LocalToWorld(vNode.Point);
+		writeln('hit map: ', LNode.Item.Name, ' ', LNode.Item.ClassName, ' at ',
+		  LNode.Point.X:1:2, ':',
+		  LNode.Point.Y:1:2);
+		Pos := LNode.Item.LocalToWorld(LNode.Point);
 		result := true;
 	end else
 		result := false;
 end;
 
-procedure TViewPlay.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
+procedure TViewPlay.Update(const SecondsPassed: Single; var HandleInput: Boolean);
 begin
 	inherited;
 
 	if not FPlaying then exit;
-	FGameState.Update(vSecondsPassed);
-	GlobalClient.Heartbeat(vSecondsPassed);
+	FGameState.Update(SecondsPassed);
+	GlobalClient.Heartbeat(SecondsPassed);
 
 	PingDisplay.Caption := 'Latency: ' + IntToStr(GlobalClient.Ping) + ' ms';
 	FpsDisplay.Caption := 'FPS: ' + Container.Fps.ToString;
 
 end;
 
-procedure TViewPlay.SetMapPath(vMapPath: String);
+procedure TViewPlay.SetMapPath(MapPath: String);
 begin
-	Board.URL := vMapPath;
+	Board.URL := MapPath;
 end;
 
-function TViewPlay.Press(const vEvent: TInputPressRelease): Boolean;
+function TViewPlay.Press(const Event: TInputPressRelease): Boolean;
 var
-	vMouseHit: TRayCollision;
-	vPosition: TVector3;
-	vModel: TMsgMove;
+	MouseHit: TRayCollision;
+	LPosition: TVector3;
+	LModel: TMsgMove;
 
 begin
 	result := inherited;
 	if result then exit;
 
 	// TODO: configurable keybinds
-	if vEvent.IsKey(keyS) then begin
+	if Event.IsKey(keyS) then begin
 		GlobalClient.Send(TMsgStop, TMsgStop.Create());
 		exit(true);
 	end
-	else if vEvent.IsKey(keyA) then begin
+	else if Event.IsKey(keyA) then begin
 		GlobalClient.Send(TMsgUntargettedAbility, TMsgUntargettedAbility.Create());
 		exit(true);
 	end;
-	if vEvent.IsMouseButton(buttonLeft) then begin
-		vMouseHit := MainViewport.MouseRayHit;
-		if vMouseHit <> nil then begin
-			if FindMapPosition(vMouseHit, vPosition) then
+	if Event.IsMouseButton(buttonLeft) then begin
+		MouseHit := MainViewport.MouseRayHit;
+		if MouseHit <> nil then begin
+			if FindMapPosition(MouseHit, LPosition) then
 			begin
-				vModel := TMsgMove.Create;
-				vModel.SetValue(vPosition.X * 100, vPosition.Y * 100);
+				LModel := TMsgMove.Create;
+				LModel.SetValue(LPosition.X * 100, LPosition.Y * 100);
 
-				GlobalClient.Send(TMsgMove, vModel);
+				GlobalClient.Send(TMsgMove, LModel);
 				exit(true);
 			end;
 		end;
 	end;
 end;
 
-procedure TViewPlay.OnDiscovery(const vData: TModelBase);
+procedure TViewPlay.OnDiscovery(const Data: TModelBase);
 var
-	vModel: TMsgFeedDiscovery;
-	vObject: TMsgFeedNewObject;
-	vId: String;
+	LModel: TMsgFeedDiscovery;
+	LObject: TMsgFeedNewObject;
+	LId: String;
 begin
-	vModel := vData as TMsgFeedDiscovery;
+	LModel := Data as TMsgFeedDiscovery;
 
-	for vObject in vModel.new_actors do
-		FGameState.AddActor(vObject);
+	for LObject in LModel.new_actors do
+		FGameState.AddActor(LObject);
 
-	for vId in vModel.old_actors do
-		FGameState.RemoveActor(vId);
+	for LId in LModel.old_actors do
+		FGameState.RemoveActor(LId);
 end;
 
-procedure TViewPlay.OnActorMovement(const vData: TModelBase);
+procedure TViewPlay.OnActorMovement(const Data: TModelBase);
 var
-	vModel: TMsgFeedActorMovement;
+	LModel: TMsgFeedActorMovement;
 begin
-	vModel := vData as TMsgFeedActorMovement;
+	LModel := Data as TMsgFeedActorMovement;
 
-	FGameState.ProcessMovement(vModel);
+	FGameState.ProcessMovement(LModel);
 end;
 
-procedure TViewPlay.OnActorPosition(const vData: TModelBase);
+procedure TViewPlay.OnActorPosition(const Data: TModelBase);
 var
-	vModel: TMsgFeedActorPosition;
+	LModel: TMsgFeedActorPosition;
 begin
-	vModel := vData as TMsgFeedActorPosition;
+	LModel := Data as TMsgFeedActorPosition;
 
 	// TODO: movement stopped should be detected on clientside as well for smooth stop animation
 	// (for example, when hitting walls)
-	FGameState.ProcessPosition(vModel);
+	FGameState.ProcessPosition(LModel);
 end;
 
 { implementation end }

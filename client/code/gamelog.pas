@@ -2,29 +2,29 @@ unit GameLog;
 
 interface
 
-procedure LogDebug(const vMessage: String);
-procedure LogError(const vMessage: String);
-procedure LogToServer(const vMessage: String);
+procedure LogDebug(const Message: String);
+procedure LogError(const Message: String);
+procedure LogToServer(const Message: String);
 
 implementation
 
-procedure LogDebug(const vMessage: String);
+procedure LogDebug(const Message: String);
 begin
 	{$IFDEF DEBUG}
-	writeln(vMessage);
+	writeln(Message);
 	{$ENDIF}
 end;
 
-procedure LogError(const vMessage: String);
+procedure LogError(const Message: String);
 begin
 	// TODO: write to a log file?
-	writeln('ERROR ' + vMessage);
+	writeln('ERROR ' + Message);
 end;
 
-procedure LogToServer(const vMessage: String);
+procedure LogToServer(const Message: String);
 begin
 	// TODO: send a log report to the server
-	LogError(vMessage);
+	LogError(Message);
 end;
 
 initialization

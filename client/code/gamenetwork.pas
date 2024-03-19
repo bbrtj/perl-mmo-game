@@ -11,7 +11,7 @@ uses
 
 type
 	TNetworkCallback = procedure() of object;
-	TNetworkMessageCallback = procedure(const vModel: TModelBase) of Object;
+	TNetworkMessageCallback = procedure(const GModel: TModelBase) of Object;
 
 	TCallbackItem = class
 	public
@@ -19,7 +19,7 @@ type
 		Callback: TNetworkMessageCallback;
 		CallbackModel: TModelClass;
 
-		constructor Create(const vId: Integer; const vCallback: TNetworkMessageCallback; const vModel: TModelClass);
+		constructor Create(const aId: Integer; const aCallback: TNetworkMessageCallback; const Model: TModelClass);
 	end;
 
 	TFeedItem = class
@@ -27,7 +27,7 @@ type
 		Callback: TNetworkMessageCallback;
 		CallbackModel: TModelClass;
 
-		constructor Create(const vCallback: TNetworkMessageCallback; const vModel: TModelClass);
+		constructor Create(const aCallback: TNetworkMessageCallback; const Model: TModelClass);
 	end;
 
 	TCallbackItems = specialize TFPGObjectList<TCallbackItem>;
@@ -49,28 +49,28 @@ type
 		FOnDisconnected: TNetworkCallback;
 
 		procedure OnDisconnectedInternal;
-		procedure OnMessageReceived(const vReceived: String);
+		procedure OnMessageReceived(const Received: String);
 
-		function DoSend(const vType: TMessageType; const vData: TModelBase): Integer;
+		function DoSend(const MessageType: TMessageType; const Data: TModelBase): Integer;
 		function AssignId(): Integer;
 
-		procedure SetPooling(const vValue: Boolean);
+		procedure SetPooling(const Value: Boolean);
 
 	public
 		constructor Create;
 		destructor Destroy; override;
 
-		procedure Connect(const vCallback: TNetworkCallback);
-		procedure Disconnect(const vRaiseEvent: Boolean = True);
+		procedure Connect(const Callback: TNetworkCallback);
+		procedure Disconnect(const RaiseEvent: Boolean = True);
 
-		procedure Send(const vModel: TModelClass; const vData: TModelBase);
-		procedure Send(const vModel: TModelClass; const vData: TModelBase; const vCallback: TNetworkMessageCallback);
+		procedure Send(const Model: TModelClass; const Data: TModelBase);
+		procedure Send(const Model: TModelClass; const Data: TModelBase; const Callback: TNetworkMessageCallback);
 
-		procedure Await(const vModel: TModelClass; const vCallback: TNetworkMessageCallback);
-		procedure StopWaiting(const vModel: TModelClass);
+		procedure Await(const Model: TModelClass; const Callback: TNetworkMessageCallback);
+		procedure StopWaiting(const Model: TModelClass);
 		procedure ContextChange();
 
-		procedure Heartbeat(const vPassed: Single);
+		procedure Heartbeat(const Passed: Single);
 
 		property Ping: Int64 read FPing;
 		property Pooling: Boolean read FPooling write SetPooling;
@@ -82,17 +82,17 @@ var
 
 implementation
 
-constructor TCallbackItem.Create(const vId: Integer; const vCallback: TNetworkMessageCallback; const vModel: TModelClass);
+constructor TCallbackItem.Create(const aId: Integer; const aCallback: TNetworkMessageCallback; const Model: TModelClass);
 begin
-	Id := vId;
-	Callback := vCallback;
-	CallbackModel := vModel;
+	Id := aId;
+	Callback := aCallback;
+	CallbackModel := Model;
 end;
 
-constructor TFeedItem.Create(const vCallback: TNetworkMessageCallback; const vModel: TModelClass);
+constructor TFeedItem.Create(const aCallback: TNetworkMessageCallback; const Model: TModelClass);
 begin
-	Callback := vCallback;
-	CallbackModel := vModel;
+	Callback := aCallback;
+	CallbackModel := Model;
 end;
 
 constructor TNetwork.Create();
@@ -121,31 +121,31 @@ begin
 	inherited;
 end;
 
-procedure TNetwork.Connect(const vCallback: TNetworkCallback);
+procedure TNetwork.Connect(const Callback: TNetworkCallback);
 const
 	cDefaultHost = 'localhost';
 	cDefaultPort = 14832;
 
 begin
 	if FClient.IsConnected then begin
-		vCallback();
+		Callback();
 		exit;
 	end;
 
 	FClient.Hostname := UserConfig.GetValue('server_host', cDefaultHost);
 	FClient.Port := UserConfig.GetValue('server_port', cDefaultPort);
 
-	FClient.OnConnected := vCallback;
+	FClient.OnConnected := Callback;
 	FClient.Connect;
 end;
 
-procedure TNetwork.Disconnect(const vRaiseEvent: Boolean = True);
+procedure TNetwork.Disconnect(const RaiseEvent: Boolean = True);
 begin
 	if FClient.IsConnected then begin
 		FClient.Disconnect;
 		self.ContextChange;
 
-		if vRaiseEvent then
+		if RaiseEvent then
 			self.OnDisconnectedInternal;
 	end;
 end;
@@ -158,149 +158,149 @@ begin
 		FOnDisconnected();
 end;
 
-procedure TNetwork.OnMessageReceived(const vReceived: String);
+procedure TNetwork.OnMessageReceived(const Received: String);
 var
-	vMessage: TMessage;
-	vHandled: Boolean;
+	LMessage: TMessage;
+	LHandled: Boolean;
 
 	{ nested procedure }
 	procedure HandleCallbacks;
 	var
-		vCallback: TCallbackItem;
-		vModel: TModelBase;
+		LCallback: TCallbackItem;
+		GModel: TModelBase;
 	begin
-		for vCallback in FCallbacks do begin
-			if not (vCallback.Id = vMessage.Id) then continue;
-			if not (vCallback.CallbackModel.MessageType = vMessage.Typ) then continue;
+		for LCallback in FCallbacks do begin
+			if not (LCallback.Id = LMessage.Id) then continue;
+			if not (LCallback.CallbackModel.MessageType = LMessage.Typ) then continue;
 
-			vModel := FModelSerializer.DeSerialize(vMessage.Data, vCallback.CallbackModel);
-			vCallback.Callback(vModel);
+			GModel := FModelSerializer.DeSerialize(LMessage.Data, LCallback.CallbackModel);
+			LCallback.Callback(GModel);
 
-			FCallbacks.Remove(vCallback);
-			vModel.Free;
+			FCallbacks.Remove(LCallback);
+			GModel.Free;
 
-			vHandled := true;
+			LHandled := true;
 			break;
 		end;
 	end;
 
 	procedure HandleFeeds;
 	var
-		vFeed: TFeedItem;
-		vModel: TModelBase;
+		LFeed: TFeedItem;
+		GModel: TModelBase;
 	begin
-		for vFeed in FFeeds do begin
-			if not (vFeed.CallbackModel.MessageType = vMessage.Typ) then continue;
+		for LFeed in FFeeds do begin
+			if not (LFeed.CallbackModel.MessageType = LMessage.Typ) then continue;
 
-			vModel := FModelSerializer.DeSerialize(vMessage.Data, vFeed.CallbackModel);
-			vFeed.Callback(vModel);
+			GModel := FModelSerializer.DeSerialize(LMessage.Data, LFeed.CallbackModel);
+			LFeed.Callback(GModel);
 
-			vModel.Free;
-			vHandled := true;
+			GModel.Free;
+			LHandled := true;
 		end;
 	end;
 
 begin
-	if vReceived = 'ping' then begin
+	if Received = 'ping' then begin
 		FPing := MilliSecondsBetween(Now, FPingStart);
 		exit;
 	end;
 
 	if FPooling then begin
-		FPool.Add(vReceived);
-		LogDebug('Network: pooled ' + vReceived);
+		FPool.Add(Received);
+		LogDebug('Network: pooled ' + Received);
 		exit;
 	end;
 
-	LogDebug('Network: got ' + vReceived);
+	LogDebug('Network: got ' + Received);
 
-	vMessage := TMessage.Create;
-	vMessage.Body := vReceived;
-	vHandled := false;
+	LMessage := TMessage.Create;
+	LMessage.Body := Received;
+	LHandled := false;
 
-	if vMessage.HasId() then
+	if LMessage.HasId() then
 		HandleCallbacks()
 	else
 		HandleFeeds();
 
-	vMessage.Free;
+	LMessage.Free;
 
-	if not vHandled then
+	if not LHandled then
 		LogDebug('Network: message was not handled');
 end;
 
 function TNetwork.AssignId(): Integer;
 var
-	vInd: Integer;
-	vId: Integer;
+	LInd: Integer;
+	LId: Integer;
 begin
 	result := 0;
-	for vInd := 0 to FCallbacks.Count - 1 do begin
-		vId := FCallbacks.Items[vInd].id;
-		if vId > result then
-			result := vId;
+	for LInd := 0 to FCallbacks.Count - 1 do begin
+		LId := FCallbacks.Items[LInd].id;
+		if LId > result then
+			result := LId;
 	end;
 
 	result += 1;
 end;
 
-function TNetwork.DoSend(const vType: TMessageType; const vData: TModelBase): Integer;
+function TNetwork.DoSend(const MessageType: TMessageType; const Data: TModelBase): Integer;
 var
-	vToSend: TOutMessage;
+	LToSend: TOutMessage;
 begin
 	// TODO: make sure we are connected?
-	vToSend := TOutMessage.Create;
-	vToSend.Id := AssignId();
-	vToSend.Typ := vType.GetType;
-	vToSend.Data := FModelSerializer.Serialize(vData);
+	LToSend := TOutMessage.Create;
+	LToSend.Id := AssignId();
+	LToSend.Typ := MessageType.GetType;
+	LToSend.Data := FModelSerializer.Serialize(Data);
 
-	result := vToSend.Id;
+	result := LToSend.Id;
 
-	LogDebug('Network: sending ' + vToSend.Body);
-	FClient.Send(vToSend.Body);
-	vToSend.Free;
+	LogDebug('Network: sending ' + LToSend.Body);
+	FClient.Send(LToSend.Body);
+	LToSend.Free;
 end;
 
-procedure TNetwork.Send(const vModel: TModelClass; const vData: TModelBase; const vCallback: TNetworkMessageCallback);
+procedure TNetwork.Send(const Model: TModelClass; const Data: TModelBase; const Callback: TNetworkMessageCallback);
 var
-	vType: TMessageType;
+	LType: TMessageType;
 begin
-	vType := FindMessageType(vModel);
+	LType := FindMessageType(Model);
 
-	if not vType.HasCallback then
-		raise Exception.Create('Type ' + vType.GetType + ' does not have a callback');
+	if not LType.HasCallback then
+		raise Exception.Create('Type ' + LType.GetType + ' does not have a callback');
 
-	FCallbacks.Add(TCallbackItem.Create(DoSend(vType, vData), vCallback, vType.CallbackModel));
+	FCallbacks.Add(TCallbackItem.Create(DoSend(LType, Data), Callback, LType.CallbackModel));
 end;
 
-procedure TNetwork.Send(const vModel: TModelClass; const vData: TModelBase);
+procedure TNetwork.Send(const Model: TModelClass; const Data: TModelBase);
 var
-	vType: TMessageType;
+	LType: TMessageType;
 begin
-	vType := FindMessageType(vModel);
+	LType := FindMessageType(Model);
 
-	if vType.HasCallback then
-		raise Exception.Create('Type ' + vType.GetType + ' has a callback, but no callback passed');
+	if LType.HasCallback then
+		raise Exception.Create('Type ' + LType.GetType + ' has a callback, but no callback passed');
 
-	DoSend(vType, vData);
+	DoSend(LType, Data);
 end;
 
-procedure TNetwork.Await(const vModel: TModelClass; const vCallback: TNetworkMessageCallback);
+procedure TNetwork.Await(const Model: TModelClass; const Callback: TNetworkMessageCallback);
 var
-	vType: TMessageType;
+	LType: TMessageType;
 begin
-	vType := FindFeedType(vModel);
+	LType := FindFeedType(Model);
 
-	FFeeds.Add(TFeedItem.Create(vCallback, vType.Model));
+	FFeeds.Add(TFeedItem.Create(Callback, LType.Model));
 end;
 
-procedure TNetwork.StopWaiting(const vModel: TModelClass);
+procedure TNetwork.StopWaiting(const Model: TModelClass);
 var
-	vFeed: TFeedItem;
+	LFeed: TFeedItem;
 begin
-	for vFeed in FFeeds do begin
-		if vFeed.CallbackModel = vModel then begin
-			FFeeds.Remove(vFeed);
+	for LFeed in FFeeds do begin
+		if LFeed.CallbackModel = Model then begin
+			FFeeds.Remove(LFeed);
 			break;
 		end;
 	end;
@@ -313,9 +313,9 @@ begin
 	FFeeds.Clear;
 end;
 
-procedure TNetwork.Heartbeat(const vPassed: Single);
+procedure TNetwork.Heartbeat(const Passed: Single);
 begin
-	FSecondsPassed += vPassed;
+	FSecondsPassed += Passed;
 
 	if (FSecondsPassed > 15) or (FPing = 0) then begin
 		FPingStart := Now;
@@ -324,15 +324,15 @@ begin
 	end;
 end;
 
-procedure TNetwork.SetPooling(const vValue: Boolean);
+procedure TNetwork.SetPooling(const Value: Boolean);
 var
-	vMessage: String;
+	LMessage: String;
 begin
-	FPooling := vValue;
+	FPooling := Value;
 
-	if vValue = False then begin
-		for vMessage in FPool do
-			OnMessageReceived(vMessage);
+	if Value = False then begin
+		for LMessage in FPool do
+			OnMessageReceived(LMessage);
 		FPool.Clear;
 	end;
 end;

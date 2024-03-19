@@ -26,8 +26,8 @@ type
 
 	TModelSerializationBase = class abstract
 	public
-		function Serialize(const vModel: TModelBase): String; virtual; abstract;
-		function DeSerialize(const vSerialized: String; const vModelClass: TModelClass): TModelBase; virtual; abstract;
+		function Serialize(const Model: TModelBase): String; virtual; abstract;
+		function DeSerialize(const Serialized: String; const ModelClass: TModelClass): TModelBase; virtual; abstract;
 	end;
 
 	TJSONModelSerialization = class (TModelSerializationBase)
@@ -42,8 +42,8 @@ type
 		constructor Create();
 		destructor Destroy; override;
 
-		function Serialize(const vModel: TModelBase): String; override;
-		function DeSerialize(const vSerialized: String; const vModelClass: TModelClass): TModelBase; override;
+		function Serialize(const Model: TModelBase): String; override;
+		function DeSerialize(const Serialized: String; const ModelClass: TModelClass): TModelBase; override;
 	end;
 
 var
@@ -68,41 +68,41 @@ begin
 	inherited;
 end;
 
-function TJSONModelSerialization.Serialize(const vModel: TModelBase): String;
+function TJSONModelSerialization.Serialize(const Model: TModelBase): String;
 begin
-	if vModel is TEmptyModel then
+	if Model is TEmptyModel then
 		result := ''
-	else if vModel is TPlaintextModel then
-		result := (vModel as TPlaintextModel).Value
+	else if Model is TPlaintextModel then
+		result := (Model as TPlaintextModel).Value
 	else
-		result := FStreamer.Streamer.ObjectToJSONString(vModel);
+		result := FStreamer.Streamer.ObjectToJSONString(Model);
 end;
 
-function TJSONModelSerialization.DeSerialize(const vSerialized: String; const vModelClass: TModelClass): TModelBase;
+function TJSONModelSerialization.DeSerialize(const Serialized: String; const ModelClass: TModelClass): TModelBase;
 
 	function WrappedJson(): String;
 	var
-		vJsonMaybeArray: TJSONData;
-		vNewObject: TJSONObject;
+		LJsonMaybeArray: TJSONData;
+		LNewObject: TJSONObject;
 	begin
-		result := vSerialized;
-		vJsonMaybeArray := GetJSON(vSerialized);
+		result := Serialized;
+		LJsonMaybeArray := GetJSON(Serialized);
 
-		if vJsonMaybeArray.JsonType = jtArray then begin
-			vNewObject := TJSONObject.Create;
-			vNewObject.Add(cArrayWrapKey, vJsonMaybeArray);
+		if LJsonMaybeArray.JsonType = jtArray then begin
+			LNewObject := TJSONObject.Create;
+			LNewObject.Add(cArrayWrapKey, LJsonMaybeArray);
 
-			result := vNewObject.AsJson;
-			FreeAndNil(vNewObject);
+			result := LNewObject.AsJson;
+			FreeAndNil(LNewObject);
 		end else
-		    FreeAndNil(vJsonMaybeArray);
+		    FreeAndNil(LJsonMaybeArray);
 	end;
 
 begin
-	result := vModelClass.Create;
+	result := ModelClass.Create;
 
-	if vModelClass.InheritsFrom(TPlaintextModel) then
-		(result as TPlaintextModel).Value := vSerialized
+	if ModelClass.InheritsFrom(TPlaintextModel) then
+		(result as TPlaintextModel).Value := Serialized
 	else
 		FStreamer.DeStreamer.JSONToObject(WrappedJson(), result);
 end;

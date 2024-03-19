@@ -25,21 +25,21 @@ type
 		FPlayerY: Single;
 
 		procedure RefreshLocationHints();
-		procedure DoLoad(vSender: TObject);
+		procedure DoLoad(Sender: TObject);
 		procedure OnLoaded();
 
 	public
-		constructor Create(vOwner: TComponent); override;
+		constructor Create(aOwner: TComponent); override;
 		procedure Start; override;
-		procedure Update(const vSecondsPassed: Single; var vHandleInput: Boolean); override;
+		procedure Update(const SecondsPassed: Single; var HandleInput: Boolean); override;
 
-		procedure OnLocationData(const vData: TModelBase);
+		procedure OnLocationData(const Data: TModelBase);
 
 		property PlayerId: TUlid write FPlayerId;
 
 	end;
 
-procedure StartLoading(const vContainer: TCastleContainer; const vPlayerId: TUlid);
+procedure StartLoading(const Container: TCastleContainer; const PlayerId: TUlid);
 
 var
 	ViewLoading: TViewLoading;
@@ -48,7 +48,7 @@ implementation
 
 uses GameViewPlay;
 
-constructor TViewLoading.Create(vOwner: TComponent);
+constructor TViewLoading.Create(aOwner: TComponent);
 begin
 	inherited;
 	DesignUrl := 'castle-data:/gameviewloading.castle-user-interface';
@@ -56,14 +56,14 @@ end;
 
 procedure TViewLoading.RefreshLocationHints();
 var
-	vLore: TLoreItem;
+	LLore: TLoreItem;
 begin
-	vLore := LoreCollection.GetById(FMapId);
-	HintText1.Caption := vLore.LoreName;
-	HintText2.Caption := vLore.LoreDescription;
+	LLore := LoreCollection.GetById(FMapId);
+	HintText1.Caption := LLore.LoreName;
+	HintText2.Caption := LLore.LoreDescription;
 end;
 
-procedure TViewLoading.DoLoad(vSender: TObject);
+procedure TViewLoading.DoLoad(Sender: TObject);
 begin
 	ViewPlay.SetMapPath(MapIndex.GetMapPath(FMapId));
 	ViewPlay.GameState.SetMapData(MapIndex.GetMapData(FMapId));
@@ -89,7 +89,7 @@ begin
 	FLoaded := false;
 end;
 
-procedure TViewLoading.Update(const vSecondsPassed: Single; var vHandleInput: Boolean);
+procedure TViewLoading.Update(const SecondsPassed: Single; var HandleInput: Boolean);
 const
 	cRotationSpeed = 0.05;
 	cFadeSpeed = 0.02;
@@ -109,32 +109,32 @@ begin
 	end;
 end;
 
-procedure TViewLoading.OnLocationData(const vData: TModelBase);
+procedure TViewLoading.OnLocationData(const Data: TModelBase);
 var
-	vModel: TMsgFeedLocationData;
+	LModel: TMsgFeedLocationData;
 begin
 	GlobalClient.StopWaiting(TMsgFeedLocationData);
 	GlobalClient.Pooling := True;
 
-	vModel := vData as TMsgFeedLocationData;
+	LModel := Data as TMsgFeedLocationData;
 
-	FMapId := vModel.id;
-	FPlayerX := vModel.player_x;
-	FPlayerY := vModel.player_y;
+	FMapId := LModel.id;
+	FPlayerX := LModel.player_x;
+	FPlayerY := LModel.player_y;
 
 	RefreshLocationHints;
 	WaitForRenderAndCall(@self.DoLoad);
 end;
 
-procedure StartLoading(const vContainer: TCastleContainer; const vPlayerId: TUlid);
+procedure StartLoading(const Container: TCastleContainer; const PlayerId: TUlid);
 begin
 	GlobalClient.ContextChange;
 
-	vContainer.PopView();
-	vContainer.PushView(ViewPlay);
-	vContainer.PushView(ViewLoading);
+	Container.PopView();
+	Container.PushView(ViewPlay);
+	Container.PushView(ViewLoading);
 
-	ViewLoading.PlayerId := vPlayerId;
+	ViewLoading.PlayerId := PlayerId;
 end;
 
 { implementation end }
