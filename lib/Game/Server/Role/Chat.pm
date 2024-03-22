@@ -29,7 +29,7 @@ sub chat_say ($self, $actor_id, $message)
 
 	$self->_chat_send(
 		$actor,
-		Resource::Chat->new(actor => $actor, message => $message),
+		Resource::Chat->new(subject => $actor, message => $message),
 		[$actor_id, $self->get_discovered_by($actor_id)],
 	);
 
@@ -42,7 +42,7 @@ sub chat_yell ($self, $actor_id, $message)
 
 	$self->_chat_send(
 		$actor,
-		Resource::Chat->new(actor => $actor, message => $message),
+		Resource::Chat->new(subject => $actor, message => $message),
 		$self->find_in_radius(
 			$actor->variables->pos_x,
 			$actor->variables->pos_y,

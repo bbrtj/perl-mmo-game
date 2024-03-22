@@ -24,7 +24,7 @@ use constant type => 'chat';
 sub generate ($self)
 {
 	return {
-		id => $self->actor->id,
+		id => $self->subject->id,
 		message => $self->message,
 		whisper => $self->whisper,
 	};

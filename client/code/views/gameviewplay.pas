@@ -7,7 +7,7 @@ uses Classes, SysUtils,
 	CastleTransform, CastleScene, CastleViewport, CastleTiledMap,
 	GameState,
 	GameNetwork,
-	GameModels, GameModels.Move, GameModels.Discovery, GameModels.Ability;
+	GameModels, GameModels.Move, GameModels.Discovery, GameModels.Ability, GameModels.Chat;
 
 type
 	TViewPlay = class(TCastleView)
@@ -19,6 +19,8 @@ type
 
 		PingDisplay: TCastleLabel;
 		FpsDisplay: TCastleLabel;
+		ChatEdit: TCastleEdit;
+		ChatWindow: TCastleLabel;
 
 	private
 		FGameState: TGameState;
@@ -34,11 +36,14 @@ type
 		procedure Update(const SecondsPassed: Single; var HandleInput: Boolean); override;
 		function Press(const Event: TInputPressRelease): Boolean; override;
 
+		procedure SendChatMessage();
+
 		procedure SetMapPath(MapPath: String);
 
 		procedure OnDiscovery(const Data: TModelBase);
 		procedure OnActorMovement(const Data: TModelBase);
 		procedure OnActorPosition(const Data: TModelBase);
+		procedure OnChatMessage(const Data: TModelBase);
 
 		property GameState: TGameState read FGameState write FGameState;
 		property Playing: Boolean read FPlaying write FPlaying;
@@ -66,6 +71,8 @@ begin
 	GlobalClient.Await(TMsgFeedDiscovery, @OnDiscovery);
 	GlobalClient.Await(TMsgFeedActorMovement, @OnActorMovement);
 	GlobalClient.Await(TMsgFeedActorPosition, @OnActorPosition);
+	GlobalClient.Await(TMsgFeedActorPosition, @OnActorPosition);
+	GlobalClient.Await(TMsgFeedChat, @OnChatMessage);
 end;
 
 procedure TViewPlay.Stop;
@@ -98,7 +105,6 @@ begin
 
 	PingDisplay.Caption := 'Latency: ' + IntToStr(GlobalClient.Ping) + ' ms';
 	FpsDisplay.Caption := 'FPS: ' + Container.Fps.ToString;
-
 end;
 
 procedure TViewPlay.SetMapPath(MapPath: String);
@@ -117,7 +123,10 @@ begin
 	if result then exit;
 
 	// TODO: configurable keybinds
-	if Event.IsKey(keyS) then begin
+	if Event.IsKey(keyEnter) then begin
+		SendChatMessage();
+	end
+	else if Event.IsKey(keyS) then begin
 		GlobalClient.Send(TMsgStop, TMsgStop.Create());
 		exit(true);
 	end
@@ -137,6 +146,20 @@ begin
 				exit(true);
 			end;
 		end;
+	end;
+end;
+
+procedure TViewPlay.SendChatMessage();
+var
+	LMessage: String;
+	LMsgObject: TMsgChatSay;
+begin
+	LMessage := ChatEdit.Text;
+	if length(LMessage) > 0 then begin
+		LMsgObject := TMsgChatSay.Create();
+		LMsgObject.value := LMessage;
+		GlobalClient.Send(TMsgChatSay, LMsgObject);
+		ChatEdit.Text := '';
 	end;
 end;
 
@@ -175,7 +198,16 @@ begin
 	FGameState.ProcessPosition(LModel);
 end;
 
-{ implementation end }
+procedure TViewPlay.OnChatMessage(const Data: TModelBase);
+var
+	LModel: TMsgFeedChat;
+begin
+	LModel := Data as TMsgFeedChat;
+
+	// TODO: whisper
+	// TODO: player name instead of id
+	ChatWindow.Text.Append(LModel.id + ': ' + LModel.message);
+end;
 
 end.
 
