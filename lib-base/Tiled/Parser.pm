@@ -31,7 +31,8 @@ sub _read_map_string ($self, $map_dom, $width, $height)
 
 		next unless $properties{terrain_type};
 		my $tile
-			= $properties{terrain_type} eq 'void' ? Tiled::Map::TILE_VOID
+			= $properties{terrain_type} eq 'void'
+			? Tiled::Map::TILE_VOID
 			: $properties{terrain_type} eq 'wall' ? Tiled::Map::TILE_WALL
 			: Tiled::Map::TILE_TERRAIN
 			;
@@ -83,7 +84,7 @@ sub parse_map ($self, $path)
 			$map_object->objects->add_object(
 				$type,
 				$object->attr,
-				{ $self->_read_properties($object) }
+				{$self->_read_properties($object)}
 			);
 		}
 	}

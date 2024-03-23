@@ -33,6 +33,7 @@ has field 'eta' => (
 );
 
 has field 'angle' => (
+
 	# isa => Types::Num,
 
 	writer => 1,

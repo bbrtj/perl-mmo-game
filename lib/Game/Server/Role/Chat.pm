@@ -55,6 +55,6 @@ sub chat_yell ($self, $actor_id, $message)
 
 sub chat_whisper ($self, $actor_id, $target_actor, $message)
 {
-	... # TODO
+	...    # TODO
 }
 

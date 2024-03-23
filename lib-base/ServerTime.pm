@@ -7,5 +7,5 @@ use Time::HiRes;
 
 our @EXPORT_OK = qw(server_time);
 
-sub server_time :prototype() { goto \&Time::HiRes::time }
+sub server_time : prototype() { goto \&Time::HiRes::time }
 

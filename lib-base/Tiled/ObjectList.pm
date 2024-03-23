@@ -7,12 +7,12 @@ use header;
 use constant TYPE_SPAWNS => 'spawns';
 
 has param 'map' => (
-	isa => Types::InstanceOf['Tiled::Map'],
+	isa => Types::InstanceOf ['Tiled::Map'],
 	weak_ref => 1,
 );
 
 has field 'objects' => (
-	isa => Types::HashRef[Types::HashRef],
+	isa => Types::HashRef [Types::HashRef],
 	default => sub { {} },
 	'handles{}' => {
 		'_add_object' => 'set',

@@ -152,6 +152,7 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 		get_send_data,
 		sub ($stream, $bytes, $receive_no) {
 			if ($self->finished) {
+
 				# $self->raise("trailing data: $bytes", 'warn');
 				return;
 			}

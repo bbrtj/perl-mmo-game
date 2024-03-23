@@ -19,7 +19,7 @@ has extended 'legend' => (
 );
 
 has field 'map_object' => (
-	isa => Types::InstanceOf['Tiled::Map'],
+	isa => Types::InstanceOf ['Tiled::Map'],
 	writer => -hidden,
 	'handles->' => {
 		'objects' => 'objects',

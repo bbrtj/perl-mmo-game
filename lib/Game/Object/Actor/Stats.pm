@@ -6,12 +6,12 @@ use Game::Config;
 use header;
 
 has param 'parent' => (
-	isa => Types::InstanceOf['Unit::Actor'],
+	isa => Types::InstanceOf ['Unit::Actor'],
 	weak_ref => 1,
 );
 
 has field 'movement' => (
-	isa => Types::InstanceOf['Game::Object::Movement'],
+	isa => Types::InstanceOf ['Game::Object::Movement'],
 	writer => -hidden,
 	clearer => 1,
 );
@@ -24,10 +24,11 @@ has field 'angle' => (
 
 has field 'speed' => (
 	writer => 1,
-	default => Game::Config->config->{base_speed}, # TODO
+	default => Game::Config->config->{base_speed},    # TODO
 );
 
 has field 'last_action' => (
+
 	# isa => Types::PositiveOrZeroNum,
 	writer => -hidden,
 	default => 0,
@@ -35,11 +36,13 @@ has field 'last_action' => (
 
 # precalculated weapon damage
 has cached 'weapon_damage' => (
+
 	# isa => Types::PositiveNum,
 	lazy => 1,
 );
 
 has cached 'weapon_hitbox' => (
+
 	# isa => Types::Tuple[Types::PositiveNum, Types::Num],
 	lazy => 1,
 );

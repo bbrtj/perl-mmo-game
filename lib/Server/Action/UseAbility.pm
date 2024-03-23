@@ -17,8 +17,8 @@ sub validate ($self, $data)
 {
 	state $type = Types::Dict [
 		ability => Types::Str,
-		x => Types::Optional[Types::Num],
-		y => Types::Optional[Types::Num],
+		x => Types::Optional [Types::Num],
+		y => Types::Optional [Types::Num],
 	];
 
 	$type->assert_valid($data);

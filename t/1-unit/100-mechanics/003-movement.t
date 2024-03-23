@@ -10,7 +10,7 @@ use Utils;
 
 my $map = Game::Object::Map->new(map => 'test_map');
 
-note $map->to_string_and_mark([[7,0], [10, 2], [11, 3]], '@');
+note $map->to_string_and_mark([[7, 0], [10, 2], [11, 3]], '@');
 
 my $variables = Model::CharacterVariables->new(
 	location_id => 'dont care',

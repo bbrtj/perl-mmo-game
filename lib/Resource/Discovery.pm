@@ -45,13 +45,15 @@ sub generate ($self)
 	}
 
 	if ($subject->{new_actors}) {
-		$generated{new_actors} = [map {
-			+{
-				id => $_->id,
-				x => $_->variables->pos_x,
-				y => $_->variables->pos_y,
-			}
-		} $subject->{new_actors}->@*];
+		$generated{new_actors} = [
+			map {
+				+{
+					id => $_->id,
+					x => $_->variables->pos_x,
+					y => $_->variables->pos_y,
+				}
+			} $subject->{new_actors}->@*
+		];
 	}
 
 	return \%generated;
