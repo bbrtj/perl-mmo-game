@@ -8,6 +8,43 @@ uses FGL, SysUtils, Classes,
 
 type
 
+	TMsgActorsInfo = class(TPlaintextModel)
+	public
+		class function MessageType(): String; override;
+
+		procedure AddActor(const Id: TUlid);
+
+	end;
+
+	TMsgResActor = class(TSerialized)
+	private
+		FId: TUlid;
+		FName: String;
+		FClass: TLoreId;
+
+	published
+		property id: TUlid read FId write FId;
+		property name: String read FName write FName;
+		property &class: TLoreId read FClass write FClass;
+
+	end;
+
+	TMsgResActors = specialize TFPGObjectList<TMsgResActor>;
+
+	TMsgResActorsInfo = class(TModelBase)
+	private
+		FActors: TMsgResActors;
+
+	public
+		constructor Create(); override;
+		destructor Destroy; override;
+
+		class function MessageType(): String; override;
+
+	published
+		property list: TMsgResActors read FActors write FActors;
+	end;
+
 	TMsgFeedNewObject = class(TMsgFeedActorPosition);
 
 	TMsgFeedNewObjects = specialize TFPGObjectList<TMsgFeedNewObject>;
@@ -30,6 +67,35 @@ type
 
 implementation
 
+class function TMsgActorsInfo.MessageType(): String;
+begin
+	result := 'get_actors_info';
+end;
+
+procedure TMsgActorsInfo.AddActor(const Id: TUlid);
+begin
+	// TODO: hardcode
+	if self.value = '' then
+		self.value := Id
+	else
+		self.value := self.value + '~' + Id;
+end;
+
+constructor TMsgResActorsInfo.Create();
+begin
+	FActors := TMsgResActors.Create;
+end;
+
+destructor TMsgResActorsInfo.Destroy;
+begin
+	FActors.Free;
+end;
+
+class function TMsgResActorsInfo.MessageType(): String;
+begin
+	result := 'actors_info';
+end;
+
 class function TMsgFeedDiscovery.MessageType(): String;
 begin
 	result := 'discovery';
@@ -47,10 +113,9 @@ begin
 	FOldActors.Free;
 end;
 
-{ implementation end }
-
 initialization
 	ListSerializationMap.Add(TSerializedList.Create(TMsgFeedNewObjects, TMsgFeedNewObject));
+	ListSerializationMap.Add(TSerializedList.Create(TMsgResActors, TMsgResActor));
 
 end.
 

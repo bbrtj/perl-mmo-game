@@ -97,6 +97,17 @@ sub _discover ($self)
 	return;
 }
 
+sub actors_info ($self, $actor_id, $wanted_actors)
+{
+	my @wanted_actors_data;
+	my $all_actors = $self->location->actors;
+	foreach my $actor_id ($wanted_actors->@*) {
+		push @wanted_actors_data, $all_actors->{$actor_id};
+	}
+
+	return \@wanted_actors_data;
+}
+
 after BUILD => sub ($self, @) {
 	$self->_add_action(6 => '_discover');
 };

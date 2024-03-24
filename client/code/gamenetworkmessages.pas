@@ -133,8 +133,6 @@ begin
 	result := FCallbackModel <> nil;
 end;
 
-{ implementation end }
-
 initialization
 	MessageTypesMap := TMessageTypes.Create;
 	FeedTypesMap := TMessageTypes.Create;
@@ -148,6 +146,7 @@ initialization
 	MessageTypesMap.Add(TMessageType.Create(TMsgUntargettedAbility));
 	MessageTypesMap.Add(TMessageType.Create(TMsgChatSay));
 	MessageTypesMap.Add(TMessageType.Create(TMsgChatYell));
+	MessageTypesMap.Add(TMessageType.Create(TMsgActorsInfo, TMsgResActorsInfo));
 
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedLocationData));
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedActorMovement));

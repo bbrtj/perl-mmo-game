@@ -18,6 +18,7 @@ type
 		Id: Integer;
 		Callback: TNetworkMessageCallback;
 		CallbackModel: TModelClass;
+		Notify: TNotifyEvent;
 
 		constructor Create(const aId: Integer; const aCallback: TNetworkMessageCallback; const Model: TModelClass);
 	end;
@@ -64,7 +65,7 @@ type
 		procedure Disconnect(const RaiseEvent: Boolean = True);
 
 		procedure Send(const Model: TModelClass; const Data: TModelBase);
-		procedure Send(const Model: TModelClass; const Data: TModelBase; const Callback: TNetworkMessageCallback);
+		procedure Send(const Model: TModelClass; const Data: TModelBase; const Callback: TNetworkMessageCallback; const Notify: TNotifyEvent = nil);
 
 		procedure Await(const Model: TModelClass; const Callback: TNetworkMessageCallback);
 		procedure StopWaiting(const Model: TModelClass);
@@ -175,6 +176,8 @@ var
 
 			GModel := FModelSerializer.DeSerialize(LMessage.Data, LCallback.CallbackModel);
 			LCallback.Callback(GModel);
+			if LCallback.Notify <> nil then
+				LCallback.Notify(self);
 
 			FCallbacks.Remove(LCallback);
 			GModel.Free;
@@ -261,16 +264,19 @@ begin
 	LToSend.Free;
 end;
 
-procedure TNetwork.Send(const Model: TModelClass; const Data: TModelBase; const Callback: TNetworkMessageCallback);
+procedure TNetwork.Send(const Model: TModelClass; const Data: TModelBase; const Callback: TNetworkMessageCallback; const Notify: TNotifyEvent = nil);
 var
 	LType: TMessageType;
+	LCallback: TCallbackItem;
 begin
 	LType := FindMessageType(Model);
 
 	if not LType.HasCallback then
 		raise Exception.Create('Type ' + LType.GetType + ' does not have a callback');
 
-	FCallbacks.Add(TCallbackItem.Create(DoSend(LType, Data), Callback, LType.CallbackModel));
+	LCallback := TCallbackItem.Create(DoSend(LType, Data), Callback, LType.CallbackModel);
+	LCallback.Notify := Notify;
+	FCallbacks.Add(LCallback);
 end;
 
 procedure TNetwork.Send(const Model: TModelClass; const Data: TModelBase);

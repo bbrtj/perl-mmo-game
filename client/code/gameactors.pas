@@ -2,9 +2,9 @@ unit GameActors;
 
 interface
 
-uses Classes,
+uses SysUtils, Classes, Contnrs,
 	CastleTransform, CastleVectors,
-	GameTypes;
+	GameTypes, GameNetwork, GameModels, GameModels.Discovery;
 
 type
 
@@ -36,6 +36,34 @@ type
 		function CreateActor(Id: TUlid): TGameActor;
 		procedure RemoveActor(const Actor: TGameActor);
 	end;
+
+	TGameActorRepositoryRecord = class
+	strict private
+		FName: String;
+		FClass: TLoreId;
+
+	public
+		property ActorName: String read FName write FName;
+		property ActorClass: TLoreId read FClass write FClass;
+
+	end;
+
+	TGameActorRepository = class
+	strict private
+		FActorData: TFPHashObjectList;
+
+		procedure OnActorsInfo(const ActorsInfo: TModelBase);
+
+	public
+		constructor Create();
+		destructor Destroy; override;
+
+		procedure RequestActorInfo(const Id: TUlid; const Notify: TNotifyEvent);
+		function GetActorInfo(const Id: TUlid): TGameActorRepositoryRecord;
+	end;
+
+var
+	GlobalActorRepository: TGameActorRepository;
 
 implementation
 
@@ -100,7 +128,65 @@ begin
 	FMovementTime := 0;
 end;
 
-{ implementation end }
+constructor TGameActorRepository.Create();
+begin
+	FActorData := TFPHashObjectList.Create;
+end;
 
+destructor TGameActorRepository.Destroy;
+begin
+	FActorData.Free;
+end;
+
+procedure TGameActorRepository.OnActorsInfo(const ActorsInfo: TModelBase);
+var
+	LActorsInfo: TMsgResActorsInfo;
+	LRecord: TGameActorRepositoryRecord;
+	i: Integer;
+begin
+	LActorsInfo := ActorsInfo as TMsgResActorsInfo;
+
+	writeln('test, records: ', LActorsInfo.list.Count);
+	for i := 0 to LActorsInfo.list.Count - 1 do begin
+		LRecord := TGameActorRepositoryRecord.Create;
+		LRecord.ActorName := LActorsInfo.list[i].name;
+		LRecord.ActorClass := LActorsInfo.list[i].&class;
+
+		FActorData.Add(LActorsInfo.list[i].id, LRecord);
+	end;
+end;
+
+procedure TGameActorRepository.RequestActorInfo(const Id: TUlid; const Notify: TNotifyEvent);
+var
+	LObject: TObject;
+	LModel: TMsgActorsInfo;
+begin
+	LObject := FActorData.Find(Id);
+	if LObject = nil then begin
+		LModel := TMsgActorsInfo.Create;
+		LModel.AddActor(Id);
+		GlobalClient.Send(TMsgActorsInfo, LModel, @OnActorsInfo, Notify);
+	end
+	else
+		Notify(self);
+end;
+
+function TGameActorRepository.GetActorInfo(const Id: TUlid): TGameActorRepositoryRecord;
+var
+	LObject: TObject;
+	LModel: TMsgActorsInfo;
+begin
+	LObject := FActorData.Find(Id);
+	if LObject = nil then
+		raise Exception.Create('Actor info needs to be requested before fetching');
+
+	result := LObject as TGameActorRepositoryRecord;
+end;
+
+initialization
+	GlobalActorRepository := TGameActorRepository.Create;
+
+finalization
+	GlobalActorRepository.Free;
 end.
 

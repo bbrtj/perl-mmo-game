@@ -19,6 +19,9 @@ type
 	private
 		FValue: Variant;
 
+	public
+		constructor Create();
+
 	published
 		property value: Variant read FValue write FValue;
 
@@ -55,6 +58,11 @@ implementation
 class function TModelBase.MessageType(): String;
 begin
 	result := '';
+end;
+
+constructor TPlaintextModel.Create();
+begin
+	FValue := '';
 end;
 
 constructor TJSONModelSerialization.Create();
@@ -106,8 +114,6 @@ begin
 	else
 		FStreamer.DeStreamer.JSONToObject(WrappedJson(), result);
 end;
-
-{ implementation end }
 
 initialization
 	DummyModel := TEmptyModel.Create;

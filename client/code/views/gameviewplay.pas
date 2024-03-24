@@ -2,14 +2,27 @@ unit GameViewPlay;
 
 interface
 
-uses Classes, SysUtils,
+uses Classes, SysUtils, FGL,
 	CastleVectors, CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleTransform, CastleScene, CastleViewport, CastleTiledMap,
-	GameState,
-	GameNetwork,
+	GameTypes, GameState,
+	GameNetwork, GameActors,
 	GameModels, GameModels.Move, GameModels.Discovery, GameModels.Ability, GameModels.Chat;
 
 type
+	TUnresolvedChatMessage = class
+	public
+		Id: TUlid;
+		Content: String;
+		Resolved: Boolean;
+
+		constructor Create(const AId: TUlid; const AContent: String);
+
+		procedure Resolve(Sender: TObject);
+	end;
+
+	TUnresolvedChatMessageList = specialize TFPGObjectList<TUnresolvedChatMessage>;
+
 	TViewPlay = class(TCastleView)
 	published
 		MainViewport: TCastleViewport;
@@ -25,6 +38,7 @@ type
 	private
 		FGameState: TGameState;
 		FPlaying: Boolean;
+		FChatMessages: TUnresolvedChatMessageList;
 
 		function FindMapPosition(MouseHit: TRayCollision; out Pos: TVector3): Boolean;
 
@@ -67,6 +81,7 @@ begin
 
 	FPlaying := false;
 	FGameState := TGameState.Create(Board, PlayerCamera);
+	FChatMessages := TUnresolvedChatMessageList.Create;
 
 	GlobalClient.Await(TMsgFeedDiscovery, @OnDiscovery);
 	GlobalClient.Await(TMsgFeedActorMovement, @OnActorMovement);
@@ -78,6 +93,7 @@ end;
 procedure TViewPlay.Stop;
 begin
 	FGameState.Free;
+	FChatMessages.Free;
 end;
 
 function TViewPlay.FindMapPosition(MouseHit: TRayCollision; out Pos: TVector3): Boolean;
@@ -201,12 +217,30 @@ end;
 procedure TViewPlay.OnChatMessage(const Data: TModelBase);
 var
 	LModel: TMsgFeedChat;
+	LUnresolved: TUnresolvedChatMessage;
 begin
 	LModel := Data as TMsgFeedChat;
 
 	// TODO: whisper
-	// TODO: player name instead of id
-	ChatWindow.Text.Append(LModel.id + ': ' + LModel.message);
+	LUnresolved := TUnresolvedChatMessage.Create(LModel.id, LModel.message);
+	GlobalActorRepository.RequestActorInfo(LUnresolved.Id, @LUnresolved.Resolve);
+	FChatMessages.Add(LUnresolved);
+end;
+
+constructor TUnresolvedChatMessage.Create(const AId: TUlid; const AContent: String);
+begin
+	self.Id := AId;
+	self.Content := AContent;
+	self.Resolved := False;
+end;
+
+procedure TUnresolvedChatMessage.Resolve(Sender: TObject);
+var
+	LActorInfo: TGameActorRepositoryRecord;
+begin
+	LActorInfo := GlobalActorRepository.GetActorInfo(self.Id);
+	ViewPlay.ChatWindow.Text.Append(LActorInfo.ActorName + ': ' + self.Content);
+	self.Resolved := True;
 end;
 
 end.
