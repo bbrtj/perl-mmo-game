@@ -5,23 +5,11 @@ interface
 uses Classes, SysUtils, FGL,
 	CastleVectors, CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleTransform, CastleScene, CastleViewport, CastleTiledMap,
-	GameTypes, GameState,
+	GameState, GameChat,
 	GameNetwork, GameActors,
 	GameModels, GameModels.Move, GameModels.Discovery, GameModels.Ability, GameModels.Chat;
 
 type
-	TUnresolvedChatMessage = class
-	public
-		Id: TUlid;
-		Content: String;
-		Resolved: Boolean;
-
-		constructor Create(const AId: TUlid; const AContent: String);
-
-		procedure Resolve(Sender: TObject);
-	end;
-
-	TUnresolvedChatMessageList = specialize TFPGObjectList<TUnresolvedChatMessage>;
 
 	TViewPlay = class(TCastleView)
 	published
@@ -38,7 +26,6 @@ type
 	private
 		FGameState: TGameState;
 		FPlaying: Boolean;
-		FChatMessages: TUnresolvedChatMessageList;
 
 		function FindMapPosition(MouseHit: TRayCollision; out Pos: TVector3): Boolean;
 
@@ -57,7 +44,8 @@ type
 		procedure OnDiscovery(const Data: TModelBase);
 		procedure OnActorMovement(const Data: TModelBase);
 		procedure OnActorPosition(const Data: TModelBase);
-		procedure OnChatMessage(const Data: TModelBase);
+
+		procedure NewChatMessage(Message: String);
 
 		property GameState: TGameState read FGameState write FGameState;
 		property Playing: Boolean read FPlaying write FPlaying;
@@ -81,19 +69,20 @@ begin
 
 	FPlaying := false;
 	FGameState := TGameState.Create(Board, PlayerCamera);
-	FChatMessages := TUnresolvedChatMessageList.Create;
 
 	GlobalClient.Await(TMsgFeedDiscovery, @OnDiscovery);
 	GlobalClient.Await(TMsgFeedActorMovement, @OnActorMovement);
 	GlobalClient.Await(TMsgFeedActorPosition, @OnActorPosition);
 	GlobalClient.Await(TMsgFeedActorPosition, @OnActorPosition);
-	GlobalClient.Await(TMsgFeedChat, @OnChatMessage);
+
+	GlobalChat.Handler := @NewChatMessage;
 end;
 
 procedure TViewPlay.Stop;
 begin
 	FGameState.Free;
-	FChatMessages.Free;
+
+	GlobalChat.Handler := nil;
 end;
 
 function TViewPlay.FindMapPosition(MouseHit: TRayCollision; out Pos: TVector3): Boolean;
@@ -214,33 +203,9 @@ begin
 	FGameState.ProcessPosition(LModel);
 end;
 
-procedure TViewPlay.OnChatMessage(const Data: TModelBase);
-var
-	LModel: TMsgFeedChat;
-	LUnresolved: TUnresolvedChatMessage;
+procedure TViewPlay.NewChatMessage(Message: String);
 begin
-	LModel := Data as TMsgFeedChat;
-
-	// TODO: whisper
-	LUnresolved := TUnresolvedChatMessage.Create(LModel.id, LModel.message);
-	GlobalActorRepository.RequestActorInfo(LUnresolved.Id, @LUnresolved.Resolve);
-	FChatMessages.Add(LUnresolved);
-end;
-
-constructor TUnresolvedChatMessage.Create(const AId: TUlid; const AContent: String);
-begin
-	self.Id := AId;
-	self.Content := AContent;
-	self.Resolved := False;
-end;
-
-procedure TUnresolvedChatMessage.Resolve(Sender: TObject);
-var
-	LActorInfo: TGameActorRepositoryRecord;
-begin
-	LActorInfo := GlobalActorRepository.GetActorInfo(self.Id);
-	ViewPlay.ChatWindow.Text.Append(LActorInfo.ActorName + ': ' + self.Content);
-	self.Resolved := True;
+	ViewPlay.ChatWindow.Text.Append(Message);
 end;
 
 end.
