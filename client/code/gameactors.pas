@@ -146,7 +146,6 @@ var
 begin
 	LActorsInfo := ActorsInfo as TMsgResActorsInfo;
 
-	writeln('test, records: ', LActorsInfo.list.Count);
 	for i := 0 to LActorsInfo.list.Count - 1 do begin
 		LRecord := TGameActorRepositoryRecord.Create;
 		LRecord.ActorName := LActorsInfo.list[i].name;

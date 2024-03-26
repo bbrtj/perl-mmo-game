@@ -32,7 +32,7 @@ type
 		FPlayerId: TUlid;
 
 	public
-		constructor Create(aOwner: TComponent); override;
+		constructor Create(AOwner: TComponent); override;
 		procedure Start; override;
 		procedure Update(const SecondsPassed: Single; var HandleInput: Boolean); override;
 		function Press(const Event: TInputPressRelease): Boolean; override;
@@ -40,7 +40,7 @@ type
 		procedure DoLogout(Sender: TObject);
 
 		procedure DoLoadCharacterList();
-		procedure OnCharacterList(const aCharacterList: TModelBase);
+		procedure OnCharacterList(const ACharacterList: TModelBase);
 
 		procedure DoEnterGame(const Ui: TCastleUserInterface; const Event: TInputPressRelease; var Handled: Boolean);
 		procedure OnEnterGame(const Success: TModelBase);
@@ -56,7 +56,7 @@ uses GameViewLoading;
 
 { TViewCharacterList ----------------------------------------------------------------- }
 
-constructor TViewCharacterList.Create(aOwner: TComponent);
+constructor TViewCharacterList.Create(AOwner: TComponent);
 begin
 	inherited;
 	DesignUrl := 'castle-data:/gameviewcharacterlist.castle-user-interface';
@@ -113,13 +113,13 @@ begin
 	GlobalClient.Send(TMsgCharacterList, DummyModel, @OnCharacterList);
 end;
 
-procedure TViewCharacterList.OnCharacterList(const aCharacterList: TModelBase);
+procedure TViewCharacterList.OnCharacterList(const ACharacterList: TModelBase);
 var
 	LCharacter: TMsgResCharacter;
 	LSelection: TCharacterSelection;
 	LInner: TCastleUserInterface;
 begin
-	for LCharacter in (aCharacterList as TMsgResCharacterList).list do begin
+	for LCharacter in (ACharacterList as TMsgResCharacterList).list do begin
 		LSelection := TCharacterSelection.Create(CharacterList);
 		CharacterList.InsertFront(LSelection);
 		LSelection.URL := 'castle-data:/componentcharacterbutton.castle-user-interface';

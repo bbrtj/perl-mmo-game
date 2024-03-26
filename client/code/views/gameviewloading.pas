@@ -29,7 +29,7 @@ type
 		procedure OnLoaded();
 
 	public
-		constructor Create(aOwner: TComponent); override;
+		constructor Create(AOwner: TComponent); override;
 		procedure Start; override;
 		procedure Update(const SecondsPassed: Single; var HandleInput: Boolean); override;
 
@@ -48,7 +48,7 @@ implementation
 
 uses GameViewPlay;
 
-constructor TViewLoading.Create(aOwner: TComponent);
+constructor TViewLoading.Create(AOwner: TComponent);
 begin
 	inherited;
 	DesignUrl := 'castle-data:/gameviewloading.castle-user-interface';

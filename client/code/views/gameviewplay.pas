@@ -30,7 +30,7 @@ type
 		function FindMapPosition(MouseHit: TRayCollision; out Pos: TVector3): Boolean;
 
 	public
-		constructor Create(aOwner: TComponent); override;
+		constructor Create(AOwner: TComponent); override;
 		procedure Start; override;
 		procedure Stop; override;
 
@@ -57,7 +57,7 @@ var
 
 implementation
 
-constructor TViewPlay.Create(aOwner: TComponent);
+constructor TViewPlay.Create(AOwner: TComponent);
 begin
 	inherited;
 	DesignUrl := 'castle-data:/gameviewplay.castle-user-interface';
@@ -91,9 +91,6 @@ var
 begin
 	if MouseHit.Info(LNode) and (LNode.Item is TCastleTiledMap) then
 	begin
-		writeln('hit map: ', LNode.Item.Name, ' ', LNode.Item.ClassName, ' at ',
-		  LNode.Point.X:1:2, ':',
-		  LNode.Point.Y:1:2);
 		Pos := LNode.Item.LocalToWorld(LNode.Point);
 		result := true;
 	end else

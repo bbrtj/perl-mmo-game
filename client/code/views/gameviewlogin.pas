@@ -20,7 +20,7 @@ type
 		LoginStatus: TCastleLabel;
 
 	public
-		constructor Create(aOwner: TComponent); override;
+		constructor Create(AOwner: TComponent); override;
 		procedure Start; override;
 		procedure Update(const SecondsPassed: Single; var HandleInput: Boolean); override;
 		function Press(const Event: TInputPressRelease): Boolean; override;
@@ -39,7 +39,7 @@ implementation
 
 uses GameViewCharacterList;
 
-constructor TViewLogin.Create(aOwner: TComponent);
+constructor TViewLogin.Create(AOwner: TComponent);
 begin
 	inherited;
 	DesignUrl := 'castle-data:/gameviewlogin.castle-user-interface';

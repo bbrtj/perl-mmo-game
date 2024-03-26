@@ -20,7 +20,7 @@ type
 		CallbackModel: TModelClass;
 		Notify: TNotifyEvent;
 
-		constructor Create(const aId: Integer; const aCallback: TNetworkMessageCallback; const Model: TModelClass);
+		constructor Create(const AId: Integer; const ACallback: TNetworkMessageCallback; const Model: TModelClass);
 	end;
 
 	TFeedItem = class
@@ -28,7 +28,7 @@ type
 		Callback: TNetworkMessageCallback;
 		CallbackModel: TModelClass;
 
-		constructor Create(const aCallback: TNetworkMessageCallback; const Model: TModelClass);
+		constructor Create(const ACallback: TNetworkMessageCallback; const Model: TModelClass);
 	end;
 
 	TCallbackItems = specialize TFPGObjectList<TCallbackItem>;
@@ -83,16 +83,16 @@ var
 
 implementation
 
-constructor TCallbackItem.Create(const aId: Integer; const aCallback: TNetworkMessageCallback; const Model: TModelClass);
+constructor TCallbackItem.Create(const AId: Integer; const ACallback: TNetworkMessageCallback; const Model: TModelClass);
 begin
-	Id := aId;
-	Callback := aCallback;
+	Id := AId;
+	Callback := ACallback;
 	CallbackModel := Model;
 end;
 
-constructor TFeedItem.Create(const aCallback: TNetworkMessageCallback; const Model: TModelClass);
+constructor TFeedItem.Create(const ACallback: TNetworkMessageCallback; const Model: TModelClass);
 begin
-	Callback := aCallback;
+	Callback := ACallback;
 	CallbackModel := Model;
 end;
 

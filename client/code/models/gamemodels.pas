@@ -103,7 +103,7 @@ function TJSONModelSerialization.DeSerialize(const Serialized: String; const Mod
 			result := LNewObject.AsJson;
 			FreeAndNil(LNewObject);
 		end else
-		    FreeAndNil(LJsonMaybeArray);
+			FreeAndNil(LJsonMaybeArray);
 	end;
 
 begin
