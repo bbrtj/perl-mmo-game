@@ -16,11 +16,13 @@ type
 		class function MessageType(): String; override;
 	end;
 
+	TChatType = (ctSay, ctYell, ctWhisper);
+
 	TMsgFeedChat = class(TModelBase)
 	private
 		FId: TLoreId;
 		FMessage: String;
-		FWhisper: Boolean;
+		FType: TChatType;
 
 	public
 		class function MessageType(): String; override;
@@ -28,7 +30,7 @@ type
 	published
 		property id: TLoreId read FId write FId;
 		property message: String read FMessage write FMessage;
-		property whisper: Boolean read FWhisper write FWhisper;
+		property &type: TChatType read FType write FType;
 	end;
 
 implementation

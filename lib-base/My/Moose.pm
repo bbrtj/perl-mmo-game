@@ -38,7 +38,7 @@ sub import ($self, @args)
 	push @{$args{-traits}}, common_traits;
 
 	Moose->import::into($caller, %args);
-	namespace::autoclean->import(-cleanee => $caller);
+	namespace::autoclean->import(-cleanee => $caller, -except => qr{\A[A-Z]{2,}\z});
 	My::Mooish::AttributeBuilder->import::into($caller);
 	MooseX::XSAccessor->import::into($caller);
 

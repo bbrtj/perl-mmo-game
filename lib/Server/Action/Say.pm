@@ -17,7 +17,18 @@ sub validate ($self, $data)
 
 sub handle ($self, $player_id, $id, $message)
 {
-	$self->game_process->server->chat_say($player_id, $message);
+	if ($message =~ m{\A/}) {
+		if ($message =~ s{\A/y(ell)? }{}i) {
+			$self->game_process->server->chat_yell($player_id, $message);
+		}
+		if ($message =~ s{\A/p(riv)? (\w+) }{}i) {
+			$self->game_process->server->chat_whisper($player_id, $1, $message);
+		}
+		# TODO: error
+	}
+	else {
+		$self->game_process->server->chat_say($player_id, $message);
+	}
 
 	return;
 }

@@ -11,6 +11,7 @@ type
 	TChatMessage = class
 	public
 		Id: TUlid;
+		Color: String;
 		Content: String;
 		Resolved: Boolean;
 
@@ -75,8 +76,14 @@ var
 begin
 	LModel := Data as TMsgFeedChat;
 
-	// TODO: whisper
 	LMessage := TChatMessage.Create(LModel.id, LModel.message);
+
+	case LModel.&type of
+		ctSay: LMessage.Color := 'fefefe';
+		ctYell: LMessage.Color := 'fe0000';
+		ctWhisper: LMessage.Color := 'fe00fe';
+	end;
+
 	GlobalActorRepository.RequestActorInfo(LMessage.Id, @LMessage.Resolve);
 	FChatMessages.Add(LMessage);
 end;
@@ -84,6 +91,7 @@ end;
 constructor TChatMessage.Create(const AId: TUlid; const AContent: String);
 begin
 	self.Id := AId;
+	self.Color := '';
 	self.Content := AContent;
 	self.Resolved := False;
 end;
@@ -91,9 +99,17 @@ end;
 procedure TChatMessage.Resolve(Sender: TObject);
 var
 	LActorInfo: TGameActorRepositoryRecord;
+	LFinalMessage: String;
 begin
 	LActorInfo := GlobalActorRepository.GetActorInfo(self.Id);
-	GlobalChat.Handler(LActorInfo.ActorName + ': ' + self.Content);
+
+	// TODO: escape HTML
+	LFinalMessage := LActorInfo.ActorName + ': ' + self.Content;
+
+	if Length(self.Color) > 0 then
+		LFinalMessage := '<font color="#' + self.Color + '">' + LFinalMessage + '</font>';
+
+	GlobalChat.Handler(LFinalMessage);
 	self.Resolved := True;
 end;
 

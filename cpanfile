@@ -51,6 +51,7 @@ on 'runtime' => sub {
 	requires 'Algorithm::QuadTree::XS' => 0;
 	requires 'Sub::Quote' => 0;
 	requires 'Game::TileMap' => '1.000';
+	requires 'enum' => 0;
 
 	requires 'Faker' => 0;
 };

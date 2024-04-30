@@ -4179,6 +4179,16 @@ DISTRIBUTIONS
       File::Find 0
       File::Spec 0
       perl 5.006
+  enum-1.12
+    pathname: N/NE/NEILB/enum-1.12.tar.gz
+    provides:
+      enum 1.12
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      perl 5.006
+      strict 0
+      warnings 0
   namespace-autoclean-0.29
     pathname: E/ET/ETHER/namespace-autoclean-0.29.tar.gz
     provides:
