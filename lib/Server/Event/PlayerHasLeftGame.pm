@@ -19,6 +19,7 @@ sub handle ($self, $player_id, $)
 	$actor->player->set_offline;
 	$self->models_repo->update($actor->player);
 	$self->units_repo->update($actor);
+	$self->cache_repo->remove(PlayerSessionLookup => $actor->character->name);
 
 	$self->server->signal_player_left($actor);
 	$self->game_process->remove_session($player_id);

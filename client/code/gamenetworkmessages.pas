@@ -145,7 +145,6 @@ initialization
 	MessageTypesMap.Add(TMessageType.Create(TMsgStop));
 	MessageTypesMap.Add(TMessageType.Create(TMsgUntargettedAbility));
 	MessageTypesMap.Add(TMessageType.Create(TMsgChatSay));
-	MessageTypesMap.Add(TMessageType.Create(TMsgChatYell));
 	MessageTypesMap.Add(TMessageType.Create(TMsgActorsInfo, TMsgResActorsInfo));
 
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedLocationData));

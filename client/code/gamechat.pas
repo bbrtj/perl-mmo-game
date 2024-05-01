@@ -11,11 +11,12 @@ type
 	TChatMessage = class
 	public
 		Id: TUlid;
+		Recipient: String;
 		Color: String;
 		Content: String;
 		Resolved: Boolean;
 
-		constructor Create(const AId: TUlid; const AContent: String);
+		constructor Create(const AId: TUlid; const ARecipient: String; const AContent: String);
 
 		procedure Resolve(Sender: TObject);
 	end;
@@ -76,21 +77,22 @@ var
 begin
 	LModel := Data as TMsgFeedChat;
 
-	LMessage := TChatMessage.Create(LModel.id, LModel.message);
+	LMessage := TChatMessage.Create(LModel.id, LModel.sent_to, LModel.message);
 
 	case LModel.&type of
 		ctSay: LMessage.Color := 'fefefe';
 		ctYell: LMessage.Color := 'fe0000';
-		ctWhisper: LMessage.Color := 'fe00fe';
+		ctPrivate: LMessage.Color := 'fe00fe';
 	end;
 
 	GlobalActorRepository.RequestActorInfo(LMessage.Id, @LMessage.Resolve);
 	FChatMessages.Add(LMessage);
 end;
 
-constructor TChatMessage.Create(const AId: TUlid; const AContent: String);
+constructor TChatMessage.Create(const AId: TUlid; const ARecipient: String; const AContent: String);
 begin
 	self.Id := AId;
+	self.Recipient := ARecipient;
 	self.Color := '';
 	self.Content := AContent;
 	self.Resolved := False;
@@ -104,7 +106,12 @@ begin
 	LActorInfo := GlobalActorRepository.GetActorInfo(self.Id);
 
 	// TODO: escape HTML
-	LFinalMessage := LActorInfo.ActorName + ': ' + self.Content;
+	if Length(self.Recipient) > 0 then
+		LFinalMessage := '-> ' + self.Recipient
+	else
+		LFinalMessage := LActorInfo.ActorName;
+
+	LFinalMessage := LFinalMessage + ': ' + self.Content;
 
 	if Length(self.Color) > 0 then
 		LFinalMessage := '<font color="#' + self.Color + '">' + LFinalMessage + '</font>';

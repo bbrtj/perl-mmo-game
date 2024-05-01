@@ -30,7 +30,7 @@ sub handle ($self, $session_id, $id, $player_id)
 		$player = $actor->player;
 
 		# check if that player belongs to the user in question
-		$success = $player->user_id eq $session->user_id;
+		$success &&= $player->user_id eq $session->user_id;
 
 		# TODO: check if any other session is logged in?
 		# TODO: player might not be able to enter game if character is locked

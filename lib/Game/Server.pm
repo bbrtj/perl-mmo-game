@@ -6,6 +6,8 @@ use Sub::Quote qw(quote_sub quotify);
 
 use header;
 
+has injected 'cache_repo';
+
 has param 'process' => (
 	isa => Types::InstanceOf ['Server::Process::Game'],
 	weak_ref => 1,

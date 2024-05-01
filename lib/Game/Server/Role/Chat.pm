@@ -10,6 +10,7 @@ use header;
 requires qw(
 	get_discovered_by
 	find_in_radius
+	cache_repo
 );
 
 sub _chat_send ($self, $actor, $resource, $recipients)
@@ -18,6 +19,17 @@ sub _chat_send ($self, $actor, $resource, $recipients)
 	$self->send_to_players(
 		$recipients,
 		$resource,
+	);
+
+	return;
+}
+
+sub _chat_send_session ($self, $actor, $resource, $recipients)
+{
+	# TODO: check if the actor is muted, throw X::Pub otherwise
+	$self->process->send_to_all(
+		$resource,
+		sessions => $recipients,
 	);
 
 	return;
@@ -53,19 +65,35 @@ sub chat_yell ($self, $actor_id, $message)
 	return;
 }
 
-sub chat_whisper ($self, $actor_id, $target_actor, $message)
+sub chat_private ($self, $actor_id, $target_actor, $message)
 {
 	my $actor = $self->location->get_actor($actor_id);
 
-	# TODO: find target by name (on all servers, not just this one)
-	# TODO: send message to target
-	# TODO: send message to source actor (with prefix like "(to NAME)")
-	# TODO: notify if not found by name
-	$self->_chat_send(
-		$actor,
-		Resource::Chat->new(subject => $actor, message => "tried to message $target_actor with: $message", chat_type => Resource::Chat->WHISPER),
-		[$actor_id]
-	);
+	try {
+		my $other_session_lookup = $self->cache_repo->load(PlayerSessionLookup => $target_actor);
+
+		$self->_chat_send(
+			$actor,
+			Resource::Chat->new(
+				subject => $actor,
+				sent_to => $other_session_lookup->id,
+				message => $message,
+				chat_type => Resource::Chat->PRIVATE
+			),
+			[$actor_id]
+		);
+
+		$self->_chat_send_session(
+			$actor,
+			Resource::Chat->new(subject => $actor, message => $message, chat_type => Resource::Chat->PRIVATE),
+			[$other_session_lookup->session_id]
+		);
+	}
+	catch ($e) {
+
+		# TODO: notify if not found by name
+		die $e;
+	}
 
 	return;
 }

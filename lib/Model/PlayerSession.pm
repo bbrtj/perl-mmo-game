@@ -1,16 +1,11 @@
 package Model::PlayerSession;
 
 use My::Moose;
-use Game::Config;
 
 use header;
 
-use constant {
-	STATE_DISABLED => -1,    # special state for things that are disabled
-	STATE_NEW => 0,
-	STATE_LOGGED_IN => 1,
-	STATE_PLAYING => 2,
-};
+use enum qw(:STATE_ NEW LOGGED_IN PLAYING);
+use constant SESSION_STATES => [STATE_NEW .. STATE_PLAYING];
 
 extends 'Model';
 
@@ -22,7 +17,7 @@ has option 'user_id' => (
 );
 
 has param 'state' => (
-	isa => Types::Enum [STATE_NEW, STATE_LOGGED_IN, STATE_PLAYING],
+	isa => Types::Enum [@{+SESSION_STATES}],
 	default => STATE_NEW,
 );
 

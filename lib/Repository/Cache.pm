@@ -14,18 +14,23 @@ has injected 'encoder';
 sub save ($self, $model)
 {
 	$self->cache->set_cache_name($model->get_cache_name);
-	return $self->cache->save($model->id, $self->encoder->encode($model));
+	return $self->cache->save(lc $model->id, $self->encoder->encode($model));
 }
 
-sub remove ($self, $model)
+sub remove ($self, $type, $id = undef)
 {
-	$self->cache->set_cache_name($model->get_cache_name);
-	return $self->cache->remove($model->id);
+	if (!defined $id) {
+		$id = $type->id;
+		$type = $type->get_cache_name;
+	}
+
+	$self->cache->set_cache_name($type);
+	return $self->cache->remove(lc $id);
 }
 
 sub load ($self, $type, $id)
 {
 	$self->cache->set_cache_name($type);
-	return $self->encoder->decode($self->cache->load($id));
+	return $self->encoder->decode($self->cache->load(lc $id));
 }
 
