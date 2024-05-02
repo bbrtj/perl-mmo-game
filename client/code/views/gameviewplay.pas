@@ -73,7 +73,6 @@ begin
 	GlobalClient.Await(TMsgFeedDiscovery, @OnDiscovery);
 	GlobalClient.Await(TMsgFeedActorMovement, @OnActorMovement);
 	GlobalClient.Await(TMsgFeedActorPosition, @OnActorPosition);
-	GlobalClient.Await(TMsgFeedActorPosition, @OnActorPosition);
 
 	GlobalChat.Handler := @NewChatMessage;
 end;
