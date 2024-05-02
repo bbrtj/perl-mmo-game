@@ -1,4 +1,7 @@
 ---
+id: System
+str: System
+---
 id: character.class
 str: Klasa
 ---
@@ -61,6 +64,9 @@ str: 'Hasło musi mieć co najmniej [_1] znaków'
 ---
 id: err.passwords_mismatch
 str: 'Hasła nie są takie same'
+---
+id: err.player_not_found
+str: 'Gracz nie został odnaleziony'
 ---
 id: 'field is required'
 str: 'Pole jest wymagane'
@@ -127,3 +133,6 @@ str: 'Powtórz hasło'
 ---
 id: signing_in
 str: Logowanie
+---
+id: to
+str: do

@@ -4,8 +4,8 @@ use My::Moose;
 
 use header;
 
-use enum qw(SAY YELL PRIVATE);
-use constant CHAT_TYPES => [SAY .. PRIVATE];
+use enum qw(SAY YELL PRIVATE SYSTEM);
+use constant CHAT_TYPES => [SAY .. SYSTEM];
 
 extends 'Resource';
 

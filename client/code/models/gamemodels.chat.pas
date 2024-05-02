@@ -11,7 +11,7 @@ type
 		class function MessageType(): String; override;
 	end;
 
-	TChatType = (ctSay, ctYell, ctPrivate);
+	TChatType = (ctSay, ctYell, ctPrivate, ctSystem);
 
 	TMsgFeedChat = class(TModelBase)
 	private

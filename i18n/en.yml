@@ -1,4 +1,7 @@
 ---
+id: System
+str: System
+---
 id: character.class
 str: Class
 ---
@@ -61,6 +64,9 @@ str: 'Password must have at least [_1] characters'
 ---
 id: err.passwords_mismatch
 str: 'Passwords do not match'
+---
+id: err.player_not_found
+str: 'Player was not found'
 ---
 id: 'field is required'
 str: 'Field is required'
@@ -127,3 +133,6 @@ str: 'Repeat password'
 ---
 id: signing_in
 str: 'Signing in'
+---
+id: to
+str: to

@@ -5,18 +5,19 @@ interface
 uses FGL,
 	GameTypes,
 	GameNetwork, GameActors,
-	GameModels, GameModels.Chat;
+	GameModels, GameModels.Chat,
+	GameTranslations;
 
 type
 	TChatMessage = class
 	public
 		Id: TUlid;
-		Recipient: String;
+		Header: String;
 		Color: String;
 		Content: String;
 		Resolved: Boolean;
 
-		constructor Create(const AId: TUlid; const ARecipient: String; const AContent: String);
+		constructor Create(const AId: TUlid; const AContent: String);
 
 		procedure Resolve(Sender: TObject);
 	end;
@@ -77,22 +78,31 @@ var
 begin
 	LModel := Data as TMsgFeedChat;
 
-	LMessage := TChatMessage.Create(LModel.id, LModel.sent_to, LModel.message);
+	LMessage := TChatMessage.Create(LModel.id, LModel.message);
 
 	case LModel.&type of
 		ctSay: LMessage.Color := 'fefefe';
 		ctYell: LMessage.Color := 'fe0000';
-		ctPrivate: LMessage.Color := 'fe00fe';
+		ctPrivate: begin
+			LMessage.Color := 'fe00fe';
+			if Length(LModel.sent_to) > 0 then
+				LMessage.Header := _('to') + ' ' + LModel.sent_to;
+		end;
+		ctSystem: begin
+			LMessage.Color := 'fefe00';
+			LMessage.Content := _(LMessage.Content);
+			LMessage.Header := _('System');
+		end;
 	end;
 
 	GlobalActorRepository.RequestActorInfo(LMessage.Id, @LMessage.Resolve);
 	FChatMessages.Add(LMessage);
 end;
 
-constructor TChatMessage.Create(const AId: TUlid; const ARecipient: String; const AContent: String);
+constructor TChatMessage.Create(const AId: TUlid; const AContent: String);
 begin
 	self.Id := AId;
-	self.Recipient := ARecipient;
+	self.Header := '';
 	self.Color := '';
 	self.Content := AContent;
 	self.Resolved := False;
@@ -106,8 +116,8 @@ begin
 	LActorInfo := GlobalActorRepository.GetActorInfo(self.Id);
 
 	// TODO: escape HTML
-	if Length(self.Recipient) > 0 then
-		LFinalMessage := '-> ' + self.Recipient
+	if Length(self.Header) > 0 then
+		LFinalMessage := self.Header
 	else
 		LFinalMessage := LActorInfo.ActorName;
 

@@ -90,9 +90,20 @@ sub chat_private ($self, $actor_id, $target_actor, $message)
 		);
 	}
 	catch ($e) {
-
-		# TODO: notify if not found by name
-		die $e;
+		if ($e isa 'X::RecordDoesNotExist') {
+			$self->_chat_send(
+				$actor,
+				Resource::Chat->new(
+					subject => $actor,
+					message => 'err.player_not_found',
+					chat_type => Resource::Chat->SYSTEM
+				),
+				[$actor_id]
+			);
+		}
+		else {
+			die $e;
+		}
 	}
 
 	return;
