@@ -15,7 +15,7 @@ has param 'name' => (
 my %data_collection;
 
 around BUILDARGS => sub ($orig, $self, %args) {
-	$args{id} = join '.', 'L', $self->prefix, $args{id}
+	$args{id} = join '.', $self->prefix, $args{id}
 		if $args{id};
 	return $self->$orig(%args);
 };
