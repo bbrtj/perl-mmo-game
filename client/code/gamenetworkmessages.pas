@@ -90,7 +90,7 @@ var
 	LParts: TStringArray;
 begin
 	// TODO: handle non-existing parts of this split
-	LParts := Body.Split([cSeparator], 3);
+	LParts := Body.Split([cSeparator]);
 
 	if length(LParts[0]) > 0 then
 		FId := StrToInt(LParts[0])
@@ -98,7 +98,7 @@ begin
 		FId := -1;
 
 	FType := LParts[1];
-	FData := LParts[2];
+	FData := String.Join(cSeparator, LParts, 2, length(LParts) - 2);
 end;
 
 function TMessage.GetBody(): String;
