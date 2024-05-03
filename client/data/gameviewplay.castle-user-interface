@@ -158,14 +158,6 @@
       }
     },
     {
-      "$$ClassName" : "TCastleEdit",
-      "CaptureAllInput" : false,
-      "Name" : "ChatEdit",
-      "PlaceholderTranslate" : false,
-      "TextTranslate" : false,
-      "Width" : 6.0000000000000000E+002
-    },
-    {
       "$$ClassName" : "TCastleRectangleControl",
       "ColorPersistent" : {
         "$$ClassName" : "TCastleColorPersistent",
@@ -176,10 +168,6 @@
       },
       "Height" : 2.5000000000000000E+002,
       "Name" : "ChatWindowBackground",
-      "TranslationPersistent" : {
-        "$$ClassName" : "TCastleVector2Persistent",
-        "Y" : 3.0000000000000000E+001
-      },
       "Width" : 6.0000000000000000E+002,
       "$Children" : [
         {
@@ -216,6 +204,15 @@
           "VerticalAnchorSelf" : "vpTop"
         }
       ]
+    },
+    {
+      "$$ClassName" : "TCastleEdit",
+      "CaptureAllInput" : false,
+      "Exists" : false,
+      "Name" : "ChatEdit",
+      "PlaceholderTranslate" : false,
+      "TextTranslate" : false,
+      "Width" : 6.0000000000000000E+002
     }
   ]
 }

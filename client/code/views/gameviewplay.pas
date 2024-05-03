@@ -124,17 +124,31 @@ begin
 	if result then exit;
 
 	// TODO: configurable keybinds
+
 	if Event.IsKey(keyEnter) then begin
-		SendChatMessage();
-	end
-	else if Event.IsKey(keyS) then begin
+		if ChatEdit.Exists then begin
+			SendChatMessage();
+			ChatEdit.Exists := False;
+			Container.ForceCaptureInput := nil;
+		end
+		else begin
+			ChatEdit.Exists := True;
+			Container.ForceCaptureInput := ChatEdit;
+		end;
+
+		exit(true);
+	end;
+
+	if Event.IsKey(keyS) then begin
 		GlobalClient.Send(TMsgStop, TMsgStop.Create());
 		exit(true);
-	end
-	else if Event.IsKey(keyA) then begin
+	end;
+
+	if Event.IsKey(keyA) then begin
 		GlobalClient.Send(TMsgUntargettedAbility, TMsgUntargettedAbility.Create());
 		exit(true);
 	end;
+
 	if Event.IsMouseButton(buttonLeft) then begin
 		MouseHit := MainViewport.MouseRayHit;
 		if MouseHit <> nil then begin
