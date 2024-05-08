@@ -54,18 +54,13 @@ cp tools/git-hook-precommit .git/hooks/pre-commit
 
 ## Client setup
 
-### Exporting data
+### Preparing data
 
-Export lore: `script/cli export-lore en`
-
-Export translations: `script/cli export-mo en`
-
-Export maps: `script/cli export-maps`
+`script/cli prepare-client en`
 
 ### Compiling
 
 Done with CGE build tool: `cd client && castle-engine compile`
-
 
 ## Running servers
 
