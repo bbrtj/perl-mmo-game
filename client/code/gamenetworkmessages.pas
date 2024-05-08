@@ -6,14 +6,10 @@ uses FGL, SysUtils,
 	GameModels, GameModels.General, GameModels.Login, GameModels.Logout,
 	GameModels.CharacterList, GameModels.EnterGame, GameModels.Location,
 	GameModels.Move, GameModels.Discovery, GameModels.Ability,
-	GameModels.Chat;
+	GameModels.Chat, GameConfig;
 
 type
 	TMessage = class
-	const
-		// TODO: make this configurable in an xml
-		cSeparator = ';';
-
 	protected
 
 		FId: Integer;
@@ -90,7 +86,7 @@ var
 	LParts: TStringArray;
 begin
 	// TODO: handle non-existing parts of this split
-	LParts := Body.Split([cSeparator]);
+	LParts := Body.Split([GlobalConfig.NetworkControlCharacter]);
 
 	if length(LParts[0]) > 0 then
 		FId := StrToInt(LParts[0])
@@ -98,12 +94,17 @@ begin
 		FId := -1;
 
 	FType := LParts[1];
-	FData := String.Join(cSeparator, LParts, 2, length(LParts) - 2);
+	FData := String.Join(GlobalConfig.NetworkControlCharacter, LParts, 2, length(LParts) - 2);
 end;
 
 function TMessage.GetBody(): String;
 begin
-	result := FId.ToString() + cSeparator + FType + cSeparator + FData;
+	result := FId.ToString()
+		+ GlobalConfig.NetworkControlCharacter
+		+ FType
+		+ GlobalConfig.NetworkControlCharacter
+		+ FData
+		;
 end;
 
 function TMessage.HasId(): Boolean;

@@ -3,7 +3,7 @@ unit GameModels.Move;
 interface
 
 uses SysUtils,
-	GameModels, GameTypes;
+	GameModels, GameTypes, GameConfig;
 
 type
 	TMsgMove = class(TPlaintextModel)
@@ -72,8 +72,7 @@ end;
 
 procedure TMsgMove.SetValue(const vX, vY: Single);
 begin
-	// TODO: hardcode
-	self.Value := FloatToStr(vX) + '~' + FloatToStr(vY);
+	self.Value := FloatToStr(vX) +  GlobalConfig.NetworkSeparatorCharacter + FloatToStr(vY);
 end;
 
 class function TMsgFeedActorMovement.MessageType(): String;

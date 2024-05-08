@@ -5,7 +5,7 @@ interface
 uses
 	Classes, FGL, SysUtils, DateUtils,
 	CastleClientServer, CastleConfig,
-	GameLog,
+	GameLog, GameConfig,
 	GameNetworkMessages,
 	GameModels;
 
@@ -123,18 +123,14 @@ begin
 end;
 
 procedure TNetwork.Connect(const Callback: TNetworkCallback);
-const
-	cDefaultHost = 'localhost';
-	cDefaultPort = 14832;
-
 begin
 	if FClient.IsConnected then begin
 		Callback();
 		exit;
 	end;
 
-	FClient.Hostname := UserConfig.GetValue('server_host', cDefaultHost);
-	FClient.Port := UserConfig.GetValue('server_port', cDefaultPort);
+	FClient.Hostname := UserConfig.GetValue('server_host', 'localhost');
+	FClient.Port := UserConfig.GetValue('server_port', GlobalConfig.NetworkPort);
 
 	FClient.OnConnected := Callback;
 	FClient.Connect;

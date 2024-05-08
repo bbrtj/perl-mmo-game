@@ -4,7 +4,7 @@ interface
 
 uses FGL, SysUtils, Classes,
 	GameModels, GameModels.Move,
-	GameTypes, Serialization;
+	GameTypes, GameConfig, Serialization;
 
 type
 
@@ -74,11 +74,10 @@ end;
 
 procedure TMsgActorsInfo.AddActor(const Id: TUlid);
 begin
-	// TODO: hardcode
 	if self.value = '' then
 		self.value := Id
 	else
-		self.value := self.value + '~' + Id;
+		self.value := self.value +  GlobalConfig.NetworkSeparatorCharacter + Id;
 end;
 
 constructor TMsgResActorsInfo.Create();

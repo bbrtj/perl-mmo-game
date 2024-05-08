@@ -13,7 +13,7 @@ implementation
 
 uses SysUtils,
 	CastleWindow, CastleLog,
-	GameLore, GameMaps, GameTranslations,
+	GameLore, GameConfig, GameMaps, GameTranslations,
 	CastleConfig
 	{$region 'Castle Initialization Uses'}
 	// The content here may be automatically updated by CGE editor.
@@ -33,6 +33,7 @@ begin
 	UserConfig.Load;
 
 	LoreCollection.Initialize;
+	GlobalConfig.Initialize;
 	MapIndex.Initialize;
 
 	GlobalTranslations := TGameMOFile.Create;
