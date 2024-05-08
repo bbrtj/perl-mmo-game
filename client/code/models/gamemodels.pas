@@ -2,7 +2,7 @@ unit GameModels;
 
 interface
 
-uses SysUtils, FPJSON, Serialization;
+uses SysUtils, FPJSON, GameConfig, Serialization;
 
 type
 
@@ -17,13 +17,15 @@ type
 
 	TPlaintextModel = class (TModelBase)
 	private
-		FValue: Variant;
+		FValue: String;
 
 	public
 		constructor Create();
 
+		procedure SetValue(Parts: Array of String);
+
 	published
-		property value: Variant read FValue write FValue;
+		property Value: String read FValue write FValue;
 
 	end;
 
@@ -63,6 +65,15 @@ end;
 constructor TPlaintextModel.Create();
 begin
 	FValue := '';
+end;
+
+procedure TPlaintextModel.SetValue(Parts: Array of String);
+var
+	i: Integer;
+begin
+	FValue := Parts[Low(Parts)];
+	for i := Low(Parts) + 1 to High(Parts) do
+		FValue := FValue + GlobalConfig.NetworkSeparatorCharacter + Parts[i];
 end;
 
 constructor TJSONModelSerialization.Create();

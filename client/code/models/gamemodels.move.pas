@@ -10,7 +10,7 @@ type
 	public
 		class function MessageType(): String; override;
 
-		procedure SetValue(const vX, vY: Single);
+		procedure SetValue(const X, Y: Single); overload;
 
 	end;
 
@@ -70,9 +70,9 @@ begin
 	result := 'stop';
 end;
 
-procedure TMsgMove.SetValue(const vX, vY: Single);
+procedure TMsgMove.SetValue(const X, Y: Single);
 begin
-	self.Value := FloatToStr(vX) +  GlobalConfig.NetworkSeparatorCharacter + FloatToStr(vY);
+	self.SetValue([FloatToStr(X), FloatToStr(Y)]);
 end;
 
 class function TMsgFeedActorMovement.MessageType(): String;
