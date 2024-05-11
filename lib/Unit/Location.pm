@@ -1,7 +1,6 @@
 package Unit::Location;
 
 use My::Moose;
-use Game::Helpers;
 
 use header;
 

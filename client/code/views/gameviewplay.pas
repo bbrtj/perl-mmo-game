@@ -7,7 +7,8 @@ uses Classes, SysUtils, FGL,
 	CastleTransform, CastleScene, CastleViewport, CastleTiledMap,
 	GameState, GameChat,
 	GameNetwork, GameActors,
-	GameModels, GameModels.Move, GameModels.Discovery, GameModels.Ability, GameModels.Chat;
+	GameModels, GameModels.Move, GameModels.Discovery,
+	GameModels.Ability, GameModels.Chat, GameModels.Actors;
 
 type
 
@@ -44,6 +45,7 @@ type
 		procedure OnDiscovery(const Data: TModelBase);
 		procedure OnActorMovement(const Data: TModelBase);
 		procedure OnActorPosition(const Data: TModelBase);
+		procedure OnActorEvent(const Data: TModelBase);
 
 		procedure NewChatMessage(Message: String);
 
@@ -73,6 +75,7 @@ begin
 	GlobalClient.Await(TMsgFeedDiscovery, @OnDiscovery);
 	GlobalClient.Await(TMsgFeedActorMovement, @OnActorMovement);
 	GlobalClient.Await(TMsgFeedActorPosition, @OnActorPosition);
+	GlobalClient.Await(TMsgFeedActorEvent, @OnActorEvent);
 
 	GlobalChat.Handler := @NewChatMessage;
 end;
@@ -155,7 +158,8 @@ begin
 			if FindMapPosition(MouseHit, LPosition) then
 			begin
 				LModel := TMsgMove.Create;
-				LModel.SetValue(LPosition.X * 100, LPosition.Y * 100);
+				LModel.X := LPosition.X * 100;
+				LModel.Y := LPosition.Y * 100;
 
 				GlobalClient.Send(TMsgMove, LModel);
 				exit(true);
@@ -181,13 +185,12 @@ end;
 procedure TViewPlay.OnDiscovery(const Data: TModelBase);
 var
 	LModel: TMsgFeedDiscovery;
-	LObject: TMsgFeedNewObject;
 	LId: String;
 begin
 	LModel := Data as TMsgFeedDiscovery;
 
-	for LObject in LModel.new_actors do
-		FGameState.AddActor(LObject);
+	for LId in LModel.new_actors do
+		FGameState.AddActor(LId);
 
 	for LId in LModel.old_actors do
 		FGameState.RemoveActor(LId);
@@ -211,6 +214,11 @@ begin
 	// TODO: movement stopped should be detected on clientside as well for smooth stop animation
 	// (for example, when hitting walls)
 	FGameState.ProcessPosition(LModel);
+end;
+
+procedure TViewPlay.OnActorEvent(const Data: TModelBase);
+begin
+	FGameState.ProcessEvent(Data as TMsgFeedActorEvent);
 end;
 
 procedure TViewPlay.NewChatMessage(Message: String);

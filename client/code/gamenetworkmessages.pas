@@ -6,7 +6,8 @@ uses FGL, SysUtils,
 	GameModels, GameModels.General, GameModels.Login, GameModels.Logout,
 	GameModels.CharacterList, GameModels.EnterGame, GameModels.Location,
 	GameModels.Move, GameModels.Discovery, GameModels.Ability,
-	GameModels.Chat, GameConfig;
+	GameModels.Chat, GameModels.Actors,
+	GameConfig;
 
 type
 	TMessage = class
@@ -153,9 +154,11 @@ initialization
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedActorPosition));
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedDiscovery));
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedChat));
+	FeedTypesMap.Add(TMessageType.Create(TMsgFeedActorEvent));
 
 finalization
 	MessageTypesMap.Free;
+	FeedTypesMap.Free;
 
 end.
 

@@ -17,15 +17,23 @@ type
 
 	TPlaintextModel = class (TModelBase)
 	private
-		FValue: String;
+		FValueParts: TStringArray;
+
+	protected
+		procedure SetValue(const Value: String); virtual;
+		function GetValue(): String; virtual;
+
+		function GetValueIndex(Index: Integer): String;
+		function GetValueIndexReal(Index: Integer): Single;
+		procedure SetValueIndex(Index: Integer; const Value: String);
+		procedure SetValueIndexReal(Index: Integer; Value: Single);
 
 	public
 		constructor Create();
+		constructor Create(Parts: TStringArray);
 
-		procedure SetValue(Parts: Array of String);
-
-	published
-		property Value: String read FValue write FValue;
+		property RawValue: TStringArray read FValueParts write FValueParts;
+		property Value: String read GetValue write SetValue;
 
 	end;
 
@@ -64,16 +72,43 @@ end;
 
 constructor TPlaintextModel.Create();
 begin
-	FValue := '';
+	FValueParts := [];
 end;
 
-procedure TPlaintextModel.SetValue(Parts: Array of String);
-var
-	i: Integer;
+constructor TPlaintextModel.Create(Parts: TStringArray);
 begin
-	FValue := Parts[Low(Parts)];
-	for i := Low(Parts) + 1 to High(Parts) do
-		FValue := FValue + GlobalConfig.NetworkSeparatorCharacter + Parts[i];
+	FValueParts := Parts;
+end;
+
+procedure TPlaintextModel.SetValue(const Value: String);
+begin
+	FValueParts := Value.Split(GlobalConfig.NetworkSeparatorCharacter);
+end;
+
+function TPlaintextModel.GetValue(): String;
+begin
+	result := String.Join(GlobalConfig.NetworkSeparatorCharacter, FValueParts);
+end;
+
+function TPlaintextModel.GetValueIndex(Index: Integer): String;
+begin
+	result := FValueParts[Index];
+end;
+
+function TPlaintextModel.GetValueIndexReal(Index: Integer): Single;
+begin
+	result := StrToFloat(self.GetValueIndex(Index), GlobalConfig.FormatSettings);
+end;
+
+procedure TPlaintextModel.SetValueIndex(Index: Integer; const Value: String);
+begin
+	if Length(FValueParts) <= Index then SetLength(FValueParts, Index + 1);
+	FValueParts[Index] := Value;
+end;
+
+procedure TPlaintextModel.SetValueIndexReal(Index: Integer; Value: Single);
+begin
+	self.SetValueIndex(Index, FloatToStr(Value, GlobalConfig.FormatSettings));
 end;
 
 constructor TJSONModelSerialization.Create();

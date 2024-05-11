@@ -17,11 +17,19 @@ type
 		FMovementVector: TVector3;
 		FMovementTime: Single;
 
+		FHealth: Single;
+		FMaxHealth: Single;
+		FEnergy: Single;
+		FMaxEnergy: Single;
+
 	public
-		procedure SetPosition(const vX, vY: Single);
+		procedure SetPosition(X, Y: Single);
 		function GetPosition(): TVector3;
-		procedure Move(const vX, vY, Speed: Single);
+		procedure Move(X, Y, Speed: Single);
 		procedure Stop();
+
+		procedure SetHealth(Current, Max: Single);
+		procedure SetEnergy(Current, Max: Single);
 
 		procedure Update(const secondsPassed: Single; var removeMe: TRemoveType); override;
 	end;
@@ -106,9 +114,9 @@ begin
 	FUIBoard.Parent.RemoveDelayed(Actor, True);
 end;
 
-procedure TGameActor.SetPosition(const vX, vY: Single);
+procedure TGameActor.SetPosition(X, Y: Single);
 begin
-	self.Translation := Vector3(vX, vY, self.Translation.Z);
+	self.Translation := Vector3(X, Y, self.Translation.Z);
 end;
 
 function TGameActor.GetPosition(): TVector3;
@@ -116,9 +124,9 @@ begin
 	result := self.Translation;
 end;
 
-procedure TGameActor.Move(const vX, vY, Speed: Single);
+procedure TGameActor.Move(X, Y, Speed: Single);
 begin
-	FMovementVector := Vector3(vX - self.Translation.X, vY - self.Translation.Y, 0);
+	FMovementVector := Vector3(X - self.Translation.X, Y - self.Translation.Y, 0);
 	FMovementTime := FMovementVector.Length / Speed;
 	FMovementVector /= FMovementTime;
 end;
@@ -126,6 +134,18 @@ end;
 procedure TGameActor.Stop();
 begin
 	FMovementTime := 0;
+end;
+
+procedure TGameActor.SetHealth(Current, Max: Single);
+begin
+	FHealth := Current;
+	FMaxHealth := Max;
+end;
+
+procedure TGameActor.SetEnergy(Current, Max: Single);
+begin
+	FEnergy := Current;
+	FMaxEnergy := Max;
 end;
 
 constructor TGameActorRepository.Create();

@@ -14,7 +14,7 @@ e2e_test {
 	my ($actor, %related_models) = ActorTest->save_actor(
 		password => $password,
 		variables_params => {
-			location_id => 'L.LOC.CP_HARBOR',
+			location_id => 'LOC.CP_HARBOR',
 			pos_x => 10.3,
 			pos_y => 10.2,
 		}

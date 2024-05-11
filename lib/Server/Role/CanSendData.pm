@@ -8,17 +8,22 @@ has injected 'channel_service';
 
 sub send_to ($self, $session_id, $echo, %data)
 {
-	if (defined $echo) {
-		if ($echo isa 'Resource') {
-			$data{echo} = $echo->serialized;
-			$data{echo_type} = $echo->type;
-		}
-		else {
-			$data{echo} = $echo;
+	if ($echo isa 'Resource') {
+		my @to_process = $echo;
+
+		while (my $next = shift @to_process) {
+			$data{echo} = $next->serialized;
+			$data{echo_type} = $next->type;
+			push @to_process, $next->next_resources->@*;
+
+			$self->channel_service->broadcast($session_id, \%data);
 		}
 	}
+	else {
+		$data{echo} = $echo;
+		$self->channel_service->broadcast($session_id, \%data);
+	}
 
-	$self->channel_service->broadcast($session_id, \%data);
 	return;
 }
 

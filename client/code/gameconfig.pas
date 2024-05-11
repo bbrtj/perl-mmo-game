@@ -15,6 +15,8 @@ type
 		FNetworkPort: Integer;
 
 		FGameActionCooldown: Single;
+
+		FFormatSettings: TFormatSettings;
 	public
 		procedure Initialize();
 
@@ -25,6 +27,9 @@ type
 		property NetworkPort: Integer read FNetworkPort write FNetworkPort;
 
 		property GameActionCooldown: Single read FGameActionCooldown write FGameActionCooldown;
+
+	public
+		property FormatSettings: TFormatSettings read FFormatSettings;
 
 	end;
 
@@ -49,6 +54,8 @@ begin
 	LStreamer.Free;
 	LLines.Free;
 	LStream.Free;
+
+	FFormatSettings.DecimalSeparator := '.';
 end;
 
 initialization

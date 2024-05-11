@@ -2,13 +2,16 @@ package Resource::Discovery;
 
 use My::Moose;
 
+use Resource::ActorPosition;
+use Resource::ActorEvent;
+
 use header;
 
 extends 'Resource';
 
 has extended 'subject' => (
 	isa => Types::HashRef [
-		Types::ArrayRef
+		Types::ArrayRef [Types::InstanceOf ['Unit::Actor']]
 	],
 
 	default => sub { {} },
@@ -26,7 +29,6 @@ sub new_actors ($self, $list)
 	return $self->_add('new_actors', $list);
 }
 
-# NOTE: just ids
 sub old_actors ($self, $list)
 {
 	return $self->_add('old_actors', $list);
@@ -39,23 +41,27 @@ sub generate ($self)
 	my %generated;
 	my $subject = $self->subject;
 
-	foreach my $key (@copy) {
-		$generated{$key} = $subject->{$key}
-			if $subject->{$key};
-	}
-
-	if ($subject->{new_actors}) {
-		$generated{new_actors} = [
-			map {
-				+{
-					id => $_->id,
-					x => $_->variables->pos_x,
-					y => $_->variables->pos_y,
-				}
-			} $subject->{new_actors}->@*
-		];
+	foreach my $key (qw(old_actors new_actors)) {
+		if ($subject->{$key}) {
+			$generated{$key} = [
+				map {
+					$_->id
+				} $subject->{$key}->@*
+			];
+		}
 	}
 
 	return \%generated;
+}
+
+sub _build_next_resources ($self)
+{
+	my @resources;
+	foreach my $actor ($self->subject->{new_actors}->@*) {
+		push @resources, Resource::ActorPosition->new(subject => $actor);
+		push @resources, Resource::ActorEvent->new(subject => $actor);
+	}
+
+	return \@resources;
 }
 

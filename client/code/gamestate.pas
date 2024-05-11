@@ -6,7 +6,7 @@ uses Classes, FGL,
 	CastleVectors, CastleTransform, CastleScene, CastleTiledMap, CastleRectangles,
 	GameMaps, GameTypes, GameNetwork,
 	GameActors,
-	GameModels.Discovery, GameModels.Move;
+	GameModels.Discovery, GameModels.Move, GameModels.Actors;
 
 type
 	TActorMap = specialize TFPGMap<TUlid, TGameActor>;
@@ -36,10 +36,11 @@ type
 		procedure SetMapData(const MapData: TMapData);
 
 		procedure CreatePlayer(const Id: TUlid; const PosX, PosY: Single);
-		procedure AddActor(const FeedObject: TMsgFeedNewObject);
+		procedure AddActor(const Id: TUlid);
 		procedure RemoveActor(const Id: TUlid);
-		procedure ProcessMovement(const Movement: TMsgFeedActorMovement);
-		procedure ProcessPosition(const Stop: TMsgFeedActorPosition);
+		procedure ProcessMovement(Movement: TMsgFeedActorMovement);
+		procedure ProcessPosition(Stop: TMsgFeedActorPosition);
+		procedure ProcessEvent(Event: TMsgFeedActorEvent);
 	end;
 
 implementation
@@ -88,24 +89,24 @@ end;
 
 procedure TGameState.CreatePlayer(const Id: TUlid; const PosX, PosY: Single);
 var
-	LNewObject: TMsgFeedNewObject;
+	LNewObject: TMsgFeedActorPosition;
 begin
 	FThisPlayer := Id;
+	self.AddActor(Id);
 
 	// pretty artificial, but does the trick...
-	LNewObject := TMsgFeedNewObject.Create;
+	LNewObject := TMsgFeedActorPosition.Create;
 	LNewObject.id := Id;
 	LNewObject.x := PosX;
 	LNewObject.y := PosY;
 
-	AddActor(LNewObject);
+	self.ProcessPosition(LNewObject);
 	LNewObject.Free;
 end;
 
-procedure TGameState.AddActor(const FeedObject: TMsgFeedNewObject);
+procedure TGameState.AddActor(const Id: TUlid);
 begin
-	FActors.Add(FeedObject.id, FActorFactory.CreateActor(FeedObject.id));
-	ProcessPosition(FeedObject);
+	FActors.Add(Id, FActorFactory.CreateActor(Id));
 end;
 
 procedure TGameState.RemoveActor(const Id: TUlid);
@@ -125,29 +126,39 @@ begin
 		result := nil;
 end;
 
-procedure TGameState.ProcessMovement(const Movement: TMsgFeedActorMovement);
+procedure TGameState.ProcessMovement(Movement: TMsgFeedActorMovement);
 var
 	LActor: TGameActor;
 begin
-	LActor := FindActor(Movement.id);
+	LActor := self.FindActor(Movement.id);
 	if LActor <> nil then begin
-		LActor.SetPosition(Movement.x, Movement.y); // TODO: take latency into account? This is from the past
+		LActor.SetPosition(Movement.x, Movement.y);
 		LActor.Move(Movement.to_x, Movement.to_y, Movement.speed);
 	end
 end;
 
-procedure TGameState.ProcessPosition(const Stop: TMsgFeedActorPosition);
+procedure TGameState.ProcessPosition(Stop: TMsgFeedActorPosition);
 var
 	LActor: TGameActor;
 begin
-	LActor := FindActor(Stop.id);
+	LActor := self.FindActor(Stop.id);
 	if LActor <> nil then begin
-		LActor.SetPosition(Stop.x, Stop.y); // TODO: take latency into account? This is from the past
+		LActor.SetPosition(Stop.x, Stop.y);
 		LActor.Stop();
 	end
 end;
 
-{ implementation end }
+procedure TGameState.ProcessEvent(Event: TMsgFeedActorEvent);
+var
+	LActor: TGameActor;
+begin
+	LActor := self.FindActor(Event.Id);
+	if LActor <> nil then begin
+		LActor.SetHealth(Event.Health, Event.MaxHealth);
+		LActor.SetEnergy(Event.Energy, Event.MaxEnergy);
+		// TODO: event data not handled
+	end
+end;
 
 end.
 

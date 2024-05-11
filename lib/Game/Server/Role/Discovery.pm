@@ -57,7 +57,7 @@ sub _discover_actors ($self, $actor, $found_objects, $resource)
 	}
 
 	foreach my $not_found_id (keys %not_found) {
-		push @old, $not_found_id;
+		push @old, $not_found{$not_found_id};
 		delete $found_prev{$not_found_id};
 	}
 

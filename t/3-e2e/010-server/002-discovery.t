@@ -32,18 +32,20 @@ e2e_test {
 		my @others = @players;
 		splice @others, $key, 1;
 
-		@others = map {
-			+{
-				id => $_->id,
-				x => $_->variables->pos_x,
-				y => $_->variables->pos_y,
-			}
-		} @others;
-
 		$bag->clients->[$key]->add_action(
 			'State',
-			received => {'new_actors' => \@others},
+			received => {'new_actors' => [map { $_->id } @others]},
 			types => ['discovery'],
+		);
+
+		# TODO: also check actor_event
+		$bag->clients->[$key]->add_action(
+			'Feed',
+			data => [
+				map {
+					Resource::ActorPosition->new(subject => $_)
+				} @others
+			],
 		);
 	}
 

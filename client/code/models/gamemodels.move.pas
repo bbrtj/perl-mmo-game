@@ -10,7 +10,8 @@ type
 	public
 		class function MessageType(): String; override;
 
-		procedure SetValue(const X, Y: Single); overload;
+		property X: Single index 0 read GetValueIndexReal write SetValueIndexReal;
+		property Y: Single index 1 read GetValueIndexReal write SetValueIndexReal;
 
 	end;
 
@@ -68,11 +69,6 @@ end;
 class function TMsgStop.MessageType(): String;
 begin
 	result := 'stop';
-end;
-
-procedure TMsgMove.SetValue(const X, Y: Single);
-begin
-	self.SetValue([FloatToStr(X), FloatToStr(Y)]);
 end;
 
 class function TMsgFeedActorMovement.MessageType(): String;

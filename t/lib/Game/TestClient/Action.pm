@@ -64,10 +64,16 @@ sub find_and_compare ($self, $type, $data)
 		}
 
 		my $cmp_data = $data;
-		$cmp_data = __deserialize($cmp_data)
-			if is_ref $expected;
+		my $ok = 1;
+		try {
+			$cmp_data = __deserialize($cmp_data)
+				if is_ref $expected;
+		}
+		catch ($e) {
+			$ok = 0;
+		}
 
-		my $ok = $type eq $expected_type && !diff($cmp_data, $expected) && !diff($expected, $cmp_data);
+		$ok &&= $type eq $expected_type && !diff($cmp_data, $expected) && !diff($expected, $cmp_data);
 		if ($ok) {
 			splice $self->state->{receive}->@*, $i, 1;
 			return !!1;

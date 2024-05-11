@@ -2,6 +2,7 @@ package Game::Object::Actor::Stats;
 
 use My::Moose;
 use Game::Config;
+use Game::Mechanics::Character::Statistics;
 
 use header;
 
@@ -47,6 +48,18 @@ has cached 'weapon_hitbox' => (
 	lazy => 1,
 );
 
+has cached 'max_health' => (
+
+	# isa => Types::PositiveNum,
+	lazy => 1,
+);
+
+has cached 'max_energy' => (
+
+	# isa => Types::PositiveNum,
+	lazy => 1,
+);
+
 sub set_movement ($self, $movement)
 {
 	$self->_set_movement($movement);
@@ -76,5 +89,27 @@ sub _build_weapon_hitbox ($self)
 	# TODO calculate from equipment and other stats
 	# [radius, distance from character]
 	return [0.25, 0.2];
+}
+
+sub _build_max_health ($self)
+{
+	my $repo = DI->get('lore_data_repo');
+	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent);
+	my $class = $repo->load($self->parent->character->class_id);
+
+	# TODO: adjust based on $level - 1
+	# TODO: adjust based on stamina
+	return $class->data->define->{base_health};
+}
+
+sub _build_max_energy ($self)
+{
+	my $repo = DI->get('lore_data_repo');
+	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent);
+	my $class = $repo->load($self->parent->character->class_id);
+
+	# TODO: adjust based on $level - 1
+	# TODO: adjust based on stamina
+	return $class->data->define->{base_energy};
 }
 

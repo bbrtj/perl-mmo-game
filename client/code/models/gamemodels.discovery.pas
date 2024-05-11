@@ -45,13 +45,9 @@ type
 		property list: TMsgResActors read FActors write FActors;
 	end;
 
-	TMsgFeedNewObject = class(TMsgFeedActorPosition);
-
-	TMsgFeedNewObjects = specialize TFPGObjectList<TMsgFeedNewObject>;
-
 	TMsgFeedDiscovery = class(TModelBase)
 	private
-		FNewActors: TMsgFeedNewObjects;
+		FNewActors: TStringList;
 		FOldActors: TStringList;
 
 	public
@@ -61,7 +57,7 @@ type
 		destructor Destroy; override;
 
 	published
-		property new_actors: TMsgFeedNewObjects read FNewActors write FNewActors;
+		property new_actors: TStringList read FNewActors write FNewActors;
 		property old_actors: TStringList read FOldActors write FOldActors;
 	end;
 
@@ -102,7 +98,7 @@ end;
 
 constructor TMsgFeedDiscovery.Create();
 begin
-	FNewActors := TMsgFeedNewObjects.Create;
+	FNewActors := TStringList.Create;
 	FOldActors := TStringList.Create;
 end;
 
@@ -113,7 +109,6 @@ begin
 end;
 
 initialization
-	ListSerializationMap.Add(TSerializedList.Create(TMsgFeedNewObjects, TMsgFeedNewObject));
 	ListSerializationMap.Add(TSerializedList.Create(TMsgResActors, TMsgResActor));
 
 end.
