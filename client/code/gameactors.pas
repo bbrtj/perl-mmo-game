@@ -3,10 +3,22 @@ unit GameActors;
 interface
 
 uses SysUtils, Classes, Contnrs,
-	CastleTransform, CastleVectors,
-	GameTypes, GameNetwork, GameModels, GameModels.Discovery;
+	CastleUIControls, CastleControls, CastleRectangles,
+	CastleTransform, CastleVectors, CastleViewport,
+	GameTypes, GameExceptions, GameNetwork, GameConfig,
+	GameModels, GameModels.Discovery;
 
 type
+
+	TPlayerBehavior = class(TCastleBehavior)
+	strict private
+		FUICamera: TCastleCamera;
+
+	public
+		procedure Update(const secondsPassed: Single; var removeMe: TRemoveType); override;
+
+		property Camera: TCastleCamera read FUICamera write FUICamera;
+	end;
 
 	TGameActor = class(TGameModel)
 	strict private
@@ -14,6 +26,11 @@ type
 		cTurnSpeed = 0.25;
 
 	var
+		FPlate: TCastleDesign;
+
+		FId: TUlid;
+		FName: String;
+
 		FMovementVector: TVector3;
 		FMovementTime: Single;
 
@@ -22,7 +39,11 @@ type
 		FEnergy: Single;
 		FMaxEnergy: Single;
 
+		procedure UpdatePlate(Sender: TObject);
+		procedure UpdatePlatePosition();
 	public
+		constructor Create(AOwner: TComponent);
+
 		procedure SetPosition(X, Y: Single);
 		function GetPosition(): TVector3;
 		procedure Move(X, Y, Speed: Single);
@@ -32,17 +53,21 @@ type
 		procedure SetEnergy(Current, Max: Single);
 
 		procedure Update(const secondsPassed: Single; var removeMe: TRemoveType); override;
+
+		property Id: TUlid read FId write FId;
+		property Plate: TCastleDesign read FPlate write FPlate;
 	end;
 
 	TGameActorFactory = class
 	strict private
+		FUIViewport: TCastleViewport;
 		FUIBoard: TCastleTransform;
 
 	public
-		constructor Create(const Board: TCastleTransform);
+		constructor Create(Viewport: TCastleViewport; Board: TCastleTransform);
 
 		function CreateActor(Id: TUlid): TGameActor;
-		procedure RemoveActor(const Actor: TGameActor);
+		procedure RemoveActor(Actor: TGameActor);
 	end;
 
 	TGameActorRepositoryRecord = class
@@ -75,8 +100,22 @@ var
 
 implementation
 
+procedure TPlayerBehavior.Update(const secondsPassed: Single; var removeMe: TRemoveType);
+var
+	LRect: TFloatRectangle;
+begin
+	LRect := FUICamera.Orthographic.EffectiveRect;
+	FUICamera.Translation := Vector3(
+		(Parent as TGameActor).GetPosition.X - LRect.Width / 2,
+		(Parent as TGameActor).GetPosition.Y - LRect.Height / 2,
+		GlobalConfig.CameraDistance
+	);
+end;
+
 procedure TGameActor.Update(const secondsPassed: Single; var removeMe: TRemoveType);
 begin
+	self.UpdatePlatePosition;
+
 	if FMovementTime > 0 then begin
 		FMovementTime -= secondsPassed;
 		self.Translation := self.Translation + FMovementVector * secondsPassed;
@@ -84,16 +123,20 @@ begin
 
 	if not (FMovementVector - self.Up).IsZero then
 		self.Up := self.Up + FMovementVector * cTurnSpeed;
+
+	inherited;
 end;
 
-constructor TGameActorFactory.Create(const Board: TCastleTransform);
+constructor TGameActorFactory.Create(Viewport: TCastleViewport; Board: TCastleTransform);
 begin
+	FUIViewport := Viewport;
 	FUIBoard := Board;
 end;
 
 function TGameActorFactory.CreateActor(Id: TUlid): TGameActor;
 begin
 	result := TGameActor.Create(FUIBoard);
+	result.Id := Id;
 	result.Name := 'Actor_' + Id;
 
 	// TODO: use Id to get info about the appearance of the actor from some other component
@@ -102,16 +145,58 @@ begin
 	result.Scale := Vector3(0.0025, 0.0025, 1); // TODO: scale properly
 	result.Translation := Vector3(0, 0, 100); // TODO: proper Z distance
 
-	// TODO: set up some properties of the actor, like position, health etc. Or
-	// maybe use more automated means of updating them according to network
-	// data
+	result.Plate := TCastleDesign.Create(FUIViewport);
+	FUIViewport.InsertFront(result.Plate);
+	result.Plate.URL := 'castle-data:/actorplate.castle-user-interface';
 
 	FUIBoard.Parent.Add(result);
 end;
 
-procedure TGameActorFactory.RemoveActor(const Actor: TGameActor);
+procedure TGameActorFactory.RemoveActor(Actor: TGameActor);
 begin
+	FUIViewport.RemoveControl(Actor.Plate);
 	FUIBoard.Parent.RemoveDelayed(Actor, True);
+end;
+
+procedure TGameActor.UpdatePlate(Sender: TObject);
+begin
+	if Length(FName) = 0 then begin
+		try
+			FName := GlobalActorRepository.GetActorInfo(FId).ActorName;
+			(FPlate.DesignedComponent('ActorName') as TCastleLabel)
+				.Caption := FName;
+		except
+			on EActorNotFound do begin
+				GlobalActorRepository.RequestActorInfo(FId, @UpdatePlate);
+				exit;
+			end;
+		end;
+	end;
+
+	(FPlate.DesignedComponent('CurrentHealthBar') as TCastleRectangleControl)
+		.WidthFraction := FHealth / FMaxHealth;
+
+	(FPlate.DesignedComponent('CurrentEnergyBar') as TCastleRectangleControl)
+		.WidthFraction := FEnergy / FMaxEnergy;
+end;
+
+procedure TGameActor.UpdatePlatePosition();
+var
+	LTranslation: TVector2;
+	LUI: TCastleUserInterface;
+begin
+	LTranslation := (FPlate.Parent as TCastleViewport).PositionFromWorld(self.Translation);
+	LUI := FPlate.DesignedComponent('ActorPlate') as TCastleUserInterface;
+	LTranslation.X -= LUI.EffectiveWidth / 2;
+	LTranslation.Y += LUI.EffectiveHeight * 0.66;
+	FPlate.Translation := LTranslation;
+end;
+
+constructor TGameActor.Create(AOwner: TComponent);
+begin
+	inherited;
+
+	FName := '';
 end;
 
 procedure TGameActor.SetPosition(X, Y: Single);
@@ -140,12 +225,16 @@ procedure TGameActor.SetHealth(Current, Max: Single);
 begin
 	FHealth := Current;
 	FMaxHealth := Max;
+
+	self.UpdatePlate(self);
 end;
 
 procedure TGameActor.SetEnergy(Current, Max: Single);
 begin
 	FEnergy := Current;
 	FMaxEnergy := Max;
+
+	self.UpdatePlate(self);
 end;
 
 constructor TGameActorRepository.Create();
@@ -193,11 +282,10 @@ end;
 function TGameActorRepository.GetActorInfo(const Id: TUlid): TGameActorRepositoryRecord;
 var
 	LObject: TObject;
-	LModel: TMsgActorsInfo;
 begin
 	LObject := FActorData.Find(Id);
 	if LObject = nil then
-		raise Exception.Create('Actor info needs to be requested before fetching');
+		raise EActorNotFound.Create('Actor info needs to be requested before fetching');
 
 	result := LObject as TGameActorRepositoryRecord;
 end;

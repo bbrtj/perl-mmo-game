@@ -137,7 +137,5 @@ begin
 	ViewLoading.PlayerId := PlayerId;
 end;
 
-{ implementation end }
-
 end.
 

@@ -16,6 +16,7 @@ type
 
 		FGameActionCooldown: Single;
 
+		FCameraDistance: Single;
 		FFormatSettings: TFormatSettings;
 	public
 		procedure Initialize();
@@ -29,6 +30,7 @@ type
 		property GameActionCooldown: Single read FGameActionCooldown write FGameActionCooldown;
 
 	public
+		property CameraDistance: Single read FCameraDistance write FCameraDistance;
 		property FormatSettings: TFormatSettings read FFormatSettings;
 
 	end;
@@ -55,6 +57,7 @@ begin
 	LLines.Free;
 	LStream.Free;
 
+	FCameraDistance := 10;
 	FFormatSettings.DecimalSeparator := '.';
 end;
 

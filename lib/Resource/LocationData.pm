@@ -2,6 +2,8 @@ package Resource::LocationData;
 
 use My::Moose;
 
+use Resource::ActorEvent;
+
 use header;
 
 extends 'Resource';
@@ -23,5 +25,12 @@ sub generate ($self)
 		player_x => $self->actor->variables->pos_x,
 		player_y => $self->actor->variables->pos_y,
 	};
+}
+
+sub _build_next_resources ($self)
+{
+	return [
+		Resource::ActorEvent->new(subject => $self->actor),
+	];
 }
 

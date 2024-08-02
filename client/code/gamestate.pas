@@ -3,7 +3,7 @@ unit GameState;
 interface
 
 uses Classes, FGL,
-	CastleVectors, CastleTransform, CastleScene, CastleTiledMap, CastleRectangles,
+	CastleVectors, CastleTransform, CastleViewport, CastleScene, CastleTiledMap,
 	GameMaps, GameTypes, GameNetwork,
 	GameActors,
 	GameModels.Discovery, GameModels.Move, GameModels.Actors;
@@ -13,12 +13,8 @@ type
 
 	TGameState = class
 	private
-	const
-		cCameraDistance = 10;
-
-	var
+		FUIViewport: TCastleViewport;
 		FUIBoard: TCastleTiledMap;
-		FUICamera: TCastleCamera;
 
 		FActors: TActorMap;
 		FThisPlayer: TUlid;
@@ -27,9 +23,10 @@ type
 		FActorFactory: TGameActorFactory;
 
 		function FindActor(const Id: TUlid): TGameActor;
+		procedure SetBoard(Board: TCastleTiledMap);
 
 	public
-		constructor Create(const Board: TCastleTiledMap; const Camera: TCastleCamera);
+		constructor Create(Viewport: TCastleViewport);
 		destructor Destroy; override;
 
 		procedure Update(const SecondsPassed: Single);
@@ -41,17 +38,17 @@ type
 		procedure ProcessMovement(Movement: TMsgFeedActorMovement);
 		procedure ProcessPosition(Stop: TMsgFeedActorPosition);
 		procedure ProcessEvent(Event: TMsgFeedActorEvent);
+
+		property Board: TCastleTiledMap write SetBoard;
 	end;
 
 implementation
 
-constructor TGameState.Create(const Board: TCastleTiledMap; const Camera: TCastleCamera);
+constructor TGameState.Create(Viewport: TCastleViewport);
 begin
-	FUIBoard := Board;
-	FUICamera := Camera;
-	FActorFactory := TGameActorFactory.Create(FUIBoard);
+	FUIViewport := Viewport;
+	FActorFactory := nil;
 
-	// FUICamera.Translation := Vector3(0, 0, cCameraDistance);
 	FActors := TActorMap.Create;
 end;
 
@@ -63,15 +60,7 @@ begin
 end;
 
 procedure TGameState.Update(const SecondsPassed: Single);
-var
-	LPlayer: TGameActor;
-	LRect: TFloatRectangle;
 begin
-	LPlayer := FindActor(FThisPlayer);
-	if LPlayer <> nil then begin
-		LRect := FUICamera.Orthographic.EffectiveRect;
-		FUICamera.Translation := Vector3(LPlayer.GetPosition.X - LRect.Width / 2, LPlayer.GetPosition.Y - LRect.Height / 2, cCameraDistance);
-	end;
 end;
 
 procedure TGameState.SetMapData(const MapData: TMapData);
@@ -81,8 +70,8 @@ var
 begin
 	FMapData := MapData;
 
-	LProportionX := FMapData.Map.SizeX / FUIBoard.Map.Width / FUIBoard.Map.TileWidth;
-	LProportionY := FMapData.Map.SizeY / FUIBoard.Map.Height / FUIBoard.Map.TileHeight;
+	LProportionX := FMapData.Map.SizeX / FUIBoard.Data.Width / FUIBoard.Data.TileWidth;
+	LProportionY := FMapData.Map.SizeY / FUIBoard.Data.Height / FUIBoard.Data.TileHeight;
 	FUIBoard.Scale := Vector3(LProportionX, LProportionY, 1);
 	// FUIBoard.Translation := Vector3(FMapData.Map.SizeX / 2, FMapData.Map.SizeY / 2, 0);
 end;
@@ -90,18 +79,25 @@ end;
 procedure TGameState.CreatePlayer(const Id: TUlid; const PosX, PosY: Single);
 var
 	LNewObject: TMsgFeedActorPosition;
+	LPlayer: TGameActor;
+	LPlayerBehavior: TPlayerBehavior;
 begin
 	FThisPlayer := Id;
 	self.AddActor(Id);
+	LPlayer := FindActor(Id);
 
 	// pretty artificial, but does the trick...
 	LNewObject := TMsgFeedActorPosition.Create;
 	LNewObject.id := Id;
 	LNewObject.x := PosX;
 	LNewObject.y := PosY;
-
 	self.ProcessPosition(LNewObject);
 	LNewObject.Free;
+
+	LPlayerBehavior := TPlayerBehavior.Create(LPlayer);
+	LPlayerBehavior.Camera := FUIViewport.Camera;
+	LPlayer.AddBehavior(LPlayerBehavior);
+	// TODO: this behavior must be freed
 end;
 
 procedure TGameState.AddActor(const Id: TUlid);
@@ -124,6 +120,14 @@ function TGameState.FindActor(const Id: TUlid): TGameActor;
 begin
 	if not FActors.TryGetData(Id, result) then
 		result := nil;
+end;
+
+procedure TGameState.SetBoard(Board: TCastleTiledMap);
+begin
+	FUIBoard := Board;
+	if FActorFactory <> nil then
+		FActorFactory.Free;
+	FActorFactory := TGameActorFactory.Create(FUIViewport, FUIBoard);
 end;
 
 procedure TGameState.ProcessMovement(Movement: TMsgFeedActorMovement);

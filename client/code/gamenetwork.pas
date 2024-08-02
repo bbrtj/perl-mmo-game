@@ -20,7 +20,7 @@ type
 		CallbackModel: TModelClass;
 		Notify: TNotifyEvent;
 
-		constructor Create(const AId: Integer; const ACallback: TNetworkMessageCallback; const Model: TModelClass);
+		constructor Create(const AId: Integer; const ACallback: TNetworkMessageCallback; const Model: TModelClass; const ANotify: TNotifyEvent);
 	end;
 
 	TFeedItem = class
@@ -83,11 +83,12 @@ var
 
 implementation
 
-constructor TCallbackItem.Create(const AId: Integer; const ACallback: TNetworkMessageCallback; const Model: TModelClass);
+constructor TCallbackItem.Create(const AId: Integer; const ACallback: TNetworkMessageCallback; const Model: TModelClass; const ANotify: TNotifyEvent);
 begin
 	Id := AId;
 	Callback := ACallback;
 	CallbackModel := Model;
+	Notify := ANotify;
 end;
 
 constructor TFeedItem.Create(const ACallback: TNetworkMessageCallback; const Model: TModelClass);
@@ -156,49 +157,57 @@ begin
 end;
 
 procedure TNetwork.OnMessageReceived(const Received: String);
+
+	function HandleCallbacks(const Msg: TMessage): Boolean;
+	var
+		LModel: TModelBase;
+		LCallback: TNetworkMessageCallback;
+		LNotify: TNotifyEvent;
+		I: Integer;
+	begin
+		result := false;
+
+		for I := 0 to FCallbacks.Count - 1 do begin
+			if not (FCallbacks[I].Id = Msg.Id) then continue;
+			if not (FCallbacks[I].CallbackModel.MessageType = Msg.Typ) then continue;
+
+			LCallback := FCallbacks[I].Callback;
+			LNotify := FCallbacks[I].Notify;
+			LModel := FModelSerializer.DeSerialize(Msg.Data, FCallbacks[I].CallbackModel);
+			FCallbacks.Delete(I);
+
+			LCallback(LModel);
+			LModel.Free;
+
+			if LNotify <> nil then LNotify(self);
+			exit(true);
+		end;
+	end;
+
+	function HandleFeeds(const Msg: TMessage): Boolean;
+	var
+		I: Integer;
+		LModel: TModelBase;
+		LCallback: TNetworkMessageCallback;
+	begin
+		result := false;
+
+		for I := 0 to FFeeds.Count - 1 do begin
+			if not (FFeeds[I].CallbackModel.MessageType = Msg.Typ) then continue;
+
+			LCallback := FFeeds[I].Callback;
+			LModel := FModelSerializer.DeSerialize(Msg.Data, FFeeds[I].CallbackModel);
+
+			LCallback(LModel);
+			LModel.Free;
+
+			result := true;
+		end;
+	end;
+
 var
 	LMessage: TMessage;
 	LHandled: Boolean;
-
-	{ nested procedure }
-	procedure HandleCallbacks;
-	var
-		LCallback: TCallbackItem;
-		GModel: TModelBase;
-	begin
-		for LCallback in FCallbacks do begin
-			if not (LCallback.Id = LMessage.Id) then continue;
-			if not (LCallback.CallbackModel.MessageType = LMessage.Typ) then continue;
-
-			GModel := FModelSerializer.DeSerialize(LMessage.Data, LCallback.CallbackModel);
-			LCallback.Callback(GModel);
-			if LCallback.Notify <> nil then
-				LCallback.Notify(self);
-
-			FCallbacks.Remove(LCallback);
-			GModel.Free;
-
-			LHandled := true;
-			break;
-		end;
-	end;
-
-	procedure HandleFeeds;
-	var
-		LFeed: TFeedItem;
-		GModel: TModelBase;
-	begin
-		for LFeed in FFeeds do begin
-			if not (LFeed.CallbackModel.MessageType = LMessage.Typ) then continue;
-
-			GModel := FModelSerializer.DeSerialize(LMessage.Data, LFeed.CallbackModel);
-			LFeed.Callback(GModel);
-
-			GModel.Free;
-			LHandled := true;
-		end;
-	end;
-
 begin
 	if Received = 'ping' then begin
 		FPing := MilliSecondsBetween(Now, FPingStart);
@@ -215,12 +224,11 @@ begin
 
 	LMessage := TMessage.Create;
 	LMessage.Body := Received;
-	LHandled := false;
 
 	if LMessage.HasId() then
-		HandleCallbacks()
+		LHandled := HandleCallbacks(LMessage)
 	else
-		HandleFeeds();
+		LHandled := HandleFeeds(LMessage);
 
 	LMessage.Free;
 
@@ -270,8 +278,7 @@ begin
 	if not LType.HasCallback then
 		raise Exception.Create('Type ' + LType.GetType + ' does not have a callback');
 
-	LCallback := TCallbackItem.Create(DoSend(LType, Data), Callback, LType.CallbackModel);
-	LCallback.Notify := Notify;
+	LCallback := TCallbackItem.Create(DoSend(LType, Data), Callback, LType.CallbackModel, Notify);
 	FCallbacks.Add(LCallback);
 end;
 

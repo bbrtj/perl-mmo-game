@@ -3,11 +3,14 @@ package Game::Server::Role::Combat;
 use My::Moose::Role;
 
 use all 'Game::Mechanics';
+use Resource::ActorEvent;
 
 use header;
 
 requires qw(
 	find_in_radius
+	send_to_players
+	get_discovered_by
 );
 
 sub use_ability ($self, $actor_id, %options)
@@ -31,10 +34,17 @@ sub use_ability ($self, $actor_id, %options)
 
 	# TODO: attribute
 	# TODO: calculate ability damage
-	Game::Mechanics::Character::Damage->deal_damage('todo', $stats->weapon_damage, @found);
+	my $damage = $stats->weapon_damage;
+	Game::Mechanics::Character::Damage->deal_damage('todo', $damage, @found);
+
+	foreach my $affected (@found) {
+		$self->send_to_players(
+			[$affected->id, $self->get_discovered_by($affected->id)],
+			Resource::ActorEvent->new(subject => $affected, event_source => $actor_id, health_change => -$damage)
+		);
+	}
 
 	# TODO: other players in range should know that the ability has taken place, so they can animate it
-	# TODO: other players in range should know that players health has changed
 	# the hard part: use players which have discovered each player - possibly different list for each affected player (for big AOEs)
 
 	return;

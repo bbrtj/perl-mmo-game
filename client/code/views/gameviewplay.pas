@@ -70,7 +70,8 @@ begin
 	inherited;
 
 	FPlaying := false;
-	FGameState := TGameState.Create(Board, PlayerCamera);
+	FGameState := TGameState.Create(MainViewport);
+	FGameState.Board := Board;
 
 	GlobalClient.Await(TMsgFeedDiscovery, @OnDiscovery);
 	GlobalClient.Await(TMsgFeedActorMovement, @OnActorMovement);

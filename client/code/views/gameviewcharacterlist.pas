@@ -124,13 +124,13 @@ begin
 		CharacterList.InsertFront(LSelection);
 		LSelection.URL := 'castle-data:/componentcharacterbutton.castle-user-interface';
 
-		LInner := LSelection.FindRequiredComponent('CharacterButton') as TCastleUserInterface;
+		LInner := LSelection.DesignedComponent('CharacterButton') as TCastleUserInterface;
 		LSelection.Width := LInner.Width;
 		LSelection.Height := LInner.Height;
 
-		(LSelection.FindRequiredComponent('CharacterName') as TCastleLabel)
+		(LSelection.DesignedComponent('CharacterName') as TCastleLabel)
 			.Caption := LCharacter.name;
-		(LSelection.FindRequiredComponent('CharacterClass') as TCastleLabel)
+		(LSelection.DesignedComponent('CharacterClass') as TCastleLabel)
 			.Caption := LoreCollection.GetById(LCharacter.&class).LoreName;
 
 		LSelection.Id := LCharacter.id;
@@ -169,8 +169,6 @@ begin
 		// TODO: notify user something's wrong
 	end;
 end;
-
-{ implementation end }
 
 end.
 
