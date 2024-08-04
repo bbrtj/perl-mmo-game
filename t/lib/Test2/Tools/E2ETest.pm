@@ -52,7 +52,7 @@ sub e2e_test : prototype(&) ($tester)
 
 	if (do_fork) {
 		my $server = Server->new(port => $SERVER_PORT);
-		$server->start_listening(1);
+		$server->start(1);
 		exit;
 	}
 

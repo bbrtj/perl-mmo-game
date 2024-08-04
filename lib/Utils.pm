@@ -45,6 +45,7 @@ sub handle_errors ($class)
 sub safe_fork ($class)
 {
 	DI->get('db')->clear_dbh;
+	Mojo::IOLoop->reset;
 	return fork;
 }
 

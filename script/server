@@ -21,5 +21,5 @@ DI->get('log')->filename('logs/server.log');
 Utils->bootstrap_mojo;
 
 my $server = Server->new;
-$server->start_listening($processes);
+$server->start($processes);
 

@@ -83,40 +83,34 @@ sub connection ($self, $stream)
 	return;
 }
 
-sub start ($self)
+sub start ($self, $processes = 4)
 {
-	# listen to data that should be transmitted to all the players at once
-	# (global events, announcements, server messages)
-	$self->_listen(
-		$self->channel_service,
-		undef,
-		sub {
-			$self->handle_global_feedback(@_);
-		}
-	);
-
-	Mojo::IOLoop->server(
-		{
-			port => $self->port,
-			reuse => 1,
-		} => sub ($, $stream, $) {
-			$self->connection($stream);
-		}
-	);
-
-	return;
-}
-
-sub start_listening ($self, $processes = 4)
-{
-	$self->create_forks_with_parent(
+	$self->create_forks(
 		'tcp',
 		$processes,
 		sub ($process_id) {
-			$self->start;
 
-			# FIXME: this has to be here for some reason, not in 'start' method
-			# (start method exits before server runs)
+			# listen to data that should be transmitted to all the players at once
+			# (global events, announcements, server messages)
+			$self->_listen(
+				$self->channel_service,
+				undef,
+				sub {
+					$self->handle_global_feedback(@_);
+				}
+			);
+
+			Mojo::IOLoop->server(
+				{
+					port => $self->port,
+					reuse => 1,
+				} => sub ($, $stream, $) {
+					$self->connection($stream);
+				}
+			);
+
+			Mojo::IOLoop->start;
+
 			$self->_unlisten;
 		},
 	);

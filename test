@@ -4,8 +4,9 @@ use v5.38;
 
 use App::Yath::Util qw/find_yath/;
 
-use Env qw(@PERL5LIB);
+use Env qw(@PERL5LIB $MOJO_REACTOR);
 unshift @PERL5LIB, "local/lib/perl5";
+$MOJO_REACTOR = 'My::Mojo::Reactor::UV';
 
 exec($^X, find_yath(), @ARGV);
 

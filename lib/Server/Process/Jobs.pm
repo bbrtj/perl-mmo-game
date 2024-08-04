@@ -58,8 +58,11 @@ sub do_work ($self, $loop)
 		}
 	);
 
-	$loop->start;
+	return;
+}
 
+sub finish_work ($self)
+{
 	$self->_unlisten;
 	return;
 }

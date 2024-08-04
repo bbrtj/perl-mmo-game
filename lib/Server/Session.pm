@@ -79,6 +79,10 @@ sub dropped ($self)
 
 sub unpack_message ($self, $bytes)
 {
+	# check the length of $bytes to avoid getting attacked
+	X::Network::CorruptedInput->throw
+		if length $bytes > Server::Config::PROTOCOL_MAX_LENGTH;
+
 	if ($bytes eq 'ping') {
 		$self->send("ping\r\n");
 		return;
@@ -86,10 +90,6 @@ sub unpack_message ($self, $bytes)
 
 	$self->log->debug("TCP message: '$bytes'")
 		if Server::Config::DEBUG;
-
-	# check the length of $bytes to avoid getting attacked
-	X::Network::CorruptedInput->throw
-		if length $bytes > Server::Config::PROTOCOL_MAX_LENGTH;
 
 	$self->handle_message(
 		split Server::Config::PROTOCOL_CONTROL_CHARACTER, $bytes, 3

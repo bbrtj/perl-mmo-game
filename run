@@ -3,11 +3,12 @@
 use v5.36;
 
 use File::Basename;
-use Env qw(@PATH);
+use Env qw(@PATH $MOJO_REACTOR);
 
 my $dir = dirname(__FILE__);
 
 unshift @PATH, "$dir/local/bin";
+$MOJO_REACTOR = 'My::Mojo::Reactor::UV';
 
 my ($arg) = @ARGV;
 $arg //= '';

@@ -70,6 +70,7 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 	);
 
 	$loop->start unless $loop->is_running;
+	$loop->reset;
 	return;
 }
 

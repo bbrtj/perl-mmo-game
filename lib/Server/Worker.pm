@@ -61,17 +61,19 @@ sub start ($self, $jobs_processes = 1)
 	die 'must have at least one process'
 		unless $jobs_processes > 0;
 
-	my $loop = Mojo::IOLoop->singleton;
-
 	# create processes for shared jobs
 	$self->create_forks(
 		'job',
 		$jobs_processes,
 		sub ($process_id) {
-			Server::Process::Jobs->new(
+			my $job = Server::Process::Jobs->new(
 				worker => $self,
 				process_id => $process_id
-			)->do_work($loop);
+			);
+
+			$job->do_work(Mojo::IOLoop->singleton);
+			Mojo::IOLoop->start;
+			$job->finish_work;
 		}
 	);
 
@@ -90,9 +92,9 @@ sub start ($self, $jobs_processes = 1)
 				)
 			} $get_locations->();
 
-			$_->do_work($loop) for @processes;
+			$_->do_work(Mojo::IOLoop->singleton) for @processes;
 
-			$loop->start;
+			Mojo::IOLoop->start;
 
 			$_->finish_work for @processes;
 		},
@@ -102,7 +104,7 @@ sub start ($self, $jobs_processes = 1)
 	# setup crons
 	my $setup_job;
 	$setup_job = sub ($job) {
-		$loop->timer(
+		Mojo::IOLoop->timer(
 			$job->interval,
 			sub {
 				$self->broadcast($job->name);

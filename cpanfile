@@ -24,6 +24,7 @@ on 'runtime' => sub {
 	requires 'Types::ULID' => 0;
 
 	requires 'Mojolicious' => 0;
+	requires 'UV' => 0;
 
 	requires 'DBI' => 0;
 	requires 'DBD::Pg' => 0;
