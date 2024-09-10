@@ -2,11 +2,11 @@
 
 This is a project to see how well would Perl + Castle Game Engine work together to deliver multiplayer experience. The concept has changed a couple of times, starting from turn-based in the browser and ending with real-time in a native client.
 
-![game screenshot](gallery/game.png)
+![game screenshot](gallery/game1.png)
 
 (see `gallery` directory for more screenshots)
 
-I've been developing it on and off for a couple of years. Currently it offers working login, character selection and moving around world (just one location). Players can see each other when they enter their discovery radius. Some work in progress code exists for combat and chat. Game data is periodically saved to a database for each game process. No special measures in case of dying processes are implemented yet, so the whole system is quite volatile.
+I've been developing it on and off for a couple of years. Currently it offers working login, character selection and moving around world (just one location). Players can see each other when they enter their discovery radius. The server offers a working chat and some work-in-progress combat: players can hit each other when pressing `A` key. They only hit others if they are in a small zone in front of them and do constant damage. Game data is periodically saved to a database for each game process. No special measures in case of dying processes are implemented yet, so the whole system is quite volatile.
 
 Perl spawns a couple of processes: one process for each game location, some processes for TCP and some processes for non-game tasks like logging in. IPC is done with Redis which works very fast. Mojolicious serves as TCP communication and event loop handler. Since it is Perl and each location is a single process, future performance remains a real concern.
 
