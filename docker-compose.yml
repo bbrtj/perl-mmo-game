@@ -1,0 +1,58 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: mmo_game
+      POSTGRES_USER: mmo
+      POSTGRES_PASSWORD: mmo_dev_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mmo -d mmo_game"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  game:
+    build: .
+    volumes:
+      - .:/game
+    ports:
+      - "3000:3000"
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DB_CONNECTION: "dbi:Pg:dbname=mmo_game;host=postgres;port=5432"
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: mmo
+      DB_PASS: mmo_dev_pass
+      DB_DATABASE: mmo_game
+      REDIS_CONNECTION: redis://localhost:6379
+    command: >
+      sh -c "
+        sqitch deploy gamedb_docker &&
+        carmel install &&
+        carmel rollout &&
+        ./run
+      "
+
+volumes:
+  postgres_data:
+

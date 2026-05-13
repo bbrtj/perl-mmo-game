@@ -30,6 +30,238 @@ DISTRIBUTIONS
     requirements:
       Algorithm::QuadTree 0.3
       ExtUtils::MakeMaker 0
+  Alien-Autotools-1.08
+    pathname: P/PL/PLICEASE/Alien-Autotools-1.08.tar.gz
+    provides:
+      Alien::Autotools 1.08
+    requirements:
+      Alien::Build 0.66
+      Alien::autoconf 0.18
+      Alien::automake 0.18
+      Alien::libtool 0.15
+      Alien::m4 0.18
+      ExtUtils::MakeMaker 0
+      File::Which 0
+      Path::Tiny 0
+      perl 5.006
+  Alien-Build-2.84
+    pathname: P/PL/PLICEASE/Alien-Build-2.84.tar.gz
+    provides:
+      Alien::Base 2.84
+      Alien::Base::PkgConfig 2.84
+      Alien::Base::Wrapper 2.84
+      Alien::Build 2.84
+      Alien::Build::CommandSequence 2.84
+      Alien::Build::Helper 2.84
+      Alien::Build::Interpolate 2.84
+      Alien::Build::Interpolate::Default 2.84
+      Alien::Build::Interpolate::Helper 2.84
+      Alien::Build::Log 2.84
+      Alien::Build::Log::Abbreviate 2.84
+      Alien::Build::Log::Default 2.84
+      Alien::Build::MM 2.84
+      Alien::Build::Meta 2.84
+      Alien::Build::Plugin 2.84
+      Alien::Build::Plugin::Build::Autoconf 2.84
+      Alien::Build::Plugin::Build::CMake 2.84
+      Alien::Build::Plugin::Build::Copy 2.84
+      Alien::Build::Plugin::Build::MSYS 2.84
+      Alien::Build::Plugin::Build::Make 2.84
+      Alien::Build::Plugin::Build::SearchDep 2.84
+      Alien::Build::Plugin::Core::CleanInstall 2.84
+      Alien::Build::Plugin::Core::Download 2.84
+      Alien::Build::Plugin::Core::FFI 2.84
+      Alien::Build::Plugin::Core::Gather 2.84
+      Alien::Build::Plugin::Core::Legacy 2.84
+      Alien::Build::Plugin::Core::Override 2.84
+      Alien::Build::Plugin::Core::Setup 2.84
+      Alien::Build::Plugin::Core::Tail 2.84
+      Alien::Build::Plugin::Decode::DirListing 2.84
+      Alien::Build::Plugin::Decode::DirListingFtpcopy 2.84
+      Alien::Build::Plugin::Decode::HTML 2.84
+      Alien::Build::Plugin::Decode::Mojo 2.84
+      Alien::Build::Plugin::Digest::Negotiate 2.84
+      Alien::Build::Plugin::Digest::SHA 2.84
+      Alien::Build::Plugin::Digest::SHAPP 2.84
+      Alien::Build::Plugin::Download::Negotiate 2.84
+      Alien::Build::Plugin::Extract::ArchiveTar 2.84
+      Alien::Build::Plugin::Extract::ArchiveZip 2.84
+      Alien::Build::Plugin::Extract::CommandLine 2.84
+      Alien::Build::Plugin::Extract::Directory 2.84
+      Alien::Build::Plugin::Extract::File 2.84
+      Alien::Build::Plugin::Extract::Negotiate 2.84
+      Alien::Build::Plugin::Fetch::CurlCommand 2.84
+      Alien::Build::Plugin::Fetch::HTTPTiny 2.84
+      Alien::Build::Plugin::Fetch::LWP 2.84
+      Alien::Build::Plugin::Fetch::Local 2.84
+      Alien::Build::Plugin::Fetch::LocalDir 2.84
+      Alien::Build::Plugin::Fetch::NetFTP 2.84
+      Alien::Build::Plugin::Fetch::Wget 2.84
+      Alien::Build::Plugin::Gather::IsolateDynamic 2.84
+      Alien::Build::Plugin::PkgConfig::CommandLine 2.84
+      Alien::Build::Plugin::PkgConfig::LibPkgConf 2.84
+      Alien::Build::Plugin::PkgConfig::MakeStatic 2.84
+      Alien::Build::Plugin::PkgConfig::Negotiate 2.84
+      Alien::Build::Plugin::PkgConfig::PP 2.84
+      Alien::Build::Plugin::Prefer::BadVersion 2.84
+      Alien::Build::Plugin::Prefer::GoodVersion 2.84
+      Alien::Build::Plugin::Prefer::SortVersions 2.84
+      Alien::Build::Plugin::Probe::CBuilder 2.84
+      Alien::Build::Plugin::Probe::CommandLine 2.84
+      Alien::Build::Plugin::Probe::Vcpkg 2.84
+      Alien::Build::Plugin::Test::Mock 2.84
+      Alien::Build::PluginMeta 2.84
+      Alien::Build::Temp 2.84
+      Alien::Build::TempDir 2.84
+      Alien::Build::Util 2.84
+      Alien::Build::Version::Basic 2.84
+      Alien::Build::rc 2.84
+      Alien::Role 2.84
+      Alien::Util 2.84
+      Test::Alien 2.84
+      Test::Alien::Build 2.84
+      Test::Alien::CanCompile 2.84
+      Test::Alien::CanPlatypus 2.84
+      Test::Alien::Diag 2.84
+      Test::Alien::Run 2.84
+      Test::Alien::Synthetic 2.84
+      alienfile 2.84
+    requirements:
+      Capture::Tiny 0.17
+      Digest::SHA 0
+      ExtUtils::CBuilder 0
+      ExtUtils::MakeMaker 6.64
+      ExtUtils::ParseXS 3.30
+      FFI::CheckLib 0.11
+      File::Which 1.10
+      File::chdir 0
+      JSON::PP 0
+      List::Util 1.33
+      Path::Tiny 0.077
+      Test2::API 1.302096
+      Text::ParseWords 3.26
+      parent 0
+      perl 5.008004
+  Alien-autoconf-0.20
+    pathname: P/PL/PLICEASE/Alien-autoconf-0.20.tar.gz
+    provides:
+      Alien::autoconf 0.20
+    requirements:
+      Alien::Base 0.038
+      Alien::Build 0.49
+      Alien::Build::MM 0.32
+      Alien::Build::Plugin::Build::Autoconf 0.47
+      Alien::Build::Plugin::Build::MSYS 0.84
+      Alien::m4 0.11
+      Archive::Tar 0
+      Config 0
+      ExtUtils::MakeMaker 6.52
+      HTTP::Tiny 0.044
+      IO::Socket::SSL 1.56
+      IO::Zlib 0
+      Mojo::DOM58 1.00
+      Mozilla::CA 0
+      Net::SSLeay 1.49
+      Path::Tiny 0
+      Sort::Versions 0
+      URI 0
+      URI::Escape 0
+      perl 5.008001
+  Alien-automake-0.18
+    pathname: P/PL/PLICEASE/Alien-automake-0.18.tar.gz
+    provides:
+      Alien::automake 0.18
+    requirements:
+      Alien::Base 0.038
+      Alien::Build 0.49
+      Alien::Build::MM 0.32
+      Alien::Build::Plugin::Build::Autoconf 0.47
+      Alien::Build::Plugin::Build::MSYS 0.84
+      Alien::autoconf 0.05
+      Alien::m4 0.11
+      Archive::Tar 0
+      Config 0
+      ExtUtils::MakeMaker 6.52
+      HTTP::Tiny 0.044
+      IO::Socket::SSL 1.56
+      IO::Zlib 0
+      Mojo::DOM58 1.00
+      Mozilla::CA 0
+      Net::SSLeay 1.49
+      Path::Tiny 0.077
+      Sort::Versions 0
+      URI 0
+      URI::Escape 0
+      perl 5.008001
+  Alien-libtool-0.15
+    pathname: P/PL/PLICEASE/Alien-libtool-0.15.tar.gz
+    provides:
+      Alien::libtool 0.15
+    requirements:
+      Alien::Base 0.038
+      Alien::Build 0.49
+      Alien::Build::MM 0.32
+      Alien::Build::Plugin::Build::Autoconf 0.47
+      Alien::Build::Plugin::Build::MSYS 0.84
+      Alien::m4 0.11
+      Archive::Tar 0
+      Capture::Tiny 0
+      Config 0
+      ExtUtils::MakeMaker 6.52
+      File::Which 0
+      HTTP::Tiny 0.044
+      IO::Socket::SSL 1.56
+      IO::Zlib 0
+      List::Util 1.33
+      Mojo::DOM58 1.00
+      Mozilla::CA 0
+      Net::SSLeay 1.49
+      Path::Tiny 0
+      Sort::Versions 0
+      URI 0
+      URI::Escape 0
+      perl 5.008001
+  Alien-libuv-1.014
+    pathname: C/CA/CAPOEIRAB/Alien-libuv-1.014.tar.gz
+    provides:
+      Alien::libuv 1.014
+    requirements:
+      Alien::Autotools 1.00
+      Alien::Base 2.15
+      Alien::Build 2.15
+      Alien::Build::MM 0.32
+      Alien::Build::Plugin::Build::Autoconf 0.04
+      Alien::Build::Plugin::Build::Make 0.01
+      Alien::Build::Plugin::Gather::IsolateDynamic 0.48
+      Alien::Build::Plugin::Probe::Vcpkg 2.15
+      Archive::Tar 0
+      Config 0
+      ExtUtils::MakeMaker 6.52
+      HTTP::Tiny 0.044
+      IO::Socket::SSL 1.56
+      IO::Zlib 0
+      IPC::Cmd 0
+      Mojo::DOM58 1.00
+      Mozilla::CA 0
+      Net::SSLeay 1.49
+      Sort::Versions 0
+      URI 0
+      URI::Escape 0
+      base 0
+      strict 0
+      warnings 0
+  Alien-m4-0.21
+    pathname: P/PL/PLICEASE/Alien-m4-0.21.tar.gz
+    provides:
+      Alien::m4 0.21
+    requirements:
+      Alien::Base 0.038
+      Alien::Build 0.32
+      Alien::Build::MM 0.32
+      Capture::Tiny 0
+      ExtUtils::MakeMaker 6.52
+      Path::Tiny 0
+      perl 5.006
   B-Hooks-EndOfScope-0.26
     pathname: E/ET/ETHER/B-Hooks-EndOfScope-0.26.tar.gz
     provides:
@@ -1575,6 +1807,15 @@ DISTRIBUTIONS
       ExtUtils::PkgConfig 1.16
     requirements:
       ExtUtils::MakeMaker 0
+  FFI-CheckLib-0.31
+    pathname: P/PL/PLICEASE/FFI-CheckLib-0.31.tar.gz
+    provides:
+      FFI::CheckLib 0.31
+    requirements:
+      ExtUtils::MakeMaker 0
+      File::Which 0
+      List::Util 1.33
+      perl 5.006
   Faker-1.10
     pathname: A/AW/AWNCORP/Faker-1.10.tar.gz
     provides:
@@ -1756,6 +1997,29 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  File-Which-1.27
+    pathname: P/PL/PLICEASE/File-Which-1.27.tar.gz
+    provides:
+      File::Which 1.27
+    requirements:
+      ExtUtils::MakeMaker 0
+      base 0
+      perl 5.006
+  File-chdir-0.1011
+    pathname: D/DA/DAGOLDEN/File-chdir-0.1011.tar.gz
+    provides:
+      File::chdir 0.1011
+      File::chdir::ARRAY 0.1011
+      File::chdir::SCALAR 0.1011
+    requirements:
+      Carp 0
+      Cwd 3.16
+      Exporter 0
+      ExtUtils::MakeMaker 6.17
+      File::Spec::Functions 3.27
+      perl 5.006
+      strict 0
+      vars 0
   Form-Diva-1.05
     pathname: B/BR/BRTASTIC/Form-Diva-1.05.tar.gz
     provides:
@@ -1870,6 +2134,23 @@ DISTRIBUTIONS
       Module::Build 0
       Test::More 0.88
       perl 5.006
+  IO-Socket-SSL-2.098
+    pathname: S/SU/SULLR/IO-Socket-SSL-2.098.tar.gz
+    provides:
+      IO::Socket::SSL 2.098
+      IO::Socket::SSL::Intercept 2.056
+      IO::Socket::SSL::OCSP_Cache 2.098
+      IO::Socket::SSL::OCSP_Resolver 2.098
+      IO::Socket::SSL::PublicSuffix undef
+      IO::Socket::SSL::SSL_Context 2.098
+      IO::Socket::SSL::SSL_HANDLE 2.098
+      IO::Socket::SSL::Session_Cache 2.098
+      IO::Socket::SSL::Trace 2.098
+      IO::Socket::SSL::Utils 2.015
+    requirements:
+      ExtUtils::MakeMaker 0
+      Net::SSLeay 1.46
+      Scalar::Util 0
   Import-Into-1.002005
     pathname: H/HA/HAARG/Import-Into-1.002005.tar.gz
     provides:
@@ -1966,6 +2247,15 @@ DISTRIBUTIONS
       Module::Build 0.38
       Scalar::Util 0
       Term::ANSIColor 0
+  MIME-Base32-1.303
+    pathname: R/RE/REHSACK/MIME-Base32-1.303.tar.gz
+    provides:
+      MIME::Base32 1.303
+    requirements:
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      perl 5.008001
+      utf8 0
   MRO-Compat-0.15
     pathname: H/HA/HAARG/MRO-Compat-0.15.tar.gz
     provides:
@@ -2142,6 +2432,20 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  Mojo-DOM58-3.002
+    pathname: D/DB/DBOOK/Mojo-DOM58-3.002.tar.gz
+    provides:
+      Mojo::DOM58 3.002
+      Mojo::DOM58::Entities 3.002
+    requirements:
+      Carp 0
+      Data::Dumper 0
+      Exporter 5.57
+      ExtUtils::MakeMaker 0
+      List::Util 0
+      Scalar::Util 0
+      constant 0
+      perl 5.008001
   Mojo-Redis-3.29
     pathname: J/JH/JHTHORSEN/Mojo-Redis-3.29.tar.gz
     provides:
@@ -2804,6 +3108,12 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 6.17
       Moose 2.0600
       perl 5.008
+  Mozilla-CA-20250602
+    pathname: L/LW/LWP/Mozilla-CA-20250602.tar.gz
+    provides:
+      Mozilla::CA 20250602
+    requirements:
+      ExtUtils::MakeMaker 0
   Net-DNS-1.35
     pathname: N/NL/NLNETLABS/Net-DNS-1.35.tar.gz
     provides:
@@ -2928,6 +3238,19 @@ DISTRIBUTIONS
       Scalar::Util 1.19
       Time::Local 1.19
       perl 5.008009
+  Net-SSLeay-1.96
+    pathname: C/CH/CHRISN/Net-SSLeay-1.96.tar.gz
+    provides:
+      Net::SSLeay 1.96
+      Net::SSLeay::Handle 1.96
+    requirements:
+      English 0
+      ExtUtils::MakeMaker 0
+      File::Spec::Functions 0
+      MIME::Base64 0
+      Text::Wrap 0
+      constant 0
+      perl 5.008001
   Package-DeprecationManager-0.17
     pathname: D/DR/DROLSKY/Package-DeprecationManager-0.17.tar.gz
     provides:
@@ -3295,6 +3618,16 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Test::More 0.54
+  Sort-Versions-1.62
+    pathname: N/NE/NEILB/Sort-Versions-1.62.tar.gz
+    provides:
+      Sort::Versions 1.62
+    requirements:
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      perl 5.006
+      strict 0
+      warnings 0
   Specio-0.48
     pathname: D/DR/DROLSKY/Specio-0.48.tar.gz
     provides:
@@ -3832,6 +4165,85 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Type::Tiny 1.004000
       perl 5.010
+  URI-5.34
+    pathname: O/OA/OALDERS/URI-5.34.tar.gz
+    provides:
+      URI 5.34
+      URI::Escape 5.34
+      URI::Heuristic 5.34
+      URI::IRI 5.34
+      URI::QueryParam 5.34
+      URI::Split 5.34
+      URI::URL 5.34
+      URI::WithBase 5.34
+      URI::data 5.34
+      URI::file 5.34
+      URI::file::Base 5.34
+      URI::file::FAT 5.34
+      URI::file::Mac 5.34
+      URI::file::OS2 5.34
+      URI::file::QNX 5.34
+      URI::file::Unix 5.34
+      URI::file::Win32 5.34
+      URI::ftp 5.34
+      URI::ftpes 5.34
+      URI::ftps 5.34
+      URI::geo 5.34
+      URI::gopher 5.34
+      URI::http 5.34
+      URI::https 5.34
+      URI::icap 5.34
+      URI::icaps 5.34
+      URI::irc 5.34
+      URI::ircs 5.34
+      URI::ldap 5.34
+      URI::ldapi 5.34
+      URI::ldaps 5.34
+      URI::mailto 5.34
+      URI::mms 5.34
+      URI::news 5.34
+      URI::nntp 5.34
+      URI::nntps 5.34
+      URI::otpauth 5.34
+      URI::pop 5.34
+      URI::rlogin 5.34
+      URI::rsync 5.34
+      URI::rtsp 5.34
+      URI::rtspu 5.34
+      URI::scp 5.34
+      URI::sftp 5.34
+      URI::sip 5.34
+      URI::sips 5.34
+      URI::smb 5.34
+      URI::smtp 5.34
+      URI::snews 5.34
+      URI::ssh 5.34
+      URI::telnet 5.34
+      URI::tn3270 5.34
+      URI::urn 5.34
+      URI::urn::isbn 5.34
+      URI::urn::oid 5.34
+      URI::ws 5.34
+      URI::wss 5.34
+    requirements:
+      Carp 0
+      Cwd 0
+      Data::Dumper 0
+      Encode 0
+      Exporter 5.57
+      ExtUtils::MakeMaker 0
+      MIME::Base32 0
+      MIME::Base64 2
+      Net::Domain 0
+      Scalar::Util 0
+      constant 0
+      integer 0
+      overload 0
+      parent 0
+      perl 5.008001
+      strict 0
+      utf8 0
+      warnings 0
   UV-2.000
     pathname: P/PE/PEVANS/UV-2.000.tar.gz
     provides:
@@ -3854,6 +4266,7 @@ DISTRIBUTIONS
       UV::Timer 2.000
       UV::UDP 2.000
     requirements:
+      Alien::libuv 1.013
       Carp 0
       Exporter 5.57
       ExtUtils::CBuilder 0
