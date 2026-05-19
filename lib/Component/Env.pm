@@ -1,19 +1,19 @@
 package Component::Env;
 
 use My::Moose;
-use Env::Dot;
 
 use header;
 
 # adjust any envvars here
 my %defaults = (
 	APP_MODE => 'development',
+	DEBUG => false,
 );
 
 has param 'rawenv' => (
 	isa => Types::HashRef,
 	default => sub {
-		return {%defaults};
+		return {%defaults, %ENV};
 	},
 );
 
@@ -26,16 +26,7 @@ sub setenv ($self, $name, $value)
 
 sub getenv ($self, $name)
 {
-	my $rawenv = $self->rawenv;
-
-	my $value = exists $rawenv->{$name}
-		? $rawenv->{$name}
-		: exists $ENV{$name}
-		? $ENV{$name}
-		: croak "unknown environmental variable $name"
-		;
-
-	return $value;
+	return $self->rawenv->{$name};
 }
 
 sub is_production ($self)

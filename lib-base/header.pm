@@ -5,6 +5,7 @@ use utf8;
 use Import::Into;
 
 require feature;
+require builtin;
 
 require i18n;
 require Carp;
@@ -26,6 +27,7 @@ sub import ($me, @args)
 	warnings->import::into($pkg);
 	feature->unimport::out_of($pkg, ':all');
 	feature->import::into($pkg, qw(:5.42 refaliasing declared_refs defer));
+	builtin->import::into($pkg, qw(:5.42));
 	utf8->import::into($pkg);
 	Carp->import::into($pkg, qw(croak));
 	Ref::Util->import::into($pkg, qw(is_ref is_arrayref is_hashref is_coderef is_scalarref));
