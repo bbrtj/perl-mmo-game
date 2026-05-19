@@ -1,6 +1,6 @@
 use Test::More;
 
-use v5.38;
+use v5.42;
 
 use_ok('Utils');
 use_ok('DI');

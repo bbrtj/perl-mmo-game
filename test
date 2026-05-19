@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use v5.38;
+use v5.42;
 
 use App::Yath::Util qw/find_yath/;
 

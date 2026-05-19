@@ -1,6 +1,6 @@
 package Trait::Model;
 
-use v5.38;
+use v5.42;
 use My::Moose::Role;
 
 use header;

@@ -1,6 +1,6 @@
 package My::Moose::Role;
 
-use v5.38;
+use v5.42;
 
 use Import::Into;
 require My::Moose;

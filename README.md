@@ -12,7 +12,7 @@ Perl spawns a couple of processes: one process for each game location, some proc
 
 ## Prerequisites (Server)
 
-- Perl 5.38 (preferably from perlbrew)
+- Perl 5.42 (preferably from perlbrew)
 - Postgresql client library with headers
 - Postgresql server
 - Redis server

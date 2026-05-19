@@ -1,6 +1,6 @@
 package header;
 
-use v5.38;
+use v5.42;
 use utf8;
 use Import::Into;
 
@@ -8,7 +8,6 @@ require feature;
 
 require i18n;
 require Carp;
-require Scalar::Util;
 require Ref::Util;
 require List::Util;
 require List::Keywords;
@@ -26,10 +25,9 @@ sub import ($me, @args)
 	strict->import::into($pkg);
 	warnings->import::into($pkg);
 	feature->unimport::out_of($pkg, ':all');
-	feature->import::into($pkg, qw(:5.38 try refaliasing declared_refs defer));
+	feature->import::into($pkg, qw(:5.42 refaliasing declared_refs defer));
 	utf8->import::into($pkg);
 	Carp->import::into($pkg, qw(croak));
-	Scalar::Util->import::into($pkg, qw(blessed));
 	Ref::Util->import::into($pkg, qw(is_ref is_arrayref is_hashref is_coderef is_scalarref));
 	List::Keywords->import::into($pkg, qw(first any all));
 	List::Util->import::into($pkg, qw(mesh));
@@ -46,7 +44,6 @@ sub import ($me, @args)
 # must be used like this: BEGIN { header::no_experimental_warnings }
 sub no_experimental_warnings ($pkg = caller)
 {
-	warnings->unimport::out_of($pkg, 'experimental::try');
 	warnings->unimport::out_of($pkg, 'experimental::refaliasing');
 	warnings->unimport::out_of($pkg, 'experimental::declared_refs');
 	warnings->unimport::out_of($pkg, 'experimental::defer');

@@ -1,6 +1,6 @@
 package Types;
 
-use v5.38;
+use v5.42;
 
 use Type::Libraries;
 use Type::Tiny;

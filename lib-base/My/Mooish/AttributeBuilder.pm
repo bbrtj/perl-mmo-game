@@ -1,6 +1,6 @@
 package My::Mooish::AttributeBuilder;
 
-use v5.38;
+use v5.42;
 
 use parent 'Mooish::AttributeBuilder';
 use Types::Standard qw(InstanceOf);

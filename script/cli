@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use v5.38;
+use v5.42;
 
 use lib 'local/lib/perl5';
 use lib 'lib-base';

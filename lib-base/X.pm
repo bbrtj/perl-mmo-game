@@ -1,6 +1,6 @@
 package X;
 
-use v5.38;
+use v5.42;
 use My::Moose;
 use Types::Standard;
 

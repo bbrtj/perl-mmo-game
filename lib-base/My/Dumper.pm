@@ -1,6 +1,6 @@
 package My::Dumper;
 
-use v5.38;
+use v5.42;
 
 use Data::Dumper;
 

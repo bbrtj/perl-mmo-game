@@ -1,6 +1,6 @@
 package My::Moose::Trait::Serializable;
 
-use v5.38;
+use v5.42;
 use My::Moose::Role;
 
 has field 'serialized_attributes' => (

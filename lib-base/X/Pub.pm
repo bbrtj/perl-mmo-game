@@ -1,6 +1,6 @@
 package X::Pub;
 
-use v5.38;
+use v5.42;
 use My::Moose;
 
 extends 'X';

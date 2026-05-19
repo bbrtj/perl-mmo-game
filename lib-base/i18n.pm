@@ -1,6 +1,6 @@
 package i18n;
 
-use v5.38;
+use v5.42;
 
 use Exporter qw(import);
 use i18n::Translation;

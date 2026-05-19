@@ -1,6 +1,6 @@
 package DI;
 
-use v5.38;
+use v5.42;
 
 use Beam::Wire;
 use Types::Standard qw(InstanceOf);

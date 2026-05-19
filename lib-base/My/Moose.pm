@@ -1,6 +1,6 @@
 package My::Moose;
 
-use v5.38;
+use v5.42;
 
 use Hook::AfterRuntime;
 use Import::Into;

@@ -1,6 +1,6 @@
 package My::Serializer;
 
-use v5.38;
+use v5.42;
 
 use Exporter qw(import);
 use Mojo::JSON qw(to_json from_json);

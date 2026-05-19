@@ -1,6 +1,6 @@
 package ServerTime;
 
-use v5.38;
+use v5.42;
 
 use Exporter qw(import);
 use Time::HiRes;
