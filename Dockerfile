@@ -24,5 +24,5 @@ RUN cpanm --notest Carmel App::Yath App::Sqitch UUID DBD::Pg
 RUN mkdir -p logs
 
 # Set Perl library path
-ENV PERL5LIB=/app/lib:/app/lib-base:/app/local/lib/perl5:${PERL5LIB}
+ENV PERL5LIB=/game/lib:/game/lib-base:/game/local/lib/perl5:${PERL5LIB}
 

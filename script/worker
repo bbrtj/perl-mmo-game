@@ -1,9 +1,5 @@
 #!/usr/bin/env perl
 
-use lib 'local/lib/perl5';
-use lib 'lib-base';
-use lib 'lib';
-
 use Utils;
 use Getopt::Long;
 use Server::Worker;
