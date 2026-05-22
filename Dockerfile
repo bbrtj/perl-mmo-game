@@ -2,14 +2,15 @@ FROM perl:5.42
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    redis-server \
-    postgresql-client \
-    libpq-dev \
-    cpanminus \
-    build-essential \
-    git \
-    vim \
-    && rm -rf /var/lib/apt/lists/*
+	redis-server \
+	postgresql-client \
+	libpq-dev \
+	cpanminus \
+	build-essential \
+	gettext \
+	git \
+	vim \
+	&& rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /game
