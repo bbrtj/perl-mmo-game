@@ -1,4 +1,5 @@
 client_standalone.lps
+packagefiles.xml
 
 # Build tool (and compiler) temporary output
 castle-engine-output
