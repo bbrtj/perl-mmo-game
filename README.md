@@ -10,13 +10,13 @@ I've been developing it on and off for a couple of years. Currently it offers wo
 
 Perl spawns a couple of processes: one process for each game location, some processes for TCP and some processes for non-game tasks like logging in. IPC is done with Redis which works very fast. Mojolicious serves as TCP communication and event loop handler. Since it is Perl and each location is a single process, future performance remains a real concern.
 
-## Prerequisites (Server)
+## Running the server
 
-- Perl 5.42 (preferably from perlbrew)
-- Postgresql client library with headers
-- Postgresql server
-- Redis server
-- GNU make
+```
+docker compose build
+docker compose run --rm game sh -c "carmel install && carmel rollout"
+docker compose up -d
+```
 
 ## Prerequisites (Client compilation)
 

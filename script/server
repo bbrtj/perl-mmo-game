@@ -1,6 +1,5 @@
 #!/usr/bin/env perl
 
-use Utils;
 use Getopt::Long;
 use Server;
 
@@ -13,8 +12,6 @@ GetOptions(
 );
 
 DI->get('log')->filename('logs/server.log');
-
-Utils->bootstrap_mojo;
 
 my $server = Server->new;
 $server->start($processes);

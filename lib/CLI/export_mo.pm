@@ -1,7 +1,7 @@
 package CLI::export_mo;
 
 use My::Moose -constr;
-use Mojo::File qw(path);
+use Path::Tiny qw(cwd);
 use autodie;
 
 use header;
@@ -18,8 +18,8 @@ sub run ($self, $language = undef)
 		return;
 	}
 
-	my $translation = path->child('i18n')->child("$language.yml");
-	my $output = path->child('client')->child('data')->child('translations.mo');
+	my $translation = cwd->child('i18n')->child("$language.yml");
+	my $output = cwd->child('client')->child('data')->child('translations.mo');
 
 	{
 		open my $fh, '|-:encoding(UTF-8)', "msgfmt - -o $output";
@@ -34,7 +34,7 @@ sub run ($self, $language = undef)
 ## no critic 'Modules::ProhibitMultiplePackages'
 package SimplePO {
 	use My::Moose;
-	use YAML::Tiny;
+	use YAML::PP qw(LoadFile);
 
 	use header;
 
@@ -44,7 +44,7 @@ package SimplePO {
 
 	sub export ($self)
 	{
-		my @translations = YAML::Tiny->read($self->filename)->@*;
+		my @translations = LoadFile($self->filename);
 		my ($lang) = $self->filename =~ m{(?: / | ^ ) (.+) \.ya?ml$}x;
 
 		my $content = <<~PO;

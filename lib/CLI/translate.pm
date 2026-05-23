@@ -2,9 +2,9 @@ package CLI::translate;
 
 use My::Moose -constr;
 use Getopt::Long qw(GetOptionsFromArray);
-use Mojo::File qw(path);
+use Path::Tiny qw(cwd);
 use Text::Levenshtein::BV;
-use YAML::Tiny;
+use YAML::PP qw(LoadFile);
 use CLI::export_mo;
 
 use header;
@@ -32,7 +32,7 @@ sub _build_translations ($self)
 
 	return [
 		map {
-			my $arr = YAML::Tiny->read($_);
+			my $arr = [LoadFile($_)];
 			$self->languages->{$arr} = shift @langs;
 			$arr;
 		} @files
@@ -57,7 +57,7 @@ sub _sync ($self)
 {
 	for my $trans ($self->translations->@*) {
 		my $language = $self->languages->{$trans};
-		my $filename = path->child('i18n')->child("$language.yml");
+		my $filename = cwd->child('i18n')->child("$language.yml");
 
 		$trans->@* = sort { $a->{id} cmp $b->{id} } $trans->@*;
 
@@ -69,7 +69,7 @@ sub _sync ($self)
 
 sub _get_translation_files ($self)
 {
-	return glob path->child('i18n')->child('*.yml');
+	return glob cwd->child('i18n')->child('*.yml');
 }
 
 sub _calculate_differences ($self)

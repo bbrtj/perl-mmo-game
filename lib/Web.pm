@@ -1,7 +1,6 @@
 package Web;
 
 use My::Moose -constr;
-use Utils;
 
 use header;
 
@@ -10,11 +9,8 @@ extends 'Mojolicious';
 # This method will run once at server start
 sub startup ($self)
 {
-	my $env = Utils->bootstrap($self);
-
 	load_config($self, $env);
 	load_routes($self, $env);
-	load_plugins($self, $env);
 	load_helpers($self, $env);
 
 	return;
@@ -47,11 +43,6 @@ sub load_routes ($self, $env)
 	my $api = $main->under('/api');
 	my $user_api = $api->under('/user')->to('middleware#is_user');
 
-	return;
-}
-
-sub load_plugins ($self, $env)
-{
 	return;
 }
 

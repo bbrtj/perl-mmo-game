@@ -4,8 +4,8 @@ use Game::LoreLoader::LoreDummy;
 use Game::Config;
 
 use Sub::Util qw(set_subname);
-use Mojo::File qw(path);
-use Mojo::JSON qw(decode_json);
+use Path::Tiny;
+use JSON::MaybeXS qw(decode_json);
 use Module::Load qw(load);
 
 require Game::LoreLoader;
@@ -152,7 +152,7 @@ sub get_dsl ($self, $caller)
 		},
 		load_coordinates => sub ($from_key) {
 			my $file = path($caller->FILENAME);
-			my $json_file = $file->dirname->child($file->basename('.' . Game::LoreLoader->EXTENSION) . '.json');
+			my $json_file = $file->parent->child($file->basename('.' . Game::LoreLoader->EXTENSION) . '.json');
 
 			return unless -e $json_file;
 			my $coordinates = decode_json $json_file->slurp;

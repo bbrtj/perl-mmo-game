@@ -4,8 +4,8 @@ use My::Moose -constr;
 use Server::Config;
 use Game::Config;
 
-use Mojo::File qw(path);
-use Mojo::JSON qw(encode_json);
+use Path::Tiny qw(cwd);
+use JSON::MaybeXS qw(encode_json);
 
 use header;
 
@@ -25,8 +25,8 @@ sub run ($self)
 		GameActionCooldown => Game::Config->config->{action_cooldown},
 	};
 
-	my $output = path->child('client')->child('data')->child('config.json');
-	$output->spurt(encode_json $struct);
+	my $output = cwd->child('client')->child('data')->child('config.json');
+	$output->spew(encode_json $struct);
 
 	say "done, generated in $output";
 

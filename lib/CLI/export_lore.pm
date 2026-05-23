@@ -1,8 +1,8 @@
 package CLI::export_lore;
 
 use My::Moose -constr;
-use Mojo::File qw(path);
-use Mojo::JSON qw(encode_json);
+use Path::Tiny qw(cwd);
+use JSON::MaybeXS qw(encode_json);
 use Utils;
 
 use header;
@@ -36,8 +36,8 @@ sub run ($self, $language = undef)
 		Items => \@items
 	};
 
-	my $output = path->child('client')->child('data')->child('lore.json');
-	$output->spurt(encode_json $struct);
+	my $output = cwd->child('client')->child('data')->child('lore.json');
+	$output->spew(encode_json $struct);
 
 	say "done, generated in $output";
 

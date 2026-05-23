@@ -2,34 +2,23 @@ package Types;
 
 use v5.42;
 
-use Type::Libraries;
-use Type::Tiny;
-use Types::Standard qw(Num);
-use Types::Common::String qw(StrLength);
+use Type::Library -base;
+use Types::Common -types;
 use Types::DateTime qw(Format);
+use Type::EmailAddress -types;
+use Types::ULID -types;
 
-Type::Libraries->setup_class(
-	__PACKAGE__,
-	qw(
-		Types::Standard
-		Types::Common::Numeric
-		Types::Common::String
-		Type::EmailAddress
-		Types::ULID
-	),
-);
-
-my $ShortStr = Type::Tiny->new(
+my $ShortStr = __PACKAGE__->add_type(
 	name => 'ShortStr',
 	parent => StrLength [1, 32],
 );
 
-my $LoreId = Type::Tiny->new(
+my $LoreId = __PACKAGE__->add_type(
 	name => 'LoreId',
 	parent => $ShortStr,
 );
 
-my $DateTime = Type::Tiny->new(
+my $DateTime = __PACKAGE__->add_type(
 	name => 'DateTime',
 	parent => Types::DateTime::DateTime,
 
@@ -38,10 +27,6 @@ my $DateTime = Type::Tiny->new(
 		Format ['Pg'],
 	]
 );
-
-__PACKAGE__->add_type($ShortStr);
-__PACKAGE__->add_type($LoreId);
-__PACKAGE__->add_type($DateTime);
 
 __PACKAGE__->make_immutable;
 

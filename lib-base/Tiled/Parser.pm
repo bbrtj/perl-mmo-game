@@ -1,8 +1,8 @@
 package Tiled::Parser;
 
 use My::Moose;
-use Mojo::DOM;
-use Mojo::File qw(path);
+use Mojo::DOM58;
+use Path::Tiny;
 use Tiled::Map;
 
 use header;
@@ -60,7 +60,7 @@ sub parse_map ($self, $path)
 {
 	my $contents = path("assets/$path")->slurp;
 
-	my $dom = Mojo::DOM->new($contents);
+	my $dom = Mojo::DOM58->new($contents);
 	my %args;
 
 	my $map = $dom->at('map');
@@ -96,7 +96,7 @@ sub groom_map ($self, $path)
 {
 	my $contents = path("assets/$path")->slurp;
 
-	my $dom = Mojo::DOM->new($contents);
+	my $dom = Mojo::DOM58->new($contents);
 	my %args;
 
 	my $map = $dom->at('map');
@@ -118,9 +118,9 @@ sub groom_map ($self, $path)
 
 sub _groom_tileset ($self, $map_path, $path)
 {
-	my $contents = path("assets/$map_path")->dirname->child($path)->slurp;
+	my $contents = path("assets/$map_path")->parent->child($path)->slurp;
 
-	my $dom = Mojo::DOM->new($contents);
+	my $dom = Mojo::DOM58->new($contents);
 	my $tileset = $dom->at('tileset');
 	my $image = $tileset->at('image');
 	my $source = $image->attr->{source};
@@ -134,7 +134,7 @@ sub groom_tilesets ($self, $path)
 {
 	my $contents = path("assets/$path")->slurp;
 
-	my $dom = Mojo::DOM->new($contents);
+	my $dom = Mojo::DOM58->new($contents);
 	my $map = $dom->at('map');
 
 	my %tileset_contents;

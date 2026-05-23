@@ -3,11 +3,9 @@ package i18n::Translation;
 use v5.42;
 
 use My::Moose;
-use Mojo::File qw(curfile);
-use Data::Localize;
+use i18n::Core;
 use Types;
 use Carp qw(croak);
-use Data::Localize::Format::Maketext;
 use DI;
 
 use overload
@@ -35,17 +33,6 @@ has param 'args' => (
 	default => sub { [] },
 );
 
-my $localizer = do {
-	my $loc = Data::Localize->new();
-
-	$loc->add_localizer(
-		class => 'YAML',
-		path => curfile->dirname->dirname->sibling('i18n')->child('*.yml')->to_string,
-		formatter => Data::Localize::Format::Maketext->new,
-	);
-	$loc;
-};
-
 # NOTE: used in overload
 sub translate ($self, @)
 {
@@ -57,21 +44,27 @@ sub translate ($self, @)
 	return $self->translate_lore($lang)
 		if $self->lore;
 
-	return $self->translate_gettext($lang);
+	return $self->translate_maketext($lang);
 
 }
 
-sub translate_gettext ($self, $lang)
+sub translate_maketext ($self, $lang)
 {
-	my $is_id = $self->id;
+	state %localizers = (auto => i18n::Core->get_handle('i-default'));
+	my $localizer = $localizers{$lang} //=
+		do {
+			my $lh = i18n::Core->get_handle($lang);
+			$lh->fail_with(sub { undef });
+			$lh;
+		}
+		or croak 'could not get localization handle';
 
-	$localizer->auto(!$is_id);
-	$localizer->set_languages($lang);
-
-	my $localized = $localizer->localize($self->message, $self->args->@*);
+	my $localized = $localizer->maketext($self->message, $self->args->@*);
+	$localized //= $localizers{auto}->maketext($self->message, $self->args->@*)
+		unless $self->id;
 
 	croak "did not find translation for ($lang): " . $self->message
-		if !defined $localized && $is_id;
+		unless defined $localized;
 
 	return $localized;
 }

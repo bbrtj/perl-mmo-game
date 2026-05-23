@@ -15,12 +15,8 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /game
 
-# Copy dependency files if they exist
-COPY cpanfile* ./
-
 # Install extra dependencies
 RUN cpanm --notest Carmel App::Yath App::Sqitch UUID DBD::Pg
-RUN carmel install && carmel rollout
 
 # Create logs directory
 RUN mkdir -p logs

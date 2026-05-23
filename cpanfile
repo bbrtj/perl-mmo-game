@@ -8,25 +8,28 @@ on 'runtime' => sub {
 
 	requires 'Beam::Wire' => 0;
 
-	requires 'Data::Localize' => 0;
-	requires 'Data::Localize::YAML' => 0;
-
 	requires 'Form::Tiny' => '2.06';
 	requires 'Form::Tiny::Plugin::Diva' => 0;
 
 	requires 'Type::Tiny' => 0;
 	requires 'Type::Tiny::XS' => 0;
-	requires 'Type::Libraries' => 0;
 	requires 'Types::DateTime' => 0;
 	requires 'Type::EmailAddress' => 0;
 	requires 'Types::ULID' => 0;
 
-	requires 'Mojolicious' => 0;
+	requires 'Thunderhorse' => 0;
+	requires 'IO::Async' => 0;
+	requires 'Future::AsyncAwait' => 0;
+	requires 'Net::Async::Redis::XS' => 0;
 	requires 'UV' => 0;
+
+	requires 'Mojo::DOM58' => 0;
+	requires 'YAML::PP' => 0;
+	requires 'JSON::MaybeXS' => 0;
+	requires 'Cpanel::JSON::XS' => 0;
 
 	requires 'DBI' => 0;
 	requires 'DBD::Pg' => 0;
-	requires 'Mojo::Redis' => 0;
 	requires 'DBIx::Class' => 0;
 	requires 'DateTime::Format::Pg' => 0;
 
@@ -34,8 +37,7 @@ on 'runtime' => sub {
 	requires 'namespace::autoclean' => 0;
 	requires 'all' => 0;
 
-	requires 'Log::Dispatch' => 0;
-	requires 'MojoX::Log::Dispatch::Simple' => 0;
+	requires 'Log::Handler' => 0;
 
 	requires 'Ref::Util' => 0;
 	requires 'List::Keywords' => 0;
@@ -43,6 +45,7 @@ on 'runtime' => sub {
 	requires 'Sereal::Encoder' => 0;
 	requires 'Sereal::Decoder' => 0;
 
+	requires 'Path::Tiny' => 0;
 	requires 'Data::Entropy' => 0;
 	requires 'Data::ULID::XS' => '0.002';
 	requires 'Quantum::Superpositions::Lazy' => 0;
@@ -56,7 +59,6 @@ on 'runtime' => sub {
 };
 
 on 'develop' => sub {
-	requires 'YAML::Tiny' => 0;
 	requires 'Text::Levenshtein::BV' => 0;
 };
 

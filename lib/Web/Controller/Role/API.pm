@@ -1,7 +1,7 @@
 package Web::Controller::Role::API;
 
 use My::Moose::Role;
-use Mojo::JSON qw(decode_json false true);
+use JSON::MaybeXS qw(decode_json);
 
 use header;
 
@@ -15,7 +15,7 @@ sub get_input ($self)
 sub respond ($self, $status, $data)
 {
 	my %ret = (
-		status => $status ? true : false,
+		status => $status,
 		data => $data,
 	);
 

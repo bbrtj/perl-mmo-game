@@ -1,18 +1,18 @@
 package Game::LoreLoader;
 
-use Mojo::File qw(curfile path);
+use Path::Tiny;
 use Encode qw(decode);
 
 use header;
 
-use constant DIRECTORY => curfile->dirname->dirname->dirname->child('game-data');
+use constant DIRECTORY => path(__FILE__)->parent->parent->parent->child('game-data');
 use constant EXTENSION => 'gd';
 
 my %loaded;
 
 sub load ($self, $name)
 {
-	$name =~ s/\.@{[EXTENSION]}$//;
+	$name =~ s/\.@{[EXTENSION]}$//i;
 	return if $loaded{$name};
 
 	my $filename = DIRECTORY->child("$name." . EXTENSION);
@@ -50,9 +50,12 @@ sub load ($self, $name)
 
 sub load_all ($self)
 {
-	foreach my $file (DIRECTORY->list_tree->each) {
-		next unless $file->extname eq EXTENSION;
-		$self->load($file->to_rel(DIRECTORY));
+	my $iter = DIRECTORY->iterator({recurse => true });
+	my $ext_re = qr{\.@{[EXTENSION]}$}i;
+
+	while (my $file = $iter->()) {
+		next unless $file =~ $ext_re;
+		$self->load($file->relative(DIRECTORY));
 	}
 
 	return;

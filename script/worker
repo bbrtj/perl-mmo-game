@@ -1,6 +1,5 @@
 #!/usr/bin/env perl
 
-use Utils;
 use Getopt::Long;
 use Server::Worker;
 
@@ -13,8 +12,6 @@ GetOptions(
 );
 
 DI->get('log')->filename('logs/worker.log');
-
-Utils->bootstrap_mojo;
 
 my $worker = Server::Worker->new;
 $worker->start($processes);

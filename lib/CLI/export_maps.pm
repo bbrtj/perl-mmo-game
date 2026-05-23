@@ -1,8 +1,8 @@
 package CLI::export_maps;
 
 use My::Moose -constr;
-use Mojo::File qw(path);
-use Mojo::JSON qw(encode_json);
+use Path::Tiny qw(cwd);
+use JSON::MaybeXS qw(encode_json);
 use Tiled::Parser;
 use Utils;
 
@@ -14,7 +14,7 @@ use constant description => 'Exports all maps in the system for the client';
 sub usage ($self) { return $self->extract_usage }
 
 has field 'base_path' => (
-	default => sub { path->child('client')->child('data')->child('maps') },
+	default => sub { cwd->child('client')->child('data')->child('maps') },
 );
 
 sub id_to_file ($self, $lore_id)
@@ -51,12 +51,12 @@ sub _generate_metadata ($self, $locs)
 		{file => $self->id_to_file($_->{Id}), id => $_->{Id}}
 	} @locations;
 
-	$self->base_path->child('index.json')->spurt(encode_json {index => \@locations_mapped});
+	$self->base_path->child('index.json')->spew(encode_json {index => \@locations_mapped});
 	my $path = $self->base_path->child('meta')->make_path;
 
 	foreach my $item (@locations) {
 		my $fliename = $self->id_to_file($item->{Id});
-		$path->child("$fliename.json")->spurt(encode_json $item);
+		$path->child("$fliename.json")->spew(encode_json $item);
 	}
 
 	return;
@@ -72,7 +72,7 @@ sub _groom_maps ($self, $locs)
 		my $assets_path = $loc->data->map->map_object->path;
 
 		my $map = Tiled::Parser->groom_map($assets_path);
-		$self->base_path->child("$filename.tmx")->spurt($map);
+		$self->base_path->child("$filename.tmx")->spew($map);
 	}
 
 	return;
@@ -91,7 +91,7 @@ sub _copy_tilesets ($self, $locs)
 		foreach my $tileset_path (keys %tilesets) {
 			my $content = $tilesets{$tileset_path};
 
-			$self->base_path->child($tileset_path)->spurt($content);
+			$self->base_path->child($tileset_path)->spew($content);
 		}
 	}
 

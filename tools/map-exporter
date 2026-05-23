@@ -1,18 +1,8 @@
 #!/usr/bin/env perl
 
-my $dir;
-BEGIN {
-	use File::Basename;
-	$dir = dirname(dirname(__FILE__));
-}
-
-use lib "$dir/local/lib/perl5";
-use lib "$dir/lib-base";
-use lib "$dir/lib";
-
 use Game::LoreLoader;
-use Mojo::File qw(path);
-use Mojo::JSON qw(to_json);
+use Path::Tiny;
+use JSON::MaybeXS qw(to_json);
 
 use header;
 
@@ -20,7 +10,7 @@ my ($file) = @ARGV;
 die 'you must specify a file path relative to game-data directory'
 	unless defined $file;
 
-Game::LoreLoader->load(path($file)->to_rel(Game::LoreLoader->DIRECTORY));
+Game::LoreLoader->load(path($file));
 
 my $repo = DI->get('lore_data_repo');
 my %areas = $repo->load_all_named('Game::Lore::Area')->%*;
