@@ -29,6 +29,7 @@ services:
     build: .
     volumes:
       - .:/game
+      - carmel_local:/game/local
     ports:
       - "3000:3000"
       - "8080:8080"
@@ -49,11 +50,10 @@ services:
     command: >
       sh -c "
         sqitch deploy gamedb_docker &&
-        carmel install &&
-        carmel rollout &&
         ./run
       "
 
 volumes:
   postgres_data:
+  carmel_local:
 

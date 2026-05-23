@@ -20,6 +20,7 @@ COPY cpanfile* ./
 
 # Install extra dependencies
 RUN cpanm --notest Carmel App::Yath App::Sqitch UUID DBD::Pg
+RUN carmel install && carmel rollout
 
 # Create logs directory
 RUN mkdir -p logs
