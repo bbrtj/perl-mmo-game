@@ -29,6 +29,7 @@ services:
     build: .
     volumes:
       - .:/game
+      - root_data:/root
     ports:
       - "3000:3000"
       - "8080:8080"
@@ -54,4 +55,5 @@ services:
 
 volumes:
   postgres_data:
+  root_data:
 
