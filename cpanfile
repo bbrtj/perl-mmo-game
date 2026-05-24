@@ -68,6 +68,7 @@ on 'test' => sub {
 	requires 'Test::Deep';
 	requires 'Test::Spy' => '0.005';
 	requires 'Value::Diff' => 0;
+	requires 'Capture::Tiny' => 0;
 };
 
 # vim: ft=perl
