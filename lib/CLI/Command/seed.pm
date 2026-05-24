@@ -1,13 +1,13 @@
-package CLI::seed;
+package CLI::Command::seed;
 
-use My::Moose -constr;
+use My::Moose;
 
 use header;
 
-extends 'Mojolicious::Command';
+BEGIN { extends 'CLI::Command' }
 
 use constant description => 'seed test data';
-sub usage ($self) { return $self->extract_usage }
+use constant usage => __PACKAGE__->extract_usage;
 
 sub run ($self, @args)
 {

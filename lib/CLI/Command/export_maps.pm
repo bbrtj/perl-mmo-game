@@ -1,6 +1,6 @@
-package CLI::export_maps;
+package CLI::Command::export_maps;
 
-use My::Moose -constr;
+use My::Moose;
 use Path::Tiny qw(cwd);
 use JSON::MaybeXS qw(encode_json);
 use Tiled::Parser;
@@ -8,10 +8,10 @@ use Utils;
 
 use header;
 
-extends 'Mojolicious::Command';
+BEGIN { extends 'CLI::Command' }
 
 use constant description => 'Exports all maps in the system for the client';
-sub usage ($self) { return $self->extract_usage }
+use constant usage => __PACKAGE__->extract_usage;
 
 has field 'base_path' => (
 	default => sub { cwd->child('client')->child('data')->child('maps') },
@@ -52,7 +52,7 @@ sub _generate_metadata ($self, $locs)
 	} @locations;
 
 	$self->base_path->child('index.json')->spew(encode_json {index => \@locations_mapped});
-	my $path = $self->base_path->child('meta')->make_path;
+	my $path = $self->base_path->child('meta')->mkdir;
 
 	foreach my $item (@locations) {
 		my $fliename = $self->id_to_file($item->{Id});
@@ -65,7 +65,7 @@ sub _generate_metadata ($self, $locs)
 sub _groom_maps ($self, $locs)
 {
 	my $parser = Tiled::Parser->new;
-	$self->base_path->make_path;
+	$self->base_path->mkdir;
 
 	foreach my $loc ($locs->@*) {
 		my $filename = $self->id_to_file($loc->id);
@@ -81,7 +81,7 @@ sub _groom_maps ($self, $locs)
 sub _copy_tilesets ($self, $locs)
 {
 	my $parser = Tiled::Parser->new;
-	$self->base_path->make_path;
+	$self->base_path->mkdir;
 
 	foreach my $loc ($locs->@*) {
 		my $filename = $self->id_to_file($loc->id);

@@ -1,16 +1,16 @@
-package CLI::export_lore;
+package CLI::Command::export_lore;
 
-use My::Moose -constr;
+use My::Moose;
 use Path::Tiny qw(cwd);
 use JSON::MaybeXS qw(encode_json);
 use Utils;
 
 use header;
 
-extends 'Mojolicious::Command';
+BEGIN { extends 'CLI::Command' }
 
 use constant description => 'Exports all lores in the system for the client';
-sub usage ($self) { return $self->extract_usage }
+use constant usage => __PACKAGE__->extract_usage;
 
 sub run ($self, $language = undef)
 {

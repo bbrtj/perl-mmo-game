@@ -1,18 +1,18 @@
-package CLI::translate;
+package CLI::Command::translate;
 
-use My::Moose -constr;
+use My::Moose;
 use Getopt::Long qw(GetOptionsFromArray);
 use Path::Tiny qw(cwd);
 use Text::Levenshtein::BV;
 use YAML::PP qw(LoadFile);
-use CLI::export_mo;
+use CLI::Command::export_mo;
 
 use header;
 
-extends 'Mojolicious::Command';
+BEGIN { extends 'CLI::Command' }
 
 use constant description => 'translate text for the application';
-sub usage ($self) { return $self->extract_usage }
+use constant usage => __PACKAGE__->extract_usage;
 
 has field 'languages' => (
 	default => sub { {} },
@@ -359,7 +359,7 @@ sub run ($self, @args)
 	}
 
 	elsif ($export) {
-		CLI::export_mo->new->run($export);
+		CLI::Command::export_mo->new->run($export);
 	}
 
 	else {

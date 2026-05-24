@@ -1,15 +1,15 @@
-package CLI::export_mo;
+package CLI::Command::export_mo;
 
-use My::Moose -constr;
+use My::Moose;
 use Path::Tiny qw(cwd);
 use autodie;
 
 use header;
 
-extends 'Mojolicious::Command';
+BEGIN { extends 'CLI::Command' }
 
 use constant description => 'generate .mo files from translations';
-sub usage ($self) { return $self->extract_usage }
+use constant usage => __PACKAGE__->extract_usage;
 
 sub run ($self, $language = undef)
 {
@@ -23,7 +23,7 @@ sub run ($self, $language = undef)
 
 	{
 		open my $fh, '|-:encoding(UTF-8)', "msgfmt - -o $output";
-		print {$fh} SimplePO->new(filename => $translation->to_string)->export;
+		print {$fh} SimplePO->new(filename => $translation->stringify)->export;
 	}
 
 	say "done, generated in $output";

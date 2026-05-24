@@ -1,10 +1,7 @@
 #!/usr/bin/env perl
 
 use v5.42;
+use CLI;
 
-use Mojolicious::Commands;
-use Utils;
-
-# Start command line interface for application
-Mojolicious::Commands->start_app('CLI');
+CLI->new->run_command(@ARGV);
 

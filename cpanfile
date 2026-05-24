@@ -36,6 +36,7 @@ on 'runtime' => sub {
 	requires 'Import::Into' => 0;
 	requires 'namespace::autoclean' => 0;
 	requires 'all' => 0;
+	requires 'Class::Inspector' => 0;
 
 	requires 'Log::Handler' => 0;
 
