@@ -7,5 +7,5 @@
 /logs/*
 !/logs/.keep
 
-todo.md
+/secrets
 

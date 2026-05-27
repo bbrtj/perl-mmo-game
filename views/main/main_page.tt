@@ -1,0 +1,21 @@
+%% WRAPPER layouts/default.tt title='Game project #1'
+	<a href="[% controller.url_for('set_lang', 'lang', 'en') %]">[% t('english') %]</a>
+	<a href="[% controller.url_for('set_lang', 'lang', 'pl') %]">[% t('polish') %]</a>
+
+	<div>
+		%% IF user
+			<h1>[% t('welcome') %], [% user.email %]</h1>
+			<p>
+				<form method="POST" action="[% controller.url_for('logout') %]">
+					<button>
+						%% t('navigation.logout')
+					</button>
+				</form>
+			</p>
+		%% ELSE
+			<p><a href="[% controller.url_for('login') %]">[% t('navigation.login') %]</a></p>
+			<p><a href="[% controller.url_for('register') %]">[% t('navigation.register') %]</a></p>
+		%% END
+	</div>
+%% END
+

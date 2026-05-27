@@ -18,27 +18,34 @@ sub get_key ($self, $id)
 
 sub broadcast ($self, $id, $data)
 {
-	# $self->store->pubsub->notify($self->get_key($id) => $self->encoder->encode($data));
-	$self->store->fast_publish($self->get_key($id), $self->encoder->encode($data));
+	# NOTE: no get - does not block
+	$self->store->publish($self->get_key($id) => $self->encoder->encode($data));
 	return;
 }
 
 # this is a homonym, but we use pubsub->listen, so ignore it
 sub listen ($self, $id, $callback)    ## no critic 'Subroutines::ProhibitBuiltinHomonyms'
 {
-	my $wrapped_callback = $self->store->pubsub->listen(
-		$self->get_key($id) => sub {
-			@_ = ($self->encoder->decode($_[1]));
-			goto $callback;
-		}
-	);
+	my $wrapped_callback = $self->store->subscribe($self->get_key($id))
+		->then (
+			sub ($sub) {
+				$sub->map('payload')
+					->each(
+						sub {
+							@_ = ($self->encoder->decode($_[0]));
+							goto $callback;
+						}
+					)->retain;
+			}
+		)
+		->get;
 
 	return $wrapped_callback;
 }
 
 sub unlisten ($self, $id, $wrapped_callback)
 {
-	$self->store->pubsub->unlisten($self->get_key($id) => $wrapped_callback);
+	$self->store->unsubscribe($self->get_key($id));
 	return;
 }
 

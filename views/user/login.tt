@@ -1,0 +1,40 @@
+%% WRAPPER layouts/default.tt title=t('signing_in')
+	<h1>
+		%% t('signing_in')
+	</h1>
+
+	<p>
+		<a href="[% controller.url_for('main_page') %]">[% t('navigation.back') %]</a>
+	</p>
+
+	%% form_errors=form.diva.form_errors
+
+	<form method='POST' action=''>
+		<div class="row g-3">
+
+			%% FOREACH field IN form.diva.generate
+				%% field.label
+				<div class="col-sm-12">
+					%% field.input
+				</div>
+
+				%% IF field.errors
+					<div id="login-feedback" class="form-feedback">
+						%% field.errors
+					</div>
+				%% END
+			%% END
+
+			%% IF form_errors
+				<div id="login-general-feedback" class="col-sm-12 form-feedback">
+					%% form_errors
+				</div>
+			%% END
+
+			<div class="col-sm-12">
+				<input class="form-control" type="submit" value="[% t('navigation.send') %]">
+			</div>
+		</div>
+	</form>
+%% END
+

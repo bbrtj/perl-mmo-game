@@ -6,70 +6,70 @@ id: character.class
 str: Klasa
 ---
 id: character.last_online
-str: 'Ostatnio online'
+str: Ostatnio online
 ---
 id: character.name
 str: Imię
 ---
 id: character_selection
-str: 'Komnata postaci'
+str: Komnata postaci
 ---
 id: email_address
-str: 'Adres email'
+str: Adres email
 ---
 id: english
 str: Angielski
 ---
 id: err
-str: 'Wystąpił błąd'
+str: Wystąpił błąd
 ---
 id: err.cannot_move
-str: 'nie można się tam poruszyć'
+str: nie można się tam poruszyć
 ---
 id: err.element_invalid
-str: 'Element nie jest poprawny'
+str: Element nie jest poprawny
 ---
 id: err.email_taken
-str: 'Ten email jest już zajęty'
+str: Ten email jest już zajęty
 ---
 id: err.invalid_coordinate
-str: 'niewłaściwa współrzędna'
+str: niewłaściwa współrzędna
 ---
 id: err.invalid_credentials
-str: 'Niepoprawny email lub hasło'
+str: Niepoprawny email lub hasło
 ---
 id: err.invalid_target
-str: 'niepoprawny cel'
+str: niepoprawny cel
 ---
 id: err.name_must_consist_of_letters
-str: 'Imię musi składać się tylko z liter łacińskich'
+str: Imię musi składać się tylko z liter łacińskich
 ---
 id: err.name_too_long[]
-str: 'Imię musi mieć co najwyżej [_1] znaków'
+str: Imię musi mieć co najwyżej [_1] znaków
 ---
 id: err.name_too_short[]
-str: 'Imię musi mieć co najmniej [_1] znaków'
+str: Imię musi mieć co najmniej [_1] znaków
 ---
 id: err.not_in_los
-str: 'cel nie jest w zasięgu wzroku'
+str: cel nie jest w zasięgu wzroku
 ---
 id: err.out_of_range
-str: 'cel znajduje się poza zasięgiem'
+str: cel znajduje się poza zasięgiem
 ---
 id: err.password_must_have_digit
-str: 'Hasło musi zawierać cyfrę'
+str: Hasło musi zawierać cyfrę
 ---
 id: err.password_too_short[]
-str: 'Hasło musi mieć co najmniej [_1] znaków'
+str: Hasło musi mieć co najmniej [_1] znaków
 ---
 id: err.passwords_mismatch
-str: 'Hasła nie są takie same'
+str: Hasła nie są takie same
 ---
 id: err.player_not_found
-str: 'Gracz nie został odnaleziony'
+str: Gracz nie został odnaleziony
 ---
-id: 'field is required'
-str: 'Pole jest wymagane'
+id: field is required
+str: Pole jest wymagane
 ---
 id: map
 str: Mapa
@@ -84,34 +84,34 @@ id: msg.loading
 str: Ładowanie...
 ---
 id: msg.log_in
-str: 'Możesz się już zalogować'
+str: Możesz się już zalogować
 ---
 id: msg.logging_in
 str: Logowanie...
 ---
 id: msg.login_failed
-str: 'Logowanie nie powiodło się'
+str: Logowanie nie powiodło się
 ---
 id: msg.registration_successful
-str: 'Rejestracja zakończona pomyślnie'
+str: Rejestracja zakończona pomyślnie
 ---
 id: msg.select_character
-str: 'Wybierz swoją postać'
+str: Wybierz swoją postać
 ---
 id: navigation.back
 str: Powrót
 ---
 id: navigation.login
-str: 'Zaloguj się'
+str: Zaloguj się
 ---
 id: navigation.logout
-str: 'Wyloguj się'
+str: Wyloguj się
 ---
 id: navigation.play
 str: Graj
 ---
 id: navigation.register
-str: 'Zarejestruj się'
+str: Zarejestruj się
 ---
 id: navigation.send
 str: Wyślij
@@ -126,13 +126,16 @@ id: registration
 str: Rejestracja
 ---
 id: remember_me
-str: 'Zapamiętaj mnie'
+str: Zapamiętaj mnie
 ---
 id: repeat_password
-str: 'Powtórz hasło'
+str: Powtórz hasło
 ---
 id: signing_in
 str: Logowanie
 ---
 id: to
 str: do
+---
+id: welcome
+str: Witaj

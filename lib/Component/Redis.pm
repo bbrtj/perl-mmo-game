@@ -1,33 +1,31 @@
 package Component::Redis;
 
 use My::Moose;
-use Mojo::Redis;
+use Net::Async::Redis::XS;
+use Future::AsyncAwait;
 
 use header;
 
 with 'Component::Role::HasEnv';
 
 has param 'redis' => (
-	isa => Types::InstanceOf ['Mojo::Redis'],
+	isa => Types::InstanceOf ['Net::Async::Redis::XS'],
 	lazy => sub ($self) {
-		Mojo::Redis->new($self->env->getenv('REDIS_CONNECTION'));
+		my $redis = Net::Async::Redis::XS->new;
 	},
-	handles => [qw(pubsub)],
+	handles => [qw(publish subscribe unsubscribe)],
 );
 
-has cached 'db' => (
-	lazy => sub ($self) { $self->redis->db },
-);
-
-has cached 'nonblocking_connection' => (
-	lazy => sub ($self) { $self->db->connection(0) },
-);
-
-sub fast_publish ($self, $channel, $message)
+sub connect ($self, $loop)
 {
-	# TODO: handle errors?
-	# This should neither block nor fire a callback
-	$self->nonblocking_connection->write(PUBLISH => $channel, $message);
-	return;
+	my $redis = $self->redis;
+
+	$redis->configure(
+		host => $self->env->getenv('REDIS_HOST'),
+		port => $self->env->getenv('REDIS_PORT'),
+	);
+
+	$loop->add($redis);
+	return $redis->connect;
 }
 

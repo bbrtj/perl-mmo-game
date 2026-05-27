@@ -41,21 +41,48 @@ has param 'created_at' => (
 );
 
 around BUILDARGS => sub ($orig, $self, %args) {
-	if ($args{plaintext_password}) {
-		$args{password} = $self->_make_password(delete $args{plaintext_password});
+	foreach my $type (qw(plaintext_password hashed_password)) {
+		$args{password} = $self->_make_password($type, delete $args{$type})
+			if $args{$type};
 	}
 
 	return $self->$orig(%args);
 };
 
-sub _make_password ($self, $plaintext_password)
+sub _bcrypt_password ($self, $hashed_password)
 {
-	return bcrypt(md5_hex($plaintext_password), BCRYPT_SUBTYPE, BCRYPT_COST, random_bytes(16));
+	return bcrypt($hashed_password, BCRYPT_SUBTYPE, BCRYPT_COST, random_bytes(16));
 }
 
-sub set_password ($self, $plaintext_password)
+sub _hash_password ($self, $plaintext_password)
 {
-	$self->_set_password($self->_make_password($plaintext_password));
+	return md5_hex($plaintext_password);
+}
+
+sub _make_password ($self, $type, $password)
+{
+	if ($type eq 'plaintext_password') {
+		$password = $self->_hash_password($password);
+		$type = 'hashed_password';
+	}
+
+	if ($type eq 'hashed_password') {
+		$password = $self->_bcrypt_password($password);
+		$type = 'password';
+	}
+
+	return $password;
+}
+
+sub set_hashed_password ($self, $password)
+{
+	$self->_set_password($self->_make_password(hashed_password => $password));
+	return;
+}
+
+sub set_plaintext_password ($self, $password)
+{
+	$self->_set_password($self->_make_password(plaintext_password => $password));
 	return;
 }
 

@@ -2,8 +2,11 @@ package Form::Login;
 
 use My::Moose;
 use My::Form::Tiny;
+use Digest::MD5 qw(md5_hex);
 
 use header;
+
+use constant needs_hashing => 0;
 
 has field 'user' => (
 	writer => 1,
@@ -20,6 +23,10 @@ form_field 'password' => (
 	type => Types::SimpleStr,
 	required => 1,
 	data => {t => 'password', p => _t('password'), l => undef},
+	adjust => sub ($self, $value) {
+		$value = md5_hex($value) if $self->needs_hashing;
+		return $value;
+	},
 );
 
 form_cleaner sub ($self, $data) {

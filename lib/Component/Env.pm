@@ -31,7 +31,6 @@ sub getenv ($self, $name)
 
 sub is_production ($self)
 {
-	return $self->rawenv->{APP_MODE} eq 'deployment'
-		|| $self->rawenv->{APP_MODE} eq 'production';
+	return $self->rawenv->{APP_MODE} eq 'production';
 }
 

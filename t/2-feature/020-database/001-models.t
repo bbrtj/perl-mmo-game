@@ -19,7 +19,7 @@ database_test {
 	my $fetched = $models->load(User => $user->id);
 	is $fetched->serialize, $user->serialize, 'after save ok';
 
-	$user->set_password('test2');
+	$user->set_plaintext_password('test2');
 	$models->save($user, 1);
 	$fetched = $models->load(User => $user->id);
 	is $fetched->serialize, $user->serialize, 'after update ok';

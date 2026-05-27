@@ -12,7 +12,7 @@ elsif ($arg =~ /^critic/) {
 	system('tidyall -a --mode ' . $arg);
 }
 elsif ($arg eq 'web') {
-	# TODO
+	system('pagi-server script/web --host 0.0.0.0');
 }
 else {
 	system('script/worker &');

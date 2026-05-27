@@ -27,12 +27,11 @@ services:
 
   game:
     build: .
+    image: game_server
     volumes:
       - .:/game
       - root_data:/root
     ports:
-      - "3000:3000"
-      - "8080:8080"
       - "14832:14832"
     depends_on:
       postgres:
@@ -46,11 +45,39 @@ services:
       DB_USER: mmo
       DB_PASS: mmo_dev_pass
       DB_DATABASE: mmo_game
-      REDIS_CONNECTION: redis://localhost:6379
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     command: >
       sh -c "
         sqitch deploy gamedb_docker &&
         ./run
+      "
+
+  web:
+    build: .
+    image: game_server
+    volumes:
+      - .:/game
+      - root_data:/root
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DB_CONNECTION: "dbi:Pg:dbname=mmo_game;host=postgres;port=5432"
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: mmo
+      DB_PASS: mmo_dev_pass
+      DB_DATABASE: mmo_game
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    command: >
+      sh -c "
+        ./run web
       "
 
 volumes:

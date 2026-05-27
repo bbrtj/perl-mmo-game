@@ -1,66 +1,105 @@
 package Web::Controller::User;
 
-use My::Moose -constr;
+use My::Moose;
 use Web::Form::Login;
 use Web::Form::Register;
+use Future::AsyncAwait;
 
 use header;
 
-extends 'Mojolicious::Controller';
+extends 'Web::Controller';
 
-sub login ($self)
+sub build ($self)
+{
+	my $user = $self->router->find('global_bridge')->add('/user');
+
+	$user->add('/login' => {
+		to => 'login',
+		action => 'http.get',
+		name => 'login',
+	});
+
+	$user->add('/login' => {
+		to => 'login_submit',
+		action => 'http.post',
+	});
+
+	$user->add('/logout' => {
+		to => 'logout',
+		name => 'logout',
+	});
+
+	$user->add('/register' => {
+		to => 'register',
+		action => 'http.get',
+		name => 'register',
+	});
+
+	$user->add('/register' => {
+		to => 'register_submit',
+		action => 'http.post',
+	});
+
+}
+
+sub login ($self, $ctx)
 {
 	my $form = Web::Form::Login->new;
 
-	if ($self->req->method eq 'POST') {
-
-		# TODO: csrf
-		$form->set_input($self->req->body_params->to_hash);
-
-		if ($form->valid) {
-
-			# TODO: referrer
-
-			$self->session->{user} = $form->user->id;
-			$self->redirect_to('/');
-			return;
-		}
-		else {
-			# TODO: throttle
-		}
-	}
-
-	$self->stash('form', $form);
-	$self->render_lang('user/login');
-
-	return;
+	return $self->template_lang($ctx, 'user/login', {form => $form});
 }
 
-sub register ($self)
+async sub login_submit ($self, $ctx)
+{
+	my $form = Web::Form::Login->new;
+
+	# TODO: csrf
+	$form->set_input(await($ctx->req->form_params)->as_hashref);
+
+	if ($form->valid) {
+
+		# TODO: referrer
+
+		# TODO: success flash message
+		$ctx->session->set('user', $form->user->id);
+		await $ctx->res->redirect($self->url_for('main_page'));
+		return;
+	}
+	else {
+		# TODO: throttle
+	}
+
+	return $self->template_lang($ctx, 'user/login', {form => $form});
+}
+
+sub register ($self, $ctx)
 {
 	my $form = Web::Form::Register->new;
 
-	if ($self->req->method eq 'POST') {
+	return $self->template_lang($ctx, 'user/register', {form => $form});
+}
 
-		# TODO: csrf
-		$form->set_input($self->req->body_params->to_hash);
+async sub register_submit ($self, $ctx)
+{
+	my $form = Web::Form::Register->new;
 
-		if ($form->valid) {
-			DI->get('user_service')->register_user($form->fields);
-		}
+	# TODO: csrf
+	$form->set_input(await($ctx->req->form_params)->as_hashref);
+
+	if ($form->valid) {
+		DI->get('user_service')->register_user($form->fields);
+
+		# TODO: success flash message
+		await $ctx->res->redirect($self->url_for('login'));
+		return;
 	}
 
-	$self->stash('form', $form);
-	$self->render_lang('user/register');
-
-	return;
+	return $self->template_lang($ctx, 'user/register', {form => $form});
 }
 
-sub logout ($self)
+sub logout ($self, $ctx)
 {
-	delete $self->session->{user};
-	delete $self->session->{player};
-	$self->redirect_to('/');
-
-	return;
+	$ctx->session->delete('user');
+	$ctx->res->redirect($self->url_for('main_page'));
 }
+

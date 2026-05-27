@@ -16,7 +16,7 @@ with qw(
 
 sub _lock ($self, $ulid)
 {
-	state $db = DI->get('redis')->db;
+	state $db = DI->get('redis')->redis;
 	return $db->hsetnx(LOCK_KEY, $ulid, $self->process_id);
 }
 
@@ -24,7 +24,7 @@ sub handle ($self, $data)
 {
 	my ($ulid, $name, @args) = $data->@*;
 
-	return if !$self->_lock($ulid);
+	return if !$self->_lock($ulid)->get;
 
 	$self->log->debug("Got a job: $name")
 		if Server::Config::DEBUG;

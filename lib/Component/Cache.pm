@@ -2,12 +2,15 @@ package Component::Cache;
 
 use My::Moose;
 use all 'X';
+use Future::AsyncAwait;
 
 use header;
 
+has injected 'encoder';
+
 has injected 'redis' => (
 	handles => {
-		'store' => 'db'
+		'store' => 'redis'
 	}
 );
 
@@ -19,24 +22,20 @@ has param 'cache_name' => (
 
 sub save ($self, $key, $value)
 {
-	$self->store->hset($self->cache_name, $key, $value);
-
-	return;
+	return $self->store->hset($self->cache_name, $key, $self->encoder->encode($value));
 }
 
 sub remove ($self, $key)
 {
-	$self->store->hdel($self->cache_name, $key);
-
-	return;
+	return $self->store->hdel($self->cache_name, $key);
 }
 
-sub load ($self, $key)
+async sub load ($self, $key)
 {
-	my $value = $self->store->hget($self->cache_name, $key);
+	my $value = await $self->store->hget($self->cache_name, $key);
 	X::RecordDoesNotExist->throw
 		unless defined $value;
 
-	return $value;
+	return $self->encoder->decode($value);
 }
 

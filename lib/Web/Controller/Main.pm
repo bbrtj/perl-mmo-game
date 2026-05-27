@@ -1,45 +1,49 @@
 package Web::Controller::Main;
 
-use My::Moose -constr;
+use My::Moose;
 use Web::Config;
+use Future::AsyncAwait;
 
 use header;
 
-extends 'Mojolicious::Controller';
+extends 'Web::Controller';
 
-sub main_page ($self)
+sub build ($self)
 {
-	$self->render_lang('main/main_page');
+	my $global_bridge = $self->router->find('global_bridge');
 
-	return;
+	$global_bridge->add('/' => {
+		to => 'main_page',
+		name => 'main_page',
+	});
+
+	$global_bridge->add('/lang/:lang' => {
+		to => 'set_lang',
+		name => 'set_lang',
+	});
 }
 
-sub set_lang ($self)
+sub main_page ($self, $ctx)
 {
-	my $lang = $self->param('lang');
+	return $self->template_lang($ctx, 'main/main_page', {
+		user => $ctx->stash->get('user'),
+	});
+}
+
+async sub set_lang ($self, $ctx, $lang)
+{
 	if (
 		any { $_ eq $lang }
 		Web::Config->supported_langs->@*
 		)
 	{
-		$self->session->{lang} = $lang;
+		$ctx->session->set('lang', $lang);
 
 		# TODO: referrer
-		$self->redirect_to('/');
+		await $ctx->res->redirect($self->url_for('main_page'));
 	}
 	else {
-		$self->render(text => "Language $lang is not supported");
-		$self->rendered(400);
+		await $ctx->res->status(400)->text("Language $lang is not supported");
 	}
-
-	return;
-}
-
-sub play ($self)
-{
-	my $lang = $self->stash('lang');
-	$self->reply->static("play/$lang/index.html");
-
-	return;
 }
 

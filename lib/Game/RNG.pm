@@ -1,7 +1,7 @@
 package Game::RNG;
 
 use Exporter qw(import);
-use Data::Entropy::Algorithms qw(rand_flt rand_int pick_r);
+use Crypt::PRNG qw(rand);
 use Quantum::Superpositions::Lazy;
 
 use header;
@@ -18,19 +18,20 @@ our @EXPORT_OK = qw(
 
 sub rng ()
 {
-	return rand_flt 0, 1;
+	return rand;
 }
 
 sub random_number ($min = 0, $max = 100)
 {
-	return rand_int($max - $min) + $min;
+	return int(rand $max - $min) + $min;
 }
 
 sub random_choice ($items)
 {
 	die 'random_choice expects an array reference'
 		unless ref $items eq ref [];
-	return pick_r($items);
+
+	return weighted_choice([map { [1, $_] } $items->@*]);
 }
 
 sub weighted_choice ($items_with_weights)

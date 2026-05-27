@@ -1,10 +1,14 @@
-use Test::Mojo;
+use Test2::Thunderhorse;
+use HTTP::Request::Common;
+use Web;
 
 use testheader;
 
-my $t = Test::Mojo->new('Web');
-$t->get_ok('/')->status_is(200);
+my $app = Web->new;
 
-$t->content_like(qr/Angielski|English/);
+http $app, GET '/';
+http_status_is 200;
+like http->text, qr/Angielski|English/, 'content ok';
 
 done_testing();
+

@@ -17,7 +17,7 @@ on 'runtime' => sub {
 	requires 'Type::EmailAddress' => 0;
 	requires 'Types::ULID' => 0;
 
-	requires 'Thunderhorse' => 0;
+	requires 'Thunderhorse' => '0.105';
 	requires 'IO::Async' => 0;
 	requires 'Future::AsyncAwait' => 0;
 	requires 'Net::Async::Redis::XS' => 0;
@@ -47,9 +47,10 @@ on 'runtime' => sub {
 	requires 'Sereal::Decoder' => 0;
 
 	requires 'Path::Tiny' => 0;
-	requires 'Data::Entropy' => 0;
+	requires 'CryptX' => 0;
 	requires 'Data::ULID::XS' => '0.002';
 	requires 'Quantum::Superpositions::Lazy' => 0;
+	requires 'Data::Entropy' => 0; # for Q::S::L
 	requires 'Crypt::Bcrypt' => 0;
 	requires 'Algorithm::QuadTree::XS' => 0;
 	requires 'Sub::Quote' => 0;

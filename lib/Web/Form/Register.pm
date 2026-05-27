@@ -52,5 +52,16 @@ form_cleaner sub ($self, $data) {
 		die $e
 			unless $e isa X::RecordDoesNotExist;
 	}
+
+	# move password to plaintext_password
+	$data->{plaintext_password} = delete $data->{password};
+};
+
+form_hook after_validate => sub ($self, $data) {
+	# clear password fields, so that it won't end up in user's HTML (for their security)
+	$self->input->{password} = '';
+	$self->input->{repeat_password} = '';
+
+	# move password
 };
 

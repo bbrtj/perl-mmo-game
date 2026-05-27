@@ -4,7 +4,7 @@ use My::Moose;
 use Getopt::Long qw(GetOptionsFromArray);
 use Path::Tiny qw(cwd);
 use Text::Levenshtein::BV;
-use YAML::PP qw(LoadFile);
+use YAML::PP qw(LoadFile DumpFile);
 use CLI::Command::export_mo;
 
 use header;
@@ -61,7 +61,7 @@ sub _sync ($self)
 
 		$trans->@* = sort { $a->{id} cmp $b->{id} } $trans->@*;
 
-		$trans->write($filename);
+		DumpFile($filename, $trans->@*);
 	}
 
 	return;

@@ -1,8 +1,12 @@
 #!/usr/bin/env perl
 
 use v5.42;
+use Web;
+use DI;
+use Path::Tiny;
 
-use Mojolicious::Commands;
+# copy APP_MODE to PAGI_ENV
+$ENV{PAGI_ENV} = DI->get('env')->getenv('APP_MODE');
 
-Mojolicious::Commands->start_app('Web');
+Web->new->run;
 

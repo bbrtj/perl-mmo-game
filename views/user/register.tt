@@ -1,0 +1,50 @@
+%% WRAPPER layouts/default.tt title=t('registration')
+	%% form_errors=form.diva.form_errors
+
+	%% IF form.is_validated AND form.valid
+		<h1>
+			%% t('msg.registration_successful')
+		</h1>
+
+		<p>
+			<a href="[% controller.url_for('login') %]">[% t('msg.log_in') %]</a>
+		</p>
+	%% ELSE
+		<h1>
+			%% t('navigation.register')
+		</h1>
+
+		<p>
+			<a href="[% controller.url_for('main_page') %]">[% t('navigation.back') %]</a>
+		</p>
+
+		<form method='POST' action=''>
+			<div class="row g-3">
+
+				%% FOREACH field IN form.diva.generate
+					%% field.label
+					<div class="col-sm-12">
+						%% field.input
+					</div>
+
+					%% IF field.errors
+						<div id="register-feedback" class="form-feedback">
+							%% field.errors
+						</div>
+					%% END
+				%% END
+
+				%% IF form_errors
+					<div id="register-general-feedback" class="col-sm-12 form-feedback">
+						%% form_errors
+					</div>
+				%% END
+
+				<div class="col-sm-12">
+					<input class="form-control" type="submit" value="[% t('navigation.send') %]">
+				</div>
+			</div>
+		</form>
+	%% END
+%% END
+
