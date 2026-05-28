@@ -1,8 +1,7 @@
 package CLI;
 
 use My::Moose;
-use Class::Inspector;
-use Module::Load;
+use Utils;
 
 use header;
 
@@ -22,12 +21,10 @@ sub _build_command ($self, $name)
 
 sub _build_all_commands ($self)
 {
-	require all;
-	all::->import('CLI::Command');
-	my $classes = Class::Inspector->subclasses('CLI::Command') || [];
+	my @classes = Utils->find_subclasses('CLI::Command');
 
 	my %loaded;
-	foreach my $class ($classes->@*) {
+	foreach my $class (@classes) {
 		$loaded{$class} = $class->new;
 	}
 

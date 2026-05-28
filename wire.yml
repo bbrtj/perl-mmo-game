@@ -1,3 +1,6 @@
+loop:
+    class: IO::Async::Loop
+
 env:
     class: Component::Env
 

@@ -27,7 +27,7 @@ sub e2e_test : prototype(&) ($tester)
 
 	my sub do_fork ()
 	{
-		my $pid = Utils->safe_fork;
+		my $pid = fork;
 		die 'error forking'
 			unless defined $pid;
 
@@ -79,20 +79,31 @@ sub e2e_test : prototype(&) ($tester)
 sub e2e_client ($loop, $first_message, $on_receive)
 {
 	my $receive_no = 0;
-	return $loop->client(
-		{address => '127.0.0.1', port => $SERVER_PORT},
-		sub ($loop, $err, $stream) {
-			die "error connecting: $err" if $err;
+	$loop->connect(
+		addr => {
+			family => 'inet',
+			socktype => 'stream',
+			ip => '127.0.0.1',
+			port => $SERVER_PORT,
+		},
+		on_stream => sub ($stream) {
+			$stream->configure(
+				on_read => sub ($stream, $bytes_ref, $eof) {
+					while ($bytes_ref->$* =~ s{^(.*?)\r\n}{}) {
+						$on_receive->($stream, $1, ++$receive_no);
+					}
 
-			$stream->on(
-				read => sub ($stream, $bytes) {
-					$on_receive->($stream, $_, ++$receive_no)
-						for split /\r\n/, $bytes;
-				}
+					return false;
+				},
 			);
 
 			$stream->write($first_message);
-		}
+		},
+		on_connect_error => sub ($syscall, $error) {
+			die "error connecting: $syscall, $error";
+		},
 	);
+
+	return;
 }
 

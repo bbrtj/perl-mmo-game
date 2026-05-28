@@ -28,9 +28,10 @@ sub remove ($self, $type, $id = undef)
 	return $self->cache->remove(lc $id);
 }
 
+# TODO: async
 sub load ($self, $type, $id)
 {
 	$self->cache->set_cache_name($type);
-	return $self->encoder->decode($self->cache->load(lc $id));
+	return $self->encoder->decode($self->cache->load(lc $id)->get);
 }
 

@@ -1,12 +1,16 @@
 package Utils;
 
 use Game::LoreLoader;
+use Class::Inspector;
 
 use header;
 
-sub safe_fork ($class)
+sub find_subclasses ($class, $name)
 {
-	DI->get('db')->clear_dbh;
-	return fork;
+	require all;
+
+	all::->import($name);
+	return grep { $_ =~ /^${name}::/ }
+		(Class::Inspector->subclasses($name) || [])->@*;
 }
 

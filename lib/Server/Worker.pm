@@ -3,7 +3,7 @@ package Server::Worker;
 use My::Moose;
 use Server::Process::Game;
 use Server::Process::Jobs;
-use Mojo::IOLoop;
+use IO::Async::Timer::Periodic;
 use POSIX qw(ceil);
 use List::Util qw(shuffle);
 
@@ -34,7 +34,6 @@ has field 'processables' => (
 sub cleanup ($self)
 {
 	$self->log->info('Cleaning up...');
-	Mojo::IOLoop->timer(60, sub { $self->cleanup });
 
 	return;
 }
@@ -71,8 +70,8 @@ sub start ($self, $jobs_processes = 1)
 				process_id => $process_id
 			);
 
-			$job->do_work(Mojo::IOLoop->singleton);
-			Mojo::IOLoop->start;
+			$job->do_work($self->loop);
+			$self->loop->run;
 			$job->finish_work;
 		}
 	);
@@ -92,33 +91,33 @@ sub start ($self, $jobs_processes = 1)
 				)
 			} $get_locations->();
 
-			$_->do_work(Mojo::IOLoop->singleton) for @processes;
-
-			Mojo::IOLoop->start;
+			$_->do_work($self->loop) for @processes;
+			$self->loop->run;
 
 			$_->finish_work for @processes;
 		},
 		$get_locations
 	);
 
-	# setup crons
-	my $setup_job;
-	$setup_job = sub ($job) {
-		Mojo::IOLoop->timer(
-			$job->interval,
-			sub {
-				$self->broadcast($job->name);
-				$setup_job->($job);
-			}
-		);
-	};
+	$self->process_setup;
 
+	# setup crons
 	foreach my $job ($self->list_jobs) {
-		$setup_job->($job)
-			if $job->interval;
+		next unless $job->interval;
+
+		$self->loop->add(IO::Async::Timer::Periodic->new(
+			interval => $job->interval,
+			reschedule => 'drift',
+			on_tick => sub { $self->broadcast($job->name) },
+		)->start);
 	}
 
-	$self->cleanup;
+	$self->loop->add(IO::Async::Timer::Periodic->new(
+		interval => 60,
+		reschedule => 'drift',
+		on_tick => sub { $self->cleanup },
+	)->start);
+
 	return;
 }
 

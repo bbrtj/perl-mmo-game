@@ -1,10 +1,12 @@
 package Server;
 
 use My::Moose;
-use Mojo::IOLoop;
 use Server::Config;
 use Server::Worker;
 use Server::Session;
+
+use IO::Async::OS;
+use Socket qw(SO_REUSEPORT SO_REUSEADDR);
 
 use header;
 
@@ -65,7 +67,7 @@ sub handle_global_feedback ($self, $data_href)
 
 sub connection ($self, $stream)
 {
-	$self->log->debug('New TCP connection from ' . $stream->handle->peerhost)
+	$self->log->debug('New TCP connection from ' . $stream->read_handle->peerhost)
 		if Server::Config::DEBUG;
 
 	my $id;
@@ -100,21 +102,35 @@ sub start ($self, $processes = 4)
 				}
 			);
 
-			Mojo::IOLoop->server(
+			my ($family, $socktype, $proto, $address) = IO::Async::OS->extract_addrinfo(
 				{
+					family => 'inet',
+					socktype => 'stream',
 					port => $self->port,
-					reuse => 1,
-				} => sub ($, $stream, $) {
-					$self->connection($stream);
 				}
 			);
 
-			Mojo::IOLoop->start;
+			my $sock;
+			$sock = IO::Async::OS->socket($family, $socktype, $proto) or die $!;
+			$sock->blocking(0);
+			$sock->sockopt(SO_REUSEADDR, 1) or die $!;
+			$sock->sockopt(SO_REUSEPORT, 1) or die $!;
+			$sock->bind($address) or die $!;
+			$sock->listen(64) or die $!;
 
+			$self->loop->listen(
+				handle => $sock,
+				on_stream => sub ($stream) {
+					$self->connection($stream);
+				},
+			)->get;
+
+			$self->loop->run;
 			$self->_unlisten;
 		},
 	);
 
+	$self->process_setup;
 	return;
 }
 

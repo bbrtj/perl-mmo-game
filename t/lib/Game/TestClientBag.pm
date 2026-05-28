@@ -1,9 +1,10 @@
 package Game::TestClientBag;
 
 use My::Moose;
-use Mojo::IOLoop;
 use Game::TestClient;
 use Test2::API qw(context);
+use IO::Async::Timer::Periodic;
+use IO::Async::Timer::Countdown;
 
 use header;
 
@@ -20,13 +21,17 @@ has param 'timeout' => (
 	default => 10,
 );
 
-sub run ($self, $loop = Mojo::IOLoop->singleton)
+sub run ($self)
 {
+	my $loop = DI->get('loop');
 	my @clients = $self->clients->@*;
 	$_->run for @clients;
 
-	$loop->recurring(
-		0.5 => sub {
+	my @notifiers;
+
+	push @notifiers, IO::Async::Timer::Periodic->new(
+		interval => 0.5,
+		on_tick => sub {
 			if (!@clients) {
 				$loop->stop;
 			}
@@ -42,11 +47,12 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 					@clients = grep { !$_->finished } @clients;
 				}
 			}
-		}
-	);
+		},
+	)->start;
 
-	$loop->timer(
-		$self->timeout => sub {
+	push @notifiers, IO::Async::Timer::Countdown->new(
+		delay => $self->timeout,
+		on_expire => sub {
 			my $ctx = context;
 			my $count = @clients;
 
@@ -66,11 +72,13 @@ sub run ($self, $loop = Mojo::IOLoop->singleton)
 
 			$ctx->release;
 			$loop->stop;
-		}
-	);
+		},
+	)->start;
 
-	$loop->start unless $loop->is_running;
-	$loop->reset;
+	$loop->add($_) for @notifiers;
+	$loop->run;
+	$loop->remove($_) for @notifiers;
+
 	return;
 }
 

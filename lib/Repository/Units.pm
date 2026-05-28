@@ -1,8 +1,8 @@
 package Repository::Units;
 
 use My::Moose;
-use Mojo::Loader qw(load_classes);
 use Sub::Util qw(set_subname);
+use Utils;
 
 use header;
 
@@ -13,7 +13,7 @@ has injected 'models_repo';
 # load all factories
 # introduce methods like: load_location, load_actor
 BEGIN {
-	my @factories = load_classes('Factory');
+	my @factories = Utils->find_subclasses('Factory');
 
 	foreach my $class (@factories) {
 		my $factory_name = lc((split /::/, $class)[-1]);

@@ -16,6 +16,7 @@ has param 'server' => (
 		'worker' => 'worker',
 		'log' => 'log',
 		'build_message' => 'build_message',
+		'loop' => 'loop',
 	}
 );
 
@@ -57,11 +58,21 @@ sub BUILD ($self, $)
 
 	# react to tcp events
 	my $stream = $self->stream;
-	$stream->on(read => sub ($, $bytes) { $self->unpack_message($_) for split /\r\n/, $bytes; });
-	$stream->on(close => sub { $self->dropped });
-	$stream->on(error => sub ($, $err) { $self->log->error("TCP Error: $err") });
-	$stream->timeout(Server::Config::GAME_SERVER_TIMEOUT);
+	$stream->configure(
+		on_read => sub ($stream, $bytes_ref, $eof) {
+			while ($bytes_ref->$* =~ s{^(.*?)\r\n}{}) {
+				$self->unpack_message($1);
+			}
 
+			return false;
+		},
+		on_closed => sub { $self->dropped },
+		on_read_error => sub ($errno) { $self->log->error("TCP read error: $errno") },
+		on_write_error => sub ($errno) { $self->log->error("TCP write error: $errno") },
+	);
+	# $stream->timeout(Server::Config::GAME_SERVER_TIMEOUT);
+
+	$self->loop->add($stream);
 	return;
 }
 

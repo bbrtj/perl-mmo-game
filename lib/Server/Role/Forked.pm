@@ -1,8 +1,7 @@
 package Server::Role::Forked;
 
 use My::Moose::Role;
-use Mojo::IOLoop;
-use Utils;
+use IO::Async::Timer::Periodic;
 use POSIX qw(WNOHANG);
 
 use header;
@@ -12,12 +11,7 @@ requires qw(
 );
 
 has injected 'log';
-
-has field 'forked' => (
-	isa => Types::Bool,
-	writer => 1,
-	default => !!0,
-);
+has injected 'loop';
 
 has field '_children' => (
 	isa => Types::ArrayRef,
@@ -28,25 +22,17 @@ has field '_children' => (
 	}
 );
 
-# This will be handled by UV, but put it in there for other loops
-## no critic
-$SIG{INT} = sub {
-	Mojo::IOLoop->stop;
-};
-
 after start => sub ($self, @) {
-
-	# only parent gets this far
-
-	Mojo::IOLoop->recurring(
-		5 => sub {
-
+	$self->loop->add(IO::Async::Timer::Periodic->new(
+		interval => 5,
+		reschedule => 'drift',
+		on_tick => sub {
 			# TODO check if processes are okay
 		},
-	);
+	)->start);
 
-	Utils->handle_errors;
-	Mojo::IOLoop->start;
+	local $SIG{INT} = sub { $self->loop->stop };
+	$self->loop->run;
 
 	my @children = $self->children;
 	my $try = 0;
@@ -70,47 +56,51 @@ after start => sub ($self, @) {
 	$self->log->info("Shutting down...");
 };
 
-sub _spawn ($self, $prefix, $processes, $after_fork //= sub { })
+sub process_setup ($self)
 {
-	foreach my $pnum (1 .. $processes) {
-		my $process_id = "${prefix}${pnum}";
-
-		my $pid = Utils->safe_fork;
-		if (defined $pid) {
-			$self->set_forked($pid == 0);
-
-			# children returns here
-			if ($self->forked) {
-				return $process_id;
-			}
-
-			$self->log->info("Process $process_id started");
-			$self->add_child($pid);
-			$after_fork->();
-		}
-		else {
-			$self->log->error("Could not fork process ($process_id out of $processes)");
-		}
-	}
-
-	# parent returns here
-	return "${prefix}0";
+	DI->get('redis')->connect($self->loop)->get;
 }
 
-sub create_forks ($self, $prefix, $processes, $worker_code, $after_fork = undef)
+sub create_forks ($self, $prefix, $processes, $worker_code, $after_fork //= sub {})
 {
 	my $classname = ref $self;
 	$self->log->system_name($classname);
 
-	my $process_id = $self->_spawn($prefix, $processes, $after_fork);
+	foreach my $pnum (1 .. $processes) {
+		my $process_id = "${prefix}${pnum}";
 
-	if ($self->forked) {
-		local $0 = "perl $classname worker $process_id";
-		$self->log->system_name("${classname}/${process_id}");
-		Utils->handle_errors;
+		my $pid = $self->loop->fork(
+			code => sub {
+				local $0 = "perl $classname worker $process_id";
+				$self->log->system_name("${classname}/${process_id}");
 
-		$worker_code->($process_id);
-		exit;
+				$self->process_setup;
+
+				local $SIG{INT} = sub { $self->loop->stop };
+				try {
+					$worker_code->($process_id);
+				} catch ($e) {
+					$self->log->error($e);
+					return 254;
+				}
+
+				return 0;
+			},
+			on_exit => sub ($pid, $code) {
+				my $exitcode = $code >> 8;
+
+				if ($exitcode == 0) {
+					$self->log->info("$classname worker $process_id has ended");
+				}
+				else {
+					$self->log->critical("$classname worker $process_id has died with code $exitcode");
+				}
+			},
+		);
+
+		$self->log->info("Process $process_id started");
+		$self->add_child($pid);
+		$after_fork->();
 	}
 
 	return;

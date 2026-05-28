@@ -101,5 +101,5 @@ Website-related stuff. May be moved away to other repository in the future.
 
 ## Tips and Tricks
 
-- better stack traces during debugging: `./run -MCarp::Always`
+- better debugging is enabled with `DEBUG=1` env, which can be added to `.env` file and read by docker compose
 

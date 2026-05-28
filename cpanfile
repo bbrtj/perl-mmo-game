@@ -46,6 +46,7 @@ on 'runtime' => sub {
 	requires 'Sereal::Encoder' => 0;
 	requires 'Sereal::Decoder' => 0;
 
+	requires 'Carp::Always' => 0;
 	requires 'Path::Tiny' => 0;
 	requires 'CryptX' => 0;
 	requires 'Data::ULID::XS' => '0.002';

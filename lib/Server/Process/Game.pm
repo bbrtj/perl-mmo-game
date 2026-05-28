@@ -4,6 +4,7 @@ use My::Moose;
 use Server::Config;
 use Game::Server;
 use List::Util qw(max);
+use IO::Async::Timer::Periodic;
 
 use all 'X';
 
@@ -110,14 +111,7 @@ sub do_work ($self, $loop)
 	my $tick = Server::Config::SERVER_TICK;
 	my $elapsed = 0;
 
-	my $tick_sref;
-	my sub next_tick_setup ()
-	{
-		$loop->timer($tick => $tick_sref);
-		return;
-	}
-
-	$tick_sref = sub {
+	my $tick_sref = sub {
 		my $start = server_time;
 
 		try {
@@ -139,14 +133,14 @@ sub do_work ($self, $loop)
 				$self->log->debug($self->location_id . ": last processing took $processing_time [$alert]");
 			}
 		}
-
-		next_tick_setup();
 	};
 
-	$loop->next_tick(
-		sub {
-			next_tick_setup();
-		}
+	$loop->add(
+		IO::Async::Timer::Periodic->new(
+			interval => $tick,
+			reschedule => 'drift',
+			on_tick => $tick_sref,
+		)->start
 	);
 
 	$self->log->info('Game process for ' . $self->location_id . ' started');

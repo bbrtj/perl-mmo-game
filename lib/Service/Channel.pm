@@ -26,24 +26,28 @@ sub broadcast ($self, $id, $data)
 # this is a homonym, but we use pubsub->listen, so ignore it
 sub listen ($self, $id, $callback)    ## no critic 'Subroutines::ProhibitBuiltinHomonyms'
 {
-	my $wrapped_callback = $self->store->subscribe($self->get_key($id))
+	my $loop = DI->get('loop');
+	my $encoder = $self->encoder;
+
+	$self->store->subscribe($self->get_key($id))
 		->then (
-			sub ($sub) {
-				$sub->map('payload')
+			sub ($subscribtion) {
+				$subscribtion->events
+					->map('payload')
 					->each(
-						sub {
-							@_ = ($self->encoder->decode($_[0]));
-							goto $callback;
+						sub ($payload) {
+							my $data = $encoder->decode($payload);
+							$loop->later(sub { $callback->($data) });
 						}
 					)->retain;
 			}
 		)
 		->get;
 
-	return $wrapped_callback;
+	return;
 }
 
-sub unlisten ($self, $id, $wrapped_callback)
+sub unlisten ($self, $id)
 {
 	$self->store->unsubscribe($self->get_key($id));
 	return;

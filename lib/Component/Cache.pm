@@ -6,8 +6,6 @@ use Future::AsyncAwait;
 
 use header;
 
-has injected 'encoder';
-
 has injected 'redis' => (
 	handles => {
 		'store' => 'redis'
@@ -22,7 +20,7 @@ has param 'cache_name' => (
 
 sub save ($self, $key, $value)
 {
-	return $self->store->hset($self->cache_name, $key, $self->encoder->encode($value));
+	return $self->store->hset($self->cache_name, $key, $value);
 }
 
 sub remove ($self, $key)
@@ -36,6 +34,6 @@ async sub load ($self, $key)
 	X::RecordDoesNotExist->throw
 		unless defined $value;
 
-	return $self->encoder->decode($value);
+	return $value;
 }
 

@@ -1,7 +1,7 @@
 package Server::ProcessableList;
 
 use My::Moose;
-use Mojo::Loader qw(load_classes);
+use Utils;
 
 use header;
 
@@ -17,9 +17,9 @@ has field 'processable' => (
 sub _build_processable ($self)
 {
 	my @classes = grep { !$_->disabled } (
-		load_classes('Server::Action'),
-		load_classes('Server::Job'),
-		load_classes('Server::Event'),
+		Utils->find_subclasses('Server::Action'),
+		Utils->find_subclasses('Server::Job'),
+		Utils->find_subclasses('Server::Event'),
 	);
 
 	return {

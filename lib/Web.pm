@@ -20,7 +20,7 @@ around BUILDARGS => sub ($orig, $self, %args) {
 
 sub build ($self)
 {
-	DI->get('redis')->connect($self->loop);
+	DI->get('redis')->connect($self->loop)->get;
 }
 
 sub secrets ($self)

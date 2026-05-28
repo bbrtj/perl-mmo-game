@@ -2,7 +2,6 @@ package Game::TestClient;
 
 use My::Moose;
 use Test2::Tools::E2ETest;
-use Mojo::IOLoop;
 use Server::Config;
 use all 'Unit', 'Game::TestClient';
 
@@ -65,8 +64,9 @@ sub raise ($self, $error, $warn = !!0)
 	return;
 }
 
-sub run ($self, $loop = Mojo::IOLoop->singleton)
+sub run ($self)
 {
+	my $loop = DI->get('loop');
 	$self->_reset_finished;
 
 	my $action;

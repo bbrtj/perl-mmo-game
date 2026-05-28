@@ -47,6 +47,9 @@ services:
       DB_DATABASE: mmo_game
       REDIS_HOST: redis
       REDIS_PORT: 6379
+    env_file:
+        - path: .env
+          required: false
     command: >
       sh -c "
         sqitch deploy gamedb_docker &&
@@ -75,6 +78,9 @@ services:
       DB_DATABASE: mmo_game
       REDIS_HOST: redis
       REDIS_PORT: 6379
+    env_file:
+        - path: .env
+          required: false
     command: >
       sh -c "
         ./run web

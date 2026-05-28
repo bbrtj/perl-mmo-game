@@ -1,7 +1,6 @@
 package Server::Process::Jobs;
 
 use My::Moose;
-use Mojo::IOLoop;
 use Server::Config;
 
 use header;

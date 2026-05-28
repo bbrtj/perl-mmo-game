@@ -5,6 +5,12 @@ use v5.42;
 my ($arg) = @ARGV;
 $arg //= '';
 
+my $flags = '';
+if ($ENV{DEBUG}) {
+	say 'Running in debug mode';
+	$flags = '-MCarp::Always';
+}
+
 if ($arg eq 'lint') {
 	system('tidyall -a --mode lint');
 }
@@ -15,7 +21,7 @@ elsif ($arg eq 'web') {
 	system('pagi-server script/web --host 0.0.0.0');
 }
 else {
-	system('script/worker &');
-	system('script/server');
+	system("perl $flags script/worker &");
+	system("perl $flags script/server");
 }
 
