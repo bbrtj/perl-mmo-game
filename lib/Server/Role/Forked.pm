@@ -23,13 +23,16 @@ has field '_children' => (
 );
 
 after start => sub ($self, @) {
-	$self->loop->add(IO::Async::Timer::Periodic->new(
-		interval => 5,
-		reschedule => 'drift',
-		on_tick => sub {
-			# TODO check if processes are okay
-		},
-	)->start);
+	$self->loop->add(
+		IO::Async::Timer::Periodic->new(
+			interval => 5,
+			reschedule => 'drift',
+			on_tick => sub {
+
+				# TODO check if processes are okay
+			},
+		)->start
+	);
 
 	local $SIG{INT} = sub { $self->loop->stop };
 	$self->loop->run;
@@ -61,7 +64,7 @@ sub process_setup ($self)
 	DI->get('redis')->connect($self->loop)->get;
 }
 
-sub create_forks ($self, $prefix, $processes, $worker_code, $after_fork //= sub {})
+sub create_forks ($self, $prefix, $processes, $worker_code, $after_fork //= sub { })
 {
 	my $classname = ref $self;
 	$self->log->system_name($classname);
@@ -79,7 +82,8 @@ sub create_forks ($self, $prefix, $processes, $worker_code, $after_fork //= sub 
 				local $SIG{INT} = sub { $self->loop->stop };
 				try {
 					$worker_code->($process_id);
-				} catch ($e) {
+				}
+				catch ($e) {
 					$self->log->error($e);
 					return 254;
 				}

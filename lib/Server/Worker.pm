@@ -105,18 +105,22 @@ sub start ($self, $jobs_processes = 1)
 	foreach my $job ($self->list_jobs) {
 		next unless $job->interval;
 
-		$self->loop->add(IO::Async::Timer::Periodic->new(
-			interval => $job->interval,
-			reschedule => 'drift',
-			on_tick => sub { $self->broadcast($job->name) },
-		)->start);
+		$self->loop->add(
+			IO::Async::Timer::Periodic->new(
+				interval => $job->interval,
+				reschedule => 'drift',
+				on_tick => sub { $self->broadcast($job->name) },
+			)->start
+		);
 	}
 
-	$self->loop->add(IO::Async::Timer::Periodic->new(
-		interval => 60,
-		reschedule => 'drift',
-		on_tick => sub { $self->cleanup },
-	)->start);
+	$self->loop->add(
+		IO::Async::Timer::Periodic->new(
+			interval => 60,
+			reschedule => 'drift',
+			on_tick => sub { $self->cleanup },
+		)->start
+	);
 
 	return;
 }

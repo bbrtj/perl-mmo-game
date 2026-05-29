@@ -11,10 +11,12 @@ has injected 'models_repo';
 
 sub build ($self)
 {
-	my $main = $self->router->add('/', {
-		to => 'prepare_request',
-		name => 'global_bridge',
-	});
+	my $main = $self->router->add(
+		'/', {
+			to => 'prepare_request',
+			name => 'global_bridge',
+		}
+	);
 }
 
 sub prepare_request ($self, $ctx)

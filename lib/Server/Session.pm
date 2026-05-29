@@ -70,6 +70,7 @@ sub BUILD ($self, $)
 		on_read_error => sub ($errno) { $self->log->error("TCP read error: $errno") },
 		on_write_error => sub ($errno) { $self->log->error("TCP write error: $errno") },
 	);
+
 	# $stream->timeout(Server::Config::GAME_SERVER_TIMEOUT);
 
 	$self->loop->add($stream);

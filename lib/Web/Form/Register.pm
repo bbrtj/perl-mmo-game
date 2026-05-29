@@ -58,6 +58,7 @@ form_cleaner sub ($self, $data) {
 };
 
 form_hook after_validate => sub ($self, $data) {
+
 	# clear password fields, so that it won't end up in user's HTML (for their security)
 	$self->input->{password} = '';
 	$self->input->{repeat_password} = '';

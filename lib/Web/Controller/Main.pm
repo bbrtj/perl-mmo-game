@@ -12,22 +12,29 @@ sub build ($self)
 {
 	my $global_bridge = $self->router->find('global_bridge');
 
-	$global_bridge->add('/' => {
-		to => 'main_page',
-		name => 'main_page',
-	});
+	$global_bridge->add(
+		'/' => {
+			to => 'main_page',
+			name => 'main_page',
+		}
+	);
 
-	$global_bridge->add('/lang/:lang' => {
-		to => 'set_lang',
-		name => 'set_lang',
-	});
+	$global_bridge->add(
+		'/lang/:lang' => {
+			to => 'set_lang',
+			name => 'set_lang',
+		}
+	);
 }
 
 sub main_page ($self, $ctx)
 {
-	return $self->template_lang($ctx, 'main/main_page', {
-		user => $ctx->stash->get('user'),
-	});
+	return $self->template_lang(
+		$ctx,
+		'main/main_page', {
+			user => $ctx->stash->get('user'),
+		}
+	);
 }
 
 async sub set_lang ($self, $ctx, $lang)

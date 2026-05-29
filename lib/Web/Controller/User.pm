@@ -13,32 +13,42 @@ sub build ($self)
 {
 	my $user = $self->router->find('global_bridge')->add('/user');
 
-	$user->add('/login' => {
-		to => 'login',
-		action => 'http.get',
-		name => 'login',
-	});
+	$user->add(
+		'/login' => {
+			to => 'login',
+			action => 'http.get',
+			name => 'login',
+		}
+	);
 
-	$user->add('/login' => {
-		to => 'login_submit',
-		action => 'http.post',
-	});
+	$user->add(
+		'/login' => {
+			to => 'login_submit',
+			action => 'http.post',
+		}
+	);
 
-	$user->add('/logout' => {
-		to => 'logout',
-		name => 'logout',
-	});
+	$user->add(
+		'/logout' => {
+			to => 'logout',
+			name => 'logout',
+		}
+	);
 
-	$user->add('/register' => {
-		to => 'register',
-		action => 'http.get',
-		name => 'register',
-	});
+	$user->add(
+		'/register' => {
+			to => 'register',
+			action => 'http.get',
+			name => 'register',
+		}
+	);
 
-	$user->add('/register' => {
-		to => 'register_submit',
-		action => 'http.post',
-	});
+	$user->add(
+		'/register' => {
+			to => 'register_submit',
+			action => 'http.post',
+		}
+	);
 
 }
 

@@ -50,7 +50,7 @@ sub load ($self, $name)
 
 sub load_all ($self)
 {
-	my $iter = DIRECTORY->iterator({recurse => true });
+	my $iter = DIRECTORY->iterator({recurse => true});
 	my $ext_re = qr{\.@{[EXTENSION]}$}i;
 
 	while (my $file = $iter->()) {

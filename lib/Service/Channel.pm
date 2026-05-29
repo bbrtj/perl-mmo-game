@@ -30,16 +30,16 @@ sub listen ($self, $id, $callback)    ## no critic 'Subroutines::ProhibitBuiltin
 	my $encoder = $self->encoder;
 
 	$self->store->subscribe($self->get_key($id))
-		->then (
+		->then(
 			sub ($subscribtion) {
 				$subscribtion->events
-					->map('payload')
-					->each(
-						sub ($payload) {
-							my $data = $encoder->decode($payload);
-							$loop->later(sub { $callback->($data) });
-						}
-					)->retain;
+				->map('payload')
+				->each(
+					sub ($payload) {
+						my $data = $encoder->decode($payload);
+						$loop->later(sub { $callback->($data) });
+					}
+				)->retain;
 			}
 		)
 		->get;
