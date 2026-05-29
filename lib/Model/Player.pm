@@ -14,7 +14,7 @@ has param 'user_id' => (
 
 has param 'online' => (
 	isa => Types::Bool,
-	default => !!0,
+	default => false,
 );
 
 has param 'last_online' => (
@@ -29,7 +29,7 @@ has param 'created_at' => (
 
 sub set_offline ($self)
 {
-	$self->set_online(!!0);
+	$self->set_online(false);
 	$self->set_last_online(time);
 
 	return;

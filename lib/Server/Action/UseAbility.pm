@@ -11,7 +11,7 @@ extends 'Server::GameAction';
 
 use constant name => 'use_ability';
 use constant required_state => Model::PlayerSession->STATE_PLAYING;
-use constant deserializes => !!1;
+use constant deserializes => true;
 
 sub validate ($self, $data)
 {

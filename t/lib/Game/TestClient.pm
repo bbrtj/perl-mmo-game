@@ -27,7 +27,7 @@ has field 'action_index' => (
 
 has field 'finished' => (
 	isa => Types::Bool,
-	default => !!0,
+	default => false,
 	'handles!!' => {
 		'_set_finished' => 'set',
 		'_reset_finished' => 'reset',
@@ -36,7 +36,7 @@ has field 'finished' => (
 
 has field 'success' => (
 	isa => Types::Bool,
-	default => !!1,
+	default => true,
 	'handles!!' => {
 		'_set_failed' => 'unset',
 	}
@@ -50,7 +50,7 @@ sub add_action ($self, $name, @args)
 	return $self;
 }
 
-sub raise ($self, $error, $warn = !!0)
+sub raise ($self, $error, $warn = false)
 {
 	my $type = $warn ? 'warning' : 'error';
 	my $str = "TestClient $type: $error";
@@ -109,7 +109,7 @@ sub run ($self)
 				"$action: unexpected id from server communication: \nGot: $parts[0] \nExpected: $last_sent_id",
 			);
 
-			return !!0;
+			return false;
 		}
 
 		unless (grab_action->find_and_compare(@parts[1, 2])) {
@@ -125,7 +125,7 @@ sub run ($self)
 				push @data_backlog, $data;
 			}
 
-			return !!0;
+			return false;
 		}
 
 		if ($parts[0]) {
@@ -135,7 +135,7 @@ sub run ($self)
 			say "$action: Server feed ok";
 		}
 
-		return !!1;
+		return true;
 	}
 
 	my sub try_resolve_backlog ()

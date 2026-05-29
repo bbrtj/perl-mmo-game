@@ -21,7 +21,7 @@ sub validate ($self, $data)
 sub handle ($self, $session_id, $id, $player_id)
 {
 	my $session = $self->cache_repo->load(PlayerSession => $session_id);
-	my $success = 1;
+	my $success = true;
 	my $actor;
 	my $player;
 
@@ -37,7 +37,7 @@ sub handle ($self, $session_id, $id, $player_id)
 
 	}
 	catch ($e) {
-		$success = 0;
+		$success = false;
 	}
 
 	if ($success) {
@@ -46,7 +46,7 @@ sub handle ($self, $session_id, $id, $player_id)
 
 	$self->send_to(
 		$session_id,
-		$success,
+		$success || 0,
 		id => $id,
 	);
 

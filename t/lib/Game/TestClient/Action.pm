@@ -41,9 +41,9 @@ sub finished ($self)
 
 sub should_send ($self)
 {
-	return !!0 unless $self->state->{send}->@*;
-	return !!1 if $self->sequential || !$self->state->{receive}->@*;
-	return !!0;
+	return false unless $self->state->{send}->@*;
+	return true if $self->sequential || !$self->state->{receive}->@*;
+	return false;
 }
 
 sub get_data ($self)
@@ -76,13 +76,13 @@ sub find_and_compare ($self, $type, $data)
 		$ok &&= $type eq $expected_type && !diff($cmp_data, $expected) && !diff($expected, $cmp_data);
 		if ($ok) {
 			splice $self->state->{receive}->@*, $i, 1;
-			return !!1;
+			return true;
 		}
 
 		last if $self->sequential;
 	}
 
-	return !!0;
+	return false;
 }
 
 sub get_expected_type ($self)
@@ -147,7 +147,7 @@ sub stringify ($self, @)
 # this part is meant to be extended
 
 use constant requires => [];
-use constant sequential => !!1;
+use constant sequential => true;
 
 sub send_queue ($self) { ... }
 sub receive_queue ($self) { ... }

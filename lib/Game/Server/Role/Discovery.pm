@@ -66,10 +66,10 @@ sub _discover_actors ($self, $actor, $found_objects, $resource)
 		$resource->old_actors(\@old) if @old;
 
 		$self->_discovered_actors->{$actor_id} = \%found_prev;
-		return !!1;
+		return true;
 	}
 
-	return !!0;
+	return false;
 }
 
 sub _discover ($self)

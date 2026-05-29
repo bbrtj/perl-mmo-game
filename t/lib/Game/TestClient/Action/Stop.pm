@@ -13,7 +13,7 @@ use constant requires => ['EnterGame'];
 
 has param 'was_moving' => (
 	isa => Types::Bool,
-	default => !!1,
+	default => true,
 );
 
 sub send_queue ($self)

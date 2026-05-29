@@ -17,7 +17,7 @@ has param 'types' => (
 	isa => Types::ArrayRef,
 );
 
-use constant sequential => !!0;
+use constant sequential => false;
 use constant requires => ['EnterGame'];
 
 sub send_queue ($self)
@@ -37,7 +37,7 @@ sub finished ($self)
 
 sub should_send ($self)
 {
-	return !!0;
+	return false;
 }
 
 sub find_and_compare ($self, $type, $data)
@@ -46,21 +46,21 @@ sub find_and_compare ($self, $type, $data)
 		$data = __deserialize($data);
 	}
 	catch ($e) {
-		return !!0;
+		return false;
 	}
 
 	if (diff($data, $self->received)) {
-		return !!0;
+		return false;
 	}
 
 	if (!any { $_ eq $type } $self->types->@*) {
-		return !!0;
+		return false;
 	}
 
 	diff($self->received, $data, \my $diff);
 	$self->set_received($diff);
 
-	return !!1;
+	return true;
 }
 
 sub get_expected_type ($self)

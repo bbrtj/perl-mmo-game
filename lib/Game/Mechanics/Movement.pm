@@ -13,7 +13,7 @@ sub move ($self, $movement, $map, $elapsed = server_time)
 	$elapsed = min($elapsed, $movement->eta);
 
 	# was this result rounded?
-	my $rounded = !!0;
+	my $rounded = false;
 
 	my ($distance, $new_x, $new_y);
 	while ('inaccessible') {
@@ -29,7 +29,7 @@ sub move ($self, $movement, $map, $elapsed = server_time)
 
 		# try to find position closer to the wall / ledge. It's okay to be slower but precise here
 		$elapsed -= Game::Config->config->{map_precision} * $movement->speed;
-		$rounded = !!1;
+		$rounded = true;
 	}
 
 	$variables->set_pos_x($new_x);

@@ -20,7 +20,7 @@ sub type { ... }
 
 sub is_plaintext
 {
-	return !!0;
+	return false;
 }
 
 sub generate ($self) { ... }

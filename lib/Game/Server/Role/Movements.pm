@@ -67,7 +67,7 @@ sub _process_movement ($self, $actor)
 {
 	my $movement = $actor->stats->movement;
 
-	return !!0 unless $movement;
+	return false unless $movement;
 	return Game::Mechanics::Movement->move($movement, $self->map);
 }
 

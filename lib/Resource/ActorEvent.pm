@@ -19,7 +19,7 @@ has option 'health_change' => (
 );
 
 use constant type => 'actor_event';
-use constant is_plaintext => !!1;
+use constant is_plaintext => true;
 
 sub generate ($self)
 {

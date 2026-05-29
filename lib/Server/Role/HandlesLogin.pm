@@ -26,7 +26,7 @@ sub login ($self, $session_id, $user_id)
 		$self->send_to(
 			$other_session_id,
 			undef,
-			drop => !!1,
+			drop => true,
 		);
 	}
 	catch ($e) {

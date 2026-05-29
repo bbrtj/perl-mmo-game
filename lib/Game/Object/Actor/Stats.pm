@@ -71,11 +71,11 @@ sub action_performed ($self)
 {
 	my $time = server_time;
 
-	return !!0
+	return false
 		unless $time - $self->last_action >= Game::Config->config->{action_cooldown};
 
 	$self->_set_last_action($time);
-	return !!1;
+	return true;
 }
 
 sub _build_weapon_damage ($self)

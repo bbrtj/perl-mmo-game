@@ -8,7 +8,7 @@ extends 'Game::TestClient::Action';
 
 has param 'data';
 
-use constant sequential => !!0;
+use constant sequential => false;
 
 sub send_queue ($self)
 {

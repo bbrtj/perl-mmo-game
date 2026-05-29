@@ -29,7 +29,7 @@ e2e_test {
 			->add_action('EnterGame')
 			->add_action('Move', x => 15.3, y => 12.2)
 			->add_action('Stop')
-			->add_action('Stop', was_moving => !!0)
+			->add_action('Stop', was_moving => false)
 	);
 
 	$bag->run;
