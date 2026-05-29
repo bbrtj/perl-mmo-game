@@ -83,7 +83,8 @@ foreach my $prefix ('', 'web') {
 		$_ .= " ($class)";
 
 		my $form = $class->new;
-		$form->set_input({$data->%*, password => hash_password($data->{password})});
+		my $password = $form->needs_hashing ? $data->{password} : hash_password($data->{password});
+		$form->set_input({$data->%*, password => $password});
 
 		my $valid = $form->valid;
 		ok $valid, "form valid $_";
@@ -103,7 +104,8 @@ foreach my $prefix ('', 'web') {
 		$_ .= " ($class)";
 
 		my $form = $class->new;
-		$form->set_input({$data->%*, password => hash_password($data->{password})});
+		my $password = $form->needs_hashing ? $data->{password} : hash_password($data->{password});
+		$form->set_input({$data->%*, password => $password});
 		ok !$form->valid, "form invalid $_";
 		is $form->errors_hash, $errors, "errors hash $_";
 
