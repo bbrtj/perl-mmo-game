@@ -94,7 +94,7 @@ sub _build_weapon_hitbox ($self)
 sub _build_max_health ($self)
 {
 	my $repo = DI->get('lore_data_repo');
-	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent);
+	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent->variables->experience);
 	my $class = $repo->load($self->parent->character->class_id);
 
 	# TODO: adjust based on $level - 1
@@ -105,7 +105,7 @@ sub _build_max_health ($self)
 sub _build_max_energy ($self)
 {
 	my $repo = DI->get('lore_data_repo');
-	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent);
+	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent->variables->experience);
 	my $class = $repo->load($self->parent->character->class_id);
 
 	# TODO: adjust based on $level - 1

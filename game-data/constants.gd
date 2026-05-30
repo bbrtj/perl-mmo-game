@@ -1,6 +1,6 @@
 requires 'maps/cape_peril';
 
-my $max_level = 30;
+my $max_level = 50;
 
 define {
 	max_level => $max_level,
@@ -11,7 +11,7 @@ define {
 
 	zero_stats => 8,
 	starting_stats_floating => 5,
-	stats_at_levels => [grep { $_ % 3 == 0 } 1 .. $max_level],
+	stats_at_levels => [grep { $_ % 5 == 0 } 1 .. $max_level],
 
 	base_speed => 0.8, # per second
 	action_cooldown => 1, # how often can action be performed
