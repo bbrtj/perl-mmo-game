@@ -59,6 +59,7 @@ sub BUILD ($self, $)
 	# react to tcp events
 	my $stream = $self->stream;
 	$stream->configure(
+		autoflush => true,
 		on_read => sub ($stream, $bytes_ref, $eof) {
 			while ($bytes_ref->$* =~ s{^(.*?)\r\n}{}) {
 				$self->unpack_message($1);
@@ -103,9 +104,14 @@ sub unpack_message ($self, $bytes)
 	$self->log->debug("TCP message: '$bytes'")
 		if Server::Config::DEBUG;
 
-	$self->handle_message(
-		split Server::Config::PROTOCOL_CONTROL_CHARACTER, $bytes, 3
-	);
+	try {
+		$self->handle_message(
+			split Server::Config::PROTOCOL_CONTROL_CHARACTER, $bytes, 3
+		);
+	}
+	catch ($e) {
+		$self->log->error("Error while handling TCP message: $e");
+	}
 
 	return;
 }
@@ -141,11 +147,11 @@ sub handle_message ($self, $req_id, $type, $data = undef)
 
 sub handle_feedback ($self, $data_href)
 {
-	$self->send($self->build_message($data_href))
-		if defined $data_href->{echo};
-
 	$self->set_session($self->cache_repo->load(PlayerSession => $self->session->id))
 		if $data_href->{refresh};
+
+	$self->send($self->build_message($data_href))
+		if defined $data_href->{echo};
 
 	$self->stream->close
 		if $data_href->{drop};

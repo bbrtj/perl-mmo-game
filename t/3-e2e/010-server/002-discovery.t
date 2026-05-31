@@ -38,13 +38,14 @@ e2e_test {
 			types => ['discovery'],
 		);
 
-		# TODO: also check actor_event
 		$bag->clients->[$key]->add_action(
 			'Feed',
 			data => [
-				map {
-					Resource::ActorPosition->new(subject => $_)
-				} @others
+				(
+					map {
+						Resource::ActorPosition->new(subject => $_)
+					} @others
+				),
 			],
 		);
 	}

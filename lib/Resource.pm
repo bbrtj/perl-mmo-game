@@ -29,8 +29,10 @@ sub _build_serialized ($self)
 {
 	my $gen = $self->generate;
 	if ($self->is_plaintext) {
-		$gen = join Server::Config->PROTOCOL_SEPARATOR, $gen->@*
-			if is_arrayref $gen;
+		croak "Bad resource data type generated for " . ref $self
+			unless is_arrayref $gen;
+
+		$gen = join Server::Config->PROTOCOL_SEPARATOR, $gen->@*;
 	}
 	else {
 		$gen = __serialize $gen;

@@ -58,10 +58,10 @@ sub run ($self)
 
 			if ($count) {
 				my $report = join "\n", map {
-					'client '
-						. $_->actor->id . ': <'
-						. $_->actions->[$_->action_index] . '> '
-						. $_->actions->[$_->action_index]->get_expected_data
+					sprintf 'client %s: <%s> %s',
+						$_->actor->id,
+						$_->actions->[$_->action_index],
+						$_->actions->[$_->action_index]->get_expected_data
 				} @clients;
 
 				$ctx->fail("testing timed out with $count clients still running:\n$report");

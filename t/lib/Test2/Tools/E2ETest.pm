@@ -88,6 +88,7 @@ sub e2e_client ($loop, $first_message, $on_receive)
 		},
 		on_stream => sub ($stream) {
 			$stream->configure(
+				autoflush => true,
 				on_read => sub ($stream, $bytes_ref, $eof) {
 					while ($bytes_ref->$* =~ s{^(.*?)\r\n}{}) {
 						$on_receive->($stream, $1, ++$receive_no);
@@ -97,6 +98,7 @@ sub e2e_client ($loop, $first_message, $on_receive)
 				},
 			);
 
+			$loop->add($stream);
 			$stream->write($first_message);
 		},
 		on_connect_error => sub ($syscall, $error) {

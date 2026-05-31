@@ -60,7 +60,12 @@ sub find_and_compare ($self, $type, $data)
 
 		if ($expected isa 'Resource') {
 			$expected_type = $expected->type;
-			$expected = $expected->generate;
+			if ($expected->is_plaintext) {
+				$expected = $expected->serialized;
+			}
+			else {
+				$expected = $expected->generate;
+			}
 		}
 
 		my $cmp_data = $data;
