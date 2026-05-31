@@ -21,7 +21,7 @@ sub login ($self, $session_id, $user_id)
 	return if $session->is_logged_in;
 
 	try {
-		my $other_session_id = $self->load_session($user_id);
+		my $other_session_id = $self->load_session($user_id)->get;
 		$self->remove_session($user_id);
 		$self->send_to(
 			$other_session_id,
