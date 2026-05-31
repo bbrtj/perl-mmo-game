@@ -21,7 +21,7 @@ on 'runtime' => sub {
 	requires 'IO::Async' => 0;
 	requires 'Future::AsyncAwait' => 0;
 	requires 'Net::Async::Redis::XS' => 0;
-	requires 'UV' => 0;
+	requires 'IO::Async::Loop::Epoll' => 0;
 
 	requires 'Mojo::DOM58' => 0;
 	requires 'YAML::PP' => 0;

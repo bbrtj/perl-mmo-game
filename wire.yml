@@ -1,5 +1,5 @@
 loop:
-    class: IO::Async::Loop
+    class: IO::Async::Loop::Epoll
 
 env:
     class: Component::Env

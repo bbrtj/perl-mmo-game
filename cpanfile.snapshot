@@ -1597,12 +1597,6 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
-  ExtUtils-PkgConfig-1.16
-    pathname: X/XA/XAOC/ExtUtils-PkgConfig-1.16.tar.gz
-    provides:
-      ExtUtils::PkgConfig 1.16
-    requirements:
-      ExtUtils::MakeMaker 0
   Faker-1.19
     pathname: A/AW/AWNCORP/Faker-1.19.tar.gz
     provides:
@@ -2138,6 +2132,16 @@ DISTRIBUTIONS
       Struct::Dumb 0
       Time::HiRes 0
       perl 5.014
+  IO-Async-Loop-Epoll-0.23
+    pathname: P/PE/PEVANS/IO-Async-Loop-Epoll-0.23.tar.gz
+    provides:
+      IO::Async::Loop::Epoll 0.23
+    requirements:
+      IO::Async 0.24
+      Linux::Epoll 0.005
+      Module::Build 0.4004
+      Struct::Dumb 0
+      perl 5.014
   IO-HTML-1.004
     pathname: C/CJ/CJM/IO-HTML-1.004.tar.gz
     provides:
@@ -2191,6 +2195,23 @@ DISTRIBUTIONS
       Scalar::Util 0
       perl 5.006002
       strict 0
+  Linux-Epoll-0.019
+    pathname: L/LE/LEONT/Linux-Epoll-0.019.tar.gz
+    provides:
+      Linux::Epoll 0.019
+    requirements:
+      ExtUtils::CBuilder 0
+      IO::Handle 0
+      Module::Build 0.28
+      POSIX 0
+      Scalar::Util 0
+      Socket 0
+      Test::More 0
+      Time::HiRes 0
+      parent 0
+      perl 5.010
+      strict 0
+      warnings 0
   List-BinarySearch-XS-0.09
     pathname: D/DA/DAVIDO/List-BinarySearch-XS-0.09.tar.gz
     provides:
@@ -2422,14 +2443,6 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
-  Module-Build-Using-PkgConfig-0.03
-    pathname: P/PE/PEVANS/Module-Build-Using-PkgConfig-0.03.tar.gz
-    provides:
-      Module::Build::Using::PkgConfig 0.03
-    requirements:
-      ExtUtils::PkgConfig 0
-      Module::Build 0.4004
-      perl 5.010
   Module-Find-0.17
     pathname: C/CR/CRENZ/Module-Find-0.17.tar.gz
     provides:
@@ -4853,36 +4866,6 @@ DISTRIBUTIONS
       Module::Build::Tiny 0.035
       URI 0
       perl 5.008001
-  UV-2.002
-    pathname: P/PE/PEVANS/UV-2.002.tar.gz
-    provides:
-      UV 2.002
-      UV::Async 2.002
-      UV::Check 2.002
-      UV::Exception undef
-      UV::Handle 2.002
-      UV::Idle 2.002
-      UV::Loop 2.002
-      UV::Pipe 2.002
-      UV::Poll 2.002
-      UV::Prepare 2.002
-      UV::Process 2.002
-      UV::Req 2.002
-      UV::Signal 2.002
-      UV::Stream 2.002
-      UV::TCP 2.002
-      UV::TTY 2.002
-      UV::Timer 2.002
-      UV::UDP 2.002
-    requirements:
-      Carp 0
-      Exporter 5.57
-      ExtUtils::CBuilder 0
-      Module::Build 0.4004
-      Module::Build::Using::PkgConfig 0
-      Scalar::Util 0
-      XSLoader 0.13
-      perl 5.014
   Unicode-UTF8-0.70
     pathname: C/CH/CHANSEN/Unicode-UTF8-0.70.tar.gz
     provides:
