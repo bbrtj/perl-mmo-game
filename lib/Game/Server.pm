@@ -55,6 +55,7 @@ has field '_queue' => (
 
 with qw(
 	Game::Server::Role::QuadTree
+	Game::Server::Role::ActionQueue
 	Game::Server::Role::Discovery
 	Game::Server::Role::Movements
 

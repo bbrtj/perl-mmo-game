@@ -25,14 +25,15 @@ has field 'angle' => (
 
 has field 'speed' => (
 	writer => 1,
-	default => Game::Config->config->{base_speed},    # TODO
+	default => sub { Game::Config->config->{base_speed} },    # TODO
 );
 
-has field 'last_action' => (
+has field 'action' => (
 
-	# isa => Types::PositiveOrZeroNum,
-	writer => -hidden,
-	default => 0,
+	# isa => InstanceOf['Game::Object::Action'],
+	writer => 1,
+	clearer => 1,
+	predicate => 1,
 );
 
 # precalculated weapon damage
@@ -65,17 +66,6 @@ sub set_movement ($self, $movement)
 	$self->_set_movement($movement);
 	$self->set_angle($movement->angle);
 	return;
-}
-
-sub action_performed ($self)
-{
-	my $time = server_time;
-
-	return false
-		unless $time - $self->last_action >= Game::Config->config->{action_cooldown};
-
-	$self->_set_last_action($time);
-	return true;
 }
 
 sub _build_weapon_damage ($self)

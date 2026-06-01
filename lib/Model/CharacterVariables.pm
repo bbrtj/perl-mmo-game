@@ -31,7 +31,7 @@ has param 'energy' => (
 
 sub xy ($self)
 {
-	return [$self->pos_x, $self->pos_y];
+	return ($self->pos_x, $self->pos_y);
 }
 
 __PACKAGE__->_register;

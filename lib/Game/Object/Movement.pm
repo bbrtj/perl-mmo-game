@@ -42,7 +42,7 @@ has field 'angle' => (
 sub BUILD ($self, $)
 {
 	my ($angle, $distance) = Game::Mechanics::Generic->calculate_angle_and_diagonal(
-		$self->variables->pos_x, $self->variables->pos_y,
+		$self->variables->xy,
 		$self->x, $self->y,
 	);
 

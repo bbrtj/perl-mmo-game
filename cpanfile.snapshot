@@ -2212,6 +2212,17 @@ DISTRIBUTIONS
       perl 5.010
       strict 0
       warnings 0
+  List-BinarySearch-0.25
+    pathname: D/DA/DAVIDO/List-BinarySearch-0.25.tar.gz
+    provides:
+      List::BinarySearch 0.25
+      List::BinarySearch::PP 0.25
+    requirements:
+      English 0
+      ExtUtils::MakeMaker 6.62
+      Scalar::Util 0
+      Test::More 0.98
+      perl 5.008000
   List-BinarySearch-XS-0.09
     pathname: D/DA/DAVIDO/List-BinarySearch-XS-0.09.tar.gz
     provides:

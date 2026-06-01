@@ -3,6 +3,7 @@ package Game::Server::Role::Combat;
 use My::Moose::Role;
 
 use all 'Game::Mechanics';
+use all 'Game::Object';
 use Resource::ActorEvent;
 
 use header;
@@ -11,19 +12,38 @@ requires qw(
 	find_in_radius
 	send_to_players
 	get_discovered_by
+	enqueue_action
 );
 
 sub use_ability ($self, $actor_id, %options)
 {
-	# TODO: check and use proper ability from $options{ability}
-
 	my $actor = $self->location->get_actor($actor_id);
 	my $stats = $actor->stats;
 
-	# check and set global cooldown
-	return unless $stats->action_performed;
+	# do nothing if action is in progress already
+	return if $stats->has_action;
 
-	my ($x, $y) = ($actor->variables->pos_x, $actor->variables->pos_y);
+	# TODO: check and use proper ability speed from $options{ability}
+	my $action = Game::Object::Action->new(
+		method => 'use_ability_done',
+		args => [$actor, %options],
+		duration => Game::Config->config->{base_action_speed},
+	);
+
+	$stats->set_action($action);
+	$self->enqueue_action($action);
+
+	# TODO: notify the client the action is taking place?
+	return;
+}
+
+sub use_ability_done ($self, $actor, %options)
+{
+	# TODO: check and use proper ability from $options{ability}
+	my $stats = $actor->stats;
+	$stats->clear_action;
+
+	my ($x, $y) = $actor->variables->xy;
 	my ($radius, $distance) = $stats->weapon_hitbox->@*;
 
 	my @found = grep { $_ != $actor } Game::Mechanics::Distance->find_actors_in_range(
@@ -40,7 +60,7 @@ sub use_ability ($self, $actor_id, %options)
 	foreach my $affected (@found) {
 		$self->send_to_players(
 			[$affected->id, $self->get_discovered_by($affected->id)],
-			Resource::ActorEvent->new(subject => $affected, event_source => $actor_id, health_change => -$damage)
+			Resource::ActorEvent->new(subject => $affected, event_source => $actor->id, health_change => -$damage)
 		);
 	}
 
