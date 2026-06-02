@@ -2,7 +2,9 @@ package Game::Server;
 
 use My::Moose;
 use Game::Config;
-use Sub::Quote qw(quote_sub quotify);
+use Server::Config;
+use Sub::Quote qw(quote_sub);
+use POSIX qw(round);
 
 use header;
 
@@ -36,8 +38,8 @@ has field 'map' => (
 );
 
 has field '_actions' => (
-	isa => Types::HashRef [Types::ArrayRef],
-	default => sub { {} },
+	isa => Types::ArrayRef [Types::HashRef [Types::ArrayRef]],
+	default => sub { [] },
 );
 
 has cached '_compiled_action' => (
@@ -63,41 +65,41 @@ with qw(
 	Game::Server::Role::Combat
 );
 
-sub _add_action ($self, $every, $handler, $priority = 'normal')
+sub _add_action ($self, $every, $handler, $priority = 0)
 {
 	croak "$handler is not a proper method name in " . __PACKAGE__
 		unless $self->can($handler);
 
-	if ($priority eq 'high') {
-		unshift $self->_actions->{$every}->@*, $handler;
-	}
-	else {
-		push $self->_actions->{$every}->@*, $handler;
-	}
+	# $every is time - turn it into a server tick count
+	$every = round($every / Server::Config::TICK);
+	$every ||= 1;
 
+	push $self->_actions->[$priority]->{$every}->@*, $handler;
 	return;
 }
 
 sub _build_compiled_action ($self)
 {
-	my %actions = $self->_actions->%*;
-	my @sorted =
-		map { $_ => $actions{$_} }
-		sort { $a <=> $b }
-		keys %actions;
-
 	my @actions_lines = (q[my ($elapsed) = @_;]);
 
-	foreach my ($every, $handlers) (@sorted) {
-		$every = quotify $every;
-		push @actions_lines,
-			qq[if (\$elapsed % $every == 0) {],
-			(map { qq[ \$self->$_();] } $handlers->@*),
-			qq[}];
+	# high priority means actions come sooner
+	for my $actions (reverse $self->_actions->@*) {
+		next unless defined $actions;
+
+		my @sorted =
+			map { $_ => $actions->{$_} }
+			sort { $a <=> $b }
+			keys $actions->%*;
+
+		foreach my ($every, $handlers) (@sorted) {
+			push @actions_lines,
+				qq[if (\$elapsed % $every == 0) {],
+				(map { qq[ \$self->$_();] } $handlers->@*),
+				qq[}];
+		}
 	}
 
 	my $compiled = join "\n", @actions_lines;
-
 	$self->log->debug("Compiled action: \n$compiled");
 
 	return quote_sub $compiled, {

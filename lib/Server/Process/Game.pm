@@ -108,7 +108,7 @@ sub do_work ($self, $loop)
 		}
 	);
 
-	my $tick = Server::Config::SERVER_TICK;
+	my $tick = Server::Config::TICK;
 	my $elapsed = 0;
 
 	my $tick_sref = sub {

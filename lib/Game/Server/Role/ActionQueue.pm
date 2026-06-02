@@ -11,7 +11,6 @@ has field 'queued_actions' => (
 	default => sub { [] },
 );
 
-# TODO: this will probably not be precise enough - consider a precise timer
 sub enqueue_action ($self, $action)
 {
 	my $actions = $self->queued_actions;
@@ -36,7 +35,7 @@ sub _process_actions ($self)
 }
 
 after BUILD => sub ($self, @) {
-	$self->_add_action(1 => '_process_actions');
+	$self->_add_action(0.05 => '_process_actions');
 };
 
 after signal_player_left => sub ($self, $actor) {

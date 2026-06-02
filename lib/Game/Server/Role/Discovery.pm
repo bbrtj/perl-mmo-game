@@ -109,7 +109,7 @@ sub actors_info ($self, $actor_id, $wanted_actors)
 }
 
 after BUILD => sub ($self, @) {
-	$self->_add_action(6 => '_discover');
+	$self->_add_action(2 => '_discover');
 };
 
 after signal_player_left => sub ($self, $actor) {
