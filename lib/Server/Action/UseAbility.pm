@@ -16,7 +16,7 @@ use constant deserializes => true;
 sub validate ($self, $data)
 {
 	state $type = Types::Dict [
-		ability => Types::Str,
+		lore_id => Types::LoreId,
 		x => Types::Optional [Types::Num],
 		y => Types::Optional [Types::Num],
 	];

@@ -23,6 +23,7 @@ use constant TYPES => [
 		secondary_stat
 		area
 		location
+		ability
 	)
 ];
 

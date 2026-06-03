@@ -29,8 +29,8 @@ sub _process_actions ($self)
 		my $action = shift $actions->@*;
 		next if $action->cancelled;
 
-		my $method = $action->method;
-		$self->$method($action->args->@*);
+		my $method = $action->server_method;
+		$self->$method($action);
 	}
 }
 

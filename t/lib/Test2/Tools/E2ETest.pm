@@ -14,7 +14,7 @@ use header;
 our @EXPORT = qw(e2e_test e2e_client);
 our $SERVER_PORT;
 
-sub e2e_test : prototype(&) ($tester)
+sub e2e_test : prototype(&;&) ($tester, $after_test = sub { })
 {
 	my @child_ids;
 
@@ -58,6 +58,7 @@ sub e2e_test : prototype(&) ($tester)
 
 	defer {
 		finished();
+		$after_test->();
 		$cleanup->();
 	}
 

@@ -35,6 +35,16 @@ has option 'parent' => (
 	weak_ref => 1,
 );
 
+has cached 'attributes' => (
+	isa => Types::ArrayRef,
+	lazy => 1,
+);
+
+sub _build_attributes ($self)
+{
+	return [grep { $_ isa 'Game::Lore::AttributeData' } $self->uses->@*];
+}
+
 # little hack to allow reversal of parent-children defining
 
 sub set_parent ($self, $parent)

@@ -5,39 +5,44 @@ use Game::Mechanics::Generic;
 
 use header;
 
-has param 'method' => (
+has param 'actor' => (
 
-	# isa => Types::SimpleStr,
+	# isa => Types::InstanceOf ['Unit::Actor'],
 );
 
-has param 'args' => (
+has param 'lore_id' => (
 
-	# isa => ArrayRef,
+	# isa => Types::LoreId
 );
 
 has param 'duration' => (
 
-	# isa => PositiveNum,
+	# isa => Types::PositiveNum,
 );
 
 has field 'start_time' => (
 
-	# isa => PositiveNum,
+	# isa => Types::PositiveNum,
 	default => sub { server_time },
 );
 
 has field 'eta' => (
 
-	# isa => PositiveNum,
+	# isa => Types::PositiveNum,
 	writer => 1,
 );
 
 has field 'cancelled' => (
 
-	# isa => Bool,
+	# isa => Types::Bool,
 	writer => 1,
 	default => false,
 );
+
+sub server_method ($self)
+{
+	...;
+}
 
 sub BUILD ($self, $)
 {

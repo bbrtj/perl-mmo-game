@@ -1,0 +1,101 @@
+# HARNESS-CATEGORY-IMMISCIBLE
+
+use Test2::Tools::E2ETest;
+use Test2::Tools::Compare qw(number_lt);
+use Game::TestClient;
+use Game::TestClientBag;
+use ActorTest;
+use Utils;
+
+use testheader;
+
+my $dummy_variables;
+
+e2e_test(
+	sub {
+
+		my $bag = Game::TestClientBag->new;
+
+		my $password = 'Testpassword123#';
+		my ($actor, %related_models) = ActorTest->save_actor(
+			password => $password,
+			variables_params => {
+				location_id => 'LOC.CP_HARBOR',
+				pos_x => 9,
+				pos_y => 9,
+			}
+		);
+
+		# TODO: this should be an NPC
+		my ($dummy, %dummy_related_models) = ActorTest->save_actor(
+			password => $password,
+			variables_params => {
+				location_id => 'LOC.CP_HARBOR',
+				pos_x => 10,
+				pos_y => 10,
+			}
+		);
+
+		DI->get('models_repo')->update($related_models{variables});
+		DI->get('models_repo')->update($dummy_related_models{variables});
+
+		$bag->add_client(
+			Game::TestClient->new(actor => $actor)
+				->add_action('Login', user => $related_models{user}, password => $password)
+				->add_action('EnterGame')
+				->add_action('Move', x => 9.5, y => 9.5)
+				->add_action(
+					'State',
+					received => {
+						'new_actors' => [$dummy->id]
+					},
+					types => ['discovery'],
+				)
+				->add_action(
+					'Feed',
+					data => [
+						Resource::ActorPosition->new(subject => $dummy),
+						Resource::ActorEvent->new(subject => $dummy),
+					],
+				)
+				->add_action('UseAbility', actor => $actor, lore_id => 'ABIL.STRIKE')
+		);
+
+		# TODO: real duration
+		my $actor_action = Game::Object::Action::Ability->new(
+			lore_id => 'ABIL.STRIKE',
+			actor => $actor,
+			duration => 1,
+		);
+
+		$bag->add_client(
+			Game::TestClient->new(actor => $dummy)
+				->add_action('Login', user => $dummy_related_models{user}, password => $password)
+				->add_action('EnterGame')
+				->add_action(
+					'Feed',
+					data => [
+						Resource::ActorAction->new(
+							subject => $actor_action,
+						),
+					],
+				)
+		);
+
+		$bag->run;
+		$dummy_variables = $dummy->variables;
+	},
+	sub {
+		die 'no dummy variables'
+			unless defined $dummy_variables;
+
+		my $dummy_health = DI->get('models_repo')->load(CharacterVariables => $dummy_variables->id)->health;
+
+		# TODO: check for damage amount
+		is $dummy_health, number_lt($dummy_variables->health), 'damage taken ok';
+		note sprintf 'damage taken was: %f', $dummy_variables->health - $dummy_health;
+	},
+);
+
+done_testing;
+

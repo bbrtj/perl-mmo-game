@@ -9,6 +9,7 @@ use POSIX qw(round);
 use header;
 
 has injected 'cache_repo';
+has injected 'lore_data_repo';
 
 has param 'process' => (
 	isa => Types::InstanceOf ['Server::Process::Game'],

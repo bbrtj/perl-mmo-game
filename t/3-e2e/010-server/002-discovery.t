@@ -32,22 +32,23 @@ e2e_test {
 		my @others = @players;
 		splice @others, $key, 1;
 
-		$bag->clients->[$key]->add_action(
-			'State',
-			received => {'new_actors' => [map { $_->id } @others]},
-			types => ['discovery'],
-		);
-
-		$bag->clients->[$key]->add_action(
-			'Feed',
-			data => [
-				(
-					map {
-						Resource::ActorPosition->new(subject => $_)
-					} @others
-				),
-			],
-		);
+		$bag->clients->[$key]
+			->add_action(
+				'State',
+				received => {'new_actors' => [map { $_->id } @others]},
+				types => ['discovery'],
+			)
+			->add_action(
+				'Feed',
+				data => [
+					(
+						map {
+							Resource::ActorPosition->new(subject => $_),
+							Resource::ActorEvent->new(subject => $_),
+						} @others
+					),
+				],
+			);
 	}
 
 	$bag->run;
