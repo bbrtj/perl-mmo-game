@@ -1,6 +1,7 @@
 package CLI;
 
 use My::Moose;
+use Module::Load;
 use Utils;
 
 use header;

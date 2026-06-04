@@ -51,7 +51,7 @@ docker compose up -d
 
 First, game data need to be prepared by running this command (inside docker):
 
-`script/cli prepare-client en`
+`script/cli prepare_client en`
 
 Compilation is done with `castle-editor` or CGE build tool: `cd client &&
 castle-engine compile`
