@@ -46,6 +46,7 @@ type
 		procedure OnActorMovement(const Data: TModelBase);
 		procedure OnActorPosition(const Data: TModelBase);
 		procedure OnActorEvent(const Data: TModelBase);
+		procedure OnActorAction(const Data: TModelBase);
 
 		procedure NewChatMessage(Message: String);
 
@@ -77,6 +78,7 @@ begin
 	GlobalClient.Await(TMsgFeedActorMovement, @OnActorMovement);
 	GlobalClient.Await(TMsgFeedActorPosition, @OnActorPosition);
 	GlobalClient.Await(TMsgFeedActorEvent, @OnActorEvent);
+	GlobalClient.Await(TMsgFeedActorAction, @OnActorAction);
 
 	GlobalChat.Handler := @NewChatMessage;
 end;
@@ -122,6 +124,7 @@ var
 	MouseHit: TRayCollision;
 	LPosition: TVector3;
 	LModel: TMsgMove;
+	LAbility: TMsgUntargettedAbility;
 
 begin
 	result := inherited;
@@ -148,8 +151,13 @@ begin
 		exit(true);
 	end;
 
+	{ TODO: hardcoded hotkey }
+	{ TODO: hardcoded ability lore_id }
 	if Event.IsKey(keyA) then begin
-		GlobalClient.Send(TMsgUntargettedAbility, TMsgUntargettedAbility.Create());
+		LAbility := TMsgUntargettedAbility.Create();
+		LAbility.lore_id := 'ABIL.STRIKE';
+
+		GlobalClient.Send(TMsgUntargettedAbility, LAbility);
 		exit(true);
 	end;
 
@@ -220,6 +228,11 @@ end;
 procedure TViewPlay.OnActorEvent(const Data: TModelBase);
 begin
 	FGameState.ProcessEvent(Data as TMsgFeedActorEvent);
+end;
+
+procedure TViewPlay.OnActorAction(const Data: TModelBase);
+begin
+	FGameState.ProcessAction(Data as TMsgFeedActorAction);
 end;
 
 procedure TViewPlay.NewChatMessage(Message: String);

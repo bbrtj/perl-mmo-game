@@ -2,18 +2,18 @@ unit GameModels.Ability;
 
 interface
 
-uses GameModels;
+uses GameModels, GameTypes;
 
 type
 	TMsgUntargettedAbility = class(TModelBase)
 	private
-		FAbility: String;
+		FLoreId: TLoreId;
 
 	public
 		class function MessageType(): String; override;
 
 	published
-		property ability: String read FAbility write FAbility;
+		property lore_id: TLoreId read FLoreId write FLoreId;
 
 	end;
 
@@ -23,8 +23,6 @@ class function TMsgUntargettedAbility.MessageType(): String;
 begin
 	result := 'use_ability';
 end;
-
-{ implementation end }
 
 end.
 

@@ -14,8 +14,6 @@ type
 		FNetworkMaxLength: Integer;
 		FNetworkPort: Integer;
 
-		FGameActionCooldown: Single;
-
 		FCameraDistance: Single;
 		FFormatSettings: TFormatSettings;
 	public
@@ -26,8 +24,6 @@ type
 		property NetworkControlCharacter: String read FNetworkControlCharacter write FNetworkControlCharacter;
 		property NetworkMaxLength: Integer read FNetworkMaxLength write FNetworkMaxLength;
 		property NetworkPort: Integer read FNetworkPort write FNetworkPort;
-
-		property GameActionCooldown: Single read FGameActionCooldown write FGameActionCooldown;
 
 	public
 		property CameraDistance: Single read FCameraDistance write FCameraDistance;

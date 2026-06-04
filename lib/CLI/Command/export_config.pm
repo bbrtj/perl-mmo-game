@@ -21,8 +21,6 @@ sub run ($self)
 		NetworkControlCharacter => Server::Config->PROTOCOL_CONTROL_CHARACTER,
 		NetworkMaxLength => Server::Config->PROTOCOL_MAX_LENGTH,
 		NetworkPort => Server::Config->GAME_SERVER_PORT,
-
-		GameActionCooldown => Game::Config->config->{action_cooldown},
 	};
 
 	my $output = cwd->child('client')->child('data')->child('config.json');

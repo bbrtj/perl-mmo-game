@@ -38,6 +38,7 @@ type
 		procedure ProcessMovement(Movement: TMsgFeedActorMovement);
 		procedure ProcessPosition(Stop: TMsgFeedActorPosition);
 		procedure ProcessEvent(Event: TMsgFeedActorEvent);
+		procedure ProcessAction(Event: TMsgFeedActorAction);
 
 		property Board: TCastleTiledMap write SetBoard;
 	end;
@@ -160,8 +161,17 @@ begin
 	if LActor <> nil then begin
 		LActor.SetHealth(Event.Health, Event.MaxHealth);
 		LActor.SetEnergy(Event.Energy, Event.MaxEnergy);
-		// TODO: event data not handled
+		// TODO: event data not handled (health change)
 	end
+end;
+
+procedure TGameState.ProcessAction(Event: TMsgFeedActorAction);
+var
+	LActor: TGameActor;
+begin
+	LActor := self.FindActor(Event.Id);
+	if LActor <> nil then
+		LActor.SetAction(Event.LoreId, Event.Duration);
 end;
 
 end.

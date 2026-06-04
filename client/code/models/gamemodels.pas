@@ -2,7 +2,7 @@ unit GameModels;
 
 interface
 
-uses SysUtils, FPJSON, GameConfig, Serialization;
+uses SysUtils, FPJSON, GameConfig, Serialization, GameTypes;
 
 type
 
@@ -24,6 +24,8 @@ type
 		function GetValue(): String; virtual;
 
 		function GetValueIndex(Index: Integer): String;
+		function GetValueIndexUlid(Index: Integer): TUlid;
+		function GetValueIndexLoreId(Index: Integer): TLoreId;
 		function GetValueIndexReal(Index: Integer): Single;
 		procedure SetValueIndex(Index: Integer; const Value: String);
 		procedure SetValueIndexReal(Index: Integer; Value: Single);
@@ -93,6 +95,16 @@ end;
 function TPlaintextModel.GetValueIndex(Index: Integer): String;
 begin
 	result := FValueParts[Index];
+end;
+
+function TPlaintextModel.GetValueIndexUlid(Index: Integer): TUlid;
+begin
+	result := self.GetValueIndex(Index);
+end;
+
+function TPlaintextModel.GetValueIndexLoreId(Index: Integer): TLoreId;
+begin
+	result := self.GetValueIndex(Index);
 end;
 
 function TPlaintextModel.GetValueIndexReal(Index: Integer): Single;

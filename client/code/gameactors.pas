@@ -5,7 +5,7 @@ interface
 uses SysUtils, Classes, Contnrs,
 	CastleUIControls, CastleControls, CastleRectangles,
 	CastleTransform, CastleVectors, CastleViewport,
-	GameTypes, GameExceptions, GameNetwork, GameConfig,
+	GameTypes, GameLore, GameExceptions, GameNetwork, GameConfig,
 	GameModels, GameModels.Discovery;
 
 type
@@ -27,12 +27,17 @@ type
 
 	var
 		FPlate: TCastleDesign;
+		FPlateInitialHeight: Single;
 
 		FId: TUlid;
 		FName: String;
 
 		FMovementVector: TVector3;
 		FMovementTime: Single;
+
+		FActionDuration: Single;
+		FActionName: String;
+		FActionTime: Single;
 
 		FHealth: Single;
 		FMaxHealth: Single;
@@ -41,6 +46,7 @@ type
 
 		procedure UpdatePlate(Sender: TObject);
 		procedure UpdatePlatePosition();
+		procedure UpdatePlateAction();
 	public
 		constructor Create(AOwner: TComponent);
 
@@ -51,6 +57,7 @@ type
 
 		procedure SetHealth(Current, Max: Single);
 		procedure SetEnergy(Current, Max: Single);
+		procedure SetAction(const LoreId: TLoreId; Duration: Single);
 
 		procedure Update(const secondsPassed: Single; var removeMe: TRemoveType); override;
 
@@ -114,8 +121,6 @@ end;
 
 procedure TGameActor.Update(const secondsPassed: Single; var removeMe: TRemoveType);
 begin
-	self.UpdatePlatePosition;
-
 	if FMovementTime > 0 then begin
 		FMovementTime -= secondsPassed;
 		self.Translation := self.Translation + FMovementVector * secondsPassed;
@@ -123,6 +128,13 @@ begin
 
 	if not (FMovementVector - self.Up).IsZero then
 		self.Up := self.Up + FMovementVector * cTurnSpeed;
+
+	self.UpdatePlatePosition;
+
+	if FActionTime > 0 then
+		FActionTime -= secondsPassed;
+
+	self.UpdatePlateAction;
 
 	inherited;
 end;
@@ -187,9 +199,31 @@ var
 begin
 	LTranslation := (FPlate.Parent as TCastleViewport).PositionFromWorld(self.Translation);
 	LUI := FPlate.DesignedComponent('ActorPlate') as TCastleUserInterface;
+	if FPlateInitialHeight = 0 then
+		FPlateInitialHeight := LUI.EffectiveHeight;
+
 	LTranslation.X -= LUI.EffectiveWidth / 2;
-	LTranslation.Y += LUI.EffectiveHeight * 0.66;
+	LTranslation.Y += FPlateInitialHeight * 0.2;
 	FPlate.Translation := LTranslation;
+end;
+
+procedure TGameActor.UpdatePlateAction();
+var
+	LVisible: Boolean;
+	LUI: TCastleRectangleControl;
+begin
+	LUI := FPlate.DesignedComponent('ActionBar') as TCastleRectangleControl;
+	LVisible := FActionTime > 0;
+
+	if (LVisible = LUI.Exists) and not LVisible then exit;
+
+	LUI.Exists := LVisible;
+	(FPlate.DesignedComponent('CurrentActionBar') as TCastleRectangleControl)
+		.WidthFraction := (FActionDuration - FActionTime) / FActionDuration;
+
+	(FPlate.DesignedComponent('ActionName') as TCastleLabel)
+		.Caption := FActionName;
+
 end;
 
 constructor TGameActor.Create(AOwner: TComponent);
@@ -197,6 +231,7 @@ begin
 	inherited;
 
 	FName := '';
+	FActionName := '';
 end;
 
 procedure TGameActor.SetPosition(X, Y: Single);
@@ -235,6 +270,15 @@ begin
 	FMaxEnergy := Max;
 
 	self.UpdatePlate(self);
+end;
+
+procedure TGameActor.SetAction(const LoreId: TLoreId; Duration: Single);
+begin
+	FActionName := LoreCollection.GetById(LoreId).LoreName;
+
+	// NOTE: duration can be 0 when action is cancelled
+	FActionDuration := Duration;
+	FActionTime := Duration;
 end;
 
 constructor TGameActorRepository.Create();

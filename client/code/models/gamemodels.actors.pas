@@ -14,7 +14,7 @@ type
 
 		function HasEvent(): Boolean;
 
-		property Id: String index 0 read GetValueIndex;
+		property Id: TUlid index 0 read GetValueIndexUlid;
 		property Health: Single index 1 read GetValueIndexReal;
 		property MaxHealth: Single index 2 read GetValueIndexReal;
 		property Energy: Single index 3 read GetValueIndexReal;
@@ -22,6 +22,16 @@ type
 
 		property EventSource: String index 5 read GetValueIndex;
 		property HealthChange: Single index 6 read GetValueIndexReal;
+
+	end;
+
+	TMsgFeedActorAction = class(TPlaintextModel)
+	public
+		class function MessageType(): String; override;
+
+		property Id: TUlid index 0 read GetValueIndexUlid;
+		property LoreId: TLoreId index 1 read GetValueIndexLoreId;
+		property Duration: Single index 2 read GetValueIndexReal;
 
 	end;
 
@@ -35,6 +45,11 @@ end;
 function TMsgFeedActorEvent.HasEvent(): Boolean;
 begin
 	result := Length(self.RawValue) >= 6;
+end;
+
+class function TMsgFeedActorAction.MessageType(): String;
+begin
+	result := 'actor_action';
 end;
 
 end.
