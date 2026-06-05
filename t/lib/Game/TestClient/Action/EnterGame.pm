@@ -26,7 +26,7 @@ sub receive_queue ($self)
 			subject => $self->lore_data_repo->load($self->client->actor->variables->location_id),
 			actor => $self->client->actor,
 		),
-		Resource::ActorEvent->new(
+		Resource::ActorState->new(
 			subject => $self->client->actor,
 		)
 	);

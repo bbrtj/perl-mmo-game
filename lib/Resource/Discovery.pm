@@ -3,7 +3,7 @@ package Resource::Discovery;
 use My::Moose;
 
 use Resource::ActorPosition;
-use Resource::ActorEvent;
+use Resource::ActorState;
 
 use header;
 
@@ -58,8 +58,10 @@ sub _build_next_resources ($self)
 {
 	my @resources;
 	foreach my $actor ($self->subject->{new_actors}->@*) {
-		push @resources, Resource::ActorPosition->new(subject => $actor);
-		push @resources, Resource::ActorEvent->new(subject => $actor);
+		push @resources, (
+			Resource::ActorPosition->new(subject => $actor),
+			Resource::ActorState->new(subject => $actor),
+		);
 	}
 
 	return \@resources;

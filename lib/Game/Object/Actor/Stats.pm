@@ -11,6 +11,10 @@ has param 'parent' => (
 	weak_ref => 1,
 );
 
+# TODO: these are here because variables are tied to DB - consider using
+# variables anyway or some runtime-only variables, to keep stats for cached
+# statistics
+
 has field 'movement' => (
 	isa => Types::InstanceOf ['Game::Object::Movement'],
 	writer => -hidden,
@@ -23,17 +27,17 @@ has field 'angle' => (
 	default => 0,
 );
 
-has field 'speed' => (
-	writer => 1,
-	default => sub { Game::Config->config->{base_speed} },    # TODO
-);
-
 has field 'action' => (
 
 	# isa => InstanceOf['Game::Object::Action'],
 	writer => 1,
 	clearer => 1,
 	predicate => 1,
+);
+
+has cached 'speed' => (
+	writer => 1,
+	default => sub { Game::Config->config->{base_speed} },    # TODO
 );
 
 # precalculated weapon damage
@@ -55,7 +59,19 @@ has cached 'max_health' => (
 	lazy => 1,
 );
 
+has cached 'health_regeneration' => (
+
+	# isa => Types::PositiveNum,
+	lazy => 1,
+);
+
 has cached 'max_energy' => (
+
+	# isa => Types::PositiveNum,
+	lazy => 1,
+);
+
+has cached 'energy_regeneration' => (
 
 	# isa => Types::PositiveNum,
 	lazy => 1,
@@ -92,6 +108,16 @@ sub _build_max_health ($self)
 	return $class->data->define->{base_health};
 }
 
+sub _build_health_regeneration ($self)
+{
+	my $repo = DI->get('lore_data_repo');
+	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent->variables->experience);
+	my $class = $repo->load($self->parent->character->class_id);
+
+	# TODO: nasty hardcode
+	return 0.5;
+}
+
 sub _build_max_energy ($self)
 {
 	my $repo = DI->get('lore_data_repo');
@@ -101,5 +127,15 @@ sub _build_max_energy ($self)
 	# TODO: adjust based on $level - 1
 	# TODO: adjust based on stamina
 	return $class->data->define->{base_energy};
+}
+
+sub _build_energy_regeneration ($self)
+{
+	my $repo = DI->get('lore_data_repo');
+	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent->variables->experience);
+	my $class = $repo->load($self->parent->character->class_id);
+
+	# TODO: nasty hardcode
+	return 0.1;
 }
 

@@ -8,6 +8,7 @@ use POSIX qw(round);
 
 use header;
 
+has injected 'env';
 has injected 'cache_repo';
 has injected 'lore_data_repo';
 
@@ -60,10 +61,11 @@ with qw(
 	Game::Server::Role::QuadTree
 	Game::Server::Role::ActionQueue
 	Game::Server::Role::Discovery
-	Game::Server::Role::Movements
 
 	Game::Server::Role::Chat
 	Game::Server::Role::Combat
+	Game::Server::Role::Movements
+	Game::Server::Role::Regeneration
 );
 
 sub _add_action ($self, $every, $handler, $priority = 0)

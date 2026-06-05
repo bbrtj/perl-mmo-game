@@ -37,8 +37,9 @@ type
 		procedure RemoveActor(const Id: TUlid);
 		procedure ProcessMovement(Movement: TMsgFeedActorMovement);
 		procedure ProcessPosition(Stop: TMsgFeedActorPosition);
-		procedure ProcessEvent(Event: TMsgFeedActorEvent);
-		procedure ProcessAction(Event: TMsgFeedActorAction);
+		procedure ProcessActorEvent(Event: TMsgFeedActorEvent);
+		procedure ProcessActorState(Event: TMsgFeedActorState);
+		procedure ProcessActorAction(Event: TMsgFeedActorAction);
 
 		property Board: TCastleTiledMap write SetBoard;
 	end;
@@ -153,7 +154,18 @@ begin
 	end
 end;
 
-procedure TGameState.ProcessEvent(Event: TMsgFeedActorEvent);
+procedure TGameState.ProcessActorEvent(Event: TMsgFeedActorEvent);
+var
+	LActor: TGameActor;
+begin
+	LActor := self.FindActor(Event.Id);
+	if LActor <> nil then begin
+		LActor.ModifyHealth(Event.Health);
+		// TODO: animate damage / healing (HealthChange)
+	end
+end;
+
+procedure TGameState.ProcessActorState(Event: TMsgFeedActorState);
 var
 	LActor: TGameActor;
 begin
@@ -161,11 +173,11 @@ begin
 	if LActor <> nil then begin
 		LActor.SetHealth(Event.Health, Event.MaxHealth);
 		LActor.SetEnergy(Event.Energy, Event.MaxEnergy);
-		// TODO: event data not handled (health change)
+		LActor.SetRegeneration(Event.HealthRegeneration, Event.EnergyRegeneration);
 	end
 end;
 
-procedure TGameState.ProcessAction(Event: TMsgFeedActorAction);
+procedure TGameState.ProcessActorAction(Event: TMsgFeedActorAction);
 var
 	LActor: TGameActor;
 begin

@@ -12,16 +12,24 @@ type
 	public
 		class function MessageType(): String; override;
 
-		function HasEvent(): Boolean;
+		property Id: TUlid index 0 read GetValueIndexUlid;
+		property Health: Single index 1 read GetValueIndexReal;
+		property EventSource: TUlid index 2 read GetValueIndexUlid;
+		property HealthChange: Single index 3 read GetValueIndexReal;
+
+	end;
+
+	TMsgFeedActorState = class(TPlaintextModel)
+	public
+		class function MessageType(): String; override;
 
 		property Id: TUlid index 0 read GetValueIndexUlid;
 		property Health: Single index 1 read GetValueIndexReal;
 		property MaxHealth: Single index 2 read GetValueIndexReal;
-		property Energy: Single index 3 read GetValueIndexReal;
-		property MaxEnergy: Single index 4 read GetValueIndexReal;
-
-		property EventSource: String index 5 read GetValueIndex;
-		property HealthChange: Single index 6 read GetValueIndexReal;
+		property HealthRegeneration: Single index 3 read GetValueIndexReal;
+		property Energy: Single index 4 read GetValueIndexReal;
+		property MaxEnergy: Single index 5 read GetValueIndexReal;
+		property EnergyRegeneration: Single index 6 read GetValueIndexReal;
 
 	end;
 
@@ -42,9 +50,9 @@ begin
 	result := 'actor_event';
 end;
 
-function TMsgFeedActorEvent.HasEvent(): Boolean;
+class function TMsgFeedActorState.MessageType(): String;
 begin
-	result := Length(self.RawValue) >= 6;
+	result := 'actor_state';
 end;
 
 class function TMsgFeedActorAction.MessageType(): String;

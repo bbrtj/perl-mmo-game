@@ -2,7 +2,7 @@ unit GameActors;
 
 interface
 
-uses SysUtils, Classes, Contnrs,
+uses SysUtils, Classes, Contnrs, Math,
 	CastleUIControls, CastleControls, CastleRectangles,
 	CastleTransform, CastleVectors, CastleViewport,
 	GameTypes, GameLore, GameExceptions, GameNetwork, GameConfig,
@@ -41,10 +41,13 @@ type
 
 		FHealth: Single;
 		FMaxHealth: Single;
+		FHealthRegeneration: Single;
 		FEnergy: Single;
 		FMaxEnergy: Single;
+		FEnergyRegeneration: Single;
 
 		procedure UpdatePlate(Sender: TObject);
+		procedure UpdatePlateResources();
 		procedure UpdatePlatePosition();
 		procedure UpdatePlateAction();
 	public
@@ -57,6 +60,8 @@ type
 
 		procedure SetHealth(Current, Max: Single);
 		procedure SetEnergy(Current, Max: Single);
+		procedure ModifyHealth(NewHealth: Single);
+		procedure SetRegeneration(Health, Energy: Single);
 		procedure SetAction(const LoreId: TLoreId; Duration: Single);
 
 		procedure Update(const secondsPassed: Single; var removeMe: TRemoveType); override;
@@ -121,6 +126,10 @@ end;
 
 procedure TGameActor.Update(const secondsPassed: Single; var removeMe: TRemoveType);
 begin
+	FHealth := Min(FMaxHealth, FHealth + FHealthRegeneration * secondsPassed);
+	FEnergy := Min(FMaxEnergy, FEnergy + FEnergyRegeneration * secondsPassed);
+	self.UpdatePlateResources;
+
 	if FMovementTime > 0 then begin
 		FMovementTime -= secondsPassed;
 		self.Translation := self.Translation + FMovementVector * secondsPassed;
@@ -185,6 +194,11 @@ begin
 		end;
 	end;
 
+	self.UpdatePlateResources;
+end;
+
+procedure TGameActor.UpdatePlateResources();
+begin
 	(FPlate.DesignedComponent('CurrentHealthBar') as TCastleRectangleControl)
 		.WidthFraction := FHealth / FMaxHealth;
 
@@ -261,7 +275,15 @@ begin
 	FHealth := Current;
 	FMaxHealth := Max;
 
+	{ TODO: update all plate data since we need to update a name someday }
 	self.UpdatePlate(self);
+end;
+
+procedure TGameActor.ModifyHealth(NewHealth: Single);
+begin
+	FHealth := NewHealth;
+
+	self.UpdatePlateResources;
 end;
 
 procedure TGameActor.SetEnergy(Current, Max: Single);
@@ -269,7 +291,13 @@ begin
 	FEnergy := Current;
 	FMaxEnergy := Max;
 
-	self.UpdatePlate(self);
+	self.UpdatePlateResources;
+end;
+
+procedure TGameActor.SetRegeneration(Health, Energy: Single);
+begin
+	FHealthRegeneration := Health;
+	FEnergyRegeneration := Energy;
 end;
 
 procedure TGameActor.SetAction(const LoreId: TLoreId; Duration: Single);

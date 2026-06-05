@@ -64,6 +64,7 @@ sub use_ability_done ($self, $object)
 	my $damage = $stats->weapon_damage;
 	Game::Mechanics::Character::Damage->deal_damage($ability->data->attributes, $damage, @found);
 
+	# TODO: not always all targets will be affected (ability target limit)
 	foreach my $affected (@found) {
 		$self->send_to_players(
 			[$affected->id, $self->get_discovered_by($affected->id)],

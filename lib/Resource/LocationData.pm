@@ -2,7 +2,7 @@ package Resource::LocationData;
 
 use My::Moose;
 
-use Resource::ActorEvent;
+use Resource::ActorState;
 
 use header;
 
@@ -30,7 +30,7 @@ sub generate ($self)
 sub _build_next_resources ($self)
 {
 	return [
-		Resource::ActorEvent->new(subject => $self->actor),
+		Resource::ActorState->new(subject => $self->actor),
 	];
 }
 

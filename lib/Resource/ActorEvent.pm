@@ -10,11 +10,11 @@ has extended 'subject' => (
 	isa => Types::InstanceOf ['Unit::Actor'],
 );
 
-has option 'event_source' => (
+has param 'event_source' => (
 	isa => Types::ULID,
 );
 
-has option 'health_change' => (
+has param 'health_change' => (
 	isa => Types::Num,
 );
 
@@ -25,18 +25,15 @@ sub generate ($self)
 {
 	my $actor = $self->subject;
 
-	# actor id
-	# health, max health
-	# energy, max energy
-	# optional: event source, change of actor health
+	# affected actor id
+	# current health
+	# event source
+	# change of actor health (may be overkill)
 	return [
 		$actor->id,
 		$actor->variables->health,
-		$actor->stats->max_health,
-		$actor->variables->energy,
-		$actor->stats->max_energy,
-		$self->event_source // '',
-		$self->health_change // '',
+		$self->event_source,
+		$self->health_change,
 	];
 }
 

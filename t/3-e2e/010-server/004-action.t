@@ -11,6 +11,7 @@ use testheader;
 
 my $dummy_variables;
 
+DI->get('env')->setenv(TEST_NO_REGENERATION => true);
 e2e_test(
 	sub {
 
@@ -55,7 +56,7 @@ e2e_test(
 					'Feed',
 					data => [
 						Resource::ActorPosition->new(subject => $dummy),
-						Resource::ActorEvent->new(subject => $dummy),
+						Resource::ActorState->new(subject => $dummy),
 					],
 				)
 				->add_action('UseAbility', actor => $actor, lore_id => 'ABIL.STRIKE')

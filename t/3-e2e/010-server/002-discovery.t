@@ -12,6 +12,7 @@ use testheader;
 
 use constant CLIENTS_COUNT => 10;
 
+DI->get('env')->setenv(TEST_NO_REGENERATION => true);
 e2e_test {
 
 	my $bag = Game::TestClientBag->new;
@@ -44,7 +45,7 @@ e2e_test {
 					(
 						map {
 							Resource::ActorPosition->new(subject => $_),
-							Resource::ActorEvent->new(subject => $_),
+							Resource::ActorState->new(subject => $_),
 						} @others
 					),
 				],

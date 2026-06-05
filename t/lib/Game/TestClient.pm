@@ -129,10 +129,10 @@ sub run ($self)
 		}
 
 		if ($parts[0]) {
-			say "$action: Server response #$last_sent_id ok";
+			say "$action: Server response #$last_sent_id ok ($parts[1])";
 		}
 		else {
-			say "$action: Server feed ok";
+			say "$action: Server feed ok ($parts[1])";
 		}
 
 		return true;
