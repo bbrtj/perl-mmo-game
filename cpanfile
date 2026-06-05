@@ -13,7 +13,6 @@ on 'runtime' => sub {
 
 	requires 'Type::Tiny' => 0;
 	requires 'Type::Tiny::XS' => 0;
-	requires 'Types::DateTime' => 0;
 	requires 'Type::EmailAddress' => 0;
 	requires 'Types::ULID' => 0;
 
@@ -34,7 +33,6 @@ on 'runtime' => sub {
 	requires 'DBI' => 0;
 	requires 'DBD::Pg' => 0;
 	requires 'DBIx::Class' => 0;
-	requires 'DateTime::Format::Pg' => 0;
 
 	requires 'Import::Into' => 0;
 	requires 'namespace::autoclean' => 0;

@@ -13,7 +13,8 @@ after initialize => sub ($self, $class, @args) {
 	my $serialize_method = sub ($instance) {
 		return {
 			map {
-				$_->name => $_->get_value($instance)
+				my $value = $_->get_value($instance);
+				$_->name => defined $value ? "$value" : undef;
 			} grep {
 				$_->has_value($instance)
 			} $instance->meta->serialized_attributes->@*
