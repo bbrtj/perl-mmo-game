@@ -11,7 +11,7 @@ use constant NAME_MAX_LENGTH => 20;
 has injected 'lore_data_repo';
 
 form_field 'name' => (
-	type => Types::SimpleStr,
+	type => SimpleStr,
 	required => 1,
 	adjust => sub ($self, $name) { ucfirst lc $name },
 );
@@ -31,7 +31,7 @@ field_validator 'err.name_must_consist_of_letters' => sub ($self, $name) {
 # TODO: check if name exists in database?
 
 form_field 'class' => (
-	type => Types::LoreId,
+	type => LoreId,
 	required => 1,
 	adjust => sub ($self, $class) { $self->lore_data_repo->load($class) },
 );

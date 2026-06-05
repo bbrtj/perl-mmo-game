@@ -8,7 +8,7 @@ has injected 'store' => aliasing => 'redis';
 has injected 'encoder';
 
 has param 'key' => (
-	isa => Types::SimpleStr
+	isa => SimpleStr
 );
 
 sub get_key ($self, $id)

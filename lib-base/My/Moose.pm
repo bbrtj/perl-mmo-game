@@ -12,6 +12,8 @@ require namespace::autoclean;
 require My::Mooish::AttributeBuilder;
 require MooseX::XSAccessor;
 
+use Types;
+
 sub common_traits ()
 {
 	return (
@@ -41,6 +43,7 @@ sub import ($self, @args)
 	namespace::autoclean->import(-cleanee => $caller, -except => qr{\A[A-Z_]{2,}\z});
 	My::Mooish::AttributeBuilder->import::into($caller);
 	MooseX::XSAccessor->import::into($caller);
+	Types->import::into($caller, -types);
 
 	after_runtime { $caller->meta->make_immutable(@immutable_args) };
 

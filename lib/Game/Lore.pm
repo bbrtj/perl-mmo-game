@@ -5,11 +5,11 @@ use My::Moose;
 use header;
 
 has param 'id' => (
-	isa => Types::Str,
+	isa => Str,
 );
 
 has param 'name' => (
-	isa => Types::Str,
+	isa => Str,
 );
 
 my %data_collection;

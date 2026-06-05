@@ -7,7 +7,7 @@ use header;
 extends 'Resource';
 
 has extended 'subject' => (
-	isa => Types::InstanceOf ['Unit::User'],
+	isa => InstanceOf ['Unit::User'],
 );
 
 use constant type => 'character_list';

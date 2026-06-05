@@ -8,11 +8,11 @@ use all 'Unit', 'Game::TestClient';
 use header;
 
 has param 'actor' => (
-	isa => Types::InstanceOf ['Unit::Actor'],
+	isa => InstanceOf ['Unit::Actor'],
 );
 
 has field 'actions' => (
-	isa => Types::ArrayRef [Types::InstanceOf ['Game::TestClient::Action']],
+	isa => ArrayRef [InstanceOf ['Game::TestClient::Action']],
 	default => sub { [] },
 	'handles[]' => {
 		'_add_action' => 'push',
@@ -20,13 +20,13 @@ has field 'actions' => (
 );
 
 has field 'action_index' => (
-	isa => Types::Int,
+	isa => Int,
 	writer => 1,
 	default => -1,
 );
 
 has field 'finished' => (
-	isa => Types::Bool,
+	isa => Bool,
 	default => false,
 	'handles!!' => {
 		'_set_finished' => 'set',
@@ -35,7 +35,7 @@ has field 'finished' => (
 );
 
 has field 'success' => (
-	isa => Types::Bool,
+	isa => Bool,
 	default => true,
 	'handles!!' => {
 		'_set_failed' => 'unset',

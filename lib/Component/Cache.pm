@@ -13,7 +13,7 @@ has injected 'redis' => (
 );
 
 has param 'cache_name' => (
-	isa => Types::SimpleStr,
+	isa => SimpleStr,
 	writer => 1,
 	lazy => sub { croak 'cache_name was not set in Component::Cache' },
 );

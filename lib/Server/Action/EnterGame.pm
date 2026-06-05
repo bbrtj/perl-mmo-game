@@ -14,7 +14,7 @@ use constant required_state => Model::PlayerSession->STATE_LOGGED_IN;
 
 sub validate ($self, $data)
 {
-	Types::ULID->assert_valid($data);
+	ULID->assert_valid($data);
 	return $data;
 }
 

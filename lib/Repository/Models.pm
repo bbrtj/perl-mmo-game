@@ -13,7 +13,7 @@ has injected 'db';
 
 sub save ($self, $model, $update = 0)
 {
-	state $type_check = Types::ConsumerOf ['Model::Role::Stored'];
+	state $type_check = ConsumerOf ['Model::Role::Stored'];
 	$type_check->assert_valid($model);
 
 	my @dirty = $model->_dirty;

@@ -15,7 +15,7 @@ use constant BCRYPT_SUBTYPE => '2b';
 use constant BCRYPT_COST => '9';
 
 has param 'email' => (
-	isa => Types::EmailAddress,
+	isa => EmailAddress,
 	trigger => sub ($self, $value, @) {
 		my $original = $value;
 		$value = lc $value;
@@ -26,17 +26,17 @@ has param 'email' => (
 );
 
 has param 'password' => (
-	isa => Types::NonEmptySimpleStr->where(q{ length $_ <= 60 }),
+	isa => NonEmptySimpleStr->where(q{ length $_ <= 60 }),
 	writer => -hidden,
 );
 
 has param 'status' => (
-	isa => Types::PositiveInt,
+	isa => PositiveInt,
 	default => 1,
 );
 
 has param 'created_at' => (
-	coerce => Types::DateTime,
+	coerce => DateTime,
 	default => sub { time },
 );
 

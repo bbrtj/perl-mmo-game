@@ -13,7 +13,7 @@ use constant required_state => Model::PlayerSession->STATE_PLAYING;
 
 sub validate ($self, $data)
 {
-	state $type = Types::ArrayRef [Types::ULID];
+	state $type = ArrayRef [ULID];
 	my $parts = [split quotemeta Server::Config::PROTOCOL_SEPARATOR, $data];
 
 	$type->assert_valid($parts);

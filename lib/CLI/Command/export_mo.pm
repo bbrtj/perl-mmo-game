@@ -39,7 +39,7 @@ package SimplePO {
 	use header;
 
 	has param 'filename' => (
-		isa => Types::Str,
+		isa => Str,
 	);
 
 	sub export ($self)

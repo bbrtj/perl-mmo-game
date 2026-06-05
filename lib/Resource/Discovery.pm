@@ -10,8 +10,8 @@ use header;
 extends 'Resource';
 
 has extended 'subject' => (
-	isa => Types::HashRef [
-		Types::ArrayRef [Types::InstanceOf ['Unit::Actor']]
+	isa => HashRef [
+		ArrayRef [InstanceOf ['Unit::Actor']]
 	],
 
 	default => sub { {} },

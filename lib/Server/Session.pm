@@ -8,7 +8,7 @@ use all 'X', 'Model';
 use header;
 
 has param 'server' => (
-	isa => Types::InstanceOf ['Server'],
+	isa => InstanceOf ['Server'],
 	weak_ref => 1,
 	'handles->' => {
 		'cache_repo' => 'cache_repo',
@@ -27,7 +27,7 @@ has param 'stream' => (
 );
 
 has param 'on_dropped' => (
-	isa => Types::CodeRef,
+	isa => CodeRef,
 );
 
 has field 'session' => (

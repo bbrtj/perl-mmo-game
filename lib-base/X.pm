@@ -2,7 +2,6 @@ package X;
 
 use v5.42;
 use My::Moose;
-use Types::Standard;
 
 use overload
 	'""' => 'stringify',
@@ -10,7 +9,7 @@ use overload
 	fallback => 1;
 
 has option 'msg' => (
-	isa => Types::Standard::Str,
+	isa => Str,
 );
 
 sub throw ($self, $msg = undef, %args)

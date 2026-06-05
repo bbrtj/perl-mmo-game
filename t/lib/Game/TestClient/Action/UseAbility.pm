@@ -11,11 +11,11 @@ extends 'Game::TestClient::Action';
 use constant requires => ['EnterGame'];
 
 has param 'actor' => (
-	isa => Types::InstanceOf ['Unit::Actor'],
+	isa => InstanceOf ['Unit::Actor'],
 );
 
 has param 'lore_id' => (
-	isa => Types::LoreId,
+	isa => LoreId,
 );
 
 sub send_queue ($self)

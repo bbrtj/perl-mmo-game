@@ -14,7 +14,7 @@ has injected 'cache_repo';
 has injected 'channel_service';
 
 has param 'port' => (
-	isa => Types::PositiveInt,
+	isa => PositiveInt,
 	default => sub { Server::Config::GAME_SERVER_PORT },
 );
 
@@ -23,7 +23,7 @@ has param 'worker' => (
 );
 
 has field 'connections' => (
-	isa => Types::HashRef [Types::CodeRef],
+	isa => HashRef [CodeRef],
 	default => sub { {} },
 );
 

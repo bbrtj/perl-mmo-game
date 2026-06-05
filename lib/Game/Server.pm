@@ -13,7 +13,7 @@ has injected 'cache_repo';
 has injected 'lore_data_repo';
 
 has param 'process' => (
-	isa => Types::InstanceOf ['Server::Process::Game'],
+	isa => InstanceOf ['Server::Process::Game'],
 	weak_ref => 1,
 	'handles->' => {
 		'send_to_player' => 'send_to_player',
@@ -23,7 +23,7 @@ has param 'process' => (
 );
 
 has param 'location' => (
-	isa => Types::InstanceOf ['Unit::Location'],
+	isa => InstanceOf ['Unit::Location'],
 	'handles->' => {
 		'get_player' => 'get_player',
 	},
@@ -40,17 +40,17 @@ has field 'map' => (
 );
 
 has field '_actions' => (
-	isa => Types::ArrayRef [Types::HashRef [Types::ArrayRef]],
+	isa => ArrayRef [HashRef [ArrayRef]],
 	default => sub { [] },
 );
 
 has cached '_compiled_action' => (
-	isa => Types::CodeRef,
+	isa => CodeRef,
 	lazy => 1,
 );
 
 has field '_queue' => (
-	isa => Types::ArrayRef [Types::ArrayRef],
+	isa => ArrayRef [ArrayRef],
 	default => sub { [] },
 	'handles[]' => {
 		'_clear_queue' => 'clear',

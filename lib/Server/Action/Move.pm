@@ -14,7 +14,7 @@ use constant required_state => Model::PlayerSession->STATE_PLAYING;
 
 sub validate ($self, $data)
 {
-	state $type = Types::Tuple [Types::PositiveNum, Types::PositiveNum];
+	state $type = Tuple [PositiveNum, PositiveNum];
 	my $parts = [split quotemeta Server::Config::PROTOCOL_SEPARATOR, $data];
 
 	$type->assert_valid($parts);

@@ -12,23 +12,23 @@ extends 'Model';
 with 'Model::Role::Identified';
 
 has option 'user_id' => (
-	isa => Types::ULID,
+	isa => ULID,
 	clearer => 1,
 );
 
 has param 'state' => (
-	isa => Types::Enum [@{+SESSION_STATES}],
+	isa => Enum [@{+SESSION_STATES}],
 	default => STATE_NEW,
 );
 
 has option 'player_id' => (
-	isa => Types::ULID,
+	isa => ULID,
 	clearer => 1,
 );
 
 # in-game location
 has option 'location_id' => (
-	isa => Types::LoreId,
+	isa => LoreId,
 );
 
 sub set_logged_in ($self, $user_id)

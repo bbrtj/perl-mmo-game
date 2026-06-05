@@ -10,11 +10,11 @@ use constant server_method => 'use_ability_done';
 
 has option 'x' => (
 
-	# isa => Types::Num
+	# isa => Num
 );
 
 has option 'y' => (
 
-	# isa => Types::Num
+	# isa => Num
 );
 

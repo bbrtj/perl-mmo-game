@@ -18,7 +18,7 @@ requires qw(
 );
 
 has cached '_moving' => (
-	isa => Types::HashRef [Types::InstanceOf ['Unit::Actor']],
+	isa => HashRef [InstanceOf ['Unit::Actor']],
 	default => sub { {} },
 );
 

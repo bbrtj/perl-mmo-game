@@ -9,27 +9,27 @@ use constant TILE_WALL => 2;
 use constant TILE_TERRAIN => 3;
 
 has param 'path' => (
-	isa => Types::SimpleStr,
+	isa => SimpleStr,
 );
 
 has param 'width' => (
-	isa => Types::PositiveInt,
+	isa => PositiveInt,
 );
 
 has param 'height' => (
-	isa => Types::PositiveInt,
+	isa => PositiveInt,
 );
 
 has param 'tilewidth' => (
-	isa => Types::PositiveInt,
+	isa => PositiveInt,
 );
 
 has param 'tileheight' => (
-	isa => Types::PositiveInt,
+	isa => PositiveInt,
 );
 
 has param 'map' => (
-	isa => Types::Str,
+	isa => Str,
 );
 
 has field 'objects' => (

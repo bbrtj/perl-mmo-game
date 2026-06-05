@@ -15,7 +15,7 @@ requires qw(
 
 has field '_last_regeneration_tick' => (
 
-	# isa => Types::PositiveNum
+	# isa => PositiveNum
 	writer => 1,
 );
 

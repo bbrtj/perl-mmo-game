@@ -13,13 +13,13 @@ form_trim_strings;
 # TODO: terms of service
 
 form_field 'email' => (
-	type => Types::SimpleStr,
+	type => SimpleStr,
 	required => 1,
 	data => {t => 'email', l => _t('email_address')},
 );
 
 form_field 'password' => (
-	type => Types::SimpleStr,
+	type => SimpleStr,
 	required => 1,
 	data => {t => 'password', l => _t('password')},
 );
@@ -35,7 +35,7 @@ field_validator 'err.password_must_have_digit'
 	};
 
 form_field 'repeat_password' => (
-	type => Types::SimpleStr,
+	type => SimpleStr,
 	required => 1,
 	data => {t => 'password', l => _t('repeat_password')},
 );

@@ -13,11 +13,11 @@ use header;
 extends 'Server::Process';
 
 has param 'location_id' => (
-	isa => Types::LoreId,
+	isa => LoreId,
 );
 
 has field 'server' => (
-	isa => Types::InstanceOf ['Game::Server'],
+	isa => InstanceOf ['Game::Server'],
 	default => sub ($self) {
 		return Game::Server->new(
 			process => $self,

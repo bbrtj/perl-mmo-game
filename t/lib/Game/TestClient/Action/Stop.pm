@@ -12,7 +12,7 @@ extends 'Game::TestClient::Action';
 use constant requires => ['EnterGame'];
 
 has param 'was_moving' => (
-	isa => Types::Bool,
+	isa => Bool,
 	default => true,
 );
 

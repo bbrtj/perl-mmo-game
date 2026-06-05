@@ -6,11 +6,11 @@ use Game::Lore;
 use header;
 
 has param 'name' => (
-	isa => Types::Str,
+	isa => Str,
 );
 
 has param 'class' => (
-	isa => Types::Str,
+	isa => Str,
 );
 
 sub create ($self)

@@ -7,34 +7,34 @@ use header;
 
 has param ['x', 'y'] => (
 
-	# isa => Types::PositiveNum,
+	# isa => PositiveNum,
 );
 
 has param 'variables' => (
 
-	# isa => Types::InstanceOf ['Model::CharacterVariables'],
+	# isa => InstanceOf ['Model::CharacterVariables'],
 );
 
 has param 'speed' => (
 
-	# isa => Types::PositiveNum,
+	# isa => PositiveNum,
 );
 
 has param 'time' => (
 
-	# isa => Types::PositiveNum,
+	# isa => PositiveNum,
 	writer => 1,
 );
 
 has field 'eta' => (
 
-	# isa => Types::PositiveNum,
+	# isa => PositiveNum,
 	writer => 1,
 );
 
 has field 'angle' => (
 
-	# isa => Types::Num,
+	# isa => Num,
 
 	writer => 1,
 );

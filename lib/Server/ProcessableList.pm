@@ -6,7 +6,7 @@ use Utils;
 use header;
 
 has field 'processable' => (
-	isa => Types::HashRef [Types::ConsumerOf ['Server::Role::Processable']],
+	isa => HashRef [ConsumerOf ['Server::Role::Processable']],
 	builder => 1,
 	'handles{}' => {
 		'hash' => 'all',

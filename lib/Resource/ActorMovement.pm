@@ -7,7 +7,7 @@ use header;
 extends 'Resource';
 
 has extended 'subject' => (
-	isa => Types::InstanceOf ['Unit::Actor'],
+	isa => InstanceOf ['Unit::Actor'],
 );
 
 use constant type => 'actor_movement';

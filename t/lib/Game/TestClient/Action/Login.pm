@@ -8,11 +8,11 @@ use header;
 extends 'Game::TestClient::Action';
 
 has param 'user' => (
-	isa => Types::InstanceOf ['Model::User'],
+	isa => InstanceOf ['Model::User'],
 );
 
 has param 'password' => (
-	isa => Types::SimpleStr,
+	isa => SimpleStr,
 );
 
 sub send_queue ($self)

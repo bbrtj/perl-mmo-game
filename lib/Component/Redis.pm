@@ -9,7 +9,7 @@ use header;
 with 'Component::Role::HasEnv';
 
 has param 'redis' => (
-	isa => Types::InstanceOf ['Net::Async::Redis::XS'],
+	isa => InstanceOf ['Net::Async::Redis::XS'],
 	lazy => sub ($self) {
 		my $redis = Net::Async::Redis::XS->new;
 	},

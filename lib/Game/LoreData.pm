@@ -5,38 +5,38 @@ use My::Moose;
 use header;
 
 has param 'main_obj' => (
-	isa => Types::InstanceOf ['Game::Lore'],
+	isa => InstanceOf ['Game::Lore'],
 	weak_ref => 1,
 );
 
 has param 'translations' => (
-	isa => Types::HashRef,
+	isa => HashRef,
 	default => sub { {} },
 );
 
 has param 'define' => (
-	isa => Types::HashRef,
+	isa => HashRef,
 	default => sub { {} },
 );
 
 has param 'uses' => (
-	isa => Types::ArrayRef,
+	isa => ArrayRef,
 	default => sub { [] },
 );
 
 has param 'children' => (
-	isa => Types::ArrayRef [Types::InstanceOf ['Game::Lore']],
+	isa => ArrayRef [InstanceOf ['Game::Lore']],
 	default => sub { [] },
 );
 
 has option 'parent' => (
 	writer => -hidden,
-	isa => Types::InstanceOf ['Game::Lore'],
+	isa => InstanceOf ['Game::Lore'],
 	weak_ref => 1,
 );
 
 has cached 'attributes' => (
-	isa => Types::ArrayRef,
+	isa => ArrayRef,
 	lazy => 1,
 );
 

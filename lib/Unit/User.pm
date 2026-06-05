@@ -7,11 +7,11 @@ use header;
 extends 'Unit';
 
 has param 'user' => (
-	isa => Types::InstanceOf ['Model::User'],
+	isa => InstanceOf ['Model::User'],
 );
 
 has param 'players' => (
-	isa => Types::ArrayRef [Types::InstanceOf ['Unit::Nested::Player']],
+	isa => ArrayRef [InstanceOf ['Unit::Nested::Player']],
 );
 
 sub models ($self)

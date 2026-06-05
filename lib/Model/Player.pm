@@ -9,21 +9,21 @@ extends 'Model';
 with 'Model::Role::Stored';
 
 has param 'user_id' => (
-	isa => Types::ULID,
+	isa => ULID,
 );
 
 has param 'online' => (
-	isa => Types::Bool,
+	isa => Bool,
 	default => false,
 );
 
 has param 'last_online' => (
-	coerce => Types::Maybe [Types::DateTime],
+	coerce => Maybe [DateTime],
 	default => undef,
 );
 
 has param 'created_at' => (
-	coerce => Types::DateTime,
+	coerce => DateTime,
 	default => sub { time },
 );
 

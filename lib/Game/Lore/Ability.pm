@@ -18,12 +18,12 @@ package Game::Lore::AbilityData {
 	extends 'Game::LoreData';
 
 	has field 'weapon_based' => (
-		isa => Types::Bool,
+		isa => Bool,
 		writer => 1,
 	);
 
 	has field 'speed_multiplier' => (
-		isa => Types::PositiveNum,
+		isa => PositiveNum,
 		writer => 1,
 	);
 }

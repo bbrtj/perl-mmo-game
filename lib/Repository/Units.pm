@@ -34,7 +34,7 @@ BEGIN {
 
 sub save ($self, $unit, $update = 1)
 {
-	state $check = Types::InstanceOf ['Unit'];
+	state $check = InstanceOf ['Unit'];
 	$check->assert_valid($unit);
 
 	my $models = $self->models_repo;

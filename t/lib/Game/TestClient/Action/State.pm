@@ -9,12 +9,12 @@ use header;
 extends 'Game::TestClient::Action';
 
 has param 'received' => (
-	isa => Types::HashRef,
+	isa => HashRef,
 	writer => 1,
 );
 
 has param 'types' => (
-	isa => Types::ArrayRef,
+	isa => ArrayRef,
 );
 
 use constant sequential => false;

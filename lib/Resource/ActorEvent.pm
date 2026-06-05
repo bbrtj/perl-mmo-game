@@ -7,15 +7,15 @@ use header;
 extends 'Resource';
 
 has extended 'subject' => (
-	isa => Types::InstanceOf ['Unit::Actor'],
+	isa => InstanceOf ['Unit::Actor'],
 );
 
 has param 'event_source' => (
-	isa => Types::ULID,
+	isa => ULID,
 );
 
 has param 'health_change' => (
-	isa => Types::Num,
+	isa => Num,
 );
 
 use constant type => 'actor_event';

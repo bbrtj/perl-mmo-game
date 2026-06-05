@@ -7,7 +7,7 @@ use header;
 extends 'Resource';
 
 has extended 'subject' => (
-	isa => Types::ArrayRef [Types::InstanceOf ['Unit::Actor']],
+	isa => ArrayRef [InstanceOf ['Unit::Actor']],
 );
 
 use constant type => 'actors_info';

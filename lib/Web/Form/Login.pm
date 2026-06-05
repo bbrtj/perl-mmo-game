@@ -12,7 +12,7 @@ use constant needs_hashing => 1;
 form_trim_strings;
 
 form_field 'remember_me' => (
-	type => Types::Bool,
+	type => Bool,
 	default => sub { false },
 	data => {t => 'checkbox', values => [_tt('1:[_1]', _t('remember_me'))], l => undef},
 );

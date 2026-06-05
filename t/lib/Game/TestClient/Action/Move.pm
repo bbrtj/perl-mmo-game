@@ -12,7 +12,7 @@ extends 'Game::TestClient::Action';
 use constant requires => ['EnterGame'];
 
 has param ['x', 'y'] => (
-	isa => Types::PositiveNum,
+	isa => PositiveNum,
 );
 
 sub send_queue ($self)

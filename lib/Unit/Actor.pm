@@ -8,22 +8,22 @@ use header;
 extends 'Unit';
 
 has option 'player' => (
-	isa => Types::Maybe [Types::InstanceOf ['Model::Player']],
+	isa => Maybe [InstanceOf ['Model::Player']],
 	predicate => 'is_player',
 );
 
 has option 'npc' => (
 
-	# isa => Types::Maybe[Types::InstanceOf['Model::Npc']],
+	# isa => Maybe[InstanceOf['Model::Npc']],
 	predicate => 'is_npc',
 );
 
 has param 'character' => (
-	isa => Types::InstanceOf ['Model::Character'],
+	isa => InstanceOf ['Model::Character'],
 );
 
 has param 'variables' => (
-	isa => Types::InstanceOf ['Model::CharacterVariables'],
+	isa => InstanceOf ['Model::CharacterVariables'],
 );
 
 has field 'stats' => (

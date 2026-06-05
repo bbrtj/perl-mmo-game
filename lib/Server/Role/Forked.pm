@@ -14,7 +14,7 @@ has injected 'log';
 has injected 'loop';
 
 has field '_children' => (
-	isa => Types::ArrayRef,
+	isa => ArrayRef,
 	default => sub { [] },
 	'handles[]' => {
 		children => 'all',

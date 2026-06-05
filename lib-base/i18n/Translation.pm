@@ -4,32 +4,31 @@ use v5.42;
 
 use My::Moose;
 use i18n::Core;
-use Types;
 use Carp qw(croak);
 use DI;
 
 use overload
 	q{""} => "translate",
-	bool => sub { 1 },
+	bool => sub { true },
 	fallback => 1;
 
 has param 'id' => (
-	isa => Types::Bool,
+	isa => Bool,
 	default => true,
 );
 
 has param 'lore' => (
-	isa => Types::Bool,
+	isa => Bool,
 	writer => 1,
 	default => false,
 );
 
 has param 'message' => (
-	isa => Types::Str,
+	isa => Str,
 );
 
 has param 'args' => (
-	isa => Types::ArrayRef,
+	isa => ArrayRef,
 	default => sub { [] },
 );
 

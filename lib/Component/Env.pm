@@ -11,7 +11,7 @@ my %defaults = (
 );
 
 has param 'rawenv' => (
-	isa => Types::HashRef,
+	isa => HashRef,
 	default => sub {
 		return {%defaults, %ENV};
 	},

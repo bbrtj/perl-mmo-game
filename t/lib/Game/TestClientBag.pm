@@ -9,7 +9,7 @@ use IO::Async::Timer::Countdown;
 use header;
 
 has field 'clients' => (
-	isa => Types::ArrayRef [Types::InstanceOf ['Game::TestClient']],
+	isa => ArrayRef [InstanceOf ['Game::TestClient']],
 	default => sub { [] },
 	'handles[]' => {
 		'add_client' => 'push',
@@ -17,7 +17,7 @@ has field 'clients' => (
 );
 
 has param 'timeout' => (
-	isa => Types::PositiveInt,
+	isa => PositiveInt,
 	default => 10,
 );
 

@@ -7,7 +7,7 @@ use header;
 extends 'Unit';
 
 has param 'actors' => (
-	isa => Types::HashRef [Types::InstanceOf ['Unit::Actor']],
+	isa => HashRef [InstanceOf ['Unit::Actor']],
 	'handles{}' => {
 		'get_actor' => 'get',
 	},
@@ -15,7 +15,7 @@ has param 'actors' => (
 );
 
 has param 'lore' => (
-	isa => Types::InstanceOf ['Game::Lore::Location'],
+	isa => InstanceOf ['Game::Lore::Location'],
 );
 
 sub get_player ($self, $actor_id)

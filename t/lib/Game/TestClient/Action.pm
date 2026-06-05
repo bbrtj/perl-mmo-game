@@ -12,12 +12,12 @@ use overload
 	;
 
 has param 'client' => (
-	isa => Types::InstanceOf ['Game::TestClient'],
+	isa => InstanceOf ['Game::TestClient'],
 	weak_ref => 1,
 );
 
 has field 'state' => (
-	isa => Types::Dict [send => Types::ArrayRef, receive => Types::ArrayRef],
+	isa => Dict [send => ArrayRef, receive => ArrayRef],
 	lazy => 1,
 	clearer => 'setup_state',
 );

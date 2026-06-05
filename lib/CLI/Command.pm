@@ -7,7 +7,7 @@ use Pod::Text;
 use Class::Inspector;
 
 has field 'command' => (
-	isa => Types::Str,
+	isa => Str,
 	default => sub ($self) {
 		return (ref $self) =~ s/^CLI::Command:://r;
 	},

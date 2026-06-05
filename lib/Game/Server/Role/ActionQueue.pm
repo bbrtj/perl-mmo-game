@@ -7,7 +7,7 @@ use List::BinarySearch qw(binsearch_pos);
 use header;
 
 has field 'queued_actions' => (
-	isa => Types::ArrayRef,
+	isa => ArrayRef,
 	default => sub { [] },
 );
 

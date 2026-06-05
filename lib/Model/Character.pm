@@ -9,25 +9,25 @@ extends 'Model';
 with 'Model::Role::Stored';
 
 has param 'player_id' => (
-	isa => Types::Maybe [Types::ULID],
+	isa => Maybe [ULID],
 	default => undef,
 );
 
 has param 'npc_id' => (
-	isa => Types::Maybe [Types::LoreId],
+	isa => Maybe [LoreId],
 	default => undef,
 );
 
 has param 'class_id' => (
-	isa => Types::LoreId,
+	isa => LoreId,
 );
 
 has param 'name' => (
-	isa => Types::ShortStr,
+	isa => ShortStr,
 );
 
 has param 'base_stats' => (
-	isa => Types::Str,
+	isa => Str,
 	default => '',
 );
 

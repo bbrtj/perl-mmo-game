@@ -32,6 +32,6 @@ sub add_columns_to_resultset ($self, $resultset)
 
 sub boolean_attrs ($self)
 {
-	return grep { $_->type_constraint eq Types::Bool } $self->serialized_attributes->@*;
+	return grep { $_->type_constraint eq Bool } $self->serialized_attributes->@*;
 }
 

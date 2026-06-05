@@ -5,7 +5,7 @@ use My::Moose::Role;
 use header;
 
 has field '_listeners' => (
-	isa => Types::ArrayRef [Types::CodeRef],
+	isa => ArrayRef [CodeRef],
 	default => sub { [] },
 	'handles[]' => {
 		'_all_listeners' => 'all',

@@ -9,24 +9,24 @@ extends 'Model';
 with 'Model::Role::Stored';
 
 has param 'experience' => (
-	isa => Types::PositiveOrZeroInt,
+	isa => PositiveOrZeroInt,
 	default => 0,
 );
 
 has param 'location_id' => (
-	isa => Types::LoreId,
+	isa => LoreId,
 );
 
 has param ['pos_x', 'pos_y'] => (
-	isa => Types::Num,
+	isa => Num,
 );
 
 has param 'health' => (
-	isa => Types::Num,
+	isa => Num,
 );
 
 has param 'energy' => (
-	isa => Types::Num,
+	isa => Num,
 );
 
 sub xy ($self)

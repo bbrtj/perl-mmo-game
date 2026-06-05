@@ -8,7 +8,7 @@ use Sereal::Decoder;
 use header;
 
 has param 'encoder' => (
-	isa => Types::InstanceOf ['Sereal::Encoder'],
+	isa => InstanceOf ['Sereal::Encoder'],
 	lazy => sub ($self) {
 		Sereal::Encoder->new;
 	},
@@ -16,7 +16,7 @@ has param 'encoder' => (
 );
 
 has param 'decoder' => (
-	isa => Types::InstanceOf ['Sereal::Decoder'],
+	isa => InstanceOf ['Sereal::Decoder'],
 	lazy => sub ($self) {
 		Sereal::Decoder->new;
 	},

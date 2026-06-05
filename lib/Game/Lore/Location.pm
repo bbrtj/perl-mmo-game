@@ -22,26 +22,26 @@ package Game::Lore::LocationData {
 
 	has option 'pos_x' => (
 		writer => 1,
-		isa => Types::Num,
+		isa => Num,
 	);
 
 	has option 'pos_y' => (
 		writer => 1,
-		isa => Types::Num,
+		isa => Num,
 	);
 
 	has option 'map' => (
 		writer => -hidden,
-		isa => Types::InstanceOf ['Game::Object::Map'],
+		isa => InstanceOf ['Game::Object::Map'],
 	);
 
 	has param 'connections' => (
-		isa => Types::ArrayRef [Types::InstanceOf ['Game::Lore::Location']],
+		isa => ArrayRef [InstanceOf ['Game::Lore::Location']],
 		default => sub { [] },
 	);
 
 	has extended 'parent' => (
-		isa => Types::InstanceOf ['Game::Lore::Area'],
+		isa => InstanceOf ['Game::Lore::Area'],
 	);
 
 	sub set_map ($self, $map_str)

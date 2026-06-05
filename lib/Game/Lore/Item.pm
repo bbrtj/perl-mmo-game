@@ -19,7 +19,7 @@ package Game::Lore::ItemData {
 
 	has param 'type' => (
 		writer => 1,
-		isa => Types::Enum [qw(weapon armor consumable other)],
+		isa => Enum [qw(weapon armor consumable other)],
 		default => 'other',
 	);
 

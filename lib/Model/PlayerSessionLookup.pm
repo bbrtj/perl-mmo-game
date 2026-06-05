@@ -9,11 +9,11 @@ with 'Model::Role::Identified';
 
 has extended 'id' => (
 	required => 1,
-	isa => Types::ShortStr,
+	isa => ShortStr,
 );
 
 has param 'session_id' => (
-	isa => Types::ULID,
+	isa => ULID,
 );
 
 sub dummy { die 'No dummy for ' . __PACKAGE__ }

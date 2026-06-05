@@ -10,19 +10,19 @@ use constant CHAT_TYPES => [SAY .. SYSTEM];
 extends 'Resource';
 
 has extended 'subject' => (
-	isa => Types::InstanceOf ['Unit::Actor'],
+	isa => InstanceOf ['Unit::Actor'],
 );
 
 has option 'sent_to' => (
-	isa => Types::Str,
+	isa => Str,
 );
 
 has param 'message' => (
-	isa => Types::Str,
+	isa => Str,
 );
 
 has param 'chat_type' => (
-	isa => Types::Enum [@{+CHAT_TYPES}],
+	isa => Enum [@{+CHAT_TYPES}],
 	default => SAY,
 );
 

@@ -9,7 +9,7 @@ use header;
 with 'Component::Role::HasEnv';
 
 has param 'logger' => (
-	isa => Types::InstanceOf ['Log::Handler'],
+	isa => InstanceOf ['Log::Handler'],
 	lazy => sub ($self) {
 		Log::Handler->new(@{$self->build_config});
 	},
@@ -18,12 +18,12 @@ has param 'logger' => (
 
 has param 'filename' => (
 	is => 'rw',
-	isa => Types::Str,
+	isa => Str,
 );
 
 has option 'system_name' => (
 	is => 'rw',
-	isa => Types::Str,
+	isa => Str,
 );
 
 sub _get_log_callback ($self)

@@ -16,7 +16,6 @@ require My::Serializer;
 require ServerTime;
 
 use DI;
-use Types;
 use My::Dumper;
 
 sub import ($me, @args)

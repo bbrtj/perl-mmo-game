@@ -15,10 +15,10 @@ use constant deserializes => true;
 
 sub validate ($self, $data)
 {
-	state $type = Types::Dict [
-		lore_id => Types::LoreId,
-		x => Types::Optional [Types::Num],
-		y => Types::Optional [Types::Num],
+	state $type = Dict [
+		lore_id => LoreId,
+		x => Optional [Num],
+		y => Optional [Num],
 	];
 
 	$type->assert_valid($data);

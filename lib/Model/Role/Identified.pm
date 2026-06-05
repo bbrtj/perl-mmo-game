@@ -5,7 +5,7 @@ use My::Moose::Role;
 use header;
 
 has param 'id' => (
-	isa => Types::ULID,
+	isa => ULID,
 	default => sub { Types::ULID::ulid },
 );
 

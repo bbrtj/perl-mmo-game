@@ -8,11 +8,11 @@ use header;
 extends 'Unit';
 
 has param 'player' => (
-	isa => Types::InstanceOf ['Model::Player'],
+	isa => InstanceOf ['Model::Player'],
 );
 
 has param 'character' => (
-	isa => Types::InstanceOf ['Model::Character'],
+	isa => InstanceOf ['Model::Character'],
 );
 
 sub models ($self)

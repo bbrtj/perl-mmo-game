@@ -7,7 +7,7 @@ use header;
 extends 'Resource';
 
 has extended 'subject' => (
-	isa => Types::InstanceOf ['X::Pub'],
+	isa => InstanceOf ['X::Pub'],
 );
 
 use constant type => 'error';

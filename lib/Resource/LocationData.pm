@@ -9,11 +9,11 @@ use header;
 extends 'Resource';
 
 has extended 'subject' => (
-	isa => Types::InstanceOf ['Game::Lore::Location'],
+	isa => InstanceOf ['Game::Lore::Location'],
 );
 
 has param 'actor' => (
-	isa => Types::InstanceOf ['Unit::Actor'],
+	isa => InstanceOf ['Unit::Actor'],
 );
 
 use constant type => 'location_data';

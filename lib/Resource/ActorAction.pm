@@ -7,7 +7,7 @@ use header;
 extends 'Resource';
 
 has extended 'subject' => (
-	isa => Types::InstanceOf ['Game::Object::Action'],
+	isa => InstanceOf ['Game::Object::Action'],
 );
 
 use constant type => 'actor_action';

@@ -13,13 +13,13 @@ requires qw(
 );
 
 has cached '_discovered_actors' => (
-	isa => Types::HashRef [Types::HashRef [Types::InstanceOf ['Unit::Actor']]],
+	isa => HashRef [HashRef [InstanceOf ['Unit::Actor']]],
 	default => sub { {} },
 );
 
 has cached '_discovered_by' => (
 	writer => 1,
-	isa => Types::HashRef [Types::ArrayRef [Types::ULID]],
+	isa => HashRef [ArrayRef [ULID]],
 	default => sub { {} },
 );
 

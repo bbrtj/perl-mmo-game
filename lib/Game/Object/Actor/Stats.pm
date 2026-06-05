@@ -7,7 +7,7 @@ use Game::Mechanics::Character::Statistics;
 use header;
 
 has param 'parent' => (
-	isa => Types::InstanceOf ['Unit::Actor'],
+	isa => InstanceOf ['Unit::Actor'],
 	weak_ref => 1,
 );
 
@@ -16,7 +16,7 @@ has param 'parent' => (
 # statistics
 
 has field 'movement' => (
-	isa => Types::InstanceOf ['Game::Object::Movement'],
+	isa => InstanceOf ['Game::Object::Movement'],
 	writer => -hidden,
 	clearer => 1,
 );
@@ -43,37 +43,37 @@ has cached 'speed' => (
 # precalculated weapon damage
 has cached 'weapon_damage' => (
 
-	# isa => Types::PositiveNum,
+	# isa => PositiveNum,
 	lazy => 1,
 );
 
 has cached 'weapon_hitbox' => (
 
-	# isa => Types::Tuple[Types::PositiveNum, Types::Num],
+	# isa => Tuple[PositiveNum, Num],
 	lazy => 1,
 );
 
 has cached 'max_health' => (
 
-	# isa => Types::PositiveNum,
+	# isa => PositiveNum,
 	lazy => 1,
 );
 
 has cached 'health_regeneration' => (
 
-	# isa => Types::PositiveNum,
+	# isa => PositiveNum,
 	lazy => 1,
 );
 
 has cached 'max_energy' => (
 
-	# isa => Types::PositiveNum,
+	# isa => PositiveNum,
 	lazy => 1,
 );
 
 has cached 'energy_regeneration' => (
 
-	# isa => Types::PositiveNum,
+	# isa => PositiveNum,
 	lazy => 1,
 );
 

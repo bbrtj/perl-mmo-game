@@ -2,11 +2,9 @@ package Types;
 
 use v5.42;
 
-use Type::Library -base;
-use Types::Common -types;
+use Type::Library -extends => [qw(Types::Common Type::EmailAddress Types::ULID)];
+
 use My::Time::Piece;
-use Type::EmailAddress -types;
-use Types::ULID -types;
 
 my $ShortStr = __PACKAGE__->add_type(
 	name => 'ShortStr',

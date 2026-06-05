@@ -10,17 +10,17 @@ use constant needs_hashing => 0;
 
 has field 'user' => (
 	writer => 1,
-	isa => Types::InstanceOf ['Model::User'],
+	isa => InstanceOf ['Model::User'],
 );
 
 form_field 'email' => (
-	type => Types::SimpleStr,
+	type => SimpleStr,
 	required => 1,
 	data => {t => 'email', p => _t('email_address'), l => undef},
 );
 
 form_field 'password' => (
-	type => Types::SimpleStr,
+	type => SimpleStr,
 	required => 1,
 	data => {t => 'password', p => _t('password'), l => undef},
 	adjust => sub ($self, $value) {

@@ -7,34 +7,34 @@ use header;
 
 has param 'actor' => (
 
-	# isa => Types::InstanceOf ['Unit::Actor'],
+	# isa => InstanceOf ['Unit::Actor'],
 );
 
 has param 'lore_id' => (
 
-	# isa => Types::LoreId
+	# isa => LoreId
 );
 
 has param 'duration' => (
 
-	# isa => Types::PositiveNum,
+	# isa => PositiveNum,
 );
 
 has field 'start_time' => (
 
-	# isa => Types::PositiveNum,
+	# isa => PositiveNum,
 	default => sub { server_time },
 );
 
 has field 'eta' => (
 
-	# isa => Types::PositiveNum,
+	# isa => PositiveNum,
 	writer => 1,
 );
 
 has field 'cancelled' => (
 
-	# isa => Types::Bool,
+	# isa => Bool,
 	writer => 1,
 	default => false,
 );
