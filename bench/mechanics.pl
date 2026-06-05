@@ -1,11 +1,7 @@
 ##### NOTE ######
-# These benchmarks run slower than in real env, but can be useful to determine
-# bottlenecks
+# These benchmarks run slower than in real env because of h2o, but can be
+# useful to determine bottlenecks
 #################
-
-use lib 'local/lib/perl5';
-use lib 'lib-base';
-use lib 'lib';
 
 use Game::Mechanics::Check::Map;
 use Game::Lore::Location;
@@ -16,14 +12,20 @@ use Utils;
 
 use header;
 
-use Benchmark qw(cmpthese);
+use Benchmark::Dumb qw(cmpthese);
 
 my $location = Game::Lore::Location->new(id => 'TEST', name => 'test');
 my $location_data = $location->data;
 $location_data->set_map('test_map');
 my $map = $location_data->map;
 
-my $variables = h2o {pos_x => 4, pos_y => 3, set_pos_x => 3, set_pos_y => 3};
+my $variables = h2o -meth, {
+	xy => sub ($self) { return ($self->pos_x, $self->pos_y) },
+	pos_x => 4,
+	pos_y => 3,
+	set_pos_x => 3,
+	set_pos_y => 3
+};
 my $actor = h2o {variables => $variables};
 
 my $movement = Game::Object::Movement->new(
@@ -34,7 +36,7 @@ my $movement = Game::Object::Movement->new(
 	time => server_time,
 );
 
-cmpthese - 2, {
+cmpthese 200.01, {
 	line_of_sight => sub {
 		die unless Game::Mechanics::Check::Map->can_see($location_data, [4.5, 3.8], [7.9, 8.3])->result;
 	},

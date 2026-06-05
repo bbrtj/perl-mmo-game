@@ -1,8 +1,4 @@
-use lib 'local/lib/perl5';
-use lib 'lib-base';
-use lib 'lib';
-
-use all 'Model', 'X', 'Unit';
+use all 'Model', 'X', 'Unit', 'Resource';
 use Game::Object::Movement;
 use Model::PlayerSession;
 use DateTime;
@@ -10,14 +6,14 @@ use Utils;
 
 use header;
 
-use Benchmark qw(cmpthese);
+use Benchmark::Dumb qw(cmpthese);
 
 my $ulid = Types::ULID::ulid;
 my $character = DI->get('faker_service')->fake_character;
 my $variables = DI->get('faker_service')->fake_variables;
 my $actor = Unit::Actor->new(character => $character, variables => $variables);
 
-cmpthese - 2, {
+cmpthese 200.01, {
 	'Model::Player' => sub {
 		Model::Player->new(user_id => $ulid);
 	},
@@ -38,6 +34,9 @@ cmpthese - 2, {
 			speed => 9,
 			time => server_time,
 		);
+	},
+	'Resource::ActorState' => sub {
+		Resource::ActorState->new(subject => $actor);
 	},
 };
 

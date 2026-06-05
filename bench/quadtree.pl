@@ -1,12 +1,8 @@
-use lib 'local/lib/perl5';
-use lib 'lib-base';
-use lib 'lib';
-
 use Algorithm::QuadTree;
 
 use header;
 
-use Benchmark qw(cmpthese);
+use Benchmark::Dumb qw(cmpthese);
 
 my $aqt_predeclared = Algorithm::QuadTree->new(
 	-depth => 8,
@@ -43,7 +39,7 @@ foreach my $i (1 .. 1000) {
 	$aqt_predeclared->add($obj, rand 100, rand 100, 0.5);
 }
 
-cmpthese - 5, {
+cmpthese 200.01, {
 	'big clear + insert 1000' => sub {
 		$aqt_big->clear;
 		foreach my $i (1 .. 1000) {

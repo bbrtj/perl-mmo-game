@@ -66,6 +66,7 @@ on 'runtime' => sub {
 
 on 'develop' => sub {
 	requires 'Text::Levenshtein::BV' => 0;
+	requires 'Dumbbench' => 0;
 };
 
 on 'test' => sub {

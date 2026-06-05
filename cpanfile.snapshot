@@ -1398,6 +1398,126 @@ DISTRIBUTIONS
       File::Spec 0
       File::Temp 0.16
       perl 5.004050
+  Devel-CheckOS-2.04
+    pathname: D/DC/DCANTRELL/Devel-CheckOS-2.04.tar.gz
+    provides:
+      Devel::AssertOS 1.21
+      Devel::AssertOS::AIX 1.2
+      Devel::AssertOS::Alias::MacOS 1.0
+      Devel::AssertOS::Amiga 1.2
+      Devel::AssertOS::Android 1.2
+      Devel::AssertOS::Apple 1.3
+      Devel::AssertOS::BSDOS 1.2
+      Devel::AssertOS::BeOS 1.4
+      Devel::AssertOS::Bitrig 1.0
+      Devel::AssertOS::Cygwin 1.3
+      Devel::AssertOS::DEC 1.4
+      Devel::AssertOS::DGUX 1.2
+      Devel::AssertOS::DragonflyBSD 1.2
+      Devel::AssertOS::Dynix 1.2
+      Devel::AssertOS::EBCDIC 1.0
+      Devel::AssertOS::FreeBSD 1.2
+      Devel::AssertOS::GNUkFreeBSD 1.1
+      Devel::AssertOS::HPUX 1.2
+      Devel::AssertOS::HWCapabilities::Int32 1.0
+      Devel::AssertOS::HWCapabilities::Int64 1.0
+      Devel::AssertOS::Haiku 1.1
+      Devel::AssertOS::Hurd 1.0
+      Devel::AssertOS::Interix 1.2
+      Devel::AssertOS::Irix 1.2
+      Devel::AssertOS::Linux 1.3
+      Devel::AssertOS::Linux::Alma 1.0
+      Devel::AssertOS::Linux::Alpine 1.1
+      Devel::AssertOS::Linux::Arch 1.0
+      Devel::AssertOS::Linux::Centos 1.0
+      Devel::AssertOS::Linux::Debian 1.2
+      Devel::AssertOS::Linux::Devuan 1.1
+      Devel::AssertOS::Linux::Elementary 1.1
+      Devel::AssertOS::Linux::Fedora 1.0
+      Devel::AssertOS::Linux::Gentoo 1.0
+      Devel::AssertOS::Linux::NixOS 1.0
+      Devel::AssertOS::Linux::OpenSUSE 1.0
+      Devel::AssertOS::Linux::Oracle 1.0
+      Devel::AssertOS::Linux::PopOS 1.0
+      Devel::AssertOS::Linux::RHEL 1.0
+      Devel::AssertOS::Linux::Raspbian 1.1
+      Devel::AssertOS::Linux::RealDebian 1.1
+      Devel::AssertOS::Linux::Redhat 1.0
+      Devel::AssertOS::Linux::Rocky 1.0
+      Devel::AssertOS::Linux::SLES 1.0
+      Devel::AssertOS::Linux::SUSE 1.0
+      Devel::AssertOS::Linux::Slackware 1.0
+      Devel::AssertOS::Linux::Ubuntu 1.2
+      Devel::AssertOS::Linux::UnknownDebianLike 1.0
+      Devel::AssertOS::Linux::v2_6 1.3
+      Devel::AssertOS::MPEiX 1.2
+      Devel::AssertOS::MSDOS 1.2
+      Devel::AssertOS::MSWin32 1.3
+      Devel::AssertOS::MSYS 1.0
+      Devel::AssertOS::MacOSX 1.3
+      Devel::AssertOS::MacOSX::v10_0 1.0
+      Devel::AssertOS::MacOSX::v10_1 1.0
+      Devel::AssertOS::MacOSX::v10_10 1.0
+      Devel::AssertOS::MacOSX::v10_11 1.0
+      Devel::AssertOS::MacOSX::v10_12 1.0
+      Devel::AssertOS::MacOSX::v10_13 1.0
+      Devel::AssertOS::MacOSX::v10_14 1.0
+      Devel::AssertOS::MacOSX::v10_15 1.0
+      Devel::AssertOS::MacOSX::v10_2 1.0
+      Devel::AssertOS::MacOSX::v10_3 1.0
+      Devel::AssertOS::MacOSX::v10_4 1.4
+      Devel::AssertOS::MacOSX::v10_5 1.0
+      Devel::AssertOS::MacOSX::v10_6 1.0
+      Devel::AssertOS::MacOSX::v10_7 1.0
+      Devel::AssertOS::MacOSX::v10_8 1.0
+      Devel::AssertOS::MacOSX::v10_9 1.0
+      Devel::AssertOS::MacOSX::v11 1.0
+      Devel::AssertOS::MacOSX::v12 1.0
+      Devel::AssertOS::MacOSX::v13 1.0
+      Devel::AssertOS::MacOSX::v14 1.0
+      Devel::AssertOS::MacOSclassic 1.2
+      Devel::AssertOS::MachTen 1.2
+      Devel::AssertOS::MicrosoftWindows 1.4
+      Devel::AssertOS::MidnightBSD 1.1
+      Devel::AssertOS::Minix 1.0
+      Devel::AssertOS::MirOSBSD 1.2
+      Devel::AssertOS::NeXT 1.2
+      Devel::AssertOS::NetBSD 1.2
+      Devel::AssertOS::Netware 1.2
+      Devel::AssertOS::OS2 1.1
+      Devel::AssertOS::OS390 1.2
+      Devel::AssertOS::OS400 1.2
+      Devel::AssertOS::OSF 1.2
+      Devel::AssertOS::OSFeatures::POSIXShellRedirection 1.4
+      Devel::AssertOS::OSFeatures::Systemd 1.0
+      Devel::AssertOS::OpenBSD 1.2
+      Devel::AssertOS::POSIXBC 1.2
+      Devel::AssertOS::QNX 1.2
+      Devel::AssertOS::QNX::Neutrino 1.1
+      Devel::AssertOS::QNX::v4 1.1
+      Devel::AssertOS::RISCOS 1.2
+      Devel::AssertOS::Realtime 1.2
+      Devel::AssertOS::SCO 1.2
+      Devel::AssertOS::Solaris 1.2
+      Devel::AssertOS::Sun 1.3
+      Devel::AssertOS::SunOS 1.2
+      Devel::AssertOS::SysVr4 1.2
+      Devel::AssertOS::SysVr5 1.2
+      Devel::AssertOS::Unicos 1.2
+      Devel::AssertOS::Unix 1.6
+      Devel::AssertOS::VMESA 1.2
+      Devel::AssertOS::VMS 1.2
+      Devel::AssertOS::VOS 1.2
+      Devel::AssertOS::iOS 1.0
+      Devel::CheckOS 2.04
+      Devel::CheckOS::Helpers::LinuxOSrelease 1.0
+    requirements:
+      ExtUtils::MakeMaker 6.64
+      File::Find::Rule 0.28
+      File::Temp 0.19
+      Test::More 0.88
+      Test::Warnings 0
+      perl 5.006000
   Devel-GlobalDestruction-0.14
     pathname: H/HA/HAARG/Devel-GlobalDestruction-0.14.tar.gz
     provides:
@@ -1481,6 +1601,33 @@ DISTRIBUTIONS
       base 0
       strict 0
       warnings 0
+  Dumbbench-0.505
+    pathname: B/BD/BDFOY/Dumbbench-0.505.tar.gz
+    provides:
+      Benchmark::Dumb 0.505
+      Dumbbench 0.505
+      Dumbbench::BoxPlot undef
+      Dumbbench::CPUFrequencyPinner undef
+      Dumbbench::Instance undef
+      Dumbbench::Instance::Cmd undef
+      Dumbbench::Instance::PerlEval undef
+      Dumbbench::Instance::PerlSub undef
+      Dumbbench::Result undef
+      Dumbbench::Stats undef
+      TryPackage undef
+    requirements:
+      Capture::Tiny 0
+      Carp 0
+      Class::XSAccessor 1.05
+      Devel::CheckOS 0
+      ExtUtils::MakeMaker 6.64
+      File::Spec::Functions 0
+      Number::WithError 1.00
+      Params::Util 0
+      Statistics::CaseResampling 0.06
+      Time::HiRes 0
+      parent 0
+      perl 5.008005
   Email-Valid-1.204
     pathname: R/RJ/RJBS/Email-Valid-1.204.tar.gz
     provides:
@@ -1754,6 +1901,18 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Venus 2.32
       perl 5.018
+  File-Find-Rule-0.35
+    pathname: R/RC/RCLAMP/File-Find-Rule-0.35.tar.gz
+    provides:
+      File::Find::Rule 0.35
+      File::Find::Rule::Test::ATeam undef
+    requirements:
+      ExtUtils::MakeMaker 0
+      File::Find 0
+      File::Spec 0
+      Number::Compare 0
+      Test::More 0
+      Text::Glob 0.07
   File-ShareDir-1.118
     pathname: R/RE/REHSACK/File-ShareDir-1.118.tar.gz
     provides:
@@ -3245,6 +3404,25 @@ DISTRIBUTIONS
       perl 5.008009
       strict 1.03
       warnings 1.0501
+  Number-Compare-0.03
+    pathname: R/RC/RCLAMP/Number-Compare-0.03.tar.gz
+    provides:
+      Number::Compare 0.03
+    requirements:
+      ExtUtils::MakeMaker 0
+      Test::More 0
+  Number-WithError-1.01
+    pathname: S/SM/SMUELLER/Number-WithError-1.01.tar.gz
+    provides:
+      Number::WithError 1.01
+    requirements:
+      ExtUtils::MakeMaker 6.42
+      Math::BigFloat 1.40
+      Params::Util 0.10
+      Test::LectroTest 0
+      Test::More 0.47
+      perl 5.006
+      prefork 1.00
   Object-Pad-0.825
     pathname: P/PE/PEVANS/Object-Pad-0.825.tar.gz
     provides:
@@ -3869,6 +4047,13 @@ DISTRIBUTIONS
       strict 0
       version 0.83
       warnings 0
+  Statistics-CaseResampling-0.17
+    pathname: S/SM/SMUELLER/Statistics-CaseResampling-0.17.tar.gz
+    provides:
+      Statistics::CaseResampling 0.17
+    requirements:
+      ExtUtils::MakeMaker 0
+      List::Util 0
   Struct-Dumb-0.16
     pathname: P/PE/PEVANS/Struct-Dumb-0.16.tar.gz
     provides:
@@ -4207,6 +4392,32 @@ DISTRIBUTIONS
       Try::Tiny 0.07
       perl 5.012
       warnings 0
+  Test-LectroTest-0.5001
+    pathname: T/TM/TMOERTEL/Test-LectroTest-0.5001.tar.gz
+    provides:
+      Test::LectroTest 0.5001
+      Test::LectroTest::Compat 0.5001
+      Test::LectroTest::FailureRecorder 0.5001
+      Test::LectroTest::Generator 0.5001
+      Test::LectroTest::Property 0.5001
+      Test::LectroTest::TestRunner 0.5001
+      Test::LectroTest::TestRunner::results 0.5001
+      Test::LectroTest::TestRunner::testcontroller 0.5001
+    requirements:
+      Carp 0
+      Class::Struct 0
+      Data::Dumper 0
+      Exporter 0
+      ExtUtils::MakeMaker 6.30
+      File::Temp 0
+      Filter::Util::Call 0
+      POSIX 0
+      Scalar::Util 0
+      Test::Builder 0
+      Test::More 0
+      constant 0
+      strict 0
+      warnings 0
   Test-Most-0.42
     pathname: D/DC/DCANTRELL/Test-Most-0.42.tar.gz
     provides:
@@ -4494,6 +4705,20 @@ DISTRIBUTIONS
       Test::Builder 0.13
       Test::Builder::Tester 1.02
       perl 5.006
+  Test-Warnings-0.038
+    pathname: E/ET/ETHER/Test-Warnings-0.038.tar.gz
+    provides:
+      Test2::Warnings 0.038
+      Test::Warnings 0.038
+    requirements:
+      Carp 0
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      Test::Builder 0
+      parent 0
+      perl 5.006
+      strict 0
+      warnings 0
   Text-CSV-2.06
     pathname: I/IS/ISHIGAKI/Text-CSV-2.06.tar.gz
     provides:
@@ -4518,6 +4743,15 @@ DISTRIBUTIONS
       Exporter 0
       ExtUtils::MakeMaker 0
       perl 5.006
+  Text-Glob-0.11
+    pathname: R/RC/RCLAMP/Text-Glob-0.11.tar.gz
+    provides:
+      Text::Glob 0.11
+    requirements:
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      constant 0
+      perl 5.005030
   Text-Levenshtein-BV-0.08
     pathname: W/WO/WOLLMERS/Text-Levenshtein-BV-0.08.tar.gz
     provides:
@@ -5285,3 +5519,14 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Package::Stash 0.23
       perl 5.008001
+  prefork-1.05
+    pathname: E/ET/ETHER/prefork-1.05.tar.gz
+    provides:
+      prefork 1.05
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      List::Util 0.18
+      Scalar::Util 0.18
+      perl 5.006
+      strict 0
