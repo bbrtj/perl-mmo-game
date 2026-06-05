@@ -80,10 +80,9 @@ sub _discover ($self)
 	foreach my $actor ($self->location->get_players->@*) {
 
 		my $resource = Resource::Discovery->new;
-		my $variables = $actor->variables;
-		my $should_send = 0;
+		my $should_send = false;
 
-		my $found_objects = $self->find_in_radius($variables->pos_x, $variables->pos_y, $radius);
+		my $found_objects = $self->find_in_radius($actor->variables->xy, $radius);
 
 		for my $method (qw(_discover_actors)) {
 			$should_send = $self->$method($actor, $found_objects, $resource) || $should_send;
