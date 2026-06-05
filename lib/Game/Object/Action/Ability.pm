@@ -9,12 +9,10 @@ extends 'Game::Object::Action';
 use constant server_method => 'use_ability_done';
 
 has option 'x' => (
-
-	# isa => Num
+	lax_isa => Num,
 );
 
 has option 'y' => (
-
-	# isa => Num
+	lax_isa => Num,
 );
 

@@ -6,35 +6,29 @@ use Game::Mechanics::Generic;
 use header;
 
 has param 'actor' => (
-
-	# isa => InstanceOf ['Unit::Actor'],
+	lax_isa => InstanceOf ['Unit::Actor'],
 );
 
 has param 'lore_id' => (
-
-	# isa => LoreId
+	lax_isa => LoreId,
 );
 
 has param 'duration' => (
-
-	# isa => PositiveNum,
+	lax_isa => PositiveNum,
 );
 
 has field 'start_time' => (
-
-	# isa => PositiveNum,
+	lax_isa => PositiveNum,
 	default => sub { server_time },
 );
 
 has field 'eta' => (
-
-	# isa => PositiveNum,
+	lax_isa => PositiveNum,
 	writer => 1,
 );
 
 has field 'cancelled' => (
-
-	# isa => Bool,
+	lax_isa => Bool,
 	writer => 1,
 	default => false,
 );

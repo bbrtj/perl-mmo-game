@@ -13,8 +13,7 @@ has option 'player' => (
 );
 
 has option 'npc' => (
-
-	# isa => Maybe[InstanceOf['Model::Npc']],
+	lax_isa => Maybe [InstanceOf ['Model::Npc']],
 	predicate => 'is_npc',
 );
 

@@ -28,8 +28,7 @@ has field 'angle' => (
 );
 
 has field 'action' => (
-
-	# isa => InstanceOf['Game::Object::Action'],
+	lax_isa => InstanceOf ['Game::Object::Action'],
 	writer => 1,
 	clearer => 1,
 	predicate => 1,
@@ -42,38 +41,32 @@ has cached 'speed' => (
 
 # precalculated weapon damage
 has cached 'weapon_damage' => (
-
-	# isa => PositiveNum,
+	lax_isa => PositiveNum,
 	lazy => 1,
 );
 
 has cached 'weapon_hitbox' => (
-
-	# isa => Tuple[PositiveNum, Num],
+	lax_isa => Tuple [PositiveNum, Num],
 	lazy => 1,
 );
 
 has cached 'max_health' => (
-
-	# isa => PositiveNum,
+	lax_isa => PositiveNum,
 	lazy => 1,
 );
 
 has cached 'health_regeneration' => (
-
-	# isa => PositiveNum,
+	lax_isa => PositiveNum,
 	lazy => 1,
 );
 
 has cached 'max_energy' => (
-
-	# isa => PositiveNum,
+	lax_isa => PositiveNum,
 	lazy => 1,
 );
 
 has cached 'energy_regeneration' => (
-
-	# isa => PositiveNum,
+	lax_isa => PositiveNum,
 	lazy => 1,
 );
 

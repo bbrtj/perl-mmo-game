@@ -6,36 +6,29 @@ use Game::Mechanics::Generic;
 use header;
 
 has param ['x', 'y'] => (
-
-	# isa => PositiveNum,
+	lax_isa => PositiveNum,
 );
 
 has param 'variables' => (
-
-	# isa => InstanceOf ['Model::CharacterVariables'],
+	lax_isa => InstanceOf ['Model::CharacterVariables'],
 );
 
 has param 'speed' => (
-
-	# isa => PositiveNum,
+	lax_isa => PositiveNum,
 );
 
 has param 'time' => (
-
-	# isa => PositiveNum,
+	lax_isa => PositiveOrZeroNum,
 	writer => 1,
 );
 
 has field 'eta' => (
-
-	# isa => PositiveNum,
+	lax_isa => PositiveNum,
 	writer => 1,
 );
 
 has field 'angle' => (
-
-	# isa => Num,
-
+	lax_isa => Num,
 	writer => 1,
 );
 

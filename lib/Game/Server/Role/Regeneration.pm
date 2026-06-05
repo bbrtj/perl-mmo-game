@@ -14,8 +14,7 @@ requires qw(
 );
 
 has field '_last_regeneration_tick' => (
-
-	# isa => PositiveNum
+	lax_isa => PositiveNum,
 	writer => 1,
 );
 

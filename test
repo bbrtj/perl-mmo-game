@@ -4,5 +4,8 @@ use v5.42;
 
 use App::Yath::Util qw/find_yath/;
 
+# always debug during tests
+$ENV{DEBUG} = 1;
+
 exec($^X, find_yath(), @ARGV);
 

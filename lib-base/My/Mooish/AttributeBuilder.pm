@@ -59,6 +59,19 @@ Mooish::AttributeBuilder::add_shortcut(
 
 Mooish::AttributeBuilder::add_shortcut(
 	sub ($name, %args) {
+		if (my $lax_isa = delete $args{lax_isa}) {
+			Mooish::AttributeBuilder::check_and_set(
+				\%args, $name,
+				isa => $lax_isa,
+			) if $ENV{DEBUG};
+		}
+
+		return %args;
+	}
+);
+
+Mooish::AttributeBuilder::add_shortcut(
+	sub ($name, %args) {
 		state $map = {
 			'[]' => 'Array',
 			'{}' => 'Hash',
