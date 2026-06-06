@@ -18,10 +18,20 @@ has param 'lore_id' => (
 	isa => LoreId,
 );
 
+has param 'x' => (
+	isa => Num,
+	default => 0,
+);
+
+has param 'y' => (
+	isa => Num,
+	default => 0,
+);
+
 sub send_queue ($self)
 {
 	return (
-		['use_ability', __serialize({lore_id => $self->lore_id})],
+		['use_ability', __serialize({lore_id => $self->lore_id, x => $self->x, y => $self->y})],
 	);
 }
 
@@ -29,6 +39,8 @@ sub receive_queue ($self)
 {
 	# TODO: how to get duration here?
 	my $action = Game::Object::Action::Ability->new(
+		x => $self->x,
+		y => $self->y,
 		lore_id => $self->lore_id,
 		actor => $self->actor,
 		duration => 1,

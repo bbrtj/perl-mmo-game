@@ -40,8 +40,8 @@ sub _discover_actors ($self, $actor, $found_objects, $resource)
 	my $discovered_by = $self->_discovered_by;
 	my $location = $self->location;
 
-	foreach my $found_id ($found_objects->@*) {
-		next if $found_id eq $actor_id || !(my $found = $location->get_actor($found_id));
+	foreach my $found ($found_objects->@*) {
+		my $found_id = $found->id;
 
 		push $discovered_by->{$found_id}->@*, $actor_id
 			if $found->is_player;
@@ -76,16 +76,27 @@ sub _discover ($self)
 {
 	state $radius = Game::Config->config->{discover_radius};
 	$self->_set_discovered_by({});
+	my $location = $self->location;
 
-	foreach my $actor ($self->location->get_players->@*) {
+	foreach my $actor ($location->get_players->@*) {
 
 		my $resource = Resource::Discovery->new;
 		my $should_send = false;
 
 		my $found_objects = $self->find_in_radius($actor->variables->xy, $radius);
+		my %aspects = (
+			_discover_actors => [],
+		);
 
-		for my $method (qw(_discover_actors)) {
-			$should_send = $self->$method($actor, $found_objects, $resource) || $should_send;
+		foreach my $found_id ($found_objects->@*) {
+			my $found;
+			if (($found = $location->get_actor($found_id)) && $found != $actor) {
+				push $aspects{_discover_actors}->@*, $found;
+			}
+		}
+
+		for my ($method, $objects) (%aspects) {
+			$should_send = $self->$method($actor, $objects, $resource) || $should_send;
 		}
 
 		$self->send_to_player($actor->id, $resource) if $should_send;

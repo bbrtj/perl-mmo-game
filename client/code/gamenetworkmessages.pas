@@ -6,7 +6,7 @@ uses FGL, SysUtils,
 	GameModels, GameModels.General, GameModels.Login, GameModels.Logout,
 	GameModels.CharacterList, GameModels.EnterGame, GameModels.Location,
 	GameModels.Move, GameModels.Discovery, GameModels.Ability,
-	GameModels.Chat, GameModels.Actors,
+	GameModels.Chat, GameModels.Actors, GameModels.Projectiles,
 	GameConfig;
 
 type
@@ -145,7 +145,7 @@ initialization
 	MessageTypesMap.Add(TMessageType.Create(TMsgEnterGame, TMsgResSuccess));
 	MessageTypesMap.Add(TMessageType.Create(TMsgMove));
 	MessageTypesMap.Add(TMessageType.Create(TMsgStop));
-	MessageTypesMap.Add(TMessageType.Create(TMsgUntargettedAbility));
+	MessageTypesMap.Add(TMessageType.Create(TMsgUseAbility));
 	MessageTypesMap.Add(TMessageType.Create(TMsgChatSay));
 	MessageTypesMap.Add(TMessageType.Create(TMsgActorsInfo, TMsgResActorsInfo));
 
@@ -157,6 +157,8 @@ initialization
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedActorEvent));
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedActorState));
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedActorAction));
+	FeedTypesMap.Add(TMessageType.Create(TMsgFeedProjectile));
+	FeedTypesMap.Add(TMessageType.Create(TMsgFeedProjectileStop));
 
 finalization
 	MessageTypesMap.Free;

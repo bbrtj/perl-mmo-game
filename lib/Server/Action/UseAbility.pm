@@ -17,8 +17,8 @@ sub validate ($self, $data)
 {
 	state $type = Dict [
 		lore_id => LoreId,
-		x => Optional [Num],
-		y => Optional [Num],
+		x => Num,
+		y => Num,
 	];
 
 	$type->assert_valid($data);

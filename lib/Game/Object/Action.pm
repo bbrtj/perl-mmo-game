@@ -19,7 +19,7 @@ has param 'duration' => (
 
 has field 'start_time' => (
 	lax_isa => PositiveNum,
-	default => sub { server_time },
+	default => sub { time },
 );
 
 has field 'eta' => (

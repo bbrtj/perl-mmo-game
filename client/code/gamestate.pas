@@ -5,11 +5,12 @@ interface
 uses Classes, FGL,
 	CastleVectors, CastleTransform, CastleViewport, CastleScene, CastleTiledMap,
 	GameMaps, GameTypes, GameNetwork,
-	GameActors,
-	GameModels.Discovery, GameModels.Move, GameModels.Actors;
+	GameActors, GameProjectiles,
+	GameModels.Discovery, GameModels.Move, GameModels.Actors, GameModels.Projectiles;
 
 type
 	TActorMap = specialize TFPGMap<TUlid, TGameActor>;
+	TProjectileMap = specialize TFPGMap<TUlid, TGameProjectile>;
 
 	TGameState = class
 	private
@@ -17,29 +18,37 @@ type
 		FUIBoard: TCastleTiledMap;
 
 		FActors: TActorMap;
+		FProjectiles: TProjectileMap;
 		FThisPlayer: TUlid;
 		FMapData: TMapData;
 
 		FActorFactory: TGameActorFactory;
+		FProjectileFactory: TGameProjectileFactory;
+
+		FCleanupTime: Single;
 
 		function FindActor(const Id: TUlid): TGameActor;
+		function FindProjectile(const Id: TUlid): TGameProjectile;
 		procedure SetBoard(Board: TCastleTiledMap);
 
 	public
 		constructor Create(Viewport: TCastleViewport);
 		destructor Destroy; override;
 
-		procedure Update(const SecondsPassed: Single);
+		procedure Update(const secondsPassed: Single);
 		procedure SetMapData(const MapData: TMapData);
 
 		procedure CreatePlayer(const Id: TUlid; const PosX, PosY: Single);
 		procedure AddActor(const Id: TUlid);
 		procedure RemoveActor(const Id: TUlid);
+
 		procedure ProcessMovement(Movement: TMsgFeedActorMovement);
 		procedure ProcessPosition(Stop: TMsgFeedActorPosition);
 		procedure ProcessActorEvent(Event: TMsgFeedActorEvent);
 		procedure ProcessActorState(Event: TMsgFeedActorState);
 		procedure ProcessActorAction(Event: TMsgFeedActorAction);
+		procedure ProcessProjectile(Event: TMsgFeedProjectile);
+		procedure ProcessProjectileStop(Event: TMsgFeedProjectileStop);
 
 		property Board: TCastleTiledMap write SetBoard;
 	end;
@@ -50,8 +59,10 @@ constructor TGameState.Create(Viewport: TCastleViewport);
 begin
 	FUIViewport := Viewport;
 	FActorFactory := nil;
+	FProjectileFactory := nil;
 
 	FActors := TActorMap.Create;
+	FProjectiles := TProjectileMap.Create;
 end;
 
 destructor TGameState.Destroy;
@@ -59,10 +70,28 @@ begin
 	inherited;
 	FActorFactory.Free;
 	FActors.Free;
+
+	FProjectileFactory.Free;
+	FProjectiles.Free;
 end;
 
-procedure TGameState.Update(const SecondsPassed: Single);
+procedure TGameState.Update(const secondsPassed: Single);
+const
+	cCleanupInterval = 0.1;
+var
+	I: Integer;
 begin
+	FCleanupTime += secondsPassed;
+	if FCleanupTime < cCleanupInterval then exit;
+	FCleanupTime := 0;
+
+	// NOTE: only global update here. Game objects are updated automatically when added to the board
+
+	for I := FProjectiles.Count - 1 downto 0 do begin
+		if not FProjectiles.Data[I].Finished then continue;
+		FProjectileFactory.RemoveProjectile(FProjectiles.Data[I]);
+		FProjectiles.Remove(FProjectiles.Data[I].Id);
+	end;
 end;
 
 procedure TGameState.SetMapData(const MapData: TMapData);
@@ -124,12 +153,22 @@ begin
 		result := nil;
 end;
 
+function TGameState.FindProjectile(const Id: TUlid): TGameProjectile;
+begin
+	if not FProjectiles.TryGetData(Id, result) then
+		result := nil;
+end;
+
 procedure TGameState.SetBoard(Board: TCastleTiledMap);
 begin
 	FUIBoard := Board;
 	if FActorFactory <> nil then
 		FActorFactory.Free;
 	FActorFactory := TGameActorFactory.Create(FUIViewport, FUIBoard);
+
+	if FProjectileFactory <> nil then
+		FProjectileFactory.Free;
+	FProjectileFactory := TGameProjectileFactory.Create(FUIViewport, FUIBoard);
 end;
 
 procedure TGameState.ProcessMovement(Movement: TMsgFeedActorMovement);
@@ -184,6 +223,28 @@ begin
 	LActor := self.FindActor(Event.Id);
 	if LActor <> nil then
 		LActor.SetAction(Event.LoreId, Event.Duration);
+end;
+
+procedure TGameState.ProcessProjectile(Event: TMsgFeedProjectile);
+var
+	LProjectile: TGameProjectile;
+begin
+	LProjectile := FProjectileFactory.CreateProjectile(Event.Id, Event.LoreId);
+	LProjectile.SetPosition(Event.X, Event.Y);
+	LProjectile.Move(Event.Angle, Event.Speed, Event.MaxDistance);
+
+	FProjectiles.Add(LProjectile.Id, LProjectile);
+end;
+
+procedure TGameState.ProcessProjectileStop(Event: TMsgFeedProjectileStop);
+var
+	LProjectile: TGameProjectile;
+begin
+	LProjectile := self.FindProjectile(Event.Id);
+	if LProjectile <> nil then begin
+		FProjectiles.Remove(LProjectile.Id);
+		FProjectileFactory.RemoveProjectile(LProjectile);
+	end;
 end;
 
 end.

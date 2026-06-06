@@ -5,6 +5,7 @@ use Server::Config;
 use Game::Server;
 use List::Util qw(max);
 use IO::Async::Timer::Periodic;
+use ServerTime qw(new_tick);
 
 use all 'X';
 
@@ -112,7 +113,8 @@ sub do_work ($self, $loop)
 	my $elapsed = 0;
 
 	my $tick_sref = sub {
-		my $start = server_time;
+		my $start = time;
+		new_tick;
 
 		try {
 			$self->server->tick(++$elapsed);
@@ -122,10 +124,10 @@ sub do_work ($self, $loop)
 		}
 
 		if (Server::Config::DEBUG) {
-			my $processing_time = server_time - $start;
+			my $processing_time = time - $start;
 
 			my $alert = '';
-			for (0.5, 1, 1.5) {
+			for (0.75, 1, 1.25) {
 				$alert .= '!' if $processing_time > $tick / $_;
 			}
 

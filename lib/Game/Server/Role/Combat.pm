@@ -14,6 +14,7 @@ requires qw(
 	send_to_players
 	get_discovered_by
 	enqueue_action
+	spawn_projectile
 );
 
 sub use_ability ($self, $actor_id, %options)
@@ -24,11 +25,12 @@ sub use_ability ($self, $actor_id, %options)
 	# do nothing if action is in progress already
 	return if $stats->has_action;
 
-	my $ability = $self->lore_data_repo->load($options{lore_id});
+	my $ability = $self->lore_data_repo->load($options{lore_id})->data;
 	my $action = Game::Object::Action::Ability->new(
 		%options,
+		lore => $ability,
 		actor => $actor,
-		duration => Game::Config->config->{base_action_speed} * $ability->data->speed_multiplier,
+		duration => Game::Config->config->{base_action_speed} * $ability->speed_multiplier,
 	);
 
 	$stats->set_action($action);
@@ -42,33 +44,59 @@ sub use_ability ($self, $actor_id, %options)
 	return;
 }
 
-sub use_ability_done ($self, $object)
+sub _apply_damage_effect ($self, $effect, $x, $y)
 {
-	my $actor = $object->actor;
-	my $ability = $self->lore_data_repo->load($object->lore_id);
-
-	# TODO: use x and y from object is applicable
-	# TODO: check and use proper ability from $object->lore_id
+	my $actor = $effect->actor;
 	my $stats = $actor->stats;
-	$stats->clear_action;
 
-	my ($radius, $distance) = $stats->weapon_hitbox->@*;
-
-	my @found = grep { $_ != $actor } Game::Mechanics::Distance->find_actors_in_range(
-		$self,
-		Game::Mechanics::Generic->find_frontal_point($actor->variables->xy, $stats->angle, $distance),
-		$radius
-	);
-
-	# TODO: calculate ability damage
-	my $damage = $stats->weapon_damage;
-	Game::Mechanics::Character::Damage->deal_damage($ability->data->attributes, $damage, @found);
+	my @found = grep { $_ != $actor } Game::Mechanics::Distance->find_actors_in_range($self, $x, $y, $effect->radius);
+	Game::Mechanics::Character::Damage->deal_damage($effect->lore->attributes, $effect->damage, @found);
 
 	# TODO: not always all targets will be affected (ability target limit)
 	foreach my $affected (@found) {
 		$self->send_to_players(
 			[$affected->id, $self->get_discovered_by($affected->id)],
-			Resource::ActorEvent->new(subject => $affected, event_source => $actor->id, health_change => -$damage)
+			Resource::ActorEvent->new(
+				subject => $affected,
+				event_source => $actor->id,
+				health_change => -$effect->damage
+			)
+		);
+	}
+
+	return;
+}
+
+sub use_ability_done ($self, $action)
+{
+	my $actor = $action->actor;
+	my $ability = $self->lore_data_repo->load($action->lore_id)->data;
+
+	# TODO: take resources required by the ability (energy? arrows?)
+	my $stats = $actor->stats;
+	$stats->clear_action;
+
+	# TODO: calculate ability damage, radius
+	my $damage = $stats->weapon_damage;
+	my ($radius, $distance) = $stats->weapon_hitbox->@*;
+	my $effect = Game::Object::Effect::Damage->new(
+		actor => $action->actor,
+		lore => $ability,
+		damage => $damage,
+		radius => $radius,
+	);
+
+	# TODO: use x and y from object if applicable
+	if ($ability->projectile) {
+
+		# projectile attack
+		$self->spawn_projectile($actor, $ability, $effect, $action->xy);
+	}
+	else {
+		# frontal attack
+		$self->apply_effect(
+			$effect,
+			Game::Mechanics::Generic->find_frontal_point($actor->variables->xy, $stats->angle, $distance)
 		);
 	}
 

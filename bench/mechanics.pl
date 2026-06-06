@@ -33,7 +33,7 @@ my $movement = Game::Object::Movement->new(
 	x => 7.3,
 	y => 8.5,
 	speed => 0.1,
-	time => server_time,
+	time => time,
 );
 
 cmpthese 200.01, {
@@ -41,7 +41,7 @@ cmpthese 200.01, {
 		die unless Game::Mechanics::Check::Map->can_see($location_data, [4.5, 3.8], [7.9, 8.3])->result;
 	},
 	movement => sub {
-		die unless Game::Mechanics::Movement->move($movement, $map);
+		die unless Game::Mechanics::Movement->move($movement, $map, time);
 	}
 };
 

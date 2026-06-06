@@ -5,10 +5,6 @@ use Game::Mechanics::Generic;
 
 use header;
 
-has param ['x', 'y'] => (
-	lax_isa => PositiveNum,
-);
-
 has param 'variables' => (
 	lax_isa => InstanceOf ['Model::CharacterVariables'],
 );
@@ -32,11 +28,16 @@ has field 'angle' => (
 	writer => 1,
 );
 
+# x, y of the destination
+with qw(
+	Game::Object::Role::HasPosition
+);
+
 sub BUILD ($self, $)
 {
 	my ($angle, $distance) = Game::Mechanics::Generic->calculate_angle_and_diagonal(
 		$self->variables->xy,
-		$self->x, $self->y,
+		$self->xy,
 	);
 
 	$self->set_eta($self->time + $distance / $self->speed);

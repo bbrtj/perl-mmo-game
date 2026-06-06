@@ -14,6 +14,7 @@ require List::Util;
 require List::Keywords;
 require My::Serializer;
 require ServerTime;
+require Time::HiRes;
 
 use DI;
 use My::Dumper;
@@ -33,6 +34,7 @@ sub import ($me, @args)
 	List::Keywords->import::into($pkg, qw(first any all));
 	List::Util->import::into($pkg, qw(mesh));
 	ServerTime->import::into($pkg, qw(server_time));
+	Time::HiRes->import::into($pkg, qw(time));
 	i18n->import::into($pkg);
 	My::Serializer->import::into($pkg);
 

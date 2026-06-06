@@ -7,6 +7,9 @@ use header;
 has param 'main_obj' => (
 	isa => InstanceOf ['Game::Lore'],
 	weak_ref => 1,
+	handles => {
+		id => 'id',
+	},
 );
 
 has param 'translations' => (

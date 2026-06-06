@@ -1,7 +1,7 @@
 # HARNESS-CATEGORY-IMMISCIBLE
 
 use Test2::Tools::E2ETest;
-use Test2::Tools::Compare qw(number_lt);
+use Test2::Tools::Compare qw(number_gt);
 use Game::TestClient;
 use Game::TestClientBag;
 use ActorTest;
@@ -63,7 +63,10 @@ e2e_test(
 		);
 
 		# TODO: real duration
+		# NOTE: x/y are required, but they do not change anything with this type of ability
 		my $actor_action = Game::Object::Action::Ability->new(
+			x => 5,
+			y => 3,
 			lore_id => 'ABIL.STRIKE',
 			actor => $actor,
 			duration => 1,
@@ -91,10 +94,11 @@ e2e_test(
 			unless defined $dummy_variables;
 
 		my $dummy_health = DI->get('models_repo')->load(CharacterVariables => $dummy_variables->id)->health;
+		my $damage = $dummy_variables->health - $dummy_health;
 
 		# TODO: check for damage amount
-		is $dummy_health, number_lt($dummy_variables->health), 'damage taken ok';
-		note sprintf 'damage taken was: %f', $dummy_variables->health - $dummy_health;
+		is $damage, number_gt(0.01), 'damage taken ok';
+		note sprintf 'damage taken was: %f', $damage;
 	},
 );
 

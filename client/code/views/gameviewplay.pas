@@ -8,7 +8,8 @@ uses Classes, SysUtils, FGL,
 	GameState, GameChat,
 	GameNetwork, GameActors,
 	GameModels, GameModels.Move, GameModels.Discovery,
-	GameModels.Ability, GameModels.Chat, GameModels.Actors;
+	GameModels.Ability, GameModels.Chat, GameModels.Actors,
+	GameModels.Projectiles;
 
 type
 
@@ -48,6 +49,8 @@ type
 		procedure OnActorEvent(const Data: TModelBase);
 		procedure OnActorState(const Data: TModelBase);
 		procedure OnActorAction(const Data: TModelBase);
+		procedure OnProjectile(const Data: TModelBase);
+		procedure OnProjectileStop(const Data: TModelBase);
 
 		procedure NewChatMessage(Message: String);
 
@@ -81,6 +84,8 @@ begin
 	GlobalClient.Await(TMsgFeedActorEvent, @OnActorEvent);
 	GlobalClient.Await(TMsgFeedActorState, @OnActorState);
 	GlobalClient.Await(TMsgFeedActorAction, @OnActorAction);
+	GlobalClient.Await(TMsgFeedProjectile, @OnProjectile);
+	GlobalClient.Await(TMsgFeedProjectileStop, @OnProjectileStop);
 
 	GlobalChat.Handler := @NewChatMessage;
 end;
@@ -123,10 +128,29 @@ end;
 
 function TViewPlay.Press(const Event: TInputPressRelease): Boolean;
 var
-	MouseHit: TRayCollision;
+	LPositionGrabbed: Boolean;
+	LHasPosition: Boolean;
 	LPosition: TVector3;
 	LModel: TMsgMove;
-	LAbility: TMsgUntargettedAbility;
+	LAbility: TMsgUseAbility;
+
+	function FindMousePosition(): Boolean;
+	var
+		LMouseHit: TRayCollision;
+	begin
+		LMouseHit := MainViewport.MouseRayHit;
+		if LPositionGrabbed then exit(LHasPosition);
+
+		LPositionGrabbed := true;
+		LHasPosition := (LMouseHit <> nil) and FindMapPosition(LMouseHit, LPosition);
+
+		if LHasPosition then begin
+			LPosition.X := LPosition.X * 100;
+			LPosition.Y := LPosition.Y * 100;
+		end;
+
+		result := LHasPosition;
+	end;
 
 begin
 	result := inherited;
@@ -154,27 +178,35 @@ begin
 	end;
 
 	{ TODO: hardcoded ability lore_id }
+	{ NOTE: untargetted - X/Y can be zero }
 	if Event.IsKey(keyA) then begin
-		LAbility := TMsgUntargettedAbility.Create();
+		FindMousePosition;
+		LAbility := TMsgUseAbility.Create();
 		LAbility.lore_id := 'ABIL.STRIKE';
+		LAbility.X := LPosition.X;
+		LAbility.Y := LPosition.Y;
 
-		GlobalClient.Send(TMsgUntargettedAbility, LAbility);
+		GlobalClient.Send(TMsgUseAbility, LAbility);
 		exit(true);
 	end;
 
-	if Event.IsMouseButton(buttonLeft) then begin
-		MouseHit := MainViewport.MouseRayHit;
-		if MouseHit <> nil then begin
-			if FindMapPosition(MouseHit, LPosition) then
-			begin
-				LModel := TMsgMove.Create;
-				LModel.X := LPosition.X * 100;
-				LModel.Y := LPosition.Y * 100;
+	if Event.IsKey(keyE) and FindMousePosition then begin
+		LAbility := TMsgUseAbility.Create();
+		LAbility.lore_id := 'ABIL.SHOOT';
+		LAbility.X := LPosition.X;
+		LAbility.Y := LPosition.Y;
 
-				GlobalClient.Send(TMsgMove, LModel);
-				exit(true);
-			end;
-		end;
+		GlobalClient.Send(TMsgUseAbility, LAbility);
+		exit(true);
+	end;
+
+	if Event.IsMouseButton(buttonLeft) and FindMousePosition then begin
+		LModel := TMsgMove.Create;
+		LModel.X := LPosition.X;
+		LModel.Y := LPosition.Y;
+
+		GlobalClient.Send(TMsgMove, LModel);
+		exit(true);
 	end;
 end;
 
@@ -239,6 +271,16 @@ end;
 procedure TViewPlay.OnActorAction(const Data: TModelBase);
 begin
 	FGameState.ProcessActorAction(Data as TMsgFeedActorAction);
+end;
+
+procedure TViewPlay.OnProjectile(const Data: TModelBase);
+begin
+	FGameState.ProcessProjectile(Data as TMsgFeedProjectile);
+end;
+
+procedure TViewPlay.OnProjectileStop(const Data: TModelBase);
+begin
+	FGameState.ProcessProjectileStop(Data as TMsgFeedProjectileStop);
 end;
 
 procedure TViewPlay.NewChatMessage(Message: String);

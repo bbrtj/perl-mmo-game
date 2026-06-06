@@ -63,6 +63,7 @@ with qw(
 	Game::Server::Role::Discovery
 
 	Game::Server::Role::Chat
+	Game::Server::Role::Projectiles
 	Game::Server::Role::Combat
 	Game::Server::Role::Movements
 	Game::Server::Role::Regeneration
@@ -147,6 +148,12 @@ sub resolve_queue ($self)
 	return;
 }
 
+sub apply_effect ($self, $effect, @args)
+{
+	my $method = $effect->server_method;
+	return $self->$method($effect, @args);
+}
+
 sub signal_player_left ($self, $actor)
 {
 	$self->location->remove_actor($actor);
@@ -157,6 +164,13 @@ sub signal_player_left ($self, $actor)
 sub signal_actor_appeared ($self, $for_actor, $actor)
 {
 	# $self->log->debug(sprintf "actor %s appeared for %s", $actor->id, $for_actor->id);
+
+	return;
+}
+
+sub signal_projectile_appeared ($self, $for_actor, $projectile)
+{
+	# $self->log->debug(sprintf "projectile %s appeared for %s", $projectile->id, $for_actor->id);
 
 	return;
 }

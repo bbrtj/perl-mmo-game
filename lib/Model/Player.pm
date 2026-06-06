@@ -24,13 +24,13 @@ has param 'last_online' => (
 
 has param 'created_at' => (
 	coerce => DateTime,
-	default => sub { time },
+	default => sub { int time },
 );
 
 sub set_offline ($self)
 {
 	$self->set_online(false);
-	$self->set_last_online(time);
+	$self->set_last_online(int time);
 
 	return;
 }

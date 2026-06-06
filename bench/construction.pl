@@ -31,7 +31,7 @@ cmpthese 200.01, {
 			x => 5.3,
 			y => 6.5,
 			speed => 9,
-			time => server_time,
+			time => time,
 		);
 	},
 	'Resource::ActorState' => sub {

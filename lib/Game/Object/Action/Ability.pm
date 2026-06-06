@@ -5,14 +5,7 @@ use My::Moose;
 use header;
 
 extends 'Game::Object::Action';
+with 'Game::Object::Role::HasPosition';
 
 use constant server_method => 'use_ability_done';
-
-has option 'x' => (
-	lax_isa => Num,
-);
-
-has option 'y' => (
-	lax_isa => Num,
-);
 

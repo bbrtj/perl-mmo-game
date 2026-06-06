@@ -4,6 +4,7 @@ use My::Moose;
 
 use Resource::ActorPosition;
 use Resource::ActorState;
+use Sub::Install;
 
 use header;
 
@@ -23,32 +24,36 @@ has extended 'subject' => (
 
 use constant type => 'discovery';
 
-# NOTE: full objects, to grab their positions
-sub new_actors ($self, $list)
-{
-	return $self->_add('new_actors', $list);
-}
+my @aspects = qw(
+	new_actors
+	old_actors
+);
 
-sub old_actors ($self, $list)
-{
-	return $self->_add('old_actors', $list);
+# NOTE: aspects are full objects
+foreach my $aspect (@aspects) {
+	Sub::Install::install_sub(
+		{
+			code => sub ($self, $list) {
+				return $self->_add($aspect, $list);
+			},
+			as => $aspect,
+		}
+	);
 }
 
 sub generate ($self)
 {
-	my @copy = qw(old_actors);
-
 	my %generated;
 	my $subject = $self->subject;
 
-	foreach my $key (qw(old_actors new_actors)) {
-		if ($subject->{$key}) {
-			$generated{$key} = [
-				map {
-					$_->id
-				} $subject->{$key}->@*
-			];
-		}
+	foreach my $key (@aspects) {
+		next unless $subject->{$key};
+
+		$generated{$key} = [
+			map {
+				$_->id
+			} $subject->{$key}->@*
+		];
 	}
 
 	return \%generated;
@@ -57,7 +62,7 @@ sub generate ($self)
 sub _build_next_resources ($self)
 {
 	my @resources;
-	foreach my $actor ($self->subject->{new_actors}->@*) {
+	foreach my $actor (($self->subject->{new_actors} // [])->@*) {
 		push @resources, (
 			Resource::ActorPosition->new(subject => $actor),
 			Resource::ActorState->new(subject => $actor),

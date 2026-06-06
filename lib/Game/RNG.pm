@@ -12,18 +12,24 @@ our @EXPORT = qw(
 
 our @EXPORT_OK = qw(
 	random_number
+	random_int
 	random_choice
 	weighted_choice
 );
 
-sub rng ()
+sub rng
 {
 	return rand;
 }
 
-sub random_number ($min = 0, $max = 100)
+sub random_number ($min, $max)
 {
-	return int(rand $max - $min) + $min;
+	return (($max - $min) * rng) + $min;
+}
+
+sub random_int ($min = 0, $max = 100)
+{
+	return int random_number $min, $max;
 }
 
 sub random_choice ($items)

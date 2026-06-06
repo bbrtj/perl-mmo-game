@@ -37,7 +37,7 @@ has param 'status' => (
 
 has param 'created_at' => (
 	coerce => DateTime,
-	default => sub { time },
+	default => sub { int time },
 );
 
 around BUILDARGS => sub ($orig, $self, %args) {

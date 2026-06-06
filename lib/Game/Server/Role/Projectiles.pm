@@ -1,0 +1,117 @@
+package Game::Server::Role::Projectiles;
+
+use My::Moose::Role;
+use Game::Config;
+use Game::Object::Projectile;
+use Game::Mechanics::Generic;
+use Game::Mechanics::Projectile;
+use Game::RNG qw(random_number);
+use Math::Trig qw(deg2rad);
+
+use all 'X';
+use all 'Resource';
+
+use header;
+
+requires qw(
+	map
+	location
+	find_in_radius
+);
+
+has param '_projectiles' => (
+	isa => HashRef [InstanceOf ['Game::Object::Projectile']],
+	default => sub { {} },
+);
+
+sub _projectile_hit ($self, $projectile, $send)
+{
+	if ($send) {
+		my $resource = Resource::ProjectileStop->new(subject => $projectile);
+		$self->send_to_players($projectile->discovered_by, $resource);
+	}
+
+	$self->apply_effect($projectile->effect, $projectile->xy);
+	delete $self->_projectiles->{$projectile->id};
+	return;
+}
+
+sub _process_projectiles ($self)
+{
+	my $map = $self->map;
+	my $elapsed = server_time;
+
+	foreach my $projectile (values $self->_projectiles->%*) {
+
+		# a wall has been hit
+		if (!Game::Mechanics::Projectile->travel($projectile, $map, $elapsed)) {
+			$self->_projectile_hit($projectile, true);
+			next;
+		}
+
+		# projectile ran out of range - no need to notify clients, since client
+		# is aware of the max distance
+		if ($projectile->finished) {
+			$self->_projectile_hit($projectile, false);
+			next;
+		}
+
+		# collision with actors
+		# TODO: do not hit if target is friendly
+		my $actor = $projectile->actor;
+		my @collision = grep { $_ != $actor }
+			Game::Mechanics::Distance->find_actors_in_range($self, $projectile->xy, $projectile->radius);
+
+		$self->_projectile_hit($projectile, true)
+			if @collision;
+	}
+
+	return;
+}
+
+sub spawn_projectile ($self, $actor, $lore_data, $effect, $at_x, $at_y)
+{
+	my $projectile_data = $lore_data->{projectile};
+	my ($angle) = Game::Mechanics::Generic->calculate_angle_and_diagonal($actor->variables->xy, $at_x, $at_y);
+
+	my $inacc = $projectile_data->{inaccuracy} / 2;
+	$angle += deg2rad random_number - $inacc, $inacc
+		if $inacc;
+
+	# TODO: check if actor is facing the right way
+	# TODO: actual character radius
+	my ($x, $y) = Game::Mechanics::Generic->find_frontal_point(
+		$actor->variables->xy, $angle,
+		Game::Config->config->{base_radius}
+	);
+
+	my $projectile = Game::Object::Projectile->new(
+		x => $x,
+		y => $y,
+		actor => $actor,
+		effect => $effect,
+		speed => $projectile_data->{speed},
+		angle => $angle,
+		max_distance => $projectile_data->{range},
+		radius => $projectile_data->{radius},
+	);
+
+	# NOTE: data about the projectile is sent to all players who can ever see it (for all practical purposes)
+	my @actors = Game::Mechanics::Distance->find_actors_in_range(
+		$self, $x, $y,
+		$projectile_data->{range} * 2 + Game::Config->config->{discover_radius}
+	);
+	$projectile->set_discovered_by([map { $_->id } @actors]);
+
+	$self->_projectiles->{$projectile->id} = $projectile;
+
+	my $resource = Resource::Projectile->new(subject => $projectile);
+	$self->send_to_players($projectile->discovered_by, $resource);
+
+	return;
+}
+
+after BUILD => sub ($self, @) {
+	$self->_add_action(0.2 => '_process_projectiles', 8);
+};
+
