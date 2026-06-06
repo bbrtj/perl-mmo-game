@@ -7,7 +7,7 @@
   },
   "BorderColorPersistent" : {
     "$$ClassName" : "TCastleColorPersistent",
-    "Alpha" : 1.0000000000000000E+000,
+    "Alpha" : 7.4901962280273437E-001,
     "Blue" : 1.2156862765550613E-001,
     "Green" : 1.2156862765550613E-001,
     "Red" : 1.2156862765550613E-001
@@ -18,143 +18,142 @@
   "$Children" : [
     {
       "$$ClassName" : "TCastleRectangleControl",
+      "AutoSizeToChildren" : true,
       "ColorPersistent" : {
         "$$ClassName" : "TCastleColorPersistent",
-        "Blue" : 1.1999999731779099E-001,
-        "Green" : 1.1999999731779099E-001,
-        "Red" : 1.1999999731779099E-001
+        "Alpha" : 7.4901962280273437E-001,
+        "Blue" : 1.2156862765550613E-001,
+        "Green" : 1.2156862765550613E-001,
+        "Red" : 1.2156862765550613E-001
       },
-      "FullSize" : true,
-      "Name" : "Background"
-    },
-    {
-      "$$ClassName" : "TCastleLabel",
-      "CaptionTranslate" : false,
-      "ColorPersistent" : {
-        "$$ClassName" : "TCastleColorPersistent",
-        "Blue" : 1.0000000000000000E+000,
-        "Green" : 1.0000000000000000E+000,
-        "Red" : 1.0000000000000000E+000
-      },
-      "HorizontalAnchorParent" : "hpMiddle",
-      "HorizontalAnchorSelf" : "hpMiddle",
-      "Name" : "ActorName",
-      "Text" : [
-        "ActorName"
-      ],
-      "TranslationPersistent" : {
-        "$$ClassName" : "TCastleVector2Persistent",
-        "Y" : -3.0000000000000000E+000
-      },
-      "VerticalAnchorParent" : "vpTop",
-      "VerticalAnchorSelf" : "vpTop"
-    },
-    {
-      "$$ClassName" : "TCastleRectangleControl",
-      "ColorPersistent" : {
-        "$$ClassName" : "TCastleColorPersistent",
-        "Blue" : 5.3333336114883423E-001,
-        "Green" : 5.3333336114883423E-001,
-        "Red" : 5.3333336114883423E-001
-      },
-      "Height" : 1.5000000000000000E+001,
-      "Name" : "HealthBar",
-      "TranslationPersistent" : {
-        "$$ClassName" : "TCastleVector2Persistent",
-        "X" : 3.2557870781602105E-006,
-        "Y" : -3.0000000000000000E+001
-      },
-      "VerticalAnchorParent" : "vpTop",
-      "VerticalAnchorSelf" : "vpTop",
-      "Width" : 1.5000000000000000E+002,
+      "Name" : "Background",
       "$Children" : [
-        {
-          "$$ClassName" : "TCastleRectangleControl",
-          "ColorPersistent" : {
-            "$$ClassName" : "TCastleColorPersistent",
-            "Blue" : 0.0000000000000000E+000,
-            "Green" : 0.0000000000000000E+000
-          },
-          "Height" : 1.5000000000000000E+001,
-          "Name" : "CurrentHealthBar",
-          "VerticalAnchorParent" : "vpMiddle",
-          "VerticalAnchorSelf" : "vpMiddle",
-          "Width" : 0.0000000000000000E+000,
-          "WidthFraction" : 1.0000000000000000E+000
-        }
-      ]
-    },
-    {
-      "$$ClassName" : "TCastleRectangleControl",
-      "ColorPersistent" : {
-        "$$ClassName" : "TCastleColorPersistent",
-        "Blue" : 5.3333336114883423E-001,
-        "Green" : 5.3333336114883423E-001,
-        "Red" : 5.3333336114883423E-001
-      },
-      "Height" : 1.5000000000000000E+001,
-      "Name" : "EnergyBar",
-      "TranslationPersistent" : {
-        "$$ClassName" : "TCastleVector2Persistent",
-        "Y" : -4.5000000000000000E+001
-      },
-      "VerticalAnchorParent" : "vpTop",
-      "VerticalAnchorSelf" : "vpTop",
-      "Width" : 1.5000000000000000E+002,
-      "$Children" : [
-        {
-          "$$ClassName" : "TCastleRectangleControl",
-          "ColorPersistent" : {
-            "$$ClassName" : "TCastleColorPersistent",
-            "Green" : 0.0000000000000000E+000,
-            "Red" : 0.0000000000000000E+000
-          },
-          "Height" : 1.5000000000000000E+001,
-          "Name" : "CurrentEnergyBar",
-          "VerticalAnchorParent" : "vpMiddle",
-          "VerticalAnchorSelf" : "vpMiddle",
-          "Width" : 0.0000000000000000E+000,
-          "WidthFraction" : 1.0000000000000000E+000
-        }
-      ]
-    },
-    {
-      "$$ClassName" : "TCastleRectangleControl",
-      "ColorPersistent" : {
-        "$$ClassName" : "TCastleColorPersistent",
-        "Blue" : 5.3333336114883423E-001,
-        "Green" : 5.3333336114883423E-001,
-        "Red" : 5.3333336114883423E-001
-      },
-      "Exists" : false,
-      "Height" : 1.5000000000000000E+001,
-      "Name" : "ActionBar",
-      "TranslationPersistent" : {
-        "$$ClassName" : "TCastleVector2Persistent",
-        "Y" : -6.0000000000000000E+001
-      },
-      "VerticalAnchorParent" : "vpTop",
-      "VerticalAnchorSelf" : "vpTop",
-      "Width" : 1.5000000000000000E+002,
-      "$Children" : [
-        {
-          "$$ClassName" : "TCastleRectangleControl",
-          "Height" : 1.5000000000000000E+001,
-          "Name" : "CurrentActionBar",
-          "VerticalAnchorParent" : "vpMiddle",
-          "VerticalAnchorSelf" : "vpMiddle",
-          "Width" : 0.0000000000000000E+000,
-          "WidthFraction" : 1.0000000000000000E+000
-        },
         {
           "$$ClassName" : "TCastleLabel",
-          "Alignment" : "hpMiddle",
-          "AutoSize" : false,
-          "FontScale" : 6.9999998807907104E-001,
-          "FullSize" : true,
-          "Name" : "ActionName",
+          "CaptionTranslate" : false,
+          "ColorPersistent" : {
+            "$$ClassName" : "TCastleColorPersistent",
+            "Blue" : 1.0000000000000000E+000,
+            "Green" : 1.0000000000000000E+000,
+            "Red" : 1.0000000000000000E+000
+          },
+          "FontScale" : 8.0000001192092896E-001,
+          "HorizontalAnchorParent" : "hpMiddle",
+          "HorizontalAnchorSelf" : "hpMiddle",
+          "Name" : "ActorName",
           "Text" : [
-            "ActionName"
+            "ActorName"
+          ],
+          "VerticalAnchorParent" : "vpTop",
+          "VerticalAnchorSelf" : "vpTop"
+        },
+        {
+          "$$ClassName" : "TCastleRectangleControl",
+          "ColorPersistent" : {
+            "$$ClassName" : "TCastleColorPersistent",
+            "Blue" : 5.3333336114883423E-001,
+            "Green" : 5.3333336114883423E-001,
+            "Red" : 5.3333336114883423E-001
+          },
+          "Height" : 1.5000000000000000E+001,
+          "Name" : "HealthBar",
+          "TranslationPersistent" : {
+            "$$ClassName" : "TCastleVector2Persistent",
+            "Y" : -2.0000000000000000E+001
+          },
+          "VerticalAnchorParent" : "vpTop",
+          "VerticalAnchorSelf" : "vpTop",
+          "Width" : 1.2000000000000000E+002,
+          "$Children" : [
+            {
+              "$$ClassName" : "TCastleRectangleControl",
+              "ColorPersistent" : {
+                "$$ClassName" : "TCastleColorPersistent",
+                "Blue" : 0.0000000000000000E+000,
+                "Green" : 0.0000000000000000E+000
+              },
+              "Height" : 1.5000000000000000E+001,
+              "Name" : "CurrentHealthBar",
+              "VerticalAnchorParent" : "vpMiddle",
+              "VerticalAnchorSelf" : "vpMiddle",
+              "Width" : 0.0000000000000000E+000,
+              "WidthFraction" : 1.0000000000000000E+000
+            }
+          ]
+        },
+        {
+          "$$ClassName" : "TCastleRectangleControl",
+          "ColorPersistent" : {
+            "$$ClassName" : "TCastleColorPersistent",
+            "Blue" : 5.3333336114883423E-001,
+            "Green" : 5.3333336114883423E-001,
+            "Red" : 5.3333336114883423E-001
+          },
+          "Height" : 1.5000000000000000E+001,
+          "Name" : "EnergyBar",
+          "TranslationPersistent" : {
+            "$$ClassName" : "TCastleVector2Persistent",
+            "Y" : -3.5000000000000000E+001
+          },
+          "VerticalAnchorParent" : "vpTop",
+          "VerticalAnchorSelf" : "vpTop",
+          "Width" : 1.2000000000000000E+002,
+          "$Children" : [
+            {
+              "$$ClassName" : "TCastleRectangleControl",
+              "ColorPersistent" : {
+                "$$ClassName" : "TCastleColorPersistent",
+                "Green" : 0.0000000000000000E+000,
+                "Red" : 0.0000000000000000E+000
+              },
+              "Height" : 1.5000000000000000E+001,
+              "Name" : "CurrentEnergyBar",
+              "VerticalAnchorParent" : "vpMiddle",
+              "VerticalAnchorSelf" : "vpMiddle",
+              "Width" : 0.0000000000000000E+000,
+              "WidthFraction" : 1.0000000000000000E+000
+            }
+          ]
+        },
+        {
+          "$$ClassName" : "TCastleRectangleControl",
+          "ColorPersistent" : {
+            "$$ClassName" : "TCastleColorPersistent",
+            "Blue" : 5.3333336114883423E-001,
+            "Green" : 5.3333336114883423E-001,
+            "Red" : 5.3333336114883423E-001
+          },
+          "Exists" : false,
+          "Height" : 1.5000000000000000E+001,
+          "Name" : "ActionBar",
+          "TranslationPersistent" : {
+            "$$ClassName" : "TCastleVector2Persistent",
+            "Y" : -5.0000000000000000E+001
+          },
+          "VerticalAnchorParent" : "vpTop",
+          "VerticalAnchorSelf" : "vpTop",
+          "Width" : 1.2000000000000000E+002,
+          "$Children" : [
+            {
+              "$$ClassName" : "TCastleRectangleControl",
+              "Height" : 1.5000000000000000E+001,
+              "Name" : "CurrentActionBar",
+              "VerticalAnchorParent" : "vpMiddle",
+              "VerticalAnchorSelf" : "vpMiddle",
+              "Width" : 0.0000000000000000E+000,
+              "WidthFraction" : 1.0000000000000000E+000
+            },
+            {
+              "$$ClassName" : "TCastleLabel",
+              "Alignment" : "hpMiddle",
+              "AutoSize" : false,
+              "FontScale" : 6.9999998807907104E-001,
+              "FullSize" : true,
+              "Name" : "ActionName",
+              "Text" : [
+                "ActionName"
+              ]
+            }
           ]
         }
       ]
