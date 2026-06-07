@@ -57,7 +57,7 @@ on 'runtime' => sub {
 	requires 'Algorithm::QuadTree::XS' => 0;
 	requires 'Sub::Quote' => 0;
 	requires 'Sub::Install' => 0;
-	requires 'Game::TileMap' => '1.000';
+	requires 'Game::TileMap' => '1.001';
 	requires 'Time::HiRes' => 0;
 	requires 'enum' => 0;
 

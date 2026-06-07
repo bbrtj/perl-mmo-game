@@ -1593,19 +1593,18 @@ DISTRIBUTIONS
       Future 0
       Module::Build 0.4004
       perl 5.014
-  Game-TileMap-1.000
-    pathname: B/BR/BRTASTIC/Game-TileMap-1.000.tar.gz
+  Game-TileMap-1.001
+    pathname: B/BR/BRTASTIC/Game-TileMap-1.001.tar.gz
     provides:
-      Game::TileMap 1.000
-      Game::TileMap::Legend 1.000
-      Game::TileMap::Role::Checks 1.000
-      Game::TileMap::Role::Helpers 1.000
-      Game::TileMap::Tile 1.000
+      Game::TileMap 1.001
+      Game::TileMap::Legend 1.001
+      Game::TileMap::Role::Checks 1.001
+      Game::TileMap::Role::Helpers 1.001
+      Game::TileMap::Tile 1.001
     requirements:
       ExtUtils::MakeMaker 0
-      Moo 2
-      Mooish::AttributeBuilder 1.002
-      perl 5.010
+      Mooish::Base 1.005
+      perl 5.010000
   Gears-0.104
     pathname: B/BR/BRTASTIC/Gears-0.104.tar.gz
     provides:
