@@ -19,7 +19,7 @@ sub travel ($self, $projectile, $map, $elapsed = server_time)
 
 	# NOTE: no rounding of position - if projectiles hit something, apply their
 	# effect there
-	return false unless $map->check_can_be_accessed($new_x, $new_y);
+	return false unless $map->check_within_map($new_x, $new_y);
 
 	$projectile->set_time($elapsed);
 	$projectile->set_x($new_x);
