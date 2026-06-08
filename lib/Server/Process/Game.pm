@@ -145,11 +145,25 @@ sub do_work ($self, $loop)
 		)->start
 	);
 
+	$loop->add(
+		IO::Async::Timer::Periodic->new(
+			interval => 15 * 60,
+			reschedule => 'drift',
+			on_tick => sub {
+				$loop->spawn_child(
+					code => sub {
+						$self->save_work;
+						return 0;
+					}
+				);
+			},
+		)->start
+	);
+
 	$self->log->info('Game process for ' . $self->location_id . ' started');
 	return;
 }
 
-# TODO: run periodically
 sub save_work ($self)
 {
 	DI->get('units_repo')->save($self->server->location);
