@@ -70,6 +70,11 @@ has cached 'energy_regeneration' => (
 	lazy => 1,
 );
 
+has cached 'size' => (
+	lax_isa => PositiveNum,
+	lazy => 1,
+);
+
 sub set_movement ($self, $movement)
 {
 	$self->_set_movement($movement);
@@ -130,5 +135,11 @@ sub _build_energy_regeneration ($self)
 
 	# TODO: nasty hardcode
 	return 0.1;
+}
+
+sub _build_size ($self)
+{
+	# TODO: size will be affected by race and constitution
+	return Game::Config->config->{base_size};
 }
 

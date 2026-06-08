@@ -213,6 +213,7 @@ begin
 		LActor.SetHealth(Event.Health, Event.MaxHealth);
 		LActor.SetEnergy(Event.Energy, Event.MaxEnergy);
 		LActor.SetRegeneration(Event.HealthRegeneration, Event.EnergyRegeneration);
+		LActor.SetSize(Event.Size);
 	end
 end;
 

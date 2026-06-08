@@ -80,10 +80,7 @@ sub spawn_projectile ($self, $actor, $lore_data, $effect, $at_x, $at_y)
 
 	# TODO: check if actor is facing the right way
 	# TODO: actual character radius
-	my ($x, $y) = Game::Mechanics::Generic->find_frontal_point(
-		$actor->variables->xy, $angle,
-		Game::Config->config->{base_radius}
-	);
+	my ($x, $y) = Game::Mechanics::Generic->find_frontal_point($actor->variables->xy, $angle, $actor->stats->size);
 
 	my $projectile = Game::Object::Projectile->new(
 		x => $x,

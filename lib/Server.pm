@@ -53,7 +53,7 @@ sub handle_global_feedback ($self, $data_href)
 	my @recipients;
 
 	if ($data_href->{sessions}) {
-	use Data::Dumper;
+		use Data::Dumper;
 		@recipients = grep { defined } $self->connections->@{$data_href->{sessions}->@*};
 	}
 	else {

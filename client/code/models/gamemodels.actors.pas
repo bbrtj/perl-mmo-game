@@ -30,6 +30,7 @@ type
 		property Energy: Single index 4 read GetValueIndexReal;
 		property MaxEnergy: Single index 5 read GetValueIndexReal;
 		property EnergyRegeneration: Single index 6 read GetValueIndexReal;
+		property Size: Single index 7 read GetValueIndexReal;
 
 	end;
 

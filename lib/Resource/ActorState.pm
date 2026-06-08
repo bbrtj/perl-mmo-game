@@ -29,6 +29,7 @@ sub generate ($self)
 		$actor->variables->energy,
 		$stats->max_energy,
 		$stats->energy_regeneration,
+		$stats->size,
 	];
 }
 

@@ -5,7 +5,7 @@ my $max_level = 50;
 define {
 	max_level => $max_level,
 
-	base_radius => 0.25,
+	base_radius => 0.1,
 	discover_radius => 5,
 	yell_radius => 20,
 
@@ -13,6 +13,7 @@ define {
 	starting_stats_floating => 5,
 	stats_at_levels => [grep { $_ % 5 == 0 } 1 .. $max_level],
 
+	base_size => 0.25,
 	base_speed => 0.8, # per second
 	base_action_speed => 1, # seconds
 

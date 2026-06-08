@@ -4,7 +4,7 @@ interface
 
 uses SysUtils, Classes, Contnrs, Math,
 	CastleUIControls, CastleControls, CastleRectangles,
-	CastleTransform, CastleVectors, CastleViewport,
+	CastleTransform, CastleVectors, CastleViewport, CastleBoxes,
 	GameTypes, GameLore, GameExceptions, GameNetwork, GameConfig,
 	GameModels, GameModels.Discovery;
 
@@ -46,6 +46,8 @@ type
 		FMaxEnergy: Single;
 		FEnergyRegeneration: Single;
 
+		FSize: Single;
+
 		procedure UpdatePlate(Sender: TObject);
 		procedure UpdatePlateResources();
 		procedure UpdatePlatePosition();
@@ -63,6 +65,7 @@ type
 		procedure ModifyHealth(NewHealth: Single);
 		procedure SetRegeneration(Health, Energy: Single);
 		procedure SetAction(const LoreId: TLoreId; Duration: Single);
+		procedure SetSize(Size: Single);
 
 		procedure Update(const secondsPassed: Single; var removeMe: TRemoveType); override;
 
@@ -307,6 +310,17 @@ begin
 	// NOTE: duration can be 0 when action is cancelled
 	FActionDuration := Duration;
 	FActionTime := Duration;
+end;
+
+procedure TGameActor.SetSize(Size: Single);
+var
+	LBox: TBox3D;
+begin
+	FSize := Size;
+	LBox := self.BoundingBox;
+
+	// NOTE: Box3D has width / height, while Size is a radius of a circle
+	self.Scale := self.Scale * Vector3(LBox.SizeX / Size / 2, LBox.SizeY / Size / 2, 1);
 end;
 
 constructor TGameActorRepository.Create();

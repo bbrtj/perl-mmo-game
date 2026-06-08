@@ -25,6 +25,7 @@ sub _build_quad_tree ($self)
 	my $size = (sort { $b <=> $a } ($self->map->size_x, $self->map->size_y))[0];
 	my $required_precision = $size / Game::Config->config->{base_radius};
 	my $required_depth = ceil(log($required_precision) / log(2));
+	$self->log->debug("Quad tree depth is $required_depth");
 
 	return Algorithm::QuadTree->new(
 		-depth => $required_depth,
@@ -40,9 +41,8 @@ sub _reload_coordinates ($self)
 	my $qt = $self->_quad_tree;
 	$qt->clear;
 
-	my $radius = Game::Config->config->{base_radius};
 	foreach my $actor (values $self->location->actors->%*) {
-		$qt->add($actor->id, $actor->variables->xy, $radius);
+		$qt->add($actor->id, $actor->variables->xy, $actor->stats->size);
 	}
 
 	return;
