@@ -17,7 +17,7 @@ use constant deserializes => 1;
 # only do basic validation here, leave the rest for a backend job
 sub validate ($self, $data)
 {
-	die 'not a hash' unless is_hashref($data);
+	die 'not a hash' unless ref $data eq 'HASH';
 	return $data;
 }
 

@@ -20,7 +20,7 @@ sub receive_queue ($self)
 	my $data = $self->data;
 
 	return ($data)
-		unless is_arrayref $data;
+		unless ref $data eq 'ARRAY';
 
 	return ($data->@*);
 }

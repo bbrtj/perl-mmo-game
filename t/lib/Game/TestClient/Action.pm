@@ -72,7 +72,7 @@ sub find_and_compare ($self, $type, $data)
 		my $ok = 1;
 		try {
 			$cmp_data = __deserialize($cmp_data)
-				if is_ref $expected;
+				if ref $expected;
 		}
 		catch ($e) {
 			$ok = 0;

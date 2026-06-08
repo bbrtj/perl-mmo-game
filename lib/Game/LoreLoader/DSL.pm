@@ -76,8 +76,8 @@ sub _configure ($self, $context, $field, @values)
 
 	my $storage = $context->$field;
 
-	if (is_hashref $storage) {
-		if (@values == 1 && is_hashref $values[0]) {
+	if (ref $storage eq 'HASH') {
+		if (@values == 1 && ref $values[0] eq 'HASH') {
 			@values = $values[0]->%*;
 		}
 
@@ -94,7 +94,7 @@ sub _configure ($self, $context, $field, @values)
 		}
 	}
 
-	elsif (is_arrayref $storage) {
+	elsif (ref $storage eq 'ARRAY') {
 		foreach my $value (@values) {
 			$value = $value->create
 				if $value isa 'Game::LoreLoader::LoreDummy';

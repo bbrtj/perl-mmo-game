@@ -40,7 +40,7 @@ sub build_message ($self, $data_href)
 		Server::Config::PROTOCOL_CONTROL_CHARACTER,
 		($data_href->{id} // ''),
 		($data_href->{echo_type} // ''),
-		(is_ref $echo ? __serialize($echo) : $echo),
+		(ref $echo ne '' ? __serialize($echo) : $echo),
 		)
 
 		# NOTE: this CRLF is essential for the client to get this data

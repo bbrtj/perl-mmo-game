@@ -41,7 +41,6 @@ on 'runtime' => sub {
 
 	requires 'Log::Handler' => 0;
 
-	requires 'Ref::Util' => 0;
 	requires 'List::Keywords' => 0;
 
 	requires 'Sereal::Encoder' => 0;
