@@ -166,7 +166,6 @@ begin
 	// TODO: use Id to get info about the appearance of the actor from some other component
 	// (which will manage network in return, to get this data)
 	result.URL := 'castle-data:/images/player.png';
-	result.Scale := Vector3(0.0025, 0.0025, 1); // TODO: scale properly
 	result.Translation := Vector3(0, 0, 100); // TODO: proper Z distance
 
 	result.Plate := TCastleDesign.Create(FUIViewport);
@@ -315,12 +314,14 @@ end;
 procedure TGameActor.SetSize(Size: Single);
 var
 	LBox: TBox3D;
+	LCurrentRadius: Single;
 begin
 	FSize := Size;
 	LBox := self.BoundingBox;
 
 	// NOTE: Box3D has width / height, while Size is a radius of a circle
-	self.Scale := self.Scale * Vector3(LBox.SizeX / Size / 2, LBox.SizeY / Size / 2, 1);
+	LCurrentRadius := Max(LBox.Size.X, LBox.Size.Y) / 2;
+	self.Scale := self.Scale * Vector3(Size / LCurrentRadius, Size / LCurrentRadius, 1);
 end;
 
 constructor TGameActorRepository.Create();

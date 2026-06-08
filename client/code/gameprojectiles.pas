@@ -2,8 +2,8 @@ unit GameProjectiles;
 
 interface
 
-uses SysUtils, Classes, Contnrs,
-	CastleUIControls, CastleControls, CastleRectangles,
+uses SysUtils, Classes, Contnrs, Math,
+	CastleUIControls, CastleControls, CastleRectangles, CastleBoxes,
 	CastleTransform, CastleVectors, CastleViewport,
 	GameTypes, GameLore, GameExceptions, GameConfig, GameMechanics;
 
@@ -14,12 +14,14 @@ type
 		FId: TUlid;
 		FMovementVector: TVector3;
 		FMovementTime: Single;
+		FRadius: Single;
 	public
 		constructor Create(AOwner: TComponent);
 
 		procedure SetPosition(X, Y: Single);
 		function GetPosition(): TVector3;
 		procedure Move(Angle, Speed, MaxDistance: Single);
+		procedure SetSize(Radius: Single);
 
 		procedure Update(const secondsPassed: Single; var removeMe: TRemoveType); override;
 		function Finished(): Boolean;
@@ -72,7 +74,6 @@ begin
 
 	// TODO: use LoreId to get the appearance of the projectile
 	result.URL := 'castle-data:/images/projectile.png';
-	result.Scale := Vector3(0.0025, 0.0025, 1); // TODO: scale properly
 	result.Translation := Vector3(0, 0, 99); // TODO: proper Z distance
 
 	FUIBoard.Parent.Add(result);
@@ -102,6 +103,19 @@ procedure TGameProjectile.Move(Angle, Speed, MaxDistance: Single);
 begin
 	FMovementVector := AngleToVector(Angle) * Speed;
 	FMovementTime := MaxDistance / FMovementVector.Length;
+end;
+
+procedure TGameProjectile.SetSize(Radius: Single);
+var
+	LBox: TBox3D;
+	LCurrentRadius: Single;
+begin
+	FRadius := Radius;
+	LBox := self.BoundingBox;
+
+	// NOTE: Box3D has width / height, while Size is a radius of a circle
+	LCurrentRadius := Max(LBox.Size.X, LBox.Size.Y) / 2;
+	self.Scale := self.Scale * Vector3(Radius / LCurrentRadius, Radius / LCurrentRadius, 1);
 end;
 
 end.

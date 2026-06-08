@@ -24,7 +24,7 @@ specify damage_multiplier => 1.5;
 specify projectile => {
 	speed => 2, # per second
 	range => 5,
-	radius => 0.01,
+	radius => 0.15,
 	inaccuracy => 15, # degrees
 };
 
