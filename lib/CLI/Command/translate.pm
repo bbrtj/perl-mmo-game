@@ -6,6 +6,7 @@ use Path::Tiny qw(cwd);
 use Text::Levenshtein::BV;
 use YAML::PP qw(LoadFile DumpFile);
 use CLI::Command::export_mo;
+use List::Util qw(first);
 
 use header;
 

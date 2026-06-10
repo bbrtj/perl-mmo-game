@@ -10,7 +10,6 @@ require builtin;
 require i18n;
 require Carp;
 require List::Util;
-require List::Keywords;
 require My::Serializer;
 require ServerTime;
 require Time::HiRes;
@@ -25,11 +24,10 @@ sub import ($me, @args)
 	strict->import::into($pkg);
 	warnings->import::into($pkg);
 	feature->unimport::out_of($pkg, ':all');
-	feature->import::into($pkg, qw(:5.42 refaliasing declared_refs defer));
+	feature->import::into($pkg, qw(:5.42 refaliasing declared_refs defer any all));
 	builtin->import::into($pkg, qw(:5.42));
 	utf8->import::into($pkg);
 	Carp->import::into($pkg, qw(croak));
-	List::Keywords->import::into($pkg, qw(first any all));
 	List::Util->import::into($pkg, qw(mesh));
 	ServerTime->import::into($pkg, qw(server_time));
 	Time::HiRes->import::into($pkg, qw(time));
@@ -48,7 +46,8 @@ sub no_experimental_warnings ($pkg = caller)
 	warnings->unimport::out_of($pkg, 'experimental::refaliasing');
 	warnings->unimport::out_of($pkg, 'experimental::declared_refs');
 	warnings->unimport::out_of($pkg, 'experimental::defer');
-	warnings->unimport::out_of($pkg, 'experimental::for_list');
+	warnings->unimport::out_of($pkg, 'experimental::any');
+	warnings->unimport::out_of($pkg, 'experimental::all');
 
 	return;
 }

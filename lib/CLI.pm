@@ -46,7 +46,7 @@ sub help ($self, $command = undef)
 	return;
 }
 
-sub run_command ($self, $name, @args)
+sub run_command ($self, $name = 'help', @args)
 {
 	return $self->help(@args) if $name eq 'help';
 
