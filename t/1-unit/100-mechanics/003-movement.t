@@ -5,8 +5,7 @@ use Game::Object::Movement;
 use Game::Object::Map;
 use Model::CharacterVariables;
 
-# load lore data
-use Utils;
+use Game::LoreLoader;
 
 my $map = Game::Object::Map->new(map => 'test_map');
 

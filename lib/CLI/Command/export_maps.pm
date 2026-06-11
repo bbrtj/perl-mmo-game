@@ -28,20 +28,18 @@ sub _generate_metadata ($self, $locs)
 	my @locations;
 
 	foreach my $loc ($locs->@*) {
-		my $data = $loc->data;
-
 		my %map = (
-			SizeX => $data->map->size_x,
-			SizeY => $data->map->size_y,
+			SizeX => $loc->map->size_x,
+			SizeY => $loc->map->size_y,
 		);
 
 		push @locations, {
 			Id => $loc->id,
-			PosX => $data->pos_x,
-			PosY => $data->pos_y,
-			Area => $data->parent->id,
+			PosX => $loc->pos_x,
+			PosY => $loc->pos_y,
+			Area => $loc->parent->id,
 			ConnectedTo => [
-				map { $_->id } $data->connections->@*
+				map { $_->id } $loc->connections->@*
 			],
 			Map => \%map,
 		};
@@ -69,7 +67,7 @@ sub _groom_maps ($self, $locs)
 
 	foreach my $loc ($locs->@*) {
 		my $filename = $self->id_to_file($loc->id);
-		my $assets_path = $loc->data->map->map_object->path;
+		my $assets_path = $loc->map->map_object->path;
 
 		my $map = Tiled::Parser->groom_map($assets_path);
 		$self->base_path->child("$filename.tmx")->spew($map);
@@ -85,7 +83,7 @@ sub _copy_tilesets ($self, $locs)
 
 	foreach my $loc ($locs->@*) {
 		my $filename = $self->id_to_file($loc->id);
-		my $assets_path = $loc->data->map->map_object->path;
+		my $assets_path = $loc->map->map_object->path;
 
 		my %tilesets = Tiled::Parser->groom_tilesets($assets_path);
 		foreach my $tileset_path (keys %tilesets) {

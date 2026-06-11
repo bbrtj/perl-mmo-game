@@ -75,9 +75,9 @@ sub fake_variables ($self, %params)
 	return Model::CharacterVariables->new(
 		id => Types::ULID::ulid,
 		experience => int(rand(10000)),
-		location_id => Game::Config->config->{starting_location}->id,
-		pos_x => rand(Game::Config->config->{discover_radius} / sqrt(2)),
-		pos_y => rand(Game::Config->config->{discover_radius} / sqrt(2)),
+		location_id => Game::Config->starting_location->{location}->id,
+		pos_x => rand(Game::Config->discover_radius / sqrt(2)),
+		pos_y => rand(Game::Config->discover_radius / sqrt(2)),
 		health => rand(200),
 		energy => rand(200),
 		%params

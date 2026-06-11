@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<abilities requires="attributes">
+	<ability id="STRIKE" name="Strike">
+		<translation lang="pl">
+			<name>Atak</name>
+		</translation>
+
+		<uses lore="attribute">Physical</uses>
+		<speed_multiplier>1</speed_multiplier>
+		<damage_multiplier>1</damage_multiplier>
+	</ability>
+
+	<ability id="SHOOT" name="Shoot">
+		<translation lang="pl">
+			<name>Strzał</name>
+		</translation>
+
+		<visuals> <!-- TODO: animation -->
+			<projectile_model>projectiles/arrow.png</projectile_model>
+			<projectile_radius>0.15</projectile_radius>
+		</visuals>
+
+		<uses lore="attribute">Physical</uses>
+		<speed_multiplier>1.5</speed_multiplier>
+		<damage_multiplier>1.5</damage_multiplier>
+		<projectile>
+			<speed>2</speed>
+			<range>5</range>
+			<inaccuracy>15</inaccuracy>
+		</projectile>
+	</ability>
+</abilities>
+

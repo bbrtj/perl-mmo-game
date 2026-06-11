@@ -36,5 +36,11 @@ sub is_player ($self)
 	return defined $self->player_id;
 }
 
+sub class ($self)
+{
+	state $repo = DI->get('lore_data_repo');
+	return $repo->load($self->class_id);
+}
+
 __PACKAGE__->_register;
 

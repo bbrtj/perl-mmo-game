@@ -25,12 +25,12 @@ sub use_ability ($self, $actor_id, %options)
 	# do nothing if action is in progress already
 	return if $stats->has_action;
 
-	my $ability = $self->lore_data_repo->load($options{lore_id})->data;
+	my $ability = $self->lore_data_repo->load($options{lore_id});
 	my $action = Game::Object::Action::Ability->new(
 		%options,
 		lore => $ability,
 		actor => $actor,
-		duration => Game::Config->config->{base_action_speed} * $ability->speed_multiplier,
+		duration => Game::Config->base_action_speed * $ability->speed_multiplier,
 	);
 
 	$stats->set_action($action);
@@ -70,7 +70,7 @@ sub _apply_damage_effect ($self, $effect, $x, $y)
 sub use_ability_done ($self, $action)
 {
 	my $actor = $action->actor;
-	my $ability = $self->lore_data_repo->load($action->lore_id)->data;
+	my $ability = $action->lore;
 
 	# TODO: take resources required by the ability (energy? arrows?)
 	my $stats = $actor->stats;

@@ -3,6 +3,7 @@ package CLI;
 use My::Moose;
 use Module::Load;
 use Utils;
+use Game::LoreLoader;
 
 use header;
 

@@ -25,16 +25,14 @@ sub import ($self, @args)
 {
 	my $caller = caller;
 
-	my %args;
 	my @immutable_args;
+	my %flags = (-constr => 0, -strict => 0);
+	%flags = (%flags, map { $_ => 1 } grep { exists $flags{$_} } @args);
+	my %args = grep { !$flags{$_} } @args;
 
-	if (@args > 0 && $args[0] eq -constr) {
-		%args = splice @args, 1;
+	if ($flags{-constr}) {
 		push @immutable_args, inline_constructor => 0;
 		push $args{-traits}->@*, 'My::Moose::Trait::LazyByDefault';
-	}
-	else {
-		%args = @args;
 	}
 
 	push @{$args{-traits}}, common_traits;
@@ -44,6 +42,10 @@ sub import ($self, @args)
 	My::Mooish::AttributeBuilder->import::into($caller);
 	MooseX::XSAccessor->import::into($caller);
 	Types->import::into($caller, -types);
+
+	if ($flags{-strict}) {
+		MooseX::StrictConstructor->import::into($caller);
+	}
 
 	after_runtime { $caller->meta->make_immutable(@immutable_args) };
 

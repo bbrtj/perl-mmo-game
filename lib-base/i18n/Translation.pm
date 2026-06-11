@@ -72,7 +72,7 @@ sub translate_lore ($self, $lang)
 {
 	state $repo = DI->get('lore_data_repo');
 
-	my $translation = $repo->load($self->message)->data->translations->{lc $lang}{$self->args->[0]};
+	my $translation = $repo->load($self->message)->translations->{lc $lang}{$self->args->[0]};
 
 	die "no translation for $lang and " . $self->message
 		unless defined $translation;

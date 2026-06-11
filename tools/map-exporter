@@ -23,12 +23,12 @@ die 'No areas found. Is this file finished?'
 	unless @keys > 0;
 
 my @markers;
-foreach my $location ($areas{$keys[0]}->data->children->@*) {
+foreach my $location ($areas{$keys[0]}->children->@*) {
 	push @markers, {
 		LoreId => $location->id,
-		PosX => $location->data->pos_x // rand,
-		PosY => $location->data->pos_y // rand,
-		ConnectedTo => join ';', map { $_->id } $location->data->connections->@*,
+		PosX => $location->pos_x // rand,
+		PosY => $location->pos_y // rand,
+		ConnectedTo => join ';', map { $_->id } $location->connections->@*,
 	};
 }
 

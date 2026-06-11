@@ -4,35 +4,32 @@ use My::Moose;
 
 use header;
 
-## no critic 'Modules::ProhibitMultiplePackages'
-
 extends 'Game::Lore';
 
 use constant prefix => 'ABIL';
 
-package Game::Lore::AbilityData {
-	use My::Moose;
+has param 'speed_multiplier' => (
+	isa => PositiveNum,
+	default => 1,
+);
 
-	use header;
+has param 'damage_multiplier' => (
+	isa => PositiveNum,
+	default => 1,
+);
 
-	extends 'Game::LoreData';
+has option 'visuals' => (
+	isa => Dict [
+		projectile_model => Optional [Str],
+		projectile_radius => Optional [PositiveNum],
+	],
+);
 
-	has field 'speed_multiplier' => (
-		isa => PositiveNum,
-		writer => 1,
-		default => 1,
-	);
-
-	has field 'damage_multiplier' => (
-		isa => PositiveNum,
-		writer => 1,
-		default => 1,
-	);
-
-	has field 'projectile' => (
-		isa =>
-			Dict [speed => PositiveNum, range => PositiveNum, inaccuracy => PositiveOrZeroNum, radius => PositiveNum],
-		writer => 1,
-	);
-}
+has option 'projectile' => (
+	isa => Dict [
+		speed => PositiveNum,
+		range => PositiveNum,
+		inaccuracy => PositiveOrZeroNum,
+	],
+);
 

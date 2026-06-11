@@ -14,8 +14,8 @@ has param 'actor' => (
 	isa => InstanceOf ['Unit::Actor'],
 );
 
-has param 'lore_id' => (
-	isa => LoreId,
+has param 'lore' => (
+	isa => InstanceOf ['Game::Lore::Ability'],
 );
 
 has param 'x' => (
@@ -31,7 +31,7 @@ has param 'y' => (
 sub send_queue ($self)
 {
 	return (
-		['use_ability', __serialize({lore_id => $self->lore_id, x => $self->x, y => $self->y})],
+		['use_ability', __serialize({lore_id => $self->lore->id, x => $self->x, y => $self->y})],
 	);
 }
 
@@ -41,7 +41,7 @@ sub receive_queue ($self)
 	my $action = Game::Object::Action::Ability->new(
 		x => $self->x,
 		y => $self->y,
-		lore_id => $self->lore_id,
+		lore => $self->lore,
 		actor => $self->actor,
 		duration => 1,
 	);

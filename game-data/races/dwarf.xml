@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<races requires="primary_stats">
+	<race id="DWARF" name="Dwarf">
+		<translation lang="pl">
+			<name>Krasnolud</name>
+			<desc>Krasnoludy mają naturalny dryg do górnictwa i poszukiwania skarbów. Ich chciwość zaprowadziła je we wszystkie strony kontynentu, ale spowodowała również, że nie tworzą one skupisk większych niż pojedyncze wioski.</desc>
+		</translation>
+
+		<stat_bonuses>
+			<stat lore="primary_stat" lore-key="Strength">1</stat>
+			<stat lore="primary_stat" lore-key="Wisdom">-1</stat>
+			<stat lore="primary_stat" lore-key="Constitution">2</stat>
+			<stat lore="primary_stat" lore-key="Charisma">-2</stat>
+		</stat_bonuses>
+	</race>
+</races>
+

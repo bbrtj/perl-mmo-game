@@ -5,6 +5,7 @@ on 'runtime' => sub {
 	requires 'Sub::HandlesVia' => 0;
 	requires 'Hook::AfterRuntime' => 0;
 	requires 'MooseX::XSAccessor' => 0;
+	requires 'MooseX::StrictConstructor' => 0;
 
 	requires 'Beam::Wire' => 0;
 
@@ -22,7 +23,7 @@ on 'runtime' => sub {
 	requires 'Net::Async::Redis::XS' => 0;
 	requires 'IO::Async::Loop::Epoll' => 0;
 
-	requires 'Mojo::DOM58' => 0;
+	requires 'XML::PugiXML' => 0;
 	requires 'YAML::PP' => 0;
 	requires 'JSON::MaybeXS' => 0;
 	requires 'Cpanel::JSON::XS' => 0;

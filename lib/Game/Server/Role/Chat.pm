@@ -58,7 +58,7 @@ sub chat_yell ($self, $actor_id, $message)
 		$self->find_in_radius(
 			$actor->variables->pos_x,
 			$actor->variables->pos_y,
-			Game::Config->config->{yell_radius}
+			Game::Config->yell_radius,
 		),
 	);
 

@@ -36,7 +36,7 @@ has field 'action' => (
 
 has cached 'speed' => (
 	writer => 1,
-	default => sub { Game::Config->config->{base_speed} },    # TODO
+	lazy => 1,
 );
 
 # precalculated weapon damage
@@ -82,6 +82,12 @@ sub set_movement ($self, $movement)
 	return;
 }
 
+sub _build_speed ($self)
+{
+	# TODO calculate from stats
+	return Game::Config->base_speed;
+}
+
 sub _build_weapon_damage ($self)
 {
 	# TODO calculate from equipment and other stats
@@ -97,20 +103,16 @@ sub _build_weapon_hitbox ($self)
 
 sub _build_max_health ($self)
 {
-	my $repo = DI->get('lore_data_repo');
 	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent->variables->experience);
-	my $class = $repo->load($self->parent->character->class_id);
 
 	# TODO: adjust based on $level - 1
 	# TODO: adjust based on stamina
-	return $class->data->define->{base_health};
+	return Game::Config->base_health;
 }
 
 sub _build_health_regeneration ($self)
 {
-	my $repo = DI->get('lore_data_repo');
 	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent->variables->experience);
-	my $class = $repo->load($self->parent->character->class_id);
 
 	# TODO: nasty hardcode
 	return 0.5;
@@ -118,20 +120,16 @@ sub _build_health_regeneration ($self)
 
 sub _build_max_energy ($self)
 {
-	my $repo = DI->get('lore_data_repo');
 	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent->variables->experience);
-	my $class = $repo->load($self->parent->character->class_id);
 
 	# TODO: adjust based on $level - 1
 	# TODO: adjust based on stamina
-	return $class->data->define->{base_energy};
+	return Game::Config->base_energy;
 }
 
 sub _build_energy_regeneration ($self)
 {
-	my $repo = DI->get('lore_data_repo');
 	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent->variables->experience);
-	my $class = $repo->load($self->parent->character->class_id);
 
 	# TODO: nasty hardcode
 	return 0.1;
@@ -140,6 +138,6 @@ sub _build_energy_regeneration ($self)
 sub _build_size ($self)
 {
 	# TODO: size will be affected by race and constitution
-	return Game::Config->config->{base_size};
+	return Game::Config->base_size;
 }
 

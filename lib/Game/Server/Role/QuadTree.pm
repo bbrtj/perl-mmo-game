@@ -23,7 +23,7 @@ has field '_quad_tree' => (
 sub _build_quad_tree ($self)
 {
 	my $size = (sort { $b <=> $a } ($self->map->size_x, $self->map->size_y))[0];
-	my $required_precision = $size / Game::Config->config->{base_radius};
+	my $required_precision = $size / Game::Config->base_radius;
 	my $required_depth = ceil(log($required_precision) / log(2));
 	$self->log->debug("Quad tree depth is $required_depth");
 

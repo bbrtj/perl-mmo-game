@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<constants requires="areas">
+	<map_precision>0.1</map_precision>
+	<base_radius>0.1</base_radius>
+	<discover_radius>5</discover_radius>
+	<yell_radius>20</yell_radius>
+
+	<max_level>50</max_level>
+	<zero_stats>8</zero_stats>
+	<stats_at_levels>2,3,4,5,10,15,20,25,30,35,40,45,50</stats_at_levels>
+
+	<base_size>0.25</base_size>
+	<base_speed>0.8</base_speed>
+	<base_action_speed>1</base_action_speed>
+
+	<base_health>80</base_health>
+	<base_energy>30</base_energy>
+
+	<critical_damage>1.5</critical_damage>
+	<damage_per_might>1</damage_per_might>
+	<damage_per_acumen>1</damage_per_acumen>
+	<crit_per_accuracy>0.5</crit_per_accuracy>
+	<health_per_stamina>4</health_per_stamina>
+	<energy_per_persistence>5</energy_per_persistence>
+	<reduction_per_resilience>0.08</reduction_per_resilience>
+	<reduction_per_willpower>0.08</reduction_per_willpower>
+	<regeneration_per_vigor>0.1</regeneration_per_vigor>
+
+	<starting_location>
+		<location lore="location">Cape Peril - Harbor</location>
+		<x>3</x>
+		<y>3</y>
+	<starting_location>
+</constants>
+

@@ -74,7 +74,7 @@ sub _discover_actors ($self, $actor, $found_objects, $resource)
 
 sub _discover ($self)
 {
-	state $radius = Game::Config->config->{discover_radius};
+	state $radius = Game::Config->discover_radius;
 	$self->_set_discovered_by({});
 	my $location = $self->location;
 

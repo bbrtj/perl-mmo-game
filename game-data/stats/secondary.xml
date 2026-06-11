@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<secondary_stats>
+	<secondary_stat id="MIGHT" name="Might">
+		<translation lang="pl">
+			<name>Potęga</name>
+		</translation>
+	</secondary_stat>
+
+	<secondary_stat id="ACUM" name="Acumen">
+		<translation lang="pl">
+			<name>Bystrość</name>
+		</translation>
+	</secondary_stat>
+
+	<secondary_stat id="ACCU" name="Accuracy">
+		<translation lang="pl">
+			<name>Celność</name>
+		</translation>
+	</secondary_stat>
+
+	<secondary_stat id="STAM" name="Stamina">
+		<translation lang="pl">
+			<name>Kondycja</name>
+		</translation>
+	</secondary_stat>
+
+	<secondary_stat id="PERS" name="Persistence">
+		<translation lang="pl">
+			<name>Upór</name>
+		</translation>
+	</secondary_stat>
+
+	<secondary_stat id="RESIL" name="Resilience">
+		<translation lang="pl">
+			<name>Odporność</name>
+		</translation>
+	</secondary_stat>
+
+	<secondary_stat id="WILLP" name="Willpower">
+		<translation lang="pl">
+			<name>Siła woli</name>
+		</translation>
+	</secondary_stat>
+
+	<secondary_stat id="VIGOR" name="Vigor">
+		<translation lang="pl">
+			<name>Wigor</name>
+		</translation>
+	</secondary_stat>
+</secondary_stats>
+

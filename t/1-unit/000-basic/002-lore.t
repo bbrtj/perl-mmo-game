@@ -1,8 +1,7 @@
 use testheader;
 
-use Utils;
-use Game::Config;
 use Game::Helpers;
+use Game::Config;
 
 my $repo = DI->get('lore_data_repo');
 
@@ -11,11 +10,11 @@ my $assassin = $repo->load_named('Game::Lore::Class', 'Assassin');
 is $assassin->id, 'CLAS.ASSASS', 'class loaded ok';
 
 ### test global config from lore
-is Game::Config->config->{zero_stats}, 8, 'global constants loaded ok';
+is Game::Config->zero_stats, 8, 'global constants loaded ok';
 
 ### test helpers and translations
 my $class = lore_primary_stat 'Strength';
-is $class->data->translations->{pl}{name}, 'Siła', 'lore name ok';
+is $class->translations->{pl}{name}, 'Siła', 'lore name ok';
 
 done_testing;
 

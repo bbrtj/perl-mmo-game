@@ -9,8 +9,8 @@ has param 'actor' => (
 	lax_isa => InstanceOf ['Unit::Actor'],
 );
 
-has param 'lore_id' => (
-	lax_isa => LoreId,
+has param 'lore' => (
+	lax_isa => InstanceOf ['Game::Lore'],
 );
 
 has param 'duration' => (

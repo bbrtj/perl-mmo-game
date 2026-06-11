@@ -6,6 +6,7 @@ use Server::Process::Jobs;
 use IO::Async::Timer::Periodic;
 use POSIX qw(ceil);
 use List::Util qw(shuffle);
+use Game::LoreLoader;
 
 use header;
 

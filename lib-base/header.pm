@@ -24,7 +24,7 @@ sub import ($me, @args)
 	strict->import::into($pkg);
 	warnings->import::into($pkg);
 	feature->unimport::out_of($pkg, ':all');
-	feature->import::into($pkg, qw(:5.42 refaliasing declared_refs defer any all));
+	feature->import::into($pkg, qw(:5.42 refaliasing declared_refs defer keyword_any keyword_all));
 	builtin->import::into($pkg, qw(:5.42));
 	utf8->import::into($pkg);
 	Carp->import::into($pkg, qw(croak));
@@ -46,8 +46,8 @@ sub no_experimental_warnings ($pkg = caller)
 	warnings->unimport::out_of($pkg, 'experimental::refaliasing');
 	warnings->unimport::out_of($pkg, 'experimental::declared_refs');
 	warnings->unimport::out_of($pkg, 'experimental::defer');
-	warnings->unimport::out_of($pkg, 'experimental::any');
-	warnings->unimport::out_of($pkg, 'experimental::all');
+	warnings->unimport::out_of($pkg, 'experimental::keyword_any');
+	warnings->unimport::out_of($pkg, 'experimental::keyword_all');
 
 	return;
 }

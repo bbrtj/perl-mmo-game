@@ -11,13 +11,7 @@ if ($ENV{DEBUG}) {
 	$flags = '-MCarp::Always';
 }
 
-if ($arg eq 'lint') {
-	system('tidyall -a --mode lint');
-}
-elsif ($arg =~ /^critic/) {
-	system('tidyall -a --mode ' . $arg);
-}
-elsif ($arg eq 'web') {
+if ($arg eq 'web') {
 	system('pagi-server script/web --host 0.0.0.0');
 }
 else {

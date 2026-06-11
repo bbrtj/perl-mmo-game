@@ -14,7 +14,7 @@ has param 'actor' => (
 # ability
 
 has param 'lore' => (
-	lax_isa => InstanceOf ['Game::LoreData'],
+	lax_isa => InstanceOf ['Game::Lore'],
 );
 
 sub server_method ($self)

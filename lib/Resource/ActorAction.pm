@@ -23,7 +23,7 @@ sub generate ($self)
 	# action duration (0 if cancelled)
 	return [
 		$action->actor->id,
-		$action->lore_id,
+		$action->lore->id,
 		$duration,
 	];
 }

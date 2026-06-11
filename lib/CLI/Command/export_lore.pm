@@ -27,8 +27,8 @@ sub run ($self, $language = undef)
 		my $item = $lores{$key};
 		push @items, {
 			LoreId => $item->id,
-			LoreName => $item->data->translations->{$language}{name},
-			LoreDescription => $item->data->translations->{$language}{desc},
+			LoreName => $item->translations->{$language}{name},
+			LoreDescription => $item->translations->{$language}{desc},
 		};
 	}
 

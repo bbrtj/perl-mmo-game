@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<races requires="primary_stats">
+	<race id="ELF" name="Elf">
+		<translation lang="pl">
+			<name>Elf</name>
+			<desc>Elfy słyną ze swej długowieczności, mądrości i zręczności. Panują nad niewielkim terytorium na północno zachodnim krańcu kontynetu, wokół którego krąży wiele legend.</desc>
+		</translation>
+
+		<stat_bonuses>
+			<stat lore="primary_stat" lore-key="Strength">-1</stat>
+			<stat lore="primary_stat" lore-key="Dexterity">1</stat>
+			<stat lore="primary_stat" lore-key="Wisdom">2</stat>
+			<stat lore="primary_stat" lore-key="Constitution">-2</stat>
+		</stat_bonuses>
+	</race>
+</races>
+

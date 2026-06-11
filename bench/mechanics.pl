@@ -14,10 +14,8 @@ use header;
 
 use Benchmark::Dumb qw(cmpthese);
 
-my $location = Game::Lore::Location->new(id => 'TEST', name => 'test');
-my $location_data = $location->data;
-$location_data->set_map('test_map');
-my $map = $location_data->map;
+my $location = Game::Lore::Location->new(id => 'TEST', name => 'test', map => 'test_map');
+my $map = $location->map;
 
 my $variables = h2o -meth, {
 	xy => sub ($self) { return ($self->pos_x, $self->pos_y) },
@@ -38,7 +36,7 @@ my $movement = Game::Object::Movement->new(
 
 cmpthese 200.01, {
 	line_of_sight => sub {
-		die unless Game::Mechanics::Check::Map->can_see($location_data, [4.5, 3.8], [7.9, 8.3])->result;
+		die unless Game::Mechanics::Check::Map->can_see($location, [4.5, 3.8], [7.9, 8.3])->result;
 	},
 	movement => sub {
 		die unless Game::Mechanics::Movement->move($movement, $map, time);

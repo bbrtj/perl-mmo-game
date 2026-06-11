@@ -58,8 +58,7 @@ sub _process_projectiles ($self)
 
 		# collision with actors
 		# TODO: do not hit if target is friendly
-		# NOTE: do not use projectile radius for collision, as this results in
-		# unnatural collisions
+		# NOTE: use radius 0, as other radius results in unnatural collisions
 		my $actor = $projectile->actor;
 		my @collision = grep { $_ != $actor }
 			Game::Mechanics::Distance->find_actors_in_range($self, $projectile->xy, 0);
@@ -71,9 +70,9 @@ sub _process_projectiles ($self)
 	return;
 }
 
-sub spawn_projectile ($self, $actor, $lore_data, $effect, $at_x, $at_y)
+sub spawn_projectile ($self, $actor, $lore, $effect, $at_x, $at_y)
 {
-	my $projectile_data = $lore_data->{projectile};
+	my $projectile_data = $lore->projectile;
 	my ($angle) = Game::Mechanics::Generic->calculate_angle_and_diagonal($actor->variables->xy, $at_x, $at_y);
 
 	my $inacc = $projectile_data->{inaccuracy} / 2;
@@ -92,13 +91,12 @@ sub spawn_projectile ($self, $actor, $lore_data, $effect, $at_x, $at_y)
 		speed => $projectile_data->{speed},
 		angle => $angle,
 		max_distance => $projectile_data->{range},
-		radius => $projectile_data->{radius},
 	);
 
 	# NOTE: data about the projectile is sent to all players who can ever see it (for all practical purposes)
 	my @actors = Game::Mechanics::Distance->find_actors_in_range(
 		$self, $x, $y,
-		$projectile_data->{range} * 2 + Game::Config->config->{discover_radius}
+		$projectile_data->{range} * 2 + Game::Config->discover_radius
 	);
 	$projectile->set_discovered_by([map { $_->id } @actors]);
 

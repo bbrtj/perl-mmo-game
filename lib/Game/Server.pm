@@ -31,11 +31,7 @@ has param 'location' => (
 
 has field 'map' => (
 	lazy => sub ($self) {
-		my $location = $self->location->lore;
-		croak 'no map for location ' . $location->id
-			unless $location->data->has_map;
-
-		return $location->data->map;
+		return $self->location->lore->map;
 	}
 );
 

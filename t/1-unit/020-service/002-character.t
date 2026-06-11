@@ -1,5 +1,4 @@
 use all 'Model';
-use Utils;
 use Game::Helpers;
 
 use testheader;
@@ -48,8 +47,8 @@ test should_create_character => sub ($data) {
 
 	is $mock->next_called_with, [check_isa('Model::CharacterVariables')],
 		"mocked database CharacterVariables save params $_";
-	is $mock->called_with->[0]->pos_x, Game::Config->config->{starting_location_x}, "mocked database pos_x $_";
-	is $mock->called_with->[0]->pos_y, Game::Config->config->{starting_location_y}, "mocked database pos_y $_";
+	is $mock->called_with->[0]->pos_x, Game::Config->starting_location->{'x'}, "mocked database pos_x $_";
+	is $mock->called_with->[0]->pos_y, Game::Config->starting_location->{'y'}, "mocked database pos_y $_";
 };
 
 done_testing;

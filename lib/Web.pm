@@ -4,6 +4,7 @@ use My::Moose;
 use Path::Tiny;
 use Crypt::PRNG qw(random_bytes_b64);
 use Web::RedisSession;
+use Game::LoreLoader;
 use all 'Model';
 
 use header;

@@ -3,6 +3,7 @@
 use Test2::Tools::E2ETest;
 use Test2::Tools::Compare qw(number_gt);
 use Game::TestClient;
+use Game::Helpers;
 use Game::TestClientBag;
 use ActorTest;
 use Utils;
@@ -59,7 +60,7 @@ e2e_test(
 						Resource::ActorState->new(subject => $dummy),
 					],
 				)
-				->add_action('UseAbility', actor => $actor, lore_id => 'ABIL.STRIKE')
+				->add_action('UseAbility', actor => $actor, lore => lore_ability 'Strike')
 		);
 
 		# TODO: real duration
@@ -67,7 +68,7 @@ e2e_test(
 		my $actor_action = Game::Object::Action::Ability->new(
 			x => 5,
 			y => 3,
-			lore_id => 'ABIL.STRIKE',
+			lore => lore_ability 'Strike',
 			actor => $actor,
 			duration => 1,
 		);

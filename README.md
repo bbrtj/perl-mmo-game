@@ -64,9 +64,9 @@ Commands can be run inside "game" container after it is run.
 
 `./test` to run tests
 
-`./run lint` to lint files
+`tidyall -a --mode=lint` to lint files
 
-`./run critic` and `./run critic_tests` to see possible problems with code
+`tidyall -a --mode=critic` and `tidyall -a --mode=critic_tests` to see possible problems with code
 
 Not required, but can help by running linter automatically on commit (outside of docker):
 

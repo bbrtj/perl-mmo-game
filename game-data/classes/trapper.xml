@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classes>
+	<class id="TRAPP" name="Trapper">
+		<translation lang="pl">
+			<name>Łowca</name>
+			<desc>Łowcy są mistrzami w tropieniu oraz zastawianiu pułapek. Preferują walkę bronią dystansową na dobrze znanym przez siebie terenie.</desc>
+		</translation>
+
+		<!-- <base_health>90</base_health> -->
+		<!-- <base_energy>30</base_energy> -->
+		<!-- <base_crit>0.04</base_crit> -->
+		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
+	</class>
+</classes>
+

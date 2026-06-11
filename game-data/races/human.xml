@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<races requires="primary_stats">
+	<race id="HUMAN" name="Human">
+		<translation lang="pl">
+			<name>Człowiek</name>
+			<desc>Ludzie to krótko żyjące istoty, które władają południową częścią kontynentu. Nie wyróżniają się niczym szczególnym, ale dobrze współpracują i mają dryg do handlowania.</desc>
+		</translation>
+
+		<stat_bonuses empty_structure="1">
+		</stat_bonuses>
+	</race>
+</race>
+

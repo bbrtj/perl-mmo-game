@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classes>
+	<class id="ASSASS" name="Assassin">
+		<translation lang="pl">
+			<name>Skrytobójca</name>
+			<desc>Skrytobójcy atakują z zaskoczenia i nie zostawiają świadków. Ich atakom zawsze towarzyszą trucizny, które zwiększają szanse na śmierć ofiary.</desc>
+		</translation>
+
+		<!-- <base_health>90</base_health> -->
+		<!-- <base_energy>30</base_energy> -->
+		<!-- <base_crit>0.04</base_crit> -->
+		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
+	</class>
+</classes>
+

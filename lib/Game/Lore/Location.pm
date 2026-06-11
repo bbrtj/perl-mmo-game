@@ -1,54 +1,39 @@
 package Game::Lore::Location;
 
 use My::Moose;
+use Game::Object::Map;
 
 use header;
-
-## no critic 'Modules::ProhibitMultiplePackages'
 
 extends 'Game::Lore';
 
 use constant prefix => 'LOC';
 
-package Game::Lore::LocationData {
-	use My::Moose;
-	use Game::Object::Map;
+has extended 'parent' => (
+	isa => InstanceOf ['Game::Lore::Area'],
+);
 
-	use header;
+# pos_x / pos_y ON THE AREA MAP
 
-	extends 'Game::LoreData';
+has field 'pos_x' => (
+	isa => Num,
+	writer => 1,
+);
 
-	# pos_x / pos_y ON THE AREA MAP
+has field 'pos_y' => (
+	isa => Num,
+	writer => 1,
+);
 
-	has option 'pos_x' => (
-		writer => 1,
-		isa => Num,
-	);
+has param 'map' => (
+	coerce => (InstanceOf ['Game::Object::Map'])
+		->plus_coercions(
+			Str, q{ Game::Object::Map->new(map => $_) },
+		),
+);
 
-	has option 'pos_y' => (
-		writer => 1,
-		isa => Num,
-	);
-
-	has option 'map' => (
-		writer => -hidden,
-		isa => InstanceOf ['Game::Object::Map'],
-	);
-
-	has param 'connections' => (
-		isa => ArrayRef [InstanceOf ['Game::Lore::Location']],
-		default => sub { [] },
-	);
-
-	has extended 'parent' => (
-		isa => InstanceOf ['Game::Lore::Area'],
-	);
-
-	sub set_map ($self, $map_str)
-	{
-		$self->_set_map(Game::Object::Map->new(map => $map_str));
-		return;
-	}
-
-}
+has param 'connections' => (
+	isa => ArrayRef [InstanceOf ['Game::Lore::Location']],
+	default => sub { [] },
+);
 

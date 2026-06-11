@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items requires="attributes,slots">
+	<weapon id="DAGGER" name="Dagger">
+		<translation lang="pl">
+			<name>Sztylet</name>
+		</translation>
+
+		<uses lore="attribute">Punctured</uses>
+		<uses lore="slot">Left hand</uses>
+		<uses lore="slot">Right hand</uses>
+		<damage_min>3</damage_min>
+		<damage_max>5</damage_max>
+		<both_hands>0</both_hands>
+	</weapon>
+</items>
+

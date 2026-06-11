@@ -24,11 +24,11 @@ sub create_character ($self, $user, $character_data)
 
 	my $character_variables = Model::CharacterVariables->new(
 		id => $character->id,
-		location_id => Game::Config->config->{starting_location}->id,
-		pos_x => Game::Config->config->{starting_location_x},
-		pos_y => Game::Config->config->{starting_location_y},
-		health => $class->data->define->{base_health},
-		energy => $class->data->define->{base_energy},
+		location_id => Game::Config->starting_location->{location}->id,
+		pos_x => Game::Config->starting_location->{'x'},
+		pos_y => Game::Config->starting_location->{'y'},
+		health => Game::Config->base_health,
+		energy => Game::Config->base_energy,
 	);
 
 	$self->models_repo->db->transaction(
