@@ -16,8 +16,9 @@ sub move ($self, $movement, $map, $elapsed = server_time)
 	my $rounded = false;
 
 	my ($distance, $new_x, $new_y);
-	while ('inaccessible') {
-		$distance = ($elapsed - $movement->time) * $movement->speed;
+	my $time = $movement->time;
+	while ($elapsed >= $time) {
+		$distance = ($elapsed - $time) * $movement->speed;
 		($new_x, $new_y) = Game::Mechanics::Generic->find_frontal_point(
 			$variables->xy,
 			$movement->angle,
