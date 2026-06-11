@@ -10,7 +10,7 @@ use header;
 
 sub _read_properties ($self, $node)
 {
-	my @nodes = $node->select_nodes('//properties/property');
+	my @nodes = $node->select_nodes('.//properties/property');
 
 	return map {
 		$_->attr('name')->value => $_->attr('value')->value
@@ -23,7 +23,7 @@ sub _read_map_string ($self, $map_node, $width, $height)
 		(Tiled::Map::TILE_VOID x $width)
 		x $height;
 
-	foreach my $layer ($map_node->select_nodes('//layer')) {
+	foreach my $layer ($map_node->select_nodes('.//layer')) {
 		my %properties = $self->_read_properties($layer);
 
 		next unless $properties{terrain_type};
@@ -69,13 +69,13 @@ sub parse_map ($self, $path)
 
 	my $map_object = Tiled::Map->new(%args);
 
-	foreach my $object_layer ($map->select_nodes('//objectgroup')) {
+	foreach my $object_layer ($map->select_nodes('.//objectgroup')) {
 		my %properties = $self->_read_properties($object_layer);
 
 		next unless ($properties{private} // '') eq 'true';
 
 		my $type = $object_layer->attr('name')->value;
-		foreach my $object ($object_layer->select_nodes('//object')) {
+		foreach my $object ($object_layer->select_nodes('.//object')) {
 			$map_object->objects->add_object(
 				$type,
 				{map { $_->name => $_->value } $object->attrs},
@@ -101,7 +101,7 @@ sub groom_map ($self, $path)
 
 	foreach my $object_layer ($parser->select_nodes('/map//objectgroup')) {
 		my %properties = $self->_read_properties($object_layer);
-		$_->parent->remove_child($_) for $object_layer->select_nodes('//properties');
+		$_->parent->remove_child($_) for $object_layer->select_nodes('.//properties');
 
 		next unless ($properties{private} // '') eq 'true';
 		$object_layer->parent->remove_child($object_layer);
