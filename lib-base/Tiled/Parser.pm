@@ -1,32 +1,29 @@
 package Tiled::Parser;
 
 use My::Moose;
-use Mojo::DOM58;
 use Path::Tiny;
 use Tiled::Map;
+use XML::PugiXML;
+use Encode qw(decode);
 
 use header;
 
-sub _read_properties ($self, $dom)
+sub _read_properties ($self, $node)
 {
-	my @properties_raw = $dom
-		->find('properties>property')
-		->map('attr')
-		->each
-		;
+	my @nodes = $node->select_nodes('//properties/property');
 
 	return map {
-		$_->{name} => $_->{value}
-	} @properties_raw;
+		$_->attr('name')->value => $_->attr('value')->value
+	} @nodes;
 }
 
-sub _read_map_string ($self, $map_dom, $width, $height)
+sub _read_map_string ($self, $map_node, $width, $height)
 {
 	my $mapdata = join "\n",
 		(Tiled::Map::TILE_VOID x $width)
 		x $height;
 
-	foreach my $layer ($map_dom->find('layer')->each) {
+	foreach my $layer ($map_node->select_nodes('//layer')) {
 		my %properties = $self->_read_properties($layer);
 
 		next unless $properties{terrain_type};
@@ -37,7 +34,7 @@ sub _read_map_string ($self, $map_dom, $width, $height)
 			: Tiled::Map::TILE_TERRAIN
 			;
 
-		my $data = $layer->at('data')->text;
+		my $data = $layer->child('data')->text;
 		$data =~ s{ +}{}g;
 		$data =~ s{[1-9]\d*}{$tile}g;
 		$data =~ s{,}{}g;
@@ -60,30 +57,28 @@ sub parse_map ($self, $path)
 {
 	my $contents = path("assets/$path")->slurp;
 
-	my $dom = Mojo::DOM58->new($contents);
-	my %args;
+	my $parser = XML::PugiXML->new;
+	$parser->load_string(decode 'utf-8', $contents);
 
-	my $map = $dom->at('map');
-	for my $attr ($map->attr) {
-		$args{$_} = $attr->{$_}
-			for qw(width height tilewidth tileheight);
-	}
+	my $map = $parser->child('map');
+	my %args = map { $_ => $map->attr($_)->value }
+		qw(width height tilewidth tileheight);
 
 	$args{path} = $path;
 	$args{map} = $self->_read_map_string($map, $args{width}, $args{height});
 
 	my $map_object = Tiled::Map->new(%args);
 
-	foreach my $object_layer ($map->find('objectgroup')->each) {
+	foreach my $object_layer ($map->select_nodes('//objectgroup')) {
 		my %properties = $self->_read_properties($object_layer);
 
 		next unless ($properties{private} // '') eq 'true';
 
-		my $type = $object_layer->attr->{name};
-		foreach my $object ($object_layer->find('object')->each) {
+		my $type = $object_layer->attr('name')->value;
+		foreach my $object ($object_layer->select_nodes('//object')) {
 			$map_object->objects->add_object(
 				$type,
-				$object->attr,
+				{map { $_->name => $_->value } $object->attrs},
 				{$self->_read_properties($object)}
 			);
 		}
@@ -96,50 +91,50 @@ sub groom_map ($self, $path)
 {
 	my $contents = path("assets/$path")->slurp;
 
-	my $dom = Mojo::DOM58->new($contents);
+	my $parser = XML::PugiXML->new;
+	$parser->load_string(decode 'utf-8', $contents);
 	my %args;
 
-	my $map = $dom->at('map');
-
-	foreach my $layer ($map->find('layer')->each) {
-		$_->remove for $layer->find('properties')->each;
+	foreach my $layer_property ($parser->select_nodes('/map//layer//properties')) {
+		$layer_property->parent->remove_child($layer_property);
 	}
 
-	foreach my $object_layer ($map->find('objectgroup')->each) {
+	foreach my $object_layer ($parser->select_nodes('/map//objectgroup')) {
 		my %properties = $self->_read_properties($object_layer);
-		$_->remove for $object_layer->find('properties')->each;
+		$_->parent->remove_child($_) for $object_layer->select_nodes('//properties');
 
 		next unless ($properties{private} // '') eq 'true';
-		$object_layer->remove;
+		$object_layer->parent->remove_child($object_layer);
 	}
 
-	return $dom->to_string;
+	return $parser->to_string;
 }
 
 sub _groom_tileset ($self, $map_path, $path)
 {
 	my $contents = path("assets/$map_path")->parent->child($path)->slurp;
 
-	my $dom = Mojo::DOM58->new($contents);
-	my $tileset = $dom->at('tileset');
-	my $image = $tileset->at('image');
-	my $source = $image->attr->{source};
+	my $parser = XML::PugiXML->new;
+	$parser->load_string(decode 'utf-8', $contents);
+
+	my $image = $parser->select_node('/tileset/image');
+	my $source = $image->attr('source')->value;
 	$source =~ s{\.\./client/data/}{}x;
 
-	$image->attr(source => $source);
-	return $dom->to_string;
+	$image->set_attr(source => $source);
+	return $parser->to_string;
 }
 
 sub groom_tilesets ($self, $path)
 {
 	my $contents = path("assets/$path")->slurp;
 
-	my $dom = Mojo::DOM58->new($contents);
-	my $map = $dom->at('map');
+	my $parser = XML::PugiXML->new;
+	$parser->load_string(decode 'utf-8', $contents);
 
 	my %tileset_contents;
-	foreach my $tileset ($map->find('tileset')->each) {
-		my $tileset_path = $tileset->attr->{source};
+	foreach my $tileset ($parser->select_nodes('/map//tileset')) {
+		my $tileset_path = $tileset->attr('source')->value;
 
 		$tileset_contents{$tileset_path} = $self->_groom_tileset($path, $tileset_path);
 	}
