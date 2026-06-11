@@ -27,6 +27,13 @@ has param 'translations' => (
 	default => sub { {} },
 );
 
+has option 'visuals' => (
+	isa => Dict [
+		model => Optional [Str],
+		model_size => Optional [PositiveNum],
+	],
+);
+
 has param 'uses' => (
 	isa => ArrayRef [InstanceOf ['Game::Lore']],
 	default => sub { [] },

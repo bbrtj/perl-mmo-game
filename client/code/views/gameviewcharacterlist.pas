@@ -131,7 +131,7 @@ begin
 		(LSelection.DesignedComponent('CharacterName') as TCastleLabel)
 			.Caption := LCharacter.name;
 		(LSelection.DesignedComponent('CharacterClass') as TCastleLabel)
-			.Caption := LoreCollection.GetById(LCharacter.&class).LoreName;
+			.Caption := LoreCollection.GetById(LCharacter.&class).name;
 
 		LSelection.Id := LCharacter.id;
 

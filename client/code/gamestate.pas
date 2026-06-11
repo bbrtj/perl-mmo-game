@@ -233,7 +233,6 @@ begin
 	LProjectile := FProjectileFactory.CreateProjectile(Event.Id, Event.LoreId);
 	LProjectile.SetPosition(Event.X, Event.Y);
 	LProjectile.Move(Event.Angle, Event.Speed, Event.MaxDistance);
-	LProjectile.SetSize(Event.Radius);
 
 	FProjectiles.Add(LProjectile.Id, LProjectile);
 end;

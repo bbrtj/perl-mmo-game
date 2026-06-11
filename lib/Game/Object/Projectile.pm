@@ -32,10 +32,6 @@ has param 'max_distance' => (
 	lax_isa => PositiveNum,
 );
 
-has param 'radius' => (
-	lax_isa => PositiveNum,
-);
-
 has field 'eta' => (
 	lax_isa => PositiveOrZeroNum,
 	writer => 1,

@@ -11,6 +11,7 @@ type
 	public
 		constructor Create(); virtual;
 		procedure OnObjectStreamed(Json: TJSONObject); virtual;
+		procedure OnObjectDeStreamed(Json: TJSONObject); virtual;
 	end;
 
 	TSerializedListType = class of TFPSList;
@@ -39,6 +40,7 @@ type
 		procedure DeStreamPerlBoolean(const Json: TJSONData; ThisObject: TObject; Info: PPropInfo);
 
 		procedure OnObjectStreamed(Sender: TObject; ThisObject: TObject; Json: TJSONObject);
+		procedure OnObjectDeStreamed(Sender: TObject; ThisObject: TObject; Json: TJSONObject);
 	public
 		constructor Create();
 		destructor Destroy(); override;
@@ -63,6 +65,11 @@ begin
 	// can be reimplemented
 end;
 
+procedure TSerialized.OnObjectDeStreamed(Json: TJSONObject);
+begin
+	// can be reimplemented
+end;
+
 
 constructor TSerializedList.Create(_ListType: TSerializedListType; Itemtype: TSerializedListItemType);
 begin
@@ -80,6 +87,7 @@ begin
 	FStreamer.OnStreamProperty := @OnStreamProperty;
 	FStreamer.AfterStreamObject := @OnObjectStreamed;
 	FDeStreamer.OnRestoreProperty := @OnRestoreProperty;
+	FDeStreamer.AfterReadObject := @OnObjectDeStreamed;
 end;
 
 destructor TGameStreamer.Destroy();
@@ -110,10 +118,22 @@ begin
 
 	if Info^.PropType^.Kind = tkClass then begin
 		LPropValue := GetObjectProp(ThisObject, Info);
-		if IsListHandled(LPropValue, LListInfo) then begin
+
+		if Value.JSONType = jtArray then begin
+			if IsListHandled(LPropValue, LListInfo) then begin
+				Handled := true;
+				DeStreamGenericList(Value as TJSONArray, LPropValue, LListInfo);
+			end;
+		end
+		else if Value.JSONType = jtNull then begin
 			Handled := true;
-			DeStreamGenericList(Value as TJSONArray, LPropValue, LListInfo);
-		end;
+			LPropValue.Free;
+			SetObjectProp(ThisObject, Info, nil);
+		end
+		// else if Value.JSONType = jtObject then begin
+		// 	Handled := true;
+		// 	FDeStreamer.JSONToObject(Value as TJSONObject, LPropValue);
+		// end;
 	end
 	else if (Info^.PropType^.Kind in [tkSString, tkLString, tkAString, tkWString, tkUString])
 		and (Value.JSONType = jtNull)
@@ -187,6 +207,12 @@ procedure TGameStreamer.OnObjectStreamed(Sender: TObject; ThisObject: TObject; J
 begin
 	if ThisObject is TSerialized then
 		(ThisObject as TSerialized).OnObjectStreamed(Json);
+end;
+
+procedure TGameStreamer.OnObjectDeStreamed(Sender: TObject; ThisObject: TObject; Json: TJSONObject);
+begin
+	if ThisObject is TSerialized then
+		(ThisObject as TSerialized).OnObjectDeStreamed(Json);
 end;
 
 { implementation end }

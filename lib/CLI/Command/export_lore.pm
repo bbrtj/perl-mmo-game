@@ -26,9 +26,10 @@ sub run ($self, $language = undef)
 	foreach my $key (keys %lores) {
 		my $item = $lores{$key};
 		push @items, {
-			LoreId => $item->id,
-			LoreName => $item->translations->{$language}{name},
-			LoreDescription => $item->translations->{$language}{desc},
+			id => $item->id,
+			name => $item->translations->{$language}{name},
+			description => $item->translations->{$language}{desc},
+			visuals => $item->visuals,
 		};
 	}
 

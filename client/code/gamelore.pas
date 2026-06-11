@@ -4,20 +4,36 @@ interface
 
 uses FGL, Classes, SysUtils,
 	CastleDownload,
-	GameTypes, Serialization;
+	GameTypes, Serialization, FPJSON;
 
 type
+	TLoreVisuals = class (TSerialized)
+	private
+		FModel: String;
+		FModelSize: Single;
+	published
+		property model: String read FModel write FModel;
+		property model_size: Single read FModelSize write FModelSize;
+	end;
+
 	TLoreItem = class (TSerialized)
 	private
-		FLoreId: TLoreId;
-		FLoreName: String;
-		FLoreDescription: String;
+		FId: TLoreId;
+		FName: String;
+		FDescription: String;
+		FVisuals: TLoreVisuals;
+
+	public
+		constructor Create(); override;
+		destructor Destroy; override;
+
+		function GetVisuals(): TLoreVisuals;
 
 	published
-		property LoreId: TLoreId read FLoreId write FLoreId;
-		property LoreName: String read FLoreName write FLoreName;
-		property LoreDescription: String read FLoreDescription write FLoreDescription;
-
+		property id: TLoreId read FId write FId;
+		property name: String read FName write FName;
+		property description: String read FDescription write FDescription;
+		property visuals: TLoreVisuals read FVisuals write FVisuals;
 	end;
 
 	TLoreItems = specialize TFPGObjectList<TLoreItem>;
@@ -34,7 +50,6 @@ type
 		function GetById(const Id: TLoreId): TLoreItem;
 
 	published
-
 		property Items: TLoreItems read FItems write FItems;
 	end;
 
@@ -42,6 +57,25 @@ var
 	LoreCollection: TLoreStore;
 
 implementation
+
+constructor TLoreItem.Create();
+begin
+	inherited;
+	FVisuals := TLoreVisuals.Create;
+end;
+
+destructor TLoreItem.Destroy();
+begin
+	FVisuals.Free;
+end;
+
+function TLoreItem.GetVisuals(): TLoreVisuals;
+begin
+	if FVisuals = nil then
+		raise ELore.Create('missing visuals for lore ' + FId);
+
+	result := FVisuals;
+end;
 
 constructor TLoreStore.Create();
 begin
@@ -72,21 +106,20 @@ begin
 	LStream.Free;
 end;
 
+// TODO: this should be a map to avoid linear search
 function TLoreStore.GetById(const Id: TLoreId): TLoreItem;
 var
 	LItem: TLoreItem;
 begin
 	result := nil;
 	for LItem in FItems do begin
-		if LItem.LoreId = Id then
+		if LItem.id = Id then
 			result := LItem;
 	end;
 
 	if result = nil then
-		raise Exception.Create('Lore item with id ' + Id + ' does not exist');
+		raise ELore.Create('Lore item with id ' + Id + ' does not exist');
 end;
-
-{ implementation end }
 
 initialization
 	ListSerializationMap.Add(TSerializedList.Create(TLoreItems, TLoreItem));

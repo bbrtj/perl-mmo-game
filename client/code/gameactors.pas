@@ -304,7 +304,7 @@ end;
 
 procedure TGameActor.SetAction(const LoreId: TLoreId; Duration: Single);
 begin
-	FActionName := LoreCollection.GetById(LoreId).LoreName;
+	FActionName := LoreCollection.GetById(LoreId).name;
 
 	// NOTE: duration can be 0 when action is cancelled
 	FActionDuration := Duration;

@@ -16,7 +16,6 @@ type
 		property Speed: Single index 4 read GetValueIndexReal;
 		property Angle: Single index 5 read GetValueIndexReal;
 		property MaxDistance: Single index 6 read GetValueIndexReal;
-		property Radius: Single index 7 read GetValueIndexReal;
 	end;
 
 	TMsgFeedProjectileStop = class(TPlaintextModel)

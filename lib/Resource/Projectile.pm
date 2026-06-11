@@ -26,7 +26,6 @@ sub generate ($self)
 		$projectile->speed,
 		$projectile->angle,
 		$projectile->max_distance,
-		$projectile->radius,
 	];
 }
 

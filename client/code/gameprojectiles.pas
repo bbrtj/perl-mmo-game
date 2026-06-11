@@ -14,14 +14,12 @@ type
 		FId: TUlid;
 		FMovementVector: TVector3;
 		FMovementTime: Single;
-		FRadius: Single;
 	public
 		constructor Create(AOwner: TComponent);
 
 		procedure SetPosition(X, Y: Single);
 		function GetPosition(): TVector3;
 		procedure Move(Angle, Speed, MaxDistance: Single);
-		procedure SetSize(Radius: Single);
 
 		procedure Update(const secondsPassed: Single; var removeMe: TRemoveType); override;
 		function Finished(): Boolean;
@@ -67,14 +65,26 @@ begin
 end;
 
 function TGameProjectileFactory.CreateProjectile(Id: TUlid; LoreId: TLoreId): TGameProjectile;
+var
+	LBox: TBox3D;
+	LLore: TLoreItem;
+	LCurrentRadius: Single;
 begin
 	result := TGameProjectile.Create(FUIBoard);
 	result.Id := Id;
 	result.Name := 'Projectile_' + Id;
 
-	// TODO: use LoreId to get the appearance of the projectile
-	result.URL := 'castle-data:/images/projectile.png';
+	LLore := LoreCollection.GetById(LoreId);
+
+	result.URL := 'castle-data:' + LLore.GetVisuals.model;
 	result.Translation := Vector3(0, 0, 99); // TODO: proper Z distance
+
+	LBox := result.BoundingBox;
+
+	// NOTE: Box3D has width / height, while Size is a radius of a circle
+	LCurrentRadius := Max(LBox.Size.X, LBox.Size.Y) / 2;
+	LCurrentRadius := LLore.GetVisuals.model_size / LCurrentRadius;
+	result.Scale := result.Scale * Vector3(LCurrentRadius, LCurrentRadius, 1);
 
 	FUIBoard.Parent.Add(result);
 end;
@@ -103,19 +113,6 @@ procedure TGameProjectile.Move(Angle, Speed, MaxDistance: Single);
 begin
 	FMovementVector := AngleToVector(Angle) * Speed;
 	FMovementTime := MaxDistance / FMovementVector.Length;
-end;
-
-procedure TGameProjectile.SetSize(Radius: Single);
-var
-	LBox: TBox3D;
-	LCurrentRadius: Single;
-begin
-	FRadius := Radius;
-	LBox := self.BoundingBox;
-
-	// NOTE: Box3D has width / height, while Size is a radius of a circle
-	LCurrentRadius := Max(LBox.Size.X, LBox.Size.Y) / 2;
-	self.Scale := self.Scale * Vector3(Radius / LCurrentRadius, Radius / LCurrentRadius, 1);
 end;
 
 end.

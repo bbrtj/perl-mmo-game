@@ -2,7 +2,7 @@ unit GameTypes;
 
 interface
 
-uses FGL,
+uses FGL, SysUtils,
 	CastleScene;
 
 type
@@ -12,6 +12,8 @@ type
 	TLoreIds = specialize TFPGList<TLoreId>;
 
 	TGameModel = class(TCastleScene);
+
+	ELore = class(Exception);
 
 implementation
 

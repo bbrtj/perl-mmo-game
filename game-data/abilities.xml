@@ -16,8 +16,8 @@
 		</translation>
 
 		<visuals> <!-- TODO: animation -->
-			<projectile_model>projectiles/arrow.png</projectile_model>
-			<projectile_radius>0.15</projectile_radius>
+			<model>images/projectiles/arrow.png</model>
+			<model_size>0.15</model_size>
 		</visuals>
 
 		<uses lore="attribute">Physical</uses>

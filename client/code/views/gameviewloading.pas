@@ -59,8 +59,8 @@ var
 	LLore: TLoreItem;
 begin
 	LLore := LoreCollection.GetById(FMapId);
-	HintText1.Caption := LLore.LoreName;
-	HintText2.Caption := LLore.LoreDescription;
+	HintText1.Caption := LLore.name;
+	HintText2.Caption := LLore.description;
 end;
 
 procedure TViewLoading.DoLoad(Sender: TObject);
