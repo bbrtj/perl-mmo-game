@@ -3,15 +3,17 @@
 	<race id="DWARF" name="Dwarf">
 		<translation lang="pl">
 			<name>Krasnolud</name>
-			<desc>Krasnoludy mają naturalny dryg do górnictwa i poszukiwania skarbów. Ich chciwość zaprowadziła je we wszystkie strony kontynentu, ale spowodowała również, że nie tworzą one skupisk większych niż pojedyncze wioski.</desc>
+			<desc>Krasnoludy to krępe i skryte istoty zamieszkujące drążone przez siebie podziemne kompleksy. Są wprawnymi żołnierzami, kapłanami oraz czarnoksiężnikami. Cenią sobie spokój i porządek, lecz cechuje je silny terytorializm. Wykopywane przez nie bogactwa stanowią podstawowe źródło kruszców w krainie.</desc>
 		</translation>
 
-		<stat_bonuses>
-			<stat lore="primary_stat" lore-key="Strength">1</stat>
-			<stat lore="primary_stat" lore-key="Wisdom">-1</stat>
-			<stat lore="primary_stat" lore-key="Constitution">2</stat>
-			<stat lore="primary_stat" lore-key="Charisma">-2</stat>
-		</stat_bonuses>
+		<base_stats>
+			<stat lore="primary_stat" lore-key="Strength">12</stat>
+			<stat lore="primary_stat" lore-key="Dexterity">9</stat>
+			<stat lore="primary_stat" lore-key="Wisdom">9</stat>
+			<stat lore="primary_stat" lore-key="Constitution">12</stat>
+			<stat lore="primary_stat" lore-key="Charisma">8</stat>
+			<stat lore="primary_stat" lore-key="Luck">10</stat>
+		</base_stats>
 	</race>
 </races>
 

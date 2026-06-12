@@ -3,11 +3,17 @@
 	<race id="HUMAN" name="Human">
 		<translation lang="pl">
 			<name>Człowiek</name>
-			<desc>Ludzie to krótko żyjące istoty, które władają południową częścią kontynentu. Nie wyróżniają się niczym szczególnym, ale dobrze współpracują i mają dryg do handlowania.</desc>
+			<desc>Ludzie to plemię najemników, kupców oraz odkrywców. Zamieszkują niewielkie wioski rozsiane po całym kontynencie. Ich chaotyczna natura jest źródłem wielu sporów, jednakże pcha ich w stronę ryzyka oraz poszukiwania przygód. Świetnie radzą sobie z wiedzą tajemną oraz we władaniu bronią.</desc>
 		</translation>
 
-		<stat_bonuses empty_structure="1">
-		</stat_bonuses>
+		<base_stats>
+			<stat lore="primary_stat" lore-key="Strength">10</stat>
+			<stat lore="primary_stat" lore-key="Dexterity">10</stat>
+			<stat lore="primary_stat" lore-key="Wisdom">10</stat>
+			<stat lore="primary_stat" lore-key="Constitution">10</stat>
+			<stat lore="primary_stat" lore-key="Charisma">10</stat>
+			<stat lore="primary_stat" lore-key="Luck">10</stat>
+		</base_stats>
 	</race>
 </race>
 

@@ -8,7 +8,7 @@ extends 'Game::Lore';
 
 use constant prefix => 'RACE';
 
-has param 'stat_bonuses' => (
+has param 'base_stats' => (
 	isa => HashRef [Int],
 );
 

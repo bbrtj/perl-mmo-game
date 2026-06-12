@@ -6,8 +6,7 @@
 	<yell_radius>20</yell_radius>
 
 	<max_level>50</max_level>
-	<zero_stats>8</zero_stats>
-	<stats_at_levels>2,3,4,5,10,15,20,25,30,35,40,45,50</stats_at_levels>
+	<stats_at_levels>5,10,20,30,40,50</stats_at_levels>
 
 	<base_size>0.25</base_size>
 	<base_speed>0.8</base_speed>
