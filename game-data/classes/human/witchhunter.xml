@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<classes>
+<classes requires="races">
 	<class id="WITHUN" name="Witchhunter">
 		<translation lang="pl">
 			<name>Łowca wiedźm</name>
-			<desc>Łowcy wiedźm to tajemnicza społeczność tępiąca czarną magię na kontynencie. Władają oni magią prewencyjną oraz używają egzotycznych technik walki w zwarciu oraz na dystans.</desc>
+			<desc>Łowcy wiedźm to tajemnicza społeczność tępiąca czarną magię na kontynencie. Władają oni podstawową magią prewencyjną oraz używają egzotycznych technik walki w zwarciu.</desc>
 		</translation>
+
+		<uses lore="race">Human</uses>
 
 		<!-- <base_health>80</base_health> -->
 		<!-- <base_energy>50</base_energy> -->

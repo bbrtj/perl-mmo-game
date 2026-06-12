@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<classes>
-	<class id="TRAPP" name="Trapper">
+<classes requires="races">
+	<class id="SWORD" name="Swordsman">
 		<translation lang="pl">
-			<name>Łowca</name>
-			<desc>Łowcy są mistrzami w tropieniu oraz zastawianiu pułapek. Preferują walkę bronią dystansową na dobrze znanym przez siebie terenie.</desc>
+			<name>Szermierz</name>
+			<desc>Szermierze są doskonali w walce w zwarciu. Wiedzą dokładnie gdzie i kiedy uderzyć, a ich ciosy cechuje niesamowita precyzja.</desc>
 		</translation>
+
+		<uses lore="race">Elf</uses>
 
 		<!-- <base_health>90</base_health> -->
 		<!-- <base_energy>30</base_energy> -->

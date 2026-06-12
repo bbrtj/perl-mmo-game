@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classes requires="races">
+	<class id="ILLU" name="Illusionist">
+		<translation lang="pl">
+			<name>Iluzjonista</name>
+			<desc>Iluzjoniści kształtują rzeczywistość według własnej woli. Poziom zaawansowania ich sztuczek czyni je nieodróżnialnymi od magii.</desc>
+		</translation>
+
+		<uses lore="race">Human</uses>
+
+		<!-- <base_health>90</base_health> -->
+		<!-- <base_energy>30</base_energy> -->
+		<!-- <base_crit>0.04</base_crit> -->
+		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
+	</class>
+</classes>
+

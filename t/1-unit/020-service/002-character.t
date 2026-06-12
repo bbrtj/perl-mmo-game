@@ -5,7 +5,7 @@ use testheader;
 
 test_data
 	'should create character' => [
-		[{name => 'testPlayer', class_id => lore_class('Trapper')->id}],
+		[{name => 'testPlayer', class_id => lore_class('Sage')->id}],
 		[{name => 'testPlayer2', class_id => lore_class('Assassin')->id}],
 	];
 

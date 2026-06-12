@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classes>
+	<class id="WIZARD" name="Wizard">
+		<translation lang="pl">
+			<name>Czarodziej</name>
+			<desc>Nikt nie dorównuje czarodziejom w arkanach wiedzy tajemnej. Poświęcili całe życie jej studiowaniu, dzięki czemu mogą teraz z łatwością odebrać je innym.</desc>
+		</translation>
+
+		<uses lore="race">Human</uses>
+
+		<!-- <base_health>80</base_health> -->
+		<!-- <base_energy>50</base_energy> -->
+		<!-- <base_crit>0.04</base_crit> -->
+		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
+	</class>
+</classes>
+

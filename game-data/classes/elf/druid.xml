@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classes requires="races">
+	<class id="DRUID" name="Druid">
+		<translation lang="pl">
+			<name>Druid</name>
+			<desc>Druidzi to społeczność uczonych mająca na celu zgłębianie wiedzy o naturze i utrzymanie harmonii. Członkowie mają do dyspozycji szeroki wachlarz uroków wykorzystujących siły natury do osłabiania wrogów oraz wspierania sojuszników.</desc>
+		</translation>
+
+		<uses lore="race">Elf</uses>
+
+		<!-- <base_health>90</base_health> -->
+		<!-- <base_energy>30</base_energy> -->
+		<!-- <base_crit>0.04</base_crit> -->
+		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
+	</class>
+</classes>
+

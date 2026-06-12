@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classes requires="races">
+	<class id="ELEM" name="Elementalist">
+		<translation lang="pl">
+			<name>Mag żywiołów</name>
+			<desc>Magowie żywiołów posiadają władzę nad destrukcyjnymi siłami natury, co umożliwia im siać spustoszenie na polu bitwy.</desc>
+		</translation>
+
+		<uses lore="race">Elf</uses>
+
+		<!-- <base_health>90</base_health> -->
+		<!-- <base_energy>30</base_energy> -->
+		<!-- <base_crit>0.04</base_crit> -->
+		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
+	</class>
+</classes>
+
