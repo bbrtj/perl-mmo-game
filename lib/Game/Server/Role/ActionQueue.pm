@@ -16,6 +16,9 @@ sub enqueue_action ($self, $action)
 	my $actions = $self->queued_actions;
 	my $index = binsearch_pos { $a->eta <=> $b->eta } $action, $actions->@*;
 
+	# NOTE: this kind of splice works fast on small arrays, but gets very
+	# sluggish with big arrays. This array here should never become too big.
+	# See splice benchmark
 	splice $actions->@*, $index, 0, $action;
 	return;
 }
