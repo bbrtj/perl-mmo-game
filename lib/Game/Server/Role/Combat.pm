@@ -9,6 +9,7 @@ use Resource::ActorEvent;
 use header;
 
 requires qw(
+	location
 	lore_data_repo
 	find_in_radius
 	send_to_players
@@ -47,13 +48,17 @@ sub use_ability ($self, $actor_id, %options)
 sub _apply_damage_effect ($self, $effect, $x, $y)
 {
 	my $actor = $effect->actor;
-	my $stats = $actor->stats;
 
+	# TODO: friendly fire
 	my @found = grep { $_ != $actor } Game::Mechanics::Distance->find_actors_in_range($self, $x, $y, $effect->radius);
 	Game::Mechanics::Character::Damage->deal_damage($effect->lore->attributes, $effect->damage, @found);
 
 	# TODO: not always all targets will be affected (ability target limit)
 	foreach my $affected (@found) {
+		if ($affected->variables->health <= 0) {
+			$self->signal_actor_died($affected);
+		}
+
 		$self->send_to_players(
 			[$affected->id, $self->get_discovered_by($affected->id)],
 			Resource::ActorEvent->new(

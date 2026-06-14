@@ -165,6 +165,14 @@ sub signal_actor_appeared ($self, $for_actor, $actor)
 	return;
 }
 
+sub signal_actor_died ($self, $actor)
+{
+	$self->location->remove_actor($actor);
+	# TODO: player death
+
+	return;
+}
+
 sub signal_projectile_appeared ($self, $for_actor, $projectile)
 {
 	# $self->log->debug(sprintf "projectile %s appeared for %s", $projectile->id, $for_actor->id);

@@ -81,15 +81,15 @@ sub _spawn_npc ($self, $spawn)
 	return;
 }
 
-# TODO: hook it
-sub _npc_dead ($self, $npc)
-{
-	my $spawn = $npc->spawn;
+after 'signal_actor_died' => sub ($self, $actor) {
+	return unless $actor->is_npc;
+
+	my $spawn = $actor->npc->spawn;
 	$spawn->set_next_respawn;
 	$self->_enqueue_respawn($spawn);
 
 	return;
-}
+};
 
 after BUILD => sub ($self, @) {
 	$self->_prepare_respawns;
