@@ -6,6 +6,7 @@
 			<desc>Ludzie to plemię najemników, kupców oraz odkrywców. Zamieszkują niewielkie wioski rozsiane po całym kontynencie. Ich chaotyczna natura jest źródłem wielu sporów, jednakże pcha ich w stronę ryzyka oraz poszukiwania przygód. Świetnie radzą sobie z wiedzą tajemną oraz we władaniu bronią.</desc>
 		</translation>
 
+		<playable>1</playable>
 		<base_stats>
 			<stat lore="primary_stat" lore-key="Strength">10</stat>
 			<stat lore="primary_stat" lore-key="Dexterity">10</stat>

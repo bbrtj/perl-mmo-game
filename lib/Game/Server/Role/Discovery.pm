@@ -43,8 +43,7 @@ sub _discover_actors ($self, $actor, $found_objects, $resource)
 	foreach my $found ($found_objects->@*) {
 		my $found_id = $found->id;
 
-		push $discovered_by->{$found_id}->@*, $actor_id
-			if $found->is_player;
+		push $discovered_by->{$found_id}->@*, $actor_id;
 
 		if ($found_prev{$found_id}) {
 			delete $not_found{$found_id};

@@ -12,3 +12,7 @@ has param 'base_stats' => (
 	isa => HashRef [Int],
 );
 
+has param 'playable' => (
+	isa => Bool,
+);
+

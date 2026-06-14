@@ -6,6 +6,7 @@
 			<desc>Elfy to stworzenia żyjące w harmonii z przyrodą. Ich siedliska znajdują się głęboko w puszczach, a one same rzadko opuszczają las bez wyraźnej potrzeby. Ich umiejętności rzemieślnicze są niemal legendarne. Mają szeroką wiedzę o naturze oraz otoczeniu, którą bezlitośnie wykorzystują w walce.</desc>
 		</translation>
 
+		<playable>1</playable>
 		<base_stats>
 			<stat lore="primary_stat" lore-key="Strength">8</stat>
 			<stat lore="primary_stat" lore-key="Dexterity">12</stat>

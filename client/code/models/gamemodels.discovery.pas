@@ -21,11 +21,13 @@ type
 		FId: TUlid;
 		FName: String;
 		FClass: TLoreId;
+		FPlayer: Boolean;
 
 	published
 		property id: TUlid read FId write FId;
 		property name: String read FName write FName;
 		property &class: TLoreId read FClass write FClass;
+		property player: Boolean read FPlayer write FPlayer;
 
 	end;
 

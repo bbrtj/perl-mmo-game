@@ -27,8 +27,10 @@ has param '_projectiles' => (
 sub _projectile_hit ($self, $projectile, $send)
 {
 	if ($send) {
-		my $resource = Resource::ProjectileStop->new(subject => $projectile);
-		$self->send_to_players($projectile->discovered_by, $resource);
+		$self->send_to_players(
+			$projectile->discovered_by,
+			Resource::ProjectileStop->new(subject => $projectile),
+		);
 	}
 
 	$self->apply_effect($projectile->effect, $projectile->xy);
@@ -102,8 +104,10 @@ sub spawn_projectile ($self, $actor, $lore, $effect, $at_x, $at_y)
 
 	$self->_projectiles->{$projectile->id} = $projectile;
 
-	my $resource = Resource::Projectile->new(subject => $projectile);
-	$self->send_to_players($projectile->discovered_by, $resource);
+	$self->send_to_players(
+		$projectile->discovered_by,
+		Resource::Projectile->new(subject => $projectile),
+	);
 
 	return;
 }

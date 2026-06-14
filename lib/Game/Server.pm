@@ -63,6 +63,7 @@ with qw(
 	Game::Server::Role::Combat
 	Game::Server::Role::Movements
 	Game::Server::Role::Regeneration
+	Game::Server::Role::Npcs
 );
 
 sub _add_action ($self, $every, $handler, $priority = 0)

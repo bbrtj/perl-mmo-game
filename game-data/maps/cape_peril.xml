@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<areas>
+<areas requires="npcs">
 	<area id="CAPEPERIL" name="Cape Peril">
 		<translation lang="pl">
 			<name>Przylądek Peril</name>

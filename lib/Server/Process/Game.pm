@@ -41,20 +41,26 @@ with qw(
 	Server::Role::CanSendData
 );
 
+# NOTE: $player_id may belong to an npc
 sub send_to_player ($self, $player_id, $data, @more)
 {
-	return $self->send_to($self->load_session($player_id), $data, @more);
+	return unless my $session = $self->load_session($player_id);
+	$self->send_to($self->load_session($player_id), $data, @more);
+	return;
 }
 
+# NOTE: not all $player_ids may be players - filters out npcs
 sub send_to_players ($self, $player_ids, $data)
 {
-	my @ids = $player_ids->@*;
-	return if !@ids;
+	return if $player_ids->@* == 0;
 
-	return $self->send_to_player($ids[0], $data)
-		if @ids == 1;
+	return $self->send_to_player($player_ids->[0], $data)
+		if $player_ids->@* == 1;
 
-	return $self->send_to_all($data, sessions => [map { $self->load_session($_) } @ids]);
+	return $self->send_to_all(
+		$data,
+		sessions => [grep { defined } map { $self->load_session($_) } $player_ids->@*],
+	);
 }
 
 sub handle ($self, $data)

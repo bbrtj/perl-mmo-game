@@ -2,6 +2,7 @@ package Unit::Actor;
 
 use My::Moose;
 use all 'Model';
+use Game::Object::Actor::Npc;
 
 use header;
 
@@ -13,7 +14,7 @@ has option 'player' => (
 );
 
 has option 'npc' => (
-	lax_isa => Maybe [InstanceOf ['Model::Npc']],
+	lax_isa => Maybe [InstanceOf ['Game::Object::Actor::Npc']],
 	predicate => 'is_npc',
 );
 

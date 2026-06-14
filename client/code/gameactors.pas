@@ -337,17 +337,20 @@ end;
 procedure TGameActorRepository.OnActorsInfo(const ActorsInfo: TModelBase);
 var
 	LActorsInfo: TMsgResActorsInfo;
+	LActorInfo: TMsgResActor;
 	LRecord: TGameActorRepositoryRecord;
-	i: Integer;
 begin
 	LActorsInfo := ActorsInfo as TMsgResActorsInfo;
 
-	for i := 0 to LActorsInfo.list.Count - 1 do begin
+	for LActorInfo in LActorsInfo.list do begin
 		LRecord := TGameActorRepositoryRecord.Create;
-		LRecord.ActorName := LActorsInfo.list[i].name;
-		LRecord.ActorClass := LActorsInfo.list[i].&class;
 
-		FActorData.Add(LActorsInfo.list[i].id, LRecord);
+		LRecord.ActorName := LActorInfo.name;
+		if not LActorInfo.player then
+			LRecord.ActorName := LoreCollection.GetById(LRecord.ActorName).name;
+		LRecord.ActorClass := LActorInfo.&class;
+
+		FActorData.Add(LActorInfo.id, LRecord);
 	end;
 end;
 

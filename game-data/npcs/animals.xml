@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npcs requires="races">
+	<npc id="RAT" name="Rat">
+		<translation lang="pl">
+			<name>Szczur</name>
+			<desc>Niewielki, zazwyczaj niegroźny szkodnik.</desc>
+		</translation>
+
+		<uses lore="race">Animal</uses>
+
+		<respawn_time>300</respawn_time>
+	</npc>
+</npcs>
+

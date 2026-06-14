@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<races requires="primary_stats">
+	<race id="ANIMAL" name="Animal">
+		<translation lang="pl">
+			<name>Zwierzę</name>
+			<desc>Dzisiejsze zwierzęta to efekt milionów lat ewolucji w środowisku naturalnym.</desc>
+		</translation>
+
+		<playable>0</playable>
+		<base_stats>
+			<stat lore="primary_stat" lore-key="Strength">13</stat>
+			<stat lore="primary_stat" lore-key="Dexterity">13</stat>
+			<stat lore="primary_stat" lore-key="Wisdom">4</stat>
+			<stat lore="primary_stat" lore-key="Constitution">12</stat>
+			<stat lore="primary_stat" lore-key="Charisma">6</stat>
+			<stat lore="primary_stat" lore-key="Luck">12</stat>
+		</base_stats>
+	</race>
+</race>
+

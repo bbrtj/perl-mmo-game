@@ -17,9 +17,10 @@ sub generate ($self)
 	# TODO: more basic info
 	my @actors = map {
 		{
-			id => $_->player->id,
+			id => $_->id,
 			name => $_->character->name,
 			class => $_->character->class_id,
+			player => $_->is_player,
 		}
 	} $self->subject->@*;
 

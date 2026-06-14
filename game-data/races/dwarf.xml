@@ -6,6 +6,7 @@
 			<desc>Krasnoludy to krępe i skryte istoty zamieszkujące drążone przez siebie podziemne kompleksy. Są wprawnymi żołnierzami, kapłanami oraz czarnoksiężnikami. Cenią sobie spokój i porządek, lecz cechuje je silny terytorializm. Wykopywane przez nie bogactwa stanowią podstawowe źródło kruszców w krainie.</desc>
 		</translation>
 
+		<playable>1</playable>
 		<base_stats>
 			<stat lore="primary_stat" lore-key="Strength">12</stat>
 			<stat lore="primary_stat" lore-key="Dexterity">9</stat>

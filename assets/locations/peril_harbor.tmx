@@ -322,7 +322,7 @@
   <properties>
    <property name="private" type="bool" value="true"/>
   </properties>
-  <object id="1" name="monster" type="351" x="945.438" y="2229.07">
+  <object id="1" name="monster" type="Rat" x="1645.44" y="2373.07">
    <point/>
   </object>
  </objectgroup>
