@@ -14,5 +14,19 @@
 
 		<respawn_time>300</respawn_time>
 	</npc>
+	<npc id="BOGRAT" name="Bog rat">
+		<translation lang="pl">
+			<name>Szczur Bagienny</name>
+			<desc>Większa wersja szczura, bardziej przystosowana do życia w skrajnym środowisku.</desc>
+		</translation>
+
+		<uses lore="race">Animal</uses>
+
+		<visuals>
+			<model>images/actors/bog_rat.png</model>
+		</visuals>
+
+		<respawn_time>300</respawn_time>
+	</npc>
 </npcs>
 

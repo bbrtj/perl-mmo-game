@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="100" tileheight="100" infinite="0" nextlayerid="9" nextobjectid="3">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="100" tileheight="100" infinite="0" nextlayerid="9" nextobjectid="5">
  <tileset firstgid="1" source="../game tiles.tsx"/>
  <layer id="1" name="Water" width="40" height="40">
   <properties>
@@ -323,6 +323,9 @@
    <property name="private" type="bool" value="true"/>
   </properties>
   <object id="1" name="monster" type="Rat" x="1645.44" y="2373.07">
+   <point/>
+  </object>
+  <object id="3" name="monster" type="Bog rat" x="1749.94" y="2529.93">
    <point/>
   </object>
  </objectgroup>
