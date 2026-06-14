@@ -8,6 +8,10 @@
 
 		<uses lore="race">Human</uses>
 
+		<visuals>
+			<model>images/actors/knight.png</model>
+		</visuals>
+
 		<!-- <base_health>80</base_health> -->
 		<!-- <base_energy>50</base_energy> -->
 		<!-- <base_crit>0.04</base_crit> -->

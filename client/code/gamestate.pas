@@ -2,13 +2,16 @@ unit GameState;
 
 interface
 
-uses Classes, FGL,
+uses SysUtils, Classes, FGL,
 	CastleVectors, CastleTransform, CastleViewport, CastleScene, CastleTiledMap,
 	GameMaps, GameTypes, GameNetwork,
 	GameActors, GameProjectiles,
-	GameModels.Discovery, GameModels.Move, GameModels.Actors, GameModels.Projectiles;
+	GameModels.Discovery, GameModels.Move, GameModels.Actors, GameModels.Projectiles,
+	GamePipelines;
 
 type
+	EActorNotFound = class(EGameException);
+
 	TActorMap = specialize TFPGMap<TUlid, TGameActor>;
 	TProjectileMap = specialize TFPGMap<TUlid, TGameProjectile>;
 
@@ -26,11 +29,11 @@ type
 		FProjectileFactory: TGameProjectileFactory;
 
 		FCleanupTime: Single;
+		FPipelineCleanupTime: Single;
 
 		function FindActor(const Id: TUlid): TGameActor;
 		function FindProjectile(const Id: TUlid): TGameProjectile;
 		procedure SetBoard(Board: TCastleTiledMap);
-
 	public
 		constructor Create(Viewport: TCastleViewport);
 		destructor Destroy; override;
@@ -38,8 +41,9 @@ type
 		procedure Update(const secondsPassed: Single);
 		procedure SetMapData(const MapData: TMapData);
 
-		procedure CreatePlayer(const Id: TUlid; const PosX, PosY: Single);
-		procedure AddActor(const Id: TUlid);
+		procedure CreatePlayer(ActorInfo: TGameActorRepositoryRecord; PosX, PosY: Single);
+		procedure CreateActor(ActorInfo: TGameActorRepositoryRecord);
+		procedure AddActor(Actor: TGameActor);
 		procedure RemoveActor(const Id: TUlid);
 
 		procedure ProcessMovement(Movement: TMsgFeedActorMovement);
@@ -77,20 +81,29 @@ end;
 
 procedure TGameState.Update(const secondsPassed: Single);
 const
-	cCleanupInterval = 0.1;
+	CCleanupInterval = 0.1;
+	CPipelineCleanupInterval = 5;
 var
 	I: Integer;
 begin
 	FCleanupTime += secondsPassed;
-	if FCleanupTime < cCleanupInterval then exit;
-	FCleanupTime := 0;
+	if FCleanupTime >= CCleanupInterval then begin
+		FCleanupTime := 0;
 
-	// NOTE: only global update here. Game objects are updated automatically when added to the board
+		// NOTE: only global update here. Game objects are updated automatically when added to the scene
 
-	for I := FProjectiles.Count - 1 downto 0 do begin
-		if not FProjectiles.Data[I].Finished then continue;
-		FProjectileFactory.RemoveProjectile(FProjectiles.Data[I]);
-		FProjectiles.Remove(FProjectiles.Data[I].Id);
+		for I := FProjectiles.Count - 1 downto 0 do begin
+			if not FProjectiles.Data[I].Finished then continue;
+			FProjectileFactory.RemoveProjectile(FProjectiles.Data[I]);
+			FProjectiles.Remove(FProjectiles.Data[I].Id);
+		end;
+	end;
+
+	FPipelineCleanupTime += secondsPassed;
+	if FPipelineCleanupTime >= CPipelineCleanupInterval then begin
+		FPipelineCleanupTime := 0;
+
+		GlobalPipelineManager.Cleanup;
 	end;
 end;
 
@@ -107,19 +120,19 @@ begin
 	// FUIBoard.Translation := Vector3(FMapData.Map.SizeX / 2, FMapData.Map.SizeY / 2, 0);
 end;
 
-procedure TGameState.CreatePlayer(const Id: TUlid; const PosX, PosY: Single);
+procedure TGameState.CreatePlayer(ActorInfo: TGameActorRepositoryRecord; PosX, PosY: Single);
 var
 	LNewObject: TMsgFeedActorPosition;
 	LPlayer: TGameActor;
 	LPlayerBehavior: TPlayerBehavior;
 begin
-	FThisPlayer := Id;
-	self.AddActor(Id);
-	LPlayer := FindActor(Id);
+	FThisPlayer := ActorInfo.Id;
+	self.CreateActor(ActorInfo);
+	LPlayer := self.FindActor(ActorInfo.Id);
 
 	// pretty artificial, but does the trick...
 	LNewObject := TMsgFeedActorPosition.Create;
-	LNewObject.id := Id;
+	LNewObject.id := ActorInfo.Id;
 	LNewObject.x := PosX;
 	LNewObject.y := PosY;
 	self.ProcessPosition(LNewObject);
@@ -131,9 +144,14 @@ begin
 	// TODO: this behavior must be freed
 end;
 
-procedure TGameState.AddActor(const Id: TUlid);
+procedure TGameState.CreateActor(ActorInfo: TGameActorRepositoryRecord);
 begin
-	FActors.Add(Id, FActorFactory.CreateActor(Id));
+	self.AddActor(FActorFactory.CreateActor(ActorInfo));
+end;
+
+procedure TGameState.AddActor(Actor: TGameActor);
+begin
+	FActors.Add(Actor.Id, Actor);
 end;
 
 procedure TGameState.RemoveActor(const Id: TUlid);
@@ -176,10 +194,11 @@ var
 	LActor: TGameActor;
 begin
 	LActor := self.FindActor(Movement.id);
-	if LActor <> nil then begin
-		LActor.SetPosition(Movement.x, Movement.y);
-		LActor.Move(Movement.to_x, Movement.to_y, Movement.speed);
-	end
+	if LActor = nil then
+		raise EActorNotFound.Create;
+
+	LActor.SetPosition(Movement.x, Movement.y);
+	LActor.Move(Movement.to_x, Movement.to_y, Movement.speed);
 end;
 
 procedure TGameState.ProcessPosition(Stop: TMsgFeedActorPosition);
@@ -187,10 +206,11 @@ var
 	LActor: TGameActor;
 begin
 	LActor := self.FindActor(Stop.id);
-	if LActor <> nil then begin
-		LActor.SetPosition(Stop.x, Stop.y);
-		LActor.Stop();
-	end
+	if LActor = nil then
+		raise EActorNotFound.Create;
+
+	LActor.SetPosition(Stop.x, Stop.y);
+	LActor.Stop();
 end;
 
 procedure TGameState.ProcessActorEvent(Event: TMsgFeedActorEvent);
@@ -198,10 +218,11 @@ var
 	LActor: TGameActor;
 begin
 	LActor := self.FindActor(Event.Id);
-	if LActor <> nil then begin
-		LActor.ModifyHealth(Event.Health);
-		// TODO: animate damage / healing (HealthChange)
-	end
+	if LActor = nil then
+		raise EActorNotFound.Create;
+
+	LActor.ModifyHealth(Event.Health);
+	// TODO: animate damage / healing (HealthChange)
 end;
 
 procedure TGameState.ProcessActorState(Event: TMsgFeedActorState);
@@ -209,12 +230,13 @@ var
 	LActor: TGameActor;
 begin
 	LActor := self.FindActor(Event.Id);
-	if LActor <> nil then begin
-		LActor.SetHealth(Event.Health, Event.MaxHealth);
-		LActor.SetEnergy(Event.Energy, Event.MaxEnergy);
-		LActor.SetRegeneration(Event.HealthRegeneration, Event.EnergyRegeneration);
-		LActor.SetSize(Event.Size);
-	end
+	if LActor = nil then
+		raise EActorNotFound.Create;
+
+	LActor.SetHealth(Event.Health, Event.MaxHealth);
+	LActor.SetEnergy(Event.Energy, Event.MaxEnergy);
+	LActor.SetRegeneration(Event.HealthRegeneration, Event.EnergyRegeneration);
+	LActor.SetSize(Event.Size);
 end;
 
 procedure TGameState.ProcessActorAction(Event: TMsgFeedActorAction);
@@ -222,8 +244,10 @@ var
 	LActor: TGameActor;
 begin
 	LActor := self.FindActor(Event.Id);
-	if LActor <> nil then
-		LActor.SetAction(Event.LoreId, Event.Duration);
+	if LActor = nil then
+		raise EActorNotFound.Create;
+
+	LActor.SetAction(Event.LoreId, Event.Duration);
 end;
 
 procedure TGameState.ProcessProjectile(Event: TMsgFeedProjectile);

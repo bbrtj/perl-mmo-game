@@ -77,7 +77,7 @@ begin
 	LLore := LoreCollection.GetById(LoreId);
 
 	result.URL := 'castle-data:' + LLore.GetVisuals.model;
-	result.Translation := Vector3(0, 0, 99); // TODO: proper Z distance
+	result.Translation := Vector3(0, 0, 101); // TODO: proper Z distance
 
 	LBox := result.BoundingBox;
 

@@ -199,7 +199,8 @@ procedure TNetwork.OnMessageReceived(const Received: String);
 			LModel := FModelSerializer.DeSerialize(Msg.Data, FFeeds[I].CallbackModel);
 
 			LCallback(LModel);
-			LModel.Free;
+			if not LModel.Adopted then
+				LModel.Free;
 
 			result := true;
 		end;
@@ -214,24 +215,24 @@ begin
 		exit;
 	end;
 
-	if FPooling then begin
-		FPool.Add(Received);
-		LogDebug('Network: pooled ' + Received);
-		exit;
+	try
+		LMessage := TMessage.Create;
+		LMessage.Body := Received;
+
+		if LMessage.HasId() then
+			LHandled := HandleCallbacks(LMessage)
+		else if FPooling then begin
+			FPool.Add(Received);
+			LogDebug('Network: pooled ' + Received);
+			exit;
+		end
+		else
+			LHandled := HandleFeeds(LMessage);
+	finally
+		LMessage.Free;
 	end;
 
 	LogDebug('Network: got ' + Received);
-
-	LMessage := TMessage.Create;
-	LMessage.Body := Received;
-
-	if LMessage.HasId() then
-		LHandled := HandleCallbacks(LMessage)
-	else
-		LHandled := HandleFeeds(LMessage);
-
-	LMessage.Free;
-
 	if not LHandled then
 		LogDebug('Network: message was not handled');
 end;

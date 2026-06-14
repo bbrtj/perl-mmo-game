@@ -4,7 +4,7 @@ interface
 
 uses Classes,
 	CastleVectors, CastleUIControls, CastleControls, CastleKeysMouse,
-	GameTypes, GameNetwork, GameLore, GameMaps,
+	GameTypes, GameNetwork, GameLore, GameMaps, GameActors,
 	GameModels, GameModels.Location;
 
 type
@@ -34,9 +34,9 @@ type
 		procedure Update(const SecondsPassed: Single; var HandleInput: Boolean); override;
 
 		procedure OnLocationData(const Data: TModelBase);
+		procedure OnActorData(Sender: TObject);
 
 		property PlayerId: TUlid write FPlayerId;
-
 	end;
 
 procedure StartLoading(const Container: TCastleContainer; const PlayerId: TUlid);
@@ -67,7 +67,7 @@ procedure TViewLoading.DoLoad(Sender: TObject);
 begin
 	ViewPlay.SetMapPath(MapIndex.GetMapPath(FMapId));
 	ViewPlay.GameState.SetMapData(MapIndex.GetMapData(FMapId));
-	ViewPlay.GameState.CreatePlayer(FPlayerId, FPlayerX, FPlayerY);
+	ViewPlay.GameState.CreatePlayer(GlobalActorRepository.GetActorInfo(FPlayerId), FPlayerX, FPlayerY);
 
 	FLoaded := true;
 	GlobalClient.Pooling := False;
@@ -123,6 +123,11 @@ begin
 	FPlayerY := LModel.player_y;
 
 	RefreshLocationHints;
+	GlobalActorRepository.RequestActorInfo(FPlayerId, @self.OnActorData);
+end;
+
+procedure TViewLoading.OnActorData(Sender: TObject);
+begin
 	WaitForRenderAndCall(@self.DoLoad);
 end;
 

@@ -5,13 +5,16 @@ interface
 uses Classes, SysUtils, FGL,
 	CastleVectors, CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleTransform, CastleScene, CastleViewport, CastleTiledMap,
-	GameState, GameChat,
+	GameTypes, GameState, GameChat,
 	GameNetwork, GameActors,
 	GameModels, GameModels.Move, GameModels.Discovery,
 	GameModels.Ability, GameModels.Chat, GameModels.Actors,
-	GameModels.Projectiles;
+	GameModels.Projectiles,
+	GamePipelines, GamePipelines.Actors;
 
 type
+	TActorActions = specialize TFPGObjectList<TModelBase>;
+	TActorActionsMap = specialize TFPGMap<TUlid, TActorActions>;
 
 	TViewPlay = class(TCastleView)
 	published
@@ -28,8 +31,10 @@ type
 	private
 		FGameState: TGameState;
 		FPlaying: Boolean;
+		FUnknownActorActions: TActorActionsMap;
 
 		function FindMapPosition(MouseHit: TRayCollision; out Pos: TVector3): Boolean;
+		procedure ActorReady(ActorInfo: TObject);
 
 	public
 		constructor Create(AOwner: TComponent); override;
@@ -44,11 +49,7 @@ type
 		procedure SetMapPath(MapPath: String);
 
 		procedure OnDiscovery(const Data: TModelBase);
-		procedure OnActorMovement(const Data: TModelBase);
-		procedure OnActorPosition(const Data: TModelBase);
-		procedure OnActorEvent(const Data: TModelBase);
-		procedure OnActorState(const Data: TModelBase);
-		procedure OnActorAction(const Data: TModelBase);
+		procedure OnActorFeed(const Data: TModelBase);
 		procedure OnProjectile(const Data: TModelBase);
 		procedure OnProjectileStop(const Data: TModelBase);
 
@@ -78,12 +79,14 @@ begin
 	FGameState := TGameState.Create(MainViewport);
 	FGameState.Board := Board;
 
+	FUnknownActorActions := TActorActionsMap.Create;
+
 	GlobalClient.Await(TMsgFeedDiscovery, @OnDiscovery);
-	GlobalClient.Await(TMsgFeedActorMovement, @OnActorMovement);
-	GlobalClient.Await(TMsgFeedActorPosition, @OnActorPosition);
-	GlobalClient.Await(TMsgFeedActorEvent, @OnActorEvent);
-	GlobalClient.Await(TMsgFeedActorState, @OnActorState);
-	GlobalClient.Await(TMsgFeedActorAction, @OnActorAction);
+	GlobalClient.Await(TMsgFeedActorMovement, @OnActorFeed);
+	GlobalClient.Await(TMsgFeedActorPosition, @OnActorFeed);
+	GlobalClient.Await(TMsgFeedActorEvent, @OnActorFeed);
+	GlobalClient.Await(TMsgFeedActorState, @OnActorFeed);
+	GlobalClient.Await(TMsgFeedActorAction, @OnActorFeed);
 	GlobalClient.Await(TMsgFeedProjectile, @OnProjectile);
 	GlobalClient.Await(TMsgFeedProjectileStop, @OnProjectileStop);
 
@@ -93,6 +96,7 @@ end;
 procedure TViewPlay.Stop;
 begin
 	FGameState.Free;
+	FUnknownActorActions.Free;
 
 	GlobalChat.Handler := nil;
 end;
@@ -228,49 +232,70 @@ procedure TViewPlay.OnDiscovery(const Data: TModelBase);
 var
 	LModel: TMsgFeedDiscovery;
 	LId: String;
+	LPipeline: TRequestActorInfoPipeline;
 begin
 	LModel := Data as TMsgFeedDiscovery;
 
-	for LId in LModel.new_actors do
-		FGameState.AddActor(LId);
+	for LId in LModel.new_actors do begin
+		LPipeline := GlobalPipelineManager.New(TRequestActorInfoPipeline) as TRequestActorInfoPipeline;
+		LPipeline.ActorId := LId;
+		LPipeline.SetNext(@self.ActorReady);
+
+		LPipeline.Start(self);
+	end;
 
 	for LId in LModel.old_actors do
 		FGameState.RemoveActor(LId);
 end;
 
-procedure TViewPlay.OnActorMovement(const Data: TModelBase);
+procedure TViewPlay.ActorReady(ActorInfo: TObject);
 var
-	LModel: TMsgFeedActorMovement;
+	LActorInfo: TGameActorRepositoryRecord;
+	LActions: TActorActions;
+	I: Integer;
 begin
-	LModel := Data as TMsgFeedActorMovement;
+	LActorInfo := ActorInfo as TGameActorRepositoryRecord;
+	FGameState.CreateActor(LActorInfo);
 
-	FGameState.ProcessMovement(LModel);
+	if FUnknownActorActions.TryGetData(LActorInfo.Id, LActions) then begin
+		for I := 0 to LActions.Count - 1 do
+			self.OnActorFeed(LActions[I]);
+
+		LActions.Free;
+		FUnknownActorActions.Remove(LActorInfo.Id);
+	end;
 end;
 
-procedure TViewPlay.OnActorPosition(const Data: TModelBase);
+procedure TViewPlay.OnActorFeed(const Data: TModelBase);
 var
-	LModel: TMsgFeedActorPosition;
+	LId: TUlid;
+	LActions: TActorActions;
 begin
-	LModel := Data as TMsgFeedActorPosition;
+	try
+		if Data is TMsgFeedActorMovement then
+			FGameState.ProcessMovement(Data as TMsgFeedActorMovement)
+		else if Data is TMsgFeedActorPosition then
+			FGameState.ProcessPosition(Data as TMsgFeedActorPosition)
+		else if Data is TMsgFeedActorEvent then
+			FGameState.ProcessActorEvent(Data as TMsgFeedActorEvent)
+		else if Data is TMsgFeedActorState then
+			FGameState.ProcessActorState(Data as TMsgFeedActorState)
+		else if Data is TMsgFeedActorAction then
+			FGameState.ProcessActorAction(Data as TMsgFeedActorAction)
+		else
+			raise EUnknownMessage.Create('Unknown actor feed received');
+	except
+		on E: EActorNotFound do begin
+			LId := (Data as IModelWithUlid).GetId;
+			if not FUnknownActorActions.TryGetData(LId, LActions) then begin
+				LActions := TActorActions.Create;
+				FUnknownActorActions.Add(LId, LActions);
+			end;
 
-	// TODO: movement stopped should be detected on clientside as well for smooth stop animation
-	// (for example, when hitting walls)
-	FGameState.ProcessPosition(LModel);
-end;
-
-procedure TViewPlay.OnActorEvent(const Data: TModelBase);
-begin
-	FGameState.ProcessActorEvent(Data as TMsgFeedActorEvent);
-end;
-
-procedure TViewPlay.OnActorState(const Data: TModelBase);
-begin
-	FGameState.ProcessActorState(Data as TMsgFeedActorState);
-end;
-
-procedure TViewPlay.OnActorAction(const Data: TModelBase);
-begin
-	FGameState.ProcessActorAction(Data as TMsgFeedActorAction);
+			LActions.Add(Data);
+			Data.Adopted := true;
+		end;
+	end;
 end;
 
 procedure TViewPlay.OnProjectile(const Data: TModelBase);

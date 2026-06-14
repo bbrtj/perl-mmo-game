@@ -13,9 +13,19 @@ type
 
 	TGameModel = class(TCastleScene);
 
-	ELore = class(Exception);
+	EGameException = class(Exception)
+	public
+		constructor Create(const Txt: String = '<no exception message>');
+	end;
+
+	EUnknownMessage = class(EGameException);
 
 implementation
+
+constructor EGameException.Create(const Txt: String);
+begin
+	inherited Create(Txt);
+end;
 
 end.
 

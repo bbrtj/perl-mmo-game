@@ -9,20 +9,17 @@ type
 	TMsgMove = class(TPlaintextModel)
 	public
 		class function MessageType(): String; override;
-
+	public
 		property X: Single index 0 read GetValueIndexReal write SetValueIndexReal;
 		property Y: Single index 1 read GetValueIndexReal write SetValueIndexReal;
-
 	end;
 
 	TMsgStop = class(TPlaintextModel)
 	public
 		class function MessageType(): String; override;
-
 	end;
 
-
-	TMsgFeedActorMovement = class(TModelBase)
+	TMsgFeedActorMovement = class(TModelBase, IModelWithUlid)
 	private
 		FId: TUlid;
 		FPosX: Single;
@@ -30,10 +27,10 @@ type
 		FSpeed: Single;
 		FToX: Single;
 		FToY: Single;
-
 	public
 		class function MessageType(): String; override;
-
+	public
+		function GetId(): TUlid;
 	published
 		property id: TUlid read FId write FId;
 		property x: Single read FPosX write FPosX;
@@ -43,16 +40,15 @@ type
 		property to_y: Single read FToY write FToY;
 	end;
 
-
-	TMsgFeedActorPosition = class(TModelBase)
+	TMsgFeedActorPosition = class(TModelBase, IModelWithUlid)
 	private
 		FId: TUlid;
 		FPosX: Single;
 		FPosY: Single;
-
 	public
 		class function MessageType(): String; override;
-
+	public
+		function GetId(): TUlid;
 	published
 		property id: TUlid read FId write FId;
 		property x: Single read FPosX write FPosX;
@@ -79,6 +75,16 @@ end;
 class function TMsgFeedActorPosition.MessageType(): String;
 begin
 	result := 'actor_position';
+end;
+
+function TMsgFeedActorMovement.GetId(): TUlid;
+begin
+	result := self.id;
+end;
+
+function TMsgFeedActorPosition.GetId(): TUlid;
+begin
+	result := self.id;
 end;
 
 { implementation end }

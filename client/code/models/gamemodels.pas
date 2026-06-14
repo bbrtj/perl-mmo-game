@@ -1,14 +1,24 @@
 unit GameModels;
 
+{$interfaces corba}
+
 interface
 
 uses SysUtils, FPJSON, GameConfig, Serialization, GameTypes;
 
 type
+	IModelWithUlid = interface
+	['{c452b918-b64b-44ee-9e82-d459da9559b9}']
+		function GetId(): TUlid;
+	end;
 
 	TModelBase = class abstract(TSerialized)
+	private
+		FAdopted: Boolean;
 	public
 		class function MessageType(): String; virtual;
+	public
+		property Adopted: Boolean read FAdopted write FAdopted;
 	end;
 
 	TModelClass = class of TModelBase;

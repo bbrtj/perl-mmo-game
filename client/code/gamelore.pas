@@ -7,6 +7,8 @@ uses FGL, Classes, SysUtils,
 	GameTypes, Serialization, FPJSON;
 
 type
+	ELore = class(Exception);
+
 	TLoreVisuals = class (TSerialized)
 	private
 		FModel: String;

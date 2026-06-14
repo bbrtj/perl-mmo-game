@@ -48,7 +48,7 @@ type
 
 		FSize: Single;
 
-		procedure UpdatePlate(Sender: TObject);
+		procedure UpdatePlate();
 		procedure UpdatePlateResources();
 		procedure UpdatePlatePosition();
 		procedure UpdatePlateAction();
@@ -71,29 +71,20 @@ type
 
 		property Id: TUlid read FId write FId;
 		property Plate: TCastleDesign read FPlate write FPlate;
-	end;
-
-	TGameActorFactory = class
-	strict private
-		FUIViewport: TCastleViewport;
-		FUIBoard: TCastleTransform;
-
-	public
-		constructor Create(Viewport: TCastleViewport; Board: TCastleTransform);
-
-		function CreateActor(Id: TUlid): TGameActor;
-		procedure RemoveActor(Actor: TGameActor);
+		property ActorName: String read FName write FName;
 	end;
 
 	TGameActorRepositoryRecord = class
 	strict private
+		FId: TUlid;
 		FName: String;
 		FClass: TLoreId;
-
+		FPlayer: Boolean;
 	public
+		property Id: TUlid read FId write FId;
 		property ActorName: String read FName write FName;
 		property ActorClass: TLoreId read FClass write FClass;
-
+		property IsPlayer: Boolean read FPlayer write FPlayer;
 	end;
 
 	TGameActorRepository = class
@@ -108,6 +99,18 @@ type
 
 		procedure RequestActorInfo(const Id: TUlid; const Notify: TNotifyEvent);
 		function GetActorInfo(const Id: TUlid): TGameActorRepositoryRecord;
+	end;
+
+	TGameActorFactory = class
+	strict private
+		FUIViewport: TCastleViewport;
+		FUIBoard: TCastleTransform;
+
+	public
+		constructor Create(Viewport: TCastleViewport; Board: TCastleTransform);
+
+		function CreateActor(Info: TGameActorRepositoryRecord): TGameActor;
+		procedure RemoveActor(Actor: TGameActor);
 	end;
 
 var
@@ -157,15 +160,18 @@ begin
 	FUIBoard := Board;
 end;
 
-function TGameActorFactory.CreateActor(Id: TUlid): TGameActor;
+function TGameActorFactory.CreateActor(Info: TGameActorRepositoryRecord): TGameActor;
+var
+	LLore: TLoreItem;
 begin
 	result := TGameActor.Create(FUIBoard);
-	result.Id := Id;
-	result.Name := 'Actor_' + Id;
+	result.Id := Info.Id;
+	result.Name := 'Actor_' + Info.Id;
+	result.ActorName := Info.ActorName;
 
-	// TODO: use Id to get info about the appearance of the actor from some other component
-	// (which will manage network in return, to get this data)
-	result.URL := 'castle-data:/images/player.png';
+	LLore := LoreCollection.GetById(Info.ActorClass);
+
+	result.URL := 'castle-data:' + LLore.GetVisuals.model;
 	result.Translation := Vector3(0, 0, 100); // TODO: proper Z distance
 
 	result.Plate := TCastleDesign.Create(FUIViewport);
@@ -181,20 +187,10 @@ begin
 	FUIBoard.Parent.RemoveDelayed(Actor, True);
 end;
 
-procedure TGameActor.UpdatePlate(Sender: TObject);
+procedure TGameActor.UpdatePlate();
 begin
-	if Length(FName) = 0 then begin
-		try
-			FName := GlobalActorRepository.GetActorInfo(FId).ActorName;
-			(FPlate.DesignedComponent('ActorName') as TCastleLabel)
-				.Caption := FName;
-		except
-			on EActorNotFound do begin
-				GlobalActorRepository.RequestActorInfo(FId, @UpdatePlate);
-				exit;
-			end;
-		end;
-	end;
+	(FPlate.DesignedComponent('ActorName') as TCastleLabel)
+		.Caption := FName;
 
 	self.UpdatePlateResources;
 end;
@@ -277,8 +273,8 @@ begin
 	FHealth := Current;
 	FMaxHealth := Max;
 
-	{ TODO: update all plate data since we need to update a name someday }
-	self.UpdatePlate(self);
+	{ TODO: this updates all plate data since we need to update a name at some point }
+	self.UpdatePlate();
 end;
 
 procedure TGameActor.ModifyHealth(NewHealth: Single);
@@ -345,10 +341,13 @@ begin
 	for LActorInfo in LActorsInfo.list do begin
 		LRecord := TGameActorRepositoryRecord.Create;
 
+		LRecord.Id := LActorInfo.id;
 		LRecord.ActorName := LActorInfo.name;
-		if not LActorInfo.player then
-			LRecord.ActorName := LoreCollection.GetById(LRecord.ActorName).name;
 		LRecord.ActorClass := LActorInfo.&class;
+		LRecord.IsPlayer := LActorInfo.player;
+
+		if not LRecord.IsPlayer then
+			LRecord.ActorName := LoreCollection.GetById(LRecord.ActorName).name;
 
 		FActorData.Add(LActorInfo.id, LRecord);
 	end;
