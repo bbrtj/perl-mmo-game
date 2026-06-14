@@ -56,6 +56,8 @@
             "Red" : 5.3333336114883423E-001
           },
           "Height" : 1.5000000000000000E+001,
+          "HorizontalAnchorParent" : "hpMiddle",
+          "HorizontalAnchorSelf" : "hpMiddle",
           "Name" : "HealthBar",
           "TranslationPersistent" : {
             "$$ClassName" : "TCastleVector2Persistent",
@@ -90,6 +92,8 @@
             "Red" : 5.3333336114883423E-001
           },
           "Height" : 1.5000000000000000E+001,
+          "HorizontalAnchorParent" : "hpMiddle",
+          "HorizontalAnchorSelf" : "hpMiddle",
           "Name" : "EnergyBar",
           "TranslationPersistent" : {
             "$$ClassName" : "TCastleVector2Persistent",
@@ -125,6 +129,8 @@
           },
           "Exists" : false,
           "Height" : 1.5000000000000000E+001,
+          "HorizontalAnchorParent" : "hpMiddle",
+          "HorizontalAnchorSelf" : "hpMiddle",
           "Name" : "ActionBar",
           "TranslationPersistent" : {
             "$$ClassName" : "TCastleVector2Persistent",
