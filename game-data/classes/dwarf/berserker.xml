@@ -5,6 +5,10 @@
 			<name>Berserker</name>
 			<desc>Berserkera cechuje lekkomyślność, wybuchowy charakter oraz skłonność do życia na krawędzi. Gdy wpadną w szał nie sposób ich powstrzymać.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Berserker</name>
+			<desc>Berserkers are marked by recklessness, explosive temper and a tendency to live on the edge. When they fall into rage there is no stopping them.</desc>
+		</translation>
 
 		<uses lore="race">Dwarf</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

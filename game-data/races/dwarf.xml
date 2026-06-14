@@ -3,7 +3,11 @@
 	<race id="DWARF" name="Dwarf">
 		<translation lang="pl">
 			<name>Krasnolud</name>
-			<desc>Krasnoludy to krępe i skryte istoty zamieszkujące drążone przez siebie podziemne kompleksy. Są wprawnymi żołnierzami, kapłanami oraz czarnoksiężnikami. Cenią sobie spokój i porządek, lecz cechuje je silny terytorializm. Wykopywane przez nie bogactwa stanowią podstawowe źródło kruszców w krainie.</desc>
+			<desc>Krasnoludy to krępe i skryte istoty zamieszkujące drążone przez siebie podziemne kompleksy. Są wprawymi żołnierzami, kapłanami oraz czarnoksiężnikami. Cenią sobie spokój i porządek, lecz cechuje je silny terytorializm. Wykopywane przez nie bogactwa stanowią podstawowe źródło kruszców w krainie.</desc>
+		</translation>
+		<translation lang="en">
+			<name>Dwarf</name>
+			<desc>Dwarves are stocky and secretive creatures dwelling in underground complexes they carve themselves. They are skilled soldiers, priests and warlocks. They value peace and order, but are fiercely territorial. The riches they excavate are the primary source of ores in the realm.</desc>
 		</translation>
 
 		<playable>1</playable>
@@ -17,4 +21,3 @@
 		</base_stats>
 	</race>
 </races>
-

@@ -5,6 +5,10 @@
 			<name>Zaklinacz</name>
 			<desc>Zaklinacze specjalizują się w nadawaniu przedmiotom magicznych właściwości. Ta tajemna sztuka przekazywana jest jedynie tradycją ustną.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Enchanter</name>
+			<desc>Enchanters specialize in bestowing magical properties upon items. This arcane art is passed down only through oral tradition.</desc>
+		</translation>
 
 		<uses lore="race">Dwarf</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

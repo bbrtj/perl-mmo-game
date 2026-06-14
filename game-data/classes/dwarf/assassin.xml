@@ -5,6 +5,10 @@
 			<name>Skrytobójca</name>
 			<desc>Skrytobójcy atakują w ciemności i nie zostawiają świadków. Ich atakom zawsze towarzyszą trucizny, które często stanowią dla ofiary wyrok śmierci.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Assassin</name>
+			<desc>Assassins strike in darkness and leave no witnesses. Their attacks are always accompanied by poisons, which often mean a death sentence for the victim.</desc>
+		</translation>
 
 		<uses lore="race">Dwarf</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

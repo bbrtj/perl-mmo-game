@@ -4,6 +4,9 @@
 		<translation lang="pl">
 			<name>Wewnętrzne</name>
 		</translation>
+		<translation lang="en">
+			<name>Internal</name>
+		</translation>
 	</attribute>
 
 	<!-- PHYSICAL DAMAGE TYPES -->
@@ -12,10 +15,16 @@
 		<translation lang="pl">
 			<name>Fizyczne</name>
 		</translation>
+		<translation lang="en">
+			<name>Physical</name>
+		</translation>
 
 		<attribute id="PUNC" name="Punctured">
 			<translation lang="pl">
 				<name>Kłute</name>
+			</translation>
+			<translation lang="en">
+				<name>Punctured</name>
 			</translation>
 		</attribute>
 
@@ -23,11 +32,17 @@
 			<translation lang="pl">
 				<name>Miażdżone</name>
 			</translation>
+			<translation lang="en">
+				<name>Crushed</name>
+			</translation>
 		</attribute>
 
 		<attribute id="SLASH" name="Slashed">
 			<translation lang="pl">
 				<name>Cięte</name>
+			</translation>
+			<translation lang="en">
+				<name>Slashed</name>
 			</translation>
 		</attribute>
 	</attribute>
@@ -38,10 +53,16 @@
 		<translation lang="pl">
 			<name>Magiczne</name>
 		</translation>
+		<translation lang="en">
+			<name>Magical</name>
+		</translation>
 
 		<attribute id="MENTAL" name="Mental">
 			<translation lang="pl">
 				<name>Umysłowe</name>
+			</translation>
+			<translation lang="en">
+				<name>Mental</name>
 			</translation>
 		</attribute>
 
@@ -49,11 +70,17 @@
 			<translation lang="pl">
 				<name>Mroczne</name>
 			</translation>
+			<translation lang="en">
+				<name>Dark</name>
+			</translation>
 		</attribute>
 
 		<attribute id="HOLY" name="Holy">
 			<translation lang="pl">
 				<name>Święte</name>
+			</translation>
+			<translation lang="en">
+				<name>Holy</name>
 			</translation>
 		</attribute>
 	</attribute>
@@ -64,10 +91,16 @@
 		<translation lang="pl">
 			<name>Od żywiołów</name>
 		</translation>
+		<translation lang="en">
+			<name>Elemental</name>
+		</translation>
 
 		<attribute id="FIRE" name="Fire">
 			<translation lang="pl">
 				<name>Od ognia</name>
+			</translation>
+			<translation lang="en">
+				<name>Fire</name>
 			</translation>
 		</attribute>
 
@@ -75,11 +108,17 @@
 			<translation lang="pl">
 				<name>Od wody</name>
 			</translation>
+			<translation lang="en">
+				<name>Water</name>
+			</translation>
 		</attribute>
 
 		<attribute id="EARTH" name="Earth">
 			<translation lang="pl">
 				<name>Od ziemi</name>
+			</translation>
+			<translation lang="en">
+				<name>Earth</name>
 			</translation>
 		</attribute>
 
@@ -87,7 +126,9 @@
 			<translation lang="pl">
 				<name>Od powietrza</name>
 			</translation>
+			<translation lang="en">
+				<name>Air</name>
+			</translation>
 		</attribute>
 	</attribute>
 </attributes>
-

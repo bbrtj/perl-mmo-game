@@ -5,6 +5,10 @@
 			<name>Mędrzec</name>
 			<desc>Mędrcy są oczami i mózgiem cywilizacji. Widzą oraz rozumieją więcej niż zwykli śmiertelnicy, dzięki czemu stanowią swego rodzaju umysłowe i duchowe zaplecze.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Sage</name>
+			<desc>Sages are the eyes and mind of civilization. They see and understand more than common mortals, thus serving as a source of mental and spiritual support.</desc>
+		</translation>
 
 		<uses lore="race">Elf</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

@@ -4,11 +4,17 @@
 		<translation lang="pl">
 			<name>Siła</name>
 		</translation>
+		<translation lang="en">
+			<name>Strength</name>
+		</translation>
 	</primary_stat>
 
 	<primary_stat id="DEX" name="Dexterity">
 		<translation lang="pl">
 			<name>Zręczność</name>
+		</translation>
+		<translation lang="en">
+			<name>Dexterity</name>
 		</translation>
 	</primary_stat>
 
@@ -16,11 +22,17 @@
 		<translation lang="pl">
 			<name>Mądrość</name>
 		</translation>
+		<translation lang="en">
+			<name>Wisdom</name>
+		</translation>
 	</primary_stat>
 
 	<primary_stat id="CON" name="Constitution">
 		<translation lang="pl">
 			<name>Budowa</name>
+		</translation>
+		<translation lang="en">
+			<name>Constitution</name>
 		</translation>
 	</primary_stat>
 
@@ -28,12 +40,17 @@
 		<translation lang="pl">
 			<name>Charyzma</name>
 		</translation>
+		<translation lang="en">
+			<name>Charisma</name>
+		</translation>
 	</primary_stat>
 
 	<primary_stat id="LUCK" name="Luck">
 		<translation lang="pl">
 			<name>Szczęście</name>
 		</translation>
+		<translation lang="en">
+			<name>Luck</name>
+		</translation>
 	</primary_stat>
 </primary_stats>
-

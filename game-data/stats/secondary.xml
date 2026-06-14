@@ -4,11 +4,17 @@
 		<translation lang="pl">
 			<name>Potęga</name>
 		</translation>
+		<translation lang="en">
+			<name>Might</name>
+		</translation>
 	</secondary_stat>
 
 	<secondary_stat id="ACUM" name="Acumen">
 		<translation lang="pl">
 			<name>Bystrość</name>
+		</translation>
+		<translation lang="en">
+			<name>Acumen</name>
 		</translation>
 	</secondary_stat>
 
@@ -16,11 +22,17 @@
 		<translation lang="pl">
 			<name>Celność</name>
 		</translation>
+		<translation lang="en">
+			<name>Accuracy</name>
+		</translation>
 	</secondary_stat>
 
 	<secondary_stat id="STAM" name="Stamina">
 		<translation lang="pl">
 			<name>Kondycja</name>
+		</translation>
+		<translation lang="en">
+			<name>Stamina</name>
 		</translation>
 	</secondary_stat>
 
@@ -28,11 +40,17 @@
 		<translation lang="pl">
 			<name>Upór</name>
 		</translation>
+		<translation lang="en">
+			<name>Persistence</name>
+		</translation>
 	</secondary_stat>
 
 	<secondary_stat id="RESIL" name="Resilience">
 		<translation lang="pl">
 			<name>Odporność</name>
+		</translation>
+		<translation lang="en">
+			<name>Resilience</name>
 		</translation>
 	</secondary_stat>
 
@@ -40,12 +58,17 @@
 		<translation lang="pl">
 			<name>Siła woli</name>
 		</translation>
+		<translation lang="en">
+			<name>Willpower</name>
+		</translation>
 	</secondary_stat>
 
 	<secondary_stat id="VIGOR" name="Vigor">
 		<translation lang="pl">
 			<name>Wigor</name>
 		</translation>
+		<translation lang="en">
+			<name>Vigor</name>
+		</translation>
 	</secondary_stat>
 </secondary_stats>
-

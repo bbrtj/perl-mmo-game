@@ -5,6 +5,10 @@
 			<name>Wyrocznia</name>
 			<desc>Wyrocznie mają dar przepowiadania przyszłości oraz są duchowymi liderami swoich społeczności. Ich wsparcie pomaga w wytrwaniu na polu bitwy.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Oracle</name>
+			<desc>Oracles possess the gift of divination and serve as spiritual leaders of their communities. Their support helps endure on the battlefield.</desc>
+		</translation>
 
 		<uses lore="race">Dwarf</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

@@ -5,6 +5,10 @@
 			<name>Szermierz</name>
 			<desc>Szermierze są doskonali w walce w zwarciu. Wiedzą dokładnie gdzie i kiedy uderzyć, a ich ciosy cechuje niesamowita precyzja.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Swordsman</name>
+			<desc>Swordsmen excel in close combat. They know exactly where and when to strike, and their blows are marked by uncanny precision.</desc>
+		</translation>
 
 		<uses lore="race">Elf</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

@@ -5,6 +5,10 @@
 			<name>Mag żywiołów</name>
 			<desc>Magowie żywiołów posiadają władzę nad destrukcyjnymi siłami natury, co umożliwia im siać spustoszenie na polu bitwy.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Elementalist</name>
+			<desc>Elementalists wield power over the destructive forces of nature, allowing them to wreak havoc on the battlefield.</desc>
+		</translation>
 
 		<uses lore="race">Elf</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

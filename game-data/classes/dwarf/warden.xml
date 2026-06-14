@@ -5,6 +5,10 @@
 			<name>Strażnik</name>
 			<desc>Strażnicy są zawsze dokładnie tam gdzie mają być, a czuwanie na posterunku uważają za święty obowiązek. Ich stoicyzm oraz gruby pancerz stanowią duży problem dla każdego napotkanego przeciwnika.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Warden</name>
+			<desc>Wardens are always exactly where they need to be, and consider keeping watch a sacred duty. Their stoicism and thick armor pose a great challenge for any foe they encounter.</desc>
+		</translation>
 
 		<uses lore="race">Dwarf</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

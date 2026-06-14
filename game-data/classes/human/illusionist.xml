@@ -3,7 +3,11 @@
 	<class id="ILLU" name="Illusionist">
 		<translation lang="pl">
 			<name>Iluzjonista</name>
-			<desc>Iluzjoniści kształtują rzeczywistość według własnej woli. Poziom zaawansowania ich sztuczek czyni je nieodróżnialnymi od magii.</desc>
+			<desc>Iluzjonści kształtują rzeczywistość według własnej woli. Poziom zaawansowania ich sztuczek czyni je nieodróżnialnymi od magii.</desc>
+		</translation>
+		<translation lang="en">
+			<name>Illusionist</name>
+			<desc>Illusionists shape reality according to their own will. The level of sophistication of their tricks makes them indistinguishable from magic.</desc>
 		</translation>
 
 		<uses lore="race">Human</uses>
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

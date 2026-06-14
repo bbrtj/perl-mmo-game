@@ -5,6 +5,10 @@
 			<name>Wojownik</name>
 			<desc>Wojownicy nie mają sobie równych w posługiwaniu się bronią białą. Uważają swój szeroki arsenał za sposób na rozwiązanie każdego problemu.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Warrior</name>
+			<desc>Warriors are unmatched in wielding melee weapons. They consider their vast arsenal the solution to every problem.</desc>
+		</translation>
 
 		<uses lore="race">Human</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

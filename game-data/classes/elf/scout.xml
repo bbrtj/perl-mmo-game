@@ -5,6 +5,10 @@
 			<name>Tropiciel</name>
 			<desc>Tropiciele są mistrzami w walce dystansowej oraz zastawianiu pułapek. Preferują walkę na dobrze znanym przez siebie terenie, na którym świetnie wtapiają się w otoczenie.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Scout</name>
+			<desc>Scouts are masters of ranged combat and setting traps. They prefer fighting on terrain well known to them, where they blend perfectly into the surroundings.</desc>
+		</translation>
 
 		<uses lore="race">Elf</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

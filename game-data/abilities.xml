@@ -4,6 +4,9 @@
 		<translation lang="pl">
 			<name>Atak</name>
 		</translation>
+		<translation lang="en">
+			<name>Strike</name>
+		</translation>
 
 		<uses lore="attribute">Physical</uses>
 		<speed_multiplier>1</speed_multiplier>
@@ -13,6 +16,9 @@
 	<ability id="SHOOT" name="Shoot">
 		<translation lang="pl">
 			<name>Strzał</name>
+		</translation>
+		<translation lang="en">
+			<name>Shoot</name>
 		</translation>
 
 		<visuals> <!-- TODO: animation -->
@@ -30,4 +36,3 @@
 		</projectile>
 	</ability>
 </abilities>
-

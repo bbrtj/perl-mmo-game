@@ -3,7 +3,11 @@
 	<class id="KNIGHT" name="Knight">
 		<translation lang="pl">
 			<name>Rycerz</name>
-			<desc>Rycerze to nieustępliwi i cnotliwi wojownicy. Odziani w ciężką zbroję są w stanie stawić czoła najsilniejszym przeciwnikom.</desc>
+			<desc>Rycerze to nieustępliwi i cnotliwi wojownicy. Odziani w ciężką zbroję są w staniestawić czoła najsilniejszym przeciwnikom.</desc>
+		</translation>
+		<translation lang="en">
+			<name>Knight</name>
+			<desc>Knights are unyielding and virtuous warriors. Clad in heavy armor they are able to face the mightiest of foes.</desc>
 		</translation>
 
 		<uses lore="race">Elf</uses>
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

@@ -5,6 +5,10 @@
 			<name>Przylądek Peril</name>
 			<desc>Legenda głosi, że pierwsi odkrywcy, którzy postawili tu stopę po wielomiesięcznej żegludze, mieli nazwać to miejsce Przylądkiem Wybawienia. Pozornie bezpieczna kraina nie miała im jednak nic do zaoferowania prócz śmierci. Dziesięciolecia później wciąż opiera się kolonizatorom, karcąc ich tym okrutniej, im bardziej zuchwałe są ich zapędy.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Cape Peril</name>
+			<desc>Legend has it that the first explorers who set foot here after months of sailing meant to name this place Cape Deliverance. The seemingly safe land, however, had nothing to offer them but death. Decades later it still resists colonizers, punishing them more cruelly the bolder their ambitions.</desc>
+		</translation>
 		<load_coordinates>Markers</load_coordinates>
 
 		<location id="CP_HARBOR" name="Cape Peril - Harbor">
@@ -12,9 +16,12 @@
 				<name>Port Peril</name>
 				<desc>Postawiony w okolicy przylądka Peril port to zazwyczaj pierwsze miejsce, w którym lądują nowo przybyli osadnicy, kupcy oraz poszukiwacze przygód.</desc>
 			</translation>
+			<translation lang="en">
+				<name>Peril Harbor</name>
+				<desc>The harbor established near Cape Peril is usually the first place where newly arrived settlers, merchants and adventurers make landfall.</desc>
+			</translation>
 
 			<map>peril_harbor</map>
 		</location>
 	</area>
 </areas>
-

@@ -5,6 +5,10 @@
 			<name>Zwierzę</name>
 			<desc>Dzisiejsze zwierzęta to efekt milionów lat ewolucji w środowisku naturalnym.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Animal</name>
+			<desc>The beasts of today are the result of millions of years of evolution in the natural world.</desc>
+		</translation>
 
 		<playable>0</playable>
 		<base_stats>
@@ -17,4 +21,3 @@
 		</base_stats>
 	</race>
 </race>
-

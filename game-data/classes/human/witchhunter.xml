@@ -5,6 +5,10 @@
 			<name>Łowca wiedźm</name>
 			<desc>Łowcy wiedźm to tajemnicza społeczność tępiąca czarną magię na kontynencie. Władają oni podstawową magią prewencyjną oraz używają egzotycznych technik walki w zwarciu.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Witchhunter</name>
+			<desc>Witchhunters are a secretive order that purges dark magic across the continent. They wield rudimentary preventive magic and employ exotic close combat techniques.</desc>
+		</translation>
 
 		<uses lore="race">Human</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

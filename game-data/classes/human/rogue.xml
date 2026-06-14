@@ -5,6 +5,10 @@
 			<name>Łotrzyk</name>
 			<desc>Łotrzyk przemyka w cieniu, załatwia swoje interesy i znika zanim ktokolwiek zdoła zauważyć jego obecność. Jeśli już uderza, to najczęściej tylko raz.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Rogue</name>
+			<desc>The rogue slips through shadows, conducts their business and vanishes before anyone can notice their presence. If they strike, it is most often only once.</desc>
+		</translation>
 
 		<uses lore="race">Human</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

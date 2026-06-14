@@ -5,6 +5,10 @@
 			<name>Czarodziej</name>
 			<desc>Nikt nie dorównuje czarodziejom w arkanach wiedzy tajemnej. Poświęcili całe życie jej studiowaniu, dzięki czemu mogą teraz z łatwością odebrać je innym.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Wizard</name>
+			<desc>None can match wizards in the arcane arts. They have dedicated their entire lives to studying them, and now can easily take the lives of others.</desc>
+		</translation>
 
 		<uses lore="race">Human</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

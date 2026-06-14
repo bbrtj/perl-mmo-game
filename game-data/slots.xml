@@ -4,11 +4,17 @@
 		<translation lang="pl">
 			<name>Hełm</name>
 		</translation>
+		<translation lang="en">
+			<name>Helmet</name>
+		</translation>
 	</slot>
 
 	<slot id="NECKLACE" name="Necklace">
 		<translation lang="pl">
 			<name>Naszyjnik</name>
+		</translation>
+		<translation lang="en">
+			<name>Necklace</name>
 		</translation>
 	</slot>
 
@@ -16,11 +22,17 @@
 		<translation lang="pl">
 			<name>Kurtka</name>
 		</translation>
+		<translation lang="en">
+			<name>Coat</name>
+		</translation>
 	</slot>
 
 	<slot id="PANTS" name="Pants">
 		<translation lang="pl">
 			<name>Spodnie</name>
+		</translation>
+		<translation lang="en">
+			<name>Pants</name>
 		</translation>
 	</slot>
 
@@ -28,11 +40,17 @@
 		<translation lang="pl">
 			<name>Rękawice</name>
 		</translation>
+		<translation lang="en">
+			<name>Gloves</name>
+		</translation>
 	</slot>
 
 	<slot id="BOOTS" name="Boots">
 		<translation lang="pl">
 			<name>Buty</name>
+		</translation>
+		<translation lang="en">
+			<name>Boots</name>
 		</translation>
 	</slot>
 
@@ -40,12 +58,17 @@
 		<translation lang="pl">
 			<name>Lewa ręka</name>
 		</translation>
+		<translation lang="en">
+			<name>Left hand</name>
+		</translation>
 	</slot>
 
 	<slot id="RIGHT_HAND" name="Right hand">
 		<translation lang="pl">
 			<name>Prawa ręka</name>
 		</translation>
+		<translation lang="en">
+			<name>Right hand</name>
+		</translation>
 	</slot>
 </slots>
-

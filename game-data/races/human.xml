@@ -3,7 +3,11 @@
 	<race id="HUMAN" name="Human">
 		<translation lang="pl">
 			<name>Człowiek</name>
-			<desc>Ludzie to plemię najemników, kupców oraz odkrywców. Zamieszkują niewielkie wioski rozsiane po całym kontynencie. Ich chaotyczna natura jest źródłem wielu sporów, jednakże pcha ich w stronę ryzyka oraz poszukiwania przygód. Świetnie radzą sobie z wiedzą tajemną oraz we władaniu bronią.</desc>
+			<desc>Ludzie to plemię najemników, kupców oraz odkrywców. Zamieszkują niewielkie wioski rozsiane po całym kontynencie. Ich chaotyczna natura jest źródłem wielu sporów, jednakowoż pcha ich w stronę ryzyka oraz poszukiwania przygód. Świetnie radzą sobie z wiedzą tajemną oraz we władaniu bronią.</desc>
+		</translation>
+		<translation lang="en">
+			<name>Human</name>
+			<desc>Humans are a tribe of mercenaries, merchants and explorers. They inhabit small villages scattered across the continent. Their chaotic nature is the source of many disputes, yet it drives them toward risk and seeking adventure. They excel at arcane knowledge and weapon mastery.</desc>
 		</translation>
 
 		<playable>1</playable>
@@ -17,4 +21,3 @@
 		</base_stats>
 	</race>
 </race>
-

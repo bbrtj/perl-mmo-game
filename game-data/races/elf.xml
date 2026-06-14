@@ -5,6 +5,10 @@
 			<name>Elf</name>
 			<desc>Elfy to stworzenia żyjące w harmonii z przyrodą. Ich siedliska znajdują się głęboko w puszczach, a one same rzadko opuszczają las bez wyraźnej potrzeby. Ich umiejętności rzemieślnicze są niemal legendarne. Mają szeroką wiedzę o naturze oraz otoczeniu, którą bezlitośnie wykorzystują w walce.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Elf</name>
+			<desc>Elves are beings living in harmony with nature. Their settlements are found deep in the forests, and they rarely leave the woods without clear need. Their craftsmanship skills are nearly legendary. They possess vast knowledge of nature and their surroundings, which they ruthlessly exploit in battle.</desc>
+		</translation>
 
 		<playable>1</playable>
 		<base_stats>
@@ -17,4 +21,3 @@
 		</base_stats>
 	</race>
 </races>
-

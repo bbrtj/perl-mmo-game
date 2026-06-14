@@ -4,6 +4,9 @@
 		<translation lang="pl">
 			<name>Sztylet</name>
 		</translation>
+		<translation lang="en">
+			<name>Dagger</name>
+		</translation>
 
 		<uses lore="attribute">Punctured</uses>
 		<uses lore="slot">Left hand</uses>
@@ -13,4 +16,3 @@
 		<both_hands>0</both_hands>
 	</weapon>
 </items>
-

@@ -5,6 +5,10 @@
 			<name>Druid</name>
 			<desc>Druidzi to społeczność uczonych mająca na celu zgłębianie wiedzy o naturze i utrzymanie harmonii. Członkowie mają do dyspozycji szeroki wachlarz uroków wykorzystujących siły natury do osłabiania wrogów oraz wspierania sojuszników.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Druid</name>
+			<desc>Druids are a community of scholars dedicated to exploring knowledge of nature and maintaining harmony. Members have at their disposal a wide array of charms that harness forces of nature to weaken foes and bolster allies.</desc>
+		</translation>
 
 		<uses lore="race">Elf</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

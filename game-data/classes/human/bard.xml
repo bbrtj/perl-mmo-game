@@ -5,6 +5,10 @@
 			<name>Wieszcz</name>
 			<desc>Powołaniem wieszczy jest rozsławianie dokonań herosów za pomocą muzyki. Nie stronią od poszukiwania przygód, podczas których inspirują innych swoimi urokami.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Bard</name>
+			<desc>The calling of bards is to glorify the deeds of heroes through music. They do not shy from seeking adventures, during which they inspire others with their charms.</desc>
+		</translation>
 
 		<uses lore="race">Human</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-

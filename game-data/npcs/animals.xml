@@ -5,6 +5,10 @@
 			<name>Szczur</name>
 			<desc>Niewielki, zazwyczaj niegroźny szkodnik.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Rat</name>
+			<desc>A small, usually harmless pest.</desc>
+		</translation>
 
 		<uses lore="race">Animal</uses>
 
@@ -19,6 +23,10 @@
 			<name>Szczur Bagienny</name>
 			<desc>Większa wersja szczura, bardziej przystosowana do życia w skrajnym środowisku.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Bog Rat</name>
+			<desc>A larger version of the rat, better adapted to life in harsh environment.</desc>
+		</translation>
 
 		<uses lore="race">Animal</uses>
 
@@ -29,4 +37,3 @@
 		<respawn_time>300</respawn_time>
 	</npc>
 </npcs>
-

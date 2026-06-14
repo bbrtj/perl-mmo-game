@@ -5,6 +5,10 @@
 			<name>Kultysta</name>
 			<desc>Kultyści to nieprzestrzegający zasad panujących w społeczności. Uważają się za wyjętych spod prawa, co daje im przyzwolenie na studiowanie czarnej magii, która jest źródłem ich destukcyjnej mocy.</desc>
 		</translation>
+		<translation lang="en">
+			<name>Cultist</name>
+			<desc>Cultists disregard the rules governing society. They consider themselves above the law, which grants them freedom to study dark magic that is the source of their destructive power.</desc>
+		</translation>
 
 		<uses lore="race">Dwarf</uses>
 
@@ -18,4 +22,3 @@
 		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
 	</class>
 </classes>
-
