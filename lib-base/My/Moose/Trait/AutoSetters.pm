@@ -20,15 +20,6 @@ around add_attribute => sub ($orig, $self, $name, @args) {
 
 	my $attribute = $self->$orig($name, %params);
 
-	if ($self->does_role('My::Moose::Role::TracksDirty')) {
-		$self->add_after_method_modifier(
-			$attribute->get_write_method,
-			sub ($instance, $new_value) {
-				$instance->_dirty($attribute->name);
-			}
-		);
-	}
-
 	return $attribute;
 };
 

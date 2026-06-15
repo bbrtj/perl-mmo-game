@@ -44,6 +44,16 @@ has cached 'attributes' => (
 	lazy => 1,
 );
 
+has cached 'classes' => (
+	isa => ArrayRef,
+	lazy => 1,
+);
+
+has cached 'races' => (
+	isa => ArrayRef,
+	lazy => 1,
+);
+
 around BUILDARGS => sub ($orig, $self, %args) {
 	$args{id} = join '.', $self->prefix, $args{id}
 		if $args{id};
@@ -65,6 +75,16 @@ sub BUILD ($self, @)
 sub _build_attributes ($self)
 {
 	return [grep { $_ isa 'Game::Lore::AttributeData' } $self->uses->@*];
+}
+
+sub _build_classes ($self)
+{
+	return [grep { $_ isa 'Game::Lore::Class' } $self->uses->@*];
+}
+
+sub _build_races ($self)
+{
+	return [grep { $_ isa 'Game::Lore::Race' } $self->uses->@*];
 }
 
 sub prefix ($self)

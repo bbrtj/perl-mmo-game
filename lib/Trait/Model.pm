@@ -2,6 +2,7 @@ package Trait::Model;
 
 use v5.42;
 use My::Moose::Role;
+use My::Moose::Trait::Attribute::Stored;
 
 use header;
 

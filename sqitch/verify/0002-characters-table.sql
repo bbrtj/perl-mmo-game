@@ -5,10 +5,9 @@ BEGIN;
 SELECT
 	id,
 	player_id,
-	npc_id,
 	class_id,
-	name,
-	base_stats
+	race_id,
+	name
 FROM characters;
 
 ROLLBACK;

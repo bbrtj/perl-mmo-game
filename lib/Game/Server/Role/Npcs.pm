@@ -51,13 +51,16 @@ sub _process_respawns ($self)
 
 sub _spawn_npc ($self, $spawn)
 {
+	my $npc_object = Game::Object::Actor::Npc->new(
+		lore => $spawn->lore,
+		spawn => $spawn,
+	);
+
 	my $unit = Unit::Actor->new(
-		npc => Game::Object::Actor::Npc->new(
-			lore => $spawn->lore,
-			spawn => $spawn,
-		),
+		npc => $npc_object,
 		character => Model::Character->new(
 			class_id => $spawn->lore->id,
+			race_id => $npc_object->race->id,
 			name => $spawn->lore->id,
 		),
 		variables => Model::CharacterVariables->new(

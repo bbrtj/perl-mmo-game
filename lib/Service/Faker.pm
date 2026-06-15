@@ -60,6 +60,7 @@ sub fake_character ($self, %params)
 	return Model::Character->new(
 		player_id => Types::ULID::ulid,
 		class_id => lore_class('Assassin')->id,
+		race_id => lore_race('Dwarf')->id,
 		name => $self->_fake_unique('person_first_name', 'person_last_name'),
 		%params
 	);

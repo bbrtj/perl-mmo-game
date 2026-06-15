@@ -23,21 +23,25 @@ has param 'email' => (
 			$self->set_email($value);
 		}
 	},
+	traits => [qw(Stored)],
 );
 
 has param 'password' => (
 	isa => NonEmptySimpleStr->where(q{ length $_ <= 60 }),
 	writer => -hidden,
+	traits => [qw(Stored)],
 );
 
 has param 'status' => (
 	isa => PositiveInt,
 	default => 1,
+	traits => [qw(Stored)],
 );
 
 has param 'created_at' => (
 	coerce => DateTime,
 	default => sub { int time },
+	traits => [qw(Stored)],
 );
 
 around BUILDARGS => sub ($orig, $self, %args) {

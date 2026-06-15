@@ -5,7 +5,7 @@ use My::Moose::Role;
 
 has field 'serialized_attributes' => (
 	lazy => sub ($self) {
-		return [grep { $_->name !~ /^_/ } $self->get_all_attributes];
+		return [grep { $_->does('My::Moose::Trait::Attribute::Stored') } $self->get_all_attributes];
 	},
 );
 

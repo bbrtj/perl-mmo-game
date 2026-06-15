@@ -17,7 +17,7 @@ cmpthese 200.01, {
 		Model::Player->new(user_id => $ulid);
 	},
 	'Model::Character' => sub {
-		Model::Character->new(player_id => $ulid, name => 'DUMMY', class_id => 'DUMMY');
+		Model::Character->new(player_id => $ulid, name => 'DUMMY', class_id => 'DUMMY', race_id => 'DUMMY');
 	},
 	'X::PlayerNotFound' => sub {
 		X::PlayerNotFound->new(msg => 'player was not found');

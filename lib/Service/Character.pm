@@ -15,11 +15,12 @@ sub create_character ($self, $user, $character_data)
 	my $player = Model::Player->new(user_id => $user->id);
 
 	my $class = $self->lore_data_repo->load($character_data->{class_id});
+	my $race = $self->lore_data_repo->load($character_data->{race_id});
 	my $character = Model::Character->new(
 		player_id => $player->id,
 		class_id => $class->id,
+		race_id => $race->id,
 		name => ucfirst lc $character_data->{name},
-		base_stats => '',    # TODO
 	);
 
 	my $character_variables = Model::CharacterVariables->new(

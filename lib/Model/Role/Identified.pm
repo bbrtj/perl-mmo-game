@@ -7,6 +7,7 @@ use header;
 has param 'id' => (
 	isa => ULID,
 	default => sub { Types::ULID::ulid },
+	traits => [qw(Stored)],
 );
 
 requires qw(dummy);

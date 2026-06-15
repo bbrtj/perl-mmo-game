@@ -5,8 +5,8 @@ use testheader;
 
 test_data
 	'should create character' => [
-		[{name => 'testPlayer', class_id => lore_class('Sage')->id}],
-		[{name => 'testPlayer2', class_id => lore_class('Assassin')->id}],
+		[{name => 'testPlayer', class_id => lore_class('Sage')->id, race_id => lore_race('Elf')->id}],
+		[{name => 'testPlayer2', class_id => lore_class('Assassin')->id, race_id => lore_race('Dwarf')->id}],
 	];
 
 my $dbmock = Test::Spy->new(imitates => 'Component::DB', context => 'transaction');
