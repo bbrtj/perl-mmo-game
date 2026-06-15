@@ -7,7 +7,7 @@ my $repo = DI->get('lore_data_repo');
 
 ### test basic lore fetching
 my $assassin = $repo->load_named('Game::Lore::Class', 'Assassin');
-is $assassin->id, 'CLAS.ASSASS', 'class loaded ok';
+is $assassin->id, 'class.assass', 'class loaded ok';
 
 ### test global config from lore
 is Game::Config->max_level, 50, 'global constants loaded ok';

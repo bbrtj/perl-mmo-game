@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classes requires="races">
-	<class id="BARD" name="Bard">
+	<class id="bard" name="Bard">
 		<translation lang="pl">
 			<name>Wieszcz</name>
 			<desc>Powołaniem wieszczy jest rozsławianie dokonań herosów za pomocą muzyki. Nie stronią od poszukiwania przygód, podczas których inspirują innych swoimi urokami.</desc>
@@ -16,9 +16,12 @@
 			<model>images/actors/knight.png</model>
 		</visuals>
 
-		<!-- <base_health>90</base_health> -->
-		<!-- <base_energy>30</base_energy> -->
-		<!-- <base_crit>0.04</base_crit> -->
-		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
+		<stat_bonuses>
+			<stat lore="primary_stat" lore-key="Wisdom">4</stat>
+			<stat lore="primary_stat" lore-key="Charisma">8</stat>
+		</stat_bonuses>
+
+		<energy_multiplier>1.8</energy_multiplier>
 	</class>
 </classes>
+

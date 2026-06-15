@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <slots>
-	<slot id="HELMET" name="Helmet">
+	<slot id="helmet" name="Helmet">
 		<translation lang="pl">
 			<name>Hełm</name>
 		</translation>
@@ -9,7 +9,7 @@
 		</translation>
 	</slot>
 
-	<slot id="NECKLACE" name="Necklace">
+	<slot id="necklace" name="Necklace">
 		<translation lang="pl">
 			<name>Naszyjnik</name>
 		</translation>
@@ -18,7 +18,7 @@
 		</translation>
 	</slot>
 
-	<slot id="COAT" name="Coat">
+	<slot id="coat" name="Coat">
 		<translation lang="pl">
 			<name>Kurtka</name>
 		</translation>
@@ -27,7 +27,7 @@
 		</translation>
 	</slot>
 
-	<slot id="PANTS" name="Pants">
+	<slot id="pants" name="Pants">
 		<translation lang="pl">
 			<name>Spodnie</name>
 		</translation>
@@ -36,7 +36,7 @@
 		</translation>
 	</slot>
 
-	<slot id="GLOVES" name="Gloves">
+	<slot id="gloves" name="Gloves">
 		<translation lang="pl">
 			<name>Rękawice</name>
 		</translation>
@@ -45,7 +45,7 @@
 		</translation>
 	</slot>
 
-	<slot id="BOOTS" name="Boots">
+	<slot id="boots" name="Boots">
 		<translation lang="pl">
 			<name>Buty</name>
 		</translation>
@@ -54,7 +54,7 @@
 		</translation>
 	</slot>
 
-	<slot id="LEFT_HAND" name="Left hand">
+	<slot id="left_hand" name="Left hand">
 		<translation lang="pl">
 			<name>Lewa ręka</name>
 		</translation>
@@ -63,7 +63,7 @@
 		</translation>
 	</slot>
 
-	<slot id="RIGHT_HAND" name="Right hand">
+	<slot id="right_hand" name="Right hand">
 		<translation lang="pl">
 			<name>Prawa ręka</name>
 		</translation>
@@ -72,3 +72,4 @@
 		</translation>
 	</slot>
 </slots>
+

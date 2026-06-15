@@ -7,7 +7,7 @@ use header;
 
 extends 'Game::Lore';
 
-use constant prefix => 'LOC';
+use constant prefix => 'loc';
 
 has extended 'parent' => (
 	isa => InstanceOf ['Game::Lore::Area'],

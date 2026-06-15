@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classes requires="races">
-	<class id="DRUID" name="Druid">
+	<class id="druid" name="Druid">
 		<translation lang="pl">
 			<name>Druid</name>
 			<desc>Druidzi to społeczność uczonych mająca na celu zgłębianie wiedzy o naturze i utrzymanie harmonii. Członkowie mają do dyspozycji szeroki wachlarz uroków wykorzystujących siły natury do osłabiania wrogów oraz wspierania sojuszników.</desc>
@@ -16,9 +16,12 @@
 			<model>images/actors/knight.png</model>
 		</visuals>
 
-		<!-- <base_health>90</base_health> -->
-		<!-- <base_energy>30</base_energy> -->
-		<!-- <base_crit>0.04</base_crit> -->
-		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
+		<stat_bonuses>
+			<stat lore="primary_stat" lore-key="Wisdom">6</stat>
+			<stat lore="primary_stat" lore-key="Charisma">6</stat>
+		</stat_bonuses>
+
+		<energy_multiplier>2</energy_multiplier>
 	</class>
 </classes>
+

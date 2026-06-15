@@ -6,5 +6,5 @@ use header;
 
 extends 'Game::Lore';
 
-use constant prefix => 'SLOT';
+use constant prefix => 'slot';
 

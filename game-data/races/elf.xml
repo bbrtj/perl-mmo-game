@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <races requires="primary_stats">
-	<race id="ELF" name="Elf">
+	<race id="elf" name="Elf">
 		<translation lang="pl">
 			<name>Elf</name>
 			<desc>Elfy to stworzenia żyjące w harmonii z przyrodą. Ich siedliska znajdują się głęboko w puszczach, a one same rzadko opuszczają las bez wyraźnej potrzeby. Ich umiejętności rzemieślnicze są niemal legendarne. Mają szeroką wiedzę o naturze oraz otoczeniu, którą bezlitośnie wykorzystują w walce.</desc>
@@ -21,3 +21,4 @@
 		</base_stats>
 	</race>
 </races>
+

@@ -7,7 +7,7 @@ my $repo = DI->get('lore_data_repo');
 
 ### test basic lore fetching
 my $harbor = $repo->load_named('Game::Lore::Location', 'Cape Peril - Harbor');
-is $harbor->id, 'LOC.CP_HARBOR', 'location loaded ok';
+is $harbor->id, 'loc.cp_harbor', 'location loaded ok';
 
 is $harbor->map->size_x, 40, 'size x ok';
 is $harbor->map->size_y, 40, 'size y ok';

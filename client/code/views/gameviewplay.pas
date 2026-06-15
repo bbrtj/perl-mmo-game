@@ -186,7 +186,7 @@ begin
 	if Event.IsKey(keyA) then begin
 		FindMousePosition;
 		LAbility := TMsgUseAbility.Create();
-		LAbility.lore_id := 'ABIL.STRIKE';
+		LAbility.lore_id := 'abil.strike';
 		LAbility.X := LPosition.X;
 		LAbility.Y := LPosition.Y;
 
@@ -196,7 +196,7 @@ begin
 
 	if Event.IsKey(keyE) and FindMousePosition then begin
 		LAbility := TMsgUseAbility.Create();
-		LAbility.lore_id := 'ABIL.SHOOT';
+		LAbility.lore_id := 'abil.shoot';
 		LAbility.X := LPosition.X;
 		LAbility.Y := LPosition.Y;
 

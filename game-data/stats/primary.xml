@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <primary_stats>
-	<primary_stat id="STR" name="Strength">
+	<primary_stat id="str" name="Strength">
 		<translation lang="pl">
 			<name>Siła</name>
 		</translation>
@@ -9,7 +9,7 @@
 		</translation>
 	</primary_stat>
 
-	<primary_stat id="DEX" name="Dexterity">
+	<primary_stat id="dex" name="Dexterity">
 		<translation lang="pl">
 			<name>Zręczność</name>
 		</translation>
@@ -18,7 +18,7 @@
 		</translation>
 	</primary_stat>
 
-	<primary_stat id="WIS" name="Wisdom">
+	<primary_stat id="wis" name="Wisdom">
 		<translation lang="pl">
 			<name>Mądrość</name>
 		</translation>
@@ -27,7 +27,7 @@
 		</translation>
 	</primary_stat>
 
-	<primary_stat id="CON" name="Constitution">
+	<primary_stat id="con" name="Constitution">
 		<translation lang="pl">
 			<name>Budowa</name>
 		</translation>
@@ -36,7 +36,7 @@
 		</translation>
 	</primary_stat>
 
-	<primary_stat id="CHA" name="Charisma">
+	<primary_stat id="cha" name="Charisma">
 		<translation lang="pl">
 			<name>Charyzma</name>
 		</translation>
@@ -45,7 +45,7 @@
 		</translation>
 	</primary_stat>
 
-	<primary_stat id="LUCK" name="Luck">
+	<primary_stat id="luck" name="Luck">
 		<translation lang="pl">
 			<name>Szczęście</name>
 		</translation>
@@ -54,3 +54,4 @@
 		</translation>
 	</primary_stat>
 </primary_stats>
+

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <items requires="attributes,slots">
-	<weapon id="DAGGER" name="Dagger">
+	<weapon id="dagger" name="Dagger">
 		<translation lang="pl">
 			<name>Sztylet</name>
 		</translation>
@@ -16,3 +16,4 @@
 		<both_hands>0</both_hands>
 	</weapon>
 </items>
+

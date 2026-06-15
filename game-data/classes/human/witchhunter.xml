@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classes requires="races">
-	<class id="WITHUN" name="Witchhunter">
+	<class id="withun" name="Witchhunter">
 		<translation lang="pl">
 			<name>Łowca wiedźm</name>
 			<desc>Łowcy wiedźm to tajemnicza społeczność tępiąca czarną magię na kontynencie. Władają oni podstawową magią prewencyjną oraz używają egzotycznych technik walki w zwarciu.</desc>
@@ -16,9 +16,14 @@
 			<model>images/actors/knight.png</model>
 		</visuals>
 
-		<!-- <base_health>80</base_health> -->
-		<!-- <base_energy>50</base_energy> -->
-		<!-- <base_crit>0.04</base_crit> -->
-		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
+		<stat_bonuses>
+			<stat lore="primary_stat" lore-key="Strength">4</stat>
+			<stat lore="primary_stat" lore-key="Constitution">6</stat>
+			<stat lore="primary_stat" lore-key="Wisdom">2</stat>
+		</stat_bonuses>
+
+		<health_multiplier>1.4</health_multiplier>
+		<energy_multiplier>1.5</energy_multiplier>
 	</class>
 </classes>
+

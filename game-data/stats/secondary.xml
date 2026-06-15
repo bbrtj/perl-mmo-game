@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <secondary_stats>
-	<secondary_stat id="MIGHT" name="Might">
+	<secondary_stat id="might" name="Might">
 		<translation lang="pl">
 			<name>Potęga</name>
 		</translation>
@@ -9,7 +9,7 @@
 		</translation>
 	</secondary_stat>
 
-	<secondary_stat id="ACUM" name="Acumen">
+	<secondary_stat id="acum" name="Acumen">
 		<translation lang="pl">
 			<name>Bystrość</name>
 		</translation>
@@ -18,7 +18,7 @@
 		</translation>
 	</secondary_stat>
 
-	<secondary_stat id="ACCU" name="Accuracy">
+	<secondary_stat id="accu" name="Accuracy">
 		<translation lang="pl">
 			<name>Celność</name>
 		</translation>
@@ -27,7 +27,7 @@
 		</translation>
 	</secondary_stat>
 
-	<secondary_stat id="STAM" name="Stamina">
+	<secondary_stat id="stam" name="Stamina">
 		<translation lang="pl">
 			<name>Kondycja</name>
 		</translation>
@@ -36,7 +36,7 @@
 		</translation>
 	</secondary_stat>
 
-	<secondary_stat id="PERS" name="Persistence">
+	<secondary_stat id="pers" name="Persistence">
 		<translation lang="pl">
 			<name>Upór</name>
 		</translation>
@@ -45,7 +45,7 @@
 		</translation>
 	</secondary_stat>
 
-	<secondary_stat id="RESIL" name="Resilience">
+	<secondary_stat id="resil" name="Resilience">
 		<translation lang="pl">
 			<name>Odporność</name>
 		</translation>
@@ -54,7 +54,7 @@
 		</translation>
 	</secondary_stat>
 
-	<secondary_stat id="WILLP" name="Willpower">
+	<secondary_stat id="willp" name="Willpower">
 		<translation lang="pl">
 			<name>Siła woli</name>
 		</translation>
@@ -63,7 +63,7 @@
 		</translation>
 	</secondary_stat>
 
-	<secondary_stat id="VIGOR" name="Vigor">
+	<secondary_stat id="vigor" name="Vigor">
 		<translation lang="pl">
 			<name>Wigor</name>
 		</translation>
@@ -72,3 +72,4 @@
 		</translation>
 	</secondary_stat>
 </secondary_stats>
+

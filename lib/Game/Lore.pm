@@ -39,6 +39,16 @@ has param 'uses' => (
 	default => sub { [] },
 );
 
+has cached 'primary_stats' => (
+	isa => ArrayRef,
+	lazy => 1,
+);
+
+has cached 'secondary_stats' => (
+	isa => ArrayRef,
+	lazy => 1,
+);
+
 has cached 'attributes' => (
 	isa => ArrayRef,
 	lazy => 1,
@@ -70,6 +80,16 @@ sub BUILD ($self, @)
 	}
 
 	return;
+}
+
+sub _build_primary_stats ($self)
+{
+	return [grep { $_ isa 'Game::Lore::PrimaryStat' } $self->uses->@*];
+}
+
+sub _build_secondary_stats ($self)
+{
+	return [grep { $_ isa 'Game::Lore::SecondaryStat' } $self->uses->@*];
 }
 
 sub _build_attributes ($self)

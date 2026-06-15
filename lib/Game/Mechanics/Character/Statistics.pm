@@ -25,3 +25,44 @@ sub get_exp_for_level ($self, $level)
 	return int($result / $precision) * $precision;
 }
 
+# size is affected by constitution
+sub get_size ($self, $race, $class, $primary_stats)
+{
+	state $base = Game::Config->base_size;
+	state $stats0 = Game::Config->base_stats;
+
+	return $base * $race->size_multiplier * $class->size_multiplier
+		* (1 + ($primary_stats->{'pstat.con'} - $stats0) / 50);
+}
+
+# TODO: health bonuses from abilities
+sub get_max_health ($self, $level, $class, $primary_stats)
+{
+	state $base = Game::Config->base_health;
+	state $stats0 = Game::Config->base_stats;
+
+	return ($base + ($level - 1) * $base * 0.2)
+		* $class->health_multiplier
+		* (1 + ($primary_stats->{'pstat.con'} - $stats0) / 20);
+}
+
+# TODO: energy bonuses from abilities
+sub get_max_energy ($self, $level, $class, $primary_stats)
+{
+	state $base = Game::Config->base_energy;
+	state $stats0 = Game::Config->base_stats;
+
+	return ($base + ($level - 1) * $base * 0.25)
+		* $class->energy_multiplier
+		* (1 + ($primary_stats->{'pstat.wis'} - $stats0) / 15);
+}
+
+sub get_speed ($self, $primary_stats)
+{
+	state $base = Game::Config->base_speed;
+	state $stats0 = Game::Config->base_stats;
+
+	return $base
+		* (1 + ($primary_stats->{'pstat.dex'} - $stats0) / 20);
+}
+

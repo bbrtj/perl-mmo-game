@@ -6,7 +6,7 @@ use header;
 
 extends 'Game::Lore';
 
-use constant prefix => 'WEAP';
+use constant prefix => 'weap';
 
 has param 'both_hands' => (
 	isa => Bool,

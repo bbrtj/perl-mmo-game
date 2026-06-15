@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classes requires="races">
-	<class id="ELEM" name="Elementalist">
+	<class id="elem" name="Elementalist">
 		<translation lang="pl">
 			<name>Mag żywiołów</name>
 			<desc>Magowie żywiołów posiadają władzę nad destrukcyjnymi siłami natury, co umożliwia im siać spustoszenie na polu bitwy.</desc>
@@ -16,9 +16,13 @@
 			<model>images/actors/knight.png</model>
 		</visuals>
 
-		<!-- <base_health>90</base_health> -->
-		<!-- <base_energy>30</base_energy> -->
-		<!-- <base_crit>0.04</base_crit> -->
-		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
+		<stat_bonuses>
+			<stat lore="primary_stat" lore-key="Wisdom">8</stat>
+			<stat lore="primary_stat" lore-key="Charisma">4</stat>
+		</stat_bonuses>
+
+		<health_multiplier>0.9</health_multiplier>
+		<energy_multiplier>2</energy_multiplier>
 	</class>
 </classes>
+

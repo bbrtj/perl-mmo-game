@@ -6,5 +6,5 @@ use header;
 
 extends 'Game::Lore';
 
-use constant prefix => 'SSTA';
+use constant prefix => 'sstat';
 

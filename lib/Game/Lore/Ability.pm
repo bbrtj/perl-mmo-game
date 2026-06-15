@@ -6,7 +6,7 @@ use header;
 
 extends 'Game::Lore';
 
-use constant prefix => 'ABIL';
+use constant prefix => 'abil';
 
 has param 'speed_multiplier' => (
 	isa => PositiveNum,

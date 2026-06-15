@@ -6,7 +6,11 @@ use header;
 
 extends 'Game::Lore::Class';
 
-use constant prefix => 'NPC';
+use constant prefix => 'npc';
+
+has param 'level' => (
+	isa => PositiveInt,
+);
 
 has param 'respawn_time' => (
 	isa => PositiveInt,

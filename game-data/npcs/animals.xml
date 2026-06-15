@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <npcs requires="races">
-	<npc id="RAT" name="Rat">
+	<npc id="rat" name="Rat">
 		<translation lang="pl">
 			<name>Szczur</name>
 			<desc>Niewielki, zazwyczaj niegroźny szkodnik.</desc>
@@ -16,9 +16,16 @@
 			<model>images/actors/rat.png</model>
 		</visuals>
 
+		<stat_bonuses>
+			<stat lore="primary_stat" lore-key="Strength">-3</stat>
+			<stat lore="primary_stat" lore-key="Constitution">-3</stat>
+		</stat_bonuses>
+
+		<level>1</level>
+		<health_multiplier>0.3</health_multiplier>
 		<respawn_time>300</respawn_time>
 	</npc>
-	<npc id="BOGRAT" name="Bog rat">
+	<npc id="bograt" name="Bog rat">
 		<translation lang="pl">
 			<name>Szczur Bagienny</name>
 			<desc>Większa wersja szczura, bardziej przystosowana do życia w skrajnym środowisku.</desc>
@@ -34,6 +41,14 @@
 			<model>images/actors/bog_rat.png</model>
 		</visuals>
 
+		<stat_bonuses>
+			<stat lore="primary_stat" lore-key="Strength">-3</stat>
+			<stat lore="primary_stat" lore-key="Constitution">-2</stat>
+		</stat_bonuses>
+
+		<level>2</level>
+		<health_multiplier>0.3</health_multiplier>
 		<respawn_time>300</respawn_time>
 	</npc>
 </npcs>
+

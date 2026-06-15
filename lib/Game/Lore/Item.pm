@@ -6,5 +6,5 @@ use header;
 
 extends 'Game::Lore';
 
-use constant prefix => 'ITEM';
+use constant prefix => 'item';
 

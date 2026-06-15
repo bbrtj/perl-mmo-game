@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classes>
-	<class id="WIZARD" name="Wizard">
+	<class id="wizard" name="Wizard">
 		<translation lang="pl">
 			<name>Czarodziej</name>
 			<desc>Nikt nie dorównuje czarodziejom w arkanach wiedzy tajemnej. Poświęcili całe życie jej studiowaniu, dzięki czemu mogą teraz z łatwością odebrać je innym.</desc>
@@ -16,9 +16,13 @@
 			<model>images/actors/knight.png</model>
 		</visuals>
 
-		<!-- <base_health>80</base_health> -->
-		<!-- <base_energy>50</base_energy> -->
-		<!-- <base_crit>0.04</base_crit> -->
-		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
+		<stat_bonuses>
+			<stat lore="primary_stat" lore-key="Wisdom">8</stat>
+			<stat lore="primary_stat" lore-key="Charisma">4</stat>
+		</stat_bonuses>
+
+		<health_multiplier>0.8</health_multiplier>
+		<energy_multiplier>2</energy_multiplier>
 	</class>
 </classes>
+

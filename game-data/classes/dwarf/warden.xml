@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classes requires="races">
-	<class id="WARDEN" name="Warden">
+	<class id="warden" name="Warden">
 		<translation lang="pl">
 			<name>Strażnik</name>
 			<desc>Strażnicy są zawsze dokładnie tam gdzie mają być, a czuwanie na posterunku uważają za święty obowiązek. Ich stoicyzm oraz gruby pancerz stanowią duży problem dla każdego napotkanego przeciwnika.</desc>
@@ -16,9 +16,12 @@
 			<model>images/actors/knight.png</model>
 		</visuals>
 
-		<!-- <base_health>90</base_health> -->
-		<!-- <base_energy>30</base_energy> -->
-		<!-- <base_crit>0.04</base_crit> -->
-		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
+		<stat_bonuses>
+			<stat lore="primary_stat" lore-key="Strength">4</stat>
+			<stat lore="primary_stat" lore-key="Constitution">8</stat>
+		</stat_bonuses>
+
+		<health_multiplier>1.6</health_multiplier>
 	</class>
 </classes>
+

@@ -6,7 +6,7 @@ use header;
 
 extends 'Game::Lore';
 
-use constant prefix => 'ATTR';
+use constant prefix => 'attr';
 
 has extended 'parent' => (
 	isa => InstanceOf ['Game::Lore::Attribute'],

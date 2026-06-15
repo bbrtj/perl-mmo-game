@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <areas requires="npcs">
-	<area id="CAPEPERIL" name="Cape Peril">
+	<area id="capeperil" name="Cape Peril">
 		<translation lang="pl">
 			<name>Przylądek Peril</name>
 			<desc>Legenda głosi, że pierwsi odkrywcy, którzy postawili tu stopę po wielomiesięcznej żegludze, mieli nazwać to miejsce Przylądkiem Wybawienia. Pozornie bezpieczna kraina nie miała im jednak nic do zaoferowania prócz śmierci. Dziesięciolecia później wciąż opiera się kolonizatorom, karcąc ich tym okrutniej, im bardziej zuchwałe są ich zapędy.</desc>
@@ -11,7 +11,7 @@
 		</translation>
 		<load_coordinates>Markers</load_coordinates>
 
-		<location id="CP_HARBOR" name="Cape Peril - Harbor">
+		<location id="cp_harbor" name="Cape Peril - Harbor">
 			<translation lang="pl">
 				<name>Port Peril</name>
 				<desc>Postawiony w okolicy przylądka Peril port to zazwyczaj pierwsze miejsce, w którym lądują nowo przybyli osadnicy, kupcy oraz poszukiwacze przygód.</desc>
@@ -25,3 +25,4 @@
 		</location>
 	</area>
 </areas>
+

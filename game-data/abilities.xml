@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <abilities requires="attributes">
-	<ability id="STRIKE" name="Strike">
+	<ability id="strike" name="Strike">
 		<translation lang="pl">
 			<name>Atak</name>
 		</translation>
@@ -13,7 +13,7 @@
 		<damage_multiplier>1</damage_multiplier>
 	</ability>
 
-	<ability id="SHOOT" name="Shoot">
+	<ability id="shoot" name="Shoot">
 		<translation lang="pl">
 			<name>Strzał</name>
 		</translation>
@@ -36,3 +36,4 @@
 		</projectile>
 	</ability>
 </abilities>
+

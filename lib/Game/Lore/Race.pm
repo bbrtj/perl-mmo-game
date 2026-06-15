@@ -6,7 +6,12 @@ use header;
 
 extends 'Game::Lore';
 
-use constant prefix => 'RACE';
+use constant prefix => 'race';
+
+has param 'size_multiplier' => (
+	isa => Num,
+	default => 1,
+);
 
 has param 'base_stats' => (
 	isa => HashRef [Int],

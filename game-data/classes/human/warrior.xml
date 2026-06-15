@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classes requires="races">
-	<class id="WARR" name="Warrior">
+	<class id="warr" name="Warrior">
 		<translation lang="pl">
 			<name>Wojownik</name>
 			<desc>Wojownicy nie mają sobie równych w posługiwaniu się bronią białą. Uważają swój szeroki arsenał za sposób na rozwiązanie każdego problemu.</desc>
@@ -16,9 +16,13 @@
 			<model>images/actors/knight.png</model>
 		</visuals>
 
-		<!-- <base_health>90</base_health> -->
-		<!-- <base_energy>30</base_energy> -->
-		<!-- <base_crit>0.04</base_crit> -->
-		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
+		<stat_bonuses>
+			<stat lore="primary_stat" lore-key="Strength">4</stat>
+			<stat lore="primary_stat" lore-key="Dexterity">4</stat>
+			<stat lore="primary_stat" lore-key="Constitution">4</stat>
+		</stat_bonuses>
+
+		<health_multiplier>1.2</health_multiplier>
 	</class>
 </classes>
+

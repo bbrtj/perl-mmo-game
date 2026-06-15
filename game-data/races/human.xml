@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <races requires="primary_stats">
-	<race id="HUMAN" name="Human">
+	<race id="human" name="Human">
 		<translation lang="pl">
 			<name>Człowiek</name>
 			<desc>Ludzie to plemię najemników, kupców oraz odkrywców. Zamieszkują niewielkie wioski rozsiane po całym kontynencie. Ich chaotyczna natura jest źródłem wielu sporów, jednakowoż pcha ich w stronę ryzyka oraz poszukiwania przygód. Świetnie radzą sobie z wiedzą tajemną oraz we władaniu bronią.</desc>
@@ -21,3 +21,4 @@
 		</base_stats>
 	</race>
 </race>
+

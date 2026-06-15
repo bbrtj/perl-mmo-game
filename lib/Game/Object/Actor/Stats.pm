@@ -34,8 +34,18 @@ has field 'action' => (
 	predicate => 1,
 );
 
+has cached 'level' => (
+	lax_isa => Int,
+	lazy => 1,
+);
+
+has cached 'primary_stats' => (
+	lax_isa => HashRef [Int],
+	lazy => 1,
+);
+
 has cached 'speed' => (
-	writer => 1,
+	lax_isa => PositiveOrZeroNum,
 	lazy => 1,
 );
 
@@ -82,10 +92,33 @@ sub set_movement ($self, $movement)
 	return;
 }
 
+# NOTE: npc gets experience set to the right number upon spawning
+sub _build_level ($self)
+{
+	return Game::Mechanics::Character::Statistics->get_current_level($self->parent->variables->experience);
+}
+
+sub _build_primary_stats ($self)
+{
+	my $char = $self->parent->character;
+	my %calculated;
+
+	foreach my ($stat, $value) ($char->race->base_stats->%*) {
+		$calculated{$stat} = $value;
+	}
+
+	foreach my ($stat, $value) ($char->class->stat_bonuses->%*) {
+		$calculated{$stat} += $value;
+	}
+
+	return \%calculated;
+}
+
 sub _build_speed ($self)
 {
-	# TODO calculate from stats
-	return Game::Config->base_speed;
+	return Game::Mechanics::Character::Statistics->get_speed(
+		$self->primary_stats
+	);
 }
 
 sub _build_weapon_damage ($self)
@@ -103,41 +136,41 @@ sub _build_weapon_hitbox ($self)
 
 sub _build_max_health ($self)
 {
-	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent->variables->experience);
-
-	# TODO: adjust based on $level - 1
-	# TODO: adjust based on stamina
-	return Game::Config->base_health;
+	return Game::Mechanics::Character::Statistics->get_max_health(
+		$self->level,
+		$self->parent->character->class,
+		$self->primary_stats,
+	);
 }
 
 sub _build_health_regeneration ($self)
 {
-	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent->variables->experience);
-
 	# TODO: nasty hardcode
 	return 0.5;
 }
 
 sub _build_max_energy ($self)
 {
-	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent->variables->experience);
-
-	# TODO: adjust based on $level - 1
-	# TODO: adjust based on stamina
-	return Game::Config->base_energy;
+	return Game::Mechanics::Character::Statistics->get_max_energy(
+		$self->level,
+		$self->parent->character->class,
+		$self->primary_stats,
+	);
 }
 
 sub _build_energy_regeneration ($self)
 {
-	my $level = Game::Mechanics::Character::Statistics->get_current_level($self->parent->variables->experience);
-
 	# TODO: nasty hardcode
 	return 0.1;
 }
 
 sub _build_size ($self)
 {
-	# TODO: size will be affected by race and constitution
-	return Game::Config->base_size;
+	my $char = $self->parent->character;
+	return Game::Mechanics::Character::Statistics->get_size(
+		$char->race,
+		$char->class,
+		$self->primary_stats,
+	);
 }
 

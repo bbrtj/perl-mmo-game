@@ -8,6 +8,7 @@
 	<max_level>50</max_level>
 	<stats_at_levels>5,10,20,30,40,50</stats_at_levels>
 
+	<base_stats>10</base_stats>
 	<base_size>0.25</base_size>
 	<base_speed>0.8</base_speed>
 	<base_action_speed>1</base_action_speed>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classes requires="races">
-	<class id="CULT" name="Cultist">
+	<class id="cult" name="Cultist">
 		<translation lang="pl">
 			<name>Kultysta</name>
 			<desc>Kultyści to nieprzestrzegający zasad panujących w społeczności. Uważają się za wyjętych spod prawa, co daje im przyzwolenie na studiowanie czarnej magii, która jest źródłem ich destukcyjnej mocy.</desc>
@@ -16,9 +16,13 @@
 			<model>images/actors/knight.png</model>
 		</visuals>
 
-		<!-- <base_health>90</base_health> -->
-		<!-- <base_energy>30</base_energy> -->
-		<!-- <base_crit>0.04</base_crit> -->
-		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
+		<stat_bonuses>
+			<stat lore="primary_stat" lore-key="Wisdom">8</stat>
+			<stat lore="primary_stat" lore-key="Charisma">4</stat>
+		</stat_bonuses>
+
+		<health_multiplier>0.9</health_multiplier>
+		<energy_multiplier>2</energy_multiplier>
 	</class>
 </classes>
+

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <races requires="primary_stats">
-	<race id="DWARF" name="Dwarf">
+	<race id="dwarf" name="Dwarf">
 		<translation lang="pl">
 			<name>Krasnolud</name>
 			<desc>Krasnoludy to krępe i skryte istoty zamieszkujące drążone przez siebie podziemne kompleksy. Są wprawymi żołnierzami, kapłanami oraz czarnoksiężnikami. Cenią sobie spokój i porządek, lecz cechuje je silny terytorializm. Wykopywane przez nie bogactwa stanowią podstawowe źródło kruszców w krainie.</desc>
@@ -21,3 +21,4 @@
 		</base_stats>
 	</race>
 </races>
+

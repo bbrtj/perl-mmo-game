@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classes requires="races">
-	<class id="ROGUE" name="Rogue">
+	<class id="rogue" name="Rogue">
 		<translation lang="pl">
 			<name>Łotrzyk</name>
 			<desc>Łotrzyk przemyka w cieniu, załatwia swoje interesy i znika zanim ktokolwiek zdoła zauważyć jego obecność. Jeśli już uderza, to najczęściej tylko raz.</desc>
@@ -16,9 +16,15 @@
 			<model>images/actors/knight.png</model>
 		</visuals>
 
-		<!-- <base_health>90</base_health> -->
-		<!-- <base_energy>30</base_energy> -->
-		<!-- <base_crit>0.04</base_crit> -->
-		<!-- <regeneration_per_minute>0.01</regeneration_per_minute> -->
+		<stat_bonuses>
+			<stat lore="primary_stat" lore-key="Strength">3</stat>
+			<stat lore="primary_stat" lore-key="Dexterity">5</stat>
+			<stat lore="primary_stat" lore-key="Constitution">2</stat>
+			<stat lore="primary_stat" lore-key="Charisma">1</stat>
+			<stat lore="primary_stat" lore-key="Luck">1</stat>
+		</stat_bonuses>
+
+		<health_multiplier>1.1</health_multiplier>
 	</class>
 </classes>
+

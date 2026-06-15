@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <races requires="primary_stats">
-	<race id="ANIMAL" name="Animal">
+	<race id="animal" name="Animal">
 		<translation lang="pl">
 			<name>Zwierzę</name>
 			<desc>Dzisiejsze zwierzęta to efekt milionów lat ewolucji w środowisku naturalnym.</desc>
@@ -21,3 +21,4 @@
 		</base_stats>
 	</race>
 </race>
+

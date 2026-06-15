@@ -22,7 +22,7 @@ e2e_test(
 		my ($actor, %related_models) = ActorTest->save_actor(
 			password => $password,
 			variables_params => {
-				location_id => 'LOC.CP_HARBOR',
+				location_id => 'loc.cp_harbor',
 				pos_x => 9,
 				pos_y => 9,
 			}
@@ -32,7 +32,7 @@ e2e_test(
 		my ($dummy, %dummy_related_models) = ActorTest->save_actor(
 			password => $password,
 			variables_params => {
-				location_id => 'LOC.CP_HARBOR',
+				location_id => 'loc.cp_harbor',
 				pos_x => 10,
 				pos_y => 10,
 			}
