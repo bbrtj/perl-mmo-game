@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="100" tileheight="100" infinite="0" nextlayerid="9" nextobjectid="5">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="100" tileheight="100" infinite="0" nextlayerid="9" nextobjectid="11">
  <tileset firstgid="1" source="../game tiles.tsx"/>
  <layer id="1" name="Water" width="40" height="40">
   <properties>
@@ -322,10 +322,28 @@
   <properties>
    <property name="private" type="bool" value="true"/>
   </properties>
-  <object id="1" name="monster" type="Rat" x="1645.44" y="2373.07">
+  <object id="1" name="monster" type="Rat" x="1517.68" y="2286.7">
    <point/>
   </object>
-  <object id="3" name="monster" type="Bog rat" x="1749.94" y="2529.93">
+  <object id="3" name="strong monster" type="Bog rat" x="1755.34" y="2332.9">
+   <point/>
+  </object>
+  <object id="5" name="monster" type="Rat" x="1418.8" y="2371.57">
+   <point/>
+  </object>
+  <object id="6" name="monster" type="Rat" x="1728.3" y="2457.94">
+   <point/>
+  </object>
+  <object id="7" name="monster" type="Rat" x="1340.53" y="2249.21">
+   <point/>
+  </object>
+  <object id="8" name="strong monster" type="Bog rat" x="1563.65" y="2542.51">
+   <point/>
+  </object>
+  <object id="9" name="strong monster" type="Bog rat" x="1786.77" y="2141.25">
+   <point/>
+  </object>
+  <object id="10" name="strong monster" type="Bog rat" x="1615.83" y="2374.27">
    <point/>
   </object>
  </objectgroup>
