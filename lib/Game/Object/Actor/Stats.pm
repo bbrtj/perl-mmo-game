@@ -84,6 +84,11 @@ has cached 'energy_regeneration' => (
 	lazy => 1,
 );
 
+has cached 'luck_effect' => (
+	lax_isa => PositiveNum,
+	lazy => 1,
+);
+
 sub set_movement ($self, $movement)
 {
 	$self->_set_movement($movement);
@@ -179,6 +184,13 @@ sub _build_energy_regeneration ($self)
 {
 	return Game::Mechanics::Character::Statistics->get_energy_regen(
 		$self->parent->character->class,
+		$self->stats,
+	);
+}
+
+sub _build_luck_effect ($self)
+{
+	return Game::Mechanics::Character::Statistics->get_luck_effect(
 		$self->stats,
 	);
 }

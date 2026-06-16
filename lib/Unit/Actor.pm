@@ -3,6 +3,8 @@ package Unit::Actor;
 use My::Moose;
 use all 'Model';
 use Game::Object::Actor::Npc;
+use Game::RNG qw(random_number);
+use List::Util qw(min);
 
 use header;
 
@@ -43,6 +45,12 @@ sub models ($self)
 	return [
 		$self->variables,
 	];
+}
+
+# returns bigger numbers with higher luck
+sub rng ($self)
+{
+	return min(1, random_number(0, $self->stats->luck_effect));
 }
 
 __END__

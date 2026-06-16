@@ -67,6 +67,12 @@ test_data 'should calculate speed for character' => [
 	[lore_class 'Rogue', 15, 0.8 * 1.1],
 ];
 
+test_data 'should calculate luck for character' => [
+	[10, 1],
+	[11, 1.03],
+	[9, 0.97],
+];
+
 test should_calculate_experience_for_level => sub ($level, $experience) {
 	is Game::Mechanics::Character::Statistics->get_exp_for_level($level), $experience, "experience for $level ok";
 	is Game::Mechanics::Character::Statistics->get_current_level($experience), $level, "level $level ok";
@@ -142,6 +148,16 @@ test should_calculate_speed_for_character => sub ($class_obj, $dexterity, $expec
 	is Game::Mechanics::Character::Statistics->get_speed($class_obj, \%stats),
 		float($expected),
 		"$class speed ok ($dexterity dexterity)";
+};
+
+test should_calculate_luck_for_character => sub ($luck, $expected) {
+	my %stats = (
+		'pstat.luck' => $luck,
+	);
+
+	is Game::Mechanics::Character::Statistics->get_luck_effect(\%stats),
+		float($expected),
+		"luck effect ok ($luck luck)";
 };
 
 done_testing;

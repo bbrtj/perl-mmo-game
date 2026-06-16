@@ -5,7 +5,7 @@ use Game::Config;
 use Game::Object::Projectile;
 use Game::Mechanics::Generic;
 use Game::Mechanics::Projectile;
-use Game::RNG qw(random_number);
+use Game::RNG;
 use Math::Trig qw(deg2rad);
 
 use all 'X';
@@ -77,9 +77,11 @@ sub spawn_projectile ($self, $actor, $lore, $effect, $at_x, $at_y)
 	my $projectile_data = $lore->projectile;
 	my ($angle) = Game::Mechanics::Generic->calculate_angle_and_diagonal($actor->variables->xy, $at_x, $at_y);
 
-	my $inacc = $projectile_data->{inaccuracy} / 2;
-	$angle += deg2rad random_number - $inacc, $inacc
-		if $inacc;
+	if (my $inacc = $projectile_data->{inaccuracy} / 2) {
+		my $roll = 1 - $actor->rng;
+		my $side = rng() <=> 0.5;
+		$angle += deg2rad $roll * $inacc * $side;
+	}
 
 	# TODO: check if actor is facing the right way
 	# TODO: actual character radius

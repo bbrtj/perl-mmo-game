@@ -112,3 +112,11 @@ sub get_energy_regen ($self, $class, $stats)
 	) * $class->energy_multiplier;
 }
 
+sub get_luck_effect ($self, $stats)
+{
+	state $stats0 = Game::Config->base_primary_stats;
+	state $luck_effect = lore_primary_stat('Luck')->affects->{rolls};
+
+	return 1 + ($stats->{'pstat.luck'} - $stats0) * $luck_effect;
+}
+
