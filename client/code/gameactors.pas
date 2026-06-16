@@ -22,10 +22,6 @@ type
 
 	TGameActor = class(TGameModel)
 	strict private
-	const
-		cTurnSpeed = 0.25;
-
-	var
 		FPlate: TCastleDesign;
 		FPlateInitialHeight: Single;
 
@@ -139,10 +135,10 @@ begin
 	if FMovementTime > 0 then begin
 		FMovementTime -= secondsPassed;
 		self.Translation := self.Translation + FMovementVector * secondsPassed;
+
+		self.Up := FMovementVector;
 	end;
 
-	if not (FMovementVector - self.Up).IsZero then
-		self.Up := self.Up + FMovementVector * cTurnSpeed;
 
 	self.UpdatePlatePosition;
 
