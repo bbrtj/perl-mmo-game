@@ -29,6 +29,7 @@
 		<level>1</level>
 		<health_multiplier>0.3</health_multiplier>
 		<respawn_time>60</respawn_time>
+		<ai>wander</ai>
 	</npc>
 	<npc id="bograt" name="Bog rat">
 		<translation lang="pl">
@@ -59,6 +60,7 @@
 		<level>2</level>
 		<health_multiplier>0.3</health_multiplier>
 		<respawn_time>60</respawn_time>
+		<ai>wander</ai>
 	</npc>
 </npcs>
 

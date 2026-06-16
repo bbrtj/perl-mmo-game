@@ -16,3 +16,7 @@ has param 'respawn_time' => (
 	isa => PositiveInt,
 );
 
+has option 'ai' => (
+	isa => Str,
+);
+

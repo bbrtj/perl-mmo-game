@@ -1,6 +1,8 @@
 package Game::Object::Actor::Npc;
 
 use My::Moose;
+use Utils;
+use all 'Game::Object::Actor::Npc::Ai';
 
 use header;
 
@@ -12,9 +14,14 @@ has param 'spawn' => (
 	lax_isa => InstanceOf ['Game::Object::Map::Spawn'],
 );
 
+has field 'ai' => (
+	lax_isa => Maybe [InstanceOf ['Game::Object::Actor::Npc::Ai']],
+	lazy => 1,
+);
+
 has field 'race' => (
 	lax_isa => InstanceOf ['Game::Lore::Race'],
-	builder => 1,
+	lazy => 1,
 );
 
 # NOTE: NPCs should have just one race
@@ -23,5 +30,11 @@ sub _build_race ($self)
 	return $self->lore->races->[0];
 }
 
-# TODO: NPC AI
+sub _build_ai ($self)
+{
+	return unless $self->lore->has_ai;
+
+	my $class = 'Game::Object::Actor::Npc::Ai::' . Utils->pascal_case($self->lore->ai);
+	return $class->new;
+}
 

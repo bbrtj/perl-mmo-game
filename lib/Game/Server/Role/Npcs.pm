@@ -49,6 +49,20 @@ sub _process_respawns ($self)
 	return;
 }
 
+sub _process_ai ($self)
+{
+	my $elapsed = server_time;
+
+	foreach my $actor (values $self->location->actors->%*) {
+		next unless $actor->is_npc;
+		next unless my $ai = $actor->npc->ai;
+
+		# TODO: avoid AI actions if there is no one around to save resources
+
+		$ai->act($self, $actor, $elapsed);
+	}
+}
+
 sub _spawn_npc ($self, $spawn)
 {
 	my $npc_object = Game::Object::Actor::Npc->new(
@@ -98,5 +112,6 @@ after 'signal_actor_died' => sub ($self, $actor) {
 after BUILD => sub ($self, @) {
 	$self->_prepare_respawns;
 	$self->_add_action(2 => '_process_respawns', 9);
+	$self->_add_action(1 => '_process_ai');
 };
 
