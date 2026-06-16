@@ -39,13 +39,13 @@ sub get_size ($self, $race, $stats)
 		* (1 + ($stats->{'pstat.con'} - $stats0) * $con_effect);
 }
 
-sub get_speed ($self, $stats)
+sub get_speed ($self, $class, $stats)
 {
 	state $base = Game::Config->base_speed;
 	state $stats0 = Game::Config->base_primary_stats;
 	state $dex_effect = lore_primary_stat('Dexterity')->affects->{speed};
 
-	return $base
+	return $base * $class->speed_multiplier
 		* (1 + ($stats->{'pstat.dex'} - $stats0) * $dex_effect);
 }
 

@@ -125,6 +125,7 @@ sub _build_stats ($self)
 sub _build_speed ($self)
 {
 	return Game::Mechanics::Character::Statistics->get_speed(
+		$self->parent->character->class,
 		$self->stats
 	);
 }

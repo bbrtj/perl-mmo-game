@@ -61,6 +61,12 @@ test_data 'should calculate size for character' => [
 	[lore_race 'Human', 8, 0.25 * 0.96],
 ];
 
+test_data 'should calculate speed for character' => [
+	[lore_class 'Rogue', 10, 0.8],
+	[lore_class 'Rogue', 0, 0.8 * 0.8],
+	[lore_class 'Rogue', 15, 0.8 * 1.1],
+];
+
 test should_calculate_experience_for_level => sub ($level, $experience) {
 	is Game::Mechanics::Character::Statistics->get_exp_for_level($level), $experience, "experience for $level ok";
 	is Game::Mechanics::Character::Statistics->get_current_level($experience), $level, "level $level ok";
@@ -125,6 +131,17 @@ test should_calculate_size_for_character => sub ($race_obj, $constitution, $expe
 	is Game::Mechanics::Character::Statistics->get_size($race_obj, \%stats),
 		float($expected),
 		"$race size ok ($constitution constitution)";
+};
+
+test should_calculate_speed_for_character => sub ($class_obj, $dexterity, $expected) {
+	my $class = $class_obj->name;
+	my %stats = (
+		'pstat.dex' => $dexterity,
+	);
+
+	is Game::Mechanics::Character::Statistics->get_speed($class_obj, \%stats),
+		float($expected),
+		"$class speed ok ($dexterity dexterity)";
 };
 
 done_testing;

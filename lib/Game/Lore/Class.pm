@@ -13,6 +13,11 @@ has param 'health_multiplier' => (
 	default => 1,
 );
 
+has param 'speed_multiplier' => (
+	isa => Num,
+	default => 1,
+);
+
 has param 'energy_multiplier' => (
 	isa => Num,
 	default => 1,
