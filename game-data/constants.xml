@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <constants requires="areas">
-	<map_precision>0.1</map_precision>
-	<base_radius>0.1</base_radius>
-	<discover_radius>5</discover_radius>
-	<yell_radius>20</yell_radius>
+	<base_radius>0.05</base_radius>
+	<discover_radius>6</discover_radius>
+	<yell_radius>12</yell_radius>
 
 	<max_level>50</max_level>
 	<stats_at_levels>5,10,20,30,40,50</stats_at_levels>

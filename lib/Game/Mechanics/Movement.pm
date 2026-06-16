@@ -28,7 +28,7 @@ sub move ($self, $movement, $map, $elapsed = server_time)
 		last if $map->check_can_be_accessed($new_x, $new_y);
 
 		# try to find position closer to the wall / ledge. It's okay to be slower but precise here
-		$elapsed -= Game::Config->map_precision * $movement->speed;
+		$elapsed -= Game::Config->base_radius * $movement->speed;
 		$rounded = true;
 	}
 
