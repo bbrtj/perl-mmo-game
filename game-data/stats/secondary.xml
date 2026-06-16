@@ -3,73 +3,113 @@
 	<secondary_stat id="might" name="Might">
 		<translation lang="pl">
 			<name>Potęga</name>
+			<desc>Potęga determinuje obrażenia zadawanie bronią.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Might</name>
+			<desc>Might determines damage dealt with weapons.</desc>
 		</translation>
+
+		<!-- % increased weapon damage -->
+		<value>0.4</value>
 	</secondary_stat>
 
 	<secondary_stat id="acum" name="Acumen">
 		<translation lang="pl">
 			<name>Bystrość</name>
+			<desc>Potęga determinuje obrażenia zadawanie magią.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Acumen</name>
+			<desc>Acumen determines damage dealt with magic.</desc>
 		</translation>
+
+		<!-- % increased magic damage -->
+		<value>0.4</value>
 	</secondary_stat>
 
 	<secondary_stat id="accu" name="Accuracy">
 		<translation lang="pl">
 			<name>Celność</name>
+			<desc>Celność determinuje szansę trafienia krytycznego.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Accuracy</name>
+			<desc>Accuracy determines critical hit chance.</desc>
 		</translation>
+
+		<!-- % increased crit chance -->
+		<value>0.5</value>
 	</secondary_stat>
 
 	<secondary_stat id="stam" name="Stamina">
 		<translation lang="pl">
 			<name>Kondycja</name>
+			<desc>Kondycja determinuje poziom zdrowia.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Stamina</name>
+			<desc>Stamina determines health level.</desc>
 		</translation>
+
+		<!-- health points -->
+		<value>4</value>
 	</secondary_stat>
 
 	<secondary_stat id="pers" name="Persistence">
 		<translation lang="pl">
 			<name>Upór</name>
+			<desc>Upór determinuje poziom energii.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Persistence</name>
+			<desc>Persistence determines energy level.</desc>
 		</translation>
+
+		<!-- energy points -->
+		<value>5</value>
 	</secondary_stat>
 
 	<secondary_stat id="resil" name="Resilience">
 		<translation lang="pl">
 			<name>Odporność</name>
+			<desc>Odporność zmniejsza otrzymywane obrażenia fizyczne.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Resilience</name>
+			<desc>Resilience reduces incoming physical damage.</desc>
 		</translation>
+
+		<!-- % damage reduction -->
+		<value>0.001</value>
 	</secondary_stat>
 
 	<secondary_stat id="willp" name="Willpower">
 		<translation lang="pl">
 			<name>Siła woli</name>
+			<desc>Siła woli zmniejsza otrzymywane obrażenia magiczne.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Willpower</name>
+			<desc>Willpower reduces incoming magical damage.</desc>
 		</translation>
+
+		<!-- % damage reduction -->
+		<value>0.001</value>
 	</secondary_stat>
 
 	<secondary_stat id="vigor" name="Vigor">
 		<translation lang="pl">
 			<name>Wigor</name>
+			<desc>Siła determinuje regenerację zdrowia i energii.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Vigor</name>
+			<desc>Vigor determines health and energy regeneration.</desc>
 		</translation>
+
+		<!-- % regeneration -->
+		<value>0.1</value>
 	</secondary_stat>
 </secondary_stats>
 

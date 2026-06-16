@@ -59,6 +59,6 @@ sub load_all_named ($self, $class)
 	X::LoreNotFound->throw("no lore collection for class $class")
 		unless defined $found;
 
-	return $found;
+	return {map { $_->id => $_ } values $found->%*};
 }
 

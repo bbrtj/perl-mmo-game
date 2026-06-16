@@ -39,7 +39,7 @@ has cached 'level' => (
 	lazy => 1,
 );
 
-has cached 'primary_stats' => (
+has cached 'stats' => (
 	lax_isa => HashRef [Int],
 	lazy => 1,
 );
@@ -98,17 +98,26 @@ sub _build_level ($self)
 	return Game::Mechanics::Character::Statistics->get_current_level($self->parent->variables->experience);
 }
 
-sub _build_primary_stats ($self)
+sub _build_stats ($self)
 {
+	state $secondary = DI->get('lore_data_repo')->load_all_named('Game::Lore::SecondaryStat');
 	my $char = $self->parent->character;
+	my $level = $self->level;
 	my %calculated;
 
 	foreach my ($stat, $value) ($char->race->base_stats->%*) {
 		$calculated{$stat} = $value;
 	}
 
+	foreach my $stat (keys $secondary->%*) {
+		$calculated{$stat} = 0;
+	}
+
 	foreach my ($stat, $value) ($char->class->stat_bonuses->%*) {
-		$calculated{$stat} += $value;
+		$calculated{$stat} += exists $secondary->{$stat}
+			? int($self->level * $value)
+			: $value
+			;
 	}
 
 	return \%calculated;
@@ -117,7 +126,7 @@ sub _build_primary_stats ($self)
 sub _build_speed ($self)
 {
 	return Game::Mechanics::Character::Statistics->get_speed(
-		$self->primary_stats
+		$self->stats
 	);
 }
 
@@ -137,31 +146,33 @@ sub _build_weapon_hitbox ($self)
 sub _build_max_health ($self)
 {
 	return Game::Mechanics::Character::Statistics->get_max_health(
-		$self->level,
 		$self->parent->character->class,
-		$self->primary_stats,
+		$self->stats,
 	);
 }
 
 sub _build_health_regeneration ($self)
 {
-	# TODO: nasty hardcode
-	return 0.5;
+	return Game::Mechanics::Character::Statistics->get_health_regen(
+		$self->parent->character->class,
+		$self->stats,
+	);
 }
 
 sub _build_max_energy ($self)
 {
 	return Game::Mechanics::Character::Statistics->get_max_energy(
-		$self->level,
 		$self->parent->character->class,
-		$self->primary_stats,
+		$self->stats,
 	);
 }
 
 sub _build_energy_regeneration ($self)
 {
-	# TODO: nasty hardcode
-	return 0.1;
+	return Game::Mechanics::Character::Statistics->get_energy_regen(
+		$self->parent->character->class,
+		$self->stats,
+	);
 }
 
 sub _build_size ($self)
@@ -170,7 +181,7 @@ sub _build_size ($self)
 	return Game::Mechanics::Character::Statistics->get_size(
 		$char->race,
 		$char->class,
-		$self->primary_stats,
+		$self->stats,
 	);
 }
 

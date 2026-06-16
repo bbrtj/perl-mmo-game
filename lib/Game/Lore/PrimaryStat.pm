@@ -8,3 +8,7 @@ extends 'Game::Lore';
 
 use constant prefix => 'pstat';
 
+has param 'affects' => (
+	isa => HashRef [Num],
+);
+

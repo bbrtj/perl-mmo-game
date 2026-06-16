@@ -20,6 +20,13 @@
 			<stat lore="primary_stat" lore-key="Strength">3</stat>
 			<stat lore="primary_stat" lore-key="Dexterity">8</stat>
 			<stat lore="primary_stat" lore-key="Wisdom">1</stat>
+
+			<stat lore="secondary_stat" lore-key="Might">2</stat>
+			<stat lore="secondary_stat" lore-key="Accuracy">2</stat>
+			<stat lore="secondary_stat" lore-key="Resilience">1</stat>
+			<stat lore="secondary_stat" lore-key="Willpower">1</stat>
+			<stat lore="secondary_stat" lore-key="Stamina">1</stat>
+			<stat lore="secondary_stat" lore-key="Vigor">1</stat>
 		</stat_bonuses>
 	</class>
 </classes>

@@ -20,6 +20,13 @@
 			<stat lore="primary_stat" lore-key="Strength">4</stat>
 			<stat lore="primary_stat" lore-key="Constitution">6</stat>
 			<stat lore="primary_stat" lore-key="Wisdom">2</stat>
+
+			<stat lore="secondary_stat" lore-key="Might">1</stat>
+			<stat lore="secondary_stat" lore-key="Resilience">2</stat>
+			<stat lore="secondary_stat" lore-key="Willpower">2</stat>
+			<stat lore="secondary_stat" lore-key="Stamina">2</stat>
+			<stat lore="secondary_stat" lore-key="Persistence">1</stat>
+			<stat lore="secondary_stat" lore-key="Vigor">1</stat>
 		</stat_bonuses>
 
 		<health_multiplier>1.4</health_multiplier>

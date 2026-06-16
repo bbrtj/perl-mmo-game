@@ -22,6 +22,13 @@
 			<stat lore="primary_stat" lore-key="Constitution">3</stat>
 			<stat lore="primary_stat" lore-key="Wisdom">1</stat>
 			<stat lore="primary_stat" lore-key="Luck">1</stat>
+
+			<stat lore="secondary_stat" lore-key="Might">2</stat>
+			<stat lore="secondary_stat" lore-key="Accuracy">1</stat>
+			<stat lore="secondary_stat" lore-key="Resilience">1</stat>
+			<stat lore="secondary_stat" lore-key="Willpower">1</stat>
+			<stat lore="secondary_stat" lore-key="Stamina">2</stat>
+			<stat lore="secondary_stat" lore-key="Vigor">1</stat>
 		</stat_bonuses>
 
 		<health_multiplier>1.2</health_multiplier>

@@ -19,6 +19,12 @@
 		<stat_bonuses>
 			<stat lore="primary_stat" lore-key="Wisdom">8</stat>
 			<stat lore="primary_stat" lore-key="Charisma">4</stat>
+
+			<stat lore="secondary_stat" lore-key="Accuracy">1</stat>
+			<stat lore="secondary_stat" lore-key="Acumen">2</stat>
+			<stat lore="secondary_stat" lore-key="Stamina">1</stat>
+			<stat lore="secondary_stat" lore-key="Persistence">2</stat>
+			<stat lore="secondary_stat" lore-key="Vigor">1</stat>
 		</stat_bonuses>
 
 		<health_multiplier>0.9</health_multiplier>

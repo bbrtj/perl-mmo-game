@@ -19,6 +19,9 @@
 		<stat_bonuses>
 			<stat lore="primary_stat" lore-key="Strength">-3</stat>
 			<stat lore="primary_stat" lore-key="Constitution">-3</stat>
+
+			<stat lore="secondary_stat" lore-key="Might">1</stat>
+			<stat lore="secondary_stat" lore-key="Stamina">1</stat>
 		</stat_bonuses>
 
 		<level>1</level>
@@ -44,6 +47,9 @@
 		<stat_bonuses>
 			<stat lore="primary_stat" lore-key="Strength">-3</stat>
 			<stat lore="primary_stat" lore-key="Constitution">-2</stat>
+
+			<stat lore="secondary_stat" lore-key="Might">1</stat>
+			<stat lore="secondary_stat" lore-key="Stamina">1</stat>
 		</stat_bonuses>
 
 		<level>2</level>

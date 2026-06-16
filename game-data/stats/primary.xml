@@ -1,57 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<primary_stats>
+<primary_stats requires="secondary_stats">
 	<primary_stat id="str" name="Strength">
 		<translation lang="pl">
 			<name>Siła</name>
+			<desc>Siła wpływa na potęgę oraz odporność.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Strength</name>
+			<desc>Strength affects might and resilience.</desc>
 		</translation>
+
+		<affects>
+			<stat lore="secondary_stat" lore-key="Might">0.04</stat>
+			<stat lore="secondary_stat" lore-key="Resilience">0.01</stat>
+		</affects>
 	</primary_stat>
 
 	<primary_stat id="dex" name="Dexterity">
 		<translation lang="pl">
 			<name>Zręczność</name>
+			<desc>Zręczność wpływa na celność i prędkość poruszania się.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Dexterity</name>
+			<desc>Dexterity affects accuracy and movement speed.</desc>
 		</translation>
+
+		<affects>
+			<stat lore="secondary_stat" lore-key="Accuracy">0.05</stat>
+			<speed>0.02</speed>
+		</affects>
 	</primary_stat>
 
 	<primary_stat id="wis" name="Wisdom">
 		<translation lang="pl">
 			<name>Mądrość</name>
+			<desc>Mądrość wpływa na bystrość oraz wigor.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Wisdom</name>
+			<desc>Wisdom affects acumen and vigor.</desc>
 		</translation>
+
+		<affects>
+			<stat lore="secondary_stat" lore-key="Acumen">0.035</stat>
+			<stat lore="secondary_stat" lore-key="Vigor">0.015</stat>
+		</affects>
 	</primary_stat>
 
 	<primary_stat id="con" name="Constitution">
 		<translation lang="pl">
 			<name>Budowa</name>
+			<desc>Budowa wpływa na kondycję, ładowność oraz rozmiar postaci.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Constitution</name>
+			<desc>Constitution affects stamina, carrying capacity, and character size.</desc>
 		</translation>
+
+		<affects>
+			<stat lore="secondary_stat" lore-key="Stamina">5</stat>
+			<capacity>0.04</capacity>
+			<size>0.01</size>
+		</affects>
 	</primary_stat>
 
+	<!-- Affects willpower and persistence -->
 	<primary_stat id="cha" name="Charisma">
 		<translation lang="pl">
 			<name>Charyzma</name>
+			<desc>Charyzma wpływa na siłę woli oraz upór.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Charisma</name>
+			<desc>Charisma affects willpower and persistence.</desc>
 		</translation>
+
+		<affects>
+			<stat lore="secondary_stat" lore-key="Persistence">0.04</stat>
+			<stat lore="secondary_stat" lore-key="Willpower">0.01</stat>
+		</affects>
 	</primary_stat>
 
 	<primary_stat id="luck" name="Luck">
 		<translation lang="pl">
 			<name>Szczęście</name>
+			<desc>Szczęście wpływa na mechaniki oparte na szansie.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Luck</name>
+			<desc>Luck affects chance-based mechanics.</desc>
 		</translation>
+
+		<affects>
+			<rolls>0.02</rolls>
+		</affects>
 	</primary_stat>
 </primary_stats>
 

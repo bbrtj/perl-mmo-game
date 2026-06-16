@@ -19,6 +19,13 @@
 		<stat_bonuses>
 			<stat lore="primary_stat" lore-key="Wisdom">4</stat>
 			<stat lore="primary_stat" lore-key="Charisma">8</stat>
+
+			<stat lore="secondary_stat" lore-key="Accuracy">1</stat>
+			<stat lore="secondary_stat" lore-key="Resilience">1</stat>
+			<stat lore="secondary_stat" lore-key="Willpower">1</stat>
+			<stat lore="secondary_stat" lore-key="Stamina">1</stat>
+			<stat lore="secondary_stat" lore-key="Persistence">1</stat>
+			<stat lore="secondary_stat" lore-key="Vigor">2</stat>
 		</stat_bonuses>
 
 		<energy_multiplier>1.8</energy_multiplier>

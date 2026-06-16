@@ -8,3 +8,7 @@ extends 'Game::Lore';
 
 use constant prefix => 'sstat';
 
+has param 'value' => (
+	isa => Num,
+);
+
