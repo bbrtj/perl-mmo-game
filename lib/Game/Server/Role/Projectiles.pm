@@ -115,6 +115,6 @@ sub spawn_projectile ($self, $actor, $lore, $effect, $at_x, $at_y)
 }
 
 after BUILD => sub ($self, @) {
-	$self->_add_action(0.2 => '_process_projectiles', 8);
+	$self->_add_action(0.1 => '_process_projectiles', 8);
 };
 

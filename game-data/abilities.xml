@@ -27,10 +27,10 @@
 		</visuals>
 
 		<uses lore="attribute">Physical</uses>
-		<speed_multiplier>1.5</speed_multiplier>
+		<speed_multiplier>1</speed_multiplier>
 		<damage_multiplier>1.5</damage_multiplier>
 		<projectile>
-			<speed>2</speed>
+			<speed>4</speed>
 			<range>5</range>
 			<inaccuracy>15</inaccuracy>
 		</projectile>
