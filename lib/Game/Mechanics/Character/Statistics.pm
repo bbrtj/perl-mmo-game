@@ -57,9 +57,8 @@ sub get_max_health ($self, $class, $stats)
 	state $con_effect = lore_primary_stat('Constitution')->affects->{'sstat.stam'};
 
 	return (
-		$base + (
-			$stats->{'sstat.stam'}
-				* $sta_effect
+		$base * (
+			1 + $stats->{'sstat.stam'} * $sta_effect
 				* (1 + ($stats->{'pstat.con'} - $stats0) * $con_effect)
 		)
 	) * $class->health_multiplier;
@@ -89,9 +88,9 @@ sub get_max_energy ($self, $class, $stats)
 	state $cha_effect = lore_primary_stat('Charisma')->affects->{'sstat.pers'};
 
 	return (
-		$base + (
-			$stats->{'sstat.pers'}
-				* $per_effect
+		$base * (
+			1 +
+				$stats->{'sstat.pers'} * $per_effect
 				* (1 + ($stats->{'pstat.cha'} - $stats0) * $cha_effect)
 		)
 	) * $class->energy_multiplier;

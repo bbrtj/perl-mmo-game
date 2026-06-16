@@ -43,8 +43,8 @@
 		</translation>
 
 		<affects>
-			<stat lore="secondary_stat" lore-key="Acumen">0.035</stat>
-			<stat lore="secondary_stat" lore-key="Vigor">0.015</stat>
+			<stat lore="secondary_stat" lore-key="Acumen">0.04</stat>
+			<stat lore="secondary_stat" lore-key="Vigor">0.02</stat>
 		</affects>
 	</primary_stat>
 
@@ -59,7 +59,7 @@
 		</translation>
 
 		<affects>
-			<stat lore="secondary_stat" lore-key="Stamina">5</stat>
+			<stat lore="secondary_stat" lore-key="Stamina">0.05</stat>
 			<capacity>0.04</capacity>
 			<size>0.01</size>
 		</affects>

@@ -52,8 +52,8 @@
 			<desc>Stamina determines health level.</desc>
 		</translation>
 
-		<!-- health points -->
-		<value>4</value>
+		<!-- % of base health -->
+		<value>0.05</value>
 	</secondary_stat>
 
 	<secondary_stat id="pers" name="Persistence">
@@ -66,8 +66,8 @@
 			<desc>Persistence determines energy level.</desc>
 		</translation>
 
-		<!-- energy points -->
-		<value>5</value>
+		<!-- % of base energy -->
+		<value>0.1</value>
 	</secondary_stat>
 
 	<secondary_stat id="resil" name="Resilience">
@@ -101,7 +101,7 @@
 	<secondary_stat id="vigor" name="Vigor">
 		<translation lang="pl">
 			<name>Wigor</name>
-			<desc>Siła determinuje regenerację zdrowia i energii.</desc>
+			<desc>Wigor determinuje regenerację zdrowia i energii.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Vigor</name>
