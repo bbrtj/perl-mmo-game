@@ -18,7 +18,7 @@
 
 		<stat_bonuses>
 			<stat lore="primary_stat" lore-key="Strength">-3</stat>
-			<stat lore="primary_stat" lore-key="Constitution">-3</stat>
+			<stat lore="primary_stat" lore-key="Constitution">-10</stat>
 
 			<stat lore="secondary_stat" lore-key="Might">1</stat>
 			<stat lore="secondary_stat" lore-key="Stamina">1</stat>
@@ -31,11 +31,11 @@
 	<npc id="bograt" name="Bog rat">
 		<translation lang="pl">
 			<name>Szczur Bagienny</name>
-			<desc>Większa wersja szczura, bardziej przystosowana do życia w skrajnym środowisku.</desc>
+			<desc>Większy gatunek szczura, bardziej przystosowana do życia w skrajnym środowisku.</desc>
 		</translation>
 		<translation lang="en">
 			<name>Bog Rat</name>
-			<desc>A larger version of the rat, better adapted to life in harsh environment.</desc>
+			<desc>A larger species of the rat, better adapted to life in harsh environment.</desc>
 		</translation>
 
 		<uses lore="race">Animal</uses>
@@ -46,7 +46,7 @@
 
 		<stat_bonuses>
 			<stat lore="primary_stat" lore-key="Strength">-3</stat>
-			<stat lore="primary_stat" lore-key="Constitution">-2</stat>
+			<stat lore="primary_stat" lore-key="Constitution">-8</stat>
 
 			<stat lore="secondary_stat" lore-key="Might">1</stat>
 			<stat lore="secondary_stat" lore-key="Stamina">1</stat>

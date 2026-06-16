@@ -18,11 +18,6 @@ has param 'energy_multiplier' => (
 	default => 1,
 );
 
-has param 'size_multiplier' => (
-	isa => Num,
-	default => 1,
-);
-
 has param 'stat_bonuses' => (
 	isa => HashRef [Int],
 );

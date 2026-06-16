@@ -61,7 +61,7 @@
 		<affects>
 			<stat lore="secondary_stat" lore-key="Stamina">0.05</stat>
 			<capacity>0.04</capacity>
-			<size>0.01</size>
+			<size>0.02</size>
 		</affects>
 	</primary_stat>
 

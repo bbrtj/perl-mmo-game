@@ -29,13 +29,13 @@ sub get_exp_for_level ($self, $level)
 }
 
 # size is affected by constitution
-sub get_size ($self, $race, $class, $stats)
+sub get_size ($self, $race, $stats)
 {
 	state $base = Game::Config->base_size;
 	state $stats0 = Game::Config->base_primary_stats;
 	state $con_effect = lore_primary_stat('Constitution')->affects->{'size'};
 
-	return $base * $race->size_multiplier * $class->size_multiplier
+	return $base * $race->size_multiplier
 		* (1 + ($stats->{'pstat.con'} - $stats0) * $con_effect);
 }
 

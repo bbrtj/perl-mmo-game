@@ -49,7 +49,11 @@ has cached 'speed' => (
 	lazy => 1,
 );
 
-# precalculated weapon damage
+has cached 'size' => (
+	lax_isa => PositiveNum,
+	lazy => 1,
+);
+
 has cached 'weapon_damage' => (
 	lax_isa => PositiveNum,
 	lazy => 1,
@@ -76,11 +80,6 @@ has cached 'max_energy' => (
 );
 
 has cached 'energy_regeneration' => (
-	lax_isa => PositiveNum,
-	lazy => 1,
-);
-
-has cached 'size' => (
 	lax_isa => PositiveNum,
 	lazy => 1,
 );
@@ -130,6 +129,14 @@ sub _build_speed ($self)
 	);
 }
 
+sub _build_size ($self)
+{
+	return Game::Mechanics::Character::Statistics->get_size(
+		$self->parent->character->race,
+		$self->stats,
+	);
+}
+
 sub _build_weapon_damage ($self)
 {
 	# TODO calculate from equipment and other stats
@@ -171,16 +178,6 @@ sub _build_energy_regeneration ($self)
 {
 	return Game::Mechanics::Character::Statistics->get_energy_regen(
 		$self->parent->character->class,
-		$self->stats,
-	);
-}
-
-sub _build_size ($self)
-{
-	my $char = $self->parent->character;
-	return Game::Mechanics::Character::Statistics->get_size(
-		$char->race,
-		$char->class,
 		$self->stats,
 	);
 }

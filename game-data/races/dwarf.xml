@@ -19,6 +19,8 @@
 			<stat lore="primary_stat" lore-key="Charisma">8</stat>
 			<stat lore="primary_stat" lore-key="Luck">10</stat>
 		</base_stats>
+
+		<size_multiplier>0.95</size_multiplier>
 	</race>
 </races>
 

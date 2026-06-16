@@ -15,43 +15,50 @@ test_data 'should calculate experience for level' => [
 ];
 
 test_data 'should calculate health for character' => [
-	['Warden', 0, 0, 80 * 1.6],
-	['Warden', 1, 0, 80 * 1.6 * 1.025],
-	['Warden', 1, 10, 80 * 1.6 * 1.05],
-	['Warden', 1, 15, 80 * 1.6 * 1.0625],
-	['Warden', 2, 15, 80 * 1.6 * 1.1250],
-	['Assassin', 1, 10, 80 * 1.05],
-	['Cultist', 5, 10, 80 * 0.9 * 1.25],
+	[lore_class 'Warden', 0, 0, 80 * 1.6],
+	[lore_class 'Warden', 1, 0, 80 * 1.6 * 1.025],
+	[lore_class 'Warden', 1, 10, 80 * 1.6 * 1.05],
+	[lore_class 'Warden', 1, 15, 80 * 1.6 * 1.0625],
+	[lore_class 'Warden', 2, 15, 80 * 1.6 * 1.1250],
+	[lore_class 'Assassin', 1, 10, 80 * 1.05],
+	[lore_class 'Cultist', 5, 10, 80 * 0.9 * 1.25],
 ];
 
 test_data 'should calculate health regeneration for character' => [
-	['Warden', 0, 0, 0.4 * 1.6],
-	['Warden', 1, 0, 0.4 * 1.6 * 1.08],
-	['Warden', 1, 10, 0.4 * 1.6 * 1.1],
-	['Warden', 1, 15, 0.4 * 1.6 * 1.11],
-	['Warden', 2, 15, 0.4 * 1.6 * 1.22],
-	['Assassin', 1, 10, 0.4 * 1.1],
-	['Cultist', 5, 10, 0.4 * 0.9 * 1.5],
+	[lore_class 'Warden', 0, 0, 0.4 * 1.6],
+	[lore_class 'Warden', 1, 0, 0.4 * 1.6 * 1.08],
+	[lore_class 'Warden', 1, 10, 0.4 * 1.6 * 1.1],
+	[lore_class 'Warden', 1, 15, 0.4 * 1.6 * 1.11],
+	[lore_class 'Warden', 2, 15, 0.4 * 1.6 * 1.22],
+	[lore_class 'Assassin', 1, 10, 0.4 * 1.1],
+	[lore_class 'Cultist', 5, 10, 0.4 * 0.9 * 1.5],
 ];
 
 test_data 'should calculate energy for character' => [
-	['Elementalist', 0, 0, 30 * 2],
-	['Elementalist', 1, 0, 30 * 2 * 1.06],
-	['Elementalist', 1, 10, 30 * 2 * 1.1],
-	['Elementalist', 1, 15, 30 * 2 * 1.12],
-	['Elementalist', 2, 15, 30 * 2 * 1.24],
-	['Rogue', 1, 10, 30 * 1.1],
-	['Knight', 5, 10, 30 * 1.5 * 1.5],
+	[lore_class 'Elementalist', 0, 0, 30 * 2],
+	[lore_class 'Elementalist', 1, 0, 30 * 2 * 1.06],
+	[lore_class 'Elementalist', 1, 10, 30 * 2 * 1.1],
+	[lore_class 'Elementalist', 1, 15, 30 * 2 * 1.12],
+	[lore_class 'Elementalist', 2, 15, 30 * 2 * 1.24],
+	[lore_class 'Rogue', 1, 10, 30 * 1.1],
+	[lore_class 'Knight', 5, 10, 30 * 1.5 * 1.5],
 ];
 
 test_data 'should calculate energy regeneration for character' => [
-	['Elementalist', 0, 0, 0.15 * 2],
-	['Elementalist', 1, 0, 0.15 * 2 * 1.08],
-	['Elementalist', 1, 10, 0.15 * 2 * 1.1],
-	['Elementalist', 1, 15, 0.15 * 2 * 1.11],
-	['Elementalist', 2, 15, 0.15 * 2 * 1.22],
-	['Rogue', 1, 10, 0.15 * 1.1],
-	['Knight', 5, 10, 0.15 * 1.5 * 1.5],
+	[lore_class 'Elementalist', 0, 0, 0.15 * 2],
+	[lore_class 'Elementalist', 1, 0, 0.15 * 2 * 1.08],
+	[lore_class 'Elementalist', 1, 10, 0.15 * 2 * 1.1],
+	[lore_class 'Elementalist', 1, 15, 0.15 * 2 * 1.11],
+	[lore_class 'Elementalist', 2, 15, 0.15 * 2 * 1.22],
+	[lore_class 'Rogue', 1, 10, 0.15 * 1.1],
+	[lore_class 'Knight', 5, 10, 0.15 * 1.5 * 1.5],
+];
+
+test_data 'should calculate size for character' => [
+	[lore_race 'Animal', 10, 0.25],
+	[lore_race 'Animal', 0, 0.25 * 0.8],
+	[lore_race 'Dwarf', 15, 0.25 * 0.95 * 1.1],
+	[lore_race 'Human', 8, 0.25 * 0.96],
 ];
 
 test should_calculate_experience_for_level => sub ($level, $experience) {
@@ -61,8 +68,8 @@ test should_calculate_experience_for_level => sub ($level, $experience) {
 		if $level > 1;
 };
 
-test should_calculate_health_for_character => sub ($class, $stamina, $constitution, $expected) {
-	my $class_obj = lore_class $class;
+test should_calculate_health_for_character => sub ($class_obj, $stamina, $constitution, $expected) {
+	my $class = $class_obj->name;
 	my %stats = (
 		'sstat.stam' => $stamina,
 		'pstat.con' => $constitution,
@@ -73,8 +80,8 @@ test should_calculate_health_for_character => sub ($class, $stamina, $constituti
 		"$class health ok ($stamina stamina, $constitution constitution)";
 };
 
-test should_calculate_health_regeneration_for_character => sub ($class, $vigor, $wisdom, $expected) {
-	my $class_obj = lore_class $class;
+test should_calculate_health_regeneration_for_character => sub ($class_obj, $vigor, $wisdom, $expected) {
+	my $class = $class_obj->name;
 	my %stats = (
 		'sstat.vigor' => $vigor,
 		'pstat.wis' => $wisdom,
@@ -85,8 +92,8 @@ test should_calculate_health_regeneration_for_character => sub ($class, $vigor, 
 		"$class health regen ok ($vigor vigor, $wisdom wisdom)";
 };
 
-test should_calculate_energy_for_character => sub ($class, $persistence, $charisma, $expected) {
-	my $class_obj = lore_class $class;
+test should_calculate_energy_for_character => sub ($class_obj, $persistence, $charisma, $expected) {
+	my $class = $class_obj->name;
 	my %stats = (
 		'sstat.pers' => $persistence,
 		'pstat.cha' => $charisma,
@@ -97,8 +104,8 @@ test should_calculate_energy_for_character => sub ($class, $persistence, $charis
 		"$class energy ok ($persistence persistence, $charisma charisma)";
 };
 
-test should_calculate_energy_regeneration_for_character => sub ($class, $vigor, $wisdom, $expected) {
-	my $class_obj = lore_class $class;
+test should_calculate_energy_regeneration_for_character => sub ($class_obj, $vigor, $wisdom, $expected) {
+	my $class = $class_obj->name;
 	my %stats = (
 		'sstat.vigor' => $vigor,
 		'pstat.wis' => $wisdom,
@@ -107,6 +114,17 @@ test should_calculate_energy_regeneration_for_character => sub ($class, $vigor, 
 	is Game::Mechanics::Character::Statistics->get_energy_regen($class_obj, \%stats),
 		float($expected),
 		"$class energy regen ok ($vigor vigor, $wisdom wisdom)";
+};
+
+test should_calculate_size_for_character => sub ($race_obj, $constitution, $expected) {
+	my $race = $race_obj->name;
+	my %stats = (
+		'pstat.con' => $constitution,
+	);
+
+	is Game::Mechanics::Character::Statistics->get_size($race_obj, \%stats),
+		float($expected),
+		"$race size ok ($constitution constitution)";
 };
 
 done_testing;
