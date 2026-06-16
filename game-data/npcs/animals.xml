@@ -17,16 +17,18 @@
 		</visuals>
 
 		<stat_bonuses>
-			<stat lore="primary_stat" lore-key="Strength">-3</stat>
+			<stat lore="primary_stat" lore-key="Strength">-5</stat>
+			<stat lore="primary_stat" lore-key="Dexterity">-10</stat>
 			<stat lore="primary_stat" lore-key="Constitution">-10</stat>
 
 			<stat lore="secondary_stat" lore-key="Might">1</stat>
+			<stat lore="secondary_stat" lore-key="Accuracy">1</stat>
 			<stat lore="secondary_stat" lore-key="Stamina">1</stat>
 		</stat_bonuses>
 
 		<level>1</level>
 		<health_multiplier>0.3</health_multiplier>
-		<respawn_time>300</respawn_time>
+		<respawn_time>60</respawn_time>
 	</npc>
 	<npc id="bograt" name="Bog rat">
 		<translation lang="pl">
@@ -46,15 +48,17 @@
 
 		<stat_bonuses>
 			<stat lore="primary_stat" lore-key="Strength">-3</stat>
+			<stat lore="primary_stat" lore-key="Dexterity">-8</stat>
 			<stat lore="primary_stat" lore-key="Constitution">-8</stat>
 
-			<stat lore="secondary_stat" lore-key="Might">1</stat>
-			<stat lore="secondary_stat" lore-key="Stamina">1</stat>
+			<stat lore="secondary_stat" lore-key="Might">2</stat>
+			<stat lore="secondary_stat" lore-key="Accuracy">2</stat>
+			<stat lore="secondary_stat" lore-key="Stamina">2</stat>
 		</stat_bonuses>
 
 		<level>2</level>
 		<health_multiplier>0.3</health_multiplier>
-		<respawn_time>300</respawn_time>
+		<respawn_time>60</respawn_time>
 	</npc>
 </npcs>
 
