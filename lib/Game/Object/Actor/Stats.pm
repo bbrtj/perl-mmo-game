@@ -2,7 +2,7 @@ package Game::Object::Actor::Stats;
 
 use My::Moose;
 use Game::Config;
-use Game::Mechanics::Character::Statistics;
+use Game::Mechanics::Character::Statistics qw(:all);
 
 use header;
 
@@ -99,7 +99,7 @@ sub set_movement ($self, $movement)
 # NOTE: npc gets experience set to the right number upon spawning
 sub _build_level ($self)
 {
-	return Game::Mechanics::Character::Statistics->get_current_level($self->parent->variables->experience);
+	return get_current_level($self->parent->variables->experience);
 }
 
 sub _build_stats ($self)
@@ -129,7 +129,7 @@ sub _build_stats ($self)
 
 sub _build_speed ($self)
 {
-	return Game::Mechanics::Character::Statistics->get_speed(
+	return get_speed(
 		$self->parent->character->class,
 		$self->stats
 	);
@@ -137,7 +137,7 @@ sub _build_speed ($self)
 
 sub _build_size ($self)
 {
-	return Game::Mechanics::Character::Statistics->get_size(
+	return get_size(
 		$self->parent->character->race,
 		$self->stats,
 	);
@@ -158,7 +158,7 @@ sub _build_weapon_hitbox ($self)
 
 sub _build_max_health ($self)
 {
-	return Game::Mechanics::Character::Statistics->get_max_health(
+	return get_max_health(
 		$self->parent->character->class,
 		$self->stats,
 	);
@@ -166,7 +166,7 @@ sub _build_max_health ($self)
 
 sub _build_health_regeneration ($self)
 {
-	return Game::Mechanics::Character::Statistics->get_health_regen(
+	return get_health_regen(
 		$self->parent->character->class,
 		$self->stats,
 	);
@@ -174,7 +174,7 @@ sub _build_health_regeneration ($self)
 
 sub _build_max_energy ($self)
 {
-	return Game::Mechanics::Character::Statistics->get_max_energy(
+	return get_max_energy(
 		$self->parent->character->class,
 		$self->stats,
 	);
@@ -182,7 +182,7 @@ sub _build_max_energy ($self)
 
 sub _build_energy_regeneration ($self)
 {
-	return Game::Mechanics::Character::Statistics->get_energy_regen(
+	return get_energy_regen(
 		$self->parent->character->class,
 		$self->stats,
 	);
@@ -190,7 +190,7 @@ sub _build_energy_regeneration ($self)
 
 sub _build_luck_effect ($self)
 {
-	return Game::Mechanics::Character::Statistics->get_luck_effect(
+	return get_luck_effect(
 		$self->stats,
 	);
 }

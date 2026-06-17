@@ -1,7 +1,8 @@
 package Game::Object::Actor::Npc::Ai::Role::CanFight;
 
 use My::Moose::Role;
-use Game::Mechanics::Generic;
+use Game::Mechanics::Distance qw(calculate_distance);
+use Game::Mechanics::Generic qw(calculate_angle_and_diagonal find_frontal_point);
 use Game::RNG qw(rng);
 use Math::Trig qw(pi);
 use List::Util qw(max);
@@ -40,7 +41,7 @@ sub fight ($self, $server, $npc_actor)
 			next;
 		}
 
-		my $distance = Game::Mechanics::Distance->calculate_distance(@xy, $actor->variables->xy);
+		my $distance = calculate_distance(@xy, $actor->variables->xy);
 		my $this_aggro = $aggro_value / $distance**2;
 
 		if ($this_aggro > $max_aggro_value) {
@@ -52,7 +53,7 @@ sub fight ($self, $server, $npc_actor)
 	return false unless defined $max_aggro;
 
 	# TODO: pathfinding
-	my ($angle, $distance) = Game::Mechanics::Generic->calculate_angle_and_diagonal(@xy, $max_aggro->variables->xy);
+	my ($angle, $distance) = calculate_angle_and_diagonal(@xy, $max_aggro->variables->xy);
 	my $stats = $npc_actor->stats;
 	my $npc_size = $stats->size;
 	my $follow_distance = $self->follow_distance + $npc_size;
@@ -60,7 +61,7 @@ sub fight ($self, $server, $npc_actor)
 
 	# TODO: different behavior for ranged enemies
 	if ($distance > $follow_distance + ACCEPTABLE_DISTANCE_DIFF || abs($angle - $stats->angle) > $deviance_angle) {
-		my @point = Game::Mechanics::Generic->find_frontal_point(
+		my @point = find_frontal_point(
 			@xy,
 			$angle + rng() * $deviance_angle - $deviance_angle / 2,
 			max($distance - $follow_distance, 0.001),    # make sure to walk towards the target

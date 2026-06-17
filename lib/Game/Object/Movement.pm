@@ -1,7 +1,7 @@
 package Game::Object::Movement;
 
 use My::Moose;
-use Game::Mechanics::Generic;
+use Game::Mechanics::Generic qw(calculate_angle_and_diagonal);
 
 use header;
 
@@ -35,7 +35,7 @@ with qw(
 
 sub BUILD ($self, $)
 {
-	my ($angle, $distance) = Game::Mechanics::Generic->calculate_angle_and_diagonal(
+	my ($angle, $distance) = calculate_angle_and_diagonal(
 		$self->variables->xy,
 		$self->xy,
 	);

@@ -1,8 +1,13 @@
 package Game::Mechanics::Character::Damage;
 
+use Exporter qw(import);
 use header;
 
-sub deal_damage ($self, $source_actor, $attributes, $damage, @targets)
+our @EXPORT_OK = qw(
+	deal_damage
+);
+
+sub deal_damage ($source_actor, $attributes, $damage, @targets)
 {
 	foreach my $target (@targets) {
 		my $target_damage = $damage;

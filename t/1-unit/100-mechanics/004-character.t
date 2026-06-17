@@ -3,7 +3,7 @@ use testheader;
 use Test2::Tools::Compare qw(float);
 
 use Game::Helpers;
-use Game::Mechanics::Character::Statistics;
+use Game::Mechanics::Character::Statistics qw(:all);
 
 test_data 'should calculate experience for level' => [
 	[1, 0],
@@ -74,9 +74,9 @@ test_data 'should calculate luck for character' => [
 ];
 
 test should_calculate_experience_for_level => sub ($level, $experience) {
-	is Game::Mechanics::Character::Statistics->get_exp_for_level($level), $experience, "experience for $level ok";
-	is Game::Mechanics::Character::Statistics->get_current_level($experience), $level, "level $level ok";
-	is Game::Mechanics::Character::Statistics->get_current_level($experience - 1), $level - 1, "previous level ok"
+	is get_exp_for_level($level), $experience, "experience for $level ok";
+	is get_current_level($experience), $level, "level $level ok";
+	is get_current_level($experience - 1), $level - 1, "previous level ok"
 		if $level > 1;
 };
 
@@ -87,7 +87,7 @@ test should_calculate_health_for_character => sub ($class_obj, $stamina, $consti
 		'pstat.con' => $constitution,
 	);
 
-	is Game::Mechanics::Character::Statistics->get_max_health($class_obj, \%stats),
+	is get_max_health($class_obj, \%stats),
 		float($expected),
 		"$class health ok ($stamina stamina, $constitution constitution)";
 };
@@ -99,7 +99,7 @@ test should_calculate_health_regeneration_for_character => sub ($class_obj, $vig
 		'pstat.wis' => $wisdom,
 	);
 
-	is Game::Mechanics::Character::Statistics->get_health_regen($class_obj, \%stats),
+	is get_health_regen($class_obj, \%stats),
 		float($expected),
 		"$class health regen ok ($vigor vigor, $wisdom wisdom)";
 };
@@ -111,7 +111,7 @@ test should_calculate_energy_for_character => sub ($class_obj, $persistence, $ch
 		'pstat.cha' => $charisma,
 	);
 
-	is Game::Mechanics::Character::Statistics->get_max_energy($class_obj, \%stats),
+	is get_max_energy($class_obj, \%stats),
 		float($expected),
 		"$class energy ok ($persistence persistence, $charisma charisma)";
 };
@@ -123,7 +123,7 @@ test should_calculate_energy_regeneration_for_character => sub ($class_obj, $vig
 		'pstat.wis' => $wisdom,
 	);
 
-	is Game::Mechanics::Character::Statistics->get_energy_regen($class_obj, \%stats),
+	is get_energy_regen($class_obj, \%stats),
 		float($expected),
 		"$class energy regen ok ($vigor vigor, $wisdom wisdom)";
 };
@@ -134,7 +134,7 @@ test should_calculate_size_for_character => sub ($race_obj, $constitution, $expe
 		'pstat.con' => $constitution,
 	);
 
-	is Game::Mechanics::Character::Statistics->get_size($race_obj, \%stats),
+	is get_size($race_obj, \%stats),
 		float($expected),
 		"$race size ok ($constitution constitution)";
 };
@@ -145,7 +145,7 @@ test should_calculate_speed_for_character => sub ($class_obj, $dexterity, $expec
 		'pstat.dex' => $dexterity,
 	);
 
-	is Game::Mechanics::Character::Statistics->get_speed($class_obj, \%stats),
+	is get_speed($class_obj, \%stats),
 		float($expected),
 		"$class speed ok ($dexterity dexterity)";
 };
@@ -155,7 +155,7 @@ test should_calculate_luck_for_character => sub ($luck, $expected) {
 		'pstat.luck' => $luck,
 	);
 
-	is Game::Mechanics::Character::Statistics->get_luck_effect(\%stats),
+	is get_luck_effect(\%stats),
 		float($expected),
 		"luck effect ok ($luck luck)";
 };

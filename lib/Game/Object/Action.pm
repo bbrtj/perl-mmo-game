@@ -1,7 +1,6 @@
 package Game::Object::Action;
 
 use My::Moose;
-use Game::Mechanics::Generic;
 
 use header;
 

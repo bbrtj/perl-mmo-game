@@ -1,22 +1,39 @@
 package Game::Mechanics::Character::Statistics;
 
+use Exporter qw(import);
 use Game::Config;
 use Game::Helpers;
 
 use header;
 
-sub get_current_level ($self, $exp)
+our @EXPORT_OK = qw(
+	get_current_level
+	get_exp_for_level
+	get_size
+	get_speed
+	get_max_health
+	get_health_regen
+	get_max_energy
+	get_energy_regen
+	get_luck_effect
+);
+
+our %EXPORT_TAGS = (
+	all => [@EXPORT_OK],
+);
+
+sub get_current_level ($exp)
 {
 	state $base_exp = Game::Config->base_exp;
 
 	return 1 unless $exp >= $base_exp;
 	my $level_approx = int((log($exp / ($base_exp / 2)) / log(2) / 2)**(100 / 58)) + 2;
-	my $next_level_exp = $self->get_exp_for_level($level_approx + 1);
+	my $next_level_exp = get_exp_for_level($level_approx + 1);
 
 	return $level_approx + ($exp >= $next_level_exp);
 }
 
-sub get_exp_for_level ($self, $level)
+sub get_exp_for_level ($level)
 {
 	state $base_exp = Game::Config->base_exp;
 
@@ -29,7 +46,7 @@ sub get_exp_for_level ($self, $level)
 }
 
 # size is affected by constitution
-sub get_size ($self, $race, $stats)
+sub get_size ($race, $stats)
 {
 	state $base = Game::Config->base_size;
 	state $stats0 = Game::Config->base_primary_stats;
@@ -39,7 +56,7 @@ sub get_size ($self, $race, $stats)
 		* (1 + ($stats->{'pstat.con'} - $stats0) * $con_effect);
 }
 
-sub get_speed ($self, $class, $stats)
+sub get_speed ($class, $stats)
 {
 	state $base = Game::Config->base_speed;
 	state $stats0 = Game::Config->base_primary_stats;
@@ -49,7 +66,7 @@ sub get_speed ($self, $class, $stats)
 		* (1 + ($stats->{'pstat.dex'} - $stats0) * $dex_effect);
 }
 
-sub get_max_health ($self, $class, $stats)
+sub get_max_health ($class, $stats)
 {
 	state $base = Game::Config->base_health;
 	state $stats0 = Game::Config->base_primary_stats;
@@ -64,7 +81,7 @@ sub get_max_health ($self, $class, $stats)
 	) * $class->health_multiplier;
 }
 
-sub get_health_regen ($self, $class, $stats)
+sub get_health_regen ($class, $stats)
 {
 	state $base = Game::Config->base_health_regen;
 	state $stats0 = Game::Config->base_primary_stats;
@@ -80,7 +97,7 @@ sub get_health_regen ($self, $class, $stats)
 	) * $class->health_multiplier;
 }
 
-sub get_max_energy ($self, $class, $stats)
+sub get_max_energy ($class, $stats)
 {
 	state $base = Game::Config->base_energy;
 	state $stats0 = Game::Config->base_primary_stats;
@@ -96,7 +113,7 @@ sub get_max_energy ($self, $class, $stats)
 	) * $class->energy_multiplier;
 }
 
-sub get_energy_regen ($self, $class, $stats)
+sub get_energy_regen ($class, $stats)
 {
 	state $base = Game::Config->base_energy_regen;
 	state $stats0 = Game::Config->base_primary_stats;
@@ -112,7 +129,7 @@ sub get_energy_regen ($self, $class, $stats)
 	) * $class->energy_multiplier;
 }
 
-sub get_luck_effect ($self, $stats)
+sub get_luck_effect ($stats)
 {
 	state $stats0 = Game::Config->base_primary_stats;
 	state $luck_effect = lore_primary_stat('Luck')->affects->{rolls};

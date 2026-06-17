@@ -1,13 +1,18 @@
 package Game::Mechanics::Movement;
 
+use Exporter qw(import);
 use Game::Config;
-use Game::Mechanics::Generic;
+use Game::Mechanics::Generic qw(find_frontal_point);
 use List::Util qw(min);
 
 use header;
 
+our @EXPORT_OK = qw(
+	move
+);
+
 # $movement is Game::Object::Movement
-sub move ($self, $movement, $map, $elapsed = server_time)
+sub move ($movement, $map, $elapsed = server_time)
 {
 	my $variables = $movement->variables;
 	$elapsed = min($elapsed, $movement->eta);
@@ -19,7 +24,7 @@ sub move ($self, $movement, $map, $elapsed = server_time)
 	my $time = $movement->time;
 	while ($elapsed >= $time) {
 		$distance = ($elapsed - $time) * $movement->speed;
-		($new_x, $new_y) = Game::Mechanics::Generic->find_frontal_point(
+		($new_x, $new_y) = find_frontal_point(
 			$variables->xy,
 			$movement->angle,
 			$distance

@@ -3,7 +3,8 @@ package Game::Server::Role::Npcs;
 use My::Moose::Role;
 use List::BinarySearch qw(binsearch_pos);
 
-use all 'Game::Mechanics';
+use Game::Mechanics::Character::Statistics qw(get_exp_for_level);
+
 use all 'Game::Object';
 use all 'Unit';
 use all 'Model';
@@ -84,7 +85,7 @@ sub _spawn_npc ($self, $spawn)
 			location_id => $self->location->id,
 			pos_x => $spawn->x,    # TODO: randomize spawn a bit
 			pos_y => $spawn->y,    # TODO: randomize spawn a bit
-			experience => Game::Mechanics::Character::Statistics->get_exp_for_level($spawn->lore->level),
+			experience => get_exp_for_level($spawn->lore->level),
 			health => 0,
 			energy => 0,
 		),

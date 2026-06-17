@@ -1,7 +1,6 @@
 package Game::Object::Projectile;
 
 use My::Moose;
-use Game::Mechanics::Generic;
 use Game::Object::Effect;
 
 use header;

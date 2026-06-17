@@ -1,7 +1,6 @@
 package Game::Object::Actor::Npc::Ai::Passive;
 
 use My::Moose;
-use Game::Mechanics::Distance;
 
 use header;
 

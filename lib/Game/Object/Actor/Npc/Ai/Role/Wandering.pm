@@ -2,7 +2,7 @@ package Game::Object::Actor::Npc::Ai::Role::Wandering;
 
 use My::Moose::Role;
 use Game::RNG qw(rng random_number);
-use Game::Mechanics::Generic;
+use Game::Mechanics::Generic qw(find_frontal_point);
 use Math::Trig qw(pi);
 
 use header;
@@ -38,7 +38,7 @@ sub wander ($self, $server, $actor, $elapsed = server_time)
 
 	my $angle = rng() * 2 * pi;
 	my $distance = rng() * $self->max_distance;
-	my @point = Game::Mechanics::Generic->find_frontal_point($self->parent->spawn->xy, $angle, $distance);
+	my @point = find_frontal_point($self->parent->spawn->xy, $angle, $distance);
 	$self->set_last_wander($elapsed + random_number $self->every_min, $self->every_max);
 
 	$server->set_movement($actor->id, @point);

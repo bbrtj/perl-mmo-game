@@ -3,7 +3,6 @@ package Server::Action::UseAbility;
 use My::Moose;
 use all 'Model';
 use Server::Config;
-use Game::Mechanics::Check::Map;
 
 use header;
 

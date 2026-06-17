@@ -1,6 +1,6 @@
 use testheader;
 
-use Game::Mechanics::Distance;
+use Game::Mechanics::Distance qw(is_in_range);
 
 test_data
 	'should be in range' => [
@@ -12,11 +12,11 @@ test_data
 	];
 
 test should_be_in_range => sub {
-	ok Game::Mechanics::Distance->is_in_range(@_), $_;
+	ok is_in_range(@_), $_;
 };
 
 test should_be_out_of_range => sub {
-	ok !Game::Mechanics::Distance->is_in_range(@_), $_;
+	ok !is_in_range(@_), $_;
 };
 
 done_testing;

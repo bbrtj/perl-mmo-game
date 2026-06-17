@@ -3,7 +3,7 @@ package Server::Action::Move;
 use My::Moose;
 use all 'Model';
 use Server::Config;
-use Game::Mechanics::Check::Map;
+use Game::Mechanics::Check::Map qw(can_move_to);
 
 use header;
 
@@ -24,7 +24,7 @@ sub validate ($self, $data)
 
 before handle => sub ($self, $player_id, $id, $position) {
 
-	# Game::Mechanics::Check::Map->can_move_to(
+	# can_move_to(
 	# 	$self->server->map,
 	# 	[$self->server->get_player($player_id)->variables->xy],
 	# 	$position

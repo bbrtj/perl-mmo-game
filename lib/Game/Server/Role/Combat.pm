@@ -2,7 +2,9 @@ package Game::Server::Role::Combat;
 
 use My::Moose::Role;
 
-use all 'Game::Mechanics';
+use Game::Mechanics::Distance qw(find_actors_in_range);
+use Game::Mechanics::Character::Damage qw(deal_damage);
+use Game::Mechanics::Generic qw(find_frontal_point);
 use all 'Game::Object';
 use Resource::ActorEvent;
 
@@ -50,8 +52,8 @@ sub _apply_damage_effect ($self, $effect, $x, $y)
 	my $actor = $effect->actor;
 
 	# TODO: friendly fire
-	my @found = grep { $_ != $actor } Game::Mechanics::Distance->find_actors_in_range($self, $x, $y, $effect->radius);
-	Game::Mechanics::Character::Damage->deal_damage($actor, $effect->lore->attributes, $effect->damage, @found);
+	my @found = grep { $_ != $actor } find_actors_in_range($self, $x, $y, $effect->radius);
+	deal_damage($actor, $effect->lore->attributes, $effect->damage, @found);
 
 	# TODO: not always all targets will be affected (ability target limit)
 	foreach my $affected (@found) {
@@ -101,7 +103,7 @@ sub use_ability_done ($self, $action)
 		# frontal attack
 		$self->apply_effect(
 			$effect,
-			Game::Mechanics::Generic->find_frontal_point($actor->variables->xy, $stats->angle, $distance)
+			find_frontal_point($actor->variables->xy, $stats->angle, $distance)
 		);
 	}
 

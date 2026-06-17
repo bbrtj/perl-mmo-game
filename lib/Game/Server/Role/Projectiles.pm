@@ -3,8 +3,9 @@ package Game::Server::Role::Projectiles;
 use My::Moose::Role;
 use Game::Config;
 use Game::Object::Projectile;
-use Game::Mechanics::Generic;
-use Game::Mechanics::Projectile;
+use Game::Mechanics::Generic qw(find_frontal_point calculate_angle_and_diagonal);
+use Game::Mechanics::Projectile qw(travel);
+use Game::Mechanics::Distance qw(find_actors_in_range);
 use Game::RNG;
 use Math::Trig qw(deg2rad);
 
@@ -49,7 +50,7 @@ sub _process_projectiles ($self)
 	foreach my $projectile (values $self->_projectiles->%*) {
 
 		# a wall has been hit
-		if (!Game::Mechanics::Projectile->travel($projectile, $map, $elapsed)) {
+		if (!travel($projectile, $map, $elapsed)) {
 			$self->_projectile_hit($projectile, true);
 			next;
 		}
@@ -65,7 +66,7 @@ sub _process_projectiles ($self)
 		# TODO: do not hit if target is friendly
 		my $actor = $projectile->actor;
 		my @collision = grep { $_ != $actor }
-			Game::Mechanics::Distance->find_actors_in_range($self, $projectile->xy, $projectile_radius);
+			find_actors_in_range($self, $projectile->xy, $projectile_radius);
 
 		$self->_projectile_hit($projectile, true)
 			if @collision;
@@ -77,7 +78,7 @@ sub _process_projectiles ($self)
 sub spawn_projectile ($self, $actor, $lore, $effect, $at_x, $at_y)
 {
 	my $projectile_data = $lore->projectile;
-	my ($angle) = Game::Mechanics::Generic->calculate_angle_and_diagonal($actor->variables->xy, $at_x, $at_y);
+	my ($angle) = calculate_angle_and_diagonal($actor->variables->xy, $at_x, $at_y);
 
 	if (my $inacc = $projectile_data->{inaccuracy} / 2) {
 		my $roll = 1 - $actor->rng;
@@ -87,7 +88,7 @@ sub spawn_projectile ($self, $actor, $lore, $effect, $at_x, $at_y)
 
 	# TODO: check if actor is facing the right way
 	# TODO: actual character radius
-	my ($x, $y) = Game::Mechanics::Generic->find_frontal_point($actor->variables->xy, $angle, $actor->stats->size);
+	my ($x, $y) = find_frontal_point($actor->variables->xy, $angle, $actor->stats->size);
 
 	my $projectile = Game::Object::Projectile->new(
 		x => $x,
@@ -100,7 +101,7 @@ sub spawn_projectile ($self, $actor, $lore, $effect, $at_x, $at_y)
 	);
 
 	# NOTE: data about the projectile is sent to all players who can ever see it (for all practical purposes)
-	my @actors = Game::Mechanics::Distance->find_actors_in_range(
+	my @actors = find_actors_in_range(
 		$self, $x, $y,
 		$projectile_data->{range} * 2 + Game::Config->discover_radius
 	);

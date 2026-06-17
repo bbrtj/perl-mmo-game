@@ -1,10 +1,16 @@
 package Game::Mechanics::Check::Map;
 
 use Game::Mechanics::Check;
+use Exporter qw(import);
 
 use header;
 
-sub can_move_to ($self, $map, $position1, $position2)
+our @EXPORT_OK = qw(
+	can_move_to
+	can_see
+);
+
+sub can_move_to ($map, $position1, $position2)
 {
 	return Game::Mechanics::Check->check(
 		'err.cannot_move',
@@ -15,7 +21,7 @@ sub can_move_to ($self, $map, $position1, $position2)
 # get tile sides in range as an array, like this:
 # [ ]|[ ]|[ ]|[ ]
 # (sides marked with |)
-sub _get_tile_sides ($self, $from, $to)
+sub _get_tile_sides ($from, $to)
 {
 	return $to >= $from
 		? ($from + 1 .. $to)
@@ -23,7 +29,7 @@ sub _get_tile_sides ($self, $from, $to)
 		;
 }
 
-sub can_see ($self, $location, $position1, $position2)
+sub can_see ($location, $position1, $position2)
 {
 	my $map = $location->map;
 	my $coeff_x = ($position2->[1] - $position1->[1]) / ($position2->[0] - $position1->[0]);
@@ -42,8 +48,8 @@ sub can_see ($self, $location, $position1, $position2)
 
 	# NOTE OPTIMIZATION: @coords can be calculated in C
 	my @coords = (
-		(map { $checks_for_x->($_) } $self->_get_tile_sides($position1->[0], $position2->[0])),
-		(map { $checks_for_y->($_) } $self->_get_tile_sides($position1->[1], $position2->[1]))
+		(map { $checks_for_x->($_) } _get_tile_sides($position1->[0], $position2->[0])),
+		(map { $checks_for_y->($_) } _get_tile_sides($position1->[1], $position2->[1]))
 	);
 
 	return Game::Mechanics::Check->check(

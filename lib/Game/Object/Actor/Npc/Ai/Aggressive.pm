@@ -1,7 +1,7 @@
 package Game::Object::Actor::Npc::Ai::Aggressive;
 
 use My::Moose;
-use Game::Mechanics::Distance;
+use Game::Mechanics::Distance qw(find_actors_in_range calculate_distance);
 
 use header;
 
@@ -22,14 +22,14 @@ sub act ($self, $server, $npc_actor, $elapsed = server_time)
 	my @xy = $npc_actor->variables->xy;
 
 	if (!$aggro->%*) {
-		my @actors = Game::Mechanics::Distance->find_actors_in_range($server, @xy, $self->aggro_range);
+		my @actors = find_actors_in_range($server, @xy, $self->aggro_range);
 
 		my $closest;
 		my $closest_distance = 'inf';
 		foreach my $player (@actors) {
 			next unless $player->is_player;
 
-			my $distance = Game::Mechanics::Distance->calculate_distance(@xy, $player->variables->xy);
+			my $distance = calculate_distance(@xy, $player->variables->xy);
 			if ($distance < $closest_distance) {
 				$closest = $player;
 				$closest_distance = $distance;

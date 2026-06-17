@@ -1,17 +1,22 @@
 package Game::Mechanics::Projectile;
 
+use Exporter qw(import);
 use Game::Config;
-use Game::Mechanics::Generic;
+use Game::Mechanics::Generic qw(find_frontal_point);
 use List::Util qw(min);
 
 use header;
 
+our @EXPORT_OK = qw(
+	travel
+);
+
 # $projectile is Game::Object::Projectile
 # returns whether a projectile kept going without hitting a wall - can check
 # whether the projectile run out of range with ->finished method
-sub travel ($self, $projectile, $map, $elapsed = server_time)
+sub travel ($projectile, $map, $elapsed = server_time)
 {
-	my ($new_x, $new_y) = Game::Mechanics::Generic->find_frontal_point(
+	my ($new_x, $new_y) = find_frontal_point(
 		$projectile->xy,
 		$projectile->angle,
 		($elapsed - $projectile->time) * $projectile->speed,

@@ -1,6 +1,6 @@
 use testheader;
 
-use Game::Mechanics::Movement;
+use Game::Mechanics::Movement qw(move);
 use Game::Object::Movement;
 use Game::Object::Map;
 use Model::CharacterVariables;
@@ -54,7 +54,7 @@ test should_process_movement => sub ($mov, $x_comp = undef, $y_comp = undef) {
 	note 'eta: ' . $mov->eta;
 	while (!$finished) {
 		$start += 0.5;
-		$finished = !Game::Mechanics::Movement->move($mov, $map, $start);
+		$finished = !move($mov, $map, $start);
 
 		last if $finished || $start > 10;
 	}

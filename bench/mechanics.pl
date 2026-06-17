@@ -3,9 +3,9 @@
 # useful to determine bottlenecks
 #################
 
-use Game::Mechanics::Check::Map;
+use Game::Mechanics::Check::Map qw(can_see);
 use Game::Lore::Location;
-use Game::Mechanics::Movement;
+use Game::Mechanics::Movement qw(move);
 use Game::Object::Movement;
 use Util::H2O;
 use Utils;
@@ -36,10 +36,10 @@ my $movement = Game::Object::Movement->new(
 
 cmpthese 200.01, {
 	line_of_sight => sub {
-		die unless Game::Mechanics::Check::Map->can_see($location, [4.5, 3.8], [7.9, 8.3])->result;
+		die unless can_see($location, [4.5, 3.8], [7.9, 8.3])->result;
 	},
 	movement => sub {
-		die unless Game::Mechanics::Movement->move($movement, $map, time);
+		die unless move($movement, $map, time);
 	}
 };
 
