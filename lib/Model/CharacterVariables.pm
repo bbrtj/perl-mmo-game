@@ -12,6 +12,7 @@ has param 'experience' => (
 	isa => PositiveOrZeroInt,
 	default => 0,
 	traits => [qw(Stored)],
+	always_dirty => 1,
 );
 
 has param 'location_id' => (
@@ -22,16 +23,19 @@ has param 'location_id' => (
 has param ['pos_x', 'pos_y'] => (
 	isa => Num,
 	traits => [qw(Stored)],
+	always_dirty => 1,
 );
 
 has param 'health' => (
 	isa => Num,
 	traits => [qw(Stored)],
+	always_dirty => 1,
 );
 
 has param 'energy' => (
 	isa => Num,
 	traits => [qw(Stored)],
+	always_dirty => 1,
 );
 
 sub xy ($self)

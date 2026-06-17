@@ -16,7 +16,7 @@ sub save ($self, $model, $update = 0)
 	state $type_check = ConsumerOf ['Model::Role::Stored'];
 	$type_check->assert_valid($model);
 
-	my @dirty = $model->_dirty;
+	my @dirty = $model->_all_dirty;
 	return if $update && @dirty == 0;
 
 	my $type = $update ? 'update' : 'insert';
