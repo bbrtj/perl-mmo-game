@@ -10,6 +10,11 @@ use all 'Model';
 
 use header;
 
+requires qw(
+	location
+	get_discovered_by
+);
+
 has field '_respawn_queue' => (
 	isa => ArrayRef [InstanceOf ['Game::Object::Map::Spawn']],
 	default => sub { [] },
@@ -53,11 +58,9 @@ sub _process_ai ($self)
 {
 	my $elapsed = server_time;
 
-	foreach my $actor (values $self->location->actors->%*) {
-		next unless $actor->is_npc;
+	foreach my $actor ($self->location->get_npcs->@*) {
 		next unless my $ai = $actor->npc->ai;
-
-		# TODO: avoid AI actions if there is no one around to save resources
+		next unless $self->get_discovered_by($actor->id);
 
 		$ai->act($self, $actor, $elapsed);
 	}

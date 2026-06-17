@@ -35,6 +35,6 @@ sub _build_ai ($self)
 	return unless $self->lore->has_ai;
 
 	my $class = 'Game::Object::Actor::Npc::Ai::' . Utils->pascal_case($self->lore->ai);
-	return $class->new;
+	return $class->new($self->lore->ai_args->%*, parent => $self);
 }
 

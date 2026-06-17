@@ -20,3 +20,8 @@ has option 'ai' => (
 	isa => Str,
 );
 
+has param 'ai_args' => (
+	isa => HashRef,
+	default => sub { {} },
+);
+

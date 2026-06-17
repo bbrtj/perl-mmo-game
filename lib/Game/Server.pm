@@ -168,6 +168,7 @@ sub signal_actor_appeared ($self, $for_actor, $actor)
 sub signal_actor_died ($self, $actor)
 {
 	$self->location->remove_actor($actor);
+
 	# TODO: player death
 
 	return;

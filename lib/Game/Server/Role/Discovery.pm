@@ -25,7 +25,8 @@ has cached '_discovered_by' => (
 
 sub get_discovered_by ($self, $key)
 {
-	return ($self->_discovered_by->{$key} // [])->@*;
+	my $discovered_by = $self->_discovered_by->{$key};
+	return $discovered_by ? $discovered_by->@* : ();
 }
 
 sub _discover_actors ($self, $actor, $found_objects, $resource)

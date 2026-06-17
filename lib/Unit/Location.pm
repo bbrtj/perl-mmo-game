@@ -29,6 +29,11 @@ sub get_players ($self)
 	return [grep { $_->is_player } values $self->actors->%*];
 }
 
+sub get_npcs ($self)
+{
+	return [grep { $_->is_npc } values $self->actors->%*];
+}
+
 sub add_actor ($self, $actor)
 {
 	$self->actors->{$actor->id} = $actor;
