@@ -3,8 +3,6 @@ package My::Moose::Role::TracksDirty;
 use v5.42;
 use My::Moose::Role;
 
-use Scalar::Util qw(refaddr);
-
 # keeps extra data for instances that we want to keep very private
 my %dirty;
 my %always_dirty;

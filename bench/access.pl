@@ -1,7 +1,6 @@
 use all 'Unit';
 use header;
 use Utils;
-use Scalar::Util qw(refaddr);
 
 use Benchmark::Dumb qw(cmpthese);
 
