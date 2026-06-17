@@ -4762,17 +4762,6 @@ DISTRIBUTIONS
       Exporter 0
       ExtUtils::MakeMaker 0
       XSLoader 0
-  Util-H2O-0.24
-    pathname: H/HA/HAUKEX/Util-H2O-0.24.tar.gz
-    provides:
-      Util::H2O 0.24
-    requirements:
-      Carp 0
-      Exporter 5.58
-      ExtUtils::MakeMaker 6.64
-      Hash::Util 0.06
-      Symbol 0
-      perl 5.006000
   Value-Diff-0.002
     pathname: B/BR/BRTASTIC/Value-Diff-0.002.tar.gz
     provides:

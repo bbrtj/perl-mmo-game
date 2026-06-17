@@ -1,6 +1,5 @@
 on 'runtime' => sub {
 	requires 'Moose' => 0;
-	requires 'Util::H2O' => 0;
 	requires 'Mooish::AttributeBuilder' => '1.001';
 	requires 'Sub::HandlesVia' => 0;
 	requires 'Hook::AfterRuntime' => 0;
