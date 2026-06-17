@@ -2,7 +2,6 @@ use testheader;
 
 use Game::Mechanics::Check::Map qw(can_see);
 use Game::Object::Map;
-use Util::H2O;
 
 test_data
 	'should see' => [
@@ -24,14 +23,12 @@ test_data
 
 my $map = Game::Object::Map->new(map => 'test_map');
 
-my $location = h2o {map => $map};
-
 test should_see => sub {
-	ok can_see($location, @_)->result, $_;
+	ok can_see($map, @_)->result, $_;
 };
 
 test should_not_see => sub {
-	ok can_see($location, @_)->has_error, $_;
+	ok can_see($map, @_)->has_error, $_;
 };
 
 done_testing;

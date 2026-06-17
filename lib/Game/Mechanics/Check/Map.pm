@@ -14,7 +14,7 @@ sub can_move_to ($map, $position1, $position2)
 {
 	return Game::Mechanics::Check->check(
 		'err.cannot_move',
-		all { $map->check_can_be_accessed(@$_) } $position1, $position2
+		all { $map->check_can_be_accessed($_->@*) } $position1, $position2
 	);
 }
 
@@ -29,32 +29,34 @@ sub _get_tile_sides ($from, $to)
 		;
 }
 
-sub can_see ($location, $position1, $position2)
+sub _can_see_inner ($map, $position1, $position2)
 {
-	my $map = $location->map;
 	my $coeff_x = ($position2->[1] - $position1->[1]) / ($position2->[0] - $position1->[0]);
 
-	my $checks_for_x = sub ($pos_x) {
-		state $partial = $position1->[1] - $position1->[0] * $coeff_x;
-		my $pos_y = $partial + $pos_x * $coeff_x;
-		return ([$pos_x, $pos_y], [$pos_x - 1, $pos_y]);
-	};
+	my $partial_y = $position1->[1] - $position1->[0] * $coeff_x;
+	foreach my $pos_x (_get_tile_sides($position1->[0], $position2->[0])) {
+		my $pos_y = $partial_y + $pos_x * $coeff_x;
 
-	my $checks_for_y = sub ($pos_y) {
-		state $partial = $position1->[0] - $position1->[1] / $coeff_x;
-		my $pos_x = $partial + $pos_y / $coeff_x;
-		return ([$pos_x, $pos_y], [$pos_x, $pos_y - 1]);
-	};
+		return false unless $map->check_within_map($pos_x, $pos_y)
+			&& $map->check_within_map($pos_x - 1, $pos_y);
+	}
 
-	# NOTE OPTIMIZATION: @coords can be calculated in C
-	my @coords = (
-		(map { $checks_for_x->($_) } _get_tile_sides($position1->[0], $position2->[0])),
-		(map { $checks_for_y->($_) } _get_tile_sides($position1->[1], $position2->[1]))
-	);
+	my $partial_x = $position1->[0] - $position1->[1] / $coeff_x;
+	foreach my $pos_y (_get_tile_sides($position1->[1], $position2->[1])) {
+		my $pos_x = $partial_x + $pos_y / $coeff_x;
 
+		return false unless $map->check_within_map($pos_x, $pos_y)
+			&& $map->check_within_map($pos_x, $pos_y - 1);
+	}
+
+	return true;
+}
+
+sub can_see
+{
 	return Game::Mechanics::Check->check(
 		'err.not_in_los',
-		all { $map->check_within_map($_->@*) } @coords
+		_can_see_inner(@_),
 	);
 }
 
