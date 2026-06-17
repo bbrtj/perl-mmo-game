@@ -1,25 +1,31 @@
-package Game::Mechanics::Check;
+use experimental 'class';
 
-use My::Moose;
+class Game::Mechanics::Check;
+
 use all 'X';
 
 use header;
 
-has option 'error';
+field $error : reader : param = undef;
+
+method has_error ()
+{
+	return defined $error;
+}
 
 my $success = __PACKAGE__->new;
 
 # easy checking of a boolean value
-sub check ($self, $message, $check)
+sub check ($class, $message, $check)
 {
 	return $check
 		? $success
-		: $self->new(error => $message)
+		: $class->new(error => $message)
 		;
 }
 
 # complex checking of nested checks and coderefs
-sub gather ($self, $message, @checks)
+sub gather ($class, $message, @checks)
 {
 	croak "no checks for $message" if @checks == 0;
 
@@ -36,7 +42,7 @@ sub gather ($self, $message, @checks)
 				if $check->has_error;
 		}
 		elsif (!$check) {
-			return $self->new(error => $message);
+			return $class->new(error => $message);
 		}
 
 	}
@@ -44,15 +50,15 @@ sub gather ($self, $message, @checks)
 	return $success;
 }
 
-sub result ($self)
+method result ()
 {
-	return !$self->error;
+	return !$error;
 }
 
-sub assert_valid ($self)
+method assert_valid ()
 {
-	if ($self->has_error) {
-		X::Pub::CheckFailed->throw($self->error);
+	if ($error) {
+		X::Pub::CheckFailed->throw($error);
 	}
 
 	return;
