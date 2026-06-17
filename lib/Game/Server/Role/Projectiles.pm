@@ -40,6 +40,9 @@ sub _projectile_hit ($self, $projectile, $send)
 
 sub _process_projectiles ($self)
 {
+	# NOTE: use half of base radius, as other radius results in unnatural
+	# or missed collisions
+	state $projectile_radius = Game::Config->base_radius / 2;
 	my $map = $self->map;
 	my $elapsed = server_time;
 
@@ -60,10 +63,9 @@ sub _process_projectiles ($self)
 
 		# collision with actors
 		# TODO: do not hit if target is friendly
-		# NOTE: use radius 0, as other radius results in unnatural collisions
 		my $actor = $projectile->actor;
 		my @collision = grep { $_ != $actor }
-			Game::Mechanics::Distance->find_actors_in_range($self, $projectile->xy, 0);
+			Game::Mechanics::Distance->find_actors_in_range($self, $projectile->xy, $projectile_radius);
 
 		$self->_projectile_hit($projectile, true)
 			if @collision;

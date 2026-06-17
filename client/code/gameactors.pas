@@ -311,6 +311,10 @@ begin
 	FSize := Size;
 	LBox := self.BoundingBox;
 
+	// NOTE: increase visual size by 10% to make up for non-perfect actor image
+	// representations
+	Size *= 1.1;
+
 	// NOTE: Box3D has width / height, while Size is a radius of a circle
 	LCurrentRadius := Max(LBox.Size.X, LBox.Size.Y) / 2;
 	self.Scale := self.Scale * Vector3(Size / LCurrentRadius, Size / LCurrentRadius, 1);
