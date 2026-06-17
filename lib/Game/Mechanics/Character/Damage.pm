@@ -2,7 +2,7 @@ package Game::Mechanics::Character::Damage;
 
 use header;
 
-sub deal_damage ($self, $attributes, $damage, @targets)
+sub deal_damage ($self, $source_actor, $attributes, $damage, @targets)
 {
 	foreach my $target (@targets) {
 		my $target_damage = $damage;
@@ -12,6 +12,11 @@ sub deal_damage ($self, $attributes, $damage, @targets)
 		# TODO reduce damage (endurance / willpower)
 
 		$target->variables->set_health($target->variables->health - $target_damage);
+
+		# TODO: call dibs on the npc
+		if ($target->is_npc) {
+			$target->npc->add_aggro($source_actor, $target_damage);
+		}
 	}
 
 	return;

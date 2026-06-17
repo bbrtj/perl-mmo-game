@@ -1,17 +1,14 @@
-package Game::Object::Actor::Npc::Ai::Wander;
+package Game::Object::Actor::Npc::Ai::Role::Wandering;
 
-use My::Moose;
+use My::Moose::Role;
 use Game::RNG qw(rng random_number);
 use Game::Mechanics::Generic;
 use Math::Trig qw(pi);
 
 use header;
 
-extends 'Game::Object::Actor::Npc::Ai';
-
-has param 'parent' => (
-	lax_isa => InstanceOf ['Game::Object::Actor::Npc'],
-	weak_ref => 1,
+requires qw(
+	parent
 );
 
 has param 'every_min' => (
@@ -35,7 +32,7 @@ has field 'last_wander' => (
 	default => sub { time },
 );
 
-sub act ($self, $server, $actor, $elapsed = server_time)
+sub wander ($self, $server, $actor, $elapsed = server_time)
 {
 	return unless $elapsed >= $self->last_wander;
 

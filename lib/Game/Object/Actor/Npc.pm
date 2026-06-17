@@ -24,6 +24,11 @@ has field 'race' => (
 	lazy => 1,
 );
 
+has field 'aggro_map' => (
+	lax_isa => HashRef,
+	default => sub { {} },
+);
+
 # NOTE: NPCs should have just one race
 sub _build_race ($self)
 {
@@ -36,5 +41,11 @@ sub _build_ai ($self)
 
 	my $class = 'Game::Object::Actor::Npc::Ai::' . Utils->pascal_case($self->lore->ai);
 	return $class->new($self->lore->ai_args->%*, parent => $self);
+}
+
+sub add_aggro ($self, $actor, $value)
+{
+	$self->aggro_map->{$actor->id} += $value;
+	return;
 }
 
