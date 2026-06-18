@@ -17,7 +17,7 @@ sub move ($movement, $map, $elapsed = server_time)
 	my $variables = $movement->variables;
 	$elapsed = min($elapsed, $movement->eta);
 
-	my $distance = ($elapsed - $movement->time) * $movement->speed;
+	my $distance = ($elapsed - $movement->get_time) * $movement->speed;
 	my ($new_x, $new_y) = find_frontal_point(
 		$variables->xy,
 		$movement->angle,

@@ -1,20 +1,14 @@
-package Game::Object::Effect;
+use experimental 'class';
 
-use My::Moose;
+class Game::Object::Effect;
 
 use header;
 
 # source of the effect
-
-has param 'actor' => (
-	lax_isa => InstanceOf ['Unit::Actor'],
-);
+field $actor :reader :param;    # Unit::Actor
 
 # ability
-
-has param 'lore' => (
-	lax_isa => InstanceOf ['Game::Lore'],
-);
+field $lore :reader :param;    # Game::Lore
 
 sub server_method ($self)
 {

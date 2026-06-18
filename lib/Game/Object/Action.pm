@@ -1,51 +1,28 @@
-package Game::Object::Action;
+use experimental 'class';
 
-use My::Moose;
+class Game::Object::Action;
 
 use header;
 
-has param 'actor' => (
-	lax_isa => InstanceOf ['Unit::Actor'],
-);
-
-has param 'lore' => (
-	lax_isa => InstanceOf ['Game::Lore'],
-);
-
-has param 'duration' => (
-	lax_isa => PositiveNum,
-);
-
-has field 'start_time' => (
-	lax_isa => PositiveNum,
-	default => sub { time },
-);
-
-has field 'eta' => (
-	lax_isa => PositiveNum,
-	writer => 1,
-);
-
-has field 'cancelled' => (
-	lax_isa => Bool,
-	writer => 1,
-	default => false,
-);
+field $actor :reader :param;    # Unit::Actor
+field $lore :reader :param;    # Game::Lore
+field $duration :reader :param;
+field $start_time = time;
+field $eta :reader;
+field $cancelled :reader :writer = false;
 
 sub server_method ($self)
 {
 	...;
 }
 
-sub BUILD ($self, $)
+ADJUST
 {
-	$self->set_eta($self->start_time + $self->duration);
-
-	return;
+	$eta = $start_time + $duration;
 }
 
-sub finished ($self, $time = server_time)
+method finished ($time = server_time)
 {
-	return $time >= $self->eta || $self->cancelled;
+	return $time >= $eta || $cancelled;
 }
 

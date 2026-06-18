@@ -19,7 +19,7 @@ sub travel ($projectile, $map, $elapsed = server_time)
 	my ($new_x, $new_y) = find_frontal_point(
 		$projectile->xy,
 		$projectile->angle,
-		($elapsed - $projectile->time) * $projectile->speed,
+		($elapsed - $projectile->get_time) * $projectile->speed,
 	);
 
 	# NOTE: no rounding of position - if projectiles hit something, apply their

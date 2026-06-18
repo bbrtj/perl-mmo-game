@@ -1,36 +1,29 @@
-package Resource::LocationData;
+use experimental 'class';
 
-use My::Moose;
+class Resource::LocationData :isa(Resource);
 
 use Resource::ActorState;
 
 use header;
 
-extends 'Resource';
-
-has extended 'subject' => (
-	isa => InstanceOf ['Game::Lore::Location'],
-);
-
-has param 'actor' => (
-	isa => InstanceOf ['Unit::Actor'],
-);
-
 use constant type => 'location_data';
 
-sub generate ($self)
+field $location :param(subject);    # Game::Lore::Location
+field $actor :param;    # Unit::Actor
+
+method generate ()
 {
 	return {
-		id => $self->subject->id,
-		player_x => $self->actor->variables->pos_x,
-		player_y => $self->actor->variables->pos_y,
+		id => $location->id,
+		player_x => $actor->variables->pos_x,
+		player_y => $actor->variables->pos_y,
 	};
 }
 
-sub _build_next_resources ($self)
+method _build_next_resources ()
 {
 	return [
-		Resource::ActorState->new(subject => $self->actor),
+		Resource::ActorState->new(subject => $actor),
 	];
 }
 

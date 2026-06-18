@@ -1,6 +1,6 @@
-package Resource::Discovery;
+use experimental 'class';
 
-use My::Moose;
+class Resource::Discovery :isa(Resource);
 
 use Resource::ActorPosition;
 use Resource::ActorState;
@@ -8,61 +8,46 @@ use Sub::Install;
 
 use header;
 
-extends 'Resource';
-
-has extended 'subject' => (
-	isa => HashRef [
-		ArrayRef [InstanceOf ['Unit::Actor']]
-	],
-
-	default => sub { {} },
-
-	'handles{}' => {
-		'_add' => 'set',
-	},
-);
-
 use constant type => 'discovery';
 
-my @aspects = qw(
+field %aspects;
+
+my @aspect_keys = qw(
 	new_actors
 	old_actors
 );
 
 # NOTE: aspects are full objects
-foreach my $aspect (@aspects) {
+foreach my $aspect (@aspect_keys) {
 	Sub::Install::install_sub(
 		{
-			code => sub ($self, $list) {
-				return $self->_add($aspect, $list);
+			code => method($list) {
+				$aspects{$aspect} = $list;
 			},
 			as => $aspect,
 		}
 	);
 }
 
-sub generate ($self)
+method generate ()
 {
 	my %generated;
-	my $subject = $self->subject;
 
-	foreach my $key (@aspects) {
-		next unless $subject->{$key};
-
+	foreach my ($key, $value) (%aspects) {
 		$generated{$key} = [
 			map {
 				$_->id
-			} $subject->{$key}->@*
+			} $value->@*
 		];
 	}
 
 	return \%generated;
 }
 
-sub _build_next_resources ($self)
+method _build_next_resources ()
 {
 	my @resources;
-	foreach my $actor (($self->subject->{new_actors} // [])->@*) {
+	foreach my $actor (($aspects{new_actors} // [])->@*) {
 		push @resources, (
 			Resource::ActorPosition->new(subject => $actor),
 			Resource::ActorState->new(subject => $actor),

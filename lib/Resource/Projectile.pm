@@ -1,24 +1,18 @@
-package Resource::Projectile;
+use experimental 'class';
 
-use My::Moose;
+class Resource::Projectile :isa(Resource);
 
 use Game::Object::Projectile;
 
 use header;
 
-extends 'Resource';
-
-has extended 'subject' => (
-	isa => InstanceOf ['Game::Object::Projectile'],
-);
-
 use constant type => 'projectile';
 use constant is_plaintext => true;
 
-sub generate ($self)
-{
-	my $projectile = $self->subject;
+field $projectile :param(subject);    # Game::Object::Projectile
 
+method generate ()
+{
 	return [
 		$projectile->id,
 		$projectile->effect->lore->id,

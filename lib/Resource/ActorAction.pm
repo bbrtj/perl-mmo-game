@@ -1,21 +1,16 @@
-package Resource::ActorAction;
+use experimental 'class';
 
-use My::Moose;
+class Resource::ActorAction :isa(Resource);
 
 use header;
-
-extends 'Resource';
-
-has extended 'subject' => (
-	isa => InstanceOf ['Game::Object::Action'],
-);
 
 use constant type => 'actor_action';
 use constant is_plaintext => true;
 
-sub generate ($self)
+field $action :param(subject);    # Game::Object::Action
+
+method generate ()
 {
-	my $action = $self->subject;
 	my $duration = $action->cancelled ? 0 : $action->duration;
 
 	# actor id

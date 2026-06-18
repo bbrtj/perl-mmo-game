@@ -1,21 +1,16 @@
-package Resource::ActorState;
+use experimental 'class';
 
-use My::Moose;
+class Resource::ActorState :isa(Resource);
 
 use header;
-
-extends 'Resource';
-
-has extended 'subject' => (
-	isa => InstanceOf ['Unit::Actor'],
-);
 
 use constant type => 'actor_state';
 use constant is_plaintext => true;
 
-sub generate ($self)
+field $actor :param(subject);    # Unit::Actor
+
+method generate ()
 {
-	my $actor = $self->subject;
 	my $stats = $actor->stats;
 
 	# actor id

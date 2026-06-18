@@ -1,19 +1,15 @@
-package Resource::X;
+use experimental 'class';
 
-use My::Moose;
+class Resource::X :isa(Resource);
 
 use header;
 
-extends 'Resource';
-
-has extended 'subject' => (
-	isa => InstanceOf ['X::Pub'],
-);
-
 use constant type => 'error';
 
-sub generate ($self)
+field $exception :param(subject);    # X::Pub
+
+method generate ()
 {
-	return $self->subject;
+	return $exception;
 }
 

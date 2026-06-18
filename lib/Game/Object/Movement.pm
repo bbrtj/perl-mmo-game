@@ -1,53 +1,36 @@
-package Game::Object::Movement;
+use experimental 'class';
 
-use My::Moose;
+class Game::Object::Movement;
+
 use Game::Mechanics::Generic qw(calculate_angle_and_diagonal);
 
 use header;
 
-has param 'variables' => (
-	lax_isa => InstanceOf ['Model::CharacterVariables'],
-);
+field $variables :reader :param;    # Model::CharacterVariables
+field $speed :reader :param;
+field $time :reader(get_time) :writer :param;
+field $x :reader :param;
+field $y :reader :param;
+field $eta :reader;
+field $angle :reader;
 
-has param 'speed' => (
-	lax_isa => PositiveNum,
-);
-
-has param 'time' => (
-	lax_isa => PositiveOrZeroNum,
-	writer => 1,
-);
-
-has field 'eta' => (
-	lax_isa => PositiveNum,
-	writer => 1,
-);
-
-has field 'angle' => (
-	lax_isa => Num,
-	writer => 1,
-);
-
-# x, y of the destination
-with qw(
-	Game::Object::Role::HasPosition
-);
-
-sub BUILD ($self, $)
+ADJUST
 {
-	my ($angle, $distance) = calculate_angle_and_diagonal(
-		$self->variables->xy,
-		$self->xy,
+	($angle, my $distance) = calculate_angle_and_diagonal(
+		$variables->xy,
+		$x, $y
 	);
 
-	$self->set_eta($self->time + $distance / $self->speed);
-	$self->set_angle($angle);
-
-	return;
+	$eta = $time + $distance / $speed;
 }
 
-sub finished ($self)
+method xy ()
 {
-	return $self->eta == $self->time;
+	return ($x, $y);
+}
+
+method finished ()
+{
+	return $eta == $time;
 }
 

@@ -1,20 +1,15 @@
-package Resource::ActorMovement;
+use experimental 'class';
 
-use My::Moose;
+class Resource::ActorMovement :isa(Resource);
 
 use header;
 
-extends 'Resource';
-
-has extended 'subject' => (
-	isa => InstanceOf ['Unit::Actor'],
-);
-
 use constant type => 'actor_movement';
 
-sub generate ($self)
+field $actor :param(subject);    # Unit::Actor
+
+method generate ()
 {
-	my $actor = $self->subject;
 	my $movement = $actor->stats->movement;
 
 	return {

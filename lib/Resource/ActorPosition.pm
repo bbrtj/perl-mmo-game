@@ -1,21 +1,15 @@
-package Resource::ActorPosition;
+use experimental 'class';
 
-use My::Moose;
+class Resource::ActorPosition :isa(Resource);
 
 use header;
 
-extends 'Resource';
-
-has extended 'subject' => (
-	isa => InstanceOf ['Unit::Actor'],
-);
-
 use constant type => 'actor_position';
 
-sub generate ($self)
-{
-	my $actor = $self->subject;
+field $actor :param(subject);    # Unit::Actor
 
+method generate ()
+{
 	return {
 		id => $actor->id,
 		x => $actor->variables->pos_x,

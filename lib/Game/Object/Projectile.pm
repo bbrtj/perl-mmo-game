@@ -1,65 +1,47 @@
-package Game::Object::Projectile;
+use experimental 'class';
 
-use My::Moose;
+class Game::Object::Projectile;
+
 use Game::Object::Effect;
 
 use header;
 
-has param 'actor' => (
-	lax_isa => InstanceOf ['Unit::Actor'],
-);
+field $id :reader = Types::ULID::ulid;
+field $actor :reader :param;    # Unit::Actor
+field $effect :reader :param;    # Game::Object::Effect
+field $speed :reader :param;
+field $angle :reader :param;
+field $time :reader(get_time) :writer :param = time;
+field $max_distance :reader :param;
+field $eta :reader;
+field @discovered_by :reader;
 
-has param 'effect' => (
-	lax_isa => InstanceOf ['Game::Object::Effect'],
-);
+field $x :reader :writer :param;
+field $y :reader :writer :param;
 
-has param 'speed' => (
-	lax_isa => PositiveNum,
-);
-
-has param 'angle' => (
-	lax_isa => Num,
-);
-
-has param 'time' => (
-	lax_isa => PositiveOrZeroNum,
-	writer => 1,
-	default => sub { time },
-);
-
-has param 'max_distance' => (
-	lax_isa => PositiveNum,
-);
-
-has field 'eta' => (
-	lax_isa => PositiveOrZeroNum,
-	writer => 1,
-);
-
-has field 'discovered_by' => (
-	lax_isa => ArrayRef [ULID],
-	writer => 1,
-);
-
-# x, y of the destination
-with qw(
-	Role::Identified
-	Game::Object::Role::HasPosition
-);
-
-sub BUILD ($self, $)
+ADJUST
 {
-	$self->set_eta($self->time + $self->max_distance / $self->speed);
+	$eta = $time + $max_distance / $speed;
 }
 
-sub finished ($self)
+method xy()
 {
-	return $self->time >= $self->eta;
+	return ($x, $y);
 }
 
-sub set_finished ($self)
+method set_discovered_by (@values)
 {
-	$self->set_eta(0);
+	@discovered_by = @values;
+}
+
+method finished ()
+{
+	return $time >= $eta;
+}
+
+method set_finished ()
+{
+	$eta = 0;
 	return;
 }
 

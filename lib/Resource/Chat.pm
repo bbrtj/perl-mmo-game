@@ -1,40 +1,28 @@
-package Resource::Chat;
+use experimental 'class';
 
-use My::Moose;
+class Resource::Chat :isa(Resource);
 
 use header;
 
 use enum qw(SAY YELL PRIVATE SYSTEM);
 use constant CHAT_TYPES => [SAY .. SYSTEM];
 
-extends 'Resource';
+field $actor :param(subject);    # Unit::Actor
+field $sent_to :param = undef;
+field $message :param;
+field $chat_type :param = SAY;    # CHAT_TYPES enum
 
-has extended 'subject' => (
-	isa => InstanceOf ['Unit::Actor'],
-);
-
-has option 'sent_to' => (
-	isa => Str,
-);
-
-has param 'message' => (
-	isa => Str,
-);
-
-has param 'chat_type' => (
-	isa => Enum [@{+CHAT_TYPES}],
-	default => SAY,
-);
+# TODO: validate chat type?
 
 use constant type => 'chat';
 
-sub generate ($self)
+method generate ()
 {
 	return {
-		id => $self->subject->id,
-		message => $self->message,
-		type => $self->chat_type,
-		($self->has_sent_to ? (sent_to => $self->sent_to) : ()),
+		id => $actor->id,
+		message => $message,
+		type => $chat_type,
+		(defined $sent_to ? (sent_to => $sent_to) : ()),
 	};
 }
 

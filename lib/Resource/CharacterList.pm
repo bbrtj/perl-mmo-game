@@ -1,18 +1,14 @@
-package Resource::CharacterList;
+use experimental 'class';
 
-use My::Moose;
+class Resource::CharacterList :isa(Resource);
 
 use header;
 
-extends 'Resource';
-
-has extended 'subject' => (
-	isa => InstanceOf ['Unit::User'],
-);
-
 use constant type => 'character_list';
 
-sub generate ($self)
+field $user :param(subject);    # Unit::User
+
+method generate ()
 {
 	my @characters = map {
 		{
@@ -21,7 +17,7 @@ sub generate ($self)
 			class => $_->character->class_id,
 			last_online => $_->player->last_online,
 		}
-	} $self->subject->players->@*;
+	} $user->players->@*;
 
 	return \@characters;
 }

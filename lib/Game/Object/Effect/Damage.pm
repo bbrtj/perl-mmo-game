@@ -1,18 +1,11 @@
-package Game::Object::Effect::Damage;
+use experimental 'class';
 
-use My::Moose;
+class Game::Object::Effect::Damage :isa(Game::Object::Effect);
 
 use header;
 
 use constant server_method => '_apply_damage_effect';
 
-extends 'Game::Object::Effect';
-
-has param 'damage' => (
-	lax_isa => Num,
-);
-
-has param 'radius' => (
-	lax_isa => PositiveNum,
-);
+field $damage :reader :param;
+field $radius :reader :param;
 

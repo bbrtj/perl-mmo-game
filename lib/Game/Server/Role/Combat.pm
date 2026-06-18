@@ -28,7 +28,7 @@ sub use_ability ($self, $actor_id, %options)
 	# do nothing if action is in progress already
 	return if $stats->has_action;
 
-	my $ability = $self->lore_data_repo->load($options{lore_id});
+	my $ability = $self->lore_data_repo->load(delete $options{lore_id});
 	my $action = Game::Object::Action::Ability->new(
 		%options,
 		lore => $ability,

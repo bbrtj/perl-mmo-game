@@ -1,30 +1,18 @@
-package Resource::ActorEvent;
+use experimental 'class';
 
-use My::Moose;
+class Resource::ActorEvent :isa(Resource);
 
 use header;
-
-extends 'Resource';
-
-has extended 'subject' => (
-	isa => InstanceOf ['Unit::Actor'],
-);
-
-has param 'event_source' => (
-	isa => ULID,
-);
-
-has param 'health_change' => (
-	isa => Num,
-);
 
 use constant type => 'actor_event';
 use constant is_plaintext => true;
 
-sub generate ($self)
-{
-	my $actor = $self->subject;
+field $actor :param(subject);    # Unit::Actor
+field $event_source :param;    # ULID
+field $health_change :param;
 
+method generate ()
+{
 	# affected actor id
 	# current health
 	# event source
@@ -32,8 +20,8 @@ sub generate ($self)
 	return [
 		$actor->id,
 		$actor->variables->health,
-		$self->event_source,
-		$self->health_change,
+		$event_source,
+		$health_change,
 	];
 }
 

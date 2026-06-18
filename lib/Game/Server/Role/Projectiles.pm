@@ -29,7 +29,7 @@ sub _projectile_hit ($self, $projectile, $send)
 {
 	if ($send) {
 		$self->send_to_players(
-			$projectile->discovered_by,
+			[$projectile->discovered_by],
 			Resource::ProjectileStop->new(subject => $projectile),
 		);
 	}
@@ -105,12 +105,12 @@ sub spawn_projectile ($self, $actor, $lore, $effect, $at_x, $at_y)
 		$self, $x, $y,
 		$projectile_data->{range} * 2 + Game::Config->discover_radius
 	);
-	$projectile->set_discovered_by([map { $_->id } @actors]);
+	$projectile->set_discovered_by(map { $_->id } @actors);
 
 	$self->_projectiles->{$projectile->id} = $projectile;
 
 	$self->send_to_players(
-		$projectile->discovered_by,
+		[$projectile->discovered_by],
 		Resource::Projectile->new(subject => $projectile),
 	);
 

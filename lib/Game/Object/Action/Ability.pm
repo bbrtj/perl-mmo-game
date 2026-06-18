@@ -1,11 +1,16 @@
-package Game::Object::Action::Ability;
+use experimental 'class';
 
-use My::Moose;
+class Game::Object::Action::Ability :isa(Game::Object::Action);
 
 use header;
 
-extends 'Game::Object::Action';
-with 'Game::Object::Role::HasPosition';
-
 use constant server_method => 'use_ability_done';
+
+field $x :reader :param;
+field $y :reader :param;
+
+method xy()
+{
+	return ($x, $y);
+}
 

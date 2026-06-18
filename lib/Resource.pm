@@ -1,47 +1,47 @@
-package Resource;
+use experimental 'class';
 
-use My::Moose;
+class Resource;
 
 use Server::Config;
 
 use header;
 
-has param 'subject';
+field $serialized;
+field $next_resources;
 
-has field 'serialized' => (
-	lazy => 1,
-);
+use constant type => undef;
+use constant is_plaintext => false;
 
-has field 'next_resources' => (
-	lazy => 1,
-);
+method generate () { ... }
 
-sub type { ... }
-
-sub is_plaintext
+method serialized ()
 {
-	return false;
-}
+	if (!defined $serialized) {
+		my $gen = $self->generate;
+		if ($self->is_plaintext) {
+			croak "Bad resource data type generated for " . ref $self
+				unless ref $gen eq 'ARRAY';
 
-sub generate ($self) { ... }
-
-sub _build_serialized ($self)
-{
-	my $gen = $self->generate;
-	if ($self->is_plaintext) {
-		croak "Bad resource data type generated for " . ref $self
-			unless ref $gen eq 'ARRAY';
-
-		$gen = join Server::Config->PROTOCOL_SEPARATOR, $gen->@*;
-	}
-	else {
-		$gen = __serialize $gen;
+			$serialized = join Server::Config->PROTOCOL_SEPARATOR, $gen->@*;
+		}
+		else {
+			$serialized = __serialize $gen;
+		}
 	}
 
-	return $gen;
+	return $serialized;
 }
 
-sub _build_next_resources
+method next_resources ()
+{
+	if (!defined $next_resources) {
+		$next_resources = $self->_build_next_resources;
+	}
+
+	return $next_resources;
+}
+
+method _build_next_resources ()
 {
 	return [];
 }
