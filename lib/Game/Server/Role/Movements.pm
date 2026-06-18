@@ -97,7 +97,7 @@ sub _process_movements ($self)
 }
 
 after BUILD => sub ($self, @) {
-	$self->_add_action(0.2 => '_process_movements', 10);
+	$self->_add_action(0.1 => '_process_movements', 10);
 };
 
 after signal_player_left => sub ($self, $actor) {
