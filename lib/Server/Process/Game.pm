@@ -3,7 +3,7 @@ package Server::Process::Game;
 use My::Moose;
 use Server::Config;
 use Game::Server;
-use List::Util qw(max);
+use List::Util qw(max sum0);
 use IO::Async::Timer::Periodic;
 use ServerTime qw(new_tick);
 
@@ -132,13 +132,14 @@ sub do_work ($self, $loop)
 		if (Server::Config::DEBUG) {
 			my $processing_time = time - $start;
 
-			my $alert = '';
-			for (0.75, 1, 1.25) {
-				$alert .= '!' if $processing_time > $tick / $_;
-			}
+			state @times;
+			push @times, $processing_time;
+			shift @times while @times > 1000;
 
-			if ($alert) {
-				$self->log->debug($self->location_id . ": last processing took $processing_time [$alert]");
+			if ($elapsed % 200 == 0) {
+				my $avg = sum0(@times) / @times;
+				my $budget = $avg / $tick * 100;
+				$self->log->debug($self->location_id . ": average processing budget usage is $budget%");
 			}
 		}
 	};
