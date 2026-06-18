@@ -1,18 +1,24 @@
-use all 'Model', 'X', 'Unit', 'Resource';
-use Game::Object::Movement;
-use Model::PlayerSession;
+use all 'Model', 'X', 'Unit', 'Resource', 'Game::Object';
+use Game::Helpers;
 use Utils;
 
 use header;
 
-use Benchmark::Dumb qw(cmpthese);
+use Benchmark::Dumb qw(timethese);
 
 my $ulid = Types::ULID::ulid;
 my $character = DI->get('faker_service')->fake_character;
 my $variables = DI->get('faker_service')->fake_variables;
 my $actor = Unit::Actor->new(character => $character, variables => $variables);
 
-cmpthese 200.01, {
+my $pre_effect = Game::Object::Effect::Damage->new(
+	damage => 5,
+	radius => 0.1,
+	actor => $actor,
+	lore => lore_ability 'Shoot',
+);
+
+timethese 200.01, {
 	'Model::Player' => sub {
 		Model::Player->new(user_id => $ulid);
 	},
@@ -32,6 +38,25 @@ cmpthese 200.01, {
 			y => 6.5,
 			speed => 9,
 			time => time,
+		);
+	},
+	'Game::Object::Effect::Damage' => sub {
+		Game::Object::Effect::Damage->new(
+			damage => 5,
+			radius => 0.1,
+			actor => $actor,
+			lore => lore_ability 'Shoot',
+		);
+	},
+	'Game::Object::Projectile' => sub {
+		Game::Object::Projectile->new(
+			actor => $actor,
+			effect => $pre_effect,
+			speed => 0.1,
+			angle => 1,
+			max_distance => 100,
+			x => 10,
+			y => 10,
 		);
 	},
 	'Resource::ActorState' => sub {

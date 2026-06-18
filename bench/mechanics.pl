@@ -1,33 +1,44 @@
 use Game::Helpers;
-use Game::Lore::Location;
 use Game::Mechanics::Check::Map qw(can_see);
 use Game::Mechanics::Movement qw(move);
+use Game::Mechanics::Projectile qw(travel);
 use Game::Mechanics::Character::Statistics qw(get_current_level get_max_health);
-use Game::Object::Movement;
-use Model::CharacterVariables;
-use Utils;
+use all 'Game::Object', 'Unit';
 
 use header;
 
-use Benchmark::Dumb qw(cmpthese);
+use Benchmark::Dumb qw(timethese);
 
 my $location = Game::Lore::Location->new(id => 'TEST', name => 'test', map => 'test_map');
 my $map = $location->map;
 
-my $variables = Model::CharacterVariables->new(
-	pos_x => 4,
-	pos_y => 3,
-	health => 0,
-	energy => 0,
-	location_id => 'TEST',
-);
+my $character = DI->get('faker_service')->fake_character;
+my $variables = DI->get('faker_service')->fake_variables;
+my $actor = Unit::Actor->new(character => $character, variables => $variables);
 
 my $movement = Game::Object::Movement->new(
 	variables => $variables,
-	x => 7.3,
-	y => 8.5,
+	x => $variables->pos_x + 20,
+	y => $variables->pos_y + 20,
 	speed => 0.1,
 	time => time,
+);
+
+my $effect = Game::Object::Effect::Damage->new(
+	damage => 5,
+	radius => 0.1,
+	actor => $actor,
+	lore => lore_ability 'Shoot',
+);
+
+my $projectile = Game::Object::Projectile->new(
+	actor => $actor,
+	effect => $effect,
+	speed => 0.1,
+	angle => 1,
+	max_distance => 100,
+	x => 10,
+	y => 10,
 );
 
 my $class = lore_class 'Warden';
@@ -36,12 +47,15 @@ my $stats = {
 	'pstat.con' => 10,
 };
 
-cmpthese 200.01, {
+timethese 200.01, {
 	line_of_sight => sub {
 		die unless can_see($map, [4.5, 3.8], [7.9, 8.3])->result;
 	},
 	movement => sub {
 		die unless move($movement, $map, time);
+	},
+	projectile => sub {
+		die unless travel($projectile, $map, time);
 	},
 	level => sub {
 		die unless get_current_level(250) == 3;
