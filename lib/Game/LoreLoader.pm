@@ -25,6 +25,8 @@ use constant LORE_TYPES => [
 use constant DIRECTORY => path(__FILE__)->parent->parent->parent->child('game-data');
 use constant EXTENSION => 'xml';
 
+DI->static_injected('lore_data_repo');
+
 our $LORE_FILENAME;
 
 my sub build_class ($name)
@@ -39,8 +41,6 @@ my sub real_children ($item)
 
 my sub get_lore_from_attr ($item)
 {
-	state $lore_repo = DI->get('lore_data_repo');
-
 	my $lore = $item->attr('lore');
 	return undef unless $lore;
 	my $type = $lore->value;
@@ -48,7 +48,7 @@ my sub get_lore_from_attr ($item)
 	my $lore_key = $item->attr('lore-key');
 	my $name = $lore_key ? $lore_key->value : $item->text;
 
-	return $lore_repo->load_named(build_class($type), $name);
+	return __PACKAGE__->lore_data_repo->load_named(build_class($type), $name);
 }
 
 my sub is_lore_key ($item)
@@ -104,8 +104,6 @@ sub build_config ($self, $node)
 
 sub build_single_lore ($self, $item, $parent = undef)
 {
-	state $lore_repo = DI->get('lore_data_repo');
-
 	my $id = $item->attr('id')->value;
 	my $lore_name = $item->attr('name')->value;
 
@@ -163,7 +161,7 @@ sub build_single_lore ($self, $item, $parent = undef)
 	}
 
 	foreach my ($lore_id, $position) (%coordinates) {
-		my $lore_item = $lore_repo->load($lore_id);
+		my $lore_item = $self->lore_data_repo->load($lore_id);
 		$lore_item->set_pos_x($position->[0]);
 		$lore_item->set_pos_y($position->[1]);
 	}

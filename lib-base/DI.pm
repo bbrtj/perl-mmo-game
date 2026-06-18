@@ -4,6 +4,7 @@ use v5.42;
 
 use Beam::Wire;
 use Types::Standard qw(InstanceOf);
+use Sub::Install;
 
 my $wire = Beam::Wire->new(file => 'wire.yml');
 
@@ -38,6 +39,28 @@ sub injected ($class, $name)
 		isa => InstanceOf [$config->{class}],
 		default => sub { $class->get($name) },
 	);
+}
+
+sub static_injected ($class, $name)
+{
+	my $caller = caller;
+	my $code = sub {
+		state $service = $class->get($name);
+		return $service;
+	};
+
+	if ($caller->can('meta')) {
+		$caller->meta->add_method($name, $code);
+	}
+	else {
+		Sub::Install::install_sub(
+			{
+				code => $code,
+				as => $name,
+				into => $caller,
+			}
+		);
+	}
 }
 
 sub has ($class, $name)

@@ -39,6 +39,8 @@ has field 'race' => (
 	lazy => 1,
 );
 
+DI->static_injected('lore_data_repo');
+
 sub is_player ($self)
 {
 	return defined $self->player_id;
@@ -46,14 +48,12 @@ sub is_player ($self)
 
 sub _build_class ($self)
 {
-	state $repo = DI->get('lore_data_repo');
-	return $repo->load($self->class_id);
+	return $self->lore_data_repo->load($self->class_id);
 }
 
 sub _build_race ($self)
 {
-	state $repo = DI->get('lore_data_repo');
-	return $repo->load($self->race_id);
+	return $self->lore_data_repo->load($self->race_id);
 }
 
 __PACKAGE__->_register;
