@@ -25,11 +25,6 @@ sub validate ($self, $data)
 	return $data;
 }
 
-before handle => sub ($self, $player_id, $id, $position) {
-
-	# TODO: check if player can use the ability now (here or in handle)
-};
-
 sub handle ($self, $player_id, $id, $data)
 {
 	$self->game_process->server->use_ability($player_id, $data->%*);

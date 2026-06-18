@@ -14,7 +14,7 @@ use constant required_state => Model::PlayerSession->STATE_PLAYING;
 
 sub validate ($self, $data)
 {
-	state $type = Tuple [PositiveNum, PositiveNum];
+	state $type = Tuple [PositiveOrZeroNum, PositiveOrZeroNum];
 	my $parts = [split quotemeta Server::Config::PROTOCOL_SEPARATOR, $data];
 
 	$type->assert_valid($parts);
@@ -22,17 +22,14 @@ sub validate ($self, $data)
 	return $parts;
 }
 
-before handle => sub ($self, $player_id, $id, $position) {
-
+sub handle ($self, $player_id, $id, $position)
+{
 	# can_move_to(
 	# 	$self->server->map,
 	# 	[$self->server->get_player($player_id)->variables->xy],
 	# 	$position
 	# )->assert_valid;
-};
 
-sub handle ($self, $player_id, $id, $position)
-{
 	$self->game_process->server->set_movement($player_id, $position->@*);
 
 	return;
