@@ -4,7 +4,7 @@ use My::Moose::Role;
 use Game::Config;
 use Game::Object::Projectile;
 use Game::Mechanics::Generic qw(find_frontal_point calculate_angle_and_diagonal);
-use Game::Mechanics::Projectile qw(travel);
+use Game::Mechanics::Movement qw(move_projectile);
 use Game::Mechanics::Distance qw(find_actors_in_range);
 use Game::RNG;
 use Math::Trig qw(deg2rad);
@@ -50,7 +50,7 @@ sub _process_projectiles ($self)
 	foreach my $projectile (values $self->_projectiles->%*) {
 
 		# a wall has been hit
-		if (!travel($projectile, $map, $elapsed)) {
+		if (!move_projectile($projectile, $map, $elapsed)) {
 			$self->_projectile_hit($projectile, true);
 			next;
 		}

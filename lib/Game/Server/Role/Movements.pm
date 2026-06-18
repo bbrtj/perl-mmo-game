@@ -3,7 +3,7 @@ package Game::Server::Role::Movements;
 use My::Moose::Role;
 use Game::Config;
 use Game::Object::Movement;
-use Game::Mechanics::Movement qw(move);
+use Game::Mechanics::Movement qw(move_actor);
 
 use all 'X';
 use all 'Resource';
@@ -68,7 +68,7 @@ sub _process_movement ($self, $actor)
 	my $movement = $actor->stats->movement;
 
 	return false unless $movement;
-	return move($movement, $self->map);
+	return move_actor($movement, $self->map);
 }
 
 sub _process_movements ($self)
@@ -79,7 +79,7 @@ sub _process_movements ($self)
 	foreach my $actor (values $self->_moving->%*) {
 		my $movement = $actor->stats->movement;
 
-		if (!($movement && move($movement, $map, $elapsed))) {
+		if (!($movement && move_actor($movement, $map, $elapsed))) {
 			delete $self->_moving->{$actor->id};
 
 			if ($movement) {

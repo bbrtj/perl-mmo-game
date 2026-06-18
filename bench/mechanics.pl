@@ -1,7 +1,6 @@
 use Game::Helpers;
 use Game::Mechanics::Check::Map qw(can_see);
-use Game::Mechanics::Movement qw(move);
-use Game::Mechanics::Projectile qw(travel);
+use Game::Mechanics::Movement qw(move_actor move_projectile);
 use Game::Mechanics::Character::Statistics qw(get_current_level get_max_health);
 use all 'Game::Object', 'Unit';
 
@@ -52,10 +51,10 @@ timethese 200.01, {
 		die unless can_see($map, [4.5, 3.8], [7.9, 8.3])->result;
 	},
 	movement => sub {
-		die unless move($movement, $map, time);
+		die unless move_actor($movement, $map, time);
 	},
 	projectile => sub {
-		die unless travel($projectile, $map, time);
+		die unless move_projectile($projectile, $map, time);
 	},
 	level => sub {
 		die unless get_current_level(250) == 3;
