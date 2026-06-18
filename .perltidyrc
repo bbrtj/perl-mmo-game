@@ -8,6 +8,8 @@
 --continuation-indentation=4
 --extended-continuation-indentation
 --no-delete-old-newlines
+--nowant-right-space="A"
+--no-blanks-before-comments
 
 ### ALIGNMENT
 --no-outdent-long-lines

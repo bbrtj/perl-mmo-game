@@ -38,7 +38,7 @@ sub manual_database_test ()
 	};
 }
 
-sub database_test : prototype(&) ($sub)
+sub database_test :prototype(&) ($sub)
 {
 	my $cleanup = manual_database_test;
 

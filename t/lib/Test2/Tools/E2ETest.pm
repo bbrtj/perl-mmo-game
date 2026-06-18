@@ -14,7 +14,7 @@ use header;
 our @EXPORT = qw(e2e_test e2e_client);
 our $SERVER_PORT;
 
-sub e2e_test : prototype(&;&) ($tester, $after_test = sub { })
+sub e2e_test :prototype(&;&) ($tester, $after_test = sub { })
 {
 	my @child_ids;
 

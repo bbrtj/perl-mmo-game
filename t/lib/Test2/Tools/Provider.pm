@@ -10,7 +10,7 @@ our @EXPORT = qw(test test_data before_each);
 my $before;
 my %subs;
 
-sub before_each : prototype(&) ($sub)
+sub before_each :prototype(&) ($sub)
 {
 	$before = $sub;
 

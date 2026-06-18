@@ -6,7 +6,7 @@ use all 'X';
 
 use header;
 
-field $error : reader : param = undef;
+field $error :reader :param = undef;
 
 method has_error ()
 {

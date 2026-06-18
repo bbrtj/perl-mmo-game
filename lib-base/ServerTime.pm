@@ -21,7 +21,7 @@ sub mock_server_time ($value)
 	return;
 }
 
-sub server_time : prototype()
+sub server_time :prototype()
 {
 	return $time;
 }
