@@ -3,6 +3,7 @@ package Game::Server::Role::Npcs;
 use My::Moose::Role;
 use List::BinarySearch qw(binsearch_pos);
 
+use Game::Helpers;
 use Game::Mechanics::Character::Statistics qw(get_exp_for_level);
 
 use all 'Game::Object';
@@ -69,16 +70,18 @@ sub _process_ai ($self)
 
 sub _spawn_npc ($self, $spawn)
 {
-	my $npc_object = Game::Object::Actor::Npc->new(
-		lore => $spawn->lore,
-		spawn => $spawn,
-	);
+	state $remnants_lore = lore_alliance 'Remnants',
+		my $npc_object = Game::Object::Actor::Npc->new(
+			lore => $spawn->lore,
+			spawn => $spawn,
+		);
 
 	my $unit = Unit::Actor->new(
 		npc => $npc_object,
 		character => Model::Character->new(
 			class_id => $spawn->lore->id,
 			race_id => $npc_object->race->id,
+			alliance_id => $remnants_lore->id,
 			name => $spawn->lore->id,
 		),
 		variables => Model::CharacterVariables->new(

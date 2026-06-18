@@ -16,6 +16,8 @@ method generate ()
 			id => $_->id,
 			name => $_->character->name,
 			class => $_->character->class_id,
+			race => $_->character->race_id,
+			alliance => $_->character->alliance_id,
 			player => $_->is_player,
 		}
 	} $actors->@*;

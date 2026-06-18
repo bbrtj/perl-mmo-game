@@ -4,10 +4,11 @@
 BEGIN;
 
 CREATE TABLE characters (
-	id CHAR(26) primary key,
-	player_id CHAR(26) NULL,
-	class_id VARCHAR(32) NOT NULL,
-	race_id VARCHAR(32) NOT NULL,
+	id ulid primary key,
+	player_id ulid NULL,
+	class_id lore_id NOT NULL,
+	race_id lore_id NOT NULL,
+	alliance_id lore_id NOT NULL,
 	name VARCHAR(32) NOT NULL,
 	CONSTRAINT fk_player
 		FOREIGN KEY(player_id)

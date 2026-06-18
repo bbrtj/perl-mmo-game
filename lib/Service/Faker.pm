@@ -61,6 +61,7 @@ sub fake_character ($self, %params)
 		player_id => Types::ULID::ulid,
 		class_id => lore_class('Assassin')->id,
 		race_id => lore_race('Dwarf')->id,
+		alliance_id => lore_alliance('Natives')->id,
 		name => $self->_fake_unique('person_first_name', 'person_last_name'),
 		%params
 	);

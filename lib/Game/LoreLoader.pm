@@ -15,6 +15,7 @@ use header;
 
 use constant LORE_TYPES => [
 	qw(
+		alliance
 		class race ability npc
 		primary_stat secondary_stat attribute
 		area location

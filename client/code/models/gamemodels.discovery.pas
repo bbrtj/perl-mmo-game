@@ -21,12 +21,16 @@ type
 		FId: TUlid;
 		FName: String;
 		FClass: TLoreId;
+		FRace: TLoreId;
+		FAlliance: TLoreId;
 		FPlayer: Boolean;
 
 	published
 		property id: TUlid read FId write FId;
 		property name: String read FName write FName;
 		property &class: TLoreId read FClass write FClass;
+		property race: TLoreId read FRace write FRace;
+		property alliance: TLoreId read FAlliance write FAlliance;
 		property player: Boolean read FPlayer write FPlayer;
 
 	end;

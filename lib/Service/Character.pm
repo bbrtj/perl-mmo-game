@@ -20,6 +20,7 @@ sub create_character ($self, $user, $character_data)
 		player_id => $player->id,
 		class_id => $class->id,
 		race_id => $race->id,
+		alliance_id => Game::Config->starting_alliance->id,
 		name => ucfirst lc $character_data->{name},
 	);
 

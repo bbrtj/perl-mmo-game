@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<constants requires="areas">
+<constants requires="areas,alliances">
 	<base_radius>0.05</base_radius>
 	<discover_radius>6</discover_radius>
 	<yell_radius>12</yell_radius>
@@ -24,6 +24,7 @@
 		<location lore="location">Cape Peril - Harbor</location>
 		<x>3</x>
 		<y>3</y>
-	<starting_location>
+	</starting_location>
+	<starting_alliance lore="alliance">Colonizers</starting_alliance>
 </constants>
 

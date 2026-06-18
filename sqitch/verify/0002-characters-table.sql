@@ -7,6 +7,7 @@ SELECT
 	player_id,
 	class_id,
 	race_id,
+	alliance_id,
 	name
 FROM characters;
 

@@ -4,9 +4,9 @@
 BEGIN;
 
 CREATE TABLE character_variables (
-	id CHAR(26) primary key,
+	id ulid primary key,
 	experience BIGINT NOT NULL DEFAULT 0,
-	location_id VARCHAR(32) NOT NULL,
+	location_id lore_id NOT NULL,
 	pos_x FLOAT NOT NULL,
 	pos_y FLOAT NOT NULL,
 	health FLOAT NOT NULL,

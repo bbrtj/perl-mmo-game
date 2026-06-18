@@ -21,6 +21,9 @@ e2e_test(
 		my $password = 'Testpassword123#';
 		my ($actor, %related_models) = ActorTest->save_actor(
 			password => $password,
+			character_params => {
+				alliance_id => 'alli.colon',
+			},
 			variables_params => {
 				location_id => 'loc.cp_harbor',
 				pos_x => 9,

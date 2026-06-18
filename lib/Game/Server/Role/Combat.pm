@@ -51,8 +51,8 @@ sub _apply_damage_effect ($self, $effect, $x, $y)
 {
 	my $actor = $effect->actor;
 
-	# TODO: friendly fire
-	my @found = grep { $_ != $actor } find_actors_in_range($self, $x, $y, $effect->radius);
+	my $alliance = $actor->character->alliance;
+	my @found = grep { $_->character->alliance != $alliance } find_actors_in_range($self, $x, $y, $effect->radius);
 	deal_damage($actor, $effect->lore->attributes, $effect->damage, @found);
 
 	# TODO: not always all targets will be affected (ability target limit)

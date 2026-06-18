@@ -9,6 +9,7 @@ uses SysUtils, Classes, Contnrs, Math,
 	GameModels, GameModels.Discovery;
 
 type
+	TGameActorRepositoryRecord = class;
 
 	TPlayerBehavior = class(TCastleBehavior)
 	strict private
@@ -26,7 +27,7 @@ type
 		FPlateInitialHeight: Single;
 
 		FId: TUlid;
-		FName: String;
+		FActorRecord: TGameActorRepositoryRecord;
 
 		FMovementVector: TVector3;
 		FMovementTime: Single;
@@ -67,7 +68,7 @@ type
 
 		property Id: TUlid read FId write FId;
 		property Plate: TCastleDesign read FPlate write FPlate;
-		property ActorName: String read FName write FName;
+		property ActorRecord: TGameActorRepositoryRecord read FActorRecord write FActorRecord;
 	end;
 
 	TGameActorRepositoryRecord = class
@@ -75,11 +76,15 @@ type
 		FId: TUlid;
 		FName: String;
 		FClass: TLoreId;
+		FRace: TLoreId;
+		FAlliance: TLoreId;
 		FPlayer: Boolean;
 	public
 		property Id: TUlid read FId write FId;
 		property ActorName: String read FName write FName;
 		property ActorClass: TLoreId read FClass write FClass;
+		property ActorRace: TLoreId read FRace write FRace;
+		property ActorAlliance: TLoreId read FAlliance write FAlliance;
 		property IsPlayer: Boolean read FPlayer write FPlayer;
 	end;
 
@@ -163,7 +168,7 @@ begin
 	result := TGameActor.Create(FUIBoard);
 	result.Id := Info.Id;
 	result.Name := 'Actor_' + Info.Id;
-	result.ActorName := Info.ActorName;
+	result.ActorRecord := Info;
 
 	LLore := LoreCollection.GetById(Info.ActorClass);
 
@@ -186,7 +191,7 @@ end;
 procedure TGameActor.UpdatePlate();
 begin
 	(FPlate.DesignedComponent('ActorName') as TCastleLabel)
-		.Caption := FName;
+		.Caption := FActorRecord.ActorName;
 
 	self.UpdatePlateResources;
 end;
@@ -237,9 +242,6 @@ end;
 constructor TGameActor.Create(AOwner: TComponent);
 begin
 	inherited;
-
-	FName := '';
-	FActionName := '';
 end;
 
 procedure TGameActor.SetPosition(X, Y: Single);
@@ -344,6 +346,8 @@ begin
 		LRecord.Id := LActorInfo.id;
 		LRecord.ActorName := LActorInfo.name;
 		LRecord.ActorClass := LActorInfo.&class;
+		LRecord.ActorRace := LActorInfo.race;
+		LRecord.ActorAlliance := LActorInfo.alliance;
 		LRecord.IsPlayer := LActorInfo.player;
 
 		if not LRecord.IsPlayer then

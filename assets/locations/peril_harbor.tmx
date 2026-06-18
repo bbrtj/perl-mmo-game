@@ -325,25 +325,25 @@
   <object id="1" name="monster" type="Rat" x="1517.68" y="2286.7">
    <point/>
   </object>
-  <object id="3" name="strong monster" type="Bog rat" x="1755.34" y="2332.9">
+  <object id="3" name="strong monster" type="Bog rat" x="1499.26" y="1334.18">
    <point/>
   </object>
   <object id="5" name="monster" type="Rat" x="1418.8" y="2371.57">
    <point/>
   </object>
-  <object id="6" name="monster" type="Rat" x="1728.3" y="2457.94">
+  <object id="6" name="monster" type="Rat" x="1624.53" y="2373.19">
    <point/>
   </object>
   <object id="7" name="monster" type="Rat" x="1340.53" y="2249.21">
    <point/>
   </object>
-  <object id="8" name="strong monster" type="Bog rat" x="1563.65" y="2542.51">
+  <object id="8" name="strong monster" type="Bog rat" x="2848.33" y="1876.7">
    <point/>
   </object>
-  <object id="9" name="strong monster" type="Bog rat" x="1786.77" y="2141.25">
+  <object id="9" name="strong monster" type="Bog rat" x="2341.61" y="1471.17">
    <point/>
   </object>
-  <object id="10" name="strong monster" type="Bog rat" x="1615.83" y="2374.27">
+  <object id="10" name="strong monster" type="Bog rat" x="1749.57" y="1656.91">
    <point/>
   </object>
  </objectgroup>

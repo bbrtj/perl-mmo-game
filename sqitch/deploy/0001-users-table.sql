@@ -3,7 +3,7 @@
 BEGIN;
 
 CREATE TABLE users (
-	id CHAR(26) primary key,
+	id ulid primary key,
 	email VARCHAR(128) NOT NULL,
 	password VARCHAR(60) NOT NULL,
 	status INT NOT NULL DEFAULT 1,

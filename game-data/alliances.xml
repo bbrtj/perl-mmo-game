@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alliances>
+	<alliance id="colon" name="Colonizers">
+		<translation lang="pl">
+			<name>Kolonizatorzy</name>
+			<desc>Przybysze z innego, odległego świata. Stawiając nogę na nowym lądzie poczuli się jego władcami, a lokalnych mieszkańców uznali za przeszkodę w drodze do realizacji swoich ambicji. Mimo, iż nie górowali oni nad nimi technicznie, byli zdeterminowani aby udowodnić wyższość swojej cywilizacji.</desc>
+		</translation>
+		<translation lang="en">
+			<name>Colonizers</name>
+			<desc>Newcomers from another, distant world. Setting foot on the new land, they felt like its rulers, and considered the local inhabitants an obstacle on the path to realizing their ambitions. Although they did not surpass them technologically, they were determined to prove the superiority of their civilization.</desc>
+		</translation>
+
+		<playable>1</playable>
+	</alliance>
+
+	<alliance id="nativ" name="Natives">
+		<translation lang="pl">
+			<name>Tubylcy</name>
+			<desc>Lokalni mieszkańcy tego kontynentu jeszcze kila lat temu prowadzili pokojowe życie - na tyle niedawno, że wciąż żywa jest pamięć o czasach, gdy byli jego jedynymi, dumnymi władcami. Ich władza była jednak skorumpowana, a większość zysków z ich imperium trafiało jedynie do garstki najwyżej postawionych osób.</desc>
+		</translation>
+		<translation lang="en">
+			<name>Natives</name>
+			<desc>The local inhabitants of this continent were living a peaceful life just a few years ago - so recently that the memory of times when they were its sole, proud rulers is still alive. Their rule was corrupt, however, and most of the profits from their empire went only to a handful of the highest-ranking individuals.</desc>
+		</translation>
+
+		<playable>1</playable>
+	</alliance>
+
+	<alliance id="band" name="Bandits">
+		<translation lang="pl">
+			<name>Bandyci</name>
+			<desc>Podczas zdobywania nowego świata szybko stało się jasne, że jest wiele osób gotowych wykorzystać panujący chaos. Lokalni wataszkowie organizowali łupieżcze bandy, nieliczne i rozproszone, jednak niezwykle skuteczne. Bandyckie frakcje obecnie łączą swe siły, budując potencjał potrzebny do podważenia panującej bigemonii.</desc>
+		</translation>
+		<translation lang="en">
+			<name>Bandits</name>
+			<desc>During the conquest of the new world, it quickly became clear that many individuals were ready to exploit the prevailing chaos. Local warlords organized raiding bands, small and scattered, but extremely effective. Bandit factions are now joining forces, building the potential needed to undermine the prevailing bigemony.</desc>
+		</translation>
+
+		<playable>1</playable>
+	</alliance>
+
+	<alliance id="rem" name="Remnants">
+		<translation lang="pl">
+			<name>Pozostali</name>
+			<desc>Wybuch konfliktu nie miał konsekwencji jedynie dwóch walczących stron. Plemiona niezaangażowane w wojnę były zmuszone do obrony swoich ziem, z których czerpały niezbędne do życia zasoby. Zwierzęta, jako efekt polowań dla mięsa i skór, stały się bardziej agresywne i przystosowane do walki o przetrwanie. Potwory zaś, czując śmierć i cierpienie, coraz śmielej wychodziły z ukrycia na żer.</desc>
+		</translation>
+		<translation lang="en">
+			<name>Remnants</name>
+			<desc>The outbreak of conflict had consequences not only for the two warring sides. Tribes not involved in the war were forced to defend their lands, from which they drew the resources necessary for life. Animals, as a result of being hunted for meat and skins, became more aggressive and adapted to fighting for survival. Monsters, sensing death and suffering, came out of hiding more boldly to prey.</desc>
+		</translation>
+	</alliance>
+</alliances>
+
