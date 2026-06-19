@@ -49,6 +49,6 @@ sub _reload_coordinates ($self)
 }
 
 after BUILD => sub ($self, @) {
-	$self->_add_action(0.2 => '_reload_coordinates', 9);
+	$self->_add_action(0.1 => '_reload_coordinates', 9);
 };
 
