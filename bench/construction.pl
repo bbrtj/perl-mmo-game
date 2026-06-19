@@ -12,8 +12,6 @@ my $variables = DI->get('faker_service')->fake_variables;
 my $actor = Unit::Actor->new(character => $character, variables => $variables);
 
 my $pre_effect = Game::Object::Effect::Damage->new(
-	damage => 5,
-	radius => 0.1,
 	actor => $actor,
 	lore => lore_ability 'Shoot',
 );
@@ -48,21 +46,16 @@ timethese 200.01, {
 	},
 	'Game::Object::Effect::Damage' => sub {
 		Game::Object::Effect::Damage->new(
-			damage => 5,
-			radius => 0.1,
 			actor => $actor,
 			lore => lore_ability 'Shoot',
 		);
 	},
 	'Game::Object::Projectile' => sub {
 		Game::Object::Projectile->new(
-			actor => $actor,
 			effect => $pre_effect,
 			speed => 0.1,
 			angle => 1,
 			max_distance => 100,
-			x => 10,
-			y => 10,
 		);
 	},
 	'Resource::ActorState' => sub {

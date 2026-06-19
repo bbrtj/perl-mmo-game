@@ -17,9 +17,16 @@ our @EXPORT_OK = qw(
 	weighted_choice
 );
 
+use constant USES_RANDOM => !$ENV{TEST_NO_RANDOM};
+
 sub rng
 {
-	return rand;
+	if (USES_RANDOM) {
+		goto \&rand;
+	}
+	else {
+		return 1;
+	}
 }
 
 sub random_number ($min, $max)

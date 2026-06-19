@@ -1,11 +1,19 @@
-package Game::Mechanics::Character::Damage;
+package Game::Mechanics::Combat;
 
 use Exporter qw(import);
 use header;
 
 our @EXPORT_OK = qw(
+	is_friendly
 	deal_damage
 );
+
+sub is_friendly ($actor1, $actor2)
+{
+	# NOTE: all alliance lores will be the same object, so we can just apply a
+	# quick object check instead of string-comparing ids
+	return $actor1->character->alliance == $actor2->character->alliance;
+}
 
 sub deal_damage ($source_actor, $attributes, $damage, @targets)
 {

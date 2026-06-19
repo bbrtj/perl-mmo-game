@@ -1,11 +1,17 @@
 # HARNESS-CATEGORY-IMMISCIBLE
 
+# disable randomness before Game::RNG compiles
+BEGIN { $ENV{TEST_NO_RANDOM} = 1; }
+
 use Test2::Tools::E2ETest;
 use Test2::Tools::Compare qw(number_gt);
 use Game::TestClient;
 use Game::Helpers;
 use Game::TestClientBag;
+use Game::Mechanics::Generic qw(calculate_angle);
 use ActorTest;
+
+use all 'Game::TestClient::Resource';
 
 use testheader;
 
@@ -25,8 +31,20 @@ e2e_test(
 			},
 			variables_params => {
 				location_id => 'loc.cp_harbor',
-				pos_x => 9,
-				pos_y => 9,
+				pos_x => 7,
+				pos_y => 7,
+			}
+		);
+
+		my ($friendly, %friendly_related_models) = ActorTest->save_actor(
+			password => $password,
+			character_params => {
+				alliance_id => 'alli.colon',
+			},
+			variables_params => {
+				location_id => 'loc.cp_harbor',
+				pos_x => 8.5,
+				pos_y => 8.5,
 			}
 		);
 
@@ -40,17 +58,18 @@ e2e_test(
 		);
 
 		DI->get('models_repo')->update($related_models{variables});
+		DI->get('models_repo')->update($friendly_related_models{variables});
 		DI->get('models_repo')->update($dummy_related_models{variables});
 
+		my $ability = lore_ability 'Shoot';
 		$bag->add_client(
-			Game::TestClient->new(actor => $actor)
+			Game::TestClient->new(name => 'actor', actor => $actor)
 				->add_action('Login', user => $related_models{user}, password => $password)
 				->add_action('EnterGame')
-				->add_action('Move', x => 9.5, y => 9.5)
 				->add_action(
 					'State',
 					received => {
-						'new_actors' => [$dummy->id]
+						'new_actors' => [$friendly->id, $dummy->id]
 					},
 					types => ['discovery'],
 				)
@@ -59,24 +78,38 @@ e2e_test(
 					data => [
 						Resource::ActorPosition->new(subject => $dummy),
 						Resource::ActorState->new(subject => $dummy),
+						Resource::ActorPosition->new(subject => $friendly),
+						Resource::ActorState->new(subject => $friendly),
 					],
 				)
-				->add_action('UseAbility', actor => $actor, lore => lore_ability 'Strike')
+				->add_action('UseAbility', actor => $actor, lore => $ability, x => 10, y => 10)
 		);
 
-		# TODO: real duration
-		# NOTE: x/y are required, but they do not change anything with this type of ability
 		my $actor_action = Game::Object::Action::Ability->new(
-			x => 5,
-			y => 3,
-			lore => lore_ability 'Strike',
+			x => 10,
+			y => 10,
+			lore => $ability,
 			actor => $actor,
-			duration => 1,
+			duration => $ability->speed_multiplier,
+		);
+
+		my $projectile = Game::Object::Projectile->new(
+			effect => Game::Object::Effect::Damage->new(
+				actor => $actor,
+				lore => $ability,
+			),
+			angle => calculate_angle($actor->variables->xy, 10, 10),
+			speed => $ability->projectile->{speed},
+			max_distance => $ability->projectile->{range},
+		);
+
+		my $projectile_stop = Game::TestClient::Resource::ProjectileStop->new(
+			subject => $projectile,
 		);
 
 		$bag->add_client(
-			Game::TestClient->new(actor => $dummy)
-				->add_action('Login', user => $dummy_related_models{user}, password => $password)
+			Game::TestClient->new(name => 'friendly', actor => $friendly)
+				->add_action('Login', user => $friendly_related_models{user}, password => $password)
 				->add_action('EnterGame')
 				->add_action(
 					'Feed',
@@ -84,8 +117,19 @@ e2e_test(
 						Resource::ActorAction->new(
 							subject => $actor_action,
 						),
+						Game::TestClient::Resource::Projectile->new(
+							subject => $projectile,
+							stop_resource => $projectile_stop,
+						),
+						$projectile_stop,
 					],
 				)
+		);
+
+		$bag->add_client(
+			Game::TestClient->new(name => 'dummy', actor => $dummy)
+				->add_action('Login', user => $dummy_related_models{user}, password => $password)
+				->add_action('EnterGame')
 		);
 
 		$bag->run;

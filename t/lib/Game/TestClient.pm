@@ -7,6 +7,13 @@ use all 'Unit', 'Game::TestClient';
 
 use header;
 
+has param 'name' => (
+	isa => Str,
+	lazy => sub ($self) {
+		return $self->actor->id;
+	},
+);
+
 has param 'actor' => (
 	isa => InstanceOf ['Unit::Actor'],
 );

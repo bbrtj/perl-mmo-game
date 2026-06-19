@@ -57,8 +57,14 @@ sub find_and_compare ($self, $type, $data)
 	foreach my $i (keys @rec_q) {
 		my $expected = $rec_q[$i];
 		my $expected_type = '';
+		my $mangler;
 
 		if ($expected isa 'Resource') {
+			if ($expected->can('mangle_for_test')) {
+				my $resource = $expected;
+				$mangler = sub { $resource->mangle_for_test(@_) };
+			}
+
 			$expected_type = $expected->type;
 			if ($expected->is_plaintext) {
 				$expected = $expected->serialized;
@@ -78,7 +84,14 @@ sub find_and_compare ($self, $type, $data)
 			$ok = 0;
 		}
 
-		$ok &&= $type eq $expected_type && !diff($cmp_data, $expected) && !diff($expected, $cmp_data);
+		$ok &&= $type eq $expected_type;
+
+		if ($ok && $mangler) {
+			$expected = $mangler->($cmp_data, $expected);
+		}
+
+		$ok &&= !diff($cmp_data, $expected) && !diff($expected, $cmp_data);
+
 		if ($ok) {
 			splice $self->state->{receive}->@*, $i, 1;
 			return true;
@@ -97,8 +110,9 @@ sub get_expected_type ($self)
 	return 'none (queue is empty)'
 		unless @rec_q;
 
-	return 'one of many (queue is not sequential)'
-		if !$self->sequential && @rec_q > 1;
+	my $rec_count = @rec_q;
+	return "one of many ($rec_count possible, queue is not sequential)"
+		if !$self->sequential && $rec_count > 1;
 
 	my $expected = $rec_q[0];
 
@@ -115,8 +129,9 @@ sub get_expected_data ($self)
 	return 'none (queue is empty)'
 		unless @rec_q;
 
-	return 'one of many (queue is not sequential)'
-		if !$self->sequential && @rec_q > 1;
+	my $rec_count = @rec_q;
+	return "one of many ($rec_count possible, queue is not sequential)"
+		if !$self->sequential && $rec_count > 1;
 
 	my $expected = $rec_q[0];
 	$expected = $expected->generate

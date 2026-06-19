@@ -3,9 +3,10 @@ package Game::Server::Role::Projectiles;
 use My::Moose::Role;
 use Game::Config;
 use Game::Object::Projectile;
-use Game::Mechanics::Generic qw(find_frontal_point calculate_angle_and_diagonal);
+use Game::Mechanics::Generic qw(calculate_angle_and_diagonal);
 use Game::Mechanics::Movement qw(move_projectile);
 use Game::Mechanics::Distance qw(find_actors_in_range);
+use Game::Mechanics::Combat qw(is_friendly);
 use Game::RNG;
 use Math::Trig qw(deg2rad);
 
@@ -63,9 +64,8 @@ sub _process_projectiles ($self)
 		}
 
 		# collision with actors
-		# TODO: do not hit if target is friendly
 		my $actor = $projectile->actor;
-		my @collision = grep { $_ != $actor }
+		my @collision = grep { !is_friendly($actor, $_) }
 			find_actors_in_range($self, $projectile->xy, $projectile_radius);
 
 		$self->_projectile_hit($projectile, true)
@@ -75,9 +75,10 @@ sub _process_projectiles ($self)
 	return;
 }
 
-sub spawn_projectile ($self, $actor, $lore, $effect, $at_x, $at_y)
+sub spawn_projectile ($self, $effect, $at_x, $at_y)
 {
-	my $projectile_data = $lore->projectile;
+	my $actor = $effect->actor;
+	my $projectile_data = $effect->lore->projectile;
 	my ($angle) = calculate_angle_and_diagonal($actor->variables->xy, $at_x, $at_y);
 
 	if (my $inacc = $projectile_data->{inaccuracy} / 2) {
@@ -86,14 +87,8 @@ sub spawn_projectile ($self, $actor, $lore, $effect, $at_x, $at_y)
 		$angle += deg2rad $roll * $inacc * $side;
 	}
 
-	# TODO: check if actor is facing the right way
-	# TODO: actual character radius
-	my ($x, $y) = find_frontal_point($actor->variables->xy, $angle, $actor->stats->size);
-
+	# TODO: check if actor is facing the right way (compare $angle to $actor->stats->angle)
 	my $projectile = Game::Object::Projectile->new(
-		x => $x,
-		y => $y,
-		actor => $actor,
 		effect => $effect,
 		speed => $projectile_data->{speed},
 		angle => $angle,
@@ -102,7 +97,7 @@ sub spawn_projectile ($self, $actor, $lore, $effect, $at_x, $at_y)
 
 	# NOTE: data about the projectile is sent to all players who can ever see it (for all practical purposes)
 	my @actors = find_actors_in_range(
-		$self, $x, $y,
+		$self, $projectile->xy,
 		$projectile_data->{range} * 2 + Game::Config->discover_radius
 	);
 	$projectile->set_discovered_by(map { $_->id } @actors);

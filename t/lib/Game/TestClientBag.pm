@@ -40,7 +40,7 @@ sub run ($self)
 				if (@finished) {
 					my $ctx = context;
 					for my $tester (@finished) {
-						$ctx->ok($tester->success, 'tester finished normally');
+						$ctx->ok($tester->success, sprintf 'tester %s finished normally', $tester->name);
 					}
 					$ctx->release;
 
@@ -59,7 +59,7 @@ sub run ($self)
 			if ($count) {
 				my $report = join "\n", map {
 					sprintf 'client %s: <%s> %s',
-						$_->actor->id,
+						$_->name,
 						$_->actions->[$_->action_index],
 						$_->actions->[$_->action_index]->get_expected_data
 				} @clients;

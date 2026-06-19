@@ -2,6 +2,7 @@ use Game::Helpers;
 use Game::Mechanics::Check::Map qw(can_see);
 use Game::Mechanics::Movement qw(move_actor move_projectile);
 use Game::Mechanics::Character::Statistics qw(get_current_level get_max_health);
+use Game::Mechanics::Combat qw(is_friendly);
 use all 'Game::Object', 'Unit';
 
 use header;
@@ -24,20 +25,15 @@ my $movement = Game::Object::Movement->new(
 );
 
 my $effect = Game::Object::Effect::Damage->new(
-	damage => 5,
-	radius => 0.1,
 	actor => $actor,
 	lore => lore_ability 'Shoot',
 );
 
 my $projectile = Game::Object::Projectile->new(
-	actor => $actor,
 	effect => $effect,
 	speed => 0.1,
 	angle => 1,
 	max_distance => 100,
-	x => 10,
-	y => 10,
 );
 
 my $class = lore_class 'Warden';
@@ -61,6 +57,9 @@ timethese 200.01, {
 	},
 	health => sub {
 		die unless get_max_health($class, $stats) == 80 * 1.6 * 1.5;
+	},
+	friendly => sub {
+		die unless is_friendly($actor, $actor);
 	},
 };
 

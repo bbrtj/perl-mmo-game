@@ -2,6 +2,7 @@ package Game::Object::Actor::Npc::Ai::Aggressive;
 
 use My::Moose;
 use Game::Mechanics::Distance qw(find_actors_in_range calculate_distance);
+use Game::Mechanics::Combat qw(is_friendly);
 
 use header;
 
@@ -26,12 +27,12 @@ sub act ($self, $server, $npc_actor, $elapsed = server_time)
 
 		my $closest;
 		my $closest_distance = 'inf';
-		foreach my $player (@actors) {
-			next unless $player->is_player;
+		foreach my $enemy (@actors) {
+			next unless is_friendly($npc_actor, $enemy);
 
-			my $distance = calculate_distance(@xy, $player->variables->xy);
+			my $distance = calculate_distance(@xy, $enemy->variables->xy);
 			if ($distance < $closest_distance) {
-				$closest = $player;
+				$closest = $enemy;
 				$closest_distance = $distance;
 			}
 		}
@@ -40,7 +41,7 @@ sub act ($self, $server, $npc_actor, $elapsed = server_time)
 		$aggro->{$closest->id} = 1;
 	}
 
-	# TODO: stop chasing, reset aggro when player disappears
+	# TODO: stop chasing, reset aggro when enemy disappears
 	$self->fight($server, $npc_actor);
 
 	return;

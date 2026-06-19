@@ -16,20 +16,21 @@ method generate () { ... }
 
 method serialized ()
 {
-	if (!defined $serialized) {
-		my $gen = $self->generate;
-		if ($self->is_plaintext) {
-			croak "Bad resource data type generated for " . ref $self
-				unless ref $gen eq 'ARRAY';
+	return $serialized //= $self->serialize($self->generate);
+}
 
-			$serialized = join Server::Config->PROTOCOL_SEPARATOR, $gen->@*;
-		}
-		else {
-			$serialized = __serialize $gen;
-		}
-	}
+method serialize ($data)
+{
+	return join Server::Config->PROTOCOL_SEPARATOR, $data->@*
+		if $self->is_plaintext;
+	return __serialize $data;
+}
 
-	return $serialized;
+method deserialize ($data)
+{
+	return [split quotemeta Server::Config->PROTOCOL_SEPARATOR, $data]
+		if $self->is_plaintext;
+	return __deserialize $data;
 }
 
 method next_resources ()
