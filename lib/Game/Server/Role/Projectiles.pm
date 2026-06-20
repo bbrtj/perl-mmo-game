@@ -4,7 +4,7 @@ use My::Moose::Role;
 use Game::Config;
 use Game::Object::Projectile;
 use Game::Mechanics::Generic qw(calculate_angle_and_diagonal);
-use Game::Mechanics::Movement qw(move_projectile);
+use Game::Mechanics::Movement qw(move_projectile fast_projectile_backtrack);
 use Game::Mechanics::Distance qw(find_actors_in_range);
 use Game::Mechanics::Combat qw(is_friendly);
 use Game::Mechanics::Rng;
@@ -45,10 +45,12 @@ sub _process_projectiles ($self)
 	# NOTE: use half of base radius, as other radius results in unnatural
 	# or missed collisions
 	state $projectile_radius = Game::Config->base_radius / 2;
+	state $fast_projectile_threshold = Game::Config->base_size / Game::Config->base_radius / 2;
 	my $map = $self->map;
 	my $elapsed = server_time;
 
 	foreach my $projectile (values $self->_projectiles->%*) {
+		my $prev_time = $projectile->get_time;
 
 		# a wall has been hit
 		if (!move_projectile($projectile, $map, $elapsed)) {
@@ -65,8 +67,18 @@ sub _process_projectiles ($self)
 
 		# collision with actors
 		my $actor = $projectile->actor;
-		my @collision = grep { !is_friendly($actor, $_) }
-			$self->actors_collision($projectile->xy, $projectile_radius)->@*;
+		my @collision;
+
+		# fast projectiles require a step back to check whether they hit in
+		# between of last and current location
+		if ($projectile->speed > $fast_projectile_threshold) {
+			@collision = grep { !is_friendly($actor, $_) }
+				$self->actors_collision(fast_projectile_backtrack($projectile, $prev_time), $projectile_radius)->@*;
+		}
+
+		@collision = grep { !is_friendly($actor, $_) }
+			$self->actors_collision($projectile->xy, $projectile_radius)->@*
+			unless @collision;
 
 		$self->_projectile_hit($projectile, true)
 			if @collision;

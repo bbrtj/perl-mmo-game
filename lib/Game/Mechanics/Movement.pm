@@ -10,6 +10,7 @@ use header;
 our @EXPORT_OK = qw(
 	move_actor
 	move_projectile
+	fast_projectile_backtrack
 );
 
 # $movement is Game::Object::Movement
@@ -55,5 +56,15 @@ sub move_projectile ($projectile, $map, $elapsed = server_time)
 	$projectile->set_time($elapsed);
 
 	return true;
+}
+
+sub fast_projectile_backtrack ($projectile, $prev_time)
+{
+	# this moves a negative value, instead of changing the angle
+	return find_frontal_point(
+		$projectile->xy,
+		$projectile->angle,
+		($prev_time - $projectile->get_time) * $projectile->speed / 2,
+	);
 }
 

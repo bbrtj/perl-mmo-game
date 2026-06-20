@@ -6,6 +6,8 @@ use Game::Mechanics::Generic qw(find_frontal_point);
 
 use header;
 
+use constant SPAWN_POINT_OFFSET_COEFF => 0.75;
+
 field $id :reader = Types::ULID::ulid;
 field $effect :reader :param;    # Game::Object::Effect
 field $speed :reader :param;
@@ -22,7 +24,11 @@ ADJUST
 {
 	$eta = $time + $max_distance / $speed;
 	my $actor = $effect->actor;
-	($x, $y) = find_frontal_point($actor->variables->xy, $angle, $actor->stats->size);
+	($x, $y) = find_frontal_point(
+		$actor->variables->xy,
+		$angle,
+		$actor->stats->size * SPAWN_POINT_OFFSET_COEFF
+	);
 }
 
 method actor ()
