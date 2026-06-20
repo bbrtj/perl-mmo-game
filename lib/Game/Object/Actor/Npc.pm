@@ -6,12 +6,11 @@ use all 'Game::Object::Actor::Npc::Ai';
 
 use header;
 
-has param 'lore' => (
-	lax_isa => InstanceOf ['Game::Lore::Npc'],
-);
-
 has param 'spawn' => (
 	lax_isa => InstanceOf ['Game::Object::Map::Spawn'],
+	'handles->' => {
+		'lore' => 'lore',
+	},
 );
 
 has field 'ai' => (
@@ -19,14 +18,14 @@ has field 'ai' => (
 	lazy => 1,
 );
 
-has field 'race' => (
-	lax_isa => InstanceOf ['Game::Lore::Race'],
-	lazy => 1,
-);
-
 has field 'aggro_map' => (
 	lax_isa => HashRef,
 	default => sub { {} },
+);
+
+has cached 'race' => (
+	lax_isa => InstanceOf ['Game::Lore::Race'],
+	lazy => 1,
 );
 
 # NOTE: NPCs should have just one race

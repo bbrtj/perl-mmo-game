@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<npcs requires="races">
+<npcs requires="races,abilities">
 	<npc id="rat" name="Rat">
 		<translation lang="pl">
 			<name>Szczur</name>
@@ -11,6 +11,7 @@
 		</translation>
 
 		<uses lore="race">Animal</uses>
+		<uses lore="ability">Bite</uses>
 
 		<visuals>
 			<model>images/actors/rat.png</model>
@@ -42,6 +43,7 @@
 		</translation>
 
 		<uses lore="race">Animal</uses>
+		<uses lore="ability">Bite</uses>
 
 		<visuals>
 			<model>images/actors/bog_rat.png</model>

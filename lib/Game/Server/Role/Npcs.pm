@@ -72,7 +72,6 @@ sub _spawn_npc ($self, $spawn)
 {
 	state $remnants_lore = lore_alliance 'Remnants',
 		my $npc_object = Game::Object::Actor::Npc->new(
-			lore => $spawn->lore,
 			spawn => $spawn,
 		);
 

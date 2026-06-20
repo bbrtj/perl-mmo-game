@@ -35,5 +35,19 @@
 			<inaccuracy>15</inaccuracy>
 		</projectile>
 	</ability>
+
+	<ability id="bite" name="Bite">
+		<translation lang="pl">
+			<name>Ugryzienie</name>
+		</translation>
+		<translation lang="en">
+			<name>Bite</name>
+		</translation>
+
+		<uses lore="attribute">Physical</uses>
+		<speed_multiplier>1.5</speed_multiplier>
+		<damage_multiplier>1</damage_multiplier>
+	</ability>
+
 </abilities>
 

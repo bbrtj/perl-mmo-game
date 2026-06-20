@@ -53,7 +53,8 @@ sub fight ($self, $server, $npc_actor)
 	return false unless defined $max_aggro;
 
 	# TODO: pathfinding
-	my ($angle, $distance) = calculate_angle_and_diagonal(@xy, $max_aggro->variables->xy);
+	my ($target_x, $target_y) = $max_aggro->variables->xy;
+	my ($angle, $distance) = calculate_angle_and_diagonal(@xy, $target_x, $target_y);
 	my $stats = $npc_actor->stats;
 	my $npc_size = $stats->size;
 	my $follow_distance = $self->follow_distance + $npc_size;
@@ -70,11 +71,9 @@ sub fight ($self, $server, $npc_actor)
 		$server->set_movement($npc_actor->id, @point);
 	}
 
-	# TODO: use real abilities
-	# TODO: npc should not spam abilities every second - make them take longer, or only use sometimes
-	# TODO: npc should not damage other npcs
 	if (!$stats->has_action && $distance < $self->max_attack_distance) {
-		$server->use_ability($npc_actor->id, lore_id => 'abil.strike', x => 0, y => 0);
+		my ($ability) = random_choice($npc_actor->npc->lore->abilities);
+		$server->use_ability($npc_actor->id, lore_id => $ability->id, x => $target_x, y => $target_y);
 	}
 
 	return true;
