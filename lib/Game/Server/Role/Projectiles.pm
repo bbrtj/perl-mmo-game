@@ -18,7 +18,7 @@ use header;
 requires qw(
 	map
 	location
-	find_in_radius
+	actors_collision
 );
 
 has param '_projectiles' => (
@@ -66,7 +66,7 @@ sub _process_projectiles ($self)
 		# collision with actors
 		my $actor = $projectile->actor;
 		my @collision = grep { !is_friendly($actor, $_) }
-			find_actors_in_range($self, $projectile->xy, $projectile_radius);
+			$self->actors_collision($projectile->xy, $projectile_radius)->@*;
 
 		$self->_projectile_hit($projectile, true)
 			if @collision;

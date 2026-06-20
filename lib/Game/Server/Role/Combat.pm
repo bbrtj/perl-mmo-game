@@ -2,7 +2,6 @@ package Game::Server::Role::Combat;
 
 use My::Moose::Role;
 
-use Game::Mechanics::Distance qw(find_actors_in_range);
 use Game::Mechanics::Combat qw(deal_damage is_friendly);
 use Game::Mechanics::Generic qw(find_frontal_point);
 use all 'Game::Object';
@@ -13,7 +12,7 @@ use header;
 requires qw(
 	location
 	lore_data_repo
-	find_in_radius
+	actors_collision
 	send_to_players
 	get_discovered_by
 	enqueue_action
@@ -56,7 +55,7 @@ sub _apply_damage_effect ($self, $effect, $x, $y)
 	my $damage = $stats->weapon_damage;
 	my $radius = $stats->weapon_hitbox->[0];
 
-	my @found = grep { !is_friendly($actor, $_) } find_actors_in_range($self, $x, $y, $radius);
+	my @found = grep { !is_friendly($actor, $_) } $self->actors_collision($x, $y, $radius)->@*;
 	deal_damage($actor, $effect->lore->attributes, $damage, @found);
 
 	# TODO: not always all targets will be affected (ability target limit)

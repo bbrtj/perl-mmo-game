@@ -29,6 +29,11 @@ sub get_discovered_by ($self, $key)
 	return $discovered_by ? $discovered_by->@* : ();
 }
 
+sub is_discovered ($self, $key)
+{
+	return !!$self->_discovered_by->{$key};
+}
+
 sub _discover_actors ($self, $actor, $found_objects, $resource)
 {
 	my $actor_id = $actor->id;
@@ -119,7 +124,7 @@ sub actors_info ($self, $actor_id, $wanted_actors)
 }
 
 after BUILD => sub ($self, @) {
-	$self->_add_action(2 => '_discover');
+	$self->_add_action(1 => '_discover');
 };
 
 after signal_player_left => sub ($self, $actor) {

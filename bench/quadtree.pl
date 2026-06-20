@@ -2,61 +2,52 @@ use Algorithm::QuadTree;
 
 use header;
 
-use Benchmark::Dumb qw(cmpthese);
+use Benchmark::Dumb qw(timethese);
 
-my $aqt_predeclared = Algorithm::QuadTree->new(
+# depth = 11 will divide each dimension by 2^10 (1024), so this quadtree will be
+# accurate to 50 / 1024 = at least 0.05 unit
+my $aqt_combat = Algorithm::QuadTree->new(
 	-depth => 11,
 	-xmin => 0,
 	-ymin => 0,
-	-xmax => 100,
-	-ymax => 100,
+	-xmax => 50,
+	-ymax => 50,
 );
 
-# depth = 10 will divide each dimension by 2^10 (1024), so this quadtree will be
-# accurate to 100 / 1024 = at least 0.1 unit
-my $aqt_big = Algorithm::QuadTree->new(
-	-depth => 11,
+my $aqt_discovery = Algorithm::QuadTree->new(
+	-depth => 7,
 	-xmin => 0,
 	-ymin => 0,
-	-xmax => 100,
-	-ymax => 100,
+	-xmax => 50,
+	-ymax => 50,
 );
 
-my $aqt_small = Algorithm::QuadTree->new(
-	-depth => 9,
-	-xmin => 0,
-	-ymin => 0,
-	-xmax => 15,
-	-ymax => 25,
-);
-
-my $obj = 'obj';
-
-foreach my $i (1 .. 1000) {
-	$aqt_predeclared->add($obj, $i / 10, $i / 10, 0.25);
+sub insert_objects ($aqt)
+{
+	foreach my $x (1 .. 25) {
+		foreach my $y (1 .. 25) {
+			$aqt->add("obj$x$y", $x * 2, $y * 2, 0.25);
+		}
+	}
 }
 
-cmpthese 200.01, {
-	'big clear + insert 1000' => sub {
-		$aqt_big->clear;
-		foreach my $i (1 .. 1000) {
-			$aqt_big->add($obj, $i / 10, $i / 10, 0.25);
-		}
+timethese 200.01, {
+	'combat refresh' => sub {
+		$aqt_combat->clear;
+		insert_objects($aqt_combat);
 	},
-	'small clear + insert 100' => sub {
-		$aqt_small->clear;
-		foreach my $i (1 .. 100) {
-			$aqt_small->add($obj, $i / 4, $i / 4, 0.25);
-		}
+	'discovery refresh' => sub {
+		$aqt_discovery->clear;
+		insert_objects($aqt_discovery);
 	},
 	'get enclosed (small aoe)' => sub {
-		$aqt_predeclared->getEnclosedObjects(50, 50, 0.5);
+		$aqt_combat->getEnclosedObjects(50, 50, 0.5);
 	},
 	'get enclosed (big aoe)' => sub {
-		$aqt_predeclared->getEnclosedObjects(50, 50, 2);
+		$aqt_combat->getEnclosedObjects(50, 50, 2);
 	},
 	'get enclosed (discovery)' => sub {
-		$aqt_predeclared->getEnclosedObjects(50, 50, 6);
+		$aqt_discovery->getEnclosedObjects(50, 50, 6);
 	},
 };
 

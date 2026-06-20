@@ -28,7 +28,7 @@ sub act ($self, $server, $npc_actor, $elapsed = server_time)
 		my $closest;
 		my $closest_distance = 'inf';
 		foreach my $enemy (@actors) {
-			next unless is_friendly($npc_actor, $enemy);
+			next if is_friendly($npc_actor, $enemy);
 
 			my $distance = calculate_distance(@xy, $enemy->variables->xy);
 			if ($distance < $closest_distance) {

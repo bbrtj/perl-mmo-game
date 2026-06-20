@@ -62,7 +62,7 @@ sub _process_ai ($self)
 
 	foreach my $actor ($self->location->get_npcs->@*) {
 		next unless my $ai = $actor->npc->ai;
-		next unless $self->get_discovered_by($actor->id);
+		next unless $self->is_discovered($actor->id);
 
 		$ai->act($self, $actor, $elapsed);
 	}
