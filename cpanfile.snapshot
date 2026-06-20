@@ -23,10 +23,11 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Scalar::Util 0
-  Algorithm-QuadTree-XS-0.06
-    pathname: B/BR/BRTASTIC/Algorithm-QuadTree-XS-0.06.tar.gz
+  Algorithm-QuadTree-XS-0.07
+    pathname: B/BR/BRTASTIC/Algorithm-QuadTree-XS-0.07.tar.gz
     provides:
-      Algorithm::QuadTree::XS 0.06
+      Algorithm::QuadTree::XS 0.07
+      Algorithm::QuadTree::XS::NoBackRefs 0.07
     requirements:
       Algorithm::QuadTree 0.3
       ExtUtils::MakeMaker 0

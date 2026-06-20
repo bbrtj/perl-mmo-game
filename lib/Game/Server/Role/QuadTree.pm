@@ -1,5 +1,7 @@
 package Game::Server::Role::QuadTree;
 
+BEGIN { $ENV{ALGORITHM_QUADTREE_BACKEND} = 'Algorithm::QuadTree::XS::NoBackRefs'; }
+
 use My::Moose::Role;
 use Game::Config;
 use Algorithm::QuadTree;
