@@ -1,8 +1,8 @@
-package Game::RNG;
+package Game::Mechanics::Rng;
 
 use Exporter qw(import);
 use Crypt::PRNG qw(rand);
-use Quantum::Superpositions::Lazy;
+use Array::Sample::WeightedRandom qw(sample_weighted_random_no_replacement);
 
 use header;
 
@@ -39,19 +39,13 @@ sub random_int ($min = 0, $max = 100)
 	return int random_number $min, $max;
 }
 
-sub random_choice ($items)
+sub random_choice ($items, $count = 1)
 {
-	die 'random_choice expects an array reference'
-		unless ref $items eq ref [];
-
-	return weighted_choice([map { [1, $_] } $items->@*]);
+	return weighted_choice([map { [$_, 1] } $items->@*], $count);
 }
 
-sub weighted_choice ($items_with_weights)
+sub weighted_choice ($items, $count = 1)
 {
-	die 'weighted_choice expects an array reference'
-		unless ref $items_with_weights eq ref [];
-
-	return superpos($items_with_weights)->collapse;
+	return sample_weighted_random_no_replacement($items, $count);
 }
 

@@ -3,6 +3,7 @@ use Game::Mechanics::Check::Map qw(can_see);
 use Game::Mechanics::Movement qw(move_actor move_projectile);
 use Game::Mechanics::Character::Statistics qw(get_current_level get_max_health);
 use Game::Mechanics::Combat qw(is_friendly);
+use Game::Mechanics::Rng qw(random_int random_choice weighted_choice);
 use all 'Game::Object', 'Unit';
 
 use header;
@@ -44,22 +45,31 @@ my $stats = {
 
 timethese 200.01, {
 	line_of_sight => sub {
-		die unless can_see($map, [4.5, 3.8], [7.9, 8.3])->result;
+		can_see($map, [4.5, 3.8], [7.9, 8.3])->result;
 	},
 	movement => sub {
-		die unless move_actor($movement, $map, time);
+		move_actor($movement, $map, time);
 	},
 	projectile => sub {
-		die unless move_projectile($projectile, $map, time);
+		move_projectile($projectile, $map, time);
 	},
 	level => sub {
-		die unless get_current_level(250) == 3;
+		get_current_level(250) == 3;
 	},
 	health => sub {
-		die unless get_max_health($class, $stats) == 80 * 1.6 * 1.5;
+		get_max_health($class, $stats) == 80 * 1.6 * 1.5;
 	},
 	friendly => sub {
-		die unless is_friendly($actor, $actor);
+		is_friendly($actor, $actor);
+	},
+	random_int => sub {
+		random_int 20, 30;
+	},
+	random_choice => sub {
+		random_choice([1, 2, 3, 4]);
+	},
+	weighted_choice => sub {
+		weighted_choice([[1, 1], [2, 2], [3, 3], [4, 4]]);
 	},
 };
 

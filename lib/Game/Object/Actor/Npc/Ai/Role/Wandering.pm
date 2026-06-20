@@ -1,7 +1,7 @@
 package Game::Object::Actor::Npc::Ai::Role::Wandering;
 
 use My::Moose::Role;
-use Game::RNG qw(rng random_number);
+use Game::Mechanics::Rng qw(rng random_number);
 use Game::Mechanics::Generic qw(find_frontal_point);
 use Math::Trig qw(pi);
 

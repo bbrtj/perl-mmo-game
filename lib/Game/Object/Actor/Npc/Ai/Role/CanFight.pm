@@ -3,7 +3,7 @@ package Game::Object::Actor::Npc::Ai::Role::CanFight;
 use My::Moose::Role;
 use Game::Mechanics::Distance qw(calculate_distance);
 use Game::Mechanics::Generic qw(calculate_angle_and_diagonal find_frontal_point);
-use Game::RNG qw(rng);
+use Game::Mechanics::Rng qw(rng random_choice);
 use Math::Trig qw(pi);
 use List::Util qw(max);
 

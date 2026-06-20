@@ -7,7 +7,7 @@ use Game::Mechanics::Generic qw(calculate_angle_and_diagonal);
 use Game::Mechanics::Movement qw(move_projectile);
 use Game::Mechanics::Distance qw(find_actors_in_range);
 use Game::Mechanics::Combat qw(is_friendly);
-use Game::RNG;
+use Game::Mechanics::Rng;
 use Math::Trig qw(deg2rad);
 
 use all 'X';

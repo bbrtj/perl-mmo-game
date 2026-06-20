@@ -1,6 +1,6 @@
 # HARNESS-CATEGORY-IMMISCIBLE
 
-# disable randomness before Game::RNG compiles
+# disable randomness before Game::Mechanics::Rng compiles
 BEGIN { $ENV{TEST_NO_RANDOM} = 1; }
 
 use Test2::Tools::E2ETest;

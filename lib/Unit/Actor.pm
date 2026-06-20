@@ -3,7 +3,7 @@ package Unit::Actor;
 use My::Moose;
 use all 'Model';
 use Game::Object::Actor::Npc;
-use Game::RNG qw(random_number);
+use Game::Mechanics::Rng qw(random_number);
 use List::Util qw(min);
 
 use header;

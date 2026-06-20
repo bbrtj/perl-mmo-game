@@ -188,6 +188,28 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Test::More 0
       perl 5.008008
+  Array-Iter-0.021
+    pathname: P/PE/PERLANCAR/Array-Iter-0.021.tar.gz
+    provides:
+      Array::Iter 0.021
+    requirements:
+      Exporter 5.57
+      ExtUtils::MakeMaker 0
+      strict 0
+      warnings 0
+  Array-Sample-WeightedRandom-0.005
+    pathname: P/PE/PERLANCAR/Array-Sample-WeightedRandom-0.005.tar.gz
+    provides:
+      Array::Sample::WeightedRandom 0.005
+      Array::Sample::WeightedRandom::Scan 0.005
+    requirements:
+      Array::Iter 0
+      Exporter 5.57
+      ExtUtils::MakeMaker 0
+      List::Util 1.54
+      perl 5.010001
+      strict 0
+      warnings 0
   B-Hooks-EndOfScope-0.28
     pathname: E/ET/ETHER/B-Hooks-EndOfScope-0.28.tar.gz
     provides:
@@ -536,25 +558,6 @@ DISTRIBUTIONS
       perl 5.008
       strict 0
       warnings 0
-  Crypt-Rijndael-1.16
-    pathname: L/LE/LEONT/Crypt-Rijndael-1.16.tar.gz
-    provides:
-      Crypt::Rijndael 1.16
-    requirements:
-      ExtUtils::MakeMaker 0
-      perl 5.006
-  Crypt-URandom-0.55
-    pathname: D/DD/DDICK/Crypt-URandom-0.55.tar.gz
-    provides:
-      Crypt::URandom 0.55
-    requirements:
-      Carp 1.26
-      English 0
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      FileHandle 0
-      constant 0
-      perl 5.006
   CryptX-0.090
     pathname: M/MI/MIK/CryptX-0.090.tar.gz
     provides:
@@ -962,48 +965,6 @@ DISTRIBUTIONS
       Exporter 0
       ExtUtils::MakeMaker 0
       perl 5.006
-  Data-Entropy-0.008
-    pathname: R/RR/RRWO/Data-Entropy-0.008.tar.gz
-    provides:
-      Data::Entropy 0.008
-      Data::Entropy::Algorithms 0.008
-      Data::Entropy::RawSource::CryptCounter 0.008
-      Data::Entropy::RawSource::Local 0.008
-      Data::Entropy::RawSource::RandomOrg 0.008
-      Data::Entropy::RawSource::RandomnumbersInfo 0.008
-      Data::Entropy::Source 0.008
-    requirements:
-      Carp 0
-      Crypt::Rijndael 0
-      Crypt::URandom 0.36
-      Data::Float 0.008
-      Errno 1.00
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      HTTP::Lite 2.2
-      IO::File 1.03
-      Module::Build 0
-      Params::Classify 0
-      Test::More 0
-      constant 0
-      integer 0
-      parent 0
-      strict 0
-      warnings 0
-  Data-Float-0.015
-    pathname: R/RR/RRWO/Data-Float-0.015.tar.gz
-    provides:
-      Data::Float 0.015
-    requirements:
-      Carp 0
-      Exporter 0
-      ExtUtils::MakeMaker 0
-      constant 0
-      integer 0
-      parent 0
-      perl 5.006
-      strict 0
-      warnings 0
   Data-OptList-0.114
     pathname: R/RJ/RJBS/Data-OptList-0.114.tar.gz
     provides:
@@ -1833,17 +1794,6 @@ DISTRIBUTIONS
       Time::Zone 0
       perl 5.006002
       strict 0
-  HTTP-Lite-2.44
-    pathname: N/NE/NEILB/HTTP-Lite-2.44.tar.gz
-    provides:
-      HTTP::Lite 2.44
-    requirements:
-      ExtUtils::MakeMaker 0
-      Fcntl 0
-      Socket 1.3
-      perl 5.005
-      strict 0
-      warnings 0
   HTTP-Message-7.02
     pathname: O/OA/OALDERS/HTTP-Message-7.02.tar.gz
     provides:
@@ -3353,19 +3303,6 @@ DISTRIBUTIONS
       perl 5.008001
       strict 0
       warnings 0
-  Params-Classify-0.015
-    pathname: Z/ZE/ZEFRAM/Params-Classify-0.015.tar.gz
-    provides:
-      Params::Classify 0.015
-    requirements:
-      Exporter 0
-      Module::Build 0
-      Scalar::Util 1.01
-      Test::More 0
-      parent 0
-      perl 5.006001
-      strict 0
-      warnings 0
   Params-Util-1.102
     pathname: R/RE/REHSACK/Params-Util-1.102.tar.gz
     provides:
@@ -3476,36 +3413,6 @@ DISTRIBUTIONS
       Digest::SHA 0
       Module::Build::Tiny 0.035
       Scalar::Util 0
-  Quantum-Superpositions-Lazy-1.12
-    pathname: B/BR/BRTASTIC/Quantum-Superpositions-Lazy-1.12.tar.gz
-    provides:
-      Q::S::L 1.12
-      Quantum::Superpositions::Lazy 1.12
-      Quantum::Superpositions::Lazy::Computation 1.12
-      Quantum::Superpositions::Lazy::ComputedState 1.12
-      Quantum::Superpositions::Lazy::Operation::Computational 1.12
-      Quantum::Superpositions::Lazy::Operation::Logical 1.12
-      Quantum::Superpositions::Lazy::Role::Collapsible 1.12
-      Quantum::Superpositions::Lazy::Role::Operation 1.12
-      Quantum::Superpositions::Lazy::State 1.12
-      Quantum::Superpositions::Lazy::Statistics 1.12
-      Quantum::Superpositions::Lazy::Superposition 1.12
-      Quantum::Superpositions::Lazy::Util 1.12
-    requirements:
-      ExtUtils::MakeMaker 0
-      Moo 2.000000
-      Random::Any 0
-      Sort::Key 0
-      Type::Tiny 1.002000
-      namespace::clean 0
-      perl 5.024
-  Random-Any-0.006
-    pathname: P/PE/PERLANCAR/Random-Any-0.006.tar.gz
-    provides:
-      Random::Any 0.006
-    requirements:
-      ExtUtils::MakeMaker 0
-      strict 0
   Ref-Util-0.204
     pathname: A/AR/ARC/Ref-Util-0.204.tar.gz
     provides:
@@ -3683,18 +3590,6 @@ DISTRIBUTIONS
       XS::Parse::Sublike 0.19
       XS::Parse::Sublike::Builder 0.19
       perl 5.026
-  Sort-Key-1.33
-    pathname: S/SA/SALVA/Sort-Key-1.33.tar.gz
-    provides:
-      Sort::Key 1.33
-      Sort::Key::Maker 0.02
-      Sort::Key::Multi 1.30
-      Sort::Key::Natural 0.04
-      Sort::Key::Register 1.30
-      Sort::Key::Types 1.30
-    requirements:
-      ExtUtils::MakeMaker 0
-      Test::More 0.54
   Sort-Versions-1.62
     pathname: N/NE/NEILB/Sort-Versions-1.62.tar.gz
     provides:
