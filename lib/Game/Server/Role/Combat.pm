@@ -52,7 +52,7 @@ sub _apply_damage_effect ($self, $effect, $x, $y)
 	my $stats = $actor->stats;
 
 	# TODO: calculate ability damage, radius
-	my $damage = $stats->weapon_damage;
+	my $damage = $stats->weapon_damage * $effect->lore->damage_multiplier;
 	my $radius = $stats->weapon_hitbox->[0];
 
 	my @found = grep { !is_friendly($actor, $_) } $self->actors_collision($x, $y, $radius)->@*;

@@ -42,15 +42,13 @@ sub _projectile_hit ($self, $projectile, $send)
 
 sub _process_projectiles ($self)
 {
-	# NOTE: use half of base radius, as other radius results in unnatural
-	# or missed collisions
-	state $projectile_radius = Game::Config->base_radius / 2;
 	state $fast_projectile_threshold = Game::Config->base_size / Game::Config->base_radius / 2;
 	my $map = $self->map;
 	my $elapsed = server_time;
 
 	foreach my $projectile (values $self->_projectiles->%*) {
 		my $prev_time = $projectile->get_time;
+		my $projectile_radius = $projectile->effect->lore->projectile->{collision};
 
 		# a wall has been hit
 		if (!move_projectile($projectile, $map, $elapsed)) {

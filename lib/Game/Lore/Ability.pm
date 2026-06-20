@@ -23,6 +23,7 @@ has option 'projectile' => (
 		speed => PositiveNum,
 		range => PositiveNum,
 		inaccuracy => PositiveOrZeroNum,
+		collision => PositiveNum,
 	],
 );
 

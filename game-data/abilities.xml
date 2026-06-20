@@ -33,6 +33,31 @@
 			<speed>4</speed>
 			<range>5</range>
 			<inaccuracy>15</inaccuracy>
+			<collision>0.025</collision>
+		</projectile>
+	</ability>
+
+	<ability id="fireb" name="Fireball">
+		<translation lang="pl">
+			<name>Kula ognia</name>
+		</translation>
+		<translation lang="en">
+			<name>Fireball</name>
+		</translation>
+
+		<visuals> <!-- TODO: animation -->
+			<model>images/projectiles/fireball.png</model>
+			<model_size>0.2</model_size>
+		</visuals>
+
+		<uses lore="attribute">Fire</uses>
+		<speed_multiplier>1.5</speed_multiplier>
+		<damage_multiplier>3</damage_multiplier>
+		<projectile>
+			<speed>1.5</speed>
+			<range>5</range>
+			<inaccuracy>5</inaccuracy>
+			<collision>0.1</collision>
 		</projectile>
 	</ability>
 

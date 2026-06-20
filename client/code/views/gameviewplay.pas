@@ -204,6 +204,16 @@ begin
 		exit(true);
 	end;
 
+	if Event.IsKey(keyU) and FindMousePosition then begin
+		LAbility := TMsgUseAbility.Create();
+		LAbility.lore_id := 'abil.fireb';
+		LAbility.X := LPosition.X;
+		LAbility.Y := LPosition.Y;
+
+		GlobalClient.Send(TMsgUseAbility, LAbility);
+		exit(true);
+	end;
+
 	if Event.IsMouseButton(buttonLeft) and FindMousePosition then begin
 		LModel := TMsgMove.Create;
 		LModel.X := LPosition.X;
