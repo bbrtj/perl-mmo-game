@@ -31,7 +31,7 @@ sub remove ($self, $key)
 async sub load ($self, $key)
 {
 	my $value = await $self->store->hget($self->cache_name, $key);
-	X::RecordDoesNotExist->throw
+	X::RecordDoesNotExist->raise
 		unless defined $value;
 
 	return $value;

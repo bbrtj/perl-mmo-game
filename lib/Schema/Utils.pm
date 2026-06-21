@@ -15,7 +15,7 @@ our @EXPORT_OK = qw(
 sub fetch_single ($rs)
 {
 	my $found = $rs->next;
-	X::RecordDoesNotExist->throw unless $found;
+	X::RecordDoesNotExist->raise unless $found;
 
 	return $found;
 }
@@ -28,7 +28,7 @@ sub fetch_all ($rs)
 sub ensure_single ($rs)
 {
 	my $found = fetch_single($rs);
-	X::SearchCriteriaTooVague->throw if $rs->next;
+	X::SearchCriteriaTooVague->raise if $rs->next;
 
 	return $found;
 }

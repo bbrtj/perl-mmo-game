@@ -1,10 +1,7 @@
-package X::Network::InvalidState;
+use v5.42;
+use experimental 'class';
 
-use My::Moose;
-
-use header;
-
-extends 'X::Network';
+class X::Network::InvalidState :isa(X::Network);
 
 __END__
 

@@ -58,7 +58,7 @@ method result ()
 method assert_valid ()
 {
 	if ($error) {
-		X::Pub::CheckFailed->throw($error);
+		X::Pub::CheckFailed->raise($error);
 	}
 
 	return;

@@ -1,10 +1,7 @@
-package X::Network::CorruptedInput;
+use v5.42;
+use experimental 'class';
 
-use My::Moose;
-
-use header;
-
-extends 'X::Network';
+class X::Network::CorruptedInput :isa(X::Network);
 
 __END__
 

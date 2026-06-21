@@ -93,7 +93,7 @@ sub dropped ($self)
 sub unpack_message ($self, $bytes)
 {
 	# check the length of $bytes to avoid getting attacked
-	X::Network::CorruptedInput->throw
+	X::Network::CorruptedInput->raise
 		if length $bytes > Server::Config::PROTOCOL_MAX_LENGTH;
 
 	if ($bytes eq 'ping') {
@@ -119,17 +119,17 @@ sub unpack_message ($self, $bytes)
 # NOTE: this function needs to do the bare minimum to ensure low latency
 sub handle_message ($self, $req_id, $type, $data = undef)
 {
-	X::Network::CorruptedInput->throw('no id or no type')
+	X::Network::CorruptedInput->raise('no id or no type')
 		if !$req_id || !$type;
 
 	# $action may be either a normal or ingame action
 	# (both are really the same thing but differ in where they should be passed)
 	my $action = $self->worker->get_action($type);
 
-	X::Network::InvalidAction->throw("Got $type")
+	X::Network::InvalidAction->raise("Got $type")
 		unless defined $action;
 
-	X::Network::InvalidState->throw(sprintf "Currently %s, needs %s", $self->session->state, $action->required_state)
+	X::Network::InvalidState->raise(sprintf "Currently %s, needs %s", $self->session->state, $action->required_state)
 		unless $self->session->state == $action->required_state;
 
 	# validate may return an object that was created from $data
@@ -137,7 +137,7 @@ sub handle_message ($self, $req_id, $type, $data = undef)
 		$data = $action->validate($action->deserializes && $data ? __deserialize($data) : $data);
 	}
 	catch ($e) {
-		X::Network::CorruptedInput->throw("$e");
+		X::Network::CorruptedInput->raise("$e");
 	}
 
 	$self->worker->data_bus->emit($action, $self->session, ($req_id, $data));

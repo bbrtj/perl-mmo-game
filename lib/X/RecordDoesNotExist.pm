@@ -1,8 +1,5 @@
-package X::RecordDoesNotExist;
+use v5.42;
+use experimental 'class';
 
-use My::Moose;
-
-use header;
-
-extends 'X';
+class X::RecordDoesNotExist :isa(X);
 

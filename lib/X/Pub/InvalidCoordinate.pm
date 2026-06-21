@@ -1,12 +1,9 @@
-package X::Pub::InvalidCoordinate;
+use v5.42;
+use experimental 'class';
 
-use My::Moose;
+class X::Pub::InvalidCoordinate :isa(X::Pub);
 
-use header;
-
-extends 'X';
-
-sub build_msg
+method _build_msg ()
 {
 	return 'err.invalid_coordinate';
 }

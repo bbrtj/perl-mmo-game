@@ -1,12 +1,10 @@
-package X::Pub::CheckFailed;
+use v5.42;
+use experimental 'class';
 
-use My::Moose;
+class X::Pub::CheckFailed :isa(X::Pub);
 
-use header;
-
-extends 'X';
-
-has extended 'msg' => (
-	required => 1
-);
+method _build_msg ()
+{
+	die 'msg is required for ' . __CLASS__;
+}
 

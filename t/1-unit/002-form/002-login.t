@@ -63,7 +63,7 @@ my $mock_model = Model::User->new(
 my $mock = Test::Spy->new(imitates => 'Repository::Models', context => 'load');
 $mock->add_method('load')->should_call(
 	sub ($self, $resultset, $params) {
-		X::RecordDoesNotExist->throw unless $params->{email} eq $tested_mail;
+		X::RecordDoesNotExist->raise unless $params->{email} eq $tested_mail;
 		return $mock_model;
 	}
 );

@@ -1,8 +1,5 @@
-package X::SearchCriteriaTooVague;
+use v5.42;
+use experimental 'class';
 
-use My::Moose;
-
-use header;
-
-extends 'X';
+class X::SearchCriteriaTooVague :isa(X);
 

@@ -1,12 +1,9 @@
-package X::Pub::InvalidTarget;
+use v5.42;
+use experimental 'class';
 
-use My::Moose;
+class X::Pub::InvalidTarget :isa(X::Pub);
 
-use header;
-
-extends 'X';
-
-sub build_msg
+method _build_msg ()
 {
 	return 'err.invalid_target';
 }
