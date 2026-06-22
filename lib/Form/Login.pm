@@ -33,7 +33,7 @@ form_cleaner sub ($self, $data) {
 	try {
 		my $user = DI->get('user_service')->find_user_by_email($data->{email});
 		if (!$user->verify_password($data->{password})) {
-			$self->add_error('err.invalid_credentials');
+			$self->add_error(Err::INVALID_CREDENTIALS);
 		}
 		else {
 			$self->set_user($user);
@@ -43,7 +43,7 @@ form_cleaner sub ($self, $data) {
 		die $e
 			unless $e isa X::RecordDoesNotExist;
 
-		$self->add_error('err.invalid_credentials');
+		$self->add_error(Err::INVALID_CREDENTIALS);
 	}
 };
 

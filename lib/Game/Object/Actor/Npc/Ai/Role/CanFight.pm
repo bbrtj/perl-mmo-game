@@ -68,12 +68,14 @@ sub fight ($self, $server, $npc_actor)
 			max($distance - $follow_distance, 0.001),    # make sure to walk towards the target
 		);
 
-		$server->set_movement($npc_actor->id, @point);
+		$server->set_movement($npc_actor, @point);
 	}
 
 	if (!$stats->has_action && $distance < $self->max_attack_distance) {
 		my ($ability) = random_choice($npc_actor->npc->lore->abilities);
-		$server->use_ability($npc_actor->id, lore_id => $ability->id, x => $target_x, y => $target_y);
+
+		# TODO: use can_use_ability to make sure we follow all the checks
+		$server->use_ability($npc_actor, $ability, $target_x, $target_y);
 	}
 
 	return true;

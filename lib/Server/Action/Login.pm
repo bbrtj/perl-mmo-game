@@ -3,6 +3,8 @@ package Server::Action::Login;
 use My::Moose;
 use Form::Login;
 use all 'Model';
+use X::Pub;
+use Resource::Success;
 
 use header;
 
@@ -25,17 +27,17 @@ sub handle ($self, $session_id, $id, $data)
 {
 	my $form = Form::Login->new;
 	$form->set_input($data);
-	my $success = $form->valid;
 
-	if ($success) {
-		$self->login($session_id, $form->user->id);
-	}
+	X::Pub->raise(Err::LOGIN_FAILED)
+		unless $form->valid;
+
+	$self->login($session_id, $form->user->id);
 
 	$self->send_to(
 		$session_id,
-		$success || 0,
+		Resource::Success->new,
 		id => $id,
-		refresh => $success
+		refresh => true,
 	);
 
 	return;

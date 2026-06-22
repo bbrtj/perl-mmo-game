@@ -1,5 +1,5 @@
 use Game::Helpers;
-use Game::Mechanics::Check::Map qw(can_see);
+use Game::Checks::Map qw(can_see);
 use Game::Mechanics::Movement qw(move_actor move_projectile);
 use Game::Mechanics::Character::Statistics qw(get_current_level get_max_health);
 use Game::Mechanics::Combat qw(is_friendly);
@@ -45,7 +45,13 @@ my $stats = {
 
 timethese 200.01, {
 	line_of_sight => sub {
-		can_see($map, [4.5, 3.8], [7.9, 8.3])->result;
+		can_see($map, 4.5, 3.8, 7.9, 8.3);
+	},
+	line_of_sight_fail => sub {
+		try {
+			can_see($map, 4.5, 3.8, 9.3, 9.6);
+		}
+		catch ($e) { }
 	},
 	movement => sub {
 		move_actor($movement, $map, time);

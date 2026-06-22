@@ -6,7 +6,7 @@ uses SysUtils, Classes,
 	CastleVectors, CastleComponentSerialize,
 	CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleFonts, CastleStringUtils, CastleUnicode,
-	GameTypes, GameLog,
+	GameTypes, GameLog, GameTranslations,
 	GameUIComponents,
 	GameLore,
 	GameNetwork,
@@ -17,7 +17,6 @@ type
 	TCharacterSelection = class(TCastleDesign)
 	private
 		FId: TUlid;
-
 	public
 		property Id: TUlid read FId write FId;
 	end;
@@ -27,24 +26,21 @@ type
 	published
 		CharacterList: TCastleVerticalGroup;
 		LogoutButton: TGameButton;
-
 	private
 		FPlayerId: TUlid;
-
+	private
+		procedure OnError(const Error: TModelBase);
 	public
 		constructor Create(AOwner: TComponent); override;
 		procedure Start; override;
 		procedure Update(const SecondsPassed: Single; var HandleInput: Boolean); override;
 		function Press(const Event: TInputPressRelease): Boolean; override;
-
+	public
 		procedure DoLogout(Sender: TObject);
-
 		procedure DoLoadCharacterList();
 		procedure OnCharacterList(const ACharacterList: TModelBase);
-
 		procedure DoEnterGame(const Ui: TCastleUserInterface; const Event: TInputPressRelease; var Handled: Boolean);
 		procedure OnEnterGame(const Success: TModelBase);
-
 	end;
 
 var
@@ -67,8 +63,9 @@ begin
 	inherited;
 	GlobalClient.ContextChange;
 
-	LogoutButton.OnClick := @DoLogout;
-	DoLoadCharacterList;
+	LogoutButton.OnClick := @self.DoLogout;
+	GlobalClient.OnError := @self.OnError;
+	self.DoLoadCharacterList;
 end;
 
 procedure TViewCharacterList.Update(const SecondsPassed: Single; var HandleInput: Boolean);
@@ -139,6 +136,12 @@ begin
 	end;
 end;
 
+procedure TViewCharacterList.OnError(const Error: TModelBase);
+begin
+	// TODO: notify user something's wrong
+	LogDebug('Failure while trying to enter the game: ' + _((Error as TMsgResError).Msg));
+end;
+
 procedure TViewCharacterList.DoEnterGame(const Ui: TCastleUserInterface; const Event: TInputPressRelease; var Handled: Boolean);
 var
 	LModel: TMsgEnterGame;
@@ -161,13 +164,7 @@ end;
 
 procedure TViewCharacterList.OnEnterGame(const Success: TModelBase);
 begin
-	if (Success as TMsgResSuccess).Value = '1' then begin
-		StartLoading(Container, FPlayerId);
-	end
-	else begin
-		LogDebug('Failure while trying to enter the game');
-		// TODO: notify user something's wrong
-	end;
+	StartLoading(Container, FPlayerId);
 end;
 
 end.

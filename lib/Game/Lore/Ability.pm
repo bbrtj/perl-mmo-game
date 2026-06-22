@@ -18,6 +18,16 @@ has param 'damage_multiplier' => (
 	default => 1,
 );
 
+has param 'magical' => (
+	isa => Bool,
+	default => false,
+);
+
+has param 'energy_cost' => (
+	isa => PositiveOrZeroNum,
+	default => 0,
+);
+
 has option 'projectile' => (
 	isa => Dict [
 		speed => PositiveNum,

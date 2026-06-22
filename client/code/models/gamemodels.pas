@@ -38,6 +38,8 @@ type
 		function GetValueIndexLoreId(Index: Integer): TLoreId;
 		function GetValueIndexReal(Index: Integer): Single;
 		procedure SetValueIndex(Index: Integer; const Value: String);
+		procedure SetValueIndexUlid(Index: Integer; const Value: TUlid);
+		procedure SetValueIndexLoreId(Index: Integer; const Value: TLoreId);
 		procedure SetValueIndexReal(Index: Integer; Value: Single);
 
 	public
@@ -126,6 +128,16 @@ procedure TPlaintextModel.SetValueIndex(Index: Integer; const Value: String);
 begin
 	if Length(FValueParts) <= Index then SetLength(FValueParts, Index + 1);
 	FValueParts[Index] := Value;
+end;
+
+procedure TPlaintextModel.SetValueIndexUlid(Index: Integer; const Value: TUlid);
+begin
+	self.SetValueIndex(Index, Value);
+end;
+
+procedure TPlaintextModel.SetValueIndexLoreId(Index: Integer; const Value: TLoreId);
+begin
+	self.SetValueIndex(Index, Value);
 end;
 
 procedure TPlaintextModel.SetValueIndexReal(Index: Integer; Value: Single);

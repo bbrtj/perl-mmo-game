@@ -1,10 +1,11 @@
-use v5.42;
 use experimental 'class';
 
 class X::Pub::InvalidCoordinate :isa(X::Pub);
 
+use header;
+
 method _build_msg ()
 {
-	return 'err.invalid_coordinate';
+	return Err::INVALID_COORDINATE;
 }
 

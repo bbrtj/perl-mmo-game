@@ -38,15 +38,15 @@ test_data
 	'login should fail' => [
 		[
 			{email => 'test@test.com', password => 'abcdefgh'},
-			{'' => ['err.invalid_credentials']},
+			{'' => [Err::INVALID_CREDENTIALS]},
 		],
 		[
 			{email => 'test@test.com', password => 'Abcdefg1'},
-			{'' => ['err.invalid_credentials']},
+			{'' => [Err::INVALID_CREDENTIALS]},
 		],
 		[
 			{email => 'testa@test.com', password => 'abcdefgh'},
-			{'' => ['err.invalid_credentials']},
+			{'' => [Err::INVALID_CREDENTIALS]},
 		],
 		[
 			{email => '', password => 'abcdefgh'},

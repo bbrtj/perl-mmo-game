@@ -14,6 +14,7 @@ require My::Serializer;
 require ServerTime;
 require Time::HiRes;
 
+use Err;
 use DI;
 use My::Dumper;
 

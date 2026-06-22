@@ -51,6 +51,8 @@
 		</visuals>
 
 		<uses lore="attribute">Fire</uses>
+		<magical>1</magical>
+		<energy_cost>10</energy_cost>
 		<speed_multiplier>1.5</speed_multiplier>
 		<damage_multiplier>3</damage_multiplier>
 		<projectile>

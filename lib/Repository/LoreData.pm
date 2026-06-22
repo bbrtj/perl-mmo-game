@@ -27,7 +27,7 @@ sub check ($self, $id, $type = undef)
 	return $collection{$id} isa 'Game::Lore::' . Utils->pascal_case($type);
 }
 
-sub load ($self, $id)
+sub load ($self, $id //= '')
 {
 	my $found = $collection{$id};
 
@@ -35,6 +35,11 @@ sub load ($self, $id)
 		unless defined $found;
 
 	return $found;
+}
+
+sub maybe_load ($self, $id //= '')
+{
+	return $collection{$id};
 }
 
 sub load_named ($self, $class, $name)
@@ -45,6 +50,11 @@ sub load_named ($self, $class, $name)
 		unless defined $found;
 
 	return $found;
+}
+
+sub maybe_load_named ($self, $class, $name)
+{
+	return $named_collection{$class}{$name};
 }
 
 sub load_all ($self)

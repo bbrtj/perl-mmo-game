@@ -23,14 +23,17 @@ str: Angielski
 id: err
 str: Wystąpił błąd
 ---
+id: err.action_in_progress
+str: w trakcie jest inna akcja
+---
 id: err.cannot_move
 str: nie można się tam poruszyć
 ---
-id: err.element_invalid
-str: Element nie jest poprawny
----
 id: err.email_taken
 str: Ten email jest już zajęty
+---
+id: err.invalid_action
+str: niepoprawna akcja
 ---
 id: err.invalid_coordinate
 str: niewłaściwa współrzędna
@@ -38,8 +41,14 @@ str: niewłaściwa współrzędna
 id: err.invalid_credentials
 str: Niepoprawny email lub hasło
 ---
+id: err.invalid_element
+str: Element nie jest poprawny
+---
 id: err.invalid_target
 str: niepoprawny cel
+---
+id: err.login_failed
+str: Logowanie nie powiodło się
 ---
 id: err.name_must_consist_of_letters
 str: Imię musi składać się tylko z liter łacińskich
@@ -88,9 +97,6 @@ str: Możesz się już zalogować
 ---
 id: msg.logging_in
 str: Logowanie...
----
-id: msg.login_failed
-str: Logowanie nie powiodło się
 ---
 id: msg.registration_successful
 str: Rejestracja zakończona pomyślnie

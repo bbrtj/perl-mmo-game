@@ -5,9 +5,9 @@ interface
 uses Classes, SysUtils, FGL,
 	CastleVectors, CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleTransform, CastleScene, CastleViewport, CastleTiledMap,
-	GameTypes, GameState, GameChat,
+	GameTypes, GameLog, GameTranslations, GameState, GameChat,
 	GameNetwork, GameActors,
-	GameModels, GameModels.Move, GameModels.Discovery,
+	GameModels, GameModels.General, GameModels.Move, GameModels.Discovery,
 	GameModels.Ability, GameModels.Chat, GameModels.Actors,
 	GameModels.Projectiles,
 	GamePipelines, GamePipelines.Actors;
@@ -22,42 +22,36 @@ type
 		Board: TCastleTiledMap;
 		PlayerCamera: TCastleCamera;
 		AmbientLight: TCastleDirectionalLight;
-
+	published
 		PingDisplay: TCastleLabel;
 		FpsDisplay: TCastleLabel;
 		ChatEdit: TCastleEdit;
 		ChatWindow: TCastleLabel;
-
 	private
 		FGameState: TGameState;
 		FPlaying: Boolean;
 		FUnknownActorActions: TActorActionsMap;
-
+	private
 		function FindMapPosition(MouseHit: TRayCollision; out Pos: TVector3): Boolean;
 		procedure ActorReady(ActorInfo: TObject);
-
+		procedure OnError(const Data: TModelBase);
 	public
 		constructor Create(AOwner: TComponent); override;
+	public
 		procedure Start; override;
 		procedure Stop; override;
-
 		procedure Update(const SecondsPassed: Single; var HandleInput: Boolean); override;
 		function Press(const Event: TInputPressRelease): Boolean; override;
-
 		procedure SendChatMessage();
-
 		procedure SetMapPath(MapPath: String);
-
 		procedure OnDiscovery(const Data: TModelBase);
 		procedure OnActorFeed(const Data: TModelBase);
 		procedure OnProjectile(const Data: TModelBase);
 		procedure OnProjectileStop(const Data: TModelBase);
-
-		procedure NewChatMessage(Message: String);
-
+		procedure NewChatMessage(const Message: String);
+	public
 		property GameState: TGameState read FGameState write FGameState;
 		property Playing: Boolean read FPlaying write FPlaying;
-
 	end;
 
 var
@@ -81,16 +75,18 @@ begin
 
 	FUnknownActorActions := TActorActionsMap.Create;
 
-	GlobalClient.Await(TMsgFeedDiscovery, @OnDiscovery);
-	GlobalClient.Await(TMsgFeedActorMovement, @OnActorFeed);
-	GlobalClient.Await(TMsgFeedActorPosition, @OnActorFeed);
-	GlobalClient.Await(TMsgFeedActorEvent, @OnActorFeed);
-	GlobalClient.Await(TMsgFeedActorState, @OnActorFeed);
-	GlobalClient.Await(TMsgFeedActorAction, @OnActorFeed);
-	GlobalClient.Await(TMsgFeedProjectile, @OnProjectile);
-	GlobalClient.Await(TMsgFeedProjectileStop, @OnProjectileStop);
+	GlobalClient.OnError := @self.OnError;
 
-	GlobalChat.Handler := @NewChatMessage;
+	GlobalClient.Await(TMsgFeedDiscovery, @self.OnDiscovery);
+	GlobalClient.Await(TMsgFeedActorMovement, @self.OnActorFeed);
+	GlobalClient.Await(TMsgFeedActorPosition, @self.OnActorFeed);
+	GlobalClient.Await(TMsgFeedActorEvent, @self.OnActorFeed);
+	GlobalClient.Await(TMsgFeedActorState, @self.OnActorFeed);
+	GlobalClient.Await(TMsgFeedActorAction, @self.OnActorFeed);
+	GlobalClient.Await(TMsgFeedProjectile, @self.OnProjectile);
+	GlobalClient.Await(TMsgFeedProjectileStop, @self.OnProjectileStop);
+
+	GlobalChat.Handler := @self.NewChatMessage;
 end;
 
 procedure TViewPlay.Stop;
@@ -99,6 +95,7 @@ begin
 	FUnknownActorActions.Free;
 
 	GlobalChat.Handler := nil;
+	GlobalClient.OnError := nil;
 end;
 
 function TViewPlay.FindMapPosition(MouseHit: TRayCollision; out Pos: TVector3): Boolean;
@@ -318,9 +315,15 @@ begin
 	FGameState.ProcessProjectileStop(Data as TMsgFeedProjectileStop);
 end;
 
-procedure TViewPlay.NewChatMessage(Message: String);
+procedure TViewPlay.NewChatMessage(const Message: String);
 begin
 	ViewPlay.ChatWindow.Text.Append(Message);
+end;
+
+procedure TViewPlay.OnError(const Data: TModelBase);
+begin
+	// TODO: notify user something's wrong
+	LogDebug('Error: ' + _((Data as TMsgResError).Msg));
 end;
 
 end.

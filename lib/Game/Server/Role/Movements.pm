@@ -4,6 +4,7 @@ use My::Moose::Role;
 use Game::Config;
 use Game::Object::Movement;
 use Game::Mechanics::Movement qw(move_actor);
+use Game::Checks::Map qw(can_move_to);
 
 use all 'X';
 use all 'Resource';
@@ -22,9 +23,17 @@ has cached '_moving' => (
 	default => sub { {} },
 );
 
-sub set_movement ($self, $actor_id, $x, $y)
+sub set_movement_check ($self, $actor_id, $x, $y)
 {
 	my $actor = $self->location->get_actor($actor_id);
+	can_move_to($actor, $self->map, $x, $y);
+
+	$self->set_movement($actor, $x, $y);
+	return;
+}
+
+sub set_movement ($self, $actor, $x, $y)
+{
 	$self->_process_movement($actor);
 
 	$actor->stats->set_movement(
@@ -37,6 +46,7 @@ sub set_movement ($self, $actor_id, $x, $y)
 		)
 	);
 
+	my $actor_id = $actor->id;
 	$self->_moving->{$actor_id} = $actor;
 
 	$self->send_to_players(

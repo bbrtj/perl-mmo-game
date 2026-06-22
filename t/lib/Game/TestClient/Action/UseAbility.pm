@@ -31,7 +31,7 @@ has param 'y' => (
 sub send_queue ($self)
 {
 	return (
-		['use_ability', __serialize({lore_id => $self->lore->id, x => $self->x, y => $self->y})],
+		['use_ability', $self->lore->id, $self->x, $self->y],
 	);
 }
 

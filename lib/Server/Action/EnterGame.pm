@@ -2,6 +2,8 @@ package Server::Action::EnterGame;
 
 use My::Moose;
 use all 'Model';
+use X::Pub;
+use Resource::Success;
 
 use header;
 
@@ -40,13 +42,19 @@ sub handle ($self, $session_id, $id, $player_id)
 		$success = false;
 	}
 
-	if ($success) {
-		$self->data_bus->dispatch($actor->variables->location_id, 'player_has_entered_game', $player->id, $session->id);
-	}
+	X::Pub->raise
+		unless $success;
+
+	$self->data_bus->dispatch(
+		$actor->variables->location_id,
+		'player_has_entered_game',
+		$player->id,
+		$session->id
+	);
 
 	$self->send_to(
 		$session_id,
-		$success || 0,
+		Resource::Success->new,
 		id => $id,
 	);
 

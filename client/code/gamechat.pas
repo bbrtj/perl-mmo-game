@@ -16,29 +16,28 @@ type
 		Color: String;
 		Content: String;
 		Resolved: Boolean;
-
+	public
 		constructor Create(const AId: TUlid; const AContent: String);
-
+	public
 		procedure Resolve(Sender: TObject);
 	end;
 
 	TChatMessageList = specialize TFPGObjectList<TChatMessage>;
 
-	TGameChatHandler = procedure(Message: String) of object;
+	TGameChatHandler = procedure(const Message: String) of object;
 
 	TGameChat = class
 	strict private
 		FHandler: TGameChatHandler;
 		FChatMessages: TChatMessageList;
-
+	private
 		procedure SetHandler(const AHandler: TGameChatHandler);
-
 	public
 		constructor Create();
 		destructor Destroy; override;
-
+	public
 		procedure OnChatMessage(const Data: TModelBase);
-
+	public
 		property Handler: TGameChatHandler read FHandler write SetHandler;
 	end;
 

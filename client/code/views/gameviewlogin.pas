@@ -18,15 +18,15 @@ type
 		PasswordField: TCastleEdit;
 		LoginButton: TGameButton;
 		LoginStatus: TCastleLabel;
-
+	private
+		procedure OnError(const Error: TModelBase);
 	public
 		constructor Create(AOwner: TComponent); override;
 		procedure Start; override;
 		procedure Update(const SecondsPassed: Single; var HandleInput: Boolean); override;
 		function Press(const Event: TInputPressRelease): Boolean; override;
-
+	public
 		procedure DoLogin(Sender: TObject);
-
 		procedure OnConnected();
 		procedure OnLogin(const Success: TModelBase);
 		procedure OnDisconnected();
@@ -50,6 +50,7 @@ begin
 	inherited;
 	GlobalClient.ContextChange;
 	GlobalClient.OnDisconnected := @OnDisconnected;
+	GlobalClient.OnError := @OnError;
 
 	LoginButton.onClick := @DoLogin;
 end;
@@ -110,13 +111,13 @@ end;
 
 procedure TViewLogin.OnLogin(const Success: TModelBase);
 begin
-	if (Success as TMsgResSuccess).Value = '1' then begin
-		Container.View := ViewCharacterList;
-	end
-	else begin
-		LoginStatus.Caption := _('msg.login_failed');
-		GlobalClient.Disconnect(False);
-	end;
+	Container.View := ViewCharacterList;
+end;
+
+procedure TViewLogin.OnError(const Error: TModelBase);
+begin
+	LoginStatus.Caption := _((Error as TMsgResError).Msg);
+	GlobalClient.Disconnect(False);
 end;
 
 procedure TViewLogin.OnDisconnected();

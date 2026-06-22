@@ -2,6 +2,7 @@ package Game::TestClient::Action::Login;
 
 use My::Moose;
 use TestHelpers;
+use all 'Resource';
 
 use header;
 
@@ -25,7 +26,7 @@ sub send_queue ($self)
 sub receive_queue ($self)
 {
 	return (
-		'1',
+		Resource::Success->new,
 	);
 }
 

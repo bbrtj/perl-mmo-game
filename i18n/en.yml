@@ -23,14 +23,17 @@ str: English
 id: err
 str: An error occured
 ---
+id: err.action_in_progress
+str: another action is in progress
+---
 id: err.cannot_move
 str: cannot move there
 ---
-id: err.element_invalid
-str: Element is not valid
----
 id: err.email_taken
 str: That email is already taken
+---
+id: err.invalid_action
+str: invalid action
 ---
 id: err.invalid_coordinate
 str: invalid coordinate
@@ -38,8 +41,14 @@ str: invalid coordinate
 id: err.invalid_credentials
 str: Invalid email or password
 ---
+id: err.invalid_element
+str: Element is not valid
+---
 id: err.invalid_target
 str: invalid target
+---
+id: err.login_failed
+str: Login has failed
 ---
 id: err.name_must_consist_of_letters
 str: Name must only consist of latin letters
@@ -88,9 +97,6 @@ str: You may now log in
 ---
 id: msg.logging_in
 str: Logging in...
----
-id: msg.login_failed
-str: Login has failed
 ---
 id: msg.registration_successful
 str: Registration was successful

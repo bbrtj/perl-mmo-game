@@ -5,20 +5,13 @@ interface
 uses GameModels, GameTypes;
 
 type
-	TMsgUseAbility = class(TModelBase)
-	private
-		FLoreId: TLoreId;
-		FX: Single;
-		FY: Single;
-
+	TMsgUseAbility = class(TPlaintextModel)
 	public
 		class function MessageType(): String; override;
-
 	published
-		property lore_id: TLoreId read FLoreId write FLoreId;
-		property x: Single read FX write FX;
-		property y: Single read FY write FY;
-
+		property lore_id: TLoreId index 0 read GetValueIndexLoreId write SetValueIndexLoreId;
+		property x: Single index 1 read GetValueIndexReal write SetValueIndexReal;
+		property y: Single index 2 read GetValueIndexReal write SetValueIndexReal;
 	end;
 
 implementation

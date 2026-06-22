@@ -4,6 +4,7 @@ use My::Moose::Role;
 
 use Game::Mechanics::Combat qw(deal_damage is_friendly);
 use Game::Mechanics::Generic qw(find_frontal_point);
+use Game::Checks::Combat qw(can_use_ability);
 use all 'Game::Object';
 use Resource::ActorEvent;
 
@@ -19,27 +20,31 @@ requires qw(
 	spawn_projectile
 );
 
-sub use_ability ($self, $actor_id, %options)
+sub use_ability_check ($self, $actor_id, $lore_id, $x, $y)
 {
 	my $actor = $self->location->get_actor($actor_id);
-	my $stats = $actor->stats;
+	my $lore = $self->lore_data_repo->maybe_load($lore_id);
+	can_use_ability($actor, $lore, $x, $y);
 
-	# do nothing if action is in progress already
-	return if $stats->has_action;
+	$self->use_ability($actor, $lore, $x, $y);
+	return;
+}
 
-	my $ability = $self->lore_data_repo->load(delete $options{lore_id});
+sub use_ability ($self, $actor, $ability, $x, $y)
+{
 	my $action = Game::Object::Action::Ability->new(
-		%options,
 		lore => $ability,
 		actor => $actor,
+		x => $x,
+		y => $y,
 		duration => Game::Config->base_action_speed * $ability->speed_multiplier,
 	);
 
-	$stats->set_action($action);
+	$actor->stats->set_action($action);
 	$self->enqueue_action($action);
 
 	$self->send_to_players(
-		[$actor_id, $self->get_discovered_by($actor_id)],
+		[$actor->id, $self->get_discovered_by($actor->id)],
 		Resource::ActorAction->new(subject => $action)
 	);
 

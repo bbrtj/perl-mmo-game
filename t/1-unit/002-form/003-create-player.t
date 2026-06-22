@@ -16,27 +16,27 @@ test_data
 		],
 		[
 			{name => 'aa', class => lore_class('Witchhunter')->id},
-			{'name' => ['err.name_too_short[]|3']}
+			{'name' => [_tph Err::NAME_TOO_SHORT, 3]}
 		],
 		[
 			{name => 'aaaaaaaaaaaaaaaaaaaaa', class => lore_class('Witchhunter')->id},
-			{'name' => ['err.name_too_long[]|20']}
+			{'name' => [_tph Err::NAME_TOO_LONG, 20]}
 		],
 		[
 			{name => 'aaa5', class => lore_class('Witchhunter')->id},
-			{'name' => ['err.name_must_consist_of_letters']}
+			{'name' => [Err::NAME_MUST_CONSIST_OF_LETTERS]}
 		],
 		[
 			{name => 'aaa aaa', class => lore_class('Witchhunter')->id},
-			{'name' => ['err.name_must_consist_of_letters']}
+			{'name' => [Err::NAME_MUST_CONSIST_OF_LETTERS]}
 		],
 		[
 			{name => 'aaaaa', class => 'not an id'},
-			{'class' => ['err.element_invalid']}
+			{'class' => [Err::INVALID_ELEMENT]}
 		],
 		[
 			{name => 'aaaaa', class => lore_attribute('Physical')->id},
-			{'class' => ['err.element_invalid']}
+			{'class' => [Err::INVALID_ELEMENT]}
 		],
 	];
 

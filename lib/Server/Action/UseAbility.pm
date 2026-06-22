@@ -10,24 +10,20 @@ extends 'Server::GameAction';
 
 use constant name => 'use_ability';
 use constant required_state => Model::PlayerSession->STATE_PLAYING;
-use constant deserializes => true;
 
 sub validate ($self, $data)
 {
-	state $type = Dict [
-		lore_id => LoreId,
-		x => Num,
-		y => Num,
-	];
+	state $type = Tuple [LoreId, Num, Num];
+	my $parts = [split quotemeta Server::Config::PROTOCOL_SEPARATOR, $data];
 
-	$type->assert_valid($data);
+	$type->assert_valid($parts);
 
-	return $data;
+	return $parts;
 }
 
 sub handle ($self, $player_id, $id, $data)
 {
-	$self->game_process->server->use_ability($player_id, $data->%*);
+	$self->game_process->server->use_ability_check($player_id, $data->@*);
 
 	return;
 }

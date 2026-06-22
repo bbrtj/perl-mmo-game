@@ -3,9 +3,11 @@ use experimental 'class';
 
 class X::Pub :isa(X);
 
+use Err;
+
 # in this context, this is a string id to be translated
 sub _build_msg
 {
-	return 'err';
+	return Err::ERROR;
 }
 

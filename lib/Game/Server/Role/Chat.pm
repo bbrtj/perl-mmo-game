@@ -94,7 +94,7 @@ sub chat_private ($self, $actor_id, $target_actor, $message)
 				$actor,
 				Resource::Chat->new(
 					subject => $actor,
-					message => 'err.player_not_found',
+					message => Err::PLAYER_NOT_FOUND,
 					chat_type => Resource::Chat->SYSTEM
 				),
 				[$actor_id]

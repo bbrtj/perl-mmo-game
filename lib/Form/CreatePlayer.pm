@@ -16,15 +16,15 @@ form_field 'name' => (
 	adjust => sub ($self, $name) { ucfirst lc $name },
 );
 
-field_validator _tph('err.name_too_short[]', NAME_MIN_LENGTH) => sub ($self, $name) {
+field_validator _tph(Err::NAME_TOO_SHORT, NAME_MIN_LENGTH) => sub ($self, $name) {
 	return length $name >= NAME_MIN_LENGTH;
 };
 
-field_validator _tph('err.name_too_long[]', NAME_MAX_LENGTH) => sub ($self, $name) {
+field_validator _tph(Err::NAME_TOO_LONG, NAME_MAX_LENGTH) => sub ($self, $name) {
 	return length $name <= NAME_MAX_LENGTH;
 };
 
-field_validator 'err.name_must_consist_of_letters' => sub ($self, $name) {
+field_validator Err::NAME_MUST_CONSIST_OF_LETTERS => sub ($self, $name) {
 	return $name =~ m{\A [a-z]+ \z}ix;
 };
 
@@ -36,7 +36,7 @@ form_field 'class' => (
 	adjust => sub ($self, $class) { $self->lore_data_repo->load($class) },
 );
 
-field_validator 'err.element_invalid' => sub ($self, $class) {
+field_validator Err::INVALID_ELEMENT => sub ($self, $class) {
 	return $self->lore_data_repo->check($class, 'class');
 };
 

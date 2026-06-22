@@ -13,33 +13,28 @@ type
 		HintText1: TCastleLabel;
 		HintText2: TCastleLabel;
 		Loader: TCastleImageControl;
-
 	private
 		FFading: Boolean;
 		FLoaded: Boolean;
-
 		FPlayerId: TUlid;
-
 		FMapId: TLoreId;
-		FPlayerX: Single;
-		FPlayerY: Single;
-
+		FPlayerX, FPlayerY: Single;
+	private
 		procedure RefreshLocationHints();
 		procedure DoLoad(Sender: TObject);
 		procedure OnLoaded();
-
 	public
 		constructor Create(AOwner: TComponent); override;
 		procedure Start; override;
 		procedure Update(const SecondsPassed: Single; var HandleInput: Boolean); override;
-
+	public
 		procedure OnLocationData(const Data: TModelBase);
 		procedure OnActorData(Sender: TObject);
-
+	public
 		property PlayerId: TUlid write FPlayerId;
 	end;
 
-procedure StartLoading(const Container: TCastleContainer; const PlayerId: TUlid);
+procedure StartLoading(Container: TCastleContainer; const PlayerId: TUlid);
 
 var
 	ViewLoading: TViewLoading;
@@ -84,6 +79,7 @@ begin
 	inherited;
 
 	GlobalClient.Await(TMsgFeedLocationData, @OnLocationData);
+	GlobalClient.OnError := nil;
 
 	FFading := true;
 	FLoaded := false;
@@ -131,7 +127,7 @@ begin
 	WaitForRenderAndCall(@self.DoLoad);
 end;
 
-procedure StartLoading(const Container: TCastleContainer; const PlayerId: TUlid);
+procedure StartLoading(Container: TCastleContainer; const PlayerId: TUlid);
 begin
 	GlobalClient.ContextChange;
 

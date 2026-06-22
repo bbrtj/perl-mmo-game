@@ -1,7 +1,8 @@
-use v5.42;
 use experimental 'class';
 
 class X::Pub::CheckFailed :isa(X::Pub);
+
+use header;
 
 method _build_msg ()
 {

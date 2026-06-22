@@ -7,7 +7,7 @@ uses
 	CastleClientServer, CastleConfig,
 	GameLog, GameConfig,
 	GameNetworkMessages,
-	GameModels;
+	GameModels, GameModels.General;
 
 type
 	TNetworkCallback = procedure() of object;
@@ -20,7 +20,7 @@ type
 		CallbackModel: TModelClass;
 		Notify: TNotifyEvent;
 
-		constructor Create(const AId: Integer; const ACallback: TNetworkMessageCallback; const Model: TModelClass; const ANotify: TNotifyEvent);
+		constructor Create(AId: Integer; ACallback: TNetworkMessageCallback; Model: TModelClass; ANotify: TNotifyEvent);
 	end;
 
 	TFeedItem = class
@@ -28,7 +28,7 @@ type
 		Callback: TNetworkMessageCallback;
 		CallbackModel: TModelClass;
 
-		constructor Create(const ACallback: TNetworkMessageCallback; const Model: TModelClass);
+		constructor Create(ACallback: TNetworkMessageCallback; Model: TModelClass);
 	end;
 
 	TCallbackItems = specialize TFPGObjectList<TCallbackItem>;
@@ -48,34 +48,36 @@ type
 		FPool: TStringList;
 
 		FOnDisconnected: TNetworkCallback;
+		FOnError: TNetworkMessageCallback;
 
 		procedure OnDisconnectedInternal;
 		procedure OnMessageReceived(const Received: String);
 
-		function DoSend(const MessageType: TMessageType; const Data: TModelBase): Integer;
+		function DoSend(MessageType: TMessageType; Data: TModelBase): Integer;
 		function AssignId(): Integer;
 
-		procedure SetPooling(const Value: Boolean);
+		procedure SetPooling(Value: Boolean);
 
 	public
 		constructor Create;
 		destructor Destroy; override;
 
-		procedure Connect(const Callback: TNetworkCallback);
-		procedure Disconnect(const RaiseEvent: Boolean = True);
+		procedure Connect(Callback: TNetworkCallback);
+		procedure Disconnect(RaiseEvent: Boolean = True);
 
-		procedure Send(const Model: TModelClass; const Data: TModelBase);
-		procedure Send(const Model: TModelClass; const Data: TModelBase; const Callback: TNetworkMessageCallback; const Notify: TNotifyEvent = nil);
+		procedure Send(Model: TModelClass; Data: TModelBase);
+		procedure Send(Model: TModelClass; Data: TModelBase; Callback: TNetworkMessageCallback; Notify: TNotifyEvent = nil);
 
-		procedure Await(const Model: TModelClass; const Callback: TNetworkMessageCallback);
-		procedure StopWaiting(const Model: TModelClass);
+		procedure Await(Model: TModelClass; Callback: TNetworkMessageCallback);
+		procedure StopWaiting(Model: TModelClass);
 		procedure ContextChange();
 
-		procedure Heartbeat(const Passed: Single);
+		procedure Heartbeat(Passed: Single);
 
 		property Ping: Int64 read FPing;
 		property Pooling: Boolean read FPooling write SetPooling;
 		property OnDisconnected: TNetworkCallback write FOnDisconnected;
+		property OnError: TNetworkMessageCallback write FOnError;
 	end;
 
 var
@@ -83,7 +85,7 @@ var
 
 implementation
 
-constructor TCallbackItem.Create(const AId: Integer; const ACallback: TNetworkMessageCallback; const Model: TModelClass; const ANotify: TNotifyEvent);
+constructor TCallbackItem.Create(AId: Integer; ACallback: TNetworkMessageCallback; Model: TModelClass; ANotify: TNotifyEvent);
 begin
 	Id := AId;
 	Callback := ACallback;
@@ -91,7 +93,7 @@ begin
 	Notify := ANotify;
 end;
 
-constructor TFeedItem.Create(const ACallback: TNetworkMessageCallback; const Model: TModelClass);
+constructor TFeedItem.Create(ACallback: TNetworkMessageCallback; Model: TModelClass);
 begin
 	Callback := ACallback;
 	CallbackModel := Model;
@@ -104,10 +106,7 @@ begin
 	FFeeds := TFeedItems.Create;
 	FModelSerializer := TJSONModelSerialization.Create;
 
-	FPooling := False;
 	FPool := TStringList.Create;
-
-	FOnDisconnected := nil;
 
 	FClient.OnDisconnected := @OnDisconnectedInternal;
 	FClient.OnMessageReceived := @OnMessageReceived;
@@ -123,7 +122,7 @@ begin
 	inherited;
 end;
 
-procedure TNetwork.Connect(const Callback: TNetworkCallback);
+procedure TNetwork.Connect(Callback: TNetworkCallback);
 begin
 	if FClient.IsConnected then begin
 		Callback();
@@ -137,7 +136,7 @@ begin
 	FClient.Connect;
 end;
 
-procedure TNetwork.Disconnect(const RaiseEvent: Boolean = True);
+procedure TNetwork.Disconnect(RaiseEvent: Boolean = True);
 begin
 	if FClient.IsConnected then begin
 		FClient.Disconnect;
@@ -158,7 +157,33 @@ end;
 
 procedure TNetwork.OnMessageReceived(const Received: String);
 
-	function HandleCallbacks(const Msg: TMessage): Boolean;
+	function HandleError(Msg: TMessage): Boolean;
+	var
+		LModel: TModelBase;
+		I: Integer;
+	begin
+		if Msg.Typ <> TMSgResError.MessageType then
+			exit(false);
+
+		// Check if we were waiting for this message in the first place
+		// TODO: should notifications be called?
+		for I := 0 to FCallbacks.Count - 1 do begin
+			if not (FCallbacks[I].Id = Msg.Id) then continue;
+			FCallbacks.Delete(I);
+			result := true;
+			break;
+		end;
+
+		if result and (FOnError <> nil) then begin
+			LModel := FModelSerializer.DeSerialize(Msg.Data, TMSgResError);
+			FOnError(LModel);
+
+			if not LModel.Adopted then
+				LModel.Free;
+		end;
+	end;
+
+	function HandleCallbacks(Msg: TMessage): Boolean;
 	var
 		LModel: TModelBase;
 		LCallback: TNetworkMessageCallback;
@@ -166,7 +191,6 @@ procedure TNetwork.OnMessageReceived(const Received: String);
 		I: Integer;
 	begin
 		result := false;
-
 		for I := 0 to FCallbacks.Count - 1 do begin
 			if not (FCallbacks[I].Id = Msg.Id) then continue;
 			if not (FCallbacks[I].CallbackModel.MessageType = Msg.Typ) then continue;
@@ -177,14 +201,15 @@ procedure TNetwork.OnMessageReceived(const Received: String);
 			FCallbacks.Delete(I);
 
 			LCallback(LModel);
-			LModel.Free;
+			if not LModel.Adopted then
+				LModel.Free;
 
 			if LNotify <> nil then LNotify(self);
 			exit(true);
 		end;
 	end;
 
-	function HandleFeeds(const Msg: TMessage): Boolean;
+	function HandleFeeds(Msg: TMessage): Boolean;
 	var
 		I: Integer;
 		LModel: TModelBase;
@@ -219,8 +244,11 @@ begin
 		LMessage := TMessage.Create;
 		LMessage.Body := Received;
 
-		if LMessage.HasId() then
-			LHandled := HandleCallbacks(LMessage)
+		if LMessage.HasId() then begin
+			LHandled := HandleError(LMessage);
+			if not LHandled then
+				LHandled := HandleCallbacks(LMessage);
+		end
 		else if FPooling then begin
 			FPool.Add(Received);
 			LogDebug('Network: pooled ' + Received);
@@ -252,7 +280,7 @@ begin
 	result += 1;
 end;
 
-function TNetwork.DoSend(const MessageType: TMessageType; const Data: TModelBase): Integer;
+function TNetwork.DoSend(MessageType: TMessageType; Data: TModelBase): Integer;
 var
 	LToSend: TOutMessage;
 begin
@@ -269,7 +297,7 @@ begin
 	LToSend.Free;
 end;
 
-procedure TNetwork.Send(const Model: TModelClass; const Data: TModelBase; const Callback: TNetworkMessageCallback; const Notify: TNotifyEvent = nil);
+procedure TNetwork.Send(Model: TModelClass; Data: TModelBase; Callback: TNetworkMessageCallback; Notify: TNotifyEvent = nil);
 var
 	LType: TMessageType;
 	LCallback: TCallbackItem;
@@ -283,7 +311,7 @@ begin
 	FCallbacks.Add(LCallback);
 end;
 
-procedure TNetwork.Send(const Model: TModelClass; const Data: TModelBase);
+procedure TNetwork.Send(Model: TModelClass; Data: TModelBase);
 var
 	LType: TMessageType;
 begin
@@ -295,7 +323,7 @@ begin
 	DoSend(LType, Data);
 end;
 
-procedure TNetwork.Await(const Model: TModelClass; const Callback: TNetworkMessageCallback);
+procedure TNetwork.Await(Model: TModelClass; Callback: TNetworkMessageCallback);
 var
 	LType: TMessageType;
 begin
@@ -304,7 +332,7 @@ begin
 	FFeeds.Add(TFeedItem.Create(Callback, LType.Model));
 end;
 
-procedure TNetwork.StopWaiting(const Model: TModelClass);
+procedure TNetwork.StopWaiting(Model: TModelClass);
 var
 	LFeed: TFeedItem;
 begin
@@ -323,7 +351,7 @@ begin
 	FFeeds.Clear;
 end;
 
-procedure TNetwork.Heartbeat(const Passed: Single);
+procedure TNetwork.Heartbeat(Passed: Single);
 begin
 	FSecondsPassed += Passed;
 
@@ -334,7 +362,7 @@ begin
 	end;
 end;
 
-procedure TNetwork.SetPooling(const Value: Boolean);
+procedure TNetwork.SetPooling(Value: Boolean);
 var
 	LMessage: String;
 begin

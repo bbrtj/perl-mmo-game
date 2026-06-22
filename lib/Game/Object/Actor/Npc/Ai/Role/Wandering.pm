@@ -41,7 +41,7 @@ sub wander ($self, $server, $actor, $elapsed = server_time)
 	my @point = find_frontal_point($self->parent->spawn->xy, $angle, $distance);
 	$self->set_last_wander($elapsed + random_number $self->every_min, $self->every_max);
 
-	$server->set_movement($actor->id, @point);
+	$server->set_movement($actor, @point);
 	return;
 }
 
