@@ -15,19 +15,18 @@ DISTRIBUTIONS
       Algorithm::Diff::_impl 1.201
     requirements:
       ExtUtils::MakeMaker 0
-  Algorithm-QuadTree-0.6
-    pathname: B/BR/BRTASTIC/Algorithm-QuadTree-0.6.tar.gz
+  Algorithm-QuadTree-0.8
+    pathname: B/BR/BRTASTIC/Algorithm-QuadTree-0.8.tar.gz
     provides:
-      Algorithm::QuadTree 0.6
-      Algorithm::QuadTree::PP 0.6
+      Algorithm::QuadTree 0.8
+      Algorithm::QuadTree::PP 0.8
     requirements:
       ExtUtils::MakeMaker 0
       Scalar::Util 0
-  Algorithm-QuadTree-XS-0.07
-    pathname: B/BR/BRTASTIC/Algorithm-QuadTree-XS-0.07.tar.gz
+  Algorithm-QuadTree-XS-0.10
+    pathname: B/BR/BRTASTIC/Algorithm-QuadTree-XS-0.10.tar.gz
     provides:
-      Algorithm::QuadTree::XS 0.07
-      Algorithm::QuadTree::XS::NoBackRefs 0.07
+      Algorithm::QuadTree::XS 0.10
     requirements:
       Algorithm::QuadTree 0.3
       ExtUtils::MakeMaker 0

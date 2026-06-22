@@ -1,4 +1,3 @@
-BEGIN { $ENV{ALGORITHM_QUADTREE_BACKEND} = 'Algorithm::QuadTree::XS::NoBackRefs'; }
 use Algorithm::QuadTree;
 
 use header;
