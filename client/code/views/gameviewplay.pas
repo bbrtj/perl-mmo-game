@@ -251,7 +251,8 @@ begin
 		LPipeline.Start(self);
 	end;
 
-	for LId in LModel.old_actors do
+	// TODO: object may not be an actor
+	for LId in LModel.old_objects do
 		FGameState.RemoveActor(LId);
 end;
 

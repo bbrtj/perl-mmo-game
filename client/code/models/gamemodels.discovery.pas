@@ -54,7 +54,7 @@ type
 	TMsgFeedDiscovery = class(TModelBase)
 	private
 		FNewActors: TStringList;
-		FOldActors: TStringList;
+		FOldObjects: TStringList;
 
 	public
 		class function MessageType(): String; override;
@@ -64,7 +64,7 @@ type
 
 	published
 		property new_actors: TStringList read FNewActors write FNewActors;
-		property old_actors: TStringList read FOldActors write FOldActors;
+		property old_objects: TStringList read FOldObjects write FOldObjects;
 	end;
 
 implementation
@@ -105,13 +105,13 @@ end;
 constructor TMsgFeedDiscovery.Create();
 begin
 	FNewActors := TStringList.Create;
-	FOldActors := TStringList.Create;
+	FOldObjects := TStringList.Create;
 end;
 
 destructor TMsgFeedDiscovery.Destroy;
 begin
 	FNewActors.Free;
-	FOldActors.Free;
+	FOldObjects.Free;
 end;
 
 initialization

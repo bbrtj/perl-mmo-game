@@ -12,8 +12,8 @@ requires qw(
 	send_to_player
 );
 
-has cached '_discovered_actors' => (
-	isa => HashRef [HashRef [InstanceOf ['Unit::Actor']]],
+has cached '_discovered' => (
+	isa => HashRef [HashRef [ULID]],
 	default => sub { {} },
 );
 
@@ -31,80 +31,71 @@ sub get_discovered_by ($self, $key)
 
 sub is_discovered ($self, $key)
 {
-	return !!$self->_discovered_by->{$key};
+	return exists $self->_discovered_by->{$key};
 }
 
-sub _discover_actors ($self, $actor, $found_objects, $resource)
+sub _discover_general ($self, $actor, $discovered_hash, $discovered_by, $resource)
 {
+	state $radius = Game::Config->discover_radius;
+
 	my $actor_id = $actor->id;
-	my %found_prev = %{$self->_discovered_actors->{$actor_id} // {}};
-	my %not_found = %found_prev;
+	my $discovered = $discovered_hash->{$actor_id} //= {};
+	my %not_found = $discovered->%*;
+	my @objects_new;
 
-	my @new;
-	my @old;
+	my $found_objects = $self->find_in_radius($actor->variables->xy, $radius);
 
-	my $discovered_by = $self->_discovered_by;
-	my $location = $self->location;
+	foreach my $found_id ($found_objects->@*) {
+		push $discovered_by->{$found_id}->@*, $actor_id;    # found_id may not be a player, but that's fine
+		next if delete $not_found{$found_id};    # player is already aware of this object
+		next if $found_id eq $actor_id;    # player can't discover himself
 
-	foreach my $found ($found_objects->@*) {
-		my $found_id = $found->id;
-
-		push $discovered_by->{$found_id}->@*, $actor_id;
-
-		if ($found_prev{$found_id}) {
-			delete $not_found{$found_id};
-		}
-		else {
-			$found_prev{$found_id} = $found;
-			push @new, $found;
-			$self->queue('signal_actor_appeared', $actor, $found);
-		}
+		$discovered->{$found_id} = true;
+		push @objects_new, $found_id;
 	}
 
 	foreach my $not_found_id (keys %not_found) {
-		push @old, $not_found{$not_found_id};
-		delete $found_prev{$not_found_id};
+		delete $discovered->{$not_found_id};
+		$resource->add_old_object($not_found_id);
 	}
 
-	if (@new || @old) {
-		$resource->new_actors(\@new) if @new;
-		$resource->old_actors(\@old) if @old;
+	return \@objects_new;
+}
 
-		$self->_discovered_actors->{$actor_id} = \%found_prev;
-		return true;
+sub _discover_actors ($self, $actor, $new_objects, $resource)
+{
+	my $location = $self->location;
+	my @not_actors;
+
+	foreach my $found_id ($new_objects->@*) {
+		my $found = $location->get_actor($found_id);
+		if (!$found) {
+			push @not_actors, $found_id;
+			next;
+		}
+
+		$resource->add_new_actor($found);
+		$self->queue('signal_actor_appeared', $actor, $found);
 	}
 
-	return false;
+	return \@not_actors;
 }
 
 sub _discover ($self)
 {
-	state $radius = Game::Config->discover_radius;
 	$self->_set_discovered_by({});
-	my $location = $self->location;
+	my $discovered_hash = $self->_discovered;
+	my $discovered_by = $self->_discovered_by;
 
-	foreach my $actor ($location->get_players->@*) {
-
+	foreach my $actor ($self->location->get_players->@*) {
 		my $resource = Resource::Discovery->new;
-		my $should_send = false;
+		my $objects_new = $self->_discover_general($actor, $discovered_hash, $discovered_by, $resource);
 
-		my $found_objects = $self->find_in_radius($actor->variables->xy, $radius);
-		my %aspects = (
-			_discover_actors => [],
-		);
-
-		foreach my $found_id ($found_objects->@*) {
-			my $found;
-			if (($found = $location->get_actor($found_id)) && $found != $actor) {
-				push $aspects{_discover_actors}->@*, $found;
-			}
+		for my $method (qw(_discover_actors)) {
+			$objects_new = $self->$method($actor, $objects_new, $resource);
 		}
 
-		for my ($method, $objects) (%aspects) {
-			$should_send = $self->$method($actor, $objects, $resource) || $should_send;
-		}
-
-		$self->send_to_player($actor->id, $resource) if $should_send;
+		$self->send_to_player($actor->id, $resource) if $resource->should_send;
 	}
 
 	$self->resolve_queue;
@@ -112,12 +103,15 @@ sub _discover ($self)
 	return;
 }
 
-sub actors_info ($self, $actor_id, $wanted_actors)
+sub actors_info ($self, $requesting_actor_id, $wanted_actors)
 {
 	my @wanted_actors_data;
+	my $discovered_actors = $self->_discovered->{$requesting_actor_id};
 	my $all_actors = $self->location->actors;
+
 	foreach my $actor_id ($wanted_actors->@*) {
-		push @wanted_actors_data, $all_actors->{$actor_id};
+		push @wanted_actors_data, $all_actors->{$actor_id}
+			if $discovered_actors->{$actor_id} || $actor_id eq $requesting_actor_id;
 	}
 
 	return \@wanted_actors_data;
@@ -128,6 +122,6 @@ after BUILD => sub ($self, @) {
 };
 
 after signal_player_left => sub ($self, $actor) {
-	delete $self->_discovered_actors->{$actor->id};
+	delete $self->_discovered->{$actor->id};
 };
 
