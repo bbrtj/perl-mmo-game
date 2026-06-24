@@ -19,6 +19,8 @@ type
 		LoginButton: TGameButton;
 		LoginStatus: TCastleLabel;
 	private
+		FStartMsg: String;
+	private
 		procedure OnError(const Error: TModelBase);
 	public
 		constructor Create(AOwner: TComponent); override;
@@ -53,6 +55,10 @@ begin
 	GlobalClient.OnError := @OnError;
 
 	LoginButton.onClick := @DoLogin;
+	if FStartMsg <> '' then begin
+		LoginStatus.Caption := FStartMsg;
+		LoginStatus.Exists := True;
+	end;
 end;
 
 procedure TViewLogin.Update(const SecondsPassed: Single; var HandleInput: Boolean);
@@ -117,14 +123,12 @@ end;
 procedure TViewLogin.OnError(const Error: TModelBase);
 begin
 	LoginStatus.Caption := _((Error as TMsgResError).Msg);
-	GlobalClient.Disconnect(False);
 end;
 
 procedure TViewLogin.OnDisconnected();
 begin
 	Container.View := self;
-	LoginStatus.Caption := _('msg.disconnected');
-	LoginStatus.Exists := True;
+	FStartMsg := _('msg.disconnected');
 end;
 
 { implementation end }
