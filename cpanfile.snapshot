@@ -15,20 +15,20 @@ DISTRIBUTIONS
       Algorithm::Diff::_impl 1.201
     requirements:
       ExtUtils::MakeMaker 0
-  Algorithm-QuadTree-0.8
-    pathname: B/BR/BRTASTIC/Algorithm-QuadTree-0.8.tar.gz
+  Algorithm-QuadTree-1.0
+    pathname: B/BR/BRTASTIC/Algorithm-QuadTree-1.0.tar.gz
     provides:
-      Algorithm::QuadTree 0.8
-      Algorithm::QuadTree::PP 0.8
+      Algorithm::QuadTree 1.0
+      Algorithm::QuadTree::PP 1.0
     requirements:
       ExtUtils::MakeMaker 0
       Scalar::Util 0
-  Algorithm-QuadTree-XS-0.10
-    pathname: B/BR/BRTASTIC/Algorithm-QuadTree-XS-0.10.tar.gz
+  Algorithm-QuadTree-XS-0.12
+    pathname: B/BR/BRTASTIC/Algorithm-QuadTree-XS-0.12.tar.gz
     provides:
-      Algorithm::QuadTree::XS 0.10
+      Algorithm::QuadTree::XS 0.12
     requirements:
-      Algorithm::QuadTree 0.3
+      Algorithm::QuadTree 1.0
       ExtUtils::MakeMaker 0
   Alien-Build-2.84
     pathname: P/PL/PLICEASE/Alien-Build-2.84.tar.gz

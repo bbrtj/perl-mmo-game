@@ -46,7 +46,7 @@ e2e_test(
 			Game::TestClient->new(actor => $actor)
 				->add_action('Login', user => $related_models{user}, password => $password)
 				->add_action('EnterGame')
-				->add_action('Move', x => 9.5, y => 9.5)
+				->add_action('Move', x => 9.6, y => 9.6)
 				->add_action(
 					'State',
 					received => {

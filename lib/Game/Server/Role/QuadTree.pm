@@ -17,7 +17,7 @@ has field '_combat_quad_tree' => (
 	isa => InstanceOf ['Algorithm::QuadTree'],
 	lazy => 1,
 	'handles->' => {
-		'actors_collision' => 'getEnclosedObjects',
+		'actors_collision' => 'get',
 	},
 );
 
@@ -27,20 +27,20 @@ has field '_discovery_quad_tree' => (
 	isa => InstanceOf ['Algorithm::QuadTree'],
 	lazy => 1,
 	'handles->' => {
-		'find_in_radius' => 'getEnclosedObjects',
+		'find_in_radius' => 'getApprox',
 	},
 );
 
-my sub calculate_required_depth ($self, $base_radius)
+my sub calculate_required_depth ($self, $cell_side)
 {
 	my $size = max $self->map->size_x, $self->map->size_y;
-	my $required_precision = $size / $base_radius;
+	my $required_precision = $size / $cell_side;
 	return ceil(log($required_precision) / log(2)) + 1;
 }
 
 sub _build_combat_quad_tree ($self)
 {
-	my $required_depth = $self->&calculate_required_depth(Game::Config->base_radius);
+	my $required_depth = $self->&calculate_required_depth(1);
 	$self->log->debug("Combat quad tree depth is $required_depth");
 
 	return Algorithm::QuadTree->new(
@@ -49,12 +49,13 @@ sub _build_combat_quad_tree ($self)
 		-ymin => 0,
 		-xmax => $self->map->size_x,
 		-ymax => $self->map->size_y,
+		-check => 1,
 	);
 }
 
 sub _build_discovery_quad_tree ($self)
 {
-	my $required_depth = $self->&calculate_required_depth(Game::Config->base_radius * 16);
+	my $required_depth = $self->&calculate_required_depth(1);
 	$self->log->debug("Discovery quad tree depth is $required_depth");
 
 	return Algorithm::QuadTree->new(
