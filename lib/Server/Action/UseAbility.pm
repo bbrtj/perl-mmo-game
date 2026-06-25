@@ -3,6 +3,7 @@ package Server::Action::UseAbility;
 use My::Moose;
 use all 'Model';
 use Server::Config;
+use Utils qw(transport_floats_rev);
 
 use header;
 
@@ -13,12 +14,12 @@ use constant required_state => Model::PlayerSession->STATE_PLAYING;
 
 sub validate ($self, $data)
 {
-	state $type = Tuple [LoreId, Num, Num];
-	my $parts = [split quotemeta Server::Config::PROTOCOL_SEPARATOR, $data];
+	state $type = Tuple [LoreId, Int, Int];
+	my @parts = split quotemeta Server::Config::PROTOCOL_SEPARATOR, $data;
 
-	$type->assert_valid($parts);
+	$type->assert_valid(\@parts);
 
-	return $parts;
+	return [$parts[0], transport_floats_rev(@parts[1, 2])];
 }
 
 sub handle ($self, $player_id, $id, $data)

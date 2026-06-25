@@ -3,17 +3,18 @@ use experimental 'class';
 class Resource::ActorPosition :isa(Resource);
 
 use header;
+use Utils qw(transport_floats);
 
 use constant type => 'actor_position';
+use constant is_plaintext => true;
 
 field $actor :param(subject);    # Unit::Actor
 
 method generate ()
 {
-	return {
-		id => $actor->id,
-		x => $actor->variables->pos_x,
-		y => $actor->variables->pos_y,
-	};
+	return [
+		$actor->id,
+		transport_floats($actor->variables->xy),
+	];
 }
 

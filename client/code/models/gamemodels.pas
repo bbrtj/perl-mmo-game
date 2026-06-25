@@ -120,8 +120,11 @@ begin
 end;
 
 function TPlaintextModel.GetValueIndexReal(Index: Integer): Single;
+var
+	LTransportInt: int64;
 begin
-	result := StrToFloat(self.GetValueIndex(Index), GlobalConfig.FormatSettings);
+	LTransportInt := StrToInt64(self.GetValueIndex(Index));
+	result := LTransportInt / GlobalConfig.NetworkTransportFloatPrecision;
 end;
 
 procedure TPlaintextModel.SetValueIndex(Index: Integer; const Value: String);
@@ -141,8 +144,11 @@ begin
 end;
 
 procedure TPlaintextModel.SetValueIndexReal(Index: Integer; Value: Single);
+var
+	LTransportInt: int64;
 begin
-	self.SetValueIndex(Index, FloatToStr(Value, GlobalConfig.FormatSettings));
+	LTransportInt := Round(Value * GlobalConfig.NetworkTransportFloatPrecision);
+	self.SetValueIndex(Index, LTransportInt.ToString);
 end;
 
 constructor TJSONModelSerialization.Create();

@@ -7,6 +7,8 @@ use constant {
 	# the minimum amount of time the server understands, in seconds
 	TICK => 0.05,
 
+	TRANSPORT_FLOAT_PRECISION => 1e4,
+
 	GAME_SERVER_PORT => 14832,
 	GAME_SERVER_TIMEOUT => 120,
 

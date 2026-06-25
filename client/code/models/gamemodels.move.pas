@@ -19,40 +19,29 @@ type
 		class function MessageType(): String; override;
 	end;
 
-	TMsgFeedActorMovement = class(TModelBase, IModelWithUlid)
-	private
-		FId: TUlid;
-		FPosX: Single;
-		FPosY: Single;
-		FSpeed: Single;
-		FToX: Single;
-		FToY: Single;
+	TMsgFeedActorMovement = class(TPlaintextModel, IModelWithUlid)
 	public
 		class function MessageType(): String; override;
 	public
 		function GetId(): TUlid;
 	published
-		property id: TUlid read FId write FId;
-		property x: Single read FPosX write FPosX;
-		property y: Single read FPosY write FPosY;
-		property speed: Single read FSpeed write FSpeed;
-		property to_x: Single read FToX write FToX;
-		property to_y: Single read FToY write FToY;
+		property id: TUlid index 0 read GetValueIndexUlid write SetValueIndexUlid;
+		property x: Single index 1 read GetValueIndexReal write SetValueIndexReal;
+		property y: Single index 2 read GetValueIndexReal write SetValueIndexReal;
+		property speed: Single index 3 read GetValueIndexReal write SetValueIndexReal;
+		property to_x: Single index 4 read GetValueIndexReal write SetValueIndexReal;
+		property to_y: Single index 5 read GetValueIndexReal write SetValueIndexReal;
 	end;
 
-	TMsgFeedActorPosition = class(TModelBase, IModelWithUlid)
-	private
-		FId: TUlid;
-		FPosX: Single;
-		FPosY: Single;
+	TMsgFeedActorPosition = class(TPlaintextModel, IModelWithUlid)
 	public
 		class function MessageType(): String; override;
 	public
 		function GetId(): TUlid;
 	published
-		property id: TUlid read FId write FId;
-		property x: Single read FPosX write FPosX;
-		property y: Single read FPosY write FPosY;
+		property id: TUlid index 0 read GetValueIndexUlid write SetValueIndexUlid;
+		property x: Single index 1 read GetValueIndexReal write SetValueIndexReal;
+		property y: Single index 2 read GetValueIndexReal write SetValueIndexReal;
 	end;
 
 implementation

@@ -2,6 +2,7 @@ package Game::TestClient::Action::UseAbility;
 
 use My::Moose;
 use Game::Object::Action;
+use Utils qw(transport_floats);
 use all 'Resource';
 
 use header;
@@ -31,7 +32,7 @@ has param 'y' => (
 sub send_queue ($self)
 {
 	return (
-		['use_ability', $self->lore->id, $self->x, $self->y],
+		['use_ability', $self->lore->id, transport_floats($self->x, $self->y)],
 	);
 }
 

@@ -3,6 +3,7 @@ use experimental 'class';
 class Resource::Projectile :isa(Resource);
 
 use Game::Object::Projectile;
+use Utils qw(transport_floats);
 
 use header;
 
@@ -16,10 +17,12 @@ method generate ()
 	return [
 		$projectile->id,
 		$projectile->effect->lore->id,
-		$projectile->xy,
-		$projectile->speed,
-		$projectile->angle,
-		$projectile->max_distance,
+		transport_floats(
+			$projectile->xy,
+			$projectile->speed,
+			$projectile->angle,
+			$projectile->max_distance,
+		),
 	];
 }
 

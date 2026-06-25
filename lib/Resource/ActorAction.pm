@@ -3,6 +3,7 @@ use experimental 'class';
 class Resource::ActorAction :isa(Resource);
 
 use header;
+use Utils qw(transport_float);
 
 use constant type => 'actor_action';
 use constant is_plaintext => true;
@@ -19,7 +20,7 @@ method generate ()
 	return [
 		$action->actor->id,
 		$action->lore->id,
-		$duration,
+		transport_float $duration,
 	];
 }
 

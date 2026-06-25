@@ -2,7 +2,7 @@ package Repository::LoreData;
 
 use My::Moose;
 
-use Utils;
+use Utils qw(pascal_case);
 use all 'X';
 
 use header;
@@ -24,7 +24,7 @@ sub check ($self, $id, $type = undef)
 {
 	return false unless defined $collection{$id};
 	return true unless defined $type;
-	return $collection{$id} isa 'Game::Lore::' . Utils->pascal_case($type);
+	return $collection{$id} isa 'Game::Lore::' . pascal_case($type);
 }
 
 sub load ($self, $id //= '')

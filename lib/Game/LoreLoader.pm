@@ -7,7 +7,7 @@ use XML::PugiXML;
 use Game::Config;
 use Sub::Install;
 use Value::Diff;
-use Utils;
+use Utils qw(pascal_case);
 
 use all 'Game::Lore';
 
@@ -32,7 +32,7 @@ our $LORE_FILENAME;
 
 my sub build_class ($name)
 {
-	return 'Game::Lore::' . Utils->pascal_case($name);
+	return 'Game::Lore::' . pascal_case($name);
 }
 
 my sub real_children ($item)

@@ -1,7 +1,7 @@
 package Game::Object::Actor::Npc;
 
 use My::Moose;
-use Utils;
+use Utils qw(pascal_case);
 use all 'Game::Object::Actor::Npc::Ai';
 
 use header;
@@ -36,10 +36,11 @@ sub _build_race ($self)
 
 sub _build_ai ($self)
 {
-	return unless $self->lore->has_ai;
+	my $lore = $self->lore;
+	return unless $lore->has_ai;
 
-	my $class = 'Game::Object::Actor::Npc::Ai::' . Utils->pascal_case($self->lore->ai);
-	return $class->new($self->lore->ai_args->%*, parent => $self);
+	my $class = 'Game::Object::Actor::Npc::Ai::' . pascal_case($lore->ai);
+	return $class->new($lore->ai_args->%*, parent => $self);
 }
 
 sub add_aggro ($self, $actor, $value)

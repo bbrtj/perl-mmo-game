@@ -3,6 +3,7 @@ use experimental 'class';
 class Resource::ActorState :isa(Resource);
 
 use header;
+use Utils qw(transport_floats);
 
 use constant type => 'actor_state';
 use constant is_plaintext => true;
@@ -18,13 +19,15 @@ method generate ()
 	# energy, max energy, energy_regeneration
 	return [
 		$actor->id,
-		$actor->variables->health,
-		$stats->max_health,
-		$stats->health_regeneration,
-		$actor->variables->energy,
-		$stats->max_energy,
-		$stats->energy_regeneration,
-		$stats->size,
+		transport_floats(
+			$actor->variables->health,
+			$stats->max_health,
+			$stats->health_regeneration,
+			$actor->variables->energy,
+			$stats->max_energy,
+			$stats->energy_regeneration,
+			$stats->size,
+		),
 	];
 }
 

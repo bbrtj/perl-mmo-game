@@ -1,7 +1,7 @@
 package Server::ProcessableList;
 
 use My::Moose;
-use Utils;
+use Utils qw(find_subclasses);
 
 use header;
 
@@ -17,9 +17,9 @@ has field 'processable' => (
 sub _build_processable ($self)
 {
 	my @classes = grep { !$_->disabled } (
-		Utils->find_subclasses('Server::Action'),
-		Utils->find_subclasses('Server::Job'),
-		Utils->find_subclasses('Server::Event'),
+		find_subclasses('Server::Action'),
+		find_subclasses('Server::Job'),
+		find_subclasses('Server::Event'),
 	);
 
 	return {

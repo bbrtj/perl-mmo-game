@@ -2,7 +2,7 @@ package CLI;
 
 use My::Moose;
 use Module::Load;
-use Utils;
+use Utils qw(find_subclasses);
 use Game::LoreLoader;
 
 use header;
@@ -23,7 +23,7 @@ sub _build_command ($self, $name)
 
 sub _build_all_commands ($self)
 {
-	my @classes = Utils->find_subclasses('CLI::Command');
+	my @classes = find_subclasses('CLI::Command');
 
 	my %loaded;
 	foreach my $class (@classes) {

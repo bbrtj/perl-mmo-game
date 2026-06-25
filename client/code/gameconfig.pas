@@ -13,6 +13,7 @@ type
 		FNetworkControlCharacter: String;
 		FNetworkMaxLength: Integer;
 		FNetworkPort: Integer;
+		FNetworkTransportFloatPrecision: Integer;
 
 		FCameraDistance: Single;
 		FFormatSettings: TFormatSettings;
@@ -24,6 +25,7 @@ type
 		property NetworkControlCharacter: String read FNetworkControlCharacter write FNetworkControlCharacter;
 		property NetworkMaxLength: Integer read FNetworkMaxLength write FNetworkMaxLength;
 		property NetworkPort: Integer read FNetworkPort write FNetworkPort;
+		property NetworkTransportFloatPrecision: Integer read FNetworkTransportFloatPrecision write FNetworkTransportFloatPrecision;
 
 	public
 		property CameraDistance: Single read FCameraDistance write FCameraDistance;

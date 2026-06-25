@@ -2,6 +2,7 @@ package Game::TestClient::Action::Move;
 
 use My::Moose;
 use Game::Config;
+use Utils qw(transport_floats);
 use Game::Object::Movement;
 use all 'Resource';
 
@@ -18,7 +19,7 @@ has param ['x', 'y'] => (
 sub send_queue ($self)
 {
 	return (
-		['move', $self->x, $self->y],
+		['move', transport_floats($self->x, $self->y)],
 	);
 }
 

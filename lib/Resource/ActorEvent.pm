@@ -3,6 +3,7 @@ use experimental 'class';
 class Resource::ActorEvent :isa(Resource);
 
 use header;
+use Utils qw(transport_float);
 
 use constant type => 'actor_event';
 use constant is_plaintext => true;
@@ -19,9 +20,9 @@ method generate ()
 	# change of actor health (may be overkill)
 	return [
 		$actor->id,
-		$actor->variables->health,
+		transport_float $actor->variables->health,
 		$event_source,
-		$health_change,
+		transport_float $health_change,
 	];
 }
 
