@@ -2,25 +2,27 @@ unit GameTranslations;
 
 interface
 
-uses Classes,
+uses SysUtils, Classes,
 	CastleClassUtils, CastleLocalizationGetText, CastleComponentSerialize;
 
 type
-	TGameMOFile = class(TCastleMOFile)
-	private
-		const
-			DesignUrl = 'castle-data:/translations.mo';
+	TTranslationPlaceholders = Array of String;
 
+	TGameMOFile = class(TCastleMOFile)
+	private const
+		CDesignUrl = 'castle-data:/translations.mo';
 	public
 		constructor Create();
-
+	public
 		procedure TranslateCallback(const Sender: TCastleComponent; const PropertyName: String; var PropertyValue: String);
+		function TranslatePlaceholders(const TranslatedString: String; Ph: TTranslationPlaceholders): String;
 	end;
 
 var
 	GlobalTranslations: TGameMOFile;
 
 procedure TranslateAllGameDesigns();
+function _(const TranslatedString: String; Ph: TTranslationPlaceholders): String;
 function _(const TranslatedString: String): String;
 
 implementation
@@ -38,7 +40,7 @@ end;
 
 constructor TGameMOFile.Create();
 begin
-	inherited Create(DesignUrl);
+	inherited Create(CDesignUrl);
 end;
 
 procedure TGameMOFile.TranslateCallback(const Sender: TCastleComponent; const PropertyName: String; var PropertyValue: String);
@@ -51,16 +53,33 @@ begin
 		PropertyValue := LOrigValue + ' [!!]';
 end;
 
-function _(const TranslatedString: String): String;
+function TGameMOFile.TranslatePlaceholders(const TranslatedString: String; Ph: TTranslationPlaceholders): String;
+var
+	I, PhI: Integer;
 begin
-	result := GlobalTranslations.Translate(TranslatedString);
+	result := self.Translate(TranslatedString);
+
+	// NOTE: we really want to make sure the array starts with 0 here for replacement to work
+	for I := 0 to High(Ph) do begin
+		PhI := I + 1;
+		result := StringReplace(result, '[_' + PhI.ToString() + ']', Ph[I], [rfReplaceAll]);
+	end;
 end;
 
-{ implementation end }
+function _(const TranslatedString: String; Ph: TTranslationPlaceholders): String;
+begin
+	result := GlobalTranslations.TranslatePlaceholders(TranslatedString, Ph);
+	if (result = '') and (TranslatedString <> '') then
+		result := 'MISSING TRANSLATION ' + TranslatedString;
+end;
+
+function _(const TranslatedString: String): String;
+begin
+	result := _(TranslatedString, []);
+end;
 
 finalization
-	if GlobalTranslations <> nil then
-		GlobalTranslations.Free;
+	FreeAndNil(GlobalTranslations);
 
 end.
 

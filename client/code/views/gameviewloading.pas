@@ -78,8 +78,11 @@ procedure TViewLoading.Start;
 begin
 	inherited;
 
+	// NOTE: OnDisconnected is still used from GameViewLogin, so that if we
+	// disconnect, we go back to login screen
+	// NOTE: OnError is used from GameViewPlay
+
 	GlobalClient.Await(TMsgFeedLocationData, @OnLocationData);
-	GlobalClient.OnError := nil;
 
 	FFading := true;
 	FLoaded := false;

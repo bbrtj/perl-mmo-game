@@ -2,8 +2,8 @@ unit GameChat;
 
 interface
 
-uses FGL,
-	GameTypes,
+uses SysUtils, FGL, System.UIConsts,
+	GameTypes, GameLog, GameMessageLog,
 	GameNetwork, GameActors,
 	GameModels, GameModels.Chat,
 	GameTranslations;
@@ -13,32 +13,29 @@ type
 	public
 		Id: TUlid;
 		Header: String;
-		Color: String;
-		Content: String;
+		Message: TColoredMessage;
 		Resolved: Boolean;
 	public
-		constructor Create(const AId: TUlid; const AContent: String);
+		constructor Create(const AId: TUlid; const AHeader: String; const AMessage: TColoredMessage);
 	public
 		procedure Resolve(Sender: TObject);
 	end;
 
 	TChatMessageList = specialize TFPGObjectList<TChatMessage>;
 
-	TGameChatHandler = procedure(const Message: String) of object;
-
 	TGameChat = class
 	strict private
-		FHandler: TGameChatHandler;
+		FMessageLog: TGameMessageLog;
 		FChatMessages: TChatMessageList;
 	private
-		procedure SetHandler(const AHandler: TGameChatHandler);
+		procedure SetMessageLog(AMessageLog: TGameMessageLog);
 	public
 		constructor Create();
 		destructor Destroy; override;
 	public
 		procedure OnChatMessage(const Data: TModelBase);
 	public
-		property Handler: TGameChatHandler read FHandler write SetHandler;
+		property MessageLog: TGameMessageLog read FMessageLog write SetMessageLog;
 	end;
 
 var
@@ -48,7 +45,6 @@ implementation
 
 constructor TGameChat.Create();
 begin
-	FHandler := nil;
 	FChatMessages := TChatMessageList.Create;
 end;
 
@@ -57,84 +53,92 @@ begin
 	FChatMessages.Free;
 end;
 
-procedure TGameChat.SetHandler(const AHandler: TGameChatHandler);
+procedure TGameChat.SetMessageLog(AMessageLog: TGameMessageLog);
 var
 	LWasSet: Boolean;
 begin
-	LWasSet := FHandler <> nil;
-	FHandler := AHandler;
+	LWasSet := FMessageLog <> nil;
+	FMessageLog.Free;
+	FMessageLog := AMessageLog;
 
-	if (AHandler = nil) and LWasSet then
+	if (AMessageLog = nil) and LWasSet then
 		GlobalClient.StopWaiting(TMsgFeedChat)
-	else if (AHandler <> nil) and (not LWasSet) then
+	else if (AMessageLog <> nil) and (not LWasSet) then
 		GlobalClient.Await(TMsgFeedChat, @OnChatMessage);
 end;
 
 procedure TGameChat.OnChatMessage(const Data: TModelBase);
 var
+	I: Integer;
 	LModel: TMsgFeedChat;
+	LHeader: String;
+	LColoredMsg: TColoredMessage;
 	LMessage: TChatMessage;
 begin
 	LModel := Data as TMsgFeedChat;
-
-	LMessage := TChatMessage.Create(LModel.id, LModel.message);
+	LColoredMsg.Content := LModel.message;
+	LHeader := '';
 
 	case LModel.&type of
-		ctSay: LMessage.Color := 'fefefe';
-		ctYell: LMessage.Color := 'fe0000';
+		ctSay: LColoredMsg.Color := MakeColor($FE, $FE, $FE);
+		ctYell: LColoredMsg.Color := MakeColor($7F, $00, $00);
 		ctPrivate: begin
-			LMessage.Color := 'fe00fe';
+			LColoredMsg.Color := MakeColor($FE, $00, $FE);
 			if Length(LModel.sent_to) > 0 then
-				LMessage.Header := _('to') + ' ' + LModel.sent_to;
+				LHeader := _('to') + ' ' + LModel.sent_to;
 		end;
 		ctSystem: begin
-			LMessage.Color := 'fefe00';
-			LMessage.Content := _(LMessage.Content);
-			LMessage.Header := _('System');
+			LColoredMsg.Color := MakeColor($FE, $FE, $00);
+			LColoredMsg.Content := _(LColoredMsg.Content);
+			LHeader := _('System');
 		end;
 	end;
 
+	LMessage := TChatMessage.Create(LModel.id, LHeader, LColoredMsg);
 	GlobalActorRepository.RequestActorInfo(LMessage.Id, @LMessage.Resolve);
+
+	// TODO: maybe don't clear messages ASAP
+	for I := FChatMessages.Count - 1 downto 0 do begin
+		if FChatMessages[I].Resolved then
+			FChatMessages.Delete(I);
+	end;
+
 	FChatMessages.Add(LMessage);
 end;
 
-constructor TChatMessage.Create(const AId: TUlid; const AContent: String);
+constructor TChatMessage.Create(const AId: TUlid; const AHeader: String; const AMessage: TColoredMessage);
 begin
 	self.Id := AId;
-	self.Header := '';
-	self.Color := '';
-	self.Content := AContent;
+	self.Header := AHeader;
+	self.Message := AMessage;
 	self.Resolved := False;
 end;
 
 procedure TChatMessage.Resolve(Sender: TObject);
 var
 	LActorInfo: TGameActorRepositoryRecord;
-	LFinalMessage: String;
+	LHeader: String;
 begin
+	if self.Resolved then exit;
+
 	LActorInfo := GlobalActorRepository.GetActorInfo(self.Id);
 
 	// TODO: escape HTML
 	if Length(self.Header) > 0 then
-		LFinalMessage := self.Header
+		LHeader := self.Header
 	else
-		LFinalMessage := LActorInfo.ActorName;
+		LHeader := LActorInfo.ActorName;
 
-	LFinalMessage := LFinalMessage + ': ' + self.Content;
-
-	if Length(self.Color) > 0 then
-		LFinalMessage := '<font color="#' + self.Color + '">' + LFinalMessage + '</font>';
-
-	GlobalChat.Handler(LFinalMessage);
+	self.Message.Content := LHeader + ': ' + self.Message.Content;
+	GlobalChat.MessageLog.AddLine(self.Message.ToString);
 	self.Resolved := True;
 end;
-
 
 initialization
 	GlobalChat := TGameChat.Create;
 
 finalization
-	GlobalChat.Free;
+	FreeAndNil(GlobalChat);
 
 end.
 

@@ -6,6 +6,15 @@ use Data::Dumper;
 
 sub _get_dumper (@data)
 {
+	@data = map {
+		my $to_dump = $_;
+		if (reftype $to_dump eq 'OBJECT') {
+			$to_dump = '' . $to_dump;
+		}
+
+		$to_dump;
+	} @data;
+
 	my $dumped;
 	if (@data > 1) {
 		$dumped = \@data;

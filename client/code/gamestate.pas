@@ -4,7 +4,7 @@ interface
 
 uses SysUtils, Classes, FGL,
 	CastleVectors, CastleTransform, CastleViewport, CastleScene, CastleTiledMap,
-	GameMaps, GameTypes, GameNetwork,
+	GameMaps, GameTypes, GameNetwork, GameLog, GameTranslations,
 	GameActors, GameProjectiles,
 	GameModels.Discovery, GameModels.Move, GameModels.Actors, GameModels.Projectiles,
 	GamePipelines;
@@ -214,14 +214,35 @@ begin
 end;
 
 procedure TGameState.ProcessActorEvent(Event: TMsgFeedActorEvent);
+const
+	CUnknownCharacter = 'msg.character.unknown';
+	CMessageDamage = 'msg.combat.damage[]';
+	CMessageHealing = 'msg.combat.healing[]';
 var
 	LActor: TGameActor;
+	LSourceActorName: String;
+	LMessageId: String;
+	LLogHealth: Integer;
 begin
 	LActor := self.FindActor(Event.Id);
 	if LActor = nil then
 		raise EActorNotFound.Create;
 
 	LActor.ModifyHealth(Event.Health);
+
+	if GlobalActorRepository.HasActorInfo(Event.EventSource) then
+		LSourceActorName := GlobalActorRepository.GetActorInfo(Event.EventSource).ActorName
+	else
+		LSourceActorName := _(CUnknownCharacter);
+
+	if Event.HealthChange > 0 then LMessageId := CMessageHealing
+	else LMessageId := CMessageDamage;
+
+	// TODO: health may be an ugly float
+	LLogHealth := Round(Abs(Event.HealthChange));
+	LogCombat(cltCombat, _(LMessageId, [LSourceActorName, LActor.ActorRecord.ActorName, LLogHealth.ToString]));
+
+
 	// TODO: animate damage / healing (HealthChange)
 end;
 

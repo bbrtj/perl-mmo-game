@@ -83,6 +83,15 @@ str: Pole jest wymagane
 id: map
 str: Mapa
 ---
+id: msg.character.unknown
+str: tajemnicza postać
+---
+id: msg.combat.damage[]
+str: '[_1] trafił [_2] zadając [_3] obrażeń'
+---
+id: msg.combat.healing[]
+str: '[_1] trafił [_2] lecząc [_3] obrażeń'
+---
 id: msg.connecting
 str: Łączenie...
 ---

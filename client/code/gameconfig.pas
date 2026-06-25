@@ -61,7 +61,7 @@ initialization
 	GlobalConfig := TGameConfig.Create;
 
 finalization
-	GlobalConfig.Free;
+	FreeAndNil(GlobalConfig);
 
 end.
 

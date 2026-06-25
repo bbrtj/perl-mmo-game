@@ -6,7 +6,7 @@ uses Classes, SysUtils, FGL,
 	CastleVectors, CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleTransform, CastleScene, CastleViewport, CastleTiledMap,
 	GameTypes, GameLog, GameTranslations, GameState, GameChat,
-	GameNetwork, GameActors,
+	GameNetwork, GameActors, GameMessageLog,
 	GameModels, GameModels.General, GameModels.Move, GameModels.Discovery,
 	GameModels.Ability, GameModels.Chat, GameModels.Actors,
 	GameModels.Projectiles,
@@ -27,6 +27,9 @@ type
 		FpsDisplay: TCastleLabel;
 		ChatEdit: TCastleEdit;
 		ChatWindow: TCastleLabel;
+		CombatLog: TCastleLabel;
+		ChatWindowScroll: TCastleScrollView;
+		CombatLogScroll: TCastleScrollView;
 	private
 		FGameState: TGameState;
 		FPlaying: Boolean;
@@ -48,7 +51,6 @@ type
 		procedure OnActorFeed(const Data: TModelBase);
 		procedure OnProjectile(const Data: TModelBase);
 		procedure OnProjectileStop(const Data: TModelBase);
-		procedure NewChatMessage(const Message: String);
 	public
 		property GameState: TGameState read FGameState write FGameState;
 		property Playing: Boolean read FPlaying write FPlaying;
@@ -69,6 +71,9 @@ procedure TViewPlay.Start;
 begin
 	inherited;
 
+	// NOTE: OnDisconnected is still used from GameViewLogin, so that if we
+	// disconnect, we go back to login screen
+
 	FPlaying := false;
 	FGameState := TGameState.Create(MainViewport);
 	FGameState.Board := Board;
@@ -86,7 +91,8 @@ begin
 	GlobalClient.Await(TMsgFeedProjectile, @self.OnProjectile);
 	GlobalClient.Await(TMsgFeedProjectileStop, @self.OnProjectileStop);
 
-	GlobalChat.Handler := @self.NewChatMessage;
+	GlobalChat.MessageLog := TGameMessageLog.Create(ChatWindow, ChatWindowScroll);
+	GlobalCombatLog := TGameMessageLog.Create(CombatLog, CombatLogScroll);
 end;
 
 procedure TViewPlay.Stop;
@@ -94,8 +100,12 @@ begin
 	FGameState.Free;
 	FUnknownActorActions.Free;
 
-	GlobalChat.Handler := nil;
-	GlobalClient.OnError := nil;
+	if GlobalChat <> nil then
+		GlobalChat.MessageLog := nil;
+	FreeAndNil(GlobalCombatLog);
+
+	if GlobalClient <> nil then
+		GlobalClient.OnError := nil;
 end;
 
 function TViewPlay.FindMapPosition(MouseHit: TRayCollision; out Pos: TVector3): Boolean;
@@ -316,15 +326,9 @@ begin
 	FGameState.ProcessProjectileStop(Data as TMsgFeedProjectileStop);
 end;
 
-procedure TViewPlay.NewChatMessage(const Message: String);
-begin
-	ViewPlay.ChatWindow.Text.Append(Message);
-end;
-
 procedure TViewPlay.OnError(const Data: TModelBase);
 begin
-	// TODO: notify user something's wrong
-	LogDebug('Error: ' + _((Data as TMsgResError).Msg));
+	LogCombat(cltError, _((Data as TMsgResError).Msg));
 end;
 
 end.

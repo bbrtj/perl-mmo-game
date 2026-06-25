@@ -199,7 +199,7 @@ initialization
 	DummyModel := TEmptyModel.Create;
 
 finalization
-	DummyModel.Free;
+	FreeAndNil(DummyModel);
 
 end.
 

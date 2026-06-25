@@ -11,6 +11,7 @@ extends 'Server::Process';
 
 with qw(
 	Server::Role::Listening
+	Server::Role::CanSendData
 );
 
 sub _lock ($self, $ulid)
@@ -21,7 +22,7 @@ sub _lock ($self, $ulid)
 
 sub handle ($self, $data)
 {
-	my ($ulid, $name, @args) = $data->@*;
+	my ($ulid, $name, $session_id, $id, @args) = $data->@*;
 
 	return if !$self->_lock($ulid)->get;
 
@@ -37,11 +38,21 @@ sub handle ($self, $data)
 
 	$self->log->debug('Process ' . $self->process_id . ": processing $name");
 	try {
-		$instance->handle(@args);
+		$instance->handle($session_id, $id, @args);
 	}
 	catch ($e) {
-		$self->log->error("Processing job $name failed: $e");
-		$self->log->debug("Error was: " . My::Dumper->dd($e));
+		if ($e isa 'X::Pub') {
+			$self->send_to(
+				$session_id,
+				Resource::X->new(subject => $e),
+				id => $id,
+			);
+		}
+		else {
+			$self->log->error("Processing job $name failed: $e");
+			$self->log->debug("Error was: " . My::Dumper->dd($e))
+				if Server::Config::DEBUG;
+		}
 	}
 
 	return;

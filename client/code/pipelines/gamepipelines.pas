@@ -288,7 +288,7 @@ initialization
 	GlobalPipelineManager := TPipelineManager.Create;
 
 finalization
-	GlobalPipelineManager.Free;
+	FreeAndNil(GlobalPipelineManager);
 
 end.
 

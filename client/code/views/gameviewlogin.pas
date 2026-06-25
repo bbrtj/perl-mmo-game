@@ -51,10 +51,11 @@ procedure TViewLogin.Start;
 begin
 	inherited;
 	GlobalClient.ContextChange;
-	GlobalClient.OnDisconnected := @OnDisconnected;
-	GlobalClient.OnError := @OnError;
+	GlobalClient.OnDisconnected := @self.OnDisconnected;
+	GlobalClient.OnError := @self.OnError;
 
-	LoginButton.onClick := @DoLogin;
+	LoginButton.OnClick := @self.DoLogin;
+
 	if FStartMsg <> '' then begin
 		LoginStatus.Caption := FStartMsg;
 		LoginStatus.Exists := True;
@@ -130,8 +131,6 @@ begin
 	Container.View := self;
 	FStartMsg := _('msg.disconnected');
 end;
-
-{ implementation end }
 
 end.
 

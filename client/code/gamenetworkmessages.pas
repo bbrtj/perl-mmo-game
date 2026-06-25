@@ -161,8 +161,8 @@ initialization
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedProjectileStop));
 
 finalization
-	MessageTypesMap.Free;
-	FeedTypesMap.Free;
+	FreeAndNil(MessageTypesMap);
+	FreeAndNil(FeedTypesMap);
 
 end.
 

@@ -162,20 +162,23 @@ procedure TNetwork.OnMessageReceived(const Received: String);
 		LModel: TModelBase;
 		I: Integer;
 	begin
-		if Msg.Typ <> TMSgResError.MessageType then
+		if Msg.Typ <> TMsgResError.MessageType then
 			exit(false);
 
-		// Check if we were waiting for this message in the first place
+		result := true;
+
+		// Check and remove callbacks for this message
 		// TODO: should notifications be called?
 		for I := 0 to FCallbacks.Count - 1 do begin
 			if not (FCallbacks[I].Id = Msg.Id) then continue;
 			FCallbacks.Delete(I);
-			result := true;
 			break;
 		end;
 
-		if result and (FOnError <> nil) then begin
-			LModel := FModelSerializer.DeSerialize(Msg.Data, TMSgResError);
+		// no matter if we were waiting for the response, we should fire the
+		// error handler. This is because not every message has a callback
+		if FOnError <> nil then begin
+			LModel := FModelSerializer.DeSerialize(Msg.Data, TMsgResError);
 			FOnError(LModel);
 
 			if not LModel.Adopted then
@@ -375,14 +378,11 @@ begin
 	end;
 end;
 
-{ implementation end }
-
 initialization
 	GlobalClient := TNetwork.Create;
 
 finalization
-	// FIXME: this hangs and throws access violation
-	// GlobalClient.Free;
+	FreeAndNil(GlobalClient);
 
 end.
 

@@ -128,7 +128,7 @@ initialization
 	LoreCollection := TLoreStore.Create;
 
 finalization
-	LoreCollection.Free;
+	FreeAndNil(LoreCollection);
 
 end.
 

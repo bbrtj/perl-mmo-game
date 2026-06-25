@@ -83,6 +83,15 @@ str: Field is required
 id: map
 str: Map
 ---
+id: msg.character.unknown
+str: mysterious figure
+---
+id: msg.combat.damage[]
+str: '[_1] has damaged [_2] for [_3]'
+---
+id: msg.combat.healing[]
+str: '[_1] has healed [_2] for [_3]'
+---
 id: msg.connecting
 str: Connecting...
 ---
@@ -145,3 +154,4 @@ str: to
 ---
 id: welcome
 str: Welcome
+

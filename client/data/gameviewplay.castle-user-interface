@@ -166,7 +166,7 @@
         "Green" : 0.0000000000000000E+000,
         "Red" : 0.0000000000000000E+000
       },
-      "Height" : 2.5000000000000000E+002,
+      "Height" : 2.0000000000000000E+002,
       "Name" : "ChatWindowBackground",
       "Width" : 6.0000000000000000E+002,
       "$Children" : [
@@ -213,6 +213,58 @@
       "PlaceholderTranslate" : false,
       "TextTranslate" : false,
       "Width" : 6.0000000000000000E+002
+    },
+    {
+      "$$ClassName" : "TCastleRectangleControl",
+      "ColorPersistent" : {
+        "$$ClassName" : "TCastleColorPersistent",
+        "Alpha" : 4.0000000596046448E-001,
+        "Blue" : 0.0000000000000000E+000,
+        "Green" : 0.0000000000000000E+000,
+        "Red" : 0.0000000000000000E+000
+      },
+      "Height" : 1.5000000000000000E+002,
+      "Name" : "CombatLogBackground",
+      "TranslationPersistent" : {
+        "$$ClassName" : "TCastleVector2Persistent",
+        "Y" : 2.0500000000000000E+002
+      },
+      "Width" : 6.0000000000000000E+002,
+      "$Children" : [
+        {
+          "$$ClassName" : "TCastleScrollView",
+          "FullSize" : true,
+          "Name" : "CombatLogScroll",
+          "ScrollArea" : {
+            "$$ClassName" : "TCastleScrollArea",
+            "$Children" : [
+              {
+                "$$ClassName" : "TCastleLabel",
+                "ColorPersistent" : {
+                  "$$ClassName" : "TCastleColorPersistent",
+                  "Blue" : 6.9803923368453979E-001,
+                  "Green" : 6.9803923368453979E-001,
+                  "Red" : 6.9803923368453979E-001
+                },
+                "Html" : true,
+                "Name" : "CombatLog",
+                "Text" : [
+                ],
+                "VerticalAnchorParent" : "vpTop",
+                "VerticalAnchorSelf" : "vpTop"
+              }
+            ]
+          },
+          "ScrollbarFrame" : {
+            "$$ClassName" : "TCastleImagePersistent"
+          },
+          "ScrollbarSlider" : {
+            "$$ClassName" : "TCastleImagePersistent"
+          },
+          "VerticalAnchorParent" : "vpTop",
+          "VerticalAnchorSelf" : "vpTop"
+        }
+      ]
     }
   ]
 }

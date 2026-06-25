@@ -100,6 +100,7 @@ type
 
 		procedure RequestActorInfo(const Id: TUlid; const Notify: TNotifyEvent);
 		function GetActorInfo(const Id: TUlid): TGameActorRepositoryRecord;
+		function HasActorInfo(const Id: TUlid): Boolean;
 	end;
 
 	TGameActorFactory = class
@@ -383,10 +384,18 @@ begin
 	result := LObject as TGameActorRepositoryRecord;
 end;
 
+function TGameActorRepository.HasActorInfo(const Id: TUlid): Boolean;
+var
+	LObject: TObject;
+begin
+	LObject := FActorData.Find(Id);
+	result := LObject <> nil;
+end;
+
 initialization
 	GlobalActorRepository := TGameActorRepository.Create;
 
 finalization
-	GlobalActorRepository.Free;
+	FreeAndNil(GlobalActorRepository);
 end.
 

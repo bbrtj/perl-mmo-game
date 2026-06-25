@@ -240,7 +240,7 @@ initialization
 	ListSerializationMap := TSerializedLists.Create;
 
 finalization
-	ListSerializationMap.Free;
+	FreeAndNil(ListSerializationMap);
 
 end.
 

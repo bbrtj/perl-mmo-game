@@ -2,7 +2,7 @@ unit GameMaps;
 
 interface
 
-uses FGL, Classes,
+uses SysUtils, FGL, Classes,
 	CastleDownload,
 	Serialization,
 	GameLore,
@@ -190,7 +190,7 @@ initialization
 	MapIndex := TMapIndex.Create();
 
 finalization
-	MapIndex.Free;
+	FreeAndNil(MapIndex);
 
 end.
 
