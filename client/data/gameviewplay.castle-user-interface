@@ -39,6 +39,7 @@
           },
           {
             "$$ClassName" : "TCastleDirectionalLight",
+            "Intensity" : 3.0000001192092896E-001,
             "Name" : "AmbientLight",
             "TranslationPersistent" : {
               "$$ClassName" : "TCastleVector3Persistent",

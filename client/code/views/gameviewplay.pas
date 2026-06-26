@@ -3,6 +3,7 @@ unit GameViewPlay;
 interface
 
 uses Classes, SysUtils, FGL,
+	X3DNodes,
 	CastleVectors, CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleTransform, CastleScene, CastleViewport, CastleTiledMap,
 	GameTypes, GameLog, GameTranslations, GameState, GameChat,
@@ -34,8 +35,10 @@ type
 		FGameState: TGameState;
 		FPlaying: Boolean;
 		FUnknownActorActions: TActorActionsMap;
+		FHacked: Boolean;
 	private
 		function FindMapPosition(MouseHit: TRayCollision; out Pos: TVector3): Boolean;
+		procedure TiledShadowsCallback(Node: TX3DNode);
 		procedure ActorReady(ActorInfo: TObject);
 		procedure OnError(const Data: TModelBase);
 	public
@@ -121,10 +124,19 @@ begin
 end;
 
 procedure TViewPlay.Update(const SecondsPassed: Single; var HandleInput: Boolean);
+var
+	LHackScene: TCastleScene;
 begin
 	inherited;
 
 	if not FPlaying then exit;
+
+	if not FHacked then begin
+		FHacked := true;
+		LHackScene := Board[0] as TCastleScene;
+		LHackScene.RootNode.EnumerateNodes(TAppearanceNode, @self.TiledShadowsCallback, False);
+	end;
+
 	FGameState.Update(SecondsPassed);
 	GlobalClient.Heartbeat(SecondsPassed);
 
@@ -264,6 +276,12 @@ begin
 	// TODO: object may not be an actor
 	for LId in LModel.old_objects do
 		FGameState.RemoveActor(LId);
+end;
+
+procedure TViewPlay.TiledShadowsCallback(Node: TX3DNode);
+begin
+	// this is pmPhong
+	(Node as TAppearanceNode).Material := TMaterialNode.Create;
 end;
 
 procedure TViewPlay.ActorReady(ActorInfo: TObject);

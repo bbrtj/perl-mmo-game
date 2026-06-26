@@ -3,7 +3,7 @@ unit GameActors;
 interface
 
 uses SysUtils, Classes, Contnrs, Math,
-	CastleUIControls, CastleControls, CastleRectangles,
+	CastleUIControls, CastleControls, CastleRectangles, CastleRenderOptions,
 	CastleTransform, CastleVectors, CastleViewport, CastleBoxes,
 	GameTypes, GameLore, GameExceptions, GameNetwork, GameConfig,
 	GameModels, GameModels.Discovery;
@@ -62,7 +62,7 @@ type
 		procedure ModifyHealth(NewHealth: Single);
 		procedure SetRegeneration(Health, Energy: Single);
 		procedure SetAction(const LoreId: TLoreId; Duration: Single);
-		procedure SetSize(Size: Single);
+		procedure SetSize(ASize: Single);
 
 		procedure Update(const secondsPassed: Single; var removeMe: TRemoveType); override;
 
@@ -169,6 +169,7 @@ begin
 	result := TGameActor.Create(FUIBoard);
 	result.Id := Info.Id;
 	result.Name := 'Actor_' + Info.Id;
+	result.Material := pmPhong;
 	result.ActorRecord := Info;
 
 	LLore := LoreCollection.GetById(Info.ActorClass);
@@ -306,21 +307,21 @@ begin
 	FActionTime := Duration;
 end;
 
-procedure TGameActor.SetSize(Size: Single);
+procedure TGameActor.SetSize(ASize: Single);
 var
 	LBox: TBox3D;
 	LCurrentRadius: Single;
 begin
-	FSize := Size;
+	FSize := ASize;
 	LBox := self.BoundingBox;
 
 	// NOTE: increase visual size by 10% to make up for non-perfect actor image
 	// representations
-	Size *= 1.1;
+	ASize *= 1.1;
 
 	// NOTE: Box3D has width / height, while Size is a radius of a circle
 	LCurrentRadius := Max(LBox.Size.X, LBox.Size.Y) / 2;
-	self.Scale := self.Scale * Vector3(Size / LCurrentRadius, Size / LCurrentRadius, 1);
+	self.Scale := self.Scale * Vector3(ASize / LCurrentRadius, ASize / LCurrentRadius, 1);
 end;
 
 constructor TGameActorRepository.Create();

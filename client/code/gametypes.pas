@@ -11,7 +11,8 @@ type
 
 	TLoreIds = specialize TFPGList<TLoreId>;
 
-	TGameModel = class(TCastleScene);
+	// TGameModel = class(TCastleScene);
+	TGameModel = class(TCastleImageTransform);
 
 	EGameException = class(Exception)
 	public
