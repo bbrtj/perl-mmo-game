@@ -18,6 +18,8 @@ type
 
 	TCombatLogType = (cltError, cltCombat);
 
+function MakeGameColor(R, G, B: Byte; A: Byte = $FF): TAlphaColor;
+
 procedure LogDebug(const Message: String);
 procedure LogError(const Message: String);
 procedure LogToServer(const Message: String);
@@ -37,10 +39,17 @@ end;
 function TColoredMessage.ToString(): String;
 begin
 	result := '<font color="'
-		+ AlphaColorToColor(self.Color).ToString + '">'
+		+ AlphaColorToString(self.Color) + '">'
 		+ self.Content
 		+ '</font>'
 		;
+end;
+
+function MakeGameColor(R, G, B: Byte; A: Byte): TAlphaColor;
+begin
+	// NOTE: weird stringification of alphacolor, puts alpha at the front.
+	// Fight it by switching the order.
+	result := MakeColor(G, B, A, R);
 end;
 
 procedure LogDebug(const Message: String);
@@ -67,8 +76,8 @@ var
 	LColor: TAlphaColor;
 begin
 	case LogType of
-		cltError: LColor := MakeColor($CC, $00, $00);
-		cltCombat: LColor := MakeColor($CC, $CC, $00);
+		cltError: LColor := MakeGameColor($CC, $00, $00, $CC);
+		cltCombat: LColor := MakeGameColor($CC, $CC, $00, $CC);
 	end;
 
 	if GlobalCombatLog <> nil then

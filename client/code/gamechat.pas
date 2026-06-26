@@ -2,7 +2,7 @@ unit GameChat;
 
 interface
 
-uses SysUtils, FGL, System.UIConsts,
+uses SysUtils, FGL,
 	GameTypes, GameLog, GameMessageLog,
 	GameNetwork, GameActors,
 	GameModels, GameModels.Chat,
@@ -80,15 +80,15 @@ begin
 	LHeader := '';
 
 	case LModel.&type of
-		ctSay: LColoredMsg.Color := MakeColor($FE, $FE, $FE);
-		ctYell: LColoredMsg.Color := MakeColor($7F, $00, $00);
+		ctSay: LColoredMsg.Color := MakeGameColor($FE, $FE, $FE);
+		ctYell: LColoredMsg.Color := MakeGameColor($7F, $00, $00);
 		ctPrivate: begin
-			LColoredMsg.Color := MakeColor($FE, $00, $FE);
+			LColoredMsg.Color := MakeGameColor($FE, $00, $FE);
 			if Length(LModel.sent_to) > 0 then
 				LHeader := _('to') + ' ' + LModel.sent_to;
 		end;
 		ctSystem: begin
-			LColoredMsg.Color := MakeColor($FE, $FE, $00);
+			LColoredMsg.Color := MakeGameColor($FE, $FE, $00);
 			LColoredMsg.Content := _(LColoredMsg.Content);
 			LHeader := _('System');
 		end;
