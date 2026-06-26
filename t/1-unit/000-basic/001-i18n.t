@@ -1,3 +1,4 @@
+# HARNESS-DURATION-SHORT
 use testheader;
 
 # i18n should be loaded by the header already

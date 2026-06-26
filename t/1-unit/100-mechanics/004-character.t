@@ -1,3 +1,4 @@
+# HARNESS-DURATION-SHORT
 use testheader;
 
 use Test2::Tools::Compare qw(float);

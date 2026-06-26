@@ -1,3 +1,4 @@
+# HARNESS-DURATION-SHORT
 use Test::More;
 
 use v5.42;

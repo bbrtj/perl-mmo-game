@@ -1,3 +1,4 @@
+# HARNESS-DURATION-SHORT
 use testheader;
 
 use Game::Mechanics::Movement qw(move_actor);

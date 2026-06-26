@@ -1,3 +1,4 @@
+# HARNESS-DURATION-SHORT
 use testheader;
 
 use Game::Mechanics::Distance qw(is_in_range);

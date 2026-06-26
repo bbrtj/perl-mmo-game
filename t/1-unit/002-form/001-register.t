@@ -1,3 +1,4 @@
+# HARNESS-DURATION-SHORT
 use Web::Form::Register;
 use all 'Model', 'X';
 

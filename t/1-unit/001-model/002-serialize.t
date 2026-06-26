@@ -1,3 +1,4 @@
+# HARNESS-DURATION-SHORT
 use all 'Model';
 
 use testheader;
