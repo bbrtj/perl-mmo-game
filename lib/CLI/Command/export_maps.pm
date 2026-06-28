@@ -69,7 +69,7 @@ sub _groom_maps ($self, $locs)
 		my $filename = $self->id_to_file($loc->id);
 		my $assets_path = $loc->map->map_object->path;
 
-		my $map = Tiled::Parser->groom_map($assets_path);
+		my $map = $parser->groom_map($assets_path);
 		$self->base_path->child("$filename.tmx")->spew($map);
 	}
 
@@ -85,7 +85,7 @@ sub _copy_tilesets ($self, $locs)
 		my $filename = $self->id_to_file($loc->id);
 		my $assets_path = $loc->map->map_object->path;
 
-		my %tilesets = Tiled::Parser->groom_tilesets($assets_path);
+		my %tilesets = $parser->groom_tilesets($assets_path);
 		foreach my $tileset_path (keys %tilesets) {
 			my $content = $tilesets{$tileset_path};
 

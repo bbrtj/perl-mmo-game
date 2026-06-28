@@ -101,7 +101,6 @@ sub groom_map ($self, $path)
 
 	foreach my $object_layer ($parser->select_nodes('/map//objectgroup')) {
 		my %properties = $self->_read_properties($object_layer);
-		$_->parent->remove_child($_) for $object_layer->select_nodes('.//properties');
 
 		next unless ($properties{private} // '') eq 'true';
 		$object_layer->parent->remove_child($object_layer);

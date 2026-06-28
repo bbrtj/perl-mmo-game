@@ -19,6 +19,7 @@ type
 	private
 		FUIViewport: TCastleViewport;
 		FUIBoard: TCastleTiledMap;
+		FUIPlayerLight: TCastleSpotLight;
 
 		FActors: TActorMap;
 		FProjectiles: TProjectileMap;
@@ -55,6 +56,7 @@ type
 		procedure ProcessProjectileStop(Event: TMsgFeedProjectileStop);
 
 		property Board: TCastleTiledMap write SetBoard;
+		property PlayerLight: TCastleSpotLight write FUIPlayerLight;
 	end;
 
 implementation
@@ -116,8 +118,7 @@ begin
 
 	LProportionX := FMapData.Map.SizeX / FUIBoard.Data.Width / FUIBoard.Data.TileWidth;
 	LProportionY := FMapData.Map.SizeY / FUIBoard.Data.Height / FUIBoard.Data.TileHeight;
-	FUIBoard.Scale := Vector3(LProportionX, LProportionY, 1);
-	// FUIBoard.Translation := Vector3(FMapData.Map.SizeX / 2, FMapData.Map.SizeY / 2, 0);
+	FUIBoard.Scale := Vector3(LProportionX, LProportionY, 0.001);
 end;
 
 procedure TGameState.CreatePlayer(ActorInfo: TGameActorRepositoryRecord; PosX, PosY: Single);
@@ -140,6 +141,7 @@ begin
 
 	LPlayerBehavior := TPlayerBehavior.Create(LPlayer);
 	LPlayerBehavior.Camera := FUIViewport.Camera;
+	LPlayerBehavior.Light := FUIPlayerLight;
 	LPlayer.AddBehavior(LPlayerBehavior);
 	// TODO: this behavior must be freed
 end;

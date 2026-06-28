@@ -2,12 +2,12 @@ unit GameViewPlay;
 
 interface
 
-uses Classes, SysUtils, FGL,
+uses Classes, SysUtils, FGL, Math,
 	X3DNodes,
 	CastleVectors, CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleTransform, CastleScene, CastleViewport, CastleTiledMap,
 	GameTypes, GameLog, GameTranslations, GameState, GameChat,
-	GameNetwork, GameActors, GameMessageLog,
+	GameConfig, GameNetwork, GameActors, GameMessageLog,
 	GameModels, GameModels.General, GameModels.Move, GameModels.Discovery,
 	GameModels.Ability, GameModels.Chat, GameModels.Actors,
 	GameModels.Projectiles,
@@ -23,6 +23,7 @@ type
 		Board: TCastleTiledMap;
 		PlayerCamera: TCastleCamera;
 		AmbientLight: TCastleDirectionalLight;
+		PlayerLight: TCastleSpotLight;
 	published
 		PingDisplay: TCastleLabel;
 		FpsDisplay: TCastleLabel;
@@ -35,10 +36,12 @@ type
 		FGameState: TGameState;
 		FPlaying: Boolean;
 		FUnknownActorActions: TActorActionsMap;
-		FHacked: Boolean;
+	private
+		procedure TiledShadowsCallback(Node: TX3DNode);
+		procedure BuildTiledObjects();
+		procedure BuildTiledLights(Layer: TCastleTiledMapData.TObjectGroupLayer);
 	private
 		function FindMapPosition(MouseHit: TRayCollision; out Pos: TVector3): Boolean;
-		procedure TiledShadowsCallback(Node: TX3DNode);
 		procedure ActorReady(ActorInfo: TObject);
 		procedure OnError(const Data: TModelBase);
 	public
@@ -79,7 +82,8 @@ begin
 
 	FPlaying := false;
 	FGameState := TGameState.Create(MainViewport);
-	FGameState.Board := Board;
+	FGameState.Board := self.Board;
+	FGameState.PlayerLight := self.PlayerLight;
 
 	FUnknownActorActions := TActorActionsMap.Create;
 
@@ -124,18 +128,10 @@ begin
 end;
 
 procedure TViewPlay.Update(const SecondsPassed: Single; var HandleInput: Boolean);
-var
-	LHackScene: TCastleScene;
 begin
 	inherited;
 
 	if not FPlaying then exit;
-
-	if not FHacked then begin
-		FHacked := true;
-		LHackScene := Board[0] as TCastleScene;
-		LHackScene.RootNode.EnumerateNodes(TAppearanceNode, @self.TiledShadowsCallback, False);
-	end;
 
 	FGameState.Update(SecondsPassed);
 	GlobalClient.Heartbeat(SecondsPassed);
@@ -145,8 +141,15 @@ begin
 end;
 
 procedure TViewPlay.SetMapPath(MapPath: String);
+var
+	LHackScene: TCastleScene;
 begin
 	Board.URL := MapPath;
+
+	LHackScene := Board[0] as TCastleScene;
+	LHackScene.RootNode.EnumerateNodes(TAppearanceNode, @self.TiledShadowsCallback, False);
+
+	self.BuildTiledObjects;
 end;
 
 function TViewPlay.Press(const Event: TInputPressRelease): Boolean;
@@ -282,6 +285,87 @@ procedure TViewPlay.TiledShadowsCallback(Node: TX3DNode);
 begin
 	// this is pmPhong
 	(Node as TAppearanceNode).Material := TMaterialNode.Create;
+end;
+
+procedure TViewPlay.BuildTiledObjects();
+var
+	LLayer: TCastleTiledMapData.TLayer;
+begin
+	for LLayer in self.Board.Data.Layers do begin
+		if not(LLayer is TCastleTiledMapData.TObjectGroupLayer) then continue;
+
+		case LLayer.Name of
+			'Lights': self.BuildTiledLights(LLayer as TCastleTiledMapData.TObjectGroupLayer);
+		end;
+	end;
+end;
+
+procedure TViewPlay.BuildTiledLights(Layer: TCastleTiledMapData.TObjectGroupLayer);
+var
+	LMap: TCastleTiledMapData;
+	LObject: TCastleTiledMapData.TTiledObject;
+	LLight: TCastleSpotLight;
+	TileW, TileH: Single;
+	Distance, X, Y, Radius: Single;
+	Intensity: Single;
+	I: Integer;
+begin
+	Distance := GlobalConfig.LightsDistance;
+	LMap := self.Board.Data;
+	TileW := LMap.TileWidth;
+	TileH := LMap.TileHeight;
+
+	// global ambient light
+	Intensity := 1;
+	for I := 0 to Layer.Properties.Count - 1 do begin
+		case Layer.Properties[I].Name of
+			'intensity': begin
+				Intensity := StrToFloat(
+					Layer.Properties[I].Value,
+					GlobalConfig.FormatSettings
+				);
+			end;
+		end;
+	end;
+
+	self.AmbientLight.Intensity := Intensity;
+
+	// player light
+	Radius := 1;
+	self.PlayerLight.Translation := Vector3(0, 0, self.Board.Translation.Z + Distance);
+	self.PlayerLight.Intensity := Min(1, Intensity * 1.5);
+	self.PlayerLight.CutoffAngle := ArcTan2(Radius, Distance);
+	self.PlayerLight.BeamWidth := 0;
+
+	// spotlights
+	for LObject in Layer.Objects do begin
+		X := (LObject.X + LObject.Width / 2) / TileW;
+		Y := LMap.Height - (LObject.Y + LObject.Height / 2) / TileH;
+		Radius := (LObject.Width / TileW + LObject.Height / TileH) / 4;
+
+		Intensity := 1;
+		for I := 0 to LObject.Properties.Count - 1 do begin
+			case LObject.Properties[I].Name of
+				'intensity': begin
+					Intensity := StrToFloat(
+						LObject.Properties[I].Value,
+						GlobalConfig.FormatSettings
+					);
+				end;
+			end;
+		end;
+
+		LLight := TCastleSpotLight.Create(self.Board.Parent);
+		LLight.Name := 'Spotlight_' + Round(X * 100).ToString + '_' + Round(Y * 100).ToString;
+		LLight.Translation := Vector3(X, Y, self.Board.Translation.Z + Distance);
+		LLight.Up := Vector3(0, -1, 0);
+		LLight.Intensity := Intensity;
+		LLight.Attenuation := Vector3(0, 0, 0);
+		LLight.CutoffAngle := ArcTan2(Radius, Distance);
+		LLight.BeamWidth := LLight.CutoffAngle * 0.8;
+
+		Board.Parent.Add(LLight);
+	end;
 end;
 
 procedure TViewPlay.ActorReady(ActorInfo: TObject);

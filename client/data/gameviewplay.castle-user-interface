@@ -38,8 +38,21 @@
             }
           },
           {
+            "$$ClassName" : "TCastleSpotLight",
+            "AttenuationPersistent" : {
+              "$$ClassName" : "TCastleVector3Persistent",
+              "Z" : 0.0000000000000000E+000
+            },
+            "Name" : "PlayerLight",
+            "RotationPersistent" : {
+              "$$ClassName" : "TCastleVector4RotationPersistent",
+              "W" : 3.1415927410125732E+000,
+              "Z" : 1.0000000000000000E+000
+            }
+          },
+          {
             "$$ClassName" : "TCastleDirectionalLight",
-            "Intensity" : 3.0000001192092896E-001,
+            "Intensity" : 0.0000000000000000E+000,
             "Name" : "AmbientLight",
             "TranslationPersistent" : {
               "$$ClassName" : "TCastleVector3Persistent",
@@ -139,7 +152,7 @@
         },
         "TranslationPersistent" : {
           "$$ClassName" : "TCastleVector3Persistent",
-          "Z" : 3.5412658691406250E+001
+          "Z" : 5.2090576171875000E+001
         }
       },
       "InternalDesignNavigationType" : 1,

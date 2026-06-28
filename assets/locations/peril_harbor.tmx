@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="100" tileheight="100" infinite="0" nextlayerid="9" nextobjectid="11">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="100" tileheight="100" infinite="0" nextlayerid="10" nextobjectid="29">
  <tileset firstgid="1" source="../game tiles.tsx"/>
  <layer id="1" name="Water" width="40" height="40">
   <properties>
@@ -345,6 +345,47 @@
   </object>
   <object id="10" name="strong monster" type="Bog rat" x="1749.57" y="1656.91">
    <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="9" name="Lights">
+  <properties>
+   <property name="intensity" type="float" value="0.1"/>
+  </properties>
+  <object id="20" name="lantern" x="864.182" y="2572.52" width="170.633" height="174.922">
+   <properties>
+    <property name="intensity" type="float" value="0.5"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="22" name="dim light" x="1321.34" y="2037.36" width="366.655" height="352.819">
+   <properties>
+    <property name="intensity" type="float" value="0.3"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="23" name="lantern" x="1734.12" y="2569.06" width="170.633" height="174.922">
+   <properties>
+    <property name="intensity" type="float" value="0.5"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="24" name="lantern" x="1078.64" y="2575.98" width="170.633" height="174.922">
+   <properties>
+    <property name="intensity" type="float" value="0.5"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="25" name="lantern" x="1294.83" y="2572.52" width="170.633" height="174.922">
+   <properties>
+    <property name="intensity" type="float" value="0.5"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="26" name="lantern" x="1519.66" y="2574.25" width="170.633" height="174.922">
+   <properties>
+    <property name="intensity" type="float" value="0.5"/>
+   </properties>
+   <ellipse/>
   </object>
  </objectgroup>
 </map>

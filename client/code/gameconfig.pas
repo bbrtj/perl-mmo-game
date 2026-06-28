@@ -16,6 +16,7 @@ type
 		FNetworkTransportFloatPrecision: Integer;
 
 		FCameraDistance: Single;
+		FLightsDistance: Single;
 		FFormatSettings: TFormatSettings;
 	public
 		procedure Initialize();
@@ -29,6 +30,7 @@ type
 
 	public
 		property CameraDistance: Single read FCameraDistance write FCameraDistance;
+		property LightsDistance: Single read FLightsDistance write FLightsDistance;
 		property FormatSettings: TFormatSettings read FFormatSettings;
 
 	end;
@@ -56,6 +58,7 @@ begin
 	LStream.Free;
 
 	FCameraDistance := 10;
+	FLightsDistance := 1;
 	FFormatSettings.DecimalSeparator := '.';
 end;
 

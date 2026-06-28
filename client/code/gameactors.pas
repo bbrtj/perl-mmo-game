@@ -4,7 +4,7 @@ interface
 
 uses SysUtils, Classes, Contnrs, Math,
 	CastleUIControls, CastleControls, CastleRectangles, CastleRenderOptions,
-	CastleTransform, CastleVectors, CastleViewport, CastleBoxes,
+	CastleScene, CastleTransform, CastleVectors, CastleViewport, CastleBoxes,
 	GameTypes, GameLore, GameExceptions, GameNetwork, GameConfig,
 	GameModels, GameModels.Discovery;
 
@@ -14,11 +14,13 @@ type
 	TPlayerBehavior = class(TCastleBehavior)
 	strict private
 		FUICamera: TCastleCamera;
+		FUILight: TCastleSpotLight;
 
 	public
 		procedure Update(const secondsPassed: Single; var removeMe: TRemoveType); override;
 
 		property Camera: TCastleCamera read FUICamera write FUICamera;
+		property Light: TCastleSpotLight read FUILight write FUILight;
 	end;
 
 	TGameActor = class(TGameModel)
@@ -130,6 +132,12 @@ begin
 		(Parent as TGameActor).GetPosition.Y - LRect.Height / 2,
 		GlobalConfig.CameraDistance
 	);
+
+	FUILight.Translation := Vector3(
+		(Parent as TGameActor).GetPosition.X,
+		(Parent as TGameActor).GetPosition.Y,
+		GlobalConfig.LightsDistance
+	);
 end;
 
 procedure TGameActor.Update(const secondsPassed: Single; var removeMe: TRemoveType);
@@ -175,7 +183,7 @@ begin
 	LLore := LoreCollection.GetById(Info.ActorClass);
 
 	result.URL := 'castle-data:' + LLore.GetVisuals.model;
-	result.Translation := Vector3(0, 0, 100); // TODO: proper Z distance
+	result.Translation := Vector3(0, 0, 0.1); // TODO: proper Z distance
 
 	result.Plate := TCastleDesign.Create(FUIViewport);
 	FUIViewport.InsertFront(result.Plate);
