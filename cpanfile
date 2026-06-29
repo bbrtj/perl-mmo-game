@@ -27,8 +27,7 @@ on 'runtime' => sub {
 	requires 'JSON::MaybeXS' => 0;
 	requires 'Cpanel::JSON::XS' => 0;
 
-	requires 'List::BinarySearch' => 0;
-	requires 'List::BinarySearch::XS' => 0;
+	requires 'Algorithm::Heapify::XS' => 0;
 
 	requires 'DBI' => 0;
 	requires 'DBD::Pg' => 0;

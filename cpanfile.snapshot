@@ -15,6 +15,12 @@ DISTRIBUTIONS
       Algorithm::Diff::_impl 1.201
     requirements:
       ExtUtils::MakeMaker 0
+  Algorithm-Heapify-XS-0.06
+    pathname: Y/YV/YVES/Algorithm-Heapify-XS-0.06.tar.gz
+    provides:
+      Algorithm::Heapify::XS 0.06
+    requirements:
+      ExtUtils::MakeMaker 0
   Algorithm-QuadTree-1.0
     pathname: B/BR/BRTASTIC/Algorithm-QuadTree-1.0.tar.gz
     provides:
@@ -23,10 +29,10 @@ DISTRIBUTIONS
     requirements:
       ExtUtils::MakeMaker 0
       Scalar::Util 0
-  Algorithm-QuadTree-XS-0.12
-    pathname: B/BR/BRTASTIC/Algorithm-QuadTree-XS-0.12.tar.gz
+  Algorithm-QuadTree-XS-0.14
+    pathname: B/BR/BRTASTIC/Algorithm-QuadTree-XS-0.14.tar.gz
     provides:
-      Algorithm::QuadTree::XS 0.12
+      Algorithm::QuadTree::XS 0.14
     requirements:
       Algorithm::QuadTree 1.0
       ExtUtils::MakeMaker 0
@@ -2026,17 +2032,6 @@ DISTRIBUTIONS
       perl 5.010
       strict 0
       warnings 0
-  List-BinarySearch-0.25
-    pathname: D/DA/DAVIDO/List-BinarySearch-0.25.tar.gz
-    provides:
-      List::BinarySearch 0.25
-      List::BinarySearch::PP 0.25
-    requirements:
-      English 0
-      ExtUtils::MakeMaker 6.62
-      Scalar::Util 0
-      Test::More 0.98
-      perl 5.008000
   List-BinarySearch-XS-0.09
     pathname: D/DA/DAVIDO/List-BinarySearch-XS-0.09.tar.gz
     provides:

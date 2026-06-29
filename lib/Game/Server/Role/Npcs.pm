@@ -1,7 +1,8 @@
 package Game::Server::Role::Npcs;
 
 use My::Moose::Role;
-use List::BinarySearch qw(binsearch_pos);
+use My::PQ::Elem;
+use My::PQ;
 
 use Game::Helpers;
 use Game::Mechanics::Character::Statistics qw(get_exp_for_level);
@@ -18,8 +19,7 @@ requires qw(
 );
 
 has field '_respawn_queue' => (
-	isa => ArrayRef [InstanceOf ['Game::Object::Map::Spawn']],
-	default => sub { [] },
+	default => sub { My::PQ->new },
 );
 
 sub _prepare_respawns ($self)
@@ -33,13 +33,7 @@ sub _prepare_respawns ($self)
 
 sub _enqueue_respawn ($self, $spawn)
 {
-	my $respawns = $self->_respawn_queue;
-	my $index = binsearch_pos { $a->next_respawn <=> $b->next_respawn } $spawn, $respawns->@*;
-
-	# NOTE: this kind of splice works fast on small arrays, but gets very
-	# sluggish with big arrays. This array here should never become too big.
-	# See splice benchmark
-	splice $respawns->@*, $index, 0, $spawn;
+	$self->_respawn_queue->add(My::PQ::Elem->new(val => $spawn, cmp_val => $spawn->next_respawn));
 	return;
 }
 
@@ -47,10 +41,11 @@ sub _process_respawns ($self)
 {
 	my $elapsed = server_time;
 	my $queue = $self->_respawn_queue;
+	my $el;
 
-	while ($queue->@* > 0 && $queue->[0]->should_respawn($elapsed)) {
-		my $spawn = shift $queue->@*;
-		$self->_spawn_npc($spawn);
+	while (($el = $queue->top) && $el->val->should_respawn($elapsed)) {
+		$queue->extract_top;
+		$self->_spawn_npc($el->val);
 	}
 
 	return;

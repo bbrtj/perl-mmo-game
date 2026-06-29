@@ -2,34 +2,31 @@ package Game::Server::Role::ActionQueue;
 
 use My::Moose::Role;
 
-use List::BinarySearch qw(binsearch_pos);
+use My::PQ::Elem;
+use My::PQ;
 
 use header;
 
 has field 'queued_actions' => (
-	isa => ArrayRef,
-	default => sub { [] },
+	default => sub { My::PQ->new },
 );
 
 sub enqueue_action ($self, $action)
 {
-	my $actions = $self->queued_actions;
-	my $index = binsearch_pos { $a->eta <=> $b->eta } $action, $actions->@*;
-
-	# NOTE: this kind of splice works fast on small arrays, but gets very
-	# sluggish with big arrays. This array here should never become too big.
-	# See splice benchmark
-	splice $actions->@*, $index, 0, $action;
+	$self->queued_actions->add(My::PQ::Elem->new(val => $action, cmp_val => $action->eta));
 	return;
 }
 
 sub _process_actions ($self)
 {
-	my $actions = $self->queued_actions;
+	my $queue = $self->queued_actions;
 	my $time = server_time;
+	my $el;
 
-	while ($actions->@* > 0 && $actions->[0]->finished($time)) {
-		my $action = shift $actions->@*;
+	while (($el = $queue->top) && $el->val->finished($time)) {
+		my $action = $el->val;
+		$queue->extract_top;
+
 		next if $action->cancelled;
 
 		my $method = $action->server_method;
