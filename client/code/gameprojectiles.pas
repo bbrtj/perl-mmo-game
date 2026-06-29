@@ -15,7 +15,7 @@ type
 		FMovementVector: TVector3;
 		FMovementTime: Single;
 	public
-		constructor Create(AOwner: TComponent);
+		constructor Create(AOwner: TComponent); override;
 
 		procedure SetPosition(X, Y: Single);
 		function GetPosition(): TVector3;
@@ -97,6 +97,8 @@ end;
 constructor TGameProjectile.Create(AOwner: TComponent);
 begin
 	inherited;
+
+	self.Pickable := false;
 end;
 
 procedure TGameProjectile.SetPosition(X, Y: Single);
