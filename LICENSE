@@ -1,23 +1,52 @@
-Copyright (c) 2024, Bartosz Jarzyna.
+# License Information
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+## Code
 
-1. Redistributions of source code must retain the above copyright notice, this
-list of conditions and the following disclaimer.
+All code in this project (Perl and Pascal) is licensed under the **Artistic License 2.0**.
 
-2. Redistributions in binary form must reproduce the above copyright notice,
-this list of conditions and the following disclaimer in the documentation
-and/or other materials provided with the distribution.
+The Artistic License 2.0 is a permissive license that allows for use, modification,
+and distribution of the software under certain conditions.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+Full text: https://opensource.org/licenses/Artistic-2.0
+
+## Art Assets
+
+All original art assets (images, sprites, graphics, etc.) are licensed under the
+**Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)**.
+
+Under this license, you are free to:
+- Share — copy and redistribute the material in any medium or format
+- Adapt — remix, transform, and build upon the material for any purpose, even commercially
+
+Under the following terms:
+- Attribution — You must give appropriate credit, provide a link to the license,
+  and indicate if changes were made.
+- ShareAlike — If you remix, transform, or build upon the material, you must distribute
+  your contributions under the same license as the original.
+
+Full text: https://creativecommons.org/licenses/by-sa/4.0/
+
+## Game Lore and Content
+
+All game lore, including texts, translations, descriptions, storylines, and narrative
+content, is licensed under the **Creative Commons Attribution-ShareAlike 4.0 International
+License (CC BY-SA 4.0)**.
+
+The same terms as art assets apply:
+- Attribution — You must give appropriate credit, provide a link to the license,
+  and indicate if changes were made.
+- ShareAlike — If you remix, transform, or build upon the material, you must distribute
+  your contributions under the same license as the original.
+
+Full text: https://creativecommons.org/licenses/by-sa/4.0/
+
+## Vendor assets
+
+External art assets retain their original licenses. See
+`client/data/images/creators.txt` for specific artwork attributions.
+
+## Vendor Dependencies
+
+Third-party libraries and dependencies in `sharedpas/vendor/` retain their
+original licenses. See their respective LICENSE files for details.
 
