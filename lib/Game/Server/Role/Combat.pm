@@ -65,7 +65,7 @@ sub _apply_damage_effect ($self, $effect, $x, $y)
 
 	# TODO: not always all targets will be affected (ability target limit)
 	foreach my $affected (@found) {
-		if ($affected->variables->health <= 0) {
+		if ($affected->variables->dead) {
 			$self->signal_actor_died($affected);
 		}
 

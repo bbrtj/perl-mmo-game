@@ -43,5 +43,10 @@ sub xy ($self)
 	return ($self->pos_x, $self->pos_y);
 }
 
+sub dead ($self)
+{
+	return $self->health <= 0;
+}
+
 __PACKAGE__->_register;
 
