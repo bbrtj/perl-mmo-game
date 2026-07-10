@@ -38,15 +38,10 @@
             }
           },
           {
-            "$$ClassName" : "TCastleSpotLight",
-            "AttenuationPersistent" : {
-              "$$ClassName" : "TCastleVector3Persistent",
-              "Z" : 0.0000000000000000E+000
-            },
+            "$$ClassName" : "TCastlePointLight",
             "Name" : "PlayerLight",
             "RotationPersistent" : {
               "$$ClassName" : "TCastleVector4RotationPersistent",
-              "W" : 3.1415927410125732E+000,
               "Z" : 1.0000000000000000E+000
             }
           },

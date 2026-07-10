@@ -14,13 +14,13 @@ type
 	TPlayerBehavior = class(TCastleBehavior)
 	strict private
 		FUICamera: TCastleCamera;
-		FUILight: TCastleSpotLight;
+		FUILight: TCastlePointLight;
 
 	public
 		procedure Update(const secondsPassed: Single; var removeMe: TRemoveType); override;
 
 		property Camera: TCastleCamera read FUICamera write FUICamera;
-		property Light: TCastleSpotLight read FUILight write FUILight;
+		property Light: TCastlePointLight read FUILight write FUILight;
 	end;
 
 	TGameActor = class(TGameModel)

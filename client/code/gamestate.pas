@@ -19,7 +19,7 @@ type
 	private
 		FUIViewport: TCastleViewport;
 		FUIBoard: TCastleTiledMap;
-		FUIPlayerLight: TCastleSpotLight;
+		FUIPlayerLight: TCastlePointLight;
 
 		FActors: TActorMap;
 		FProjectiles: TProjectileMap;
@@ -56,7 +56,7 @@ type
 		procedure ProcessProjectileStop(Event: TMsgFeedProjectileStop);
 
 		property Board: TCastleTiledMap write SetBoard;
-		property PlayerLight: TCastleSpotLight write FUIPlayerLight;
+		property PlayerLight: TCastlePointLight write FUIPlayerLight;
 	end;
 
 implementation

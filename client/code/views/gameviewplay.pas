@@ -23,7 +23,7 @@ type
 		Board: TCastleTiledMap;
 		PlayerCamera: TCastleCamera;
 		AmbientLight: TCastleDirectionalLight;
-		PlayerLight: TCastleSpotLight;
+		PlayerLight: TCastlePointLight;
 	published
 		PingDisplay: TCastleLabel;
 		FpsDisplay: TCastleLabel;
@@ -332,10 +332,7 @@ begin
 
 	// player light
 	Radius := 1;
-	self.PlayerLight.Translation := Vector3(0, 0, self.Board.Translation.Z + Distance);
 	self.PlayerLight.Intensity := Min(1, Intensity * 1.5);
-	self.PlayerLight.CutoffAngle := ArcTan2(Radius, Distance);
-	self.PlayerLight.BeamWidth := 0;
 
 	// spotlights
 	for LObject in Layer.Objects do begin
