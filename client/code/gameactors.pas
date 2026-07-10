@@ -109,12 +109,14 @@ type
 	strict private
 		FUIViewport: TCastleViewport;
 		FUIBoard: TCastleTransform;
-
+		FDrawLayer: Single;
 	public
 		constructor Create(Viewport: TCastleViewport; Board: TCastleTransform);
-
+	public
 		function CreateActor(Info: TGameActorRepositoryRecord): TGameActor;
 		procedure RemoveActor(Actor: TGameActor);
+	public
+		property DrawLayer: Single read FDrawLayer write FDrawLayer;
 	end;
 
 var
@@ -183,13 +185,13 @@ begin
 	LLore := LoreCollection.GetById(Info.ActorClass);
 
 	result.URL := 'castle-data:' + LLore.GetVisuals.model;
-	result.Translation := Vector3(0, 0, 0.1); // TODO: proper Z distance
+	result.Translation := Vector3(0, 0, FDrawLayer);
 
 	result.Plate := TCastleDesign.Create(FUIViewport);
 	FUIViewport.InsertFront(result.Plate);
 	result.Plate.URL := 'castle-data:/actorplate.castle-user-interface';
 
-	FUIBoard.Parent.Add(result);
+	FUIBoard.Add(result);
 end;
 
 procedure TGameActorFactory.RemoveActor(Actor: TGameActor);

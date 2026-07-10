@@ -118,7 +118,11 @@ begin
 
 	LProportionX := FMapData.Map.SizeX / FUIBoard.Data.Width / FUIBoard.Data.TileWidth;
 	LProportionY := FMapData.Map.SizeY / FUIBoard.Data.Height / FUIBoard.Data.TileHeight;
-	FUIBoard.Scale := Vector3(LProportionX, LProportionY, 0.001);
+	FUIBoard.Scale := Vector3(LProportionX, LProportionY, 1);
+	FUIBoard.LayersZDistance := 0.01;
+
+	FActorFactory.DrawLayer := FUIBoard.Data.Layers.Count * FUIBoard.LayersZDistance;
+	FProjectileFactory.DrawLayer := FUIBoard.Data.Layers.Count * FUIBoard.LayersZDistance;
 end;
 
 procedure TGameState.CreatePlayer(ActorInfo: TGameActorRepositoryRecord; PosX, PosY: Single);

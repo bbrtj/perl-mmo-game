@@ -31,12 +31,14 @@ type
 	strict private
 		FUIViewport: TCastleViewport;
 		FUIBoard: TCastleTransform;
-
+		FDrawLayer: Single;
 	public
 		constructor Create(Viewport: TCastleViewport; Board: TCastleTransform);
-
+	public
 		function CreateProjectile(Id: TUlid; LoreId: TLoreId): TGameProjectile;
 		procedure RemoveProjectile(Projectile: TGameProjectile);
+	public
+		property DrawLayer: Single read FDrawLayer write FDrawLayer;
 	end;
 
 implementation
@@ -77,7 +79,7 @@ begin
 	LLore := LoreCollection.GetById(LoreId);
 
 	result.URL := 'castle-data:' + LLore.GetVisuals.model;
-	result.Translation := Vector3(0, 0, 101); // TODO: proper Z distance
+	result.Translation := Vector3(0, 0, FDrawLayer);
 
 	LBox := result.BoundingBox;
 
@@ -86,7 +88,7 @@ begin
 	LCurrentRadius := LLore.GetVisuals.model_size / LCurrentRadius;
 	result.Scale := result.Scale * Vector3(LCurrentRadius, LCurrentRadius, 1);
 
-	FUIBoard.Parent.Add(result);
+	FUIBoard.Add(result);
 end;
 
 procedure TGameProjectileFactory.RemoveProjectile(Projectile: TGameProjectile);

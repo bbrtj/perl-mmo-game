@@ -7,7 +7,7 @@ uses Classes, SysUtils, FGL, Math,
 	CastleVectors, CastleUIControls, CastleControls, CastleKeysMouse,
 	CastleTransform, CastleScene, CastleViewport, CastleTiledMap,
 	GameTypes, GameLog, GameTranslations, GameState, GameChat,
-	GameConfig, GameNetwork, GameActors, GameMessageLog,
+	GameConfig, GameNetwork, GameActors, GameMessageLog, GameMaps,
 	GameModels, GameModels.General, GameModels.Move, GameModels.Discovery,
 	GameModels.Ability, GameModels.Chat, GameModels.Actors,
 	GameModels.Projectiles,
@@ -52,7 +52,7 @@ type
 		procedure Update(const SecondsPassed: Single; var HandleInput: Boolean); override;
 		function Press(const Event: TInputPressRelease): Boolean; override;
 		procedure SendChatMessage();
-		procedure SetMapPath(MapPath: String);
+		procedure SetMapData(MapPath: String; MapData: TMapData);
 		procedure OnDiscovery(const Data: TModelBase);
 		procedure OnActorFeed(const Data: TModelBase);
 		procedure OnProjectile(const Data: TModelBase);
@@ -82,8 +82,8 @@ begin
 
 	FPlaying := false;
 	FGameState := TGameState.Create(MainViewport);
-	FGameState.Board := self.Board;
 	FGameState.PlayerLight := self.PlayerLight;
+	FGameState.Board := self.Board;
 
 	FUnknownActorActions := TActorActionsMap.Create;
 
@@ -140,11 +140,12 @@ begin
 	FpsDisplay.Caption := 'FPS: ' + Container.Fps.ToString;
 end;
 
-procedure TViewPlay.SetMapPath(MapPath: String);
+procedure TViewPlay.SetMapData(MapPath: String; MapData: TMapData);
 var
 	LHackScene: TCastleScene;
 begin
 	Board.URL := MapPath;
+	FGameState.SetMapData(MapData);
 
 	LHackScene := Board[0] as TCastleScene;
 	LHackScene.RootNode.EnumerateNodes(TAppearanceNode, @self.TiledShadowsCallback, False);
