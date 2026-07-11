@@ -5,7 +5,7 @@ interface
 uses SysUtils, Classes, FGL,
 	CastleVectors, CastleTransform, CastleViewport, CastleScene, CastleTiledMap,
 	GameMaps, GameTypes, GameNetwork, GameLog, GameTranslations,
-	GameActors, GameProjectiles,
+	GameActors, GameProjectiles, GameConfig,
 	GameModels.Discovery, GameModels.Move, GameModels.Actors, GameModels.Projectiles,
 	GamePipelines;
 
@@ -119,7 +119,7 @@ begin
 	LProportionX := FMapData.Map.SizeX / FUIBoard.Data.Width / FUIBoard.Data.TileWidth;
 	LProportionY := FMapData.Map.SizeY / FUIBoard.Data.Height / FUIBoard.Data.TileHeight;
 	FUIBoard.Scale := Vector3(LProportionX, LProportionY, 1);
-	FUIBoard.LayersZDistance := 0.01;
+	FUIBoard.LayersZDistance := GlobalConfig.LayerDistance;
 
 	FActorFactory.DrawLayer := FUIBoard.Data.Layers.Count * FUIBoard.LayersZDistance;
 	FProjectileFactory.DrawLayer := FUIBoard.Data.Layers.Count * FUIBoard.LayersZDistance;

@@ -135,11 +135,7 @@ begin
 		GlobalConfig.CameraDistance
 	);
 
-	FUILight.Translation := Vector3(
-		(Parent as TGameActor).GetPosition.X,
-		(Parent as TGameActor).GetPosition.Y,
-		GlobalConfig.LightsDistance
-	);
+	FUILight.Translation := (Parent as TGameActor).GetPosition;
 end;
 
 procedure TGameActor.Update(const secondsPassed: Single; var removeMe: TRemoveType);

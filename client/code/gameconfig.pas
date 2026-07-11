@@ -15,6 +15,7 @@ type
 		FNetworkPort: Integer;
 		FNetworkTransportFloatPrecision: Integer;
 
+		FLayerDistance: Single;
 		FCameraDistance: Single;
 		FLightsDistance: Single;
 		FFormatSettings: TFormatSettings;
@@ -29,6 +30,7 @@ type
 		property NetworkTransportFloatPrecision: Integer read FNetworkTransportFloatPrecision write FNetworkTransportFloatPrecision;
 
 	public
+		property LayerDistance: Single read FLayerDistance write FLayerDistance;
 		property CameraDistance: Single read FCameraDistance write FCameraDistance;
 		property LightsDistance: Single read FLightsDistance write FLightsDistance;
 		property FormatSettings: TFormatSettings read FFormatSettings;
@@ -57,8 +59,9 @@ begin
 	LLines.Free;
 	LStream.Free;
 
-	FCameraDistance := 10;
-	FLightsDistance := 1;
+	FLayerDistance := 1;
+	FCameraDistance := FLayerDistance * 10;
+	FLightsDistance := FLayerDistance * 100;
 	FFormatSettings.DecimalSeparator := '.';
 end;
 

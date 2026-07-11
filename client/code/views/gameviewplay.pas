@@ -329,10 +329,9 @@ begin
 		end;
 	end;
 
+	// TODO: point lights not working properly in 2D:
+	// https://github.com/castle-engine/castle-engine/issues/726
 	self.AmbientLight.Intensity := Intensity;
-
-	// player light
-	Radius := 1;
 	self.PlayerLight.Intensity := Min(1, Intensity * 1.5);
 
 	// spotlights
@@ -361,6 +360,7 @@ begin
 		LLight.Attenuation := Vector3(0, 0, 0);
 		LLight.CutoffAngle := ArcTan2(Radius, Distance);
 		LLight.BeamWidth := LLight.CutoffAngle * 0.8;
+		LLight.Radius := Distance * 2;
 
 		Board.Parent.Add(LLight);
 	end;
