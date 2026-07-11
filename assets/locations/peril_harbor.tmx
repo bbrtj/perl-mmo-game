@@ -349,7 +349,7 @@
  </objectgroup>
  <objectgroup id="9" name="Lights">
   <properties>
-   <property name="intensity" type="float" value="0.1"/>
+   <property name="intensity" type="float" value="0.4"/>
   </properties>
   <object id="20" name="lantern" x="864.182" y="2572.52" width="170.633" height="174.922">
    <properties>
