@@ -21,6 +21,7 @@ type
 	published
 		MainViewport: TCastleViewport;
 		Board: TCastleTiledMap;
+		BoardObjects: TCastleTransform;
 		PlayerCamera: TCastleCamera;
 		AmbientLight: TCastleDirectionalLight;
 		PlayerLight: TCastlePointLight;
@@ -83,7 +84,7 @@ begin
 	FPlaying := false;
 	FGameState := TGameState.Create(MainViewport);
 	FGameState.PlayerLight := self.PlayerLight;
-	FGameState.Board := self.Board;
+	FGameState.BoardObjects := self.BoardObjects;
 
 	FUnknownActorActions := TActorActionsMap.Create;
 
@@ -145,7 +146,7 @@ var
 	LHackScene: TCastleScene;
 begin
 	Board.URL := MapPath;
-	FGameState.SetMapData(MapData);
+	FGameState.SetMapData(self.Board, MapData);
 
 	LHackScene := Board[0] as TCastleScene;
 	LHackScene.RootNode.EnumerateNodes(TAppearanceNode, @self.TiledShadowsCallback, False);
@@ -352,7 +353,7 @@ begin
 			end;
 		end;
 
-		LLight := TCastleSpotLight.Create(self.Board.Parent);
+		LLight := TCastleSpotLight.Create(self.BoardObjects);
 		LLight.Name := 'Spotlight_' + Round(X * 100).ToString + '_' + Round(Y * 100).ToString;
 		LLight.Translation := Vector3(X, Y, self.Board.Translation.Z + Distance);
 		LLight.Up := Vector3(0, -1, 0);
@@ -362,7 +363,7 @@ begin
 		LLight.BeamWidth := LLight.CutoffAngle * 0.8;
 		LLight.Radius := Distance * 2;
 
-		Board.Parent.Add(LLight);
+		BoardObjects.Add(LLight);
 	end;
 end;
 

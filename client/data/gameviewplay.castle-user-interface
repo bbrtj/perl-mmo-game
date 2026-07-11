@@ -60,6 +60,14 @@
             "ForceTilesetSpacing" : true,
             "Name" : "Board",
             "SmoothScaling" : true
+          },
+          {
+            "$$ClassName" : "TCastleTransform",
+            "Name" : "BoardObjects",
+            "RotationPersistent" : {
+              "$$ClassName" : "TCastleVector4RotationPersistent",
+              "Z" : 1.0000000000000000E+000
+            }
           }
         ]
       },

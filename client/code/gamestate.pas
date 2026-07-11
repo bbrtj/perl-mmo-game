@@ -18,35 +18,35 @@ type
 	TGameState = class
 	private
 		FUIViewport: TCastleViewport;
-		FUIBoard: TCastleTiledMap;
+		FUIBoardObjects: TCastleTransform;
 		FUIPlayerLight: TCastlePointLight;
-
+	private
 		FActors: TActorMap;
 		FProjectiles: TProjectileMap;
 		FThisPlayer: TUlid;
 		FMapData: TMapData;
-
+	private
 		FActorFactory: TGameActorFactory;
 		FProjectileFactory: TGameProjectileFactory;
-
+	private
 		FCleanupTime: Single;
 		FPipelineCleanupTime: Single;
-
+	private
 		function FindActor(const Id: TUlid): TGameActor;
 		function FindProjectile(const Id: TUlid): TGameProjectile;
-		procedure SetBoard(Board: TCastleTiledMap);
+		procedure SetBoardObjects(BoardObjects: TCastleTransform);
 	public
 		constructor Create(Viewport: TCastleViewport);
 		destructor Destroy; override;
-
+	public
 		procedure Update(const secondsPassed: Single);
-		procedure SetMapData(const MapData: TMapData);
-
+		procedure SetMapData(Board: TCastleTiledMap; MapData: TMapData);
+	public
 		procedure CreatePlayer(ActorInfo: TGameActorRepositoryRecord; PosX, PosY: Single);
 		procedure CreateActor(ActorInfo: TGameActorRepositoryRecord);
 		procedure AddActor(Actor: TGameActor);
 		procedure RemoveActor(const Id: TUlid);
-
+	public
 		procedure ProcessMovement(Movement: TMsgFeedActorMovement);
 		procedure ProcessPosition(Stop: TMsgFeedActorPosition);
 		procedure ProcessActorEvent(Event: TMsgFeedActorEvent);
@@ -54,8 +54,8 @@ type
 		procedure ProcessActorAction(Event: TMsgFeedActorAction);
 		procedure ProcessProjectile(Event: TMsgFeedProjectile);
 		procedure ProcessProjectileStop(Event: TMsgFeedProjectileStop);
-
-		property Board: TCastleTiledMap write SetBoard;
+	public
+		property BoardObjects: TCastleTransform write SetBoardObjects;
 		property PlayerLight: TCastlePointLight write FUIPlayerLight;
 	end;
 
@@ -109,20 +109,20 @@ begin
 	end;
 end;
 
-procedure TGameState.SetMapData(const MapData: TMapData);
+procedure TGameState.SetMapData(Board: TCastleTiledMap; MapData: TMapData);
 var
 	LProportionX: Single;
 	LProportionY: Single;
 begin
 	FMapData := MapData;
 
-	LProportionX := FMapData.Map.SizeX / FUIBoard.Data.Width / FUIBoard.Data.TileWidth;
-	LProportionY := FMapData.Map.SizeY / FUIBoard.Data.Height / FUIBoard.Data.TileHeight;
-	FUIBoard.Scale := Vector3(LProportionX, LProportionY, 1);
-	FUIBoard.LayersZDistance := GlobalConfig.LayerDistance;
+	LProportionX := FMapData.Map.SizeX / Board.Data.Width / Board.Data.TileWidth;
+	LProportionY := FMapData.Map.SizeY / Board.Data.Height / Board.Data.TileHeight;
+	Board.Scale := Vector3(LProportionX, LProportionY, 1);
+	Board.LayersZDistance := GlobalConfig.LayerDistance;
 
-	FActorFactory.DrawLayer := FUIBoard.Data.Layers.Count * FUIBoard.LayersZDistance;
-	FProjectileFactory.DrawLayer := FUIBoard.Data.Layers.Count * FUIBoard.LayersZDistance;
+	FActorFactory.DrawLayer := Board.Data.Layers.Count * Board.LayersZDistance;
+	FProjectileFactory.DrawLayer := FActorFactory.DrawLayer + Board.LayersZDistance;
 end;
 
 procedure TGameState.CreatePlayer(ActorInfo: TGameActorRepositoryRecord; PosX, PosY: Single);
@@ -183,16 +183,16 @@ begin
 		result := nil;
 end;
 
-procedure TGameState.SetBoard(Board: TCastleTiledMap);
+procedure TGameState.SetBoardObjects(BoardObjects: TCastleTransform);
 begin
-	FUIBoard := Board;
+	FUIBoardObjects := BoardObjects;
 	if FActorFactory <> nil then
 		FActorFactory.Free;
-	FActorFactory := TGameActorFactory.Create(FUIViewport, FUIBoard);
+	FActorFactory := TGameActorFactory.Create(FUIViewport, FUIBoardObjects);
 
 	if FProjectileFactory <> nil then
 		FProjectileFactory.Free;
-	FProjectileFactory := TGameProjectileFactory.Create(FUIViewport, FUIBoard);
+	FProjectileFactory := TGameProjectileFactory.Create(FUIViewport, FUIBoardObjects);
 end;
 
 procedure TGameState.ProcessMovement(Movement: TMsgFeedActorMovement);

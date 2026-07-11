@@ -30,10 +30,10 @@ type
 	TGameProjectileFactory = class
 	strict private
 		FUIViewport: TCastleViewport;
-		FUIBoard: TCastleTransform;
+		FUIBoardObjects: TCastleTransform;
 		FDrawLayer: Single;
 	public
-		constructor Create(Viewport: TCastleViewport; Board: TCastleTransform);
+		constructor Create(Viewport: TCastleViewport; BoardObjects: TCastleTransform);
 	public
 		function CreateProjectile(Id: TUlid; LoreId: TLoreId): TGameProjectile;
 		procedure RemoveProjectile(Projectile: TGameProjectile);
@@ -60,10 +60,10 @@ begin
 	result := FMovementTime <= 0;
 end;
 
-constructor TGameProjectileFactory.Create(Viewport: TCastleViewport; Board: TCastleTransform);
+constructor TGameProjectileFactory.Create(Viewport: TCastleViewport; BoardObjects: TCastleTransform);
 begin
 	FUIViewport := Viewport;
-	FUIBoard := Board;
+	FUIBoardObjects := BoardObjects;
 end;
 
 function TGameProjectileFactory.CreateProjectile(Id: TUlid; LoreId: TLoreId): TGameProjectile;
@@ -72,7 +72,7 @@ var
 	LLore: TLoreItem;
 	LCurrentRadius: Single;
 begin
-	result := TGameProjectile.Create(FUIBoard);
+	result := TGameProjectile.Create(FUIBoardObjects);
 	result.Id := Id;
 	result.Name := 'Projectile_' + Id;
 
@@ -88,12 +88,12 @@ begin
 	LCurrentRadius := LLore.GetVisuals.model_size / LCurrentRadius;
 	result.Scale := result.Scale * Vector3(LCurrentRadius, LCurrentRadius, 1);
 
-	FUIBoard.Add(result);
+	FUIBoardObjects.Add(result);
 end;
 
 procedure TGameProjectileFactory.RemoveProjectile(Projectile: TGameProjectile);
 begin
-	FUIBoard.Parent.RemoveDelayed(Projectile, True);
+	FUIBoardObjects.RemoveDelayed(Projectile, True);
 end;
 
 constructor TGameProjectile.Create(AOwner: TComponent);

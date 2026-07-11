@@ -108,10 +108,10 @@ type
 	TGameActorFactory = class
 	strict private
 		FUIViewport: TCastleViewport;
-		FUIBoard: TCastleTransform;
+		FUIBoardObjects: TCastleTransform;
 		FDrawLayer: Single;
 	public
-		constructor Create(Viewport: TCastleViewport; Board: TCastleTransform);
+		constructor Create(Viewport: TCastleViewport; BoardObjects: TCastleTransform);
 	public
 		function CreateActor(Info: TGameActorRepositoryRecord): TGameActor;
 		procedure RemoveActor(Actor: TGameActor);
@@ -162,17 +162,17 @@ begin
 	inherited;
 end;
 
-constructor TGameActorFactory.Create(Viewport: TCastleViewport; Board: TCastleTransform);
+constructor TGameActorFactory.Create(Viewport: TCastleViewport; BoardObjects: TCastleTransform);
 begin
 	FUIViewport := Viewport;
-	FUIBoard := Board;
+	FUIBoardObjects := BoardObjects;
 end;
 
 function TGameActorFactory.CreateActor(Info: TGameActorRepositoryRecord): TGameActor;
 var
 	LLore: TLoreItem;
 begin
-	result := TGameActor.Create(FUIBoard);
+	result := TGameActor.Create(FUIBoardObjects);
 	result.Id := Info.Id;
 	result.Name := 'Actor_' + Info.Id;
 	result.Material := pmPhong;
@@ -187,13 +187,13 @@ begin
 	FUIViewport.InsertFront(result.Plate);
 	result.Plate.URL := 'castle-data:/actorplate.castle-user-interface';
 
-	FUIBoard.Add(result);
+	FUIBoardObjects.Add(result);
 end;
 
 procedure TGameActorFactory.RemoveActor(Actor: TGameActor);
 begin
 	FUIViewport.RemoveControl(Actor.Plate);
-	FUIBoard.Parent.RemoveDelayed(Actor, True);
+	FUIBoardObjects.RemoveDelayed(Actor, True);
 end;
 
 procedure TGameActor.UpdatePlate();
