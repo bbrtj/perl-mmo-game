@@ -4,7 +4,7 @@ interface
 
 uses SysUtils, Classes, Contnrs, Math,
 	CastleUIControls, CastleControls, CastleRectangles, CastleBoxes,
-	CastleTransform, CastleVectors, CastleViewport,
+	CastleTransform, CastleVectors, CastleViewport, CastleRenderOptions,
 	GameTypes, GameLore, GameExceptions, GameConfig, GameMechanics;
 
 type
@@ -75,6 +75,7 @@ begin
 	result := TGameProjectile.Create(FUIBoardObjects);
 	result.Id := Id;
 	result.Name := 'Projectile_' + Id;
+	result.Material := pmPhong;
 
 	LLore := LoreCollection.GetById(LoreId);
 
