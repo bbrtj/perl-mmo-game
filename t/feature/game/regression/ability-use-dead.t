@@ -45,6 +45,8 @@ my $ability = DI->get('lore_data_repo')->load('abil.strike');
 $process->server->use_ability($actor1, $ability, 0, 0);
 $process->ticks(5);
 
+ok !$actor2->variables->dead, 'actor 2 not dead yet ok';
+
 # actor 2 tries to hit, but gets hit and killed
 $process->server->use_ability($actor2, $ability, 0, 0);
 $process->ticks(100);

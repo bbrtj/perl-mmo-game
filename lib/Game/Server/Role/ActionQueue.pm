@@ -38,8 +38,14 @@ after BUILD => sub ($self, @) {
 	$self->_add_action(0.05 => '_process_actions');
 };
 
-after signal_player_left => sub ($self, $actor) {
+my sub cleanup_actions ($self, $actor)
+{
+	if ($actor->stats->has_action) {
+		$actor->stats->action->cancel;
+		# NOTE: no need to remove the action, since actor is not valid anymore
+	}
+}
 
-	# TODO: dequeue all actor actions
-};
+after signal_player_left => \&cleanup_actions;
+after signal_actor_died => \&cleanup_actions;
 
