@@ -57,18 +57,21 @@ sub _process_ai ($self)
 
 	foreach my $actor ($self->location->get_npcs->@*) {
 		next unless my $ai = $actor->npc->ai;
-		next unless $self->is_discovered($actor->id);
 
+		# TODO: for now, we reduce aggro of all npcs, even undiscovered ones
+		$actor->npc->reduce_aggro;
+
+		next unless $self->is_discovered($actor->id);
 		$ai->act($self, $actor, $elapsed);
 	}
 }
 
 sub _spawn_npc ($self, $spawn)
 {
-	state $remnants_lore = lore_alliance 'Remnants',
-		my $npc_object = Game::Object::Actor::Npc->new(
-			spawn => $spawn,
-		);
+	state $remnants_lore = lore_alliance 'Remnants';
+	my $npc_object = Game::Object::Actor::Npc->new(
+		spawn => $spawn,
+	);
 
 	my $unit = Unit::Actor->new(
 		npc => $npc_object,

@@ -5,6 +5,9 @@ use all 'Game::Object::Actor::Npc::Ai';
 
 use header;
 
+use constant AGGRO_DEGRADATION => 0.8;
+use constant MIN_AGGRO => 0.01;
+
 has param 'spawn' => (
 	lax_isa => InstanceOf ['Game::Object::Map::Spawn'],
 	'handles->' => {
@@ -44,6 +47,17 @@ sub _build_ai ($self)
 sub add_aggro ($self, $actor, $value)
 {
 	$self->aggro_map->{$actor->id} += $value;
+	return;
+}
+
+sub reduce_aggro ($self)
+{
+	foreach my ($actor_id, $aggro_value) ($self->aggro_map->%*) {
+		$aggro_value = $aggro_value * AGGRO_DEGRADATION;
+		delete $self->aggro_map->{$actor_id}
+			if $aggro_value < MIN_AGGRO;
+	}
+
 	return;
 }
 
