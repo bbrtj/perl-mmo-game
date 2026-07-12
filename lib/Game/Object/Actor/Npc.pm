@@ -1,7 +1,6 @@
 package Game::Object::Actor::Npc;
 
 use My::Moose;
-use Utils qw(pascal_case);
 use all 'Game::Object::Actor::Npc::Ai';
 
 use header;
@@ -28,7 +27,7 @@ has cached 'race' => (
 	lazy => 1,
 );
 
-# NOTE: NPCs should have just one race
+# NOTE: NPCs should have just one race entry, otherwise it's configuration error
 sub _build_race ($self)
 {
 	return $self->lore->races->[0];
@@ -37,10 +36,9 @@ sub _build_race ($self)
 sub _build_ai ($self)
 {
 	my $lore = $self->lore;
-	return unless $lore->has_ai;
+	return undef unless $lore->has_ai;
 
-	my $class = 'Game::Object::Actor::Npc::Ai::' . pascal_case($lore->ai);
-	return $class->new($lore->ai_args->%*, parent => $self);
+	return $lore->ai_class->new($lore->ai_args->%*, parent => $self);
 }
 
 sub add_aggro ($self, $actor, $value)
