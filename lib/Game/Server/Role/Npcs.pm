@@ -27,11 +27,11 @@ sub _prepare_respawns ($self)
 	my $spawns = $self->map->spawns;
 
 	foreach my $spawn ($spawns->@*) {
-		$self->_enqueue_respawn($spawn);
+		$self->enqueue_respawn($spawn);
 	}
 }
 
-sub _enqueue_respawn ($self, $spawn)
+sub enqueue_respawn ($self, $spawn)
 {
 	$self->_respawn_queue->add(My::PQ::Elem->new(val => $spawn, cmp_val => $spawn->next_respawn));
 	return;
@@ -105,7 +105,7 @@ after 'signal_actor_died' => sub ($self, $actor) {
 
 	my $spawn = $actor->npc->spawn;
 	$spawn->set_next_respawn;
-	$self->_enqueue_respawn($spawn);
+	$self->enqueue_respawn($spawn);
 
 	return;
 };
