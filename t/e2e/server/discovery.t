@@ -1,5 +1,9 @@
 # HARNESS-CATEGORY-IMMISCIBLE
 
+BEGIN {
+	$ENV{TEST_NO_REGENERATION} = 1;
+}
+
 use Test2::Tools::E2ETest;
 use Game::TestClient;
 use Game::TestClientBag;
@@ -12,7 +16,6 @@ use testheader;
 
 use constant CLIENTS_COUNT => 10;
 
-DI->get('env')->setenv(TEST_NO_REGENERATION => true);
 e2e_test {
 
 	my $bag = Game::TestClientBag->new;

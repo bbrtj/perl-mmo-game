@@ -1,7 +1,9 @@
 # HARNESS-CATEGORY-IMMISCIBLE
 
-# disable randomness before Game::Mechanics::Rng compiles
-BEGIN { $ENV{TEST_NO_RANDOM} = 1; }
+BEGIN {
+	$ENV{TEST_NO_RANDOM} = 1;
+	$ENV{TEST_NO_REGENERATION} = 1;
+}
 
 use Test2::Tools::E2ETest;
 use Test2::Tools::Compare qw(number_gt);
@@ -17,7 +19,6 @@ use testheader;
 
 my $dummy_variables;
 
-DI->get('env')->setenv(TEST_NO_REGENERATION => true);
 e2e_test(
 	sub {
 

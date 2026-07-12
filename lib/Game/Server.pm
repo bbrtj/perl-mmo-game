@@ -13,7 +13,7 @@ has injected 'cache_repo';
 has injected 'lore_data_repo';
 
 has param 'process' => (
-	isa => InstanceOf ['Server::Process::Game'],
+	isa => HasMethods [qw(send_to_player send_to_players log)],
 	weak_ref => 1,
 	'handles->' => {
 		'send_to_player' => 'send_to_player',

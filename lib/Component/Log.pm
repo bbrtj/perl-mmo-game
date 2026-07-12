@@ -14,16 +14,19 @@ has param 'logger' => (
 		Log::Handler->new(@{$self->build_config});
 	},
 	handles => [qw(debug info warning error critical emergency)],
+	clearer => -hidden,
 );
 
 has param 'filename' => (
 	is => 'rw',
 	isa => Str,
+	trigger => sub ($self, @) { $self->_clear_logger },
 );
 
 has option 'system_name' => (
 	is => 'rw',
 	isa => Str,
+	trigger => sub ($self, @) { $self->_clear_logger },
 );
 
 sub _get_log_callback ($self)
@@ -42,12 +45,12 @@ sub _get_log_callback ($self)
 	};
 }
 
-sub _get_screen_callback ($self)
+sub _get_screen_callback ($self, $system_name = $self->system_name)
 {
 	return sub ($params) {
 		my $time = localtime;
 		my $time_str = $time->hms;
-		my $sys_str = $self->system_name // '';
+		my $sys_str = $system_name // '';
 
 		$sys_str = "[$sys_str] " if $sys_str;
 		my $str = "[$time_str] $sys_str";
