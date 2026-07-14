@@ -66,6 +66,17 @@ sub _process_ai ($self)
 	}
 }
 
+sub _process_ai_movements ($self)
+{
+	foreach my $actor ($self->location->get_npcs->@*) {
+		next if $actor->stats->movement;
+		next unless my $ai = $actor->npc->ai;
+		next unless $ai->has_movement_path;
+
+		$ai->follow_path($self, $actor);
+	}
+}
+
 sub _spawn_npc ($self, $spawn)
 {
 	state $remnants_lore = lore_alliance 'Remnants';
@@ -117,5 +128,6 @@ after BUILD => sub ($self, @) {
 	$self->_prepare_respawns;
 	$self->_add_action(2 => '_process_respawns', 9);
 	$self->_add_action(1 => '_process_ai');
+	$self->_add_action(0.2 => '_process_ai_movements');
 };
 

@@ -1751,6 +1751,15 @@ DISTRIBUTIONS
       ExtUtils::MakeMaker 0
       Mooish::Base 1.005
       perl 5.010000
+  Game-TileMap-Pathfinding-0.001
+    pathname: B/BR/BRTASTIC/Game-TileMap-Pathfinding-0.001.tar.gz
+    provides:
+      Game::TileMap::Pathfinding 0.001
+      Game::TileMap::Pathfinding::Result 0.001
+    requirements:
+      ExtUtils::MakeMaker 0
+      Game::TileMap 0
+      perl 5.014
   Gears-0.104
     pathname: B/BR/BRTASTIC/Gears-0.104.tar.gz
     provides:

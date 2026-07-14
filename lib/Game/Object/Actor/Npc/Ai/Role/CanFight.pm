@@ -71,7 +71,7 @@ sub fight ($self, $server, $npc_actor)
 			max($distance - $follow_distance, 0.001),    # make sure to walk towards the target
 		);
 
-		$server->set_movement($npc_actor, @point);
+		$self->move($server, $npc_actor, @point);
 	}
 
 	if (!$stats->has_action && $distance < $self->max_attack_distance) {

@@ -53,6 +53,7 @@ on 'runtime' => sub {
 	requires 'Sub::Quote' => 0;
 	requires 'Sub::Install' => 0;
 	requires 'Game::TileMap' => '1.001';
+	requires 'Game::TileMap::Pathfinding' => 0;
 	requires 'Time::HiRes' => 0;
 	requires 'enum' => 0;
 
