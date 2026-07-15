@@ -81,6 +81,7 @@ use constant SIGNALS => {
 	actor_appeared => '$for_actor, $actor',
 	actor_died => '$actor',
 	projectile_appeared => '$for_actor, $projectile',
+	movement_ended => '$actor',
 };
 
 sub _add_action ($self, $every, $handler, $priority = 0)

@@ -99,6 +99,8 @@ sub _process_movements ($self)
 					[$actor->id, $self->get_discovered_by($actor->id)],
 					Resource::ActorPosition->new(subject => $actor)
 				) unless $movement->finished;
+
+				$self->signal(movement_ended => $actor);
 			}
 		}
 	}
