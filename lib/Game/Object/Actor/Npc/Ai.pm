@@ -1,7 +1,7 @@
 package Game::Object::Actor::Npc::Ai;
 
 use My::Moose;
-use Game::Mechanics::Rng qw(rng);
+use Game::Mechanics::Generic qw(calculate_angle find_frontal_point);
 
 use header;
 
@@ -17,6 +17,11 @@ has field 'movement_path' => (
 	clearer => 1,
 );
 
+has field 'movement_target' => (
+	lax_isa => Tuple [Num, Num],
+	writer => 1,
+);
+
 sub act ($self, $server, $actor, $elapsed = server_time)
 {
 	...;
@@ -29,6 +34,7 @@ sub move ($self, $server, $actor, $x, $y)
 
 	if ($path->step_count > 0) {
 		$self->set_movement_path($path);
+		$self->set_movement_target([$x, $y]);
 		$self->follow_path($server, $actor);
 	}
 	else {
@@ -41,19 +47,17 @@ sub move ($self, $server, $actor, $x, $y)
 sub follow_path ($self, $server, $actor)
 {
 	my $path = $self->movement_path;
-
 	my ($x, $y) = $path->next_step;
 
-	if (defined $x) {
-		$x += 0.5 + ((1 - rng) * 0.3) * (rng() <=> 0.5);
-		$y += 0.5 + ((1 - rng) * 0.3) * (rng() <=> 0.5);
-	}
-	else {
+	if (!defined $x) {
 		$self->clear_movement_path;
 		return;
 	}
 
-	$server->set_movement($actor, $x, $y);
+	$x += 0.5;
+	$y += 0.5;
+	my $angle = calculate_angle($x, $y, $self->movement_target->@*);
+	$server->set_movement($actor, find_frontal_point($x, $y, $angle, 0.5 - $actor->stats->size));
 	return;
 }
 

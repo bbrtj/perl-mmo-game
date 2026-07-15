@@ -61,12 +61,9 @@ sub fight ($self, $server, $npc_actor)
 
 	# TODO: different behavior for ranged enemies
 	if ($distance > $follow_distance + ACCEPTABLE_DISTANCE_DIFF || abs($angle - $stats->angle) > $deviance_angle) {
-		my $roll = 1 - rng;
-		my $side = rng() <=> 0.5;
-
 		my @point = find_frontal_point(
 			@xy,
-			$angle + $roll * ($deviance_angle / 2) * $side,
+			$angle,
 			max($distance - $follow_distance, 0.001),    # make sure to walk towards the target
 		);
 
