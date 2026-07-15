@@ -41,7 +41,6 @@ sub act ($self, $server, $npc_actor, $elapsed = server_time)
 		$aggro->{$closest->id} = 1;
 	}
 
-	# TODO: stop chasing, reset aggro when enemy disappears
 	$self->fight($server, $npc_actor);
 
 	return;

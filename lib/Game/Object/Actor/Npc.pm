@@ -2,10 +2,11 @@ package Game::Object::Actor::Npc;
 
 use My::Moose;
 use all 'Game::Object::Actor::Npc::Ai';
+use ServerTime qw(server_time);
 
 use header;
 
-use constant AGGRO_DEGRADATION => 0.8;
+use constant AGGRO_DEGRADATION_PER_SECOND => 0.8;
 use constant MIN_AGGRO => 0.01;
 
 has param 'spawn' => (
@@ -20,9 +21,15 @@ has field 'ai' => (
 	lazy => 1,
 );
 
-has field 'aggro_map' => (
+has field '_aggro_map' => (
 	lax_isa => HashRef,
 	default => sub { {} },
+);
+
+has field '_last_aggro_reduction' => (
+	lax_isa => PositiveOrZeroNum,
+	writer => 1,
+	default => 0,
 );
 
 has cached 'race' => (
@@ -50,14 +57,23 @@ sub add_aggro ($self, $actor, $value)
 	return;
 }
 
-sub reduce_aggro ($self)
+sub aggro_map ($self)
 {
-	foreach my ($actor_id, $aggro_value) ($self->aggro_map->%*) {
-		$aggro_value = $aggro_value * AGGRO_DEGRADATION;
-		delete $self->aggro_map->{$actor_id}
-			if $aggro_value < MIN_AGGRO;
+	my $elapsed = server_time;
+	my $diff = $elapsed - $self->_last_aggro_reduction;
+	my $map = $self->_aggro_map;
+
+	# no need to update reduce aggro too often - once per second should be enough
+	if ($diff >= 1) {
+		my $degradation = AGGRO_DEGRADATION_PER_SECOND**$diff;
+		foreach my ($actor_id, $aggro_value) ($map->%*) {
+			$aggro_value = $aggro_value * $degradation;
+			delete $map->{$actor_id} if $aggro_value < MIN_AGGRO;
+		}
+
+		$self->_set_last_aggro_reduction($elapsed);
 	}
 
-	return;
+	return $map;
 }
 

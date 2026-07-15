@@ -52,7 +52,6 @@ sub fight ($self, $server, $npc_actor)
 
 	return false unless defined $max_aggro;
 
-	# TODO: pathfinding
 	my ($target_x, $target_y) = $max_aggro->variables->xy;
 	my ($angle, $distance) = calculate_angle_and_diagonal(@xy, $target_x, $target_y);
 	my $stats = $npc_actor->stats;

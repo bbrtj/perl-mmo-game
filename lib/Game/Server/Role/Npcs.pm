@@ -58,9 +58,6 @@ sub _process_ai ($self)
 	foreach my $actor ($self->location->get_npcs->@*) {
 		next unless my $ai = $actor->npc->ai;
 
-		# TODO: for now, we reduce aggro of all npcs, even undiscovered ones
-		$actor->npc->reduce_aggro;
-
 		next unless $self->is_discovered($actor->id);
 		$ai->act($self, $actor, $elapsed);
 	}
