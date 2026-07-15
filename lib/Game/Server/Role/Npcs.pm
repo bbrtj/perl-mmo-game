@@ -114,20 +114,22 @@ sub _spawn_npc ($self, $spawn)
 	return;
 }
 
-after 'signal_actor_died' => sub ($self, $actor) {
-	return unless $actor->is_npc;
-
+sub _plan_respawn ($self, $actor)
+{
 	my $spawn = $actor->npc->spawn;
 	$spawn->set_next_respawn;
 	$self->enqueue_respawn($spawn);
 
 	return;
-};
+}
 
 after BUILD => sub ($self, @) {
 	$self->_prepare_respawns;
+
 	$self->_add_action(2 => '_process_respawns', 9);
 	$self->_add_action(1 => '_process_ai');
 	$self->_add_action(0.2 => '_process_ai_movements');
+
+	$self->_add_signal(actor_died => '_plan_respawn', '$actor->is_npc');
 };
 

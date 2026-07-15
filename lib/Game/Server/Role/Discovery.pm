@@ -75,7 +75,7 @@ sub _discover_actors ($self, $actor, $new_objects, $resource)
 		}
 
 		$resource->add_new_actor($found);
-		$self->queue('signal_actor_appeared', $actor, $found);
+		$self->queue('signal', actor_appeared => $actor, $found);
 	}
 
 	return \@not_actors;
@@ -117,11 +117,13 @@ sub actors_info ($self, $requesting_actor_id, $wanted_actors)
 	return \@wanted_actors_data;
 }
 
+sub _cleanup_player_discovery ($self, $actor)
+{
+	delete $self->_discovered->{$actor->id};
+}
+
 after BUILD => sub ($self, @) {
 	$self->_add_action(1 => '_discover');
-};
-
-after signal_player_left => sub ($self, $actor) {
-	delete $self->_discovered->{$actor->id};
+	$self->_add_signal(player_left => '_cleanup_player_discovery');
 };
 

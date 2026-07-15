@@ -106,17 +106,19 @@ sub _process_movements ($self)
 	return;
 }
 
+sub _cleanup_movement ($self, $actor)
+{
+	delete $self->_moving->{$actor->id};
+}
+
+sub _send_ongoing_movement ($self, $for_actor, $actor)
+{
+	$self->send_to_player($for_actor->id, Resource::ActorMovement->new(subject => $actor));
+}
+
 after BUILD => sub ($self, @) {
 	$self->_add_action(0.1 => '_process_movements', 10);
-};
-
-after signal_player_left => sub ($self, $actor) {
-	delete $self->_moving->{$actor->id};
-};
-
-after signal_actor_appeared => sub ($self, $for_actor, $actor) {
-	return unless $actor->stats->movement;
-
-	$self->send_to_player($for_actor->id, Resource::ActorMovement->new(subject => $actor));
+	$self->_add_signal(player_left => '_cleanup_movement');
+	$self->_add_signal(actor_appeared => '_send_ongoing_movement', '$actor->stats->movement');
 };
 

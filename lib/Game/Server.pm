@@ -36,12 +36,22 @@ has field 'map' => (
 );
 
 has field '_actions' => (
-	isa => ArrayRef [HashRef [ArrayRef]],
+	isa => ArrayRef [HashRef [ArrayRef [SimpleStr]]],
 	default => sub { [] },
 );
 
 has cached '_compiled_action' => (
 	isa => CodeRef,
+	lazy => 1,
+);
+
+has field '_signals' => (
+	isa => HashRef [ArrayRef [Tuple [SimpleStr, Maybe [Str]]]],
+	default => sub { {} },
+);
+
+has cached '_compiled_signals' => (
+	isa => HashRef [CodeRef],
 	lazy => 1,
 );
 
@@ -66,6 +76,13 @@ with qw(
 	Game::Server::Role::Npcs
 );
 
+use constant SIGNALS => {
+	player_left => '$actor',
+	actor_appeared => '$for_actor, $actor',
+	actor_died => '$actor',
+	projectile_appeared => '$for_actor, $projectile',
+};
+
 sub _add_action ($self, $every, $handler, $priority = 0)
 {
 	croak "$handler is not a proper method name in " . __PACKAGE__
@@ -75,7 +92,7 @@ sub _add_action ($self, $every, $handler, $priority = 0)
 	$every = round($every / Server::Config::TICK);
 	$every ||= 1;
 
-	push $self->_actions->[$priority]->{$every}->@*, $handler;
+	push $self->_actions->[$priority]{$every}->@*, $handler;
 	return;
 }
 
@@ -101,8 +118,6 @@ sub _build_compiled_action ($self)
 	}
 
 	my $compiled = join "\n", @actions_lines;
-	$self->log->debug("Compiled action: \n$compiled");
-
 	return quote_sub $compiled, {
 		'$self' => \$self,
 		}, {
@@ -110,9 +125,50 @@ sub _build_compiled_action ($self)
 		};
 }
 
+sub _add_signal ($self, $name, $handler, $condition = undef)
+{
+	croak "$name is not a proper signal name"
+		unless SIGNALS->{$name};
+	croak "$handler is not a proper method name in " . __PACKAGE__
+		unless $self->can($handler);
+
+	push $self->_signals->{$name}->@*, [$handler, $condition];
+	return;
+}
+
+sub _build_compiled_signals ($self)
+{
+	my %signals;
+	foreach my ($name, $consumers) ($self->_signals->%*) {
+		my $signal_args = SIGNALS->{$name};
+		my @handler_lines = (qq[my ($signal_args) = \@_;]);
+
+		foreach my $consumer ($consumers->@*) {
+			my ($handler, $condition) = $consumer->@*;
+
+			$handler = qq[\$self->$handler(\@_);];
+			if ($condition) {
+				$handler = qq[if ($condition) { $handler }];
+			}
+
+			push @handler_lines, $handler;
+		}
+
+		my $compiled = join "\n", @handler_lines;
+		$signals{$name} = quote_sub $compiled, {
+			'$self' => \$self,
+			}, {
+				no_defer => 1,
+			};
+	}
+
+	return \%signals;
+}
+
 sub BUILD ($self, $args)
 {
-	# no BUILD actions by default. See roles for "after" hooks
+	$self->_add_signal(player_left => '_cleanup_leaving_player');
+	$self->_add_signal(actor_died => '_process_actor_death');
 }
 
 sub tick ($self, $elapsed)
@@ -151,32 +207,26 @@ sub apply_effect ($self, $effect, @args)
 	return $self->$method($effect, @args);
 }
 
-sub signal_player_left ($self, $actor)
+sub signal ($self, $name, @args)
+{
+	my $signal_sub = $self->_compiled_signals->{$name} // croak "$name is not a proper signal name";
+	$signal_sub->(@args);
+
+	return;
+}
+
+sub _cleanup_leaving_player ($self, $actor)
 {
 	$self->location->remove_actor($actor);
 
 	return;
 }
 
-sub signal_actor_appeared ($self, $for_actor, $actor)
-{
-	# $self->log->debug(sprintf "actor %s appeared for %s", $actor->id, $for_actor->id);
-
-	return;
-}
-
-sub signal_actor_died ($self, $actor)
+sub _process_actor_death ($self, $actor)
 {
 	$self->location->remove_actor($actor);
 
 	# TODO: player death
-
-	return;
-}
-
-sub signal_projectile_appeared ($self, $for_actor, $projectile)
-{
-	# $self->log->debug(sprintf "projectile %s appeared for %s", $projectile->id, $for_actor->id);
 
 	return;
 }
