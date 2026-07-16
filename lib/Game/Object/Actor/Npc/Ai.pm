@@ -11,15 +11,10 @@ has param 'parent' => (
 );
 
 has field 'movement_path' => (
-	lax_isa => InstanceOf ['Game::TileMap::Pathfinding::Result'],
+	lax_isa => InstanceOf ['My::Game::TileMap::Pathfinding::Result'],
 	writer => 1,
 	predicate => 1,
 	clearer => 1,
-);
-
-has field 'movement_target' => (
-	lax_isa => Tuple [Num, Num],
-	writer => 1,
 );
 
 sub act ($self, $server, $actor, $elapsed = server_time)
@@ -34,7 +29,6 @@ sub move ($self, $server, $actor, $x, $y)
 
 	if ($path->step_count > 0) {
 		$self->set_movement_path($path);
-		$self->set_movement_target([$x, $y]);
 		$self->follow_path($server, $actor);
 	}
 	else {
@@ -54,9 +48,7 @@ sub follow_path ($self, $server, $actor)
 		return;
 	}
 
-	$x += 0.5;
-	$y += 0.5;
-	my $angle = calculate_angle($x, $y, $self->movement_target->@*);
+	my $angle = calculate_angle($x, $y, $path->target->@*);
 	$server->set_movement($actor, find_frontal_point($x, $y, $angle, 0.5 - $actor->stats->size));
 	return;
 }

@@ -4,7 +4,7 @@ use My::Moose;
 use Tiled::Map;
 use Tiled::Parser;
 use Game::Object::Map::Spawn;
-use Game::TileMap::Pathfinding;
+use My::Game::TileMap::Pathfinding;
 
 use header;
 
@@ -34,9 +34,9 @@ has cached 'spawns' => (
 );
 
 has cached 'pathfinding' => (
-	isa => InstanceOf ['Game::TileMap::Pathfinding'],
+	isa => InstanceOf ['My::Game::TileMap::Pathfinding'],
 	lazy => sub ($self) {
-		return Game::TileMap::Pathfinding->new(
+		return My::Game::TileMap::Pathfinding->new(
 			map => $self,
 			diagonal_movement => true,
 		);
