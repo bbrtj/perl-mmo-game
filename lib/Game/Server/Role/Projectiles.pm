@@ -97,7 +97,7 @@ sub spawn_projectile ($self, $effect, $at_x, $at_y)
 		$angle += deg2rad $roll * $inacc * $side;
 	}
 
-	# TODO: check if actor is facing the right way (compare $angle to $actor->stats->angle)
+	# TODO: check if actor is facing the right way (compare $angle to $actor->angle)
 	my $projectile = Game::Object::Projectile->new(
 		effect => $effect,
 		speed => $projectile_data->{speed},

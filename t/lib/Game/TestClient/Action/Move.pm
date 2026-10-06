@@ -33,7 +33,7 @@ sub receive_queue ($self)
 		time => 1,    # don't care
 	);
 
-	$self->client->actor->stats->set_movement($movement);
+	$self->client->actor->set_movement($movement);
 
 	return (
 		Resource::ActorMovement->new(subject => $self->client->actor),

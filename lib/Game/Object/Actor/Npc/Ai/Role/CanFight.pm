@@ -60,7 +60,7 @@ sub fight ($self, $server, $npc_actor)
 	state $deviance_angle = pi / 3;
 
 	# TODO: different behavior for ranged enemies
-	if ($distance > $follow_distance + ACCEPTABLE_DISTANCE_DIFF || abs($angle - $stats->angle) > $deviance_angle) {
+	if ($distance > $follow_distance + ACCEPTABLE_DISTANCE_DIFF || abs($angle - $npc_actor->angle) > $deviance_angle) {
 		my @point = find_frontal_point(
 			@xy,
 			$angle,
@@ -70,7 +70,7 @@ sub fight ($self, $server, $npc_actor)
 		$self->move($server, $npc_actor, @point);
 	}
 
-	if (!$stats->has_action && $distance < $self->max_attack_distance) {
+	if (!$npc_actor->has_action && $distance < $self->max_attack_distance) {
 		my ($ability) = random_choice($npc_actor->npc->lore->abilities);
 
 		# TODO: use can_use_ability to make sure we follow all the checks

@@ -12,7 +12,7 @@ field $actor :param(subject);    # Unit::Actor
 
 method generate ()
 {
-	my $movement = $actor->stats->movement;
+	my $movement = $actor->movement;
 
 	return [
 		$actor->id,

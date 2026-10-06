@@ -17,7 +17,7 @@ sub can_use_ability ($actor, $lore, $x, $y)
 
 	# another action is in progress already
 	X::Pub::CheckFailed->raise(Err::ACTION_IN_PROGRESS)
-		if $actor->stats->has_action;
+		if $actor->has_action;
 
 	# bad ability
 	X::Pub::CheckFailed->raise(Err::INVALID_ACTION)

@@ -48,7 +48,7 @@ Mooish::AttributeBuilder::add_shortcut(
 
 			Mooish::AttributeBuilder::check_and_set(
 				\%args, $name,
-				isa => InstanceOf [$class],
+				($ENV{DEBUG} ? (isa => InstanceOf [$class]) : ()),
 				default => sub { $inner_default->($class, @_) },
 			);
 		}

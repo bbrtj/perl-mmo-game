@@ -36,7 +36,7 @@ sub set_movement ($self, $actor, $x, $y)
 {
 	$self->_process_movement($actor);
 
-	$actor->stats->set_movement(
+	$actor->set_movement(
 		Game::Object::Movement->new(
 			variables => $actor->variables,
 			x => $x,
@@ -63,7 +63,7 @@ sub cancel_movement ($self, $actor_id)
 	my $actor = delete $self->_moving->{$actor_id};
 
 	$self->_process_movement($actor);
-	$actor->stats->clear_movement;
+	$actor->clear_movement;
 
 	$self->send_to_players(
 		[$actor_id, $self->get_discovered_by($actor_id)],
@@ -75,7 +75,7 @@ sub cancel_movement ($self, $actor_id)
 
 sub _process_movement ($self, $actor)
 {
-	my $movement = $actor->stats->movement;
+	my $movement = $actor->movement;
 
 	return false unless $movement;
 	return move_actor($movement, $self->map);
@@ -87,13 +87,13 @@ sub _process_movements ($self)
 	my $elapsed = server_time;
 
 	foreach my $actor (values $self->_moving->%*) {
-		my $movement = $actor->stats->movement;
+		my $movement = $actor->movement;
 
 		if (!($movement && move_actor($movement, $map, $elapsed))) {
 			delete $self->_moving->{$actor->id};
 
 			if ($movement) {
-				$actor->stats->clear_movement;
+				$actor->clear_movement;
 
 				$self->send_to_players(
 					[$actor->id, $self->get_discovered_by($actor->id)],
@@ -121,6 +121,6 @@ sub _send_ongoing_movement ($self, $for_actor, $actor)
 after BUILD => sub ($self, @) {
 	$self->_add_action(0.1 => '_process_movements', 10);
 	$self->_add_signal(player_left => '_cleanup_movement');
-	$self->_add_signal(actor_appeared => '_send_ongoing_movement', '$actor->stats->movement');
+	$self->_add_signal(actor_appeared => '_send_ongoing_movement', '$actor->movement');
 };
 

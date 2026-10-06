@@ -36,13 +36,13 @@ sub _process_actions ($self)
 
 sub _cleanup_actions ($self, $actor)
 {
-	$actor->stats->action->cancel;
+	$actor->action->cancel;
 	# NOTE: no need to remove the action, since actor is not valid anymore
 }
 
 after BUILD => sub ($self, @) {
 	$self->_add_action(0.05 => '_process_actions');
-	$self->_add_signal(player_left => '_cleanup_actions', '$actor->stats->has_action');
-	$self->_add_signal(actor_died => '_cleanup_actions', '$actor->stats->has_action');
+	$self->_add_signal(player_left => '_cleanup_actions', '$actor->has_action');
+	$self->_add_signal(actor_died => '_cleanup_actions', '$actor->has_action');
 };
 

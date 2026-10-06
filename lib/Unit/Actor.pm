@@ -28,8 +28,30 @@ has param 'variables' => (
 	isa => InstanceOf ['Model::CharacterVariables'],
 );
 
+has field 'movement' => (
+	lax_isa => InstanceOf ['Game::Object::Movement'],
+	writer => -hidden,
+	clearer => 1,
+);
+
+# angle is needed because movement is optional
+has field 'angle' => (
+	lax_isa => Num,
+	writer => 1,
+	default => 0,
+);
+
+has field 'action' => (
+	lax_isa => InstanceOf ['Game::Object::Action'],
+	writer => 1,
+	clearer => 1,
+	predicate => 1,
+);
+
 has field 'stats' => (
 	constructed => ['Game::Object::Actor::Stats', sub { shift->new(parent => $_[0]) }],
+	lazy => 1,
+	clearer => 1,
 );
 
 sub BUILD ($self, $args)
@@ -51,6 +73,13 @@ sub models ($self)
 sub rng ($self)
 {
 	return min(1, random_number(0, $self->stats->luck_effect));
+}
+
+sub set_movement ($self, $movement)
+{
+	$self->_set_movement($movement);
+	$self->set_angle($movement->angle);
+	return;
 }
 
 __END__

@@ -40,7 +40,7 @@ sub use_ability ($self, $actor, $ability, $x, $y)
 		duration => Game::Config->base_action_speed * $ability->speed_multiplier,
 	);
 
-	$actor->stats->set_action($action);
+	$actor->set_action($action);
 	$self->enqueue_action($action);
 
 	$self->send_to_players(
@@ -89,7 +89,7 @@ sub use_ability_done ($self, $action)
 
 	# TODO: take resources required by the ability (energy? arrows?)
 	my $stats = $actor->stats;
-	$stats->clear_action;
+	$actor->clear_action;
 
 	my $effect = Game::Object::Effect::Damage->new(
 		actor => $action->actor,
@@ -106,7 +106,7 @@ sub use_ability_done ($self, $action)
 		# frontal attack
 		$self->apply_effect(
 			$effect,
-			find_frontal_point($actor->variables->xy, $stats->angle, $stats->weapon_hitbox->[1]),
+			find_frontal_point($actor->variables->xy, $actor->angle, $stats->weapon_hitbox->[1]),
 		);
 	}
 
