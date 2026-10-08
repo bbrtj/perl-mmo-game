@@ -25,7 +25,7 @@ sub act ($self, $server, $actor, $elapsed = server_time)
 sub move ($self, $server, $actor, $x, $y)
 {
 	my $path = $server->map->find_path($actor->variables->xy, $x, $y);
-	return unless defined $path;
+	return false unless defined $path;
 
 	if ($path->step_count > 0) {
 		$self->set_movement_path($path);
@@ -35,7 +35,7 @@ sub move ($self, $server, $actor, $x, $y)
 		$server->set_movement($actor, $x, $y);
 	}
 
-	return;
+	return true;
 }
 
 sub follow_path ($self, $server, $actor)
