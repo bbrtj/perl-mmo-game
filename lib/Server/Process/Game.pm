@@ -52,14 +52,15 @@ sub send_to_player ($self, $player_id, $data, @more)
 # NOTE: not all $player_ids may be players - filters out npcs
 sub send_to_players ($self, $player_ids, $data)
 {
-	return if $player_ids->@* == 0;
+	my @sessions = grep { defined } map { $self->load_session($_) } $player_ids->@*;
+	return unless @sessions;
 
-	return $self->send_to_player($player_ids->[0], $data)
-		if $player_ids->@* == 1;
+	return $self->send_to($sessions[0], $data)
+		if @sessions == 1;
 
 	return $self->send_to_all(
 		$data,
-		sessions => [grep { defined } map { $self->load_session($_) } $player_ids->@*],
+		sessions => \@sessions,
 	);
 }
 
