@@ -3,7 +3,7 @@ use experimental 'class';
 class Resource::Discovery :isa(Resource);
 
 use Resource::ActorPosition;
-use Resource::ActorState;
+use Resource::ActorPublicState;
 use Sub::Install;
 
 use header;
@@ -61,7 +61,7 @@ method _build_next_resources ()
 	foreach my $actor (($objects{new_actors} // [])->@*) {
 		push @resources, (
 			Resource::ActorPosition->new(subject => $actor),
-			Resource::ActorState->new(subject => $actor),
+			Resource::ActorPublicState->new(subject => $actor),
 		);
 	}
 

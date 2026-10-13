@@ -155,7 +155,7 @@ initialization
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedDiscovery));
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedChat));
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedActorEvent));
-	FeedTypesMap.Add(TMessageType.Create(TMsgFeedActorState));
+	FeedTypesMap.Add(TMessageType.Create(TMsgFeedActorPublicState));
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedActorAction));
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedProjectile));
 	FeedTypesMap.Add(TMessageType.Create(TMsgFeedProjectileStop));

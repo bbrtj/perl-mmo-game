@@ -78,9 +78,9 @@ e2e_test(
 					'Feed',
 					data => [
 						Resource::ActorPosition->new(subject => $dummy),
-						Resource::ActorState->new(subject => $dummy),
+						Resource::ActorPublicState->new(subject => $dummy),
 						Resource::ActorPosition->new(subject => $friendly),
-						Resource::ActorState->new(subject => $friendly),
+						Resource::ActorPublicState->new(subject => $friendly),
 					],
 				)
 				->add_action('UseAbility', actor => $actor, lore => $ability, x => 10, y => 10)

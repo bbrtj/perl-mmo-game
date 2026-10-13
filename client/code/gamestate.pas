@@ -50,7 +50,7 @@ type
 		procedure ProcessMovement(Movement: TMsgFeedActorMovement);
 		procedure ProcessPosition(Stop: TMsgFeedActorPosition);
 		procedure ProcessActorEvent(Event: TMsgFeedActorEvent);
-		procedure ProcessActorState(Event: TMsgFeedActorState);
+		procedure ProcessActorPublicState(Event: TMsgFeedActorPublicState);
 		procedure ProcessActorAction(Event: TMsgFeedActorAction);
 		procedure ProcessProjectile(Event: TMsgFeedProjectile);
 		procedure ProcessProjectileStop(Event: TMsgFeedProjectileStop);
@@ -252,7 +252,7 @@ begin
 	// TODO: animate damage / healing (HealthChange)
 end;
 
-procedure TGameState.ProcessActorState(Event: TMsgFeedActorState);
+procedure TGameState.ProcessActorPublicState(Event: TMsgFeedActorPublicState);
 var
 	LActor: TGameActor;
 begin

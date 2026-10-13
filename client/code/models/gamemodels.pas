@@ -36,10 +36,12 @@ type
 		function GetValueIndex(Index: Integer): String;
 		function GetValueIndexUlid(Index: Integer): TUlid;
 		function GetValueIndexLoreId(Index: Integer): TLoreId;
+		function GetValueIndexInt(Index: Integer): Int64;
 		function GetValueIndexReal(Index: Integer): Single;
 		procedure SetValueIndex(Index: Integer; const Value: String);
 		procedure SetValueIndexUlid(Index: Integer; const Value: TUlid);
 		procedure SetValueIndexLoreId(Index: Integer; const Value: TLoreId);
+		procedure SetValueIndexInt(Index: Integer; Value: Int64);
 		procedure SetValueIndexReal(Index: Integer; Value: Single);
 
 	public
@@ -119,9 +121,14 @@ begin
 	result := self.GetValueIndex(Index);
 end;
 
+function TPlaintextModel.GetValueIndexInt(Index: Integer): Int64;
+begin
+	result := StrToInt64(self.GetValueIndex(Index));
+end;
+
 function TPlaintextModel.GetValueIndexReal(Index: Integer): Single;
 var
-	LTransportInt: int64;
+	LTransportInt: Int64;
 begin
 	LTransportInt := StrToInt64(self.GetValueIndex(Index));
 	result := LTransportInt / GlobalConfig.NetworkTransportFloatPrecision;
@@ -143,9 +150,14 @@ begin
 	self.SetValueIndex(Index, Value);
 end;
 
+procedure TPlaintextModel.SetValueIndexInt(Index: Integer; Value: Int64);
+begin
+	self.SetValueIndex(Index, Value.ToString);
+end;
+
 procedure TPlaintextModel.SetValueIndexReal(Index: Integer; Value: Single);
 var
-	LTransportInt: int64;
+	LTransportInt: Int64;
 begin
 	LTransportInt := Round(Value * GlobalConfig.NetworkTransportFloatPrecision);
 	self.SetValueIndex(Index, LTransportInt.ToString);

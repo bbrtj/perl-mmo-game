@@ -2,7 +2,7 @@ use experimental 'class';
 
 class Resource::LocationData :isa(Resource);
 
-use Resource::ActorState;
+use Resource::ActorPublicState;
 
 use header;
 
@@ -23,7 +23,7 @@ method generate ()
 method _build_next_resources ()
 {
 	return [
-		Resource::ActorState->new(subject => $actor),
+		Resource::ActorPublicState->new(subject => $actor),
 	];
 }
 

@@ -20,20 +20,21 @@ type
 		property HealthChange: Single index 3 read GetValueIndexReal;
 	end;
 
-	TMsgFeedActorState = class(TPlaintextModel, IModelWithUlid)
+	TMsgFeedActorPublicState = class(TPlaintextModel, IModelWithUlid)
 	public
 		class function MessageType(): String; override;
 	public
 		function GetId(): TUlid;
 	public
 		property Id: TUlid index 0 read GetValueIndexUlid;
-		property Health: Single index 1 read GetValueIndexReal;
-		property MaxHealth: Single index 2 read GetValueIndexReal;
-		property HealthRegeneration: Single index 3 read GetValueIndexReal;
-		property Energy: Single index 4 read GetValueIndexReal;
-		property MaxEnergy: Single index 5 read GetValueIndexReal;
-		property EnergyRegeneration: Single index 6 read GetValueIndexReal;
-		property Size: Single index 7 read GetValueIndexReal;
+		property Level: Int64 index 1 read GetValueIndexInt;
+		property Health: Single index 2 read GetValueIndexReal;
+		property MaxHealth: Single index 3 read GetValueIndexReal;
+		property HealthRegeneration: Single index 4 read GetValueIndexReal;
+		property Energy: Single index 5 read GetValueIndexReal;
+		property MaxEnergy: Single index 6 read GetValueIndexReal;
+		property EnergyRegeneration: Single index 7 read GetValueIndexReal;
+		property Size: Single index 8 read GetValueIndexReal;
 
 	end;
 
@@ -56,9 +57,9 @@ begin
 	result := 'actor_event';
 end;
 
-class function TMsgFeedActorState.MessageType(): String;
+class function TMsgFeedActorPublicState.MessageType(): String;
 begin
-	result := 'actor_state';
+	result := 'actor_public_state';
 end;
 
 class function TMsgFeedActorAction.MessageType(): String;
@@ -71,7 +72,7 @@ begin
 	result := self.Id;
 end;
 
-function TMsgFeedActorState.GetId(): TUlid;
+function TMsgFeedActorPublicState.GetId(): TUlid;
 begin
 	result := self.Id;
 end;

@@ -58,8 +58,8 @@ timethese 200.01, {
 			max_distance => 100,
 		);
 	},
-	'Resource::ActorState' => sub {
-		Resource::ActorState->new(subject => $actor);
+	'Resource::ActorPublicState' => sub {
+		Resource::ActorPublicState->new(subject => $actor);
 	},
 };
 

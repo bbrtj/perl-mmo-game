@@ -48,7 +48,7 @@ e2e_test {
 					(
 						map {
 							Resource::ActorPosition->new(subject => $_),
-							Resource::ActorState->new(subject => $_),
+							Resource::ActorPublicState->new(subject => $_),
 						} @others
 					),
 				],

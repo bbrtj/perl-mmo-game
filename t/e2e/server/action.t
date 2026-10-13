@@ -61,7 +61,7 @@ e2e_test(
 					'Feed',
 					data => [
 						Resource::ActorPosition->new(subject => $dummy),
-						Resource::ActorState->new(subject => $dummy),
+						Resource::ActorPublicState->new(subject => $dummy),
 					],
 				)
 				->add_action('UseAbility', actor => $actor, lore => lore_ability 'Strike')
