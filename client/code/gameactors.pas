@@ -38,6 +38,7 @@ type
 		FActionName: String;
 		FActionTime: Single;
 
+		FLevel: Integer;
 		FHealth: Single;
 		FMaxHealth: Single;
 		FHealthRegeneration: Single;
@@ -59,6 +60,7 @@ type
 		procedure Move(X, Y, Speed: Single);
 		procedure Stop();
 
+		procedure SetLevel(NewLevel: Integer);
 		procedure SetHealth(Current, Max: Single);
 		procedure SetEnergy(Current, Max: Single);
 		procedure ModifyHealth(NewHealth: Single);
@@ -201,6 +203,9 @@ begin
 	(FPlate.DesignedComponent('ActorName') as TCastleLabel)
 		.Caption := FActorRecord.ActorName;
 
+	(FPlate.DesignedComponent('ActorLevel') as TCastleLabel)
+		.Caption := '<b>' + FLevel.ToString + '</b>';
+
 	self.UpdatePlateResources;
 end;
 
@@ -276,19 +281,22 @@ begin
 	FMovementTime := 0;
 end;
 
+procedure TGameActor.SetLevel(NewLevel: Integer);
+begin
+	FLevel := NewLevel;
+	self.UpdatePlate;
+end;
+
 procedure TGameActor.SetHealth(Current, Max: Single);
 begin
 	FHealth := Current;
 	FMaxHealth := Max;
-
-	{ TODO: this updates all plate data since we need to update a name at some point }
-	self.UpdatePlate();
+	self.UpdatePlateResources;
 end;
 
 procedure TGameActor.ModifyHealth(NewHealth: Single);
 begin
 	FHealth := NewHealth;
-
 	self.UpdatePlateResources;
 end;
 

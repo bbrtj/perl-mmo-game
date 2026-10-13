@@ -260,6 +260,7 @@ begin
 	if LActor = nil then
 		raise EActorNotFound.Create;
 
+	LActor.SetLevel(Event.Level);
 	LActor.SetHealth(Event.Health, Event.MaxHealth);
 	LActor.SetEnergy(Event.Energy, Event.MaxEnergy);
 	LActor.SetRegeneration(Event.HealthRegeneration, Event.EnergyRegeneration);

@@ -30,6 +30,36 @@
       "$Children" : [
         {
           "$$ClassName" : "TCastleLabel",
+          "Alignment" : "hpMiddle",
+          "AutoSize" : false,
+          "CaptionTranslate" : false,
+          "ColorPersistent" : {
+            "$$ClassName" : "TCastleColorPersistent",
+            "Blue" : 2.0392157137393951E-001,
+            "Green" : 9.8431372642517090E-001,
+            "Red" : 1.0000000000000000E+000
+          },
+          "FontScale" : 8.9999997615814209E-001,
+          "FrameColorPersistent" : {
+            "$$ClassName" : "TCastleColorPersistent",
+            "Blue" : 2.0392157137393951E-001,
+            "Green" : 9.8431372642517090E-001
+          },
+          "Height" : 4.0000000000000000E+001,
+          "Html" : true,
+          "Name" : "ActorLevel",
+          "Text" : [
+            "Lv"
+          ],
+          "VerticalAlignment" : "vpMiddle",
+          "VerticalAnchorParent" : "vpTop",
+          "VerticalAnchorSelf" : "vpTop",
+          "Width" : 3.0000000000000000E+001
+        },
+        {
+          "$$ClassName" : "TCastleLabel",
+          "Alignment" : "hpMiddle",
+          "AutoSize" : false,
           "CaptionTranslate" : false,
           "ColorPersistent" : {
             "$$ClassName" : "TCastleColorPersistent",
@@ -37,15 +67,20 @@
             "Green" : 1.0000000000000000E+000,
             "Red" : 1.0000000000000000E+000
           },
-          "FontScale" : 8.0000001192092896E-001,
-          "HorizontalAnchorParent" : "hpMiddle",
-          "HorizontalAnchorSelf" : "hpMiddle",
+          "FontScale" : 7.5000000000000000E-001,
+          "Height" : 2.0000000000000000E+001,
           "Name" : "ActorName",
           "Text" : [
             "ActorName"
           ],
+          "TranslationPersistent" : {
+            "$$ClassName" : "TCastleVector2Persistent",
+            "X" : 3.0000000000000000E+001
+          },
+          "VerticalAlignment" : "vpTop",
           "VerticalAnchorParent" : "vpTop",
-          "VerticalAnchorSelf" : "vpTop"
+          "VerticalAnchorSelf" : "vpTop",
+          "Width" : 1.5000000000000000E+002
         },
         {
           "$$ClassName" : "TCastleRectangleControl",
@@ -55,17 +90,16 @@
             "Green" : 5.3333336114883423E-001,
             "Red" : 5.3333336114883423E-001
           },
-          "Height" : 1.5000000000000000E+001,
-          "HorizontalAnchorParent" : "hpMiddle",
-          "HorizontalAnchorSelf" : "hpMiddle",
+          "Height" : 1.0000000000000000E+001,
           "Name" : "HealthBar",
           "TranslationPersistent" : {
             "$$ClassName" : "TCastleVector2Persistent",
+            "X" : 3.0000000000000000E+001,
             "Y" : -2.0000000000000000E+001
           },
           "VerticalAnchorParent" : "vpTop",
           "VerticalAnchorSelf" : "vpTop",
-          "Width" : 1.2000000000000000E+002,
+          "Width" : 1.5000000000000000E+002,
           "$Children" : [
             {
               "$$ClassName" : "TCastleRectangleControl",
@@ -74,7 +108,7 @@
                 "Blue" : 0.0000000000000000E+000,
                 "Green" : 0.0000000000000000E+000
               },
-              "Height" : 1.5000000000000000E+001,
+              "Height" : 1.0000000000000000E+001,
               "Name" : "CurrentHealthBar",
               "VerticalAnchorParent" : "vpMiddle",
               "VerticalAnchorSelf" : "vpMiddle",
@@ -91,17 +125,16 @@
             "Green" : 5.3333336114883423E-001,
             "Red" : 5.3333336114883423E-001
           },
-          "Height" : 1.5000000000000000E+001,
-          "HorizontalAnchorParent" : "hpMiddle",
-          "HorizontalAnchorSelf" : "hpMiddle",
+          "Height" : 1.0000000000000000E+001,
           "Name" : "EnergyBar",
           "TranslationPersistent" : {
             "$$ClassName" : "TCastleVector2Persistent",
-            "Y" : -3.5000000000000000E+001
+            "X" : 3.0000000000000000E+001,
+            "Y" : -3.0000000000000000E+001
           },
           "VerticalAnchorParent" : "vpTop",
           "VerticalAnchorSelf" : "vpTop",
-          "Width" : 1.2000000000000000E+002,
+          "Width" : 1.5000000000000000E+002,
           "$Children" : [
             {
               "$$ClassName" : "TCastleRectangleControl",
@@ -110,7 +143,7 @@
                 "Green" : 0.0000000000000000E+000,
                 "Red" : 0.0000000000000000E+000
               },
-              "Height" : 1.5000000000000000E+001,
+              "Height" : 1.0000000000000000E+001,
               "Name" : "CurrentEnergyBar",
               "VerticalAnchorParent" : "vpMiddle",
               "VerticalAnchorSelf" : "vpMiddle",
@@ -129,16 +162,14 @@
           },
           "Exists" : false,
           "Height" : 1.5000000000000000E+001,
-          "HorizontalAnchorParent" : "hpMiddle",
-          "HorizontalAnchorSelf" : "hpMiddle",
           "Name" : "ActionBar",
           "TranslationPersistent" : {
             "$$ClassName" : "TCastleVector2Persistent",
-            "Y" : -5.0000000000000000E+001
+            "Y" : -4.5000000000000000E+001
           },
           "VerticalAnchorParent" : "vpTop",
           "VerticalAnchorSelf" : "vpTop",
-          "Width" : 1.2000000000000000E+002,
+          "Width" : 1.8000000000000000E+002,
           "$Children" : [
             {
               "$$ClassName" : "TCastleRectangleControl",
