@@ -3,7 +3,9 @@
   "AutoSizeToChildren" : true,
   "Border" : {
     "$$ClassName" : "TBorder",
-    "AllSides" : 5.0000000000000000E+000
+    "Bottom" : 5.0000000000000000E+000,
+    "Right" : 5.0000000000000000E+000,
+    "Top" : 5.0000000000000000E+000
   },
   "BorderColorPersistent" : {
     "$$ClassName" : "TCastleColorPersistent",

@@ -11,11 +11,31 @@
 		reference_width="1600"
 		reference_height="900"
 	/>
-	<default_font
-		url="castle-data:/DejaVuSans.ttf"
-		sizes_at_load="10 15 20 25 30 35 40 45 50 55 60"
-		sample_text="żółćęśąźńŻÓŁĆĘŚĄŹŃ"
-		anti_aliased="true"
-	/>
+	<default_font>
+		<regular
+			url="castle-data:/fonts/dejavusans/Regular.ttf"
+			sizes_at_load="10 15 20 25 30 35 40 45 50 55 60"
+			sample_text="żółćęśąźńŻÓŁĆĘŚĄŹŃ"
+			anti_aliased="true"
+		/>
+		<bold
+			url="castle-data:/fonts/dejavusans/Bold.ttf"
+			sizes_at_load="10 15 20 25 30 35 40 45 50 55 60"
+			sample_text="żółćęśąźńŻÓŁĆĘŚĄŹŃ"
+			anti_aliased="true"
+		/>
+		<italic
+			url="castle-data:/fonts/dejavusans/Oblique.ttf"
+			sizes_at_load="10 15 20 25 30 35 40 45 50 55 60"
+			sample_text="żółćęśąźńŻÓŁĆĘŚĄŹŃ"
+			anti_aliased="true"
+		/>
+		<bold_italic
+			url="castle-data:/fonts/dejavusans/BoldOblique.ttf"
+			sizes_at_load="10 15 20 25 30 35 40 45 50 55 60"
+			sample_text="żółćęśąźńŻÓŁĆĘŚĄŹŃ"
+			anti_aliased="true"
+		/>
+	</default_font>
 </castle_settings>
 
