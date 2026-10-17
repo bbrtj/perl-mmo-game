@@ -37,7 +37,7 @@ sub wander ($self, $server, $actor, $elapsed = server_time)
 	return unless $elapsed >= $self->last_wander;
 
 	my $angle = rng() * 2 * pi;
-	my $distance = rng() * $self->max_distance;
+	my $distance = $self->max_distance * (1 - rng());
 	my @point = find_frontal_point($self->parent->spawn->xy, $angle, $distance);
 	$self->set_last_wander($elapsed + random_number $self->every_min, $self->every_max);
 
