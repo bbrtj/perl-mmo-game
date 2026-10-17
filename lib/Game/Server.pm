@@ -74,6 +74,7 @@ with qw(
 	Game::Server::Role::Movements
 	Game::Server::Role::Regeneration
 	Game::Server::Role::Npcs
+	Game::Server::Role::Stats
 );
 
 use constant SIGNALS => {
@@ -82,6 +83,7 @@ use constant SIGNALS => {
 	actor_died => '$actor',
 	projectile_appeared => '$for_actor, $projectile',
 	movement_ended => '$actor',
+	stat_changed => '$actor, $type',
 };
 
 sub _add_action ($self, $every, $handler, $priority = 0)
@@ -140,8 +142,8 @@ sub _add_signal ($self, $name, $handler, $condition = undef)
 sub _build_compiled_signals ($self)
 {
 	my %signals;
-	foreach my ($name, $consumers) ($self->_signals->%*) {
-		my $signal_args = SIGNALS->{$name};
+	foreach my ($name, $signal_args) (SIGNALS->%*) {
+		my $consumers = $self->_signals->{$name} // [];
 		my @handler_lines = (qq[my ($signal_args) = \@_;]);
 
 		foreach my $consumer ($consumers->@*) {

@@ -26,9 +26,9 @@ sub deal_damage ($source_actor, $attributes, $damage, @targets)
 
 		$target->variables->set_health($target->variables->health - $target_damage);
 
-		# TODO: call dibs on the npc
 		if ($target->is_npc) {
-			$target->npc->add_aggro($source_actor, $target_damage);
+			$target->npc->tagged($source_actor);
+			$target->npc->aggro_dealt($source_actor, $target_damage);
 		}
 	}
 

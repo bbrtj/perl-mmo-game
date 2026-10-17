@@ -9,6 +9,7 @@ use header;
 our @EXPORT_OK = qw(
 	get_current_level
 	get_exp_for_level
+	get_monster_exp
 	get_size
 	get_speed
 	get_max_health
@@ -43,6 +44,14 @@ sub get_exp_for_level ($level)
 	my $precision = 10**int($magnitude / 2);
 
 	return int($result / $precision) * $precision;
+}
+
+sub get_monster_exp ($level)
+{
+	state $base_exp = int(Game::Config->base_exp / 20);
+
+	return $base_exp if $level < 3;
+	return int($base_exp / 2 * 2**($level**(58 / 100)));
 }
 
 # size is affected by constitution

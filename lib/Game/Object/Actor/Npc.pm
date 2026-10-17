@@ -21,6 +21,12 @@ has field 'ai' => (
 	lazy => 1,
 );
 
+has field 'tagged_by' => (
+	lax_isa => ULID,
+	writer => -hidden,
+	predicate => -hidden,
+);
+
 has field '_aggro_map' => (
 	lax_isa => HashRef,
 	default => sub { {} },
@@ -51,7 +57,14 @@ sub _build_ai ($self)
 	return $lore->ai_class->new($lore->ai_args->%*, parent => $self);
 }
 
-sub add_aggro ($self, $actor, $value)
+sub tagged ($self, $actor)
+{
+	return if $self->_has_tagged_by;
+	$self->_set_tagged_by($actor->id);
+	return;
+}
+
+sub aggro_dealt ($self, $actor, $value)
 {
 	$self->aggro_map->{$actor->id} += $value;
 	return;

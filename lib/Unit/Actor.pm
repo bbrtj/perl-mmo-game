@@ -49,7 +49,7 @@ has field 'action' => (
 );
 
 has field 'stats' => (
-	constructed => ['Game::Object::Actor::Stats', sub { shift->new(parent => $_[0]) }],
+	constructed => ['Game::Object::Actor::Stats', sub ($class, $self) { $class->new(parent => $self) }],
 	lazy => 1,
 	clearer => 1,
 );

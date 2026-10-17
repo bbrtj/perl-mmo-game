@@ -47,7 +47,6 @@ my $aggro = $npc->aggro_map->{$actor1->id};
 
 # let the npc kill the actor (may take many ticks, since npc needs to get to
 # the actor and hit him a couple of times)
-my $dead = false;
 for (1 .. 500) {
 	$process->ticks;
 	last if $actor1->variables->dead;

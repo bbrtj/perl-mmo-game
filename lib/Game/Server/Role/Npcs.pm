@@ -5,7 +5,7 @@ use My::PQ::Elem;
 use My::PQ;
 
 use Game::Helpers;
-use Game::Mechanics::Character::Statistics qw(get_exp_for_level);
+use Game::Mechanics::Character::Statistics qw(get_exp_for_level get_monster_exp);
 
 use all 'Game::Object';
 use all 'Unit';
@@ -109,6 +109,19 @@ sub _plan_respawn ($self, $actor)
 	return;
 }
 
+sub _grant_rewards ($self, $actor)
+{
+	my $player_actor = $self->location->get_player($actor->npc->tagged_by // '');
+	return unless defined $player_actor;
+
+	my $vars = $player_actor->variables;
+	my $exp = get_monster_exp($actor->npc->lore->level);
+	$vars->set_experience($vars->experience + $exp);
+	$self->signal('stat_changed', $player_actor, 'exp');
+
+	return;
+}
+
 sub _proceed_ai_movement ($self, $actor)
 {
 	return unless my $ai = $actor->npc->ai;
@@ -125,6 +138,7 @@ after BUILD => sub ($self, @) {
 	$self->_add_action(1 => '_process_ai');
 
 	$self->_add_signal(actor_died => '_plan_respawn', '$actor->is_npc');
+	$self->_add_signal(actor_died => '_grant_rewards', '$actor->is_npc');
 	$self->_add_signal(movement_ended => '_proceed_ai_movement', '$actor->is_npc');
 };
 

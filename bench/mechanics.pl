@@ -1,7 +1,7 @@
 use Game::Helpers;
 use Game::Checks::Map qw(can_see);
 use Game::Mechanics::Movement qw(move_actor move_projectile);
-use Game::Mechanics::Character::Statistics qw(get_current_level get_max_health);
+use Game::Mechanics::Character::Statistics qw(get_current_level get_monster_exp get_max_health);
 use Game::Mechanics::Combat qw(is_friendly);
 use Game::Mechanics::Rng qw(random_int random_choice weighted_choice);
 use all 'Game::Object', 'Unit';
@@ -61,6 +61,9 @@ timethese 200.01, {
 	},
 	level => sub {
 		get_current_level(250) == 3;
+	},
+	monster_exp => sub {
+		get_monster_exp(15);
 	},
 	health => sub {
 		get_max_health($class, $stats) == 80 * 1.6 * 1.5;
