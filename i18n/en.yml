@@ -87,10 +87,10 @@ id: msg.character.unknown
 str: mysterious figure
 ---
 id: msg.combat.damage[]
-str: '[_1] has damaged [_2] for [_3]'
+str: '[_1] has hit [_2] with [_3] for [_4]'
 ---
 id: msg.combat.healing[]
-str: '[_1] has healed [_2] for [_3]'
+str: '[_1] has healed [_2] with [_3] for [_4]'
 ---
 id: msg.connecting
 str: Connecting...

@@ -93,7 +93,7 @@ begin
 	GlobalClient.Await(TMsgFeedDiscovery, @self.OnDiscovery);
 	GlobalClient.Await(TMsgFeedActorMovement, @self.OnActorFeed);
 	GlobalClient.Await(TMsgFeedActorPosition, @self.OnActorFeed);
-	GlobalClient.Await(TMsgFeedActorEvent, @self.OnActorFeed);
+	GlobalClient.Await(TMsgFeedActorEventHealth, @self.OnActorFeed);
 	GlobalClient.Await(TMsgFeedActorPublicState, @self.OnActorFeed);
 	GlobalClient.Await(TMsgFeedActorAction, @self.OnActorFeed);
 	GlobalClient.Await(TMsgFeedProjectile, @self.OnProjectile);
@@ -395,8 +395,8 @@ begin
 			FGameState.ProcessMovement(Data as TMsgFeedActorMovement)
 		else if Data is TMsgFeedActorPosition then
 			FGameState.ProcessPosition(Data as TMsgFeedActorPosition)
-		else if Data is TMsgFeedActorEvent then
-			FGameState.ProcessActorEvent(Data as TMsgFeedActorEvent)
+		else if Data is TMsgFeedActorEventHealth then
+			FGameState.ProcessActorEvent(Data as TMsgFeedActorEventHealth)
 		else if Data is TMsgFeedActorPublicState then
 			FGameState.ProcessActorPublicState(Data as TMsgFeedActorPublicState)
 		else if Data is TMsgFeedActorAction then

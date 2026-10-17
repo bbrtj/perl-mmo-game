@@ -87,10 +87,10 @@ id: msg.character.unknown
 str: tajemnicza postać
 ---
 id: msg.combat.damage[]
-str: '[_1] trafił [_2] zadając [_3] obrażeń'
+str: '[_1] trafił [_2] za pomocą [_3] za [_4]'
 ---
 id: msg.combat.healing[]
-str: '[_1] trafił [_2] lecząc [_3] obrażeń'
+str: '[_1] wyleczył [_2] za pomocą [_3] za [_4]'
 ---
 id: msg.connecting
 str: Łączenie...
@@ -154,3 +154,4 @@ str: do
 ---
 id: welcome
 str: Witaj
+

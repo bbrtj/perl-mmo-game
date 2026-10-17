@@ -6,7 +6,7 @@ use Game::Mechanics::Combat qw(deal_damage is_friendly);
 use Game::Mechanics::Generic qw(find_frontal_point);
 use Game::Checks::Combat qw(can_use_ability);
 use all 'Game::Object';
-use Resource::ActorEvent;
+use all 'Resource';
 
 use header;
 
@@ -71,10 +71,11 @@ sub _apply_damage_effect ($self, $effect, $x, $y)
 
 		$self->send_to_players(
 			[$affected->id, $self->get_discovered_by($affected->id)],
-			Resource::ActorEvent->new(
+			Resource::ActorEventHealth->new(
 				subject => $affected,
-				event_source => $actor->id,
-				health_change => -$damage
+				source => $actor->id,
+				lore => $effect->lore->id,
+				change => -$damage
 			)
 		);
 	}

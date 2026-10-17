@@ -5,7 +5,7 @@ interface
 uses SysUtils, Classes, FGL,
 	CastleVectors, CastleTransform, CastleViewport, CastleScene, CastleTiledMap,
 	GameMaps, GameTypes, GameNetwork, GameLog, GameTranslations,
-	GameActors, GameProjectiles, GameConfig,
+	GameActors, GameProjectiles, GameConfig, GameLore,
 	GameModels.Discovery, GameModels.Move, GameModels.Actors, GameModels.Projectiles,
 	GamePipelines;
 
@@ -49,7 +49,7 @@ type
 	public
 		procedure ProcessMovement(Movement: TMsgFeedActorMovement);
 		procedure ProcessPosition(Stop: TMsgFeedActorPosition);
-		procedure ProcessActorEvent(Event: TMsgFeedActorEvent);
+		procedure ProcessActorEvent(Event: TMsgFeedActorEventHealth);
 		procedure ProcessActorPublicState(Event: TMsgFeedActorPublicState);
 		procedure ProcessActorAction(Event: TMsgFeedActorAction);
 		procedure ProcessProjectile(Event: TMsgFeedProjectile);
@@ -219,7 +219,7 @@ begin
 	LActor.Stop();
 end;
 
-procedure TGameState.ProcessActorEvent(Event: TMsgFeedActorEvent);
+procedure TGameState.ProcessActorEvent(Event: TMsgFeedActorEventHealth);
 const
 	CUnknownCharacter = 'msg.character.unknown';
 	CMessageDamage = 'msg.combat.damage[]';
@@ -236,20 +236,30 @@ begin
 
 	LActor.ModifyHealth(Event.Health);
 
-	if GlobalActorRepository.HasActorInfo(Event.EventSource) then
-		LSourceActorName := GlobalActorRepository.GetActorInfo(Event.EventSource).ActorName
+	if GlobalActorRepository.HasActorInfo(Event.Source) then
+		LSourceActorName := GlobalActorRepository.GetActorInfo(Event.Source).ActorName
 	else
 		LSourceActorName := _(CUnknownCharacter);
 
-	if Event.HealthChange > 0 then LMessageId := CMessageHealing
+	if Event.Change > 0 then LMessageId := CMessageHealing
 	else LMessageId := CMessageDamage;
 
 	// TODO: health may be an ugly float
-	LLogHealth := Round(Abs(Event.HealthChange));
-	LogCombat(cltCombat, _(LMessageId, [LSourceActorName, LActor.ActorRecord.ActorName, LLogHealth.ToString]));
+	LLogHealth := Round(Abs(Event.Change));
+	LogCombat(
+		cltCombat,
+		_(
+			LMessageId,
+			[
+				LSourceActorName,
+				LActor.ActorRecord.ActorName,
+				LoreCollection.GetById(Event.LoreId).name,
+				LLogHealth.ToString
+			]
+		)
+	);
 
-
-	// TODO: animate damage / healing (HealthChange)
+	// TODO: animate damage / healing (Change)
 end;
 
 procedure TGameState.ProcessActorPublicState(Event: TMsgFeedActorPublicState);
